@@ -325,6 +325,50 @@ accepted or changed, and what was checked.
   - The figures were inspected for legibility. Overlapping labels and the misplaced
     figure caption were fixed.
 
+### 12. Literature review of hypergraph clustering methods (Perplexity)
+
+- **Task/module:** §3 literature grounding; method choice for T2
+  (Deliverable 0: the alternative to reject)
+- **Tool:** Perplexity Deep Research with the Academic connector enabled. The task
+  brief was uploaded as an attachment.
+- **Prompt:** "Make a comprehensive literature review of different methods of hyper
+  graph clustering that could be used to create super nodes to enable creating
+  different resolutions of a hyper graph that combine semantic and structural
+  information or use either of the two signals only. For each method, list papers
+  where that method was studied, brief summary of results, evaluate applicability of
+  that approach to my problem statement at hand, list assumptions and limitations of
+  the method"
+- **Output:** A review of 11 method families. For each it gives cited papers, reported
+  results, applicability to P1–P6, assumptions and limitations.
+  - Families covered: hypergraph modularity (incl. h-Louvain), hypergraph SBMs (incl.
+    the attributed SBM of Badalyan, Ruggeri & De Bacco 2024), spectral clustering,
+    spectral coarsening (HyperSF, HyperEF, SHyPar, HyperEF 2.0), flow-based methods,
+    information-theoretic methods, hypergraph neural networks, attributed models,
+    pairwise projection, hypergraph-aware hierarchical agglomerative clustering, and
+    partitioning (KaHyPar).
+  - Its recommendation: a hybrid that is constrained, hierarchical and
+    hypergraph-aware. It names agglomerative clustering with a merge score combining
+    semantic, structural and temporal terms as the most practical route, and uses the
+    attributed SBM as the theoretical reference for combining structure and
+    semantics.
+  - It states that no single method satisfies P1–P6.
+  - A digest is kept outside the repo, as working notes. The copy available to the
+    assistant was cut off during the section mapping methods to requirements, so the
+    closing sections are missing.
+- **Accepted / modified:** Accepted as a candidate list of methods and papers. No
+  design decision is taken from it yet.
+- **Verified:** Nothing yet.
+- **Still to check:**
+  - That each cited paper exists, with the stated authors, venue and year. Several
+    items have no authors, or descriptions the assistant could not confirm from memory
+    (e.g. the "Bethe Hessian" paper in Sci. Adv. 2023, the 1-spectral and
+    mutual-information papers).
+  - The claimed results, against the papers themselves.
+  - Fit to this dataset. The review assumes rich node text, but the TKH nodes are
+    short surface forms with no abstracts. The hyper-edges are per-paper bundles
+    (entry 7), which changes how modularity variants that reward hyper-edges kept
+    whole ("all-or-nothing") would behave.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
