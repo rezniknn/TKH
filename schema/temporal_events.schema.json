@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "temporal_events.schema.json",
+  "$comment": "JSON Schema for out/temporal_events.json: the super-node event log across consecutive snapshots (T3). Arity and reference rules are checked by validate.py.",
+  "type": "object",
+  "required": ["events"],
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["event", "level", "from_snapshot", "to_snapshot", "from_ids", "to_ids"],
+        "properties": {
+          "event": {"enum": ["birth", "continue", "growth", "merge", "split", "death"]},
+          "level": {"type": "integer", "minimum": 0},
+          "from_snapshot": {"type": ["integer", "null"], "description": "null only for births in the first snapshot"},
+          "to_snapshot": {"type": "integer"},
+          "from_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "to_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+        }
+      }
+    }
+  }
+}

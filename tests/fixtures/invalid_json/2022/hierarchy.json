@@ -1,0 +1,18 @@
+{
+ "cutoff": 2022,
+ "levels": 2,
+ "budgets": [
+  3,
+  5
+ ],
+ "supernodes": [
+  {
+   "id": "S_models",
+   "level": 0,
+   "parent_id": null,
+   "member_ids": [
+    "m1",
+    "m2",
+    "m3"
+   ],
+   "lab

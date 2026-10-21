@@ -10,6 +10,9 @@ ground_truth = "../data/ground_truth.json"       # optional: T6 targets and fait
 [snapshots]
 cutoffs = [2020, 2022, 2024, 2026]               # cumulative snapshots: content published <= each year
 
+[hierarchy]
+budgets = [15, 60, 240]                          # P2 hard limits: max super-nodes at level 0, 1, 2 (N_0 ~ 10-15)
+
 [outputs]
 out_dir = "../out"
 figures_dir = "../figures"

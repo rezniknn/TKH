@@ -1,0 +1,7 @@
+# Run config for the validator fixtures (relative paths resolve against this directory).
+[inputs]
+graph = "graph.json"
+[snapshots]
+cutoffs = [2020, 2022, 2024]
+[hierarchy]
+budgets = [3, 5]

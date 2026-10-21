@@ -1,0 +1,196 @@
+{
+ "events": [
+  {
+   "event": "birth",
+   "level": 0,
+   "from_snapshot": null,
+   "to_snapshot": 2020,
+   "from_ids": [],
+   "to_ids": [
+    "S_models"
+   ]
+  },
+  {
+   "event": "birth",
+   "level": 0,
+   "from_snapshot": null,
+   "to_snapshot": 2020,
+   "from_ids": [],
+   "to_ids": [
+    "S_eval"
+   ]
+  },
+  {
+   "event": "birth",
+   "level": 1,
+   "from_snapshot": null,
+   "to_snapshot": 2020,
+   "from_ids": [],
+   "to_ids": [
+    "S_gnn"
+   ]
+  },
+  {
+   "event": "birth",
+   "level": 1,
+   "from_snapshot": null,
+   "to_snapshot": 2020,
+   "from_ids": [],
+   "to_ids": [
+    "S_tasks"
+   ]
+  },
+  {
+   "event": "birth",
+   "level": 1,
+   "from_snapshot": null,
+   "to_snapshot": 2020,
+   "from_ids": [],
+   "to_ids": [
+    "S_data"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 0,
+   "from_snapshot": 2020,
+   "to_snapshot": 2022,
+   "from_ids": [
+    "S_models"
+   ],
+   "to_ids": [
+    "S_models"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 0,
+   "from_snapshot": 2020,
+   "to_snapshot": 2022,
+   "from_ids": [
+    "S_eval"
+   ],
+   "to_ids": [
+    "S_eval"
+   ]
+  },
+  {
+   "event": "split",
+   "level": 1,
+   "from_snapshot": 2020,
+   "to_snapshot": 2022,
+   "from_ids": [
+    "S_gnn"
+   ],
+   "to_ids": [
+    "S_gnn",
+    "S_kernel"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 1,
+   "from_snapshot": 2020,
+   "to_snapshot": 2022,
+   "from_ids": [
+    "S_tasks"
+   ],
+   "to_ids": [
+    "S_tasks"
+   ]
+  },
+  {
+   "event": "continue",
+   "level": 1,
+   "from_snapshot": 2020,
+   "to_snapshot": 2022,
+   "from_ids": [
+    "S_data"
+   ],
+   "to_ids": [
+    "S_data"
+   ]
+  },
+  {
+   "event": "birth",
+   "level": 1,
+   "from_snapshot": 2020,
+   "to_snapshot": 2022,
+   "from_ids": [],
+   "to_ids": [
+    "S_new"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 0,
+   "from_snapshot": 2022,
+   "to_snapshot": 2024,
+   "from_ids": [
+    "S_models"
+   ],
+   "to_ids": [
+    "S_models"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 0,
+   "from_snapshot": 2022,
+   "to_snapshot": 2024,
+   "from_ids": [
+    "S_eval"
+   ],
+   "to_ids": [
+    "S_eval"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 1,
+   "from_snapshot": 2022,
+   "to_snapshot": 2024,
+   "from_ids": [
+    "S_gnn"
+   ],
+   "to_ids": [
+    "S_gnn"
+   ]
+  },
+  {
+   "event": "continue",
+   "level": 1,
+   "from_snapshot": 2022,
+   "to_snapshot": 2024,
+   "from_ids": [
+    "S_kernel"
+   ],
+   "to_ids": [
+    "S_kernel"
+   ]
+  },
+  {
+   "event": "merge",
+   "level": 1,
+   "from_snapshot": 2022,
+   "to_snapshot": 2024,
+   "from_ids": [
+    "S_tasks",
+    "S_data"
+   ],
+   "to_ids": [
+    "S_benchmarks"
+   ]
+  },
+  {
+   "event": "death",
+   "level": 1,
+   "from_snapshot": 2022,
+   "to_snapshot": 2024,
+   "from_ids": [
+    "S_new"
+   ],
+   "to_ids": []
+  }
+ ]
+}
