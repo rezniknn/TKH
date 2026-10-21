@@ -66,3 +66,19 @@ its expected codes. The tests also cover inputs that can't be committed as fixtu
 errors), a mock built from the full input graph (`tests/mock_output.py`), and
 mutations of that mock.
 
+## Stability evaluation (T6)
+
+`tkh/evaluate/stability.py` measures stability in two ways, as T6 asks.
+
+- **Perturbation stability.** Remove 10% of the hyper-edges, stratified by publication
+  period (5 seeds), rebuild with the builder that produced the hierarchy, and compute
+  ARI against the unperturbed hierarchy per snapshot and level. Reported with a 95%
+  t-interval.
+- **Cross-snapshot stability.** ARI between consecutive snapshots on the nodes present
+  in both, per level. Reported with a 95% interval over half-subsamples of the nodes
+  and a permutation p-value against random labels that keep cluster sizes (floor 0.001).
+
+Each ARI is reported with the largest cluster's share of nodes, because a giant cluster
+dominates pair-counting ARI. The evaluator takes a `build` function (input hypergraph to
+per-snapshot, per-level partitions), so it can be run on any method; it has not yet been
+run on one.

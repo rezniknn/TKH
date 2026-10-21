@@ -583,6 +583,47 @@ accepted or changed, and what was checked.
   snapshots, including many-to-many overlaps. Every event log must pass the validator's
   `check_events` and `check_id_namespace`.
 
+### 17. Stability evaluator, T6 (Claude Code)
+
+- **Task/module:** T6 stability; `tkh/evaluate/stability.py`, `tests/test_stability.py`
+- **Prompt (abridged; the remainder concerned work that was later removed):** "Implement
+  Stability evaluator from T6 strictly following outlined requirements"
+- **What the assistant did:** Implemented both parts of the T6 stability text, for any
+  `build` function that maps an input hypergraph to per-snapshot, per-level partitions.
+  - **ARI:** per snapshot or transition and per level.
+  - **Perturbation stability:**
+    - remove 10% of the hyper-edges (5 seeds), stratified by publication period so that
+      every cumulative snapshot loses about 10%;
+    - rebuild with the same `build`;
+    - ARI against the unperturbed partition, with a 95% t-interval.
+  - **Cross-snapshot stability:**
+    - ARI between consecutive snapshots on the nodes present in both;
+    - a 95% interval over half-subsamples of the nodes;
+    - a permutation p-value against random labels that keep cluster sizes (floor 0.001
+      with 999 permutations).
+  - **Giant-cluster share:** reported with every ARI, because a giant cluster dominates
+    pair-counting ARI.
+  - **Pooling:** `pool_over_runs` pools per-run values with a t-interval across
+    independent runs.
+- **Accepted / modified:** Four changes were made after an independent review:
+  1. Edge removal is stratified by period instead of global. Global removal let the
+     earliest snapshot lose only 6.7–10.4% depending on the seed.
+  2. Subsampling without replacement replaced a bootstrap with replacement. Duplicated
+     nodes create agreeing pairs and bias ARI upwards.
+  3. p-values at the floor are reported as such. The random-labels null is documented as
+     weak: the informative comparison is method vs null model.
+  4. The largest-cluster share is reported next to every ARI.
+- **Verified:**
+  - The ARI implementation matches `sklearn.metrics.adjusted_rand_score` to 1.1e-16 on
+    500 random cases, and matches scikit-learn's documented reference values.
+  - The tests cover the per-period 10% removal, a builder that ignores edges giving
+    ARI = 1 under perturbation, the t-interval formula, and permutation-p behaviour.
+- **Not verified / limits:**
+  - Not yet run on a method's hierarchy.
+  - Only level-wise ARI is computed, with no hierarchy-aware (laminar) ARI. The brief
+    allows this.
+  - The id matcher is not evaluated, because ARI ignores ids.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
