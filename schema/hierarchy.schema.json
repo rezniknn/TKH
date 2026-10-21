@@ -6,7 +6,7 @@
   "required": ["cutoff", "levels", "budgets", "supernodes"],
   "properties": {
     "cutoff": {"type": "integer", "description": "snapshot: content published <= this year"},
-    "levels": {"type": "integer", "minimum": 1, "description": "number of super-node levels"},
+    "levels": {"type": "integer", "minimum": 1, "description": "number of super-node levels (validate.py requires >= 2)"},
     "budgets": {"type": "array", "items": {"type": "integer", "minimum": 1}, "minItems": 1,
                 "description": "N_k used for this run; must equal the run config"},
     "supernodes": {

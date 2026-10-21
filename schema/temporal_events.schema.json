@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "temporal_events.schema.json",
-  "$comment": "JSON Schema for out/temporal_events.json: the super-node event log across consecutive snapshots (T3). Event types: birth (0->1), death (1->0), merge (>=2->1), split (1->>=2); continue / growth / change keep the id (members identical / strict superset / any other change). Arity, reference, order, lineage-completeness and membership rules are checked by validate.py.",
+  "$comment": "JSON Schema for out/temporal_events.json: the super-node event log across consecutive snapshots (T3). Event types: birth (0->1), death (1->0), merge (>=2->1), split (1->>=2); continue / growth / change keep the id (members identical / strict superset / any other change). Lineage is one-to-one per id (a single fate per super-node per transition); ids are global across levels and snapshots. Arity, reference, order, lineage-completeness, overlap and id-namespace rules are checked by validate.py (see its docstring).",
   "type": "object",
   "required": ["events"],
   "properties": {

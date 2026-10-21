@@ -114,7 +114,7 @@ def m_split_over_budget(h, e):
     node(h, 2022, "S_gnn")["member_ids"] = ["m1"]
     h[2022]["supernodes"].append(sn("S_extra", 1, "S_models", ["m3"]))
     # keep the event log consistent so that the budget is the only defect
-    event(e, "split")["to_ids"].append("S_extra")
+    e.append({"event": "birth", "level": 1, "from_snapshot": 2020, "to_snapshot": 2022, "from_ids": [], "to_ids": ["S_extra"]})
     next(x for x in e if x["from_ids"] == ["S_gnn"] and x["from_snapshot"] == 2022).update(
         event="merge", from_ids=["S_gnn", "S_extra"], to_ids=["S_gnn"])
 
@@ -143,6 +143,49 @@ def m_merge_source_survives(h, e):
 
 # Each mutation: (description, expected violation codes, function(hierarchies, events)).
 # File-level mutations (invalid JSON, missing/extra files) are applied after writing; see FILE_MUTATIONS.
+def m_id_reused(h, e):
+    # S_data is renamed S_data_b in 2022 (logged as death + birth), and the 2024 merge target reuses 'S_data'
+    node(h, 2022, "S_data")["id"] = "S_data_b"
+    node(h, 2024, "S_benchmarks")["id"] = "S_data"
+    cont = event(e, "continue", 2020, 2022)
+    cont.update(event="death", to_ids=[])
+    e.append({"event": "birth", "level": 1, "from_snapshot": 2020, "to_snapshot": 2022, "from_ids": [], "to_ids": ["S_data_b"]})
+    event(e, "merge").update(from_ids=["S_tasks", "S_data_b"], to_ids=["S_data"])
+
+
+def m_id_hijack(h, e):
+    # 2024: S_gnn splits into S_gnnA/S_gnnB, and the merge of S_tasks + S_data lands on the id 'S_gnn'
+    sns = h[2024]["supernodes"]
+    node(h, 2024, "S_gnn").update(id="S_gnnA", member_ids=["m1"])
+    sns.append(sn("S_gnnB", 1, "S_models", ["m3", "m4"]))
+    node(h, 2024, "S_benchmarks").update(id="S_gnn")
+    next(x for x in e if x["from_ids"] == ["S_gnn"] and x["from_snapshot"] == 2022).update(
+        event="split", to_ids=["S_gnnA", "S_gnnB"])
+    event(e, "merge").update(to_ids=["S_gnn"])
+
+
+def m_change_disjoint(h, e):
+    node(h, 2024, "S_gnn")["member_ids"], node(h, 2024, "S_kernel")["member_ids"] = ["m2"], ["m1", "m3", "m4"]
+    for x in e:
+        if x["from_snapshot"] == 2022 and x["from_ids"] in (["S_gnn"], ["S_kernel"]):
+            x["event"] = "change"
+
+
+def m_split_child_unrelated(h, e):
+    # log 2020 -> 2022 as 'S_tasks split into S_tasks + S_kernel' although S_kernel = {m2} came from S_gnn
+    event(e, "split").update(from_ids=["S_tasks"], to_ids=["S_tasks", "S_kernel"])
+    e.remove(next(x for x in e if x["event"] == "growth" and x["from_ids"] == ["S_tasks"]))
+    e.append({"event": "change", "level": 1, "from_snapshot": 2020, "to_snapshot": 2022,
+              "from_ids": ["S_gnn"], "to_ids": ["S_gnn"]})
+
+
+def m_too_few_levels(h, e):
+    for doc in h.values():
+        doc["levels"] = 1
+        doc["supernodes"] = [s for s in doc["supernodes"] if s["level"] == 0]
+    e[:] = [x for x in e if x["level"] == 0]
+
+
 # Expected codes include genuine knock-on effects of the single injected defect, e.g. a growth label that
 # becomes wrong (EVENT_MEMBERSHIP_MISMATCH) or a skipped event leaving a super-node untracked.
 MUTATIONS = {
@@ -215,9 +258,9 @@ MUTATIONS = {
     "event_duplicate": ("Lineage: the S_gnn split 2020 -> 2022 is listed twice.", {"LINEAGE_CONFLICT"},
                         lambda h, e: e.append(deepcopy(event(e, "split")))),
     "split_into_existing": ("Lineage: S_tasks 'splits' into S_tasks and S_data, but S_data already exists in 2020.",
-                            {"SPLIT_INTO_EXISTING", "LINEAGE_CONFLICT"}, m_split_into_existing),
+                            {"SPLIT_INTO_EXISTING", "LINEAGE_CONFLICT", "EVENT_MEMBERSHIP_MISMATCH"}, m_split_into_existing),
     "merge_source_survives": ("Lineage: S_kernel is merged into S_gnn in 2024 but still exists there.",
-                              {"MERGE_SOURCE_SURVIVES", "LINEAGE_CONFLICT"}, m_merge_source_survives),
+                              {"MERGE_SOURCE_SURVIVES", "LINEAGE_CONFLICT", "EVENT_MEMBERSHIP_MISMATCH"}, m_merge_source_survives),
     "untracked_supernode": ("Lineage: the death of S_new is not recorded, so S_new vanishes without an event.",
                             {"UNTRACKED_SUPERNODE"}, lambda h, e: e.remove(event(e, "death"))),
     "empty_event_log": ("Lineage: temporal_events.json has no events at all.", {"UNTRACKED_SUPERNODE"},
@@ -225,6 +268,16 @@ MUTATIONS = {
     "event_membership_mismatch": ("Events: S_data keeps {d1} 2020 -> 2022 but is labelled growth.",
                                   {"EVENT_MEMBERSHIP_MISMATCH"},
                                   lambda h, e: event(e, "continue", 2020, 2022).update(event="growth")),
+    "id_reused": ("Ids: 'S_data' exists in 2020, is gone in 2022, and comes back as the 2024 merge target.",
+                  {"ID_REUSED"}, m_id_reused),
+    "id_hijack": ("Lineage: S_gnn splits into S_gnnA/S_gnnB, yet 'S_gnn' is reused as the target of an unrelated merge.",
+                  {"SPLIT_SOURCE_SURVIVES", "MERGE_INTO_EXISTING"}, m_id_hijack),
+    "change_disjoint": ("Events: S_gnn and S_kernel swap all members in 2024 but are logged as 'change'.",
+                        {"EVENT_MEMBERSHIP_MISMATCH"}, m_change_disjoint),
+    "split_child_unrelated": ("Events: a split child shares no member with the split source.",
+                              {"EVENT_MEMBERSHIP_MISMATCH"}, m_split_child_unrelated),
+    "too_few_levels": ("Every snapshot has only level 0, so there is no level 1 to label (T5).", {"TOO_FEW_LEVELS"},
+                       m_too_few_levels),
     "event_schema": ("Schema: an unknown event type.", {"SCHEMA"},
                      lambda h, e: event(e, "merge").update(event="explode")),
 }

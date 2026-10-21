@@ -84,8 +84,7 @@
    ],
    "to_ids": [
     "S_gnn",
-    "S_kernel",
-    "S_extra"
+    "S_kernel"
    ]
   },
   {
@@ -193,6 +192,16 @@
     "S_new"
    ],
    "to_ids": []
+  },
+  {
+   "event": "birth",
+   "level": 1,
+   "from_snapshot": 2020,
+   "to_snapshot": 2022,
+   "from_ids": [],
+   "to_ids": [
+    "S_extra"
+   ]
   }
  ]
 }

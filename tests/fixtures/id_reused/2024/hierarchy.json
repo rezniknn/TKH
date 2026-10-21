@@ -1,0 +1,75 @@
+{
+ "cutoff": 2024,
+ "levels": 2,
+ "budgets": [
+  3,
+  5
+ ],
+ "supernodes": [
+  {
+   "id": "S_models",
+   "level": 0,
+   "parent_id": null,
+   "member_ids": [
+    "m1",
+    "m2",
+    "m3",
+    "m4"
+   ],
+   "label": "models",
+   "gloss": "Fixture super-node grouping m1, m2, m3, m4."
+  },
+  {
+   "id": "S_eval",
+   "level": 0,
+   "parent_id": null,
+   "member_ids": [
+    "t1",
+    "d1",
+    "t2",
+    "d2",
+    "t3",
+    "d3"
+   ],
+   "label": "eval",
+   "gloss": "Fixture super-node grouping t1, d1, t2, d2, t3, d3."
+  },
+  {
+   "id": "S_gnn",
+   "level": 1,
+   "parent_id": "S_models",
+   "member_ids": [
+    "m1",
+    "m3",
+    "m4"
+   ],
+   "label": "gnn",
+   "gloss": "Fixture super-node grouping m1, m3, m4."
+  },
+  {
+   "id": "S_kernel",
+   "level": 1,
+   "parent_id": "S_models",
+   "member_ids": [
+    "m2"
+   ],
+   "label": "kernel",
+   "gloss": "Fixture super-node grouping m2."
+  },
+  {
+   "id": "S_data",
+   "level": 1,
+   "parent_id": "S_eval",
+   "member_ids": [
+    "t1",
+    "t2",
+    "t3",
+    "d1",
+    "d2",
+    "d3"
+   ],
+   "label": "benchmarks",
+   "gloss": "Fixture super-node grouping t1, t2, t3, d1, d2, d3."
+  }
+ ]
+}

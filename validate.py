@@ -122,6 +122,8 @@ def check_hierarchy(h, cutoff, snap_nodes, entry_year, budgets, rep):
     for s in sns:
         by_level[s["level"]].append(s)
 
+    if levels < 2:
+        rep("TOO_FEW_LEVELS", w, f"file declares {levels} super-node level(s); levels 0 and 1 are required (T5)")
     if levels > len(budgets):
         rep("NO_BUDGET", w, f"file declares {levels} levels, the run config has budgets for {len(budgets)}")
     checked = min(levels, len(budgets))  # never loop over an unbounded declared level count
@@ -224,10 +226,20 @@ def check_events(events, index, members, cutoffs, rep):
             existing = [x for x in t_ids if x in old and x not in f_ids]
             if existing:
                 rep("SPLIT_INTO_EXISTING", where, f"split children {existing} already exist in snapshot {src}")
+        if kind == "split" and dst in index and any(x in new and x not in t_ids for x in f_ids):
+            rep("SPLIT_SOURCE_SURVIVES", where, f"split source {f_ids} still exists in {dst} but is not one of its children")
         if kind == "merge" and dst in index:
             surviving = [x for x in f_ids if x in new and x not in t_ids]
             if surviving:
                 rep("MERGE_SOURCE_SURVIVES", where, f"merge sources {surviving} still exist in snapshot {dst}")
+        if kind == "merge" and src in index and any(x in old and x not in f_ids for x in t_ids):
+            rep("MERGE_INTO_EXISTING", where, f"merge target {t_ids} already exists in {src} but is not one of the sources")
+        if kind in ("split", "merge") and src in members and dst in members:
+            pairs = [(f_ids[0], c) for c in t_ids] if kind == "split" else [(x, t_ids[0]) for x in f_ids]
+            for a_id, b_id in pairs:
+                a, b = members[src].get(a_id), members[dst].get(b_id)
+                if a is not None and b is not None and not a & b:
+                    rep("EVENT_MEMBERSHIP_MISMATCH", where, f"{a_id!r} ({src}) and {b_id!r} ({dst}) share no members")
         if kind in PERSIST and src in members and dst in members and f_ids == t_ids:
             sid = f_ids[0]
             a, b = members[src].get(sid), members[dst].get(sid)
@@ -238,6 +250,8 @@ def check_events(events, index, members, cutoffs, rep):
                     rep("EVENT_MEMBERSHIP_MISMATCH", where, f"{sid!r} members are not a strict superset ({len(a)} -> {len(b)}); not a growth")
                 if kind == "change" and (a == b or a < b):
                     rep("EVENT_MEMBERSHIP_MISMATCH", where, f"{sid!r} membership is {'unchanged' if a == b else 'pure growth'}; use continue/growth")
+                if kind == "change" and not a & b:
+                    rep("EVENT_MEMBERSHIP_MISMATCH", where, f"{sid!r} keeps no member ({len(a)} -> {len(b)}); this is a different super-node")
 
     # Completeness and consistency of the lineage, per transition and level.
     transitions = [(None, cutoffs[0])] + list(zip(cutoffs, cutoffs[1:]))
@@ -259,6 +273,23 @@ def check_events(events, index, members, cutoffs, rep):
                 rep("UNTRACKED_SUPERNODE", label, f"{len(orphan)} super-nodes of {dst} have no incoming event: {examples(orphan)}")
             if multi := {x for x, n in inc.items() if n > 1}:
                 rep("LINEAGE_CONFLICT", label, f"super-nodes with more than one incoming event: {examples(multi)}")
+
+
+def check_id_namespace(index, cutoffs, rep):
+    """Super-node ids are global: constant level, contiguous run of snapshots."""
+    seen = defaultdict(dict)  # id -> {cutoff: level}
+    for c in cutoffs:
+        for sid, lv in index.get(c, {}).items():
+            seen[sid][c] = lv
+    known = [c for c in cutoffs if c in index]
+    for sid, at in sorted(seen.items()):
+        levels = {lv for lv in at.values() if lv is not None}
+        if len(levels) > 1:
+            rep("ID_LEVEL_CHANGED", repr(sid), f"appears at levels {sorted(levels)} across snapshots {sorted(at)}")
+        pos = [known.index(c) for c in at]
+        if max(pos) - min(pos) + 1 != len(pos):
+            gap = [c for c in known[min(pos):max(pos) + 1] if c not in at]
+            rep("ID_REUSED", repr(sid), f"exists in {sorted(at)} but not in {gap}; a gone id must not come back")
 
 
 def validate(out_dir, cfg, tkh=None):
@@ -284,7 +315,7 @@ def validate(out_dir, cfg, tkh=None):
     for c in cutoffs:
         h, raw, exists = read_json(hierarchy_path(out_dir, c), h_schema, rep, str(c))
         if not exists:
-            rep("MISSING_SNAPSHOT", str(c), f"{hierarchy_path(out_dir, c)} not found")
+            rep("MISSING_SNAPSHOT", str(c), f"{hierarchy_path(out_dir, c)} not found (or not a regular file)")
         elif h is not None:
             check_hierarchy(h, c, snapshot(tkh, c).node_ids, entry_year, cfg.budgets, rep)
             index[c] = {s["id"]: s["level"] for s in h["supernodes"]}
@@ -292,6 +323,7 @@ def validate(out_dir, cfg, tkh=None):
         elif (idx := best_effort_index(raw)) is not None:
             index[c] = idx
 
+    check_id_namespace(index, cutoffs, rep)
     ev, _, exists = read_json(events_path(out_dir), e_schema, rep, "events")
     if not exists:
         rep("MISSING_EVENTS", "events", f"{events_path(out_dir)} not found")

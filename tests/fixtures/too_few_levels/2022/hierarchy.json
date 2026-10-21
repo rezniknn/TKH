@@ -1,0 +1,35 @@
+{
+ "cutoff": 2022,
+ "levels": 1,
+ "budgets": [
+  3,
+  5
+ ],
+ "supernodes": [
+  {
+   "id": "S_models",
+   "level": 0,
+   "parent_id": null,
+   "member_ids": [
+    "m1",
+    "m2",
+    "m3"
+   ],
+   "label": "models",
+   "gloss": "Fixture super-node grouping m1, m2, m3."
+  },
+  {
+   "id": "S_eval",
+   "level": 0,
+   "parent_id": null,
+   "member_ids": [
+    "t1",
+    "d1",
+    "t2",
+    "d2"
+   ],
+   "label": "eval",
+   "gloss": "Fixture super-node grouping t1, d1, t2, d2."
+  }
+ ]
+}

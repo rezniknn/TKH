@@ -383,6 +383,95 @@ accepted or changed, and what was checked.
     - Its §18 suggests conductance or cut as a coherence measure. That would be
       circular if the method optimises a cut or modularity objective.
 
+### 13. Output validator, schemas and broken fixtures, §6a.1–2 (Claude Code)
+
+- **Task/module:** §6a.1 (`validate.py`, `schema/`), §6a.2 (`tests/`); deliverable 2
+  output layout (`tkh/export.py`)
+- **Prompt:** "Let's start the algorythm implementation work by creating a validator
+  described in section 6a. Create a mock output of multi-resolution representation
+  algorythm matching specified requirements for the output structure (section 6).
+  Create a validator that would check that the output passes all required creteria.
+  Create a mutation of that output for each corner case that the validator needs to
+  be able to detect, run the validator on those mutations and confirm that the
+  validator catches broken fixtures that it's supposed to catch"
+- **What the assistant did:**
+  - **Output contract.**
+    - Layout: `out/<cutoff>/hierarchy.json` per snapshot, plus
+      `out/temporal_events.json`.
+    - JSON Schemas for both files.
+    - The per-level budgets N_k live in the run config, so an output cannot relax
+      them.
+    - The finest level (one node per cluster) is implicit.
+  - **`validate.py`.** It prints one coded line per violation, with exit codes
+    0/1/2/3. It checks:
+    - the schema;
+    - P1 laminarity (coverage, uniqueness, parent level, nesting);
+    - P2 budgets;
+    - the snapshot cutoff for member ids;
+    - labels at levels 0–1;
+    - event references and arity;
+    - lineage completeness;
+    - the id namespace.
+  - **Test material.**
+    - A synthetic graph.
+    - A hand-built valid output that deliberately sits on the edges: a level exactly
+      at its budget, and every event type.
+    - 47 single-defect mutations, each committed as a fixture with its expected
+      violation codes.
+    - A deterministic mock generator that works on any input graph
+      (`tests/mock_output.py`).
+    - A pytest suite (`make test`).
+- **Accepted / modified:**
+  - Two rules were chosen by the assistant, and they are stricter than the brief:
+    lineage is one fate per super-node per transition, and ids are global across
+    levels and snapshots.
+  - Both are documented in `validate.py` and the schema.
+  - The cost: a mixed absorb-and-shed history must be logged by each super-node's
+    dominant fate, and the member transfer itself is lost.
+- **Verified:**
+  - `make test`: 65 tests pass. They include:
+    - every mutation rejected with exactly its expected codes;
+    - the valid fixture passing;
+    - the committed fixtures matching the generator;
+    - a mock built from the full real graph passing;
+    - 4 mutations of that mock being caught;
+    - runtime tests for unreadable files, integer ids, undated nodes, duplicate
+      cutoffs and an internal error (exit 3).
+  - Where a mutation triggers more than its own code, each extra code was reviewed and
+    kept only if it is a genuine consequence of the single defect. One example: a
+    growth label that no longer matches the changed members.
+- **AI errors caught (candidates for §6a):** The first version of the validator passed
+  its own 42 tests, but two rounds of adversarial agents found real holes. Every claim
+  was backed by a fixture the agent actually ran, then re-run by an independent
+  checker.
+  - **Round 1:**
+    - **Crashes that looked like ordinary failures (exit 1):**
+      - `"levels": 2.0`, which JSON Schema counts as an integer;
+      - an unbounded `levels` value that hangs the validator;
+      - deeply nested JSON;
+      - unreadable files;
+      - non-ASCII digit folder names;
+      - integer node ids in the input graph.
+    - **Invalid outputs accepted:**
+      - a stray `02020/` snapshot folder that was never checked;
+      - duplicate cutoffs in the config;
+      - contradictory or empty event logs;
+      - mislabelled continue/growth events.
+  - **Round 2:**
+    - an unrelated cluster could take over a surviving id (split source survives,
+      merge into an existing id);
+    - `change` events with zero member overlap were accepted;
+    - the existence checks were not level-aware;
+    - a one-level hierarchy made the level-1 label check vacuous.
+  - All of these were fixed, and each is now a fixture or a test.
+  - One validator bug was found while reviewing the fixtures themselves: the fallback
+    index used for schema-invalid files dropped super-nodes with a malformed level,
+    which produced false "dangling reference" reports.
+- **Not verified / known limits:**
+  - The checks cover the rules listed in the `validate.py` docstring, not the quality
+    of the abstraction.
+  - Many-to-many lineage cannot be expressed.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
@@ -390,6 +479,9 @@ code or a wrong claim, how it was caught, and what was changed. "None" is accept
 only if it says how the work was checked._
 
 Candidates so far:
+- Entry 13: the first validator passed its own tests, but adversarial agents found
+  crashes disguised as failures and invalid outputs it accepted. Every finding was
+  reproduced on a concrete fixture and fixed, and each became a regression fixture.
 - Entry 10 (strongest, a real code bug): the assistant fixed a matplotlib API error by
   moving to the newest keyword arguments, testing only in its own environment. That
   broke the notebook on matplotlib 3.7 in the user's environment. It was caught when

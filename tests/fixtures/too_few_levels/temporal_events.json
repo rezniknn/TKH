@@ -1,0 +1,72 @@
+{
+ "events": [
+  {
+   "event": "birth",
+   "level": 0,
+   "from_snapshot": null,
+   "to_snapshot": 2020,
+   "from_ids": [],
+   "to_ids": [
+    "S_models"
+   ]
+  },
+  {
+   "event": "birth",
+   "level": 0,
+   "from_snapshot": null,
+   "to_snapshot": 2020,
+   "from_ids": [],
+   "to_ids": [
+    "S_eval"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 0,
+   "from_snapshot": 2020,
+   "to_snapshot": 2022,
+   "from_ids": [
+    "S_models"
+   ],
+   "to_ids": [
+    "S_models"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 0,
+   "from_snapshot": 2020,
+   "to_snapshot": 2022,
+   "from_ids": [
+    "S_eval"
+   ],
+   "to_ids": [
+    "S_eval"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 0,
+   "from_snapshot": 2022,
+   "to_snapshot": 2024,
+   "from_ids": [
+    "S_models"
+   ],
+   "to_ids": [
+    "S_models"
+   ]
+  },
+  {
+   "event": "growth",
+   "level": 0,
+   "from_snapshot": 2022,
+   "to_snapshot": 2024,
+   "from_ids": [
+    "S_eval"
+   ],
+   "to_ids": [
+    "S_eval"
+   ]
+  }
+ ]
+}
