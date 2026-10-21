@@ -338,36 +338,50 @@ accepted or changed, and what was checked.
   where that method was studied, brief summary of results, evaluate applicability of
   that approach to my problem statement at hand, list assumptions and limitations of
   the method"
-- **Output:** A review of 11 method families. For each it gives cited papers, reported
-  results, applicability to P1–P6, assumptions and limitations.
-  - Families covered: hypergraph modularity (incl. h-Louvain), hypergraph SBMs (incl.
-    the attributed SBM of Badalyan, Ruggeri & De Bacco 2024), spectral clustering,
-    spectral coarsening (HyperSF, HyperEF, SHyPar, HyperEF 2.0), flow-based methods,
-    information-theoretic methods, hypergraph neural networks, attributed models,
-    pairwise projection, hypergraph-aware hierarchical agglomerative clustering, and
-    partitioning (KaHyPar).
-  - Its recommendation: a hybrid that is constrained, hierarchical and
-    hypergraph-aware. It names agglomerative clustering with a merge score combining
-    semantic, structural and temporal terms as the most practical route, and uses the
-    attributed SBM as the theoretical reference for combining structure and
-    semantics.
-  - It states that no single method satisfies P1–P6.
-  - A digest is kept outside the repo, as working notes. The copy available to the
-    assistant was cut off during the section mapping methods to requirements, so the
-    closing sections are missing.
-- **Accepted / modified:** Accepted as a candidate list of methods and papers. No
-  design decision is taken from it yet.
+- **Output:** A 21-section review.
+  - **Method families (11).** For each: cited papers, reported results,
+    applicability, assumptions and limitations. The families are:
+    - hypergraph modularity (incl. h-Louvain and the Chodrow–Veldt–Benson DCHSBM);
+    - hypergraph SBMs (incl. the attributed SBM of Badalyan, Ruggeri & De Bacco 2024);
+    - spectral clustering;
+    - spectral coarsening (HyperSF, HyperEF, SHyPar, HyperEF 2.0);
+    - flow-based and information-theoretic methods;
+    - hypergraph neural networks;
+    - attributed models;
+    - pairwise projection;
+    - hypergraph-aware hierarchical agglomerative clustering (incl. DynHAC);
+    - partitioning (KaHyPar, Mt-KaHyPar, SpecPart).
+  - **Requirement map.** Which families suit each of P1–P6. It states that no single
+    method satisfies all of them.
+  - **Five experiment variants:** semantic-only, structure-only native,
+    pairwise-projection baseline, joint, and joint with temporal coupling.
+  - **Recommended final method:** constrained hierarchical agglomeration that is
+    aware of the hypergraph. The merge score is
+    s = α·s_semantic + β·s_hypergraph + γ·s_temporal. The merge tree is cut to meet
+    the level budgets, hyper-edges are collapsed at each cut, and super-nodes are
+    matched across snapshots by Jaccard similarity. The attributed SBM serves as the
+    theoretical reference.
+  - **An evaluation design and lists of assumptions and limitations to state.**
+- A digest is kept outside the repo, as working notes. The first paste of the output
+  was cut off at the message limit; the full report was then supplied as an
+  attachment.
+- **Accepted / modified:** Accepted as a candidate list of methods and papers, and as
+  one proposal for T2. No design decision is taken from it yet.
 - **Verified:** Nothing yet.
 - **Still to check:**
   - That each cited paper exists, with the stated authors, venue and year. Several
     items have no authors, or descriptions the assistant could not confirm from memory
     (e.g. the "Bethe Hessian" paper in Sci. Adv. 2023, the 1-spectral and
     mutual-information papers).
-  - The claimed results, against the papers themselves.
-  - Fit to this dataset. The review assumes rich node text, but the TKH nodes are
-    short surface forms with no abstracts. The hyper-edges are per-paper bundles
-    (entry 7), which changes how modularity variants that reward hyper-edges kept
-    whole ("all-or-nothing") would behave.
+  - The claimed results, e.g. HyperEF 2.0's "up to 4.5× speedup".
+  - **Fit to this dataset,** checked against the data investigation (entry 7):
+    - The review assumes rich node text, but TKH nodes are short surface forms with
+      no abstracts.
+    - Its structural similarity sums shared hyper-edges. Here the hyper-edges are
+      per-paper bundles and about 93% of nodes appear in a single paper, so that term
+      would mostly mean "same paper" unless the bundles are down-weighted.
+    - Its §18 suggests conductance or cut as a coherence measure. That would be
+      circular if the method optimises a cut or modularity objective.
 
 ## Case where the AI was wrong (§6a)
 
