@@ -14,9 +14,9 @@ and tests: name, family, metric, cell, model, null, statistic, p, p_holm, primar
 Four primary tests, one per family, pre-registered and Holm-corrected:
     E1  model vs full-null: E1a lift, <=2026, level 1, pooled strata, split B (empirical p)
     E2  model vs full-null: perturbation ARI, <=2026, level 1 (Wilcoxon paired by perturbation seed)
-    E3  model vs random-labels: forced-choice identification of the label from held-out evidence,
-        <=2026, levels 0-1, primary judge (Fisher exact). The pre-registered absolute rating
-        ('wrong' share) failed its swapped-gloss control and is reported as such (see faithfulness.py).
+    E3  model vs random-clusters: absolute over-claim ('wrong') share, <=2026, levels 0-1, held-out
+        evidence (Fisher exact). This instrument FAILED its swapped-gloss control (the judge rates
+        everything accurate); the forced-choice tests that replace it are post hoc and not in the Holm family.
     E4  hierarchy vs flat lexical: cost to the first target, <=2026 (Wilcoxon paired by question)
 """
 
@@ -115,6 +115,16 @@ def e1(tkh, cfg, ev, model, variants, null_parts, out_rows, tests, log):
                 nulls.setdefault(("random-labels", c, k, st, "B"), []).append(res[st]["value"])
         rl.append(perm)
     log(f"E1a nulls: {', '.join(null_parts)} + random-labels R={R}")
+    # sensitivity: stricter residual filter (substring matches dropped too); primary cell only, not used for selection
+    strict = Ruler(tkh, 2026, split["B"], hub_frac=hf, strict=True)
+    out_rows.append(row("E1", "coverage_cited_works_dropped_by_residual_filter", "ruler-strict",
+                        int(sum(strict.dropped.values())), snapshot=2026, split="B"))
+    for name, parts in variants.items():
+        r = coupling_lift(strict, parts[2026][1])["pooled"]
+        out_rows.append(row("E1", "coupling_lift_strict_filter", name, r["value"], 2026, 1, "pooled", "B", r.get("lo"), r.get("hi"), r["n_pairs"]))
+    for kind, plist in {**{f"{k}-null": v for k, v in null_parts.items()}, "random-labels": rl}.items():
+        vals = [coupling_lift(strict, parts[2026][1], jackknife=False)["pooled"]["value"] for parts in plist]
+        out_rows.append(null_rows("E1", "coupling_lift_strict_filter", kind, vals, snapshot=2026, level=1, stratum="pooled", split="B"))
     for (kind, c, k, st, s), vals in sorted(nulls.items(), key=str):
         out_rows.append(null_rows("E1", "coupling_lift", f"{kind}-null" if kind != "random-labels" else kind, vals,
                                   snapshot=c, level=k, stratum=st, split=s))
@@ -170,7 +180,8 @@ def e2(tkh, cfg, ev, out, sel, variants, null_parts, out_rows, tests, log):
     for (kind, c, k), d in nul.items():
         flat = [x for v in d.values() for x in v]
         ti = t_interval([np.mean(v) for v in d.values()])
-        out_rows.append(row("E2", "perturbation_ari", f"{kind}-null", float(np.mean(flat)), c, k, ci_lo=ti["lo"], ci_hi=ti["hi"], n=len(flat)))
+        out_rows.append(row("E2", "perturbation_ari", f"{kind}-null", float(np.mean(flat)), c, k, ci_lo=ti["lo"], ci_hi=ti["hi"],
+                            n=len(d), n_runs=len(flat), ci_over="perturbation-seed means (null replicates averaged)"))
         m = per_seed.get(("model", c, k), {})
         common = [s for s in seeds if s in m and s in d]
         p = wilcoxon_paired([m[s] for s in common], [np.mean(d[s]) for s in common], "greater") if len(common) >= 2 else None
@@ -181,10 +192,10 @@ def e2(tkh, cfg, ev, out, sel, variants, null_parts, out_rows, tests, log):
     log("E2 perturbation")
     cs = list(cfg.cutoffs)
     for name, parts in variants.items():
-        for r in cross_snapshot_stability(parts, cs, n_boot=200, n_perm=199):
+        for r in cross_snapshot_stability(parts, cs, n_boot=1000, n_perm=999):
             out_rows.append(row("E2", "cross_snapshot_ari", name, r["ari"], r["to"], r["level"], ci_lo=r["sub_lo"], ci_hi=r["sub_hi"],
                                 n=r["n_common"], transition=f"{r['from']}-{r['to']}", p_vs_random_labels=r["p_vs_random_labels"]))
-        for r in change_localisation(tkh, parts, cs, n_perm=199):
+        for r in change_localisation(tkh, parts, cs, n_perm=999):
             out_rows.append(row("E2", "change_localisation_ratio", name, r["ratio"], r["to"], r["level"], n=r["n_old"],
                                 transition=f"{r['from']}-{r['to']}", n_touched=r["n_touched"], p=r["p_ratio_gt_1"],
                                 reassign_touched=r["reassign_touched"], reassign_untouched=r["reassign_untouched"]))
@@ -225,6 +236,9 @@ def e3(tkh, cfg, ev, out, model, out_rows, tests, log):
     judge.llm.save()
     lab.llm.save()
     log(f"E3: {len(rows)} judgements ({judge.llm.calls} new judge calls, {lab.llm.calls} new labeller calls)")
+    n_single = sum(1 for c, h in hier.items() for sn in h["supernodes"] if sn["level"] in (0, 1)
+                   and len([v for v in sn["member_ids"] if tkh.nodes.at[v, "type"] in CONCEPT_TYPES]) == 1)
+    out_rows.append(row("E3", "single_concept_supernodes", "model", n_single, n=sum(len([x for x in h["supernodes"] if x["level"] in (0, 1)]) for h in hier.values())))
     groups = {}
     for r in rows:
         for c in (r["snapshot"], "all"):
@@ -232,7 +246,7 @@ def e3(tkh, cfg, ev, out, model, out_rows, tests, log):
                 groups.setdefault((r["pass"], c, k), []).append(r)
     for (ps, c, k), rs in sorted(groups.items(), key=str):
         s = summarise([r["rating"] for r in rs])
-        variant = {"held_out": "model", "full": "model", "swapped": "swapped-gloss", "random_labels": "random-labels"}[ps]
+        variant = {"held_out": "model", "full": "model", "swapped": "swapped-gloss", "random_labels": "random-clusters"}[ps]
         for m, key in (("abs_over_claim_rate", "wrong"), ("abs_vague_rate", "vague"), ("abs_accurate_rate", "accurate"), ("abs_unparsed_rate", "unparsed")):
             out_rows.append(row("E3", m, variant, s[key]["share"], None if c == "all" else c, None if k == "all" else k,
                                 split=ps, ci_lo=s[key]["lo"], ci_hi=s[key]["hi"], n=s["n"], k=s[key]["k"]))
@@ -245,6 +259,13 @@ def e3(tkh, cfg, ev, out, model, out_rows, tests, log):
     sw = groups[("swapped", 2026, "all")]
     km, ks = sum(r["rating"] == "wrong" for r in m), sum(r["rating"] == "wrong" for r in sw)
     am, as_ = sum(r["rating"] == "accurate" for r in m), sum(r["rating"] == "accurate" for r in sw)
+    rc = groups[("random_labels", 2026, "all")]
+    kr = sum(r["rating"] == "wrong" for r in rc)
+    _, p = sps.fisher_exact([[km, len(m) - km], [kr, len(rc) - kr]], alternative="less")
+    tests.append({"name": "E3 absolute over-claim (wrong share) model vs random-clusters", "family": "E3",
+                  "metric": "abs_over_claim_rate", "cell": {"snapshot": 2026, "level": "0-1", "split": "held_out"},
+                  "model": km / len(m), "null": "random-clusters", "statistic": None, "p": float(p), "null_mean": kr / len(rc),
+                  "R": 1, "primary": True, "note": "pre-registered; the instrument failed its swapped-gloss control"})
     _, p = sps.fisher_exact([[am, len(m) - am], [as_, len(sw) - as_]], alternative="greater")
     tests.append({"name": "E3 absolute rating discriminates: accurate share true vs swapped glosses", "family": "E3",
                   "metric": "abs_accurate_rate", "cell": {"snapshot": 2026, "level": "0-1"}, "model": am / len(m),
@@ -257,7 +278,7 @@ def e3(tkh, cfg, ev, out, model, out_rows, tests, log):
     for jm in judges:
         jj = judge if jm == cfg.labels["judge_model"] else Judge(tkh, cfg, CachedLLM(jm, cfg.labels["cache"], cfg.labels.get("endpoint", "http://localhost:11434"), _mode(cfg)))
         fc += forced_choice(tkh, cfg, hier if jm == cfg.labels["judge_model"] else {2026: hier[2026]}, jj, seed=fseed, tag="model")
-        fc += forced_choice(tkh, cfg, rl_h, jj, seed=fseed, tag="random-labels")
+        fc += forced_choice(tkh, cfg, rl_h, jj, seed=fseed, tag="random-clusters")
         jj.llm.save()
         log(f"E3 forced choice {jm}: {jj.llm.calls} new calls")
     fgroups = {}
@@ -278,18 +299,18 @@ def e3(tkh, cfg, ev, out, model, out_rows, tests, log):
             out_rows.append(row("E3", "choice_position_max_share", variant, max(pos.values()), n=n, **cell, positions=pos))
     for jm in judges:
         mm = fgroups[(jm, "model", 2026, "all")]
-        nn = fgroups[(jm, "random-labels", 2026, "all")]
+        nn = fgroups[(jm, "random-clusters", 2026, "all")]
         hm, hn = sum(r["hit"] for r in mm), sum(r["hit"] for r in nn)
         _, p = sps.fisher_exact([[hm, len(mm) - hm], [hn, len(nn) - hn]], alternative="greater")
-        tests.append({"name": f"E3 forced-choice identification model vs random-labels ({jm})", "family": "E3",
+        tests.append({"name": f"E3 forced-choice identification model vs random-clusters ({jm})", "family": "E3",
                       "metric": "identification_rate", "cell": {"snapshot": 2026, "level": "0-1", "judge": jm},
-                      "model": hm / len(mm), "null": "random-labels", "statistic": None, "p": float(p),
-                      "null_mean": hn / len(nn), "R": 1, "primary": jm == cfg.labels["judge_model"]})
+                      "model": hm / len(mm), "null": "random-clusters", "statistic": None, "p": float(p),
+                      "null_mean": hn / len(nn), "R": 1, "primary": False, "note": "post hoc, added after the absolute rating failed"})
         b = sps.binomtest(hm, len(mm), 0.25, alternative="greater")
         tests.append({"name": f"E3 forced-choice identification model vs chance ({jm})", "family": "E3",
                       "metric": "identification_rate", "cell": {"snapshot": 2026, "level": "0-1", "judge": jm},
                       "model": hm / len(mm), "null": "chance 0.25", "statistic": None, "p": float(b.pvalue),
-                      "null_mean": 0.25, "R": 1, "primary": False})
+                      "null_mean": 0.25, "R": 1, "primary": False, "note": "post hoc"})
     rows += fc
     (Path(out) / "label_judgements.json").write_text(json.dumps(rows, indent=1, ensure_ascii=False) + "\n")
 
@@ -322,7 +343,7 @@ def e4(tkh, cfg, ev, model, variants, null_parts, rl, out_rows, tests, log):
         out_rows.append(row("E4", "found_any", name, sum(r["first_cost"] is not None for r in rs) / len(rs), 2026, n=len(rs)))
 
     base = e4_evaluate(tkh, 2026, model[2026], qs, targets, baselines=True, hub_frac=hf, index=index)
-    for meth, name in (("hierarchy", "model"), ("flat", "flat-lexical"), ("ppr", "ppr")):
+    for meth, name in (("hierarchy", "model"), ("flat", "flat-lexical"), ("ppr", "ppr"), ("degree", "degree-popularity")):
         rs = [r for r in base if r["method"] == meth]
         summary_rows(name, *add(name, rs))
     for name, parts in variants.items():
@@ -345,13 +366,41 @@ def e4(tkh, cfg, ev, model, variants, null_parts, rl, out_rows, tests, log):
                       "statistic": cmp_["z"], "p": cmp_["p"], "null_mean": cmp_["null_mean"], "R": cmp_["R"], "primary": False})
     log("E4")
     qorder = sorted(per_q["model"])
-    for other, primary in (("flat-lexical", True), ("ppr", False)):
+    for other, primary in (("flat-lexical", True), ("ppr", False), ("degree-popularity", False)):
         a = [per_q[other][q] for q in qorder]
         b = [per_q["model"][q] for q in qorder]
         tests.append({"name": f"E4 cost hierarchy vs {other}", "family": "E4", "metric": "first_cost",
                       "cell": {"snapshot": 2026}, "model": float(np.median(b)), "null": other, "statistic": None,
                       "p": wilcoxon_paired(a, b, "greater"), "null_mean": float(np.median(a)), "R": len(qorder), "primary": primary})
     return per_q
+
+
+# ---------------------------------------------------------------- data description (every count the report prose uses)
+
+def data_rows(tkh, cfg, out_rows):
+    from tkh.coarsen import concept_nodes, hubs, incidence
+    from tkh.io import snapshot
+    for c in cfg.cutoffs:
+        snap = snapshot(tkh, c)
+        items = concept_nodes(tkh, snap)
+        hs = hubs(tkh, snap, 0.2)
+        B, w, eids, _ = incidence(tkh, snap, items, hs)
+        X = (B @ B.T).tocsr()
+        n = len(items)
+        linked = (X.nnz - (X.diagonal() > 0).sum()) / 2
+        deg = np.asarray(B.sum(axis=1)).ravel()
+        vals = {"papers": len(snap.articles), "nodes": len(snap.node_ids), "concept_nodes": n,
+                "hyperedges": len(snap.edges), "clustering_edges": len(eids), "max_clustering_arity": int(B.sum(axis=0).max()),
+                "max_hyperedge_arity": int(snap.edges["arity"].max()), "hubs": len(hs),
+                "share_pairs_H_zero_singletons": 1 - linked / (n * (n - 1) / 2),
+                "share_concept_in_at_most_one_edge": float((deg <= 1).mean()),
+                "clustering_edges_per_paper": len(eids) / len(snap.articles)}
+        for k, v in vals.items():
+            out_rows.append(row("data", k, "graph", v, snapshot=c))
+    qs = load_questions(cfg.questions)
+    targets = question_targets(tkh, load_ground_truth(cfg.ground_truth), CONCEPT_TYPES)
+    usable = sum(1 for q, t in targets.items() if q in qs and any(t["expected"].values()))
+    out_rows.append(row("data", "usable_questions", "ground-truth", usable, n=len(targets)))
 
 
 # ---------------------------------------------------------------- main
@@ -395,6 +444,7 @@ def main(argv=None):
             sizes = [len(m) for m in parts[c][0].values()]
             rows.append(row("structure", "giant_share_level0", name, max(sizes) / sum(sizes), c, 0, n=sum(sizes)))
 
+    data_rows(tkh, cfg, rows)
     rl = e1(tkh, cfg, ev, model, variants, null_parts, rows, tests, log)
     e2(tkh, cfg, ev, out, sel, variants, null_parts, rows, tests, log)
     if not args.skip_e3:

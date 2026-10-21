@@ -983,6 +983,69 @@ accepted or changed, and what was checked.
     label is from held-out evidence, which is a proxy for faithfulness, not an
     entailment check of each claim.
 
+### 26. Independent verification of the results and the fixes it forced (Claude Code)
+
+- **Task/module:** step 8 of the plan agreed for entry 21: "an independent verification
+  workflow recomputes the headline metrics and the null comparisons from the outputs".
+- **What the assistant did:**
+  - **Verifiers.** Ran a workflow of eight independent verifier agents and one
+    completeness critic. Each reimplemented its checks without importing the
+    evaluation code:
+    - E1a, E2, E3 and E4 recomputation from the raw export and the outputs;
+    - an independent P1/P2/cutoff/event validator;
+    - an adversarial leakage and circularity audit of the code;
+    - a fact-check of the report, formal statement, README and notebook 03;
+    - a clean-clone reproducibility run.
+  - **What reproduced.** Every published number, to 1e-6 or exactly:
+    - all four primary tests and the selection table;
+    - the coverage counts and the coarse hyper-edges.
+    The clean clone passed `make test`. It rebuilt byte-identical hierarchies offline from
+    the LLM cache, with no CacheMiss, and reproduced `metrics.json` byte for byte. No path
+    from citations, ground truth or labels into the clustering or the selection was
+    found.
+- **Accepted / modified** (all confirmed by re-checking, then fixed):
+  1. **The struct and full nulls recomputed hubs on the shuffled graph** (6 → 14 hubs at
+     ≤2026), so they clustered fewer nodes structurally than the model. This weakened
+     every model-vs-null comparison. Null builds now use the real graph's hub sets, and
+     the 90 affected builds were redone.
+  2. **The E4 flat baseline's cost was an artefact of node-id order.** In 8 of 12
+     questions no target matches lexically, so a ~4k-way tie was broken by id. Ranked
+     baselines are now scored by their expected value under random ties.
+  3. **A query-independent degree ranking beats personalised PageRank on E4**, so E4
+     mostly measures how popular the targets are. It is now reported as a baseline, and
+     entry 24's "genuine query-following walk" reading of PPR's rank-1 hits is withdrawn
+     for Q1/Q12 (the hit is simply the highest-degree node).
+  4. **The forced-choice E3 test had been labelled "pre-registered"**, although it was
+     added after the absolute rating failed. The pre-registered absolute-rating test is
+     back as the E3 primary test, and forced choice is reported as post hoc. The E3 null
+     is renamed "random-clusters" (relabelled permuted clusters).
+  5. **For single-concept super-nodes the judge was shown the labeller's own input.** It
+     now sees paper texts only.
+  6. **Change localisation was tabulated only at level 1**, the one level where the model
+     beats the nulls. All levels are now reported, and the claim that a temporal prior
+     "cannot inflate" it was removed.
+  7. **Smaller fixes:**
+     - log-scale jackknife intervals (they had gone below 0);
+     - correct n for the null-perturbation rows;
+     - 999 permutations as documented;
+     - a strict residual filter as a sensitivity analysis (not used for selection);
+     - `runtime_s` removed from the tracked `run_info.json`.
+  8. **Documentation corrections:**
+     - "about 130 builds" → 189;
+     - "H = 0 for > 99% of pairs" holds only at singletons;
+     - "one star per paper" → about 11 clustering edges per paper;
+     - the notebook claim that every edge holds one member type is false for
+       evaluated_on;
+     - Π is the history cost, not the snapshot cost, of Chakrabarti et al.;
+     - the attribution of h-Louvain;
+     - the P-numbering;
+     - export-wide aliases qualify the no-future-information guarantee;
+     - the stale README lines;
+     - every prose count now comes from a generated data table.
+- **Not verified / limits:**
+  - The full-mode sweep was not re-run on a clean clone (FAST mode matched).
+  - The literature citations were checked for existence and venue only.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
@@ -990,6 +1053,14 @@ code or a wrong claim, how it was caught, and what was changed. "None" is accept
 only if it says how the work was checked._
 
 Candidates so far:
+- Entry 26 (strongest for the method work, a real code bug with consequences for the
+  primary tests): the structure nulls silently recomputed hubs on the shuffled graph, so
+  model and null were not comparable. The assistant's own tests checked the shuffle
+  invariants but not the build that consumed the shuffled graph. An independent verifier
+  agent caught it; it was fixed with a test that a null build uses the real hubs.
+- Entry 25: the assistant designed E3 around an absolute LLM rating. Its own
+  swapped-gloss control showed the judge rates everything accurate, and the instrument
+  was replaced.
 - Entry 13: the first validator passed its own tests, but adversarial agents found
   crashes disguised as failures and invalid outputs it accepted. Every finding was
   reproduced on a concrete fixture and fixed, and each became a regression fixture.

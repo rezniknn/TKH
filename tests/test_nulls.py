@@ -80,3 +80,15 @@ def test_permuted_hierarchy_keeps_sizes_and_passes_the_validator(tmp_path):
     ids, events = match_and_name(perm, list(cfg.cutoffs))
     write_outputs(tmp_path, assemble_hierarchies(perm, ids, placeholder_labeller(tkh), cfg.budgets), events)
     assert validate.validate(tmp_path, cfg, tkh) == []
+
+
+def test_structure_null_build_uses_the_real_hubs(real):
+    cfg, tkh, fixed, g, diag = real
+    from tkh.hierarchy import build
+    p = Params.from_config(cfg.method)
+    cut = cfg.cutoffs[:1]
+    real_hubs = {c: hubs(tkh, snapshot(tkh, c), p.hub_frac) for c in cut}
+    shuffled_hubs = {c: hubs(g, snapshot(g, c), p.hub_frac) for c in cut}
+    assert real_hubs != shuffled_hubs  # the shuffle changes paper counts, hence recomputed hubs
+    _, d = build(g, cut, cfg.budgets, p, hub_sets=real_hubs, return_diag=True)
+    assert set(d[cut[0]]["hubs"]) == real_hubs[cut[0]]

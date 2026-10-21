@@ -130,3 +130,12 @@ def test_name_checks_handle_duplicate_entities(real):
     assert r["named_non_member"] == [] and r["future_entity"] == []
     r = deterministic_checks("CGCNN models", ["x"], 2022, chk)
     assert r["named_non_member"] == ["CGCNN"] and r["future_entity"] == []
+
+
+def test_judge_pack_never_shows_the_labeller_list_for_single_concept_supernodes(real):
+    cfg, tkh = real
+    from tkh.evaluate.faithfulness import Judge
+    j = Judge(tkh, cfg, llm=FakeLLM())
+    v = next(x for x in tkh.nodes.index if tkh.nodes.at[x, "type"] == "method")
+    pk = j.pack(2026, [v], "held_out")
+    assert tkh.nodes.at[v, "surface_form"] not in pk["members"] and "single concept" in pk["members"]

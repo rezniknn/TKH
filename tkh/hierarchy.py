@@ -256,15 +256,17 @@ class _Level:
 
 # ---------------------------------------------------------------- per snapshot
 
-def build_snapshot(tkh, snap, budgets, params, prev=None, text_perm=None, return_diag=False):
+def build_snapshot(tkh, snap, budgets, params, prev=None, text_perm=None, return_diag=False, hub_set=None):
     """Concept-node partitions [level 0 .. K-1] (level 0 coarsest) for one snapshot.
 
     prev: previous snapshot's concept partitions in the same format (for gamma), or None.
     text_perm: optional {node: node whose name text to use} (semantic null).
+    hub_set: optional fixed hub set (structure nulls use the REAL graph's hubs, so that model and
+        null cluster the same nodes structurally); default: hubs of `snap` at params.hub_frac.
     """
     items = concept_nodes(tkh, snap)
     n = len(items)
-    hubset = hubs(tkh, snap, params.hub_frac)
+    hubset = set(hub_set) if hub_set is not None else hubs(tkh, snap, params.hub_frac)
     B, w, edge_ids, rels = incidence(tkh, snap, items, hubset)
     names = sm.names(tkh)
     texts = [names[text_perm.get(v, v) if text_perm else v] for v in items]
@@ -380,14 +382,15 @@ def anchors(tkh, snap, concept):
     return out
 
 
-def build(tkh, cutoffs, budgets, params, text_perm=None, return_diag=False):
+def build(tkh, cutoffs, budgets, params, text_perm=None, return_diag=False, hub_sets=None):
     """{cutoff: [ {key: set(all members)} per level ]} (level 0 coarsest), plus optional diagnostics.
 
     The same signature serves perturbation stability (build(tkh_perturbed)) and the nulls.
     """
     out, diag, prev = {}, {}, None
     for snap in make_snapshots(tkh, cutoffs):
-        concept_levels, d = build_snapshot(tkh, snap, budgets, params, prev=prev, text_perm=text_perm, return_diag=True)
+        concept_levels, d = build_snapshot(tkh, snap, budgets, params, prev=prev, text_perm=text_perm, return_diag=True,
+                                           hub_set=None if hub_sets is None else hub_sets[snap.cutoff])
         concept = set().union(*concept_levels[-1].values()) if concept_levels else set()
         anc = anchors(tkh, snap, concept)
         full = []

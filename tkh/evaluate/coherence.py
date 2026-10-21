@@ -19,7 +19,11 @@ ruler of whether two papers' concepts belong together.
   tkh.coarsen.hubs with a fixed evaluation threshold, are shared by almost every pair) and
   pairs that do not. The no-overlap stratum is the clean test. Pooled (Mantel-Haenszel-type
   standardised ratio): sum_s O_s / sum_s E_s with O_s = sum_s w c, E_s = sum_s w * mean_s c.
-- Interval: delete-one-paper jackknife over citing papers (everything recomputed).
+- Interval: delete-one-paper jackknife over citing papers (everything recomputed), on the
+  log scale (the lift is a positive ratio), so the interval cannot go below 0.
+- Sensitivity (`strict=True`, not used for selection): the residual filter also drops
+  cited works whose normalised name contains, or is contained in, a concept name of the
+  citing paper (>= 4 characters), e.g. a 'MACE' citation next to a 'MACE-MP-0' concept.
 
 E1b (secondary, descriptive). Ground-truth questions: co-membership of pairs of the same
 question's expected methods vs (expected, wrong_domain) pairs, split into same-paper and
@@ -89,10 +93,14 @@ def _names(tkh):
     return out
 
 
+def _contains(keys, others, min_len=4):
+    return any(len(k) >= min_len and len(o) >= min_len and (k in o or o in k) for k in keys for o in others)
+
+
 class Ruler:
     """Per-snapshot ingredients of E1a that do not depend on the partition."""
 
-    def __init__(self, tkh, cutoff, works=None, hub_frac=0.2):
+    def __init__(self, tkh, cutoff, works=None, hub_frac=0.2, strict=False):
         snap = snapshot(tkh, cutoff)
         ntype = tkh.nodes["type"]
         papers = node_papers(tkh, snap)
@@ -106,7 +114,8 @@ class Ruler:
         self.dropped = {}
         resid = {}
         for a, ws in cites.items():
-            keep = {w for w in ws if not (names[w] & paper_keys.get(a, set()))}
+            pk = paper_keys.get(a, set())
+            keep = {w for w in ws if not (names[w] & pk) and not (strict and _contains(names[w], pk))}
             self.dropped[a] = len(ws) - len(keep)
             if works is not None:
                 keep &= works
@@ -202,6 +211,10 @@ def coupling_lift(ruler, level, jackknife=True):
                 continue
             se = float(math.sqrt((len(x) - 1) / len(x) * ((x - x.mean()) ** 2).sum()))
             out[s].update(se=se, lo=val[s] - 1.96 * se, hi=val[s] + 1.96 * se)
+            if val[s] > 0 and np.all(x > 0):  # log-scale interval for a positive ratio
+                lx = np.log(x)
+                se_log = float(math.sqrt((len(lx) - 1) / len(lx) * ((lx - lx.mean()) ** 2).sum()))
+                out[s].update(se_log=se_log, lo=val[s] * math.exp(-1.96 * se_log), hi=val[s] * math.exp(1.96 * se_log))
     return out
 
 

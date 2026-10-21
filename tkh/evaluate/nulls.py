@@ -11,7 +11,9 @@ shuffle_hypergraph(tkh, seed, cutoffs, fixed)
     every node keeps its number of edges in every period (hence its degree in every
     cumulative snapshot and its entry year). members[0] (the paper's method) and the
     `fixed` nodes (hubs) never move; edge ids and all other edges are untouched. What is
-    destroyed: which concept nodes co-occur in an edge.
+    destroyed: which concept nodes co-occur in an edge. The null build then uses the REAL
+    graph's hub sets (a shuffle changes how many papers a node touches, and recomputed
+    hubs would differ: 6 -> 14 at <=2026), so model and null strip the same nodes.
 semantic_permutation(tkh, seed, cutoffs)
     Semantics null. A bijection of the name texts among concept nodes of the same type and
     entry period, passed to the build as `text_perm`; structure stays real.
@@ -153,13 +155,16 @@ def permute_hierarchy(parts, tkh, seed, cutoffs):
 
 def null_build(tkh, cutoffs, budgets, params, kind, seed, fixed=()):
     """Partitions of one null replicate: kind in {"struct", "sem", "full"} (see module doc)."""
+    from tkh.coarsen import hubs
     from tkh.hierarchy import build
-    g, perm, diag = tkh, None, {"kind": kind, "seed": seed}
+    from tkh.io import snapshot
+    g, perm, diag, hub_sets = tkh, None, {"kind": kind, "seed": seed}, None
     if kind in ("struct", "full"):
         g, d = shuffle_hypergraph(tkh, seed, cutoffs, fixed)
         diag.update(d)
+        hub_sets = {c: hubs(tkh, snapshot(tkh, c), params.hub_frac) for c in cutoffs}  # real hubs, as in the model
     if kind in ("sem", "full"):
         perm = semantic_permutation(tkh, seed, cutoffs)
     if kind not in ("struct", "sem", "full"):
         raise ValueError(f"unknown null kind {kind!r}")
-    return build(g, cutoffs, budgets, params, text_perm=perm), diag
+    return build(g, cutoffs, budgets, params, text_perm=perm, hub_sets=hub_sets), diag

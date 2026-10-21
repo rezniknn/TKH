@@ -5,7 +5,7 @@
 Parameters come from the config's [method] section (tkh/hierarchy.py Params), then from
 <out>/selection.json written by scripts/sweep.py (the selected alpha), then from --param. Writes, per snapshot, hierarchy.json and coarse_hyperedges.json
 (the T4 collapse of the clustering hypergraph onto each level), plus temporal_events.json
-and run_info.json (parameters, hub sets, sizes, runtime).
+and run_info.json (parameters, hub sets, sizes; the runtime is printed).
 """
 
 from pathlib import Path
@@ -80,12 +80,13 @@ def run(cfg, params, out_dir, placeholder=False):
             (Path(out_dir) / str(c) / "label_inputs.json").write_text(json.dumps(rec, indent=1) + "\n")
     for c, h in hier.items():
         (Path(out_dir) / str(c) / "coarse_hyperedges.json").write_text(json.dumps(coarse_edges(tkh, c, h, params), indent=1) + "\n")
-    info = {"params": params.as_dict(), "cid": params.cid(), "runtime_s": round(time.perf_counter() - t0, 1),
+    runtime = round(time.perf_counter() - t0, 1)  # printed, not stored: run_info.json is a tracked deliverable
+    info = {"params": params.as_dict(), "cid": params.cid(),
             "labels": "placeholder" if placeholder else {"labeller_model": cfg.labels.get("labeller_model"),
                                                          "labeller_prompt": _rel(cfg.labels.get("labeller_prompt"))},
             "snapshots": {str(c): d for c, d in diag.items()}}
     (Path(out_dir) / "run_info.json").write_text(json.dumps(info, indent=1) + "\n")
-    return hier, events, info
+    return hier, events, {**info, "runtime_s": runtime}
 
 
 def main(argv=None):

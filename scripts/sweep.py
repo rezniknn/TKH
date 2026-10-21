@@ -92,7 +92,10 @@ def job(cfg, spec):
     if spec.get("perturb_seed") is not None:
         g, dropped = remove_edges(g, spec["frac"], spec["perturb_seed"], cfg.cutoffs, CLUSTER_RELATIONS)
         meta["n_dropped"] = len(dropped)
-    parts = concept_only(build(g, cfg.cutoffs, cfg.budgets, params, text_perm=perm), tkh)
+    hub_sets = None
+    if spec.get("null") in ("struct", "full"):  # the real graph's hubs: model and null strip the same nodes
+        hub_sets = {c: hubs(tkh, snapshot(tkh, c), params.hub_frac) for c in cfg.cutoffs}
+    parts = concept_only(build(g, cfg.cutoffs, cfg.budgets, params, text_perm=perm, hub_sets=hub_sets), tkh)
     meta["runtime_s"] = round(time.perf_counter() - t0, 1)
     runs.save(spec["path"], parts, meta)
     return spec["path"]

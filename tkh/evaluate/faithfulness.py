@@ -65,10 +65,12 @@ class Judge:
     def pack(self, cutoff, members, kind):
         concept = self.ev.concept(members)
         seen, held = split_members(concept, int(self.cfg.labels.get("seed", 0)))
-        nodes = concept if kind == "full" else (held or seen)  # a 1-member super-node has no held-out half
-        lines, _ = self.ev.member_lines(cutoff, nodes)
-        claims, titles = self.ev.paper_texts(cutoff, nodes)
-        return {"members": "\n".join(lines) or "(none)", "claims": "\n".join(f"- {c}" for c in claims) or "(none)",
+        nodes = concept if kind == "full" else held
+        lines, _ = self.ev.member_lines(cutoff, nodes) if nodes else ([], [])
+        if not nodes:  # single-concept super-node: no held-out member; never show the labeller's own list
+            lines = ["(no held-out member: this group has a single concept)"]
+        claims, titles = self.ev.paper_texts(cutoff, nodes or seen)
+        return {"members": "\n".join(lines), "claims": "\n".join(f"- {c}" for c in claims) or "(none)",
                 "titles": "\n".join(f"- {t}" for t in titles) or "(none)"}
 
     def rate(self, cutoff, label, gloss, pack):

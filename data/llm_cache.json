@@ -758,6 +758,14 @@
    },
    "prompt_sha256": "03e32084d92799bf490b12603e80c5c41227646583e301d23b27537e69652d44"
   },
+  "0fbfa09f2ca9907dfee1e9edd04c64b0fc7728364212db3dca011da9d56268ba": {
+   "model": "llama3.1:8b",
+   "response": {
+    "choice": "D",
+    "reason": "The group describes models for predicting material properties, specifically the AFLOW standard for high-throughput materials science calculations."
+   },
+   "prompt_sha256": "1125c4af07544b016196d27bfae28cac57d9ae0932be5ab011bd6ead9523d5a7"
+  },
   "0fd3990333801063778339a1c853c6e196882e1ba9bb43fa84ee183dfb787310": {
    "model": "llama3.1:8b",
    "response": {
@@ -1445,6 +1453,14 @@
     "reason": "The group consists of various techniques for training machine learning models in materials science."
    },
    "prompt_sha256": "6a06811561a223fc34b5d387371b80df6e93b37e957538ef3bd16464a696b297"
+  },
+  "1c96440a2e09cbcde00160474bed1e31440247aeb9d38dbf5fcc6554c8a25b92": {
+   "model": "llama3.1:8b",
+   "response": {
+    "choice": "D",
+    "reason": "The group is focused on predicting physical and chemical properties of materials using the MPNN model."
+   },
+   "prompt_sha256": "dfe3e69c1963b87ee0ecce1c744f76a6c64363175f499dfd3d44702f32e44d2a"
   },
   "1cd44399a6c703624d104c4b6ec40a48afdbf413f2423118f464282f9123429b": {
    "model": "llama3.1:8b",
@@ -5574,6 +5590,14 @@
    },
    "prompt_sha256": "c130e661dc5b8cda1bdd665f7ebb8d001e87ae25a4dc4b1bcf464eabffd58e8c"
   },
+  "75c2d3dadd15eae4734019ae7ace82001fd0d3d026ee9be998faa5a561b3fd50": {
+   "model": "llama3.1:8b",
+   "response": {
+    "choice": "A",
+    "reason": "The group is about methods for modeling atomic interactions, specifically the Gaussian Approximation Potential (GAP) for silicon."
+   },
+   "prompt_sha256": "f1dbb58aaba258fd729885ad8fda5d30225218ccd6ac7acd9d29334f736a904b"
+  },
   "75d705937b6ec68bd971ab1261680a8ac740c09dd31aea109d13dcc277645799": {
    "model": "llama3.1:8b",
    "response": {
@@ -5853,6 +5877,14 @@
     "reason": "The evidence specifically describes tasks related to predicting material properties using various methods."
    },
    "prompt_sha256": "a053e81bb5f842d2986192814b0e6146bd4e41f4af0cea3c253fe2f1fd5d1290"
+  },
+  "7bcfe283a1af4cfe0c9911572f370b63e118cdfee5f4d7ce08ebe5af7247b53c": {
+   "model": "llama3.1:8b",
+   "response": {
+    "rating": "accurate",
+    "reason": "The evidence consistently describes the prediction of physical properties using machine learning methods."
+   },
+   "prompt_sha256": "557b5b2f7e69e5f06ec76d168c9c6b0f455f6bc7c78cfee12445609dbb3fa48b"
   },
   "7c21fef76f386fc16bb0c97a69c810cd88bc227a9ea1ab1b1b8808ddb7d7d8af": {
    "model": "gemma2:9b",
@@ -6445,6 +6477,14 @@
     "reason": "The label and gloss precisely capture the common theme of predicting crystal structures and related tasks and methods."
    },
    "prompt_sha256": "669cf09904b04d72181950bc756bdee01d5dc5abe486907e85f71c580f89a966"
+  },
+  "864f2cc42e75342a3c1ad34cc2d576057d8b6fc300044c78c5a53b82db41780c": {
+   "model": "llama3.1:8b",
+   "response": {
+    "choice": "A",
+    "reason": "The group consists of papers discussing graph neural networks and their applications in materials science."
+   },
+   "prompt_sha256": "50bd9066be361c0147555117b890fea019746c51e557a749fc0949cc46096e4f"
   },
   "8690cadb68c591a0f90dea2063211ac7d14b027ed833ed651ffb6f4719c28e01": {
    "model": "llama3.1:8b",
@@ -7165,6 +7205,14 @@
     "reason": "The group includes tasks and techniques for predicting material properties, but also goes beyond just prediction to include other concepts like interatomic potentials and machine learning methods."
    },
    "prompt_sha256": "064f5cb5c8c0e1598192c6e0f31c6fb039a48a4244fde0b61e66e99fec60887a"
+  },
+  "93afdf70933c8021c426b0f1ea15c15f73836109f7b80a5c704679fea079613c": {
+   "model": "llama3.1:8b",
+   "response": {
+    "choice": "A",
+    "reason": "The group consists of components and descriptors used in machine learning for materials science, such as GAP, SOAP, and DFT."
+   },
+   "prompt_sha256": "87f56df2fc2b965cc771f9efcaf16544d7c3597164b120fc26bee4abe66bc69b"
   },
   "93b0b1596fc57a13de55269f2900cd0a7d14c416e6245b345c1b84c8db29b976": {
    "model": "llama3.1:8b",
@@ -10310,6 +10358,14 @@
    },
    "prompt_sha256": "628425555cd799e20dcf21f13352b93da1b1dd3af76706a4fde60ed5fba015c7"
   },
+  "d804cfb467f139615c4faac75cbc73bda4eae691a7491b782d5b678fd19c614d": {
+   "model": "llama3.1:8b",
+   "response": {
+    "choice": "A",
+    "reason": "The group is about developing a machine learning model for materials science, specifically an interatomic potential for silicon."
+   },
+   "prompt_sha256": "48c1050c1842a4c8d74bd50609cee776b11eadc3b47fc413854c8a36f73ab05f"
+  },
   "d84a383c9042389c6f4ad1ae186824399e3c562d62a092fd19c6ca25626b4b37": {
    "model": "llama3.1:8b",
    "response": {
@@ -10701,6 +10757,14 @@
     "reason": "The group contains various DFT-related components, methods, and metrics."
    },
    "prompt_sha256": "90c561ec1a4209a9fcaca6e94ffa2d1706ccc523eb6a57fa4f6a24ca1c360a49"
+  },
+  "e039c09af006ddc66d62cc157f4aa6be0177977440d078cc29213f2af2b1e861": {
+   "model": "llama3.1:8b",
+   "response": {
+    "choice": "B",
+    "reason": "The group is about predicting various material properties and tasks using the GAP model."
+   },
+   "prompt_sha256": "8b3a0d42bfcf2c11b0ac4e6959de369e682fd925d3f343b1ea6f53406d2a9daa"
   },
   "e0e06b58ebe0d921f3cbd4b7ebea9b76074b659c0acbfbd48cff61504739f889": {
    "model": "llama3.1:8b",
@@ -11358,6 +11422,14 @@
    },
    "prompt_sha256": "883f965ecda1195c3f414136cf9e4901e71d90c0d4f1d7f56b798fd4e9a98c09"
   },
+  "efedf881665bd45838aa9463299ac3ea1334a76fdf2c7188ba4241234bcae36b": {
+   "model": "llama3.1:8b",
+   "response": {
+    "rating": "accurate",
+    "reason": "The evidence focuses on point defects in materials, aligning with the label and gloss."
+   },
+   "prompt_sha256": "3eb67e599686604f7125b23d1b2703c82c580f19341d7e5ae231eb3257d258b3"
+  },
   "f0196aaa15e5e97a3f72bf46fceca4063c471f06c3d06446c20bbe762b3b10dd": {
    "model": "llama3.1:8b",
    "response": {
@@ -11846,6 +11918,22 @@
    },
    "prompt_sha256": "786ef32844a8dd7ab830335c626d040d60ff983ed0304bb9880de03bfc34fde9"
   },
+  "f869a82f9580f187dd436a90bda88df0d97dc873d7dd0842ee78114bbb168afa": {
+   "model": "llama3.1:8b",
+   "response": {
+    "rating": "accurate",
+    "reason": "The evidence specifically describes predicting physical and chemical properties of materials using neural networks."
+   },
+   "prompt_sha256": "727a99054c3497fed1807a86891cf2abfefb27962aef286d216e9ad4dadd7997"
+  },
+  "f88dca2ec5b208a580d268708065d2cd44b73d6dc8c3641163f62f9c94357c44": {
+   "model": "llama3.1:8b",
+   "response": {
+    "rating": "accurate",
+    "reason": "The evidence specifically describes matrix decomposition techniques in the context of materials science."
+   },
+   "prompt_sha256": "b1da5cc39296d2c0d2a53e3086935291d8ed52a6ae469ce0e9bc61235fd045c9"
+  },
   "f8a26c86448c2721081ddea200967d3dbf4c02ed87d92c0c9b308a797c56b830": {
    "model": "gemma2:9b",
    "response": {
@@ -11925,6 +12013,14 @@
     "reason": "The evidence specifically mentions point defects in materials and the tasks involving them."
    },
    "prompt_sha256": "ce74e4018aac430dac2cb2e3c21cc7df86b64142975887b3b68c4dcf1233f9b6"
+  },
+  "f9869135e7de14fc0736233bae93f9ba18f72441754363656224dd9a8b1da0c4": {
+   "model": "llama3.1:8b",
+   "response": {
+    "choice": "B",
+    "reason": "The group consists of papers discussing the prediction of physical properties using machine learning."
+   },
+   "prompt_sha256": "546daaf7b22a84194dfcec42a131e63b5e37146450b5b8d18a4e47d6a907f60e"
   },
   "f9b251993f7e64291641b338c85942a120800f869345a78b4c14a9702acbdde3": {
    "model": "llama3.1:8b",
@@ -12069,6 +12165,14 @@
     "reason": "The label and gloss precisely match the tasks and applications described in the evidence, including property prediction, structure discovery, and reaction modeling."
    },
    "prompt_sha256": "17648d2c25e9a2c23929863e0a0f14ec8a433903a656bb2c7d0aadca0f6aa4fa"
+  },
+  "fc0c27c5339fd88e57e5ef8d4d2b1acf0637e32373b3847cc2ebb0fffcd64aa6": {
+   "model": "llama3.1:8b",
+   "response": {
+    "rating": "accurate",
+    "reason": "The evidence specifically describes matrix decomposition techniques in the context of materials science."
+   },
+   "prompt_sha256": "af25dd7cf6bbffa481e0888e55be75c380cffc91fd3d43d53a6a962736782144"
   },
   "fc3e0494c3b6332959edffc977bef2cae576acaef4e31582e3f1beef5ef00f87": {
    "model": "llama3.1:8b",

@@ -9,7 +9,6 @@
   "freeze": false
  },
  "cid": "a0.5_g0.5_r2_native_d100_h0.2",
- "runtime_s": 401.9,
  "labels": {
   "labeller_model": "qwen2.5:7b-instruct",
   "labeller_prompt": "configs/prompts/labeller.txt"

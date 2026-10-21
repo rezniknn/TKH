@@ -15,8 +15,14 @@ nodes. Every method pays the same unit cost per thing a user would read:
 - `ppr`: personalised PageRank (damping 0.85) on the clique expansion (w_e = 1/(|e|-1))
   of the same clustering hypergraph the method uses, personalised on the lexical scores
   (cost = rank). This is the structure-aware baseline.
+- `degree`: a query-INDEPENDENT popularity ranking (number of clustering edges a node is
+  in). It shows how much of a ranking's success comes from the targets being popular.
 Scores per question: cost to the first target, recall@B and wrong_domain@B (wrong-domain
-names retrieved within budget B). Ties are broken by node id, so all runs are deterministic.
+names retrieved within budget B). Ranked baselines are scored by their EXPECTED value
+under uniformly random tie-breaking (`expected_score`): most questions have no lexical
+match to any target, and breaking the resulting ~4k-way tie by node id would make the flat
+cost an artefact of id order. The drill-down breaks ties by id inside an opened leaf (at
+most one leaf's size).
 """
 
 import heapq
@@ -45,15 +51,27 @@ class Index:
         return np.asarray((self.X @ q.T).toarray()).ravel()
 
 
+def _order(index, x):
+    return [index.items[i] for i in sorted(range(len(x)), key=lambda i: (-x[i], index.items[i]))]
+
+
 def flat_lexical(index, text):
-    s = index.query(text)
-    return [index.items[i] for i in sorted(range(len(s)), key=lambda i: (-s[i], index.items[i]))]
+    return _order(index, index.query(text))
 
 
 def ppr(index, tkh, text, hub_frac=0.2, damping=0.85, iters=100):
+    return _order(index, ppr_scores(index, tkh, text, hub_frac, damping, iters))
+
+
+def degree_scores(index, tkh, hub_frac=0.2):
+    B, _, _, _ = incidence(tkh, index.snap, index.items, hubs(tkh, index.snap, hub_frac))
+    return np.asarray(B.sum(axis=1)).ravel()
+
+
+def ppr_scores(index, tkh, text, hub_frac=0.2, damping=0.85, iters=100):
     s = np.clip(index.query(text), 0, None)
     if s.sum() == 0:
-        return flat_lexical(index, text)
+        return index.query(text)
     B, w, _, _ = incidence(tkh, index.snap, index.items, hubs(tkh, index.snap, hub_frac))
     A = (B @ diags(w) @ B.T).tocsr()
     A.setdiag(0)
@@ -69,7 +87,29 @@ def ppr(index, tkh, text, hub_frac=0.2, damping=0.85, iters=100):
             x = nxt
             break
         x = nxt
-    return [index.items[i] for i in sorted(range(len(x)), key=lambda i: (-x[i], index.items[i]))]
+    return x
+
+
+def expected_score(index, scores, targets, wrong, budgets=(50, 200)):
+    """Expected cost to the first target, recall@B and wrong@B of a ranking by `scores` with
+    uniformly random tie-breaking (rank of an item with score x is uniform on g_x+1 .. g_x+b_x)."""
+    x = np.round(np.asarray(scores, float), 12)
+    srt = np.sort(x)
+    gt = lambda v: len(x) - np.searchsorted(srt, v, "right")  # noqa: E731  items strictly above
+    eq = lambda v: np.searchsorted(srt, v, "right") - np.searchsorted(srt, v, "left")  # noqa: E731
+    ti = [index.pos[v] for v in targets]
+    out = {"n_targets": len(targets)}
+    if ti:
+        top = max(x[i] for i in ti)
+        t = sum(x[i] == top for i in ti)
+        out["first_cost"] = float(gt(top) + (eq(top) + 1) / (t + 1))
+    else:
+        out["first_cost"] = None
+    p_in = lambda i, b: float(np.clip((b - gt(x[i])) / eq(x[i]), 0, 1))  # noqa: E731
+    for b in budgets:
+        out[f"recall@{b}"] = float(np.mean([p_in(i, b) for i in ti])) if ti else None
+        out[f"wrong@{b}"] = float(sum(p_in(index.pos[v], b) for v in wrong))
+    return out
 
 
 def _profiles(index, members):
@@ -140,12 +180,12 @@ def evaluate(tkh, cutoff, levels, questions, targets, budgets=(50, 200), baselin
         if not tg or q not in questions:
             continue
         text = questions[q]
-        runs = {"hierarchy": hierarchy_search(index, levels, text)}
+        order, costs = hierarchy_search(index, levels, text)
+        rows.append({"question": q, "method": "hierarchy", **score(order, costs, tg, wr, budgets)})
         if baselines:
-            runs["flat"] = (flat_lexical(index, text), None)
-            runs["ppr"] = (ppr(index, tkh, text, hub_frac), None)
-        for m, (order, costs) in runs.items():
-            rows.append({"question": q, "method": m, **score(order, costs, tg, wr, budgets)})
+            for m, sc in (("flat", index.query(text)), ("ppr", ppr_scores(index, tkh, text, hub_frac)),
+                          ("degree", degree_scores(index, tkh, hub_frac))):
+                rows.append({"question": q, "method": m, **expected_score(index, sc, tg, wr, budgets)})
     return rows
 
 

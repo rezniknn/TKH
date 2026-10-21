@@ -12,6 +12,38 @@ python3.12 -m venv .venv
 
 Equivalent with [uv](https://docs.astral.sh/uv/): `uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -r requirements.txt`.
 
+Any Python 3.11/3.12 interpreter works in place of `python3.12` (e.g. `python3 -m venv .venv`
+if `python3 --version` reports 3.11 or 3.12).
+
+## Reproduce everything (§6a.4)
+
+```bash
+make all      # sweep -> build -> validate -> metrics -> tables (about 30 min on 8 cores; offline)
+make fast     # the same with fewer null replicates and seeds, into out_fast/ (report.md untouched)
+make test     # unit tests and the validator's broken-fixture proof
+```
+
+- **What `make all` does.**
+  - `sweep`: α grid, selection on E1a half A, ablations, nulls and perturbation runs
+    → `out/selection.json` and the git-ignored `out/runs/`.
+  - `build`: the selected configuration with LLM labels → `out/<cutoff>/hierarchy.json`,
+    `temporal_events.json`, `coarse_hyperedges.json` and `label_inputs.json`.
+  - `validate`: `validate.py out/`.
+  - `metrics`: E1–E4 for the model, every configuration and every null →
+    `out/metrics.json` (schema `schema/metrics.schema.json`) and
+    `out/label_judgements.json`.
+  - `tables`: `make_tables.py`, which writes every number table of `report.md` and
+    `out/tables.md`.
+- **LLM calls (labels and the E3 judges) replay from the committed cache
+  `data/llm_cache.json`.** A clean checkout needs no model server. `TKH_LLM_MODE` selects
+  the mode:
+  - `offline` (default): replay; a missing key raises `CacheMiss`.
+  - `live`: call the server on a miss.
+  - `refresh`: re-query everything; `make refresh-llm` does this.
+
+  Live modes need a local [Ollama](https://ollama.com) server with the models named in
+  `[labels]` of the config (`ollama pull qwen2.5:7b-instruct llama3.1:8b gemma2:9b phi4`).
+
 Run the notebooks with this environment's Jupyter (`.venv/bin/jupyter`), or select `.venv` as the kernel in your editor. The pinned versions matter: other environments (e.g. an older Anaconda) may differ.
 
 ## Configuration
@@ -105,7 +137,9 @@ per-snapshot, per-level partitions), so it can be run on any method.
 
 ## Null models (T6)
 
-`tkh/evaluate/nulls.py`. Every null runs through the same pipeline and is scored with the
+`tkh/evaluate/nulls.py`. The struct, sem and full nulls are rebuilt through the same
+pipeline (the struct and full nulls with the real graph's hub sets). The random-labels null
+permutes the model's finished tree. All of them are scored with the
 same metrics, against the real graph.
 
 | Null | What it keeps | What it destroys |
@@ -131,8 +165,9 @@ The formal statement, assumptions and trade-offs are in
 
   A temporal prior on the previous snapshot's co-membership is added. A size cap keeps
   every budget reachable.
-- **Other nodes.** Non-concept nodes are anchored to a concept node. Citations are never
-  used.
+- **Other nodes.** Non-concept nodes are anchored to a concept node. Citations never enter
+  the clustering hypergraph. They only anchor `cited_work` nodes, which no metric scores, and
+  serve as the held-out ruler of E1a.
 
 ```bash
 make build                                         # -> out/<cutoff>/hierarchy.json, temporal_events.json,
@@ -140,5 +175,6 @@ make build                                         # -> out/<cutoff>/hierarchy.j
 .venv/bin/python scripts/build.py --param alpha=0.25 --param structure=projection --out /tmp/alt
 ```
 
-Parameters (`alpha`, `gamma`, `rho`, `structure`, `lsa_dim`, `hub_frac`) live in
-`[method]` of the config. Labels are placeholders until the LLM labeller is added.
+Parameters (`alpha`, `gamma`, `rho`, `structure`, `lsa_dim`, `hub_frac`, and `freeze` for the reference variant) live in
+`[method]` of the config. Labels at levels 0–1 come from the LLM labeller (`[labels]`);
+`--placeholder-labels` gives deterministic stand-ins without an LLM.

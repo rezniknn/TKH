@@ -157,3 +157,18 @@ def test_one_se_rule_and_tie_break():
     rows[1]["value"], rows[3]["value"] = 1.3, 1.5
     win, _ = one_se([dict(r) for r in rows], 0.5)
     assert win == "a0.75"
+
+
+def test_log_jackknife_interval_is_positive_and_strict_filter_drops_more(real):
+    cfg, tkh, ruler = real
+    rng = random.Random(3)
+    level = {}
+    for v in ruler.concept:
+        level.setdefault(rng.randrange(240), set()).add(v)
+    res = coupling_lift(ruler, level)
+    for st in ("pooled", "no_overlap", "overlap"):
+        if res[st].get("lo") is not None and res[st]["value"] > 0:
+            assert res[st]["lo"] > 0 and res[st]["lo"] < res[st]["value"] < res[st]["hi"]
+    strict = Ruler(tkh, 2026, strict=True)
+    assert sum(strict.dropped.values()) > sum(ruler.dropped.values())
+    assert all(strict.cites.get(a, set()) <= ruler.cites[a] for a in ruler.cites)

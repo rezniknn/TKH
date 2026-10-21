@@ -4,8 +4,8 @@
 Implementation: `tkh/coarsen.py` (T4 collapse), `tkh/hierarchy.py` (method),
 `scripts/build.py` (pipeline). Parameters: the `[method]` section of `configs/default.toml`.
 
-_Status: draft. The sections marked **[results]** are filled in once the evaluation
-(T6) has been run._
+The evaluation results are in `report.md` §5. All numbers there are generated from
+`out/metrics.json` by `make_tables.py`.
 
 ## 1. Input and notation
 
@@ -24,12 +24,16 @@ _Status: draft. The sections marked **[results]** are filled in once the evaluat
   - each remaining edge e has weight w_e = 1/(|e| − 1).
 
   `cites`, `claims`, `presents`, `authored_by` and `proposes_future_work` never enter
-  G_t. Citations are therefore free to serve as the held-out signal in the evaluation
-  (T6, E1a).
+  G_t's incidence. All snapshot edges do count towards a node's paper count for the hub
+  threshold, but `cites` edges contain no concept node. Citations are therefore free to
+  serve as the held-out signal in the evaluation (T6, E1a). Their only use in the build is
+  to anchor `cited_work` nodes, which are outside every metric.
 - **Text.** z_v = the mean-centred, L2-normalised projection of node v's name and
   aliases. The projection is a character 3–5-gram TF-IDF followed by a deterministic
-  truncated SVD (100 dimensions), fitted on V_t of each snapshot separately, so no text
-  from later snapshots is used.
+  truncated SVD (100 dimensions), fitted on V_t of each snapshot separately, so no node
+  of a later snapshot shapes the projection. Names and aliases themselves are export-wide
+  attributes with no per-alias provenance, so an alias of an early node may stem from a
+  later paper (assumption A5).
 - **Budgets.** N_0 < N_1 < N_2 = 15 < 60 < 240. Level 0 is the coarsest.
 
 ## 2. Output
@@ -75,9 +79,11 @@ concept nodes.
   item pairs, fitted once at the start of each level. They put both signals on a common
   scale, the percentile rank in [0, 1], before mixing.
 - **Temporal term.** Π(A, B) is the fraction of pairs (a, b) ∈ (A ∩ V_{t−1}) × (B ∩ V_{t−1})
-  that shared a super-node at level k in snapshot t−1. This is the evolutionary
-  clustering "snapshot cost" of Chakrabarti et al. (KDD 2006), in the
-  preserving-cluster-membership form of Chi et al. (KDD 2007), used as a merge prior.
+  that shared a super-node at level k in snapshot t−1. It plays the role of the
+  *history cost* (agreement with the previous clustering) of evolutionary clustering
+  (Chakrabarti et al., KDD 2006), in the preserving-cluster-membership form of Chi et al.
+  (KDD 2007), used as a merge prior. The other two terms play the role of the snapshot
+  cost.
 
 **Ties.** Scores are rounded to 1e-9, and ties go to the smaller item index (node ids
 sorted), so the build is deterministic.
@@ -107,8 +113,11 @@ that stops large or high-degree super-nodes from absorbing everything. The test
 cases.
 
 **Proposition 2 (singleton equivalence).** At singletons, H(a, b) = Σ_{e∋a,b} w_e/√(d_a d_b),
-which is the normalised weight of the clique expansion with w_e = 1/(|e| − 1). Native
-and projection scores therefore coincide at the first merge. They differ once a
+with d_a the weighted hypergraph degree. The `projection` variant is *defined* from these
+same singleton values W(a, b) (clique-expansion edge weights w_e = 1/(|e| − 1), normalised
+by the hypergraph degrees), and scores a pair of super-nodes by their average over member
+pairs. Native and projection scores therefore coincide at the first merge, by
+construction. They differ once a
 super-node holds two endpoints of one edge:
 - the native H counts that edge once per pair of super-nodes (presence, λ);
 - the projection (`structure = "projection"`, the average linkage of the singleton
@@ -151,25 +160,30 @@ snapshot t:
 | Giant-cluster bound | guaranteed: no super-node exceeds ρ·n_t/N_k concept nodes |
 | Hypergraph-native structure at coarse levels | guaranteed: H is computed on the collapsed incidence (Prop. 1) |
 | Determinism | guaranteed: deterministic SVD, deterministic tie-breaking; tested |
-| No future information | guaranteed: snapshot-t inputs only (G_t, V_t, the text projection fitted on V_t, P_{t−1}) |
-| P3 coherence, P4 stability, P5 temporal consistency, P6 faithful labels | measured (T6) **[results]** |
+| No future information | guaranteed for structure, membership and the temporal prior (G_t, V_t, P_{t−1}); for text only up to A5 (export-wide names and aliases) |
+| P3 semantic coherence | measured (T6 E1a, E1b) |
+| P4 hyper-edge fidelity | the native score and the T4 collapse are used by construction; what a projection changes is measured (the `projection` ablation) |
+| P5 temporal stability | measured (T6 E2: perturbation, cross-snapshot, change localisation) |
+| P6 faithful labels | measured (T6 E3); the labeller's input is restricted to the snapshot and to half of the members |
 
 ## 7. Complexity
 
 Per level, with n items, m fine edges and d = 100 text dimensions:
 - **Initialisation:** O(n²(m + d)) for the score matrix, plus O(n² log n) for the CDFs.
-- **Each merge:** O(n(m + d)) to recompute one row and refresh the cached best partners.
-  There are n − N_k merges.
+- **Each merge:** O(n(m + d)) to recompute the merged item's row. Rows whose cached best
+  partner was one of the merged items are rescanned at O(n) each, so the worst case is
+  O(n²) per merge. There are n − N_k merges.
 
 Memory is O(n²), for the dense score matrix. At ≤2026, n = 3980 and m = 554; the four
-snapshots take about 25 s on a laptop. That is enough for the sweep and the nulls
-(about 130 builds). A sparse heap would be needed above roughly 20k items.
+snapshots take about 25–30 s in one process on a laptop. That is enough for the sweep, the
+nulls and the perturbation runs (189 builds, about 23 minutes on 8 processes). Much larger
+graphs would need a sparse score structure, because of the O(n²) memory.
 
 ## 8. Parameters
 
 | Parameter | Default | Role | Selection |
 |---|---|---|---|
-| α | 0.5 | semantic vs structural weight | selected on E1a, half A, by the one-SE rule **[results]** |
+| α | 0.5 | semantic vs structural weight | selected on E1a, half A, by the one-SE rule: every α was within one SE, so the tie-break picked 0.5 |
 | γ | 0.5 | temporal prior | pre-registered; γ = 0 reported as an ablation |
 | ρ | 2 | size cap | pre-registered; ρ = ∞ reported as an ablation |
 | freeze | false | reference only: old nodes keep their previous groups; runs without the cap | E2 reference, never the shipped method |
@@ -177,12 +191,13 @@ snapshots take about 25 s on a laptop. That is enough for the sweep and the null
 | lsa_dim | 100 | text projection rank | pre-registered |
 | hub_frac | 0.2 | hub removal threshold | pre-registered; hubs logged in `out/run_info.json` |
 
-All six can be overridden from the command line: `scripts/build.py --param alpha=0.25`.
+All seven can be overridden from the command line: `scripts/build.py --param alpha=0.25`.
 
 ## 9. Assumptions
 
-- **A1.** Concept relations within a paper are evidence of relatedness. The data has one
-  star per paper, so structure is mostly paper co-occurrence. The structural signal is
+- **A1.** Concept relations within a paper are evidence of relatedness. Every clustering
+  edge is a star around one paper's method (one per relation, plus one per evaluated_on
+  link; about 11 per paper), so structure is mostly paper co-occurrence. The structural signal is
   therefore expected to rebuild papers. This is measured (paper purity, notebook 03) and
   not hidden.
 - **A2.** Name strings carry weak but real semantic signal (notebook 02: useful for
@@ -191,6 +206,8 @@ All six can be overridden from the command line: `scripts/build.py --param alpha
 - **A3.** Membership in the previous snapshot is a valid prior for the current one
   (P5). γ trades stability against adaptation.
 - **A4.** The provenance year is the time a node and an edge enter the graph.
+- **A5.** Node names and aliases, which are export-wide, carry no information from after
+  the cutoff that matters for clustering. This is not verifiable from the export.
 
 ## 10. Trade-offs and rejected alternatives
 
@@ -198,17 +215,20 @@ All six can be overridden from the command line: `scripts/build.py --param alpha
   exactly, gives laminarity by construction, and is deterministic and explainable merge
   by merge. The cost is that early merges cannot be undone and there is no optimality
   guarantee.
-- **h-Louvain / hypergraph modularity (rejected).** They give no control over the
-  number of communities, which P2 requires. They suffer from the resolution limit. And
+- **Hypergraph modularity and its greedy or Louvain-style optimisers (rejected):**
+  Kamiński et al. 2019, and the later h-Louvain by the same group. They give no direct
+  control over the number of communities, only an indirect one through a resolution
+  parameter, while P2 makes the count a hard constraint. They suffer from the resolution limit. And
   on per-paper stars they would reward exactly the paper bundles that A1 warns about.
 - **Attributed hypergraph SBM (discussed, not used).** It is principled and could use
   names as attributes. But at about 4k nodes and about 550 edges, with 88% of concept
-  nodes in a single edge, inference is badly under-determined. It is also not natively
+  nodes in at most one edge, inference is badly under-determined. It is also not natively
   hierarchical with fixed budgets.
 - **Clique expansion.** It is kept only as the `projection` ablation (Prop. 2), so that
   what it discards can be measured.
-- **Rank-normalised mixing vs raw mixing.** Raw S and H live on incomparable scales (H
-  is 0 for about 99% of pairs). Percentile ranks make α interpretable. The cost is that
+- **Rank-normalised mixing vs raw mixing.** Raw S and H live on incomparable scales. At
+  singletons, H is 0 for 98–99% of pairs; at coarser levels fewer pairs are 0, e.g. about
+  73% at the start of level 0 at ≤2026. Percentile ranks make α interpretable. The cost is that
   magnitudes inside each signal are lost.
 - **Size cap.** It prevents the giant clusters that pure average linkage produces on
   sparse data. The cost is that sizes are partly imposed, not discovered. ρ = ∞ is
@@ -219,7 +239,11 @@ All six can be overridden from the command line: `scripts/build.py --param alpha
   "MAE". The cost is that the hubs' own placement is decided by
   text only.
 
-## 11. Results **[results]**
+## 11. Results
 
-To be completed: the selected α with its evidence, and the model vs null comparison on
-E1–E4.
+See `report.md` §5–6. In short:
+- **Selection.** E1a, the pre-registered selection criterion, does not discriminate the
+  α values. The selected α = 0.5 is the one-SE tie-break default.
+- **Comparison with the nulls.** The selected configuration does not beat the nulls on
+  coherence or on the extrinsic task. It beats them on perturbation stability, but not
+  after correction.
