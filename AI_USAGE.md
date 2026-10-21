@@ -362,9 +362,9 @@ accepted or changed, and what was checked.
     matched across snapshots by Jaccard similarity. The attributed SBM serves as the
     theoretical reference.
   - **An evaluation design and lists of assumptions and limitations to state.**
-- A digest is kept outside the repo, as working notes. The first paste of the output
-  was cut off at the message limit; the full report was then supplied as an
-  attachment.
+- The full report is kept verbatim outside the repo, as working notes. The first paste
+  of the output was cut off at the message limit; the full report was then supplied as
+  an attachment.
 - **Accepted / modified:** Accepted as a candidate list of methods and papers, and as
   one proposal for T2. No design decision is taken from it yet.
 - **Verified:** Nothing yet.
