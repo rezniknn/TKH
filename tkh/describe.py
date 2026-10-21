@@ -127,25 +127,20 @@ def growth(tkh, snaps):
 
 
 def key_leakage(tkh, cutoffs):
-    """Snapshot sizes under the chosen rule vs the year fields the export also offers."""
+    """Snapshot sizes under the chosen rule vs the other year fields the export offers (if present)."""
     n, e = tkh.nodes, tkh.edges
+    node_alts = [c for c in ("first_seen_year", "year") if c in n]
     rows = []
     for c in cutoffs:
         chosen_nodes = set(n.index[n["entry_year"] <= c])
         chosen_edges = set(e.index[e["article_year"] <= c])
-        alt = {
-            "first_seen_year": set(n.index[n["first_seen_year"] <= c]),
-            "node.year": set(n.index[n["year"] <= c]),
-        }
-        alt_edges = set(e.index[e["year"] <= c])
-        rows.append({
-            "cutoff": c,
-            "nodes (chosen)": len(chosen_nodes),
-            "extra nodes via first_seen_year": len(alt["first_seen_year"] - chosen_nodes),
-            "extra nodes via node.year": len(alt["node.year"] - chosen_nodes),
-            "edges (chosen)": len(chosen_edges),
-            "extra edges via edge.year": len(alt_edges - chosen_edges),
-        })
+        row = {"cutoff": c, "nodes (chosen)": len(chosen_nodes)}
+        for col in node_alts:
+            row[f"extra nodes via node.{col}"] = len(set(n.index[n[col] <= c]) - chosen_nodes)
+        row["edges (chosen)"] = len(chosen_edges)
+        if "year" in e:
+            row["extra edges via edge.year"] = len(set(e.index[e["year"] <= c]) - chosen_edges)
+        rows.append(row)
     return pd.DataFrame(rows).set_index("cutoff")
 
 
@@ -172,12 +167,13 @@ def quality_report(tkh):
     add("edges with repeated members", e.index[e["members"].map(lambda m: len(m) != len(set(m)))])
     add("nodes in no hyper-edge", sorted(ids - set(members)))
 
-    prov_min = n["prov_articles"].map(lambda a: min(year_of[x] for x in a))
-    add("first_seen_year != earliest provenance year", n.index[n["first_seen_year"] != prov_min],
-        "documented as 'earliest corpus paper'; not used for snapshots")
-    add("edge.year != article_year", e.index[e["year"] != e["article_year"]],
-        "edge.year is the year of the result/claim row")
-    add("edge.year > article_year", e.index[e["year"] > e["article_year"]])
+    prov_min = n["prov_articles"].map(lambda a: min((year_of[x] for x in a), default=None))
+    if "first_seen_year" in n:
+        add("first_seen_year != earliest provenance year", n.index[n["first_seen_year"] != prov_min],
+            "documented as 'earliest corpus paper'; not used for snapshots")
+    if "year" in e:
+        add("edge.year != article_year", e.index[e["year"] != e["article_year"]], "not used for snapshots")
+        add("edge.year > article_year", e.index[e["year"] > e["article_year"]])
 
     gaps = [(eid, v) for eid, m, a in zip(e.index, e["members"], e["article_id"])
             for v in m if a not in n.at[v, "prov_articles"]]
@@ -190,18 +186,20 @@ def quality_report(tkh):
     add("near-duplicate names within a type (groups)", [f"{t}:{k}" for t, k in groups.index],
         f"{int(groups.sum() - len(groups))} redundant ids after NFKC/case/punctuation normalisation")
     cross = n.assign(key=key).groupby("key")["type"].nunique()
-    add("same normalised name under >=2 types", cross.index[cross > 1], "mostly cited_work vs method")
+    add("same normalised name under >=2 types", cross.index[cross > 1])
 
     add("surface forms with non-ASCII characters", n.index[n["surface_form"].map(lambda s: not s.isascii())],
-        "e.g. U+2011 non-breaking hyphen, U+202F narrow space")
+        "normalise (NFKC) before text features")
     add("dataset nodes that are bare element symbols",
         n.index[(n["type"] == "dataset") & n["surface_form"].str.fullmatch(r"[A-Z][a-z]?")])
-    add("nodes without entity_id", n.index[n["entity_id"].isna()],
-        "absent by design on article/cited_work/claim/future_topic/metric")
-    add("origin_year before first corpus year", n.index[n["origin_year"] < art["year"].min()],
-        "genuine historical dates (e.g. PCA 1901), not noise")
+    add("nodes without entity_id", n.index[n["entity_id"].isna()])
+    if "origin_year" in n:
+        add("origin_year before first corpus year", n.index[n["origin_year"] < art["year"].min()],
+            "inspect: historical origin dates vs extraction noise")
 
     rels = e.groupby("article_id")["relation_type"].agg(set)
-    for r in ["cites", "evaluated_on", "proposes_future_work", "addresses"]:
-        add(f"articles without a '{r}' edge", sorted(set(art.index) - set(rels.index[rels.map(lambda x: r in x)])))
+    for r in sorted(e["relation_type"].unique()):
+        lacking = sorted(set(art.index) - set(rels.index[rels.map(lambda x: r in x)]))
+        if lacking:
+            add(f"articles without a '{r}' edge", lacking, "uneven extraction coverage")
     return pd.DataFrame(rows).set_index("check")

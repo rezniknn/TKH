@@ -224,6 +224,42 @@ accepted or changed, and what was checked.
   renamed to `tick_labels` in the installed matplotlib (3.11). The assistant
   wrote code for an older API.
 
+### 9. Parametrised input paths (Claude Code)
+
+- **Task/module:** Reproducibility (deliverable 1, §6a.4); `tkh/config.py`,
+  `configs/default.toml`, `tkh/io.py`, `tkh/describe.py`, notebook 01
+- **Prompt:** "Make all input paths parametrised throughout this repo, do not assume
+  that the same input files will be used when assessors will be executing the code,
+  so make it easy to provide input paths as a configuration"
+- **What the assistant did:**
+  - Added a TOML config holding input paths (graph, articles, questions, ground
+    truth), snapshot cutoffs and output directories.
+  - Config selection, in order of precedence: an explicit `--config` path, then the
+    `TKH_CONFIG` environment variable, then `configs/default.toml`. Scripts also
+    accept per-value command-line overrides.
+  - Relative paths are resolved against the config file's directory.
+  - Removed hardcoded file names and cutoffs from the code.
+  - Made the articles CSV optional: without it, publication years are derived from
+    hyper-edge provenance.
+  - Made the T1 checks skip optional fields (`first_seen_year`, `origin_year`, edge
+    `year`) when an export lacks them, and replaced the hardcoded relation list with
+    all relation types present.
+  - Inputs are validated: missing files, missing CSV columns, fewer than 3 cutoffs,
+    and article years that disagree with hyper-edge provenance all raise errors.
+- **Accepted / modified:** Accepted.
+- **Verified:**
+  - The notebook executes with the default config.
+  - It also executes with an alternative config: the graph renamed and moved to
+    another folder, no articles CSV, cutoffs {2019, 2023, 2026}, and figures written
+    elsewhere. Its numbers match the earlier verified values (e.g. 1,060 nodes at
+    ≤2019).
+  - Loading with the CSV and without it gives identical node entry years for all
+    5,798 nodes.
+  - Command-line overrides work, and the error paths for a missing input and for too
+    few cutoffs were exercised.
+- **Caveat:** The interpretive text in the notebook describes the provided export. The
+  notebook says so; with other inputs, only the code outputs are recomputed.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
