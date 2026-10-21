@@ -1,0 +1,1 @@
+"""Standalone output checker (6a.1). Usage: python validate.py out/. Checks schema, P1 laminarity, P2 budgets, snapshot cutoff of member ids, and temporal_events references. Prints one line per violation; exits 0 on pass, non-zero on fail."""

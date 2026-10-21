@@ -1,0 +1,1 @@
+# Pinned Python dependencies (deliverable 1), one 'package==version' per line.

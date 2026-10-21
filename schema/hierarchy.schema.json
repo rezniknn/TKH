@@ -1,0 +1,3 @@
+{
+  "$comment": "JSON Schema for out/<snapshot>/hierarchy.json (6a.1). Each super-node has id, level, parent id, member ids, label and gloss."
+}

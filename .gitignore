@@ -1,0 +1,1 @@
+# Files git should not track: caches, virtual envs, local scratch. Do NOT ignore out/, because the generated deliverables are committed.
