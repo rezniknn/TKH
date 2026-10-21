@@ -294,6 +294,37 @@ accepted or changed, and what was checked.
   numpy 1.26–2.x and Python 3.11–3.12, and found no further issues. The notebook was
   then re-executed in the project `.venv` with no errors and no stderr output.
 
+### 11. Growth visualisations, T1 section 5 (Claude Code)
+
+- **Task/module:** T1 (how the graph grows and changes between snapshots);
+  `tkh/describe.py`, notebook 01 §5
+- **Prompt:** "Ceate visualisations of hypergraph growth over snapshots (section 5)"
+- **What the assistant did:** Added computation helpers to `tkh/describe.py`:
+  - `entry_period_layers`: snapshot contents split by entry period.
+  - `new_nodes_by_type`: node types added per step.
+  - `article_links`: pairs of papers sharing nodes, with a hub cutoff and a minimum
+    number of shared nodes.
+  - `growth`: now also reports the share of new nodes that share an edge with an old
+    node.
+
+  It also added three static figures (`figures/t1_growth_layers.png`,
+  `t1_growth_steps.png`, `t1_article_links.png`) and a table of link counts.
+- **Accepted / modified:** The first version of the paper-link diagram was rejected
+  after visual inspection. Counting every shared node links about 95–100% of paper
+  pairs, and even with hubs over 50% removed it is 55%, so the diagram was a solid
+  tangle. The final figure excludes nodes found in more than 20% of papers and draws
+  only pairs sharing at least 3 nodes. The thresholds are stated on the figure, and
+  the table reports link counts at all three filtering levels.
+- **Verified:**
+  - An independent agent recomputed every plotted number from the raw JSON and CSV
+    with its own stdlib-only code, without reading `tkh/`. All were confirmed
+    exactly: period layers, new nodes by type, the three attachment rates, and link
+    counts at each threshold.
+  - The notebook executes end to end in the project `.venv` with no error or stderr
+    outputs.
+  - The figures were inspected for legibility. Overlapping labels and the misplaced
+    figure caption were fixed.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

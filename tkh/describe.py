@@ -92,14 +92,15 @@ def components(s):
     return list(groups.values())
 
 
-def articles_per_node(tkh, s):
-    """Number of distinct articles (provenance or incident edges) a node appears in, within a snapshot."""
+def node_articles(tkh, s):
+    """Articles (provenance or incident edges) each node of a snapshot appears in, restricted to the snapshot."""
     edge_arts = s.edges[["members", "article_id"]].explode("members").groupby("members")["article_id"].agg(set)
-    in_snap = s.articles
-    return pd.Series({
-        n: len((set(tkh.nodes.at[n, "prov_articles"]) | edge_arts.get(n, set())) & in_snap)
-        for n in s.node_ids
-    })
+    return {n: (set(tkh.nodes.at[n, "prov_articles"]) | edge_arts.get(n, set())) & s.articles for n in s.node_ids}
+
+
+def articles_per_node(tkh, s):
+    """Number of distinct articles a node appears in, within a snapshot."""
+    return pd.Series({n: len(a) for n, a in node_articles(tkh, s).items()})
 
 
 # ---------------------------------------------------------------- between snapshots
@@ -111,6 +112,8 @@ def growth(tkh, snaps):
         new_edges = new.edges.loc[new.edges.index.difference(old.edges.index)]
         touches_old = new_edges["members"].map(lambda m: any(v in old.node_ids for v in m))
         old_reused = {v for m in new_edges["members"] for v in m} & old.node_ids
+        new_adjacent = {v for m in new_edges["members"] if any(u in old.node_ids for u in m)
+                        for v in m} & new_nodes
         rows.append({
             "transition": f"<={old.cutoff} -> <={new.cutoff}",
             "new_articles": len(new.articles - old.articles),
@@ -121,9 +124,62 @@ def growth(tkh, snaps):
             "node_jaccard": len(old.node_ids) / len(new.node_ids),
             "new_edges_touching_old_nodes": touches_old.mean(),
             "old_nodes_mentioned_again": len(old_reused) / len(old.node_ids),
+            "new_nodes_sharing_edge_with_old": len(new_adjacent) / len(new_nodes),
             "removed_nodes": len(old.node_ids - new.node_ids),
         })
     return pd.DataFrame(rows).set_index("transition")
+
+
+def period_labels(cutoffs):
+    """Entry period per cutoff: '<=c0', then 'c(i-1)+1-c(i)'."""
+    return [f"<={cutoffs[0]}"] + [f"{a + 1}-{b}" for a, b in zip(cutoffs, cutoffs[1:])]
+
+
+def entry_period_layers(tkh, snaps):
+    """Nodes and hyper-edges of each snapshot, split by the period in which they entered."""
+    cuts = [s.cutoff for s in snaps]
+    labels = period_labels(cuts)
+
+    def period(year):
+        return labels[next(i for i, c in enumerate(cuts) if year <= c)]
+
+    node_period = tkh.nodes["entry_year"].map(period)
+    edge_period = tkh.edges["article_year"].map(period)
+    layers = {}
+    for kind, per, members in (("nodes", node_period, lambda s: sorted(s.node_ids)),
+                               ("hyperedges", edge_period, lambda s: s.edges.index)):
+        layers[kind] = pd.DataFrame({
+            f"<={s.cutoff}": per.loc[members(s)].value_counts() for s in snaps
+        }).reindex(labels).fillna(0).astype(int)
+    return layers
+
+
+def new_nodes_by_type(tkh, snaps):
+    """Types of the nodes each transition adds (the first snapshot counts as its own 'transition')."""
+    cols, prev = {}, set()
+    for s in snaps:
+        cols[f"+<={s.cutoff}"] = tkh.nodes.loc[sorted(s.node_ids - prev), "type"].value_counts()
+        prev = s.node_ids
+    return pd.DataFrame(cols).fillna(0).astype(int)
+
+
+def article_links(tkh, s, max_article_share=0.5, min_shared=1, exclude_types=("article",)):
+    """Pairs of articles that share at least min_shared nodes, with the number of shared nodes.
+
+    Nodes present in more than max_article_share of the snapshot's articles (generic
+    hubs such as 'materials science') and nodes of exclude_types are ignored.
+    """
+    limit = max_article_share * len(s.articles)
+    weights = {}
+    for n, arts in node_articles(tkh, s).items():
+        if len(arts) < 2 or len(arts) > limit or tkh.nodes.at[n, "type"] in exclude_types:
+            continue
+        arts = sorted(arts)
+        for i, a in enumerate(arts):
+            for b in arts[i + 1:]:
+                weights[(a, b)] = weights.get((a, b), 0) + 1
+    return pd.DataFrame([(a, b, w) for (a, b), w in weights.items() if w >= min_shared],
+                        columns=["a", "b", "shared_nodes"])
 
 
 def key_leakage(tkh, cutoffs):
