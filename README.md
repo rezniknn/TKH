@@ -41,7 +41,15 @@ This regenerates `figures/t1_*.png` (or the configured `figures_dir`).
 `notebooks/02_semantic_signal.ipynb` asks what semantic information the export's metadata
 carries and whether clustering can use it. It covers lexical TF-IDF representations
 (`tkh/semantic.py`), tests against ground-truth groups with a type-preserving null
-(`tkh/evaluate/groundtruth.py`), and a trial clustering on semantics alone. The snapshot rule is in `tkh/io.py` and the statistics in `tkh/describe.py`.
+(`tkh/evaluate/groundtruth.py`), and a trial clustering on semantics alone.
+
+Its §5 checks whether paper abstracts can be retrieved from the export's identifiers
+(`tkh/abstracts.py`: arXiv API by id, OpenAlex/arXiv title search). The live part is
+opt-in, and nothing is stored:
+
+```bash
+TKH_ONLINE=1 .venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/02_semantic_signal.ipynb
+``` The snapshot rule is in `tkh/io.py` and the statistics in `tkh/describe.py`.
 
 ## Output validator (§6a)
 

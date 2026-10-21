@@ -714,6 +714,50 @@ accepted or changed, and what was checked.
   - All 15 text outputs are identical between the two environments.
   - 401 tests pass.
 
+### 20. Can paper abstracts be retrieved from the metadata? Notebook 02 §5 (Claude Code)
+
+- **Task/module:** P3 semantic-signal options; `tkh/abstracts.py`,
+  `tests/test_abstracts.py`, `notebooks/02_semantic_signal.ipynb` §5
+- **Prompt:** "Theoretically speaking, is it possible to download paper abstracts given
+  the metadata available? Verify in the new section of the current notebook"
+- **What the assistant did:**
+  - **Offline route planning:** 36 of 52 articles have an arXiv id (and a DOI); 16 have
+    only a title.
+  - **An opt-in live check (`TKH_ONLINE=1`):**
+    - arXiv API by id, requesting v1 (the abstract as first posted);
+    - OpenAlex title search, falling back to an exact-phrase arXiv title search;
+    - every record verified against the export's title (similarity ≥ 0.9).
+  - **Politeness:** one arXiv request every 3 s and one OpenAlex request per second. Only
+    arXiv ids and titles are sent, and nothing is stored.
+- **Result:** 49/52 abstracts retrieved and verified.
+  - 47 matched directly.
+  - 2 papers were renamed after v1 (JARVIS, DeepH). The latest version's title matches
+    the export, so the v1 abstract is kept.
+  - 2 papers have a record but no abstract (OQMD 2013, fracture patterns 2020).
+  - 1 has a wrong arXiv id in the export (5453: the id resolves to a different paper).
+    This is an export data-quality issue.
+  - No arXiv v1 abstract is dated after its export year. The 3 records dated a year
+    later are OpenAlex publication dates.
+- **Accepted / modified:** Accepted as a feasibility answer. Whether to use abstracts is
+  still open: it needs a network call at build time or a cached copy, and abstracts
+  relate papers and their presented methods, not every node.
+- **User edits respected:** Before this change the user had removed the notebook's
+  ground-truth section. The new section was fitted around that: it is numbered §5, has
+  no ground-truth dependency, and leaves the user's cells untouched.
+- **Verified:**
+  - 6 offline unit tests pass (Atom parsing, OpenAlex abstract reconstruction, title
+    matching including truncated titles, routes).
+  - The notebook executes offline (the live cells print "skipped") and online, with no
+    errors either way.
+  - 407 tests pass.
+- **AI errors caught:**
+  1. The first version compared only the v1 title, which wrongly rejected two correct
+     arXiv ids for renamed papers.
+  2. The arXiv title fallback ANDed 12 words and found nothing.
+  3. The first wording called OpenAlex publication dates "first-posted".
+
+  All three were found by inspecting the failures and fixed before commit.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
