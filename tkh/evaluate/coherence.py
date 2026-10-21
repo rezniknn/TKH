@@ -126,7 +126,15 @@ class Ruler:
         self.papers = sorted(a for a in resid if any(p == a for p in self.single.values()))
 
     def coupling(self, papers):
-        """Coupling matrix c over `papers` (IDF from these papers)."""
+        """Coupling matrix c over `papers` (IDF from these papers); cached per paper list (it does not depend on
+        the partition, so the jackknife subsets are computed once per ruler)."""
+        cache = self.__dict__.setdefault("_C", {})
+        key = tuple(papers)
+        if key not in cache:
+            cache[key] = self._coupling(papers)
+        return cache[key]
+
+    def _coupling(self, papers):
         df = {}
         for a in papers:
             for w in self.cites[a]:

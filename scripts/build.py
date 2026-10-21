@@ -24,7 +24,7 @@ from tkh.config import add_config_args, config_from_args  # noqa: E402
 from tkh.export import assemble_hierarchies, write_outputs  # noqa: E402
 from tkh.hierarchy import Params, build  # noqa: E402
 from tkh.io import load, snapshot  # noqa: E402
-from tkh.label import placeholder_labeller  # noqa: E402
+from tkh.label import LLMLabeller, placeholder_labeller  # noqa: E402
 from tkh.temporal import match_and_name  # noqa: E402
 
 
@@ -56,16 +56,33 @@ def coarse_edges(tkh, cutoff, hierarchy, params):
     return out
 
 
-def run(cfg, params, out_dir, labeller=None):
+def _rel(p):
+    try:
+        return str(Path(p).resolve().relative_to(ROOT))
+    except (TypeError, ValueError):
+        return p
+
+
+def run(cfg, params, out_dir, placeholder=False):
+    """placeholder=True uses the deterministic stand-in labels instead of the LLM (tests, quick runs)."""
     tkh = load(cfg)
     t0 = time.perf_counter()
     parts, diag = build(tkh, cfg.cutoffs, cfg.budgets, params, return_diag=True)
     ids, events = match_and_name(parts, list(cfg.cutoffs))
-    hier = assemble_hierarchies(parts, ids, labeller or placeholder_labeller(tkh), cfg.budgets)
+    labeller = placeholder_labeller(tkh) if placeholder else LLMLabeller(tkh, cfg)
+    hier = assemble_hierarchies(parts, ids, labeller, cfg.budgets)
     write_outputs(out_dir, hier, events)
+    if not placeholder:
+        labeller.llm.save()
+        for c, h in hier.items():  # P6 audit: exactly what the labeller saw for every labelled super-node
+            rec = {s["id"]: labeller.inputs[(c, s["level"], tuple(s["member_ids"]))] for s in h["supernodes"]
+                   if s["level"] in (0, 1)}
+            (Path(out_dir) / str(c) / "label_inputs.json").write_text(json.dumps(rec, indent=1) + "\n")
     for c, h in hier.items():
         (Path(out_dir) / str(c) / "coarse_hyperedges.json").write_text(json.dumps(coarse_edges(tkh, c, h, params), indent=1) + "\n")
     info = {"params": params.as_dict(), "cid": params.cid(), "runtime_s": round(time.perf_counter() - t0, 1),
+            "labels": "placeholder" if placeholder else {"labeller_model": cfg.labels.get("labeller_model"),
+                                                         "labeller_prompt": _rel(cfg.labels.get("labeller_prompt"))},
             "snapshots": {str(c): d for c, d in diag.items()}}
     (Path(out_dir) / "run_info.json").write_text(json.dumps(info, indent=1) + "\n")
     return hier, events, info
@@ -76,6 +93,7 @@ def main(argv=None):
     p.add_argument("--out", type=Path, help="output directory (default: the config's out_dir)")
     p.add_argument("--param", nargs="+", action="extend", default=[],
                    help="override [method] parameters, e.g. alpha=0.25 structure=projection (repeatable)")
+    p.add_argument("--placeholder-labels", action="store_true", help="deterministic stand-in labels (no LLM)")
     p.add_argument("--selection", type=Path, default=None,
                    help="selection.json from scripts/sweep.py: use its selected parameters (default: <out>/selection.json if present)")
     args = p.parse_args(argv)
@@ -87,7 +105,7 @@ def main(argv=None):
         selected = json.loads(sel_path.read_text())["selected_params"]
         print(f"using selected parameters from {sel_path}: {selected}")
     params = Params.from_config({**cfg.method, **selected, **parse_overrides(args.param)})
-    _, events, info = run(cfg, params, out)
+    _, events, info = run(cfg, params, out, placeholder=args.placeholder_labels)
     print(f"{params.cid()}: {len(events)} events, {info['runtime_s']}s -> {out}")
 
 

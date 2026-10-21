@@ -1,0 +1,2279 @@
+{
+ "models": {
+  "qwen2.5:7b-instruct": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e"
+ },
+ "entries": {
+  "002537d9ac447202676a71fea1e6bbae6fa412bf187a8fbb3a3d8618e9747456": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potentials",
+    "gloss": "Methods and problems for modeling atomic interactions."
+   },
+   "prompt_sha256": "33eadab4c8c544c7449f8c211cca0584b79389e6d182f2624cc9b612566a30d0"
+  },
+  "01dd67648eefeaa68ce8ae59b5de473853ad1c3f2e92fd3e8a440f1d1f57fb70": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Challenges in ML for MD",
+    "gloss": "Problems and inefficiencies in machine learning for molecular dynamics simulations."
+   },
+   "prompt_sha256": "c445f1488a91e446901972372aeae20d490ff0a2dde9e9430b948f40ca3a86f5"
+  },
+  "02814a46d1a0be868192f821415f3782a5a8c803f20b88c43f90d19cc2e9757d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Challenges",
+    "gloss": "Problems encountered in ML for materials science."
+   },
+   "prompt_sha256": "04d510536e5812d5340cea43b05e5f750be13b9887574a8822ab8b6aabd14854"
+  },
+  "02cb6000bc88c8d39cd4bc3c367efc9ce942b34c7912734912eb8d19737faad1": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Fracture Prediction Models",
+    "gloss": "Models and techniques for predicting fracture behavior in materials."
+   },
+   "prompt_sha256": "fdbf664db41e5fe0a2a77344202613e3130a8189dabc8c37ad9bc9e34879615f"
+  },
+  "04348f1acecdf7e986ab81f22d7183e360cd4af1a78d991ccf72b531bb6e7c51": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Manual calculation management",
+    "gloss": "Challenges in automating material property prediction workflows."
+   },
+   "prompt_sha256": "88920a07a2c019a3e6010881f7334414f991e509ec93d2646647091532eba124"
+  },
+  "05200ddbc11f83702b88f73bb48abfd279ad1103c2a86ac0827c6beed4c00f58": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Equivariant Models",
+    "gloss": "Models preserving symmetry in materials and chemistry."
+   },
+   "prompt_sha256": "05ffb78e44e0bdadf9133eb22c56c26a47104664e2d6855233f993153eafe188"
+  },
+  "0524e15d02b6e6ef1d46263ff207a55030d1592df45572887097a3632a806719": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Free-Energy Techniques",
+    "gloss": "Techniques for calculating and representing free-energy in materials science."
+   },
+   "prompt_sha256": "00a0eb8f515e41a4cd7827858d99945797cecfb6d28e7029558cb918b0f4dc71"
+  },
+  "05a3dae4549da4c6f37c52395c0c0e6a4e61ce239ca21dd7d2cae6fc721f9435": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Tasks involving prediction of material properties using ML."
+   },
+   "prompt_sha256": "57e80afbe1680e7787091632e55de74fef6b3097d00107bec7a98f4d9a6f2a78"
+  },
+  "06806cdac5a4f0fea409c253dfb57deb07ddc871d8083d9dd797ff4c39024262": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning for Materials Properties",
+    "gloss": "Tasks predicting physical and chemical properties of materials."
+   },
+   "prompt_sha256": "8d83b067c8beb2a9c5b335272d8c522310ea8c67064783fad6139d1a23757cc8"
+  },
+  "078066235e62621b44b52f147f0d937777bd4f2e2d05fc0084c2b8d0f6470e73": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Amorphous Carbon Simulations",
+    "gloss": "Tasks and problems related to amorphous carbon modeling."
+   },
+   "prompt_sha256": "5e782dc3fff8072b38f76c98337232432e5ae219d49bae6adb29ed7628893b69"
+  },
+  "07b541d4b20dde18a3ce7ed467fe8b1433fcc87d65c4179cbd71a0db425c777d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Tasks related to predicting various material properties."
+   },
+   "prompt_sha256": "bd186d2d0e7e3c4d49dcfc21ae537649b65d3163fe1f36297b6ed4b478397daa"
+  },
+  "0c5a87b082a5984a956d0fc98d356a6cb94db82b3cab737e9834b946fa11ca02": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Diffusion Modeling Tasks",
+    "gloss": "Tasks related to simulating and predicting Li and Na diffusion in materials."
+   },
+   "prompt_sha256": "ed375395dbc796dc62ed110025886a56b0fed8135d0f7d095be139fa3f958d9a"
+  },
+  "0c678d437e54b829e94d272dd45a17369e54f6c64e308a15738ff069cfc9101b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for molecular and crystal graph processing."
+   },
+   "prompt_sha256": "3a8e3e2f6730ccf436c6758030a63ac422b39abd822ac3db918e463f47cab21c"
+  },
+  "0cd082cffa8a2d04ed094b7ba32afbb9fa2c747dff490e8a87d0ed10d2310c49": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Tasks and problems related to predicting various material properties."
+   },
+   "prompt_sha256": "89876a40ef6c533b8888ade675bb0c01e696e70b5fcf71df803c998d675b2f1c"
+  },
+  "0d1ce9b68e6f43fb4cd8e0e4c9a84977b9987d3e065188f100204815ef328067": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potential Techniques",
+    "gloss": "Techniques for constructing and optimizing interatomic potentials."
+   },
+   "prompt_sha256": "20c8d424e7da24a495df1cdbefd7bb8b27c571d5e13a8f8c74c2ec70fa4edef7"
+  },
+  "0dc04851897352da6e404e1ff0f41c9e4f06684c2bff089d9caeafb799a7c44b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Fracture Prediction Methods",
+    "gloss": "Tasks and techniques for predicting fracture patterns and toughness."
+   },
+   "prompt_sha256": "e84c993bdcc2d8394edef27d6e3455571e85fb56522fe93bbb0259e9ffbd6270"
+  },
+  "0f9d235e25b0a7896ab040f5c6700b9ed505489afd9264e2671b2696ade3f4ad": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Problems",
+    "gloss": "Common issues in ML for materials science."
+   },
+   "prompt_sha256": "03e32084d92799bf490b12603e80c5c41227646583e301d23b27537e69652d44"
+  },
+  "11b7c9c86383af2a619d4542554d333c962cde39706f4123509752065929b3df": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potential Models",
+    "gloss": "Models and techniques for constructing interatomic potentials."
+   },
+   "prompt_sha256": "e875b335c663325373d13034099deb0b4ae18c35bdcdf8c3c899a7a0593a9782"
+  },
+  "13720089b724e7380ffa16166e4051f8494c0626261c8d1878507904d9cbe6e7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Equivariant Techniques",
+    "gloss": "Techniques preserving material symmetries in ML models."
+   },
+   "prompt_sha256": "9e731599fffd455d9219076ee5e7b0bac45bc3337ab89aac39d1a00e79f2ec86"
+  },
+  "13ee9ebfa7800dc6e25c8cc388b912943b187a87c515be6b7deeb94acbca9c38": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Tasks predicting various material properties using ML."
+   },
+   "prompt_sha256": "5d80325bc7046ccc8f7e95a65f0079810029a5cee76f2c9fb024324ba206ed80"
+  },
+  "144890ae1ef9a2d0c10363670382f71e3bf0b3f5266fac7aafee4a454651936a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Amorphous Materials Challenges",
+    "gloss": "Problems in simulating and predicting properties of amorphous materials."
+   },
+   "prompt_sha256": "cd668f605e7d438bc659e1d846cf4e3357c111a1f5b9a64ddb31ffe2aaeec08a"
+  },
+  "15dff427488ade43a7d9397fbd2e12d921c25251b0b965637cb3c64d8795951a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Properties",
+    "gloss": "Challenges in predicting energies, forces, and invariances."
+   },
+   "prompt_sha256": "40f5e1f20aa141e01fcc1fada2fb54cdcea69e89f16ff4906ce319fbf1dad3bc"
+  },
+  "1952e4584181712160fdbdc7a8618d0ba5415ceada1a67f6d35799727a7ad252": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Energy Metrics",
+    "gloss": "Metrics related to energy in materials science."
+   },
+   "prompt_sha256": "d5a96bab575ec3e19be1920d2b652236a8cfac97aadb682a728cccc01be60f24"
+  },
+  "1a0076f30e8c2fe60287a83282baa2ba068ce8a6600f94706b1ef82bbfb1978c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Atomistic ML Models",
+    "gloss": "Techniques and components for modeling atomic interactions."
+   },
+   "prompt_sha256": "3129b368f2198899ca7dabd6329fdf54d7ebb5e14bd6d5c943dd31b2fc5d8301"
+  },
+  "1ae5e8884c1bf9005e32742e0f94d7be859439fd939c2a064c9fad33aac73328": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Automated ML Pipelines",
+    "gloss": "Techniques and components for automated machine learning in materials science."
+   },
+   "prompt_sha256": "fdb903254cedf23d353d7e5adce5639e25fbbc07c311012d2d61b3cbe91d7bc8"
+  },
+  "1b0497e8d4e7c6282ab5a80b01e400a130fe2d723413bf1a545f92137308949f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for molecular and crystal graph processing."
+   },
+   "prompt_sha256": "c05e214e1ac0aa3b5957914337b6e081d0e79c518f28066c36ab92f401716bf6"
+  },
+  "1b31b066fe86b2ad1fe66e35b099afae0845a6128cfade5471a82f9d8fcc6446": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Atomic Property Prediction",
+    "gloss": "Tasks and methods for predicting atomic properties."
+   },
+   "prompt_sha256": "2bddae1788c62c23b4f2c4b1491e44e1402d2d4ff132f137100717aa8528f0b4"
+  },
+  "1b4f9cf3590475a9f6285ceef59391967c115fdecb8475d675f701e3a60e8405": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Challenges",
+    "gloss": "Issues related to modeling specific material properties."
+   },
+   "prompt_sha256": "8c84fdb22a3b0eb413c3cfbc77061af8093a193b1cd269a9b086498a5b5a197a"
+  },
+  "1d11aa109196ae82ebe315471593fc6c4f7ec64641eb1b156d00200821fa7f5d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Energy Properties",
+    "gloss": "Metrics related to activation energies in materials."
+   },
+   "prompt_sha256": "2dd79f5b4022c325bf966b10e75483ac571633745f25a49d1472b7b30722d388"
+  },
+  "1e35e23a181a46f1cb3e5950f0c95ca4e51fc1ea26e16d1f9405dbaff4cd9b14": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Tasks involving prediction of material properties."
+   },
+   "prompt_sha256": "b2270e6ac19878675b6ed5e05a604ea1d1379622bdbc7fc1eda3cb2e56bfe2f1"
+  },
+  "204074891fedfd710a566f9bb0b5e2dd10b9bae644f7549788ddad9ad54a88c8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-Throughput DFT Tasks",
+    "gloss": "Tasks and techniques in high-throughput DFT calculations."
+   },
+   "prompt_sha256": "d005f12b905d8d2ced18e24d3c8b616b30656910d7e752c20a93b916b395a2ec"
+  },
+  "20597ea7bd100cbe37bb86c20ccda1984d65e15df0e5d7ed01d7856f933dec78": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Post-processing techniques",
+    "gloss": "Techniques for refining DFT calculations."
+   },
+   "prompt_sha256": "e44926e0f4f962735b73a4ca25305c923849c8474758a1fc91bf5d3850f4a44e"
+  },
+  "22718ec667bf41ca154ea241f105eeedfb93527dd04059684bde3ccdd10c8e67": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Matrix Decomposition Techniques",
+    "gloss": "Methods for decomposing matrices in materials science."
+   },
+   "prompt_sha256": "3ea0609b086d5c721f5cc08388e353a60a4c8c1955aa87bc658f24d6ed745853"
+  },
+  "23b9c60b99a549b39e3344520fa91af081eebd6ace1b58c2a59261894de40f57": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Matrix Reconstruction Techniques",
+    "gloss": "Methods for improving matrix data in materials science."
+   },
+   "prompt_sha256": "0641be3133d4d6fcdf0e7ebe5c7a11e98e5b92ffe4168b5342bdb90584ef011f"
+  },
+  "242d20c9403373e606f4aedbfd51bca2295149b92be8f32bb831d8e07930bc2f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Featurization methods",
+    "gloss": "Various techniques to represent materials for machine learning."
+   },
+   "prompt_sha256": "6fce89335ff157a0b5ba95391e6ad310d95936100c2391aa4d9f8fdd07b07200"
+  },
+  "24e218a64600549b6d1b8dc3b781e69aa67ff6c7ce4edbf3258aadec7be8dde6": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Automated ML for Materials",
+    "gloss": "Tasks and techniques for automating machine learning in materials science."
+   },
+   "prompt_sha256": "5839cdf4441089a9d826ddaad31644a5869f19c0d4366414e40cee4c305a3294"
+  },
+  "25c9ab46f9a8b2e4ea3c4efa81db54a0dc29daf7516bfda8843bffa7b71f9d89": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Catalysis Modeling Tasks",
+    "gloss": "Tasks related to catalysis using machine learning."
+   },
+   "prompt_sha256": "dda9607a5e3767adc084cae1c26ebc3dfcd85fb4430bf38f3b187c44fda788e9"
+  },
+  "28af3535bacfe9f0c5f14bcebd702cf40c5fbfd49cf4879def4192dcd2f5b112": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Properties",
+    "gloss": "Metrics, datasets, and components for predicting material properties."
+   },
+   "prompt_sha256": "50453aecfbb040953d9ef703e5e736a0d822621ae2f26565904b255594e8b744"
+  },
+  "28d20958e33a5ba4e959b3df54de981106cca91ef007e76ffd6d102da3661a4a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Band Structure Techniques",
+    "gloss": "Methods for calculating band structures in materials."
+   },
+   "prompt_sha256": "591f5c25eeda48665fa8837bc92f068dfda2d12edfbbc82eb2e8c5ef55cf096e"
+  },
+  "2c082e404cab5b2c717b133cdd921c72a6d29a86f47dab88a6c3d656b2043976": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Melting Temperature Prediction",
+    "gloss": "Tasks and datasets related to predicting melting temperatures."
+   },
+   "prompt_sha256": "70276cb8a5134ec16cb3d544fe4e7eb0339a915559c6c92520e7402e03bf94fe"
+  },
+  "2ce170e3a77575710c9c38fb511cca646f0ebf684d336001980b78a3b2cf9509": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Amorphous Materials Challenges",
+    "gloss": "Problems in simulating and predicting properties of amorphous materials."
+   },
+   "prompt_sha256": "49f65e7e2d710ceb5aaa362d28c38839d5855ee82e1b78a6ff3da516730ccd7e"
+  },
+  "2e27b8fad406578428c0171d23c02adde72816c75171f36ac51a93fb5bf8c55b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Techniques and components for predicting material properties."
+   },
+   "prompt_sha256": "3c3996dd9453396554d1033d4a0e5164342354262d5bbeb68609b6d5c961f73c"
+  },
+  "2eb9d9126ad3ee73002f16f93d78b5bbc21c75326d62fc6b8ebafff8c3f4d45c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Methods",
+    "gloss": "Various machine learning techniques for materials science and chemistry."
+   },
+   "prompt_sha256": "41b1948f08f4b587ce111d433748d6ded04a15a64983efeee35c44c80056c2be"
+  },
+  "2fe802470e9415d6d6a4ad45ba0dbdc0709bcf897a9ade8f24ab9559d29a9669": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Bayesian Methods",
+    "gloss": "Models using Bayesian inference for uncertainty estimation"
+   },
+   "prompt_sha256": "c1a98a262eb3b086f79e7280740c8c62130d912a7b87864f5b35f5b6eea5f031"
+  },
+  "319212cc7c666d9d174b150dd478d97724f3f3ce923a4c7cb31f914892eb7b63": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Network Components",
+    "gloss": "Components and techniques specific to GNN architectures in materials science."
+   },
+   "prompt_sha256": "6ebf8c352ba976fd2f958c8e8c2a88960e0b22c274fa1a0c905d9b0a76c10386"
+  },
+  "32c56ccb88570678e4e3d631b2fffb8bfb787872e5eaaa673e0d19bff347e681": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Techniques",
+    "gloss": "Techniques for materials and chemistry tasks."
+   },
+   "prompt_sha256": "05728aeef4da267b292a01b3d7c1bbe3e6ad2bc94f1f48a3aa87b0cc949dfe68"
+  },
+  "3368a120fe28ffb9c544f9f42105d3197c2a6280965826412aea248759cfd79b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Formation Energy Metrics",
+    "gloss": "Metrics related to formation energy in materials."
+   },
+   "prompt_sha256": "3b402381af0b66effdd3508fd3159cb06559b217d21d6a986b687849988dc5f3"
+  },
+  "3517b7f49b339ca7c156d85765ee6d77569772e171b0c560e8b982e7d1a9d4d7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Loss Function Components",
+    "gloss": "Components that define multi-term loss functions for machine learning in materials science."
+   },
+   "prompt_sha256": "f8ee3517c0af49d36814ccfc1896f37573766ed8f8536447a1bbdf6b38e3b0b3"
+  },
+  "35292d6eb7d19108ce658fbcc8d5c2f5789038a99e57488aae02db2a3cdaac93": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Simulation Challenges",
+    "gloss": "Problems in atomistic simulations and materials modeling."
+   },
+   "prompt_sha256": "7c795ca2bea0951afb749bd98ed86df64be9f9370ad0c70a74e0358436f4ea43"
+  },
+  "3699f5647a6763f28c5cee07a6bc62314b9446fae775b6f028b993b91104e54e": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Techniques for Training",
+    "gloss": "Methods to improve machine learning model training in materials science."
+   },
+   "prompt_sha256": "0e2ade530317839f43bfd27852e94e68af4deeef4952ebf0b3078209e875eed2"
+  },
+  "37c1722ced376d0a9dc7a6cc4b43598d50ea77fc328a364084af349ca739e370": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Components and techniques for materials representation."
+   },
+   "prompt_sha256": "405850e51c922b05c0101b0bdb03509af5c1dfc97507c138948ed3ab2fcbbbfb"
+  },
+  "37faa413f94c1b2e0836c644702c145cf8cf15614f527192eb57fb09f23795c0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Property prediction tasks",
+    "gloss": "Tasks involving prediction of various material properties."
+   },
+   "prompt_sha256": "49eb87c26e901fdc49b7d56337db8e165ccba451eb5847a98f01db73f33e1177"
+  },
+  "384329dfa0ce5307c00daf530cec3ad92d436f1d8cbd45bf8d42bf943707ed26": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-Throughput Calculation Tasks",
+    "gloss": "Tasks related to high-throughput calculation of material properties."
+   },
+   "prompt_sha256": "c670536134e75a11c54eea822cbaee731c9c0e3fec9c437b46fc90bd5fdb10ac"
+  },
+  "3936e83e7c52725f31ef3de5a8daacb60c3adea360cbf9bb89a70f1deb945d8b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "ML Model Components",
+    "gloss": "Components and techniques for machine learning models in materials science."
+   },
+   "prompt_sha256": "87ee25eb531f4f2ca79c2812ea7d4d0b051aab1712f8127c7c8c1885d674e3c8"
+  },
+  "3952c1fd564135271a591ba8f6d55f46b1e251a8df84916c730bed5f1ae54fbb": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potential Methods",
+    "gloss": "Methods for learning interatomic potentials in materials science."
+   },
+   "prompt_sha256": "d03dc391de2af562325a1a4939ddbcc8d8298c2faa80e4119976e6e574ce5b78"
+  },
+  "3a17a777d17666440218a8b148d427b19b48b5989c90535a5359db561000372f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Atomistic Property Prediction",
+    "gloss": "Includes metrics, datasets, and components for predicting atomic properties."
+   },
+   "prompt_sha256": "4b6abce5364c995549818c50f2c65079a6475fbae6d717f45d9ed00871cefb5b"
+  },
+  "3b2392270491483bab2daef30014a2aac8161fa32f7ca9e7b1931755169c1695": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Datasets",
+    "gloss": "Contains various materials and compounds as datasets."
+   },
+   "prompt_sha256": "6f7459e3f753b9734228ddb5b55b1afb72ec4978d57cbaf8d5858c223c551ca3"
+  },
+  "3b28c3a989c3702b97d42ce539cb4749085f092712d5dd4850ab6e24f778036c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Problems and techniques for predicting material properties."
+   },
+   "prompt_sha256": "b10d304ef5b5d1b8292edea248aef6573598cb0905a6441c0790b8f336de07c9"
+  },
+  "3b5b603272a51d174271b464b086e6de3667f0477cf589eb6a28d9afc77464e2": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "MD-17 Simulations",
+    "gloss": "Simulated molecular dynamics of various organic compounds."
+   },
+   "prompt_sha256": "31713fb900bfe557cbc182ffc4befe52f6642741ffbd491f6abaa663bfe58c85"
+  },
+  "3c451ac9b36c3605d37e7c7d7585a92e99043a852d3f802ce65784e3b5dcfd62": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Equivariant Neural Networks",
+    "gloss": "Techniques and components for materials science tasks."
+   },
+   "prompt_sha256": "4646001bcce96175fb7ea8807dda45541a7c7cee20816e724e4434a29b56f551"
+  },
+  "3d90c9483c20583f82006f9d05f20c0775ad392f78daef704fe696c9815dae16": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Temperature-dependent property prediction",
+    "gloss": "Problems in predicting material properties at varying temperatures."
+   },
+   "prompt_sha256": "f68031ff35baf7bce20635afc22814419d86cfbbd1876014ff04f42a5358b7c3"
+  },
+  "3e0290b0c354845ea99e24b5ec4b96d26e6f44ee53cdd331e5365f447e88c8e8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Property prediction tasks",
+    "gloss": "Tasks predicting continuous material properties."
+   },
+   "prompt_sha256": "80f6f19e386a4a54af484b2a9fa2270e4cdf895cda36d1647a157031dbd205c5"
+  },
+  "3e97c293c3628cf6d8ecc45153ef21dc5af992d3fe11d2d8cc16bd5201eec1cf": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Amorphous Carbon Data",
+    "gloss": "Datasets related to amorphous carbon properties."
+   },
+   "prompt_sha256": "0827556d79aee120c625aa6b9657cbb39a6b800796c7cfa648896cf1a6f2d872"
+  },
+  "3fe87ffb5f9165278fa9b5b62b55d1144d0826ac08c2eb4157feb0178ddaaf27": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Phase transition modeling",
+    "gloss": "Tasks related to modeling phase transitions in materials."
+   },
+   "prompt_sha256": "bb00e91057637be3c114b29648e65863405496318069c2d2385886924fc1d0c5"
+  },
+  "401abfabf4de5afec9b78ec9ee3529912ffb789b18cbdd347a404e0ad1e70dff": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Fracture Prediction Techniques",
+    "gloss": "Methods and techniques for predicting crack paths and fracture toughness."
+   },
+   "prompt_sha256": "5e1b3f87a07bd7d30ea278c3ae02eca2606e5f2869df22f5bac11779c5e953f1"
+  },
+  "40a5f3c8eec6e9b09aedbe3ad09b319774142de95fb4670ef37844ce6c85bb9e": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-throughput DFT techniques",
+    "gloss": "Methods for accelerating DFT calculations and validations."
+   },
+   "prompt_sha256": "2c07d5c6958d191c55049bf9970de4c0c0c132f2e1787396794b5e116cd6475c"
+  },
+  "415d82f21dfbf00ed992fa6ed0df80a3eda629fd142985cc4ee3ee669a4da822": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "MD-based techniques",
+    "gloss": "Techniques derived from molecular dynamics simulations."
+   },
+   "prompt_sha256": "669f892b8d132938e591c490238261260b8c31296951c9b5f7f2c0ec42de5631"
+  },
+  "427b632b185c1af41e80aedcb20543dbd069b3742b3d468460418d3d6b7bc825": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Techniques for Model Training",
+    "gloss": "Various methods for training machine learning models in materials science."
+   },
+   "prompt_sha256": "3034f8562a971e6012742dc15e8bd257eaf59888a084351ed72f4e175bb062b4"
+  },
+  "43cbe1b51e1ae0b55628514b9950681bf136c117187cd07270c71d8a9ab1f05f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Surrogate Models",
+    "gloss": "Models approximating materials properties using descriptors."
+   },
+   "prompt_sha256": "1eff5887f06242f50373c79bf570e0c7171386cdc11c2c6a98be94a49379ccff"
+  },
+  "43fcec224851acdb5edc1e4d30267d71d6357a7825c00d2b2602f386f2ef6fc8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Evaluation Metrics",
+    "gloss": "Metrics for assessing machine learning models in materials science."
+   },
+   "prompt_sha256": "f344219d326189a42d9bae484a5917ed62856c272bae6def6fb2349567f2da16"
+  },
+  "447ff4379161c83ad275413e6ddfb7785f40383c4124424040fcfaac1e19783d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Li-ion Diffusion Modeling",
+    "gloss": "Tasks related to simulating lithium ion diffusion in materials."
+   },
+   "prompt_sha256": "03ef0e3f8ddd8e276ad7571e03e24d3a3d6014b398b239e8fbc1ff446dda7d33"
+  },
+  "4505922d3cc72fe97641d840b4ae4208037fe4f50599e785c5b8c3a3ada0f51d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Components",
+    "gloss": "Includes various tools and techniques for ML in materials science."
+   },
+   "prompt_sha256": "fd3fd64d46c40c3d0569c83c5996283a89b2c86be3c1353e374bd7925ec04b5d"
+  },
+  "459c3d919f0fbfc1d126eca9cb1d03af53ccde36e1e26b14a895723c9455c0b3": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Long-range Interaction Models",
+    "gloss": "Models addressing long-range interaction challenges in materials."
+   },
+   "prompt_sha256": "a9d751c6c309aa677c611b6834e0cbf6c165c6de7640aee104676d8329463397"
+  },
+  "45bd1c0185b76a1898fc768d0cf059639b143ccd8a419253577ee9cf319f8af4": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Model Training Techniques",
+    "gloss": "Techniques for training machine learning models in materials science and chemistry."
+   },
+   "prompt_sha256": "4ed5b0af593b584536e3859221efe3d81f9a45a42c00553a0e3bc8bdd2c4bf9e"
+  },
+  "45d897e05c026efc80e4cd98628b6606002ede493f709fae60d37a8c00ff30e3": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "DFT-based potentials",
+    "gloss": "Methods and components for DFT-level accuracy in materials simulations."
+   },
+   "prompt_sha256": "a7d25ae254805095ac418712b602fe103e462ce67a0d7a2ec96ba37a447dd489"
+  },
+  "474717cebc4e3c9eb0b7dc466297b24be348fc05ed0e6965fdd51cabb0091b40": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Self-healing techniques",
+    "gloss": "Methods for automatically correcting errors in machine learning models."
+   },
+   "prompt_sha256": "7013d2f2b4ce50633289425f9503eb8549c6a428fc2a03717c33aaeff0c4ae15"
+  },
+  "47aceb8970ed704332d21a7fcc5afd5ea2ad06817bd547eb55c08ab90e6b9941": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Predicting various material properties using machine learning."
+   },
+   "prompt_sha256": "9b6d7f5b50419ff5e4d8470e51e385b682e5f3c0240fcc871acd36018050e343"
+  },
+  "490b1e036a1f130569784c28ac0858437b645b746bf33cceaede5f604c0e0c71": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Molecular Dynamics Simulations",
+    "gloss": "Contains datasets from various molecular dynamics simulations."
+   },
+   "prompt_sha256": "26ad16e8335d9b06a4b529fb3e2c5f10a68f7e47dea866150376a65dc6477c9e"
+  },
+  "499adc26aad25b56e210998e38fad2279d1f930b0f94755d168476335dc9b0d7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "ML Model Components",
+    "gloss": "Parts of graph-based neural networks for materials."
+   },
+   "prompt_sha256": "f4fb9fafd3dac06c5fcba195539d948ed2ab60dd150957811e8b52901e1891f5"
+  },
+  "499cf197d7fd5757ef7b8d9cc42b03b5624b6faa1ca22b5247cb784921bcc17a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Tasks and methods for predicting various material properties."
+   },
+   "prompt_sha256": "1b45cb3980e1777d1e4523bcbcc93ceafc557b28ef5e9474d996e1b973d6d0d2"
+  },
+  "4a61573abe283dfafcc0b3f737dd193a017b9c90cc09f645f0948eec88597bfd": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "E(3)-equivariant Models",
+    "gloss": "Models preserving rotational and translational symmetries in materials science."
+   },
+   "prompt_sha256": "8a2b69ec0e2cf675c141befb3e0c91d74808d8cecada9f3c430426f410090307"
+  },
+  "4aa20a5390844facce519a55ac09f306d3ca09e6410b4483659ed35f47d7e679": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Challenges",
+    "gloss": "Issues related to modeling specific material properties."
+   },
+   "prompt_sha256": "926a02bcc4fbc26ac83ab4bc604c316d4235a7b6c5b5eb77da3fc37af4b4add8"
+  },
+  "4b3cf04738c604ba7e8a79ab18f11036aa669dff1e1884c84ff2e5e9eb5b13d0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for molecular and crystal graph data"
+   },
+   "prompt_sha256": "334cde62378e7f5ee7808c12272e6bff628dfdbbe05a88a3d373985f19ae8777"
+  },
+  "4be4ac98ffa233c6fb9d0671871a27a5260047933ff3dd5ba10a1c5a304c4991": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Defect Analysis",
+    "gloss": "Tasks involving point defects in materials."
+   },
+   "prompt_sha256": "3587bfbca80281fd4fe22ff37634b1df1c69197172e6f91e5ba95ae74b520895"
+  },
+  "4d7c4f6001be559c6e881e778540a8291a87d43a8b6e9157b9fa9fc9e2ed91bf": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Phase transition modeling",
+    "gloss": "Tasks related to modeling phase transitions in materials."
+   },
+   "prompt_sha256": "039fd361c7fa83b9c59fbbd02748a9596053e2c0f2cfc28918188d73187f430a"
+  },
+  "4de092fe6546f06af5592ae167a9c75459c371a81feddb8e90f2fb867d909300": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Phase Stability Prediction",
+    "gloss": "Problems related to accurate phase-stability prediction."
+   },
+   "prompt_sha256": "9dc932033604d80f08acf75bc0655f7c15d86a9214082480d56e4eec0ec252d0"
+  },
+  "4df256a2769c3e02f90c3e5bc2faca7b0c0ec70434bd835fa26d99986fb16e7f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "DFT-based tasks",
+    "gloss": "Tasks related to density functional theory calculations."
+   },
+   "prompt_sha256": "02d91ca4668afe395037e30bab968ebcb75b249424ca328114a6dc88de3d842b"
+  },
+  "4f82b6e85ebc1c1d8a2323f55ed8adea69bd27897bcabcccca4baee45ca390bd": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Li-ion Diffusion Modeling",
+    "gloss": "Tasks and techniques for simulating Li-ion diffusion in various materials."
+   },
+   "prompt_sha256": "96c4b49b373213c736c126d057f575ba98e0b793669dfeecd727a4494b850175"
+  },
+  "523424cdfac4cdef3990d0789b902872ce5f92bc3e62b7bacebca20f384856f0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Descriptors for Materials",
+    "gloss": "Various components describing atomic environments in materials."
+   },
+   "prompt_sha256": "083fcdbef0df9b26bcf46970e555b52396d795088e8cc35bfc4b7be1aad51b20"
+  },
+  "5274d84d7f5431054573b6a5d247acbb8449c20ed463ab0de37e1b75efe5c8e0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph-based Methods",
+    "gloss": "Models using graph representations for materials or molecules."
+   },
+   "prompt_sha256": "2bc8b6959e9fe3cfc204acceb4fce5f7421fe4bf68a0700b719fab6b891f29b0"
+  },
+  "5277a46c1493f5344c7479148709f25ae83c557a6bd039a04951ba059301b0a3": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "ML Model Components",
+    "gloss": "Components and layers of ML models for materials."
+   },
+   "prompt_sha256": "2106978683e3b8cb4662b14444c5158d3bc588f710af56789cdb7c1012156175"
+  },
+  "52940ab2f235b7a017d6ffd15bbbe018a3f724b478b480c5b6ee688a81f88c2c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Network Components",
+    "gloss": "Components and techniques specific to GNN architectures in materials science."
+   },
+   "prompt_sha256": "c473ba01d9f1576282b54c72cc610aedf265d935cb8484ca9f0098839654a050"
+  },
+  "52d7203e5f14bb229eeb84980190606d60dcff732a427eae4cafc6c1bcda32e7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "DFT-based Calculations",
+    "gloss": "Tasks and techniques related to density functional theory calculations."
+   },
+   "prompt_sha256": "bd3250a3d2071a23672c010722aa87515e6fa3f3dec98eae8ade76a456590a90"
+  },
+  "5436a44c2a708d29d518c75273e92d3b97be3b52740fa2817691376afcd8586c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Energy prediction tasks",
+    "gloss": "Tasks focused on predicting various forms of energy in materials."
+   },
+   "prompt_sha256": "b7d4f72c5c33332cfcbaf7c53193b75848179e7d610acf6371dfa8beac84f3e3"
+  },
+  "546d473ac0c261eebbf49c8a3381546cc38898747a1ae750a6c68700c3f6d9cc": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "DFT Calculation Tasks",
+    "gloss": "Tasks related to density functional theory calculations."
+   },
+   "prompt_sha256": "6a9df97a331f940c5a234c19b0ffa8131e6fe8424d76df1294c87a3c578cc475"
+  },
+  "5537f086806f279aa7e8d4e72a44d380697957a449676aa600ea72828ee430e4": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Tasks",
+    "gloss": "Includes various tasks in materials and chemistry."
+   },
+   "prompt_sha256": "83884850a5d6c0b506ce6e0bc7d80b5f59f2ef2a24704aaadabd5de727ac16f6"
+  },
+  "55a2313223debff161444817138ad99ac13420f7c12b661dc6a574a5ac4df7f1": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Automated ML for Materials",
+    "gloss": "Techniques and problems in automating machine learning pipelines for materials."
+   },
+   "prompt_sha256": "95c327cccc7f64421d41c4105c4ff0722fe4fa261d3500b8e5ab6a12adc7513f"
+  },
+  "56b7deca257883a1c8eca2180a567a0f9429ec568239a35180699c94112a83c0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Electronic Minimizers and Correctors",
+    "gloss": "Algorithms for optimizing electronic structures in materials science."
+   },
+   "prompt_sha256": "c514c1bc14020a7a45687b5b7c041a3e2a6f030b36c8c00b6cad4c63b70d6805"
+  },
+  "57d6c35d4fd8e13cb661bda1b1890ce9763625331304c5419ebc8808d0305391": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Heterostructure Design",
+    "gloss": "Tasks and techniques for designing heterostructures."
+   },
+   "prompt_sha256": "6fd8d46bc23b1fdcfd1b45fb94c6e0a02f4cc7121635698bfec8c660d5b33732"
+  },
+  "582c6a571819f132c98f87806605779fd1771cbead4b55b1a4e2bb6a64d0ad32": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Force Prediction Tasks",
+    "gloss": "Tasks related to predicting forces in materials."
+   },
+   "prompt_sha256": "29ece9d729734e75441948bfb903bc970f1cbb1b774527f40f24dfa4f05a53e9"
+  },
+  "588c230e05270a02a198b5a6100f6b662b07cbae32a695db4546eaf8329c8bfd": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Challenges",
+    "gloss": "Issues related to insufficient data and state-dependent modeling."
+   },
+   "prompt_sha256": "94966484b52080f5383f540e6fbdac67c0daf1b3beb0349fabb169ebbd966f96"
+  },
+  "58d166f0a7c8e8645967c4b36ef5d554fd8a840ff3b94ffed91c3c4550d6f50a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potential Methods",
+    "gloss": "Techniques and methods for developing interatomic potentials."
+   },
+   "prompt_sha256": "ba84a141c6fabfb759b077639d8ec5de2f411d4e22f2368b73495bca146f7e5c"
+  },
+  "594a87513518e05f190c6f8e782210b89afd978cb1ddfe444b1b09145a8a88fc": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Property prediction tasks",
+    "gloss": "Tasks involving prediction of various material properties."
+   },
+   "prompt_sha256": "27ca81029723d5fbbac908c68651c404c8040b75af97aa721d9dd40bef8e34a5"
+  },
+  "59d2844f27d5e356ca933e1ac2aa613f2ef4f879b61d4975494775226e737a35": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "E(3)-equivariant GNNs",
+    "gloss": "Methods using E(3)-equivariance in graph neural networks"
+   },
+   "prompt_sha256": "4e548a534a5ecd95e123ddf3422df3282715042893410debcb7f82eab1cdc86c"
+  },
+  "5f99d1585bb4c1ffb9947f53890b77f9b4af851562539fd78fa4c96c0885fd0d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Network Methods",
+    "gloss": "Models using graph structures for materials or chemistry."
+   },
+   "prompt_sha256": "ef496f717cc7e9036782cbbb143b71409972cccc9d4ac6fd98f54d7c71af61ef"
+  },
+  "60593773f1eb3797fcd4a18d2e8249a98cce2cf881e8046098e8cf1787ee8148": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Electronic Minimizers and Correctors",
+    "gloss": "Algorithms for optimizing electronic structures in materials science."
+   },
+   "prompt_sha256": "9cede8de83f49937adc7a2d8cede6e36c918156bad3f64d80eecc0a2ecea12cc"
+  },
+  "62046a172dc5c0d9ad249b7260176c84d83a1f881c1602f56502df1b06203afb": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Methods",
+    "gloss": "Various machine learning techniques for materials science."
+   },
+   "prompt_sha256": "1e5b23bc10f430a47918235244ce440b478a73e696133a22aecae7aa69b14e9b"
+  },
+  "6523c0090c4a866b1ba2c7d4f093a966d0f847cff2c4f147dc55ffebf4ade14e": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material property prediction",
+    "gloss": "Problems related to predicting material properties."
+   },
+   "prompt_sha256": "615e3fdf95187e06f11d5dc6b7945fa3bb240645b1adfb12e9c7d30f9d8907ad"
+  },
+  "6543754f6373f3d753407b60f05482ca10970a0b2e6994b830a6d0021c67ac57": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models and techniques for materials exploration."
+   },
+   "prompt_sha256": "d4972bb78ab1b5cb77c05da89d545e9e167e8e438b1a5b22bc91c6dedc586b3a"
+  },
+  "66383b09865553934208d154559a24427a48905fba804497286fc0393278d744": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Li-ion conductor tasks",
+    "gloss": "Tasks related to Li-ion conductors in materials science."
+   },
+   "prompt_sha256": "aa6a165b9f5621ba3550e3cd50112f6f0706bcceae825c0a65795be24482ad55"
+  },
+  "6883de04899585aee1e3f741e6904b6ed9eafe40c8475cfc4e915385838e1d2d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Tasks and problems related to predicting various material properties."
+   },
+   "prompt_sha256": "c36459a3c6420305fe4d2d7c61829b35669e992f3473ce08689807f303b432b8"
+  },
+  "69c335b6ba28b23984d7b9aa2ee9e7372cb4c845077d76b12c45abad4f8f42e8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Defect Analysis",
+    "gloss": "Tasks involving point defects in materials."
+   },
+   "prompt_sha256": "adfb8aa90cc019c26eaa73071a6dbdf5431f65820ff987bfd87481bf603a8c2e"
+  },
+  "6af65be7bfa1bde2c65d9f0ced54a3fb05fc52736868e05b8d919879db498984": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Crystal Structure Prediction",
+    "gloss": "Tasks and techniques for predicting crystal structures."
+   },
+   "prompt_sha256": "a8e9d6fd46fbc4b62c9a22fa174f296cda27d417b98b13f08f233374ffde0a4f"
+  },
+  "6c09e72fb248f115715cfaabc17b713aff1835c0a568e569c6d52cb96bd974a7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Amorphous Materials Simulation",
+    "gloss": "Tasks involving atomistic simulations of amorphous structures."
+   },
+   "prompt_sha256": "28135277ddadb0cd882a7014e135cf8615b4ddf18555eff7dd1ec1cc954134d4"
+  },
+  "6ce775ee87160d8a97a238377f9fff375173e0636b40a7c374547fd8fa47dd97": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Force and Stress Prediction",
+    "gloss": "Techniques for predicting forces and stresses in materials."
+   },
+   "prompt_sha256": "bc776c04c4c547406544ca51c646c59a01b1bbb5c987f9792983355b0a4d09c9"
+  },
+  "6dd9bddf50496ad57589e0e59d04fa318b9d71b53fce76e9fd35f20a600d0292": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Methods using graph neural networks for materials science."
+   },
+   "prompt_sha256": "b8d154eb6d92532a23adf7e9699b4f16db79fbdd857aee921c29c27c31a03ccb"
+  },
+  "6f8b04444640f53f96c9269a80f29f5d2282ba8bb8b6e2cdfdbe114d46a2dca1": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Model Training Techniques",
+    "gloss": "Techniques for training machine learning models in materials science."
+   },
+   "prompt_sha256": "8add4132f566c0952c856b7f6430f1fe9b95af3a854cf73c9c97975516e55540"
+  },
+  "6fcab28b828175e9f10922acbdee8d410df6c5c15455649fe83c9413f44b7d60": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Training Challenges",
+    "gloss": "Problems and issues encountered during machine learning model training in materials science."
+   },
+   "prompt_sha256": "112bf5fd205a3576e6eaaf6d786fe7702bcdfc8a02c693d62b1b3d2087272a45"
+  },
+  "7158293a0fc527caf02d64c5769add06efab9e1a1c9498ad339201f1d71af093": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Challenges",
+    "gloss": "Problems and components in ML for materials science and chemistry"
+   },
+   "prompt_sha256": "3c7a8a3160fb5d8dfd00c156c93b00198aa3bcf6168f988c98be85e5ff660480"
+  },
+  "71a3b1f830dfb6dbea689b0a9fc03f30102f504c1999530b86a6fdea6ce3b9d8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Techniques",
+    "gloss": "Various techniques for predicting material properties."
+   },
+   "prompt_sha256": "f752443f8dd8c5bf36bd2c3c581fabcbc9010fcff2895f46b56e775bb2599cad"
+  },
+  "71adc34a1e04d471aa87b99df8edf6329c4d4a49e287790696fc848a0ec5df26": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Convergence Criteria",
+    "gloss": "Techniques for accelerating convergence in calculations."
+   },
+   "prompt_sha256": "09ba4219ae2f0eccf4c257fa9453ef345c80d5fdb828f8b9369b487d7a4aba75"
+  },
+  "7247bbebeb2b3a15dab8260fd79cd0c1c6986b85e6faa18d19f3477406e3ab9f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Crystal Structure Discovery",
+    "gloss": "Challenges in predicting and discovering crystal structures."
+   },
+   "prompt_sha256": "97d5eb678de5d485a808e19e8e0053f94911f25e0b35491467c983947788429d"
+  },
+  "730bbc18de244cbf22401620d2351eef88977b58bac38a99079fb4bdb6f2e9ca": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Includes datasets, models, and techniques for predicting material properties."
+   },
+   "prompt_sha256": "72436913e9184ed0de8e4a54de1b3540190baa1fb10a0f67db2a998dbd365a03"
+  },
+  "7333289f3b7f0cd8ab9755d65673f15885b69054ab9db1bd2f558231f33fc52a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Fourier Transform Issues",
+    "gloss": "Problems related to Fourier transforms in materials science."
+   },
+   "prompt_sha256": "c9cc633b6a830546cd5811eeb8f28a06fbca4d7c637ed9043c2c7107f4deda48"
+  },
+  "757a51be5169a3b45c8fb4a25f14295043302edea0ebff936d9a9b2ddc3237e7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "DFT-Based Methods",
+    "gloss": "Includes various DFT methods and techniques."
+   },
+   "prompt_sha256": "be81ee8057294950f574f89e1679a8e0dea68f4f6009931e359cffc369b8a823"
+  },
+  "75e1864e206aa7bf670a5e08800c5264bbc7740ea8c071b2d4008699d4277f38": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Task-oriented Predictions",
+    "gloss": "Predictions related to material properties and tasks."
+   },
+   "prompt_sha256": "bb65a60b559a9301b2d347deb3cfcfc0c46cab17488d23966963f9ef28c7ff7c"
+  },
+  "76083ad475e1a1eb782cc8f5815cf6fee03974e638ff5f067eff112e0a83c438": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Equivariant Techniques",
+    "gloss": "Techniques preserving material symmetries in ML models."
+   },
+   "prompt_sha256": "58247cf1748a0193aa7c90d677fbd7759a7d5808077f0f4321216f028b3eecc6"
+  },
+  "760def775bdd8959b161192e7497b166735ef416400fde6cd4dd60ff112264d4": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Li-ion Diffusion Modeling",
+    "gloss": "Tasks related to simulating and predicting Li-ion diffusion in materials."
+   },
+   "prompt_sha256": "62385245ddd54331a1f4d1fdbfdbdf2746ae91d05d24ca8e59b69e5571231e0c"
+  },
+  "76da01f9739c6addb9d1b333cbda3744f6b31b0f25415b1c347bd91ae05bcfc5": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Diffusion Modeling Techniques",
+    "gloss": "Techniques for modeling ionic diffusion in materials."
+   },
+   "prompt_sha256": "91e171cf25b82ca718e0f95a862a52695ad3f17f295e3309d3c45b298df60292"
+  },
+  "76de50d9bafac1a476a5e9693197a15492d22354d5846592ae7e277eace07251": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Challenges in ML for Materials",
+    "gloss": "Problems faced in applying machine learning to materials science and chemistry."
+   },
+   "prompt_sha256": "dd6affed7f660663608fd8738129f54613830f04d91563eb214b85a5e03d9dad"
+  },
+  "776225128cc8a73caa736d1b18e242f7e509ef1fa13c529f054a56bda473c5f3": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Neural Network Potentials",
+    "gloss": "Methods and components for constructing neural network potentials."
+   },
+   "prompt_sha256": "0f2bff91f2bc5d5a5545dc453edbd61a44d8e00f1de23c28fa8d95939a944623"
+  },
+  "783da79db5866d77fbae8a2933ecf575c5f32849680450a1f1a4f7234043065f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Loss Function Components",
+    "gloss": "Components that define multi-term loss functions for machine learning in materials science."
+   },
+   "prompt_sha256": "f47b305652f860f2127b5d7b7619a8df7bff60225ba1c1c3922bd6fde8409d3b"
+  },
+  "7a14bd3dedaad50e856d5ba91099f4fe9e86658af6bd3ec5e7e227fa7bb2db75": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Crystal Structure Prediction",
+    "gloss": "Tasks related to predicting crystal structures using ML."
+   },
+   "prompt_sha256": "756b567de2be8f548d9fa8a1b3c80ae9cc3e4400e0dcd440956d3f509de78667"
+  },
+  "7b2a0122aa560ddb4826743cd1eca72d403b8c8219c09bd14f9208c17fa29c70": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Phonon and Defect Calculations",
+    "gloss": "Tasks related to phonon and defect energy calculations."
+   },
+   "prompt_sha256": "134189bd9fa1182fd55189a22baa675db81172e93289e7ce7ca07b384d2a1160"
+  },
+  "7c83bbb22b1d7349eaf1ca2d9da7009cff554254e538477417f139b218cab02a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Automated ML for Materials",
+    "gloss": "Techniques and problems in automating machine learning pipelines for materials."
+   },
+   "prompt_sha256": "39e1a7722156feb293f066fdb3c66faa869d960215b77f51ad800e4219f6b4fa"
+  },
+  "7f5ad727e2e4b4ecf87bd23aedbbc6e33cf845a351c1dde22563ff43caef9724": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Hamiltonian prediction",
+    "gloss": "Techniques and components for predicting molecular Hamiltonians."
+   },
+   "prompt_sha256": "a38d4130f776d598f6bb7735475f82c9e5a1036853080daf6992ebb430a344ec"
+  },
+  "7f89a4a49b772230b61e870134b49d2f164b856d8709fbd8c768be928a74d241": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Electronic Minimizers and Correctors",
+    "gloss": "Algorithms for optimizing electronic structures in materials science."
+   },
+   "prompt_sha256": "bdaf172eebb6a2b9318781f2ec1609d84abbc08becf5d9934577851298eb8014"
+  },
+  "806034ec2aba77e453de113d08af5ead85c8bca55f60fac17477b5efc69942e0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Crystal Structure Tasks",
+    "gloss": "Tasks related to crystal structure modeling and analysis."
+   },
+   "prompt_sha256": "30e63cff5f42222fefbde4bb9c438c2da16cdcbb4c476b60efa812896094e8d4"
+  },
+  "8179cbacc23f2f117f3640c53fe50fe20ed82036642f2518e6ec4512b776dc14": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Molecular Dynamics Simulations",
+    "gloss": "Tasks and methods related to molecular dynamics simulations."
+   },
+   "prompt_sha256": "390ac600b68088d36a2e3d81d37f4b68d741f399847e9ffba9b326b63ae789d5"
+  },
+  "82d6bda95409de7295e2ef895fa426f33c3d606a95af46532f28e2c05a5e7612": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Evaluation Metrics",
+    "gloss": "Metrics for assessing machine learning models in materials science."
+   },
+   "prompt_sha256": "6db2d4d96d6c3bc67bfb2f5178982bd95c3fbbfd48e3c8e0bbb57cf4a1ee17fb"
+  },
+  "838c2b38ba410a3a630b3709724a04d61d878aeac3831b643c4d74b483ff1c87": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Loss Function Components",
+    "gloss": "Components that define multi-term loss functions for machine learning in materials science."
+   },
+   "prompt_sha256": "a663585270d229f5ef8b92b3331d2422aeb934f8bcf7a8385ccf3915c1b3ba30"
+  },
+  "8459677318874aead4e6a2e343745aab4e1a67d46ac2051362786cf031a2b2a5": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "MD-based techniques",
+    "gloss": "Techniques derived from molecular dynamics simulations."
+   },
+   "prompt_sha256": "9542f2c77b4c176a4158ce40ef8dc2ccc6299e28c7b5945955bf371e14d3ffb9"
+  },
+  "84912db2cb80ce47cc4b7d9d3cf804165ed9821fe9328b88c3c1637f65e9d986": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Predicting physical properties using ML models."
+   },
+   "prompt_sha256": "33b139719070f3585c04e0006d510c1389a60c31d3188932bdc5670c62d0e9fc"
+  },
+  "84b389ef4832deaa2a2378bfc2473d9964a7221cd467031817b0ab63f3dbbeee": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Property Prediction",
+    "gloss": "Tasks involving predicting various material properties."
+   },
+   "prompt_sha256": "52b1b9212211a8278d2931618dd44d839f0a52f6c20af1ffe986a52c2fda5691"
+  },
+  "857cd5b0747e8d56e817a52d27beaab78597256f608992f95afdf5f7a467210f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Tasks involving prediction of material properties."
+   },
+   "prompt_sha256": "c69a60029d916adcf79d809ed24dc03dd85bd993ae52e0bfddab3085cf948651"
+  },
+  "86e14e8ce760da2ae7fa20fb7dbb8d62e04959a97fa30da31489823157324fae": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Force Prediction Methods",
+    "gloss": "Methods for predicting atomic forces in materials."
+   },
+   "prompt_sha256": "6b7eb5f6b060b3a3da0bb200eb19e0f0a50e6f0cf2c8f27f9a84e99e362592d6"
+  },
+  "8718d15f5d5a78e708d40973e1f3be05fedac8a4dfe74bb1a5b1b43d2a34295b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Model Training Techniques",
+    "gloss": "Various methods for training neural networks in materials science."
+   },
+   "prompt_sha256": "6dfecf7741e11b31c7c0de528ded1cb58fd93a4591e0cf9c45fcc92b2ec783ae"
+  },
+  "8743b41e9430915dc92a8d9ecd88872db2178482e5e722602ec954b292f137c0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Convergence Criteria",
+    "gloss": "Techniques for accelerating convergence in calculations."
+   },
+   "prompt_sha256": "df3ea87c208dcb50ca976ae8e25fc119bfb9835127ee3b64e44eb86870243722"
+  },
+  "8755967acb1bf8eeae2d4da5e807008c7c3724a33fe191575f08759f99ca4bff": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Properties",
+    "gloss": "Challenges in predicting energies, forces, and invariances."
+   },
+   "prompt_sha256": "3d062d4cfbe181253416d9212b4b426f4b348697d6d56c6a10e7c393754ff7f7"
+  },
+  "8846262e25dd689fe97471b2d15158ab42322a20bdb42dff8cecf025a731cd94": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Model Training Techniques",
+    "gloss": "Various methods for training machine learning models in materials science."
+   },
+   "prompt_sha256": "cc15c50b2227ca35f4b9d7485a0308d3866dd7cfe9a8a4e317689f531f561b65"
+  },
+  "8938f376e099404eca2234f3dbb2453bfe25bb91756b1fccd1a03058ddc18404": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Descriptors and Components",
+    "gloss": "Components and descriptors used in machine learning for materials science."
+   },
+   "prompt_sha256": "c6b7b70239f9f4563b0975cffdbd768c81691e401a95780883a46c9b87cd9ede"
+  },
+  "89b45ea6d1a0a67004e18fd1537cc087e1be8fc457722e6e5598085bafbf1bc7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-Throughput Screening",
+    "gloss": "Techniques and problems in rapid material discovery."
+   },
+   "prompt_sha256": "493437e847d61f126f20fa78b53f290c315555d49a88ffe0d2b33ba8a389a85b"
+  },
+  "8ad58a3aa31ee819e967038bad1d83dfda127e1156f6f1bd1507d8aa78587259": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Techniques",
+    "gloss": "Various methods for computational materials science."
+   },
+   "prompt_sha256": "d9c0e675894a50cce5fff8c67bcfcad0d53ebf17d85290691327ae6b03b28015"
+  },
+  "8b34b9134fa0ee3d1e64a595ecb159e0469c4f8b4df2315176f147e63e89cf88": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Discovery Challenges",
+    "gloss": "Problems and techniques in materials discovery."
+   },
+   "prompt_sha256": "747b491d8e7cd2b0bc809288772a0d3a6127b9737c498891dd150ce150574634"
+  },
+  "8b5e920354ca52f1feddf292443f6c8b73aec7b62947b36df849151b0f598ff0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models and components for crystal graph processing."
+   },
+   "prompt_sha256": "f3dcc540ce633f0395d00afe82b3b4f045124e0a9ea261c3f2728e42006d11cd"
+  },
+  "8bcb94cc821ceade208d3f0313f0c21ea9c670ddaf043c4ca35ae6bd415d3106": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Predictors",
+    "gloss": "Models for predicting material properties."
+   },
+   "prompt_sha256": "c27a242d270a061aee47cc328e235c6e27cb22fe6e78200235f339f59e665c8a"
+  },
+  "8bd9ae69f82386882d810db7f53512a5a436251f78e977fd5095b7ddf17dc5f5": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Predicting physical properties using ML."
+   },
+   "prompt_sha256": "a8977cfd0ef322f71dd07f479fed0e42ea6aa7accfd06227dcc8a4322a718cda"
+  },
+  "8bf3b2877959b913f9d8c17fe83b24f4ba3bfbe7cb20e4dbb70d5445a3b7f88b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Self-healing techniques",
+    "gloss": "Methods for automatically correcting errors in machine learning models."
+   },
+   "prompt_sha256": "d785ebae6f32b31d3113dce9fc801a799f554e9d93f0fe3ab08b75869f18e0db"
+  },
+  "8db92a2571edcc80cdaf3817e20affcd8e990d8b5b4a3ebe041bc33fb9efbfa8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "ML Interatomic Potentials",
+    "gloss": "Components and techniques for training and using ML potentials."
+   },
+   "prompt_sha256": "fe042b83b3cdd6540b3792ee49fb83f4c81b11402d0387a523fed3a64986d6a0"
+  },
+  "8e3377d382b679df17bec6ec1b94b93ae60ca93eb691a941dcc8e438d03f197c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Free-Energy Techniques",
+    "gloss": "Techniques for calculating and representing free-energy in materials science."
+   },
+   "prompt_sha256": "c3f6f04092062e9808785d50b61541cfb1dba972ef389f1aff4ac7ca5ca13569"
+  },
+  "8fe244d5d3db6e781d413cd523cddb2db40196fe98c236fdb75f9a36f461b68d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Network Components",
+    "gloss": "Parts of graph-based ML models for materials."
+   },
+   "prompt_sha256": "00c322a5ce064cd6b09a909696d0fd739aa5a6882926d2ba74cf71ea8aae5fb0"
+  },
+  "909e4b415b88b86224239563a6614ee16306a03b3af92bac65d3d1b6600ce0ce": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Feature selection techniques",
+    "gloss": "Methods for reducing data dimensions in materials science."
+   },
+   "prompt_sha256": "e982d2ff35ba69953c08a7b0746877618ed3f09fed71b86594b1d7071ee695d9"
+  },
+  "90d58bbd27d84f83e6970f6dcbe510423d9ec3410c4924daaa61e8eca6c2f56b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Matrix Reconstruction Techniques",
+    "gloss": "Methods for improving matrix data in materials science."
+   },
+   "prompt_sha256": "1e28dd0026a02cac827711b5f4ff94880f9f275ea07f5582cf7a26600cfa75fd"
+  },
+  "914ca0ad846f9dd685bce1dfee954c484fe47a2014c7a7be35d8dd03c1ded023": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Techniques",
+    "gloss": "Various techniques for predicting material properties."
+   },
+   "prompt_sha256": "9030782ba214b62166c0e2f6af4c931823a554ada13f02b2ffa1f8992e158608"
+  },
+  "91754103fb0849a1bb256b336668e005a83405eff6889feaeb376676daecada4": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Force Field Learning",
+    "gloss": "Techniques for learning force fields in materials science."
+   },
+   "prompt_sha256": "18ac31d5ed9630ac9393268d2cc122b3b502dfd10c51d6a5cf0d1032a5b4c4c7"
+  },
+  "91bf48ffc920fb4e9283ffd5ae89e740b14ac0a608ae74836259559bcefc138d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Automated ML for Materials",
+    "gloss": "Components and challenges of automated machine learning in materials science."
+   },
+   "prompt_sha256": "aeca95834d21640fda0846236c7c08ac08f7323b99087d90f84ecd57dca6acd5"
+  },
+  "91edf28390bd05784ff9adbcc4d9792687ff83a0d0b8b01ad451a27f5cc5ce3a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Stability Analysis Techniques",
+    "gloss": "Techniques for predicting material stability."
+   },
+   "prompt_sha256": "73b841d5317e0d92b7beca25137e45bc5cc90c13e2e7bc3f20b3741a6d309a19"
+  },
+  "920e881aaf8b306718e235a59b4edcda805c595bdb0056bce73e032652f3e9df": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Phonon Property Prediction",
+    "gloss": "Tasks related to predicting phonon properties."
+   },
+   "prompt_sha256": "846cef334fd59341c1d4aa68bdff71ead8bc991021374090f4b50e8134569c2c"
+  },
+  "93504dbadafe3084db27309f31f45a8451771c0419a0a85b42aa9f2d5ace529f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "DFT Hamiltonian Prediction",
+    "gloss": "Techniques and components for predicting DFT Hamiltonian matrices."
+   },
+   "prompt_sha256": "69e019d179e39a2d57fd3a6226e005fc7b0824ca1b2c32f37e48882f0012023c"
+  },
+  "93bb7a7aab68dde8b227f5723aa80bbd3338d642680ae237927092cc783adbd0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Matrix Decomposition Techniques",
+    "gloss": "Methods for decomposing matrices in materials science."
+   },
+   "prompt_sha256": "1cf36ee2283db50ed6169f58718cc367875385f1c1d65484ce0bf7c22e5f9e95"
+  },
+  "944bbaaa27487e725f21dccbc5b2eead65a8b5d4c57ba12450d8a31951da2db2": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models and techniques for molecular and material graph representations."
+   },
+   "prompt_sha256": "20e77a345c9b0f204563d401b733990880240d5fb798eb44081aa480ef1b6152"
+  },
+  "948b37211250dc337dcb35e28ffbfac12e24859d9e1a8e56d6aed1e978cd58ee": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "CGCNN Models",
+    "gloss": "Models for material properties and deformation potential."
+   },
+   "prompt_sha256": "0619f33bb0b07c160c3e6e0b4d3407f89498967857f991c64bb7e19749a9b4e3"
+  },
+  "94ca9c145e07ebb5b6643bf98c0100c5c2f741e67d3ba78a6257cf1d909facea": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "MD-based techniques",
+    "gloss": "Techniques derived from molecular dynamics simulations."
+   },
+   "prompt_sha256": "b34b5ee904d7d71d21638b1b5cc22a4adda5d320892bddbf970c87de0dfc1dfe"
+  },
+  "9767c6f7c7ed60e98840e6aaf01373158eb94ad4bf932fc742d4cee24955e700": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potential Methods",
+    "gloss": "Various methods for learning interatomic potentials."
+   },
+   "prompt_sha256": "3162857f2807fe5e08d74dca9573f2740c9ed28a5c8e0ba24dd99847bdaa3e4c"
+  },
+  "97a87c1b0812c9864e28efca5caf6dfd8a8a0eb0ee7d54d15e77747b33205858": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material property prediction",
+    "gloss": "Problems related to predicting various material properties."
+   },
+   "prompt_sha256": "3058e74659bc66c785416270d8577c48916cfc783b649dbb63d9fb1b61dd3f0c"
+  },
+  "990af4c2a5d47825f8a23e575db3af69b86f9f1b4ade84f8d78d2f5503fe76d4": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Evaluation and Optimization Techniques",
+    "gloss": "Techniques for evaluating and optimizing models in materials science and chemistry."
+   },
+   "prompt_sha256": "907a27454776fb8ccb454da3b434af57fce27729e2493d413b21da444b3a4e7c"
+  },
+  "9914723506b693ed2dfa7f1370415c80bbacf8a988eca06abd3b343aafb5ab61": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Challenges",
+    "gloss": "Problems encountered in ML for materials science."
+   },
+   "prompt_sha256": "bdd8d248fb1c351b0710570035b7fad1d824eeff969cc3726655eda96d03c029"
+  },
+  "99817d9b1e703177710bea7632c84b8227ce3efd39034fb91abfbfddede9917c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Chemical Property Prediction",
+    "gloss": "Techniques for predicting material properties using machine learning."
+   },
+   "prompt_sha256": "d1a04bc2cc80f50d7ad2a5c92feebd7bc8288ec50ebd4709548d29fb778efb1d"
+  },
+  "9992ecc133fe2e1de7292f6596cd4c1c20e3780b8c853117edd609212ef7b39b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-Throughput Computation",
+    "gloss": "Tasks and methods for high-throughput DFT and material property computation."
+   },
+   "prompt_sha256": "ba4cbe7660708d35fb71f3add162e82cc5cde55b97b740cacd91ed0c39cc4d1e"
+  },
+  "9a66b977132dacc5271c95e95f799b46599b81186f1649b17deda43210f8a8ce": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potential Learning",
+    "gloss": "Methods for predicting atomic interactions."
+   },
+   "prompt_sha256": "e1204cb1799a1c310b32596b5df16dfb0522ee065881d66444cf3c5266a2d4f7"
+  },
+  "9b2c7d3a69f2773076f0f7c3ff886c9350af9a6562af1e93cbd3f5a4baec2b98": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Surrogate Models",
+    "gloss": "Models approximating material properties using descriptors."
+   },
+   "prompt_sha256": "e63ba8a7948aa7a28864ab6ac88b05fa485e14c7edbd74cc28e8d3b0c32f7fab"
+  },
+  "9c883aac44fa27f79e2a14bf16c729dd7bbb9e702d922222619e81be99258f3c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Evaluation Metrics",
+    "gloss": "Metrics for assessing machine learning models in materials science."
+   },
+   "prompt_sha256": "c7c66a82e1e7d255f082617c5fca8a30a1196f798375a09f0574814f4267c2d0"
+  },
+  "9d7be95b1f4d044f3f490df2be837ffbe63290389a11e85ee03cd1c1687f880d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Components",
+    "gloss": "Components used in ML models for materials science."
+   },
+   "prompt_sha256": "284a9898d3966bd5d86b3277e98532b23798889729a5684741ba809c65d85077"
+  },
+  "a008cae2c7cfed6990213097cb1eb66494205580c3a11a374b9e35e71a397d2f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Fracture Prediction Models",
+    "gloss": "Models and tasks for predicting fracture behavior in materials."
+   },
+   "prompt_sha256": "67e3396ad6d1257e34db6b9173e52192ddab108f783453e91184d5d14c6ce1ed"
+  },
+  "a02c8c0efffe39ad7ee33b34aca207d6cff8688e563fbb153a2c845d8fde38a5": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Methods using graph structures for materials."
+   },
+   "prompt_sha256": "5143ceead7c41bddc6b69dad8b8bcec0517448d4322137f6ff1bdf65ec1c697e"
+  },
+  "a051c078c622d79cbd381e2e9470622adb4a32e71c496ead39be49145316ed9d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Defect Analysis",
+    "gloss": "Tasks involving point defects in materials."
+   },
+   "prompt_sha256": "4871a76e560ebad979f8763e668b003145f26a8c06d7387dcf11f723b7cc7ce3"
+  },
+  "a1283caa3a8c7bf7ecf4bf6efb415c9c067d6bf6433370e2ba5d46fb2bd09305": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Loss Functions and Techniques",
+    "gloss": "Techniques and loss functions for machine learning in materials science."
+   },
+   "prompt_sha256": "2b7017328766c0b64d8dd1a356d5101d8761f5b019a4f8a2ba96a2b64769144d"
+  },
+  "a1bef29b5b712153379b7033ec95a47f471c9dd7ea17d92e68c214a46a584f45": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Problems",
+    "gloss": "Challenges in identifying and predicting material properties."
+   },
+   "prompt_sha256": "3c81cbad822c8d9681064d6069872964cddfea8a8026c744d55845b5aa99be5f"
+  },
+  "a3f59b4c5b52f8ddae766abe993ed974158ef4ee53f7e4adada4c09319c90199": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Loss Function Components",
+    "gloss": "Components that make up loss functions for machine learning in materials science."
+   },
+   "prompt_sha256": "515371c1ab5507247dde9b92d0958110e2da56f73446c553f51a9f596279b736"
+  },
+  "a3ffc819836ed0689236cf5531890798359430e89ef39dd805373b90f94f7525": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Datasets",
+    "gloss": "Datasets and metrics for material properties."
+   },
+   "prompt_sha256": "2d4d993cb5dc20580b4ffa22a678002937543957d1c44b0c1c746286998c35d8"
+  },
+  "a4a1f4b12e418fe2f9b80b00432cefcc2e540ae589d1d010c466e4c9177083e0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Techniques",
+    "gloss": "Techniques for materials and chemistry tasks."
+   },
+   "prompt_sha256": "a61d42a9c7339ee1686a04ad73293317e572d5fd240bec95971c6ad8c5367bc8"
+  },
+  "a59ecf9cadf7fe2c6ebe355bdf15c7f9c879f7aded411ec5ce7f64ad879ba11e": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Predicting physical properties using ML for materials."
+   },
+   "prompt_sha256": "a14aa947764a124d6d08621d179a7dcd447b26e9fe0df714c8e50559ff376bf7"
+  },
+  "a5e2bcf2a89de717104411fcd6a69e47b826a903b51830273d247c5efe1237ad": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Predictors",
+    "gloss": "Models for predicting material properties."
+   },
+   "prompt_sha256": "d4d48be9f6c4ffa0cd1817656a62905d4f65ef8eea9b4d1e236fbf5f98631751"
+  },
+  "a76dcdf7359107c29a28db64dc08a5b71fe51686b88ca5b28533d632ae33d29a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Convergence Criteria",
+    "gloss": "Techniques for accelerating convergence in calculations."
+   },
+   "prompt_sha256": "92bd54f4316fcb2df91df255dab2ac3cd830e9b84f3ca15653ef585e647d1c47"
+  },
+  "a8aa3f15fcb089195145efab0ff5e28c4b4517331f9813610267794083a81201": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-Throughput Calculation",
+    "gloss": "Tasks and problems related to efficient material property computation."
+   },
+   "prompt_sha256": "ca1248c544853a3a1165217306924436988063020f22578637331496e0988824"
+  },
+  "a9dceae34d2aeca3ea5fefc9523ddbfcd71db23133851c2e5eb7f8739b426671": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Model Evaluation Techniques",
+    "gloss": "Techniques for assessing model performance and preprocessing."
+   },
+   "prompt_sha256": "c44949a9df1bdbeaa3f4fef8676474e11fe4d6731c0a3f12225871415adb62eb"
+  },
+  "ac266bbc867b38dfd3c3525b0565cde1191f7404dc3916542b52c356b136052b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Holey Graphene Design",
+    "gloss": "Tasks related to designing and optimizing holey graphene structures."
+   },
+   "prompt_sha256": "c9fd5efd05a52a602fe47530f9a7f1ae23918101bd779d9c53073fe93d4e53d7"
+  },
+  "ad7ccfe5fa519dc2d9c75210b3d5f05e3368c3ccea4de159cd723efa86f25750": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Network Components",
+    "gloss": "Components of MEGNet model for materials science."
+   },
+   "prompt_sha256": "6aa0bbbd67f5a56a5c4cd45e0fd4681181fb7399d6b1fb882f7b82da3cebc7dd"
+  },
+  "ada5cb5c7f4ac4ef8529320c8b0b1939c47edc067f7f7f7d6d75ddc149ad876f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Equivariant Graph Neural Networks",
+    "gloss": "Methods using equivariance in graph neural networks for materials."
+   },
+   "prompt_sha256": "9f81465fdb069fe2504d2e8cd62ce2263546ee7f43262621e7145d6d68d3994f"
+  },
+  "ae01ef70c4b51e91da91c880ba46a00939a1cbc62013241bba77eb3f0b1763c8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Automated ML for Materials",
+    "gloss": "Tasks and techniques for automating machine learning in materials science."
+   },
+   "prompt_sha256": "6a58fb3455cb86a3e58dd1bb2306d36990c3f57367515f05929c2ff384a52f63"
+  },
+  "ae6bf5918c42f88036f20a5da19c8da2f5031096b6ecc4cb7918f61f43375390": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Automated ML for Materials",
+    "gloss": "Techniques and problems in automating machine learning pipelines for materials."
+   },
+   "prompt_sha256": "40e6999b0716bd90576bae0ab06dd84d5271f2d3b5627e0eb4a030688f3ac587"
+  },
+  "aec9843e4bc402bb21197121fb3303e57f0b2043505eaf69432fd040c8549bba": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "ML Model Components",
+    "gloss": "Components and layers of ML models for materials."
+   },
+   "prompt_sha256": "31db4c804f3dcc77adf376805f13f211809fcd1ef928af2bcdfad46a1bff2c2b"
+  },
+  "b1249cabf6dbd2aeeb4e1d99f6e6ba7e902d1612af964177232a45ae74933a90": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Loss Function Techniques",
+    "gloss": "Various methods to define and modify loss functions."
+   },
+   "prompt_sha256": "1e2df2b7043b1b0e0169732b9453e791435c09758d8abed4f690190dc77924ea"
+  },
+  "b23d3992352bfddf1413fe1c04c234d78f31854d1dccf4d799fd2f0073cb33b7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Fracture Prediction Models",
+    "gloss": "Models for predicting fracture behavior in materials."
+   },
+   "prompt_sha256": "2f5352464342c3e74f6d97014d5a84df13dc9612a6744ec593ee174d4719b31e"
+  },
+  "b42502271ccd17e5e09798e05c4e65b6c70b584a43c391f4d1d2f478ef628fa1": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Model Components",
+    "gloss": "Components and techniques for machine learning models in materials science."
+   },
+   "prompt_sha256": "d68eec85b836e4fd6b69fd65c2fb1f0cd530b6b0e5a4af0414831c92b6a5ba38"
+  },
+  "b46091093c028f5765d953b858c05596b72c1fe7ea4d8bec08e876fe674dfbd5": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Techniques",
+    "gloss": "Various techniques for machine learning in materials science and chemistry."
+   },
+   "prompt_sha256": "1975b1902fd91a14e1139b37eabbfc7126020096dbe7193dc058e41767b6a0fd"
+  },
+  "b49a1473414be1263e6409700cfcb3b20c348ededc5c37a9216a79a660d2538a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Amorphous Carbon Simulations",
+    "gloss": "Tasks related to modeling and simulating amorphous carbon structures."
+   },
+   "prompt_sha256": "3aeca66a236ddccb9eac8f1c3cdc5fdb3221f72318ee08a69c5de6f82f9a6829"
+  },
+  "b55cc5ee425e44f3c961bbf9aa762f30ee73dad9706337a8107aff0f4668a460": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Phonon and Vibrational Property Extraction",
+    "gloss": "Includes methods and tasks related to phonon and vibrational property extraction."
+   },
+   "prompt_sha256": "d887ef0b4230971e57ff2d9ce2cea4af03a6a543b09ca25767625b91926dfdf8"
+  },
+  "b5a973a921e45f8367e6fecd5c177bf7db40ee396915a30f05427e4863782253": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potentials",
+    "gloss": "Methods, tasks, and problems related to machine learning for interatomic potentials."
+   },
+   "prompt_sha256": "174f516c8bbcf110b230ce4aa2bd73dc73fc5045454785e5b249359c07c59af9"
+  },
+  "b606c208e54314f480c451e9894926ad39600434598d21388adb794f64157a48": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Self-healing Techniques",
+    "gloss": "Methods for handling errors or inconsistencies in machine learning models."
+   },
+   "prompt_sha256": "9615edc3d2d388fba26ebe3de20967440fb64c1578f6f82a0b120b5d60113b1f"
+  },
+  "b7ccbb62273627652bb4cdb7f0ae852954b28d8e8d70d207959454edd7a9897d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Fourier Transform Issues",
+    "gloss": "Problems related to Fourier transforms in materials science."
+   },
+   "prompt_sha256": "368a228e9c64b98e4de29516116b9599c4cb8fe81565dd215bae583f1437b2f5"
+  },
+  "b83a95988297a57ab62a3420eb7734ca22cadcfb36a2d7c0110a7ba55e01ef2d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Task-oriented Predictions",
+    "gloss": "Tasks include property prediction, screening, and stability assessment."
+   },
+   "prompt_sha256": "40afb4bd41e504b049c8690302e6e07141478745fa1f71f319ad1b99662d076f"
+  },
+  "b87ff58b4b7c555bd1dd8241df166324b487f63351237bf68c88674477248d3c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Loss Function Techniques",
+    "gloss": "Various methods to define and modify loss functions."
+   },
+   "prompt_sha256": "4dc63dc8cf0958f614ddac4b1bd9bbf3d586916bc78d80de249a0ad6f80f3217"
+  },
+  "b8cf4434cfb4ebb83ade49f5fb61d0be3018fe79bd8c955a40c51572d1f8942e": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Optimization Techniques",
+    "gloss": "Methods for improving model performance and efficiency."
+   },
+   "prompt_sha256": "97892ba4db34cc33b1d3c41931801b4c227b930e2d5913e56f261fe9c43e8cef"
+  },
+  "baa489490c448a7232093c76ffa0f951f43f032d14895b3c6575d550689110e0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "ML Techniques for Materials",
+    "gloss": "Techniques for training and optimizing ML models in materials science."
+   },
+   "prompt_sha256": "691a6052a2ce44380ba2750700d19cdbb86c9f4674e0b56d8755e16949ec125d"
+  },
+  "bcddc13eb1d9f061c93ee300576249abc8b9480d9c1570ab2c4456c98fe3686e": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Crystal structure tasks",
+    "gloss": "Tasks related to predicting and discovering crystal structures."
+   },
+   "prompt_sha256": "3465e9c17e0d281bce70f712890372804da37c2c9c5e9ec515bb3e7bd8ed61dc"
+  },
+  "bf5540d4da43f61ee6099c5244538b25d825744f7e1cd6a8370a508207ad2402": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Adsorbate-Related Tasks",
+    "gloss": "Tasks involving adsorbates in materials science."
+   },
+   "prompt_sha256": "7d643be1b5fb663c17d913bb20b2532e1b287706ad755d24192639d51b1d0d42"
+  },
+  "c13a661077ae161041ada4bfcca87e75a06c5af68ea7eaf3eb887d9a988a3617": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "MD Simulation Tasks",
+    "gloss": "Tasks related to molecular dynamics simulations in materials science."
+   },
+   "prompt_sha256": "b820f3b2e078ad7b400a9e9eca9d1aa9a56328b4289d6f52a8c289c95ccfa211"
+  },
+  "c1d5edb593642e50ebab57923876419066b3c3e8e544fb7c05435f14a586d860": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Amorphous Carbon Properties",
+    "gloss": "Datasets and metrics related to amorphous carbon."
+   },
+   "prompt_sha256": "e27c687a7470edc988595b904d4deca0ad6cc7c314e3f7981319e032a989ad8a"
+  },
+  "c2c254b602d63534f1d7471639ad98ea3b0d9275e36d9abe71f4717be63d349d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Metrics, tasks, and components for predicting material properties."
+   },
+   "prompt_sha256": "019738a9bd2039c4c12531c62b7fb589fdd330e9a77b929bd759c416b916447c"
+  },
+  "c4a70b37efb58e3bad0f04ff61d0ecd4dcf2777d6966193ab1e6c469a5cc45bb": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Equivariant Models",
+    "gloss": "Models using equivariant representations for materials."
+   },
+   "prompt_sha256": "590387194a3564d4a47b97923ab8c8e07dfd21762b21698a42b06ce945dfb9f3"
+  },
+  "c6dfe0e2a5674310d422a7225faa21d4325c36a1c37b36f5cb5c8e761e176673": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Tasks involving prediction of various material properties."
+   },
+   "prompt_sha256": "9f0da0d01055edc8455fe54241e7beb3b088a797759e05d98119a4c60f34ede1"
+  },
+  "c85cbce6fa169b88fe55b3b7ab43cf67a6e274fbbd991e6bc7beed556d6819f9": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials property prediction",
+    "gloss": "Tasks involving prediction of various material properties."
+   },
+   "prompt_sha256": "fd85cd9d0e79e0032a716041d332a0567dff3ba2179609717de5db9b19a5f3f2"
+  },
+  "c8c2364a39836a6a96cbd590e19bf76ddfa3da84022c3119f6114a4fc924aca5": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Loss Function Techniques",
+    "gloss": "Various loss functions and optimization techniques for machine learning in materials science."
+   },
+   "prompt_sha256": "329767451e451bb3c110b2d32fbf3221e3fed0d05d1d9c1797c27a8cdc603476"
+  },
+  "c8e480117d16723997e4ec9876353f2d89847a3e01f653037b11591723c979ff": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Computational Challenges",
+    "gloss": "Problems related to computational efficiency and scalability in ML for materials."
+   },
+   "prompt_sha256": "57ef498e2ef201156711d55eadf59356b8c03063b2cc652b6a32b29688aaa352"
+  },
+  "c9b06a881cffce9ec501327b2b095d970155224d0d1a8375e4c26b06bfd2310c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Force Prediction Methods",
+    "gloss": "Techniques and models for predicting atomic forces."
+   },
+   "prompt_sha256": "e246030261df356973e74fda898271bb14d1f367f233f70a2eb85ea09fc4394e"
+  },
+  "caa327971983feff6d9a91d37501c87fed94826c6000dd59b68d26ad7222cbfd": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Filtering Techniques",
+    "gloss": "Techniques used to filter materials based on various properties."
+   },
+   "prompt_sha256": "399741bdfcaef3dde885d77ae744a44d1b73bb9bdb59118afb96722b8b19aa74"
+  },
+  "cbebe8c6fe1eaa051edae243b851bd9b78d7fa3ede8c78e5b7be30edac8db42d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Phonon and Elastic Property Prediction",
+    "gloss": "Tasks related to phonon and elastic property prediction."
+   },
+   "prompt_sha256": "e1d4051c70b749142ccd362b06620244b2f892f1602c4dec532dead6a2b0dd2b"
+  },
+  "cd7030269af30fd9b5339ef26fb7edb4a5dda1326d9789ef11b6566db5cbd9b7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Density Functional Theory Methods",
+    "gloss": "Techniques for electronic structure calculations in materials science."
+   },
+   "prompt_sha256": "d1f134edcdd00309cfc1c3f75ea1d61a579e41f2243375253c6808a07d777128"
+  },
+  "cd7dd408d67551bfa3ffa91d85ee699a713e87953a0b8b131c306d82f4dc79ee": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-Throughput Materials Tasks",
+    "gloss": "Tasks related to high-throughput materials discovery and screening."
+   },
+   "prompt_sha256": "9cd7a6cc3907dee4119a162e1fd79b11d1d947aa0c3fb8cdfb7e7fcded455121"
+  },
+  "cd97b09abd6532cfca9301e30ae28a6387391d0fe1c76d0275002eb15617d900": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Challenges",
+    "gloss": "Issues related to modeling specific material properties."
+   },
+   "prompt_sha256": "91c8a00afadc8101b4fe944c3482120d1ea8f1b8db0c926f5cb1e1cb8baba94e"
+  },
+  "cef0b7ffab95c62087bc905e105a840033e6f56f5c1d5100efa65b12b3792df8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Energy and Force Prediction",
+    "gloss": "Tasks involving prediction of energy, forces, and related properties."
+   },
+   "prompt_sha256": "9a905e5eed0e35224d46107c90c1d1c884c3ab4d4daefa0c43098e94299102b6"
+  },
+  "cf05a90873010d1261ce0eeb552e173b7e75a23c0d02987145387b3f07f43916": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Predictors",
+    "gloss": "Models for predicting material properties."
+   },
+   "prompt_sha256": "aa24e42465523ea3105d3484bd8a9578eaafd839510b75835edaedd72e191c77"
+  },
+  "cf0f47564e92f8817cd79a78e74d66992253ff6107ce02944b980615e1da0c5d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Temperature-dependent property prediction",
+    "gloss": "Problems in predicting material properties at varying temperatures."
+   },
+   "prompt_sha256": "7227ce1a5f7633db558cb5def0e02c64284e5bc7c70c9b5fe6509a49bbfe59e9"
+  },
+  "d187f91b0e3f53118d9570f1dc1fa05f4c81772efd28b04ecfe2e6d2b2697f76": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Defect Analysis",
+    "gloss": "Tasks related to point defects in materials."
+   },
+   "prompt_sha256": "fa79d701f79da80276ac4de63c90882574e22d00c3faf20bc1996b0f4be5932d"
+  },
+  "d1f49ff84554a2dc18d6e16deba92dd5d2578167e6849e6604dbe1c289d5400b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Predicting physical and chemical properties of materials."
+   },
+   "prompt_sha256": "2699f9bd82a75942a4aea35f0a84dddf01901b7e4cbfa9aabcfa9f58230a7821"
+  },
+  "d21a966ac94b79f3a44ba8a39b49850be7b1a37bcce7d8daab99c886f31befff": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potentials",
+    "gloss": "Methods and tasks for generating accurate interatomic potentials."
+   },
+   "prompt_sha256": "b9ce2afc79f72a22fb16558de572433b8ed531e6bc82338144af630b81616afc"
+  },
+  "d34a44a9c3e62e15e282ba094cb07ac4f2b5231388277e73ce12ce7452cb788c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Tasks",
+    "gloss": "Includes various tasks in materials and chemistry."
+   },
+   "prompt_sha256": "04f06e33d6bc26b99ed629df1f793948b49c6df69aa4e127b203e2790a111a6d"
+  },
+  "d63ef9155447926a47f852ac39b87f6c76402dea871226c10f521e89f68c4e26": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-Throughput Calculations",
+    "gloss": "Tasks and problems related to high-throughput calculations in materials science."
+   },
+   "prompt_sha256": "0055f939c750b9763e334dcc973b12fd7b8aec56833e6773ca936a09fcbb9582"
+  },
+  "d686bf4d65eb739828d73060bb3e54d60f9c22f8258c2e109c074ad7e1b4a269": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Automated ML Pipelines",
+    "gloss": "Techniques and components for automating machine learning workflows in materials science."
+   },
+   "prompt_sha256": "2e519a8cdedddb9048f821f5b1c822a6ce18b2b0af4745f1e20fb1d4ebab47d1"
+  },
+  "d86c2b15ca664fbfa73833d463abaca927d79c3ea4b6b4c2dcc6d6ce8d39edeb": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Heterostructure Design",
+    "gloss": "Tasks and techniques for designing heterostructures."
+   },
+   "prompt_sha256": "cdfc641054fb5275f70b69e97fc35d77cf637b7c4674206fa331941a5f213c17"
+  },
+  "d9a3bc400676c2ef38e116936f49ba88ea162036586fd6093cb48b13d66e32a3": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Structure-related tasks",
+    "gloss": "Tasks involving material structure relaxations and property predictions."
+   },
+   "prompt_sha256": "d8469a6fe94d58dd2350c46e22888cfc3e443140e55b7dc772184e2e83d8cb20"
+  },
+  "d9d285f25c6148aa288b96f9278c367bc9d7ba20e8441c920de1499e8ec90fd8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Neural Network Methods",
+    "gloss": "Models for materials and chemistry tasks."
+   },
+   "prompt_sha256": "f2d929c82676b2c39c481a58ecb75bc2fac3457b8ae8e72a6bd3703aaea47d9b"
+  },
+  "daa70ddcc0be7168cf4189762ee83bd16b0ed599616e675bbd1968c56ba71286": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potential Methods",
+    "gloss": "Techniques and methods for developing interatomic potentials."
+   },
+   "prompt_sha256": "768f47abe206a085f7b14dbd91f36710743dc96a651fd9a56d3722900547648d"
+  },
+  "daf0e798d74f40f211c8e63f1671aa11457e07839bc9f15006929a492653a44f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Atomic Property Prediction",
+    "gloss": "Tasks and techniques for predicting atomic properties."
+   },
+   "prompt_sha256": "3e8be9e9ab2ca83f45866c10f00a66a20935bda043c52b9e88146d65d95aa70c"
+  },
+  "db50ae779930d2ddc134016132d8f6bf8eabbf7b98a7a461f61936a86aa441e4": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Predictors",
+    "gloss": "Models for predicting material properties."
+   },
+   "prompt_sha256": "fa63d1c69e23a8c24dc10306396ddf0b30a90b6c16e34637be7a8463ae79a8ed"
+  },
+  "dc97b124baf2631e6a09bf88cdca5d3f9a5ae7f3d823df47bb041d44c53b6a59": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Metrics",
+    "gloss": "Metrics for evaluating material properties."
+   },
+   "prompt_sha256": "dafa406e97907ab97cb16b0e6c457026a615f0f3e52b134537a957c7f1e5846e"
+  },
+  "dd1fc121457cc4b653c8a013e9afddf24c934c027d8635f444560774c68811e0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Quantum-chemical fitting",
+    "gloss": "Tasks involving high-level quantum-chemical potential fitting and data biases."
+   },
+   "prompt_sha256": "dd768d5a6516a32313c949329e93e6989dc573d5169c7f6161443b2e3d811dc5"
+  },
+  "dd83a30786676874e879a96c54119ba76279027ffeee0d56fa898dacd5a2227a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potentials",
+    "gloss": "Methods and tasks for learning interatomic potentials."
+   },
+   "prompt_sha256": "8f133586cc1f9ce094e97fec67638b3b2a9d63c3363c758cf7e0bd29a203d75d"
+  },
+  "dd8419210f2d42d1ce142ad5e5ed2ac443fc0dc11aa156a66178ab4b628e0170": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Property Prediction Tasks",
+    "gloss": "Tasks involving prediction of various material properties."
+   },
+   "prompt_sha256": "87ac13a9a30f18ac2b01f3749fa84f66fb05e954e0569f94965a2cecbf69fd1d"
+  },
+  "dea28179dfcd2971b0f491355d8c011e6a74e2cbf52547dbbc02cab92645988b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Energy and Force Prediction",
+    "gloss": "Tasks involving energy and force calculations for materials."
+   },
+   "prompt_sha256": "f4c9c4116c08224893f621494603d25654f08ee2a4075a11b64e965571f27953"
+  },
+  "e113dbd27a3eb3377dae7296fb83f6ab7f8a648d6ffc02d52e0873d89e552364": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Matrix Reconstruction Techniques",
+    "gloss": "Methods for improving matrix data in materials science."
+   },
+   "prompt_sha256": "05f0cb87733ce797a402d033441c6b3c9857681c9e65a76672cc5b00d3cca13d"
+  },
+  "e1c6ffb9b7e9e8f93c73d29a4a1521f0376f9fed13b68cf5dfd7cd75e5051502": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Equivariant Techniques",
+    "gloss": "Techniques ensuring model equivariance in materials science."
+   },
+   "prompt_sha256": "db105a7992f3aac47960eb06dfb17f8f3abc75291f9cb516f38a86962d788b0e"
+  },
+  "e20634bdb78b51a1043b082616b1bd6c960dc01992e0a6af6de9fe28e71ec8bd": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Property Prediction Challenges",
+    "gloss": "Challenges in predicting material properties using machine learning."
+   },
+   "prompt_sha256": "9e34bee6057c6158fbfddf574c707deb06edbc30331a68cdc374ff19a45d5548"
+  },
+  "e3aae119236155a92427e74717dee4278107433761b19b18a669944680023fa8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Tasks involving force, energy, and stress prediction for materials."
+   },
+   "prompt_sha256": "6da2c9284d5a1090b5d95edf31e6162d6f4aa754cfeb1d868822b1b4f72b1ae7"
+  },
+  "e417088b20e04040fccc86b6bc8842dfe50fd8c2b5136e497c0154d0345bb5f6": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Techniques",
+    "gloss": "Various methods and strategies for using ML in materials science."
+   },
+   "prompt_sha256": "79e68fb68b7fce9ca28850f12a652065108bd3dcd79d7d89844aa21b9ac03cc6"
+  },
+  "e451a8cc13c33d3a14f266369ac80732b41698b18cb820c18e96c30a4dfde90e": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potentials",
+    "gloss": "Models for predicting atomic interactions."
+   },
+   "prompt_sha256": "d029094ee69c837fbf7e6ff819472ab7d42e17ec27ed405490d47143393dd5a0"
+  },
+  "e54f5fe5f663e4d632491de0cfadb561d12d3cca80e03747aad383790522c457": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Adsorption Property Prediction",
+    "gloss": "Tasks and problems related to adsorbate-catalyst systems."
+   },
+   "prompt_sha256": "edbe6554a33de64d6ce19b87ac0832ae216817f0058e12ef6a5c3c30325bd9b6"
+  },
+  "e62347508e68d4c1baa67b866fe934323879eae0cd563a9d2b3ddb1ade047410": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Property Prediction Tasks",
+    "gloss": "Tasks involving prediction of various materials properties."
+   },
+   "prompt_sha256": "eef44767e1d307c8d47566de7f9b7cc87dd7f785fe79386c769c12edb6623162"
+  },
+  "e64dec718c0b8984d4f2a5e7f77b958f8314bac7497d6a4bad7f1bd4baa3d964": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "DFT-based methods",
+    "gloss": "Density functional theory methods with various corrections"
+   },
+   "prompt_sha256": "be0aa12d306469fa6fd168695c997c9ebf4126bb42a7701a2f38bdd8b4f371af"
+  },
+  "e7cdc300bfd53c872b9fcd2738486260088e011e5decc95bc8dd732a026beb51": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Model Evaluation Techniques",
+    "gloss": "Techniques for assessing model performance and preprocessing."
+   },
+   "prompt_sha256": "bb620be30eb3febdee17ab2a0be01686e269836fff26af6c1f61b5b73e40ce67"
+  },
+  "e929ee73a52ff2c982bc7e49b26545f87b47b74f539fa4128bbddbc186ba0c0b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Methods",
+    "gloss": "Common machine learning techniques and tools."
+   },
+   "prompt_sha256": "248dc6ef6f486615584a49ea923266036127617d4f56af797ab781d352212f27"
+  },
+  "e9b8d65fb6fd98db992b61d136434546a8e8c72dbcbe392f49a2019c40e9b954": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Electronic Minimizers and Correctors",
+    "gloss": "Algorithms for optimizing electronic structures in materials science."
+   },
+   "prompt_sha256": "5daaa39f8a4bcaf6a9772aa2e70748cfc13fe1f59cfdff411a49bc7ceeeb7d05"
+  },
+  "e9f567d881368d316fe4c0c12c1f77b19e87df30f67c4521929f6b7dba709f55": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Training Challenges",
+    "gloss": "Problems and issues encountered during machine learning for materials science."
+   },
+   "prompt_sha256": "3835b1cf0934ef918299f31e94408f2a6254237c860a21dcca217227e056f7e1"
+  },
+  "ea2ec088d6cba2d026171d1bb606dd5bbac70e59fdc698d8bb5297b9bb3d47d9": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Li-ion conductor tasks",
+    "gloss": "Tasks related to identifying and simulating Li-ion conductors."
+   },
+   "prompt_sha256": "e10b7a9a8fcd3f8747ead78e091f5009e075a22c47d414df66d1a9b2dc6aeded"
+  },
+  "ea51f9281ad592d59aab0588874f26913a42e88f8636428e838813e08ee6e78b": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph-based Methods",
+    "gloss": "Models using graph representations for materials or molecules."
+   },
+   "prompt_sha256": "230d37a9eb9c0bf8874cdc075517098b2a8499ab36cd437c17ae05951d7ecb1e"
+  },
+  "ec84cd5221164b0b283534c9f667c9e9f631a4e20029f57df804269e204d783a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Task-Oriented ML for Materials",
+    "gloss": "Tasks include property prediction, structure discovery, and reaction modeling."
+   },
+   "prompt_sha256": "73f4ac84d07c5c2a282dfeab5ab271af8c9325069fe2d350422e4e3a6b8eaf98"
+  },
+  "ecd4fe1499a8570b109ea6c155d8d5fd0fabc9d1cb3d1cef6b8ca9313f0615ae": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "DFT-based Properties",
+    "gloss": "Contains datasets and metrics related to density functional theory calculations."
+   },
+   "prompt_sha256": "af181899edd91eb1d3e9356d651cbca09f187d31556ebeb0872c0b0245725ca3"
+  },
+  "ef378dba46948971fcf57efdd7a3399d615b7b4bff2f77c89439fd3b792fe08f": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Amorphous Materials Challenges",
+    "gloss": "Problems in simulating and predicting properties of amorphous materials."
+   },
+   "prompt_sha256": "7a2085b922cbc5dbcc58884820bfa93e73e70d197133e939f6757da7782747e3"
+  },
+  "f09b2d99b9a5a2219818e361cc642626eb13575e10da0a979c56a44d2c00b1a7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Surface Cleavage Techniques",
+    "gloss": "Methods and components for simulating surface cleavage."
+   },
+   "prompt_sha256": "57e7904b264560ca6439f57a686353697a12806bad5d46535b4ffdcae230949f"
+  },
+  "f0d079966e7cfbd4907c2e988fd02d6b5149cd92af2c927eaa73e2a1ca9ce2a1": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Automated Material Property Optimization",
+    "gloss": "Techniques for improving material properties through machine learning."
+   },
+   "prompt_sha256": "76fa05079ed83aaa05d8d633762eef39c673cf5706221a9aabfedb5ba9d3fb3b"
+  },
+  "f14dd4d859afcf77f79efb77e1ea01d393622a16313d3bd5d507f2c5743539d5": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph-based Methods",
+    "gloss": "Methods using graph representations for materials."
+   },
+   "prompt_sha256": "570d54324b67d87ac3d5a8257b53b240f5cf5c2ca372e1f642f54b5e177e59ae"
+  },
+  "f1bb05631d9f6ed9d4f2555aebe456f356ebb579248292cd63b8a0f11409582d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-Throughput Calculation Techniques",
+    "gloss": "Techniques for efficient materials discovery and property calculation."
+   },
+   "prompt_sha256": "cff812d3d0d0cc5d0d4b107c5e83a11c22efb50b56a0cfa0e254b00ed6039677"
+  },
+  "f1f62bffe046012145232d1e679366718985623311cf77b8a9b65f29f8354836": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Force Prediction Techniques",
+    "gloss": "Techniques for predicting forces in materials simulations."
+   },
+   "prompt_sha256": "0de7fa5597eee7b1e9ff8752d93c08ade71f3d3a7ea05b2f4527f72e1e923f0d"
+  },
+  "f20a456d2f2442653e8d22dceaab519d7cc55ee7e6fa4f002c5c56d27722aa49": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Problems",
+    "gloss": "Common issues in ML for materials science."
+   },
+   "prompt_sha256": "a49b21a1d9f826a784d62a4fe1cb2f57b7f37c94f7c2aef7f0f4f15c3bee38e4"
+  },
+  "f273d85145a600248ab6d295091c1b1bc26953281e833a78885cc82addb9dc6d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Regularization and Evaluation",
+    "gloss": "Techniques and methods for model regularization and performance evaluation."
+   },
+   "prompt_sha256": "bb8a526ddfb73988084685ea8efbd35f05a6dc9acc7a697acee197f4b510c60f"
+  },
+  "f3948481789acc25a6d7f77a0b666c090428cfdebd30d9617b71af2cadaa8196": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Machine Learning Techniques",
+    "gloss": "Various methods for computational materials science."
+   },
+   "prompt_sha256": "4ff2483d9351063b1c995ef1bbd0d14d2869d7f2226d180acb79790a070da677"
+  },
+  "f3dcae78bf21a929f979d51963d283759a9b34e38fe4254f2e3757f6c51dd66d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Tasks related to predicting material properties."
+   },
+   "prompt_sha256": "88744fb71b33e44a860ba214d3c84092a846d9abbd23d21c28e578509aed2388"
+  },
+  "f745574770f91598eb2b36599db6cca09b1cd0dc152f758e7e254e27f318323d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Amorphous Materials Simulation",
+    "gloss": "Tasks involving atomistic simulations of amorphous structures."
+   },
+   "prompt_sha256": "72205c3af28dc277f25011ff478b00ef9df0a393b1beaa89cb9ee4d865523592"
+  },
+  "f90ac3b04343d6e1762c0962711cbe4cf9be0f9ebfdd39441e67cc140d81fa42": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Featurization methods",
+    "gloss": "Various techniques to represent materials for machine learning."
+   },
+   "prompt_sha256": "a8789511005acd3fffa8d2d20d4d564e032164e3f525fa6f9731b6ac97504334"
+  },
+  "fb756db12677473f5942bc330ab8fa55c74ae90a36f5c79d1bef068ca7903bf6": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Components and techniques for MPNNs in materials science."
+   },
+   "prompt_sha256": "b754b4e1caf6325bc919a547fb6e5959c8ab450cf9830034d8e1f13123c665de"
+  },
+  "fbe834203492876fe2d20ce5b6758349498efcb39a828c4d96d8381da5f63594": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potential Methods",
+    "gloss": "Techniques and methods for constructing interatomic potentials."
+   },
+   "prompt_sha256": "d9fce4094fe6f566791116bf76ecf2f59af48b90ce247bbef1c74a517d77b62f"
+  },
+  "fecd4b053de177b528ba115762b91066302844c30e085ed6d1d94580636ee84a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Material Property Prediction",
+    "gloss": "Tasks involving prediction of material properties."
+   },
+   "prompt_sha256": "47a5cfc8d7ac295566e968c0209581e16c121156d9ed182f4217998ee8ad7cbe"
+  },
+  "ffb7d69fbbb36a8b20cb294790c2a453e51a1c99a1bba4ca812622cb936155e7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Feature selection techniques",
+    "gloss": "Methods for reducing data dimensions in materials science."
+   },
+   "prompt_sha256": "e5ddb260ca8447bad8552ad7e56717fadc78c722506f0430bbff49096f77accb"
+  }
+ }
+}

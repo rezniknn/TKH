@@ -35,6 +35,7 @@ class Toy:
         self.cites = {"p": {"x", "y"}, "q": {"x", "z"}, "r": {"w"}}
 
     coupling = Ruler.coupling
+    _coupling = Ruler._coupling
 
 
 def test_toy_lift_by_hand():

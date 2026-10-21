@@ -21,6 +21,8 @@ freeze = { freeze = true }
 kinds = ["struct", "sem", "full"]          # 2x2 cells besides the model itself
 R = 20                                     # replicates per null kind
 random_labels_R = 999                      # random-labels permutations for E1
+random_labels_R_e4 = 99                    # random-labels permutations for E4 (one drill-down per question each)
+random_labels_e3_seed = 0                  # the one random-labels hierarchy that is labelled and judged for E3
 
 [stability]
 frac = 0.10                                # share of clustering-relation edges removed
@@ -34,6 +36,7 @@ jobs = 8                                   # parallel builds
 [fast]                                     # FAST=1: a quick end-to-end run
 R = 5
 random_labels_R = 99
+random_labels_R_e4 = 19
 seeds = [0, 1]
 null_R = 2
 stability_seeds = 10

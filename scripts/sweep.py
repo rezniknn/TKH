@@ -44,6 +44,7 @@ def load_eval(path, fast=False):
         f = ev.get("fast", {})
         ev["nulls"]["R"] = f.get("R", ev["nulls"]["R"])
         ev["nulls"]["random_labels_R"] = f.get("random_labels_R", ev["nulls"]["random_labels_R"])
+        ev["nulls"]["random_labels_R_e4"] = f.get("random_labels_R_e4", ev["nulls"]["random_labels_R_e4"])
         ev["stability"]["seeds"] = f.get("seeds", ev["stability"]["seeds"])
         ev["stability"]["null_R"] = f.get("null_R", ev["stability"]["null_R"])
         ev["selection"]["stability_seeds"] = f.get("stability_seeds", ev["selection"]["stability_seeds"])

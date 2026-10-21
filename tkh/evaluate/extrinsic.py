@@ -130,9 +130,9 @@ def score(order, costs, targets, wrong, budgets=(50, 200)):
     return out
 
 
-def evaluate(tkh, cutoff, levels, questions, targets, budgets=(50, 200), baselines=True, hub_frac=0.2):
+def evaluate(tkh, cutoff, levels, questions, targets, budgets=(50, 200), baselines=True, hub_frac=0.2, index=None):
     """Rows per question for 'hierarchy' (and 'flat', 'ppr' when baselines=True)."""
-    index = Index(tkh, cutoff)
+    index = index or Index(tkh, cutoff)
     rows = []
     for q, t in sorted(targets.items()):
         tg = {v for ids in t["expected"].values() for v in ids if v in index.pos}

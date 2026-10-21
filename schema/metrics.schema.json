@@ -1,0 +1,42 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "out/metrics.json: every number of the report (written by scripts/compute_metrics.py)",
+ "type": "object",
+ "required": ["meta", "rows", "tests"],
+ "properties": {
+  "meta": {"type": "object", "required": ["selected", "selected_params", "fast"]},
+  "rows": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["family", "metric", "variant", "snapshot", "level", "stratum", "split", "value", "ci_lo", "ci_hi", "n"],
+    "properties": {
+     "family": {"enum": ["selection", "structure", "E1", "E2", "E3", "E4"]},
+     "metric": {"type": "string", "minLength": 1},
+     "variant": {"type": "string", "minLength": 1},
+     "snapshot": {"type": ["integer", "null"]},
+     "level": {"type": ["integer", "null"]},
+     "stratum": {"type": ["string", "null"]},
+     "split": {"type": ["string", "null"]},
+     "value": {"type": ["number", "null"]},
+     "ci_lo": {"type": ["number", "null"]},
+     "ci_hi": {"type": ["number", "null"]},
+     "n": {"type": ["integer", "null"], "minimum": 0}
+    }
+   }
+  },
+  "tests": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["name", "family", "metric", "cell", "model", "null", "p", "p_holm", "primary"],
+    "properties": {
+     "family": {"enum": ["E1", "E2", "E3", "E4"]},
+     "p": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+     "p_holm": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+     "primary": {"type": "boolean"}
+    }
+   }
+  }
+ }
+}

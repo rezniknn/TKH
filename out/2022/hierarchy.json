@@ -364,8 +364,8 @@
     "tech_00304",
     "tech_00305"
    ],
-   "label": "[placeholder] component: SchNet; Message Passing Neural Network",
-   "gloss": "[placeholder] 178 concept nodes (69 component, 53 method, 18 technique); the label lists the most widely shared members."
+   "label": "Graph Neural Networks",
+   "gloss": "Models for molecular and crystal graph processing."
   },
   {
    "id": "L0.10",
@@ -424,8 +424,8 @@
     "metr_00018",
     "metr_00054"
    ],
-   "label": "[placeholder] dataset: Energy MAE; Water",
-   "gloss": "[placeholder] 51 concept nodes (41 dataset, 6 component, 4 metric); the label lists the most widely shared members."
+   "label": "Molecular Dynamics Simulations",
+   "gloss": "Contains datasets from various molecular dynamics simulations."
   },
   {
    "id": "L0.11",
@@ -620,8 +620,8 @@
     "tech_00928",
     "tech_00929"
    ],
-   "label": "[placeholder] technique: Geometry optimization; High-throughput materials scre",
-   "gloss": "[placeholder] 134 concept nodes (54 technique, 37 task, 26 problem); the label lists the most widely shared members."
+   "label": "High-Throughput Calculation Techniques",
+   "gloss": "Techniques for efficient materials discovery and property calculation."
   },
   {
    "id": "L0.12",
@@ -630,8 +630,8 @@
    "member_ids": [
     "meth_00198"
    ],
-   "label": "[placeholder] method: CUR matrix decomposition",
-   "gloss": "[placeholder] 1 concept nodes (1 method); the label lists the most widely shared members."
+   "label": "Matrix Decomposition Techniques",
+   "gloss": "Methods for decomposing matrices in materials science."
   },
   {
    "id": "L0.14",
@@ -697,8 +697,8 @@
     "task_00459",
     "task_00460"
    ],
-   "label": "[placeholder] task: Formation energy prediction; Crystal structure prediction",
-   "gloss": "[placeholder] 58 concept nodes (58 task); the label lists the most widely shared members."
+   "label": "Materials Property Prediction",
+   "gloss": "Predicting various material properties using machine learning."
   },
   {
    "id": "L0.15",
@@ -742,8 +742,8 @@
     "tech_00497",
     "tech_00499"
    ],
-   "label": "[placeholder] technique: Principal component analysis; Stochastic gradient descent",
-   "gloss": "[placeholder] 36 concept nodes (36 technique); the label lists the most widely shared members."
+   "label": "Regularization and Evaluation",
+   "gloss": "Techniques and methods for model regularization and performance evaluation."
   },
   {
    "id": "L0.16",
@@ -959,8 +959,8 @@
     "tech_00924",
     "tech_00930"
    ],
-   "label": "[placeholder] component: MAE; density functional theory",
-   "gloss": "[placeholder] 130 concept nodes (32 component, 30 technique, 27 dataset); the label lists the most widely shared members."
+   "label": "Atomic Property Prediction",
+   "gloss": "Tasks and techniques for predicting atomic properties."
   },
   {
    "id": "L0.2",
@@ -1005,8 +1005,8 @@
     "meth_00433",
     "meth_00434"
    ],
-   "label": "[placeholder] component: Kohn-Sham density-functional t; SOAP descriptor",
-   "gloss": "[placeholder] 37 concept nodes (33 component, 4 method); the label lists the most widely shared members."
+   "label": "Descriptors for Materials",
+   "gloss": "Various components describing atomic environments in materials."
   },
   {
    "id": "L0.3",
@@ -1216,8 +1216,8 @@
     "tech_00502",
     "tech_00503"
    ],
-   "label": "[placeholder] component: Learning rate scheduling; embedding layer",
-   "gloss": "[placeholder] 119 concept nodes (55 component, 37 technique, 16 problem); the label lists the most widely shared members."
+   "label": "Automated ML for Materials",
+   "gloss": "Tasks and techniques for automating machine learning in materials science."
   },
   {
    "id": "L0.4",
@@ -1520,8 +1520,8 @@
     "tech_00263",
     "tech_00264"
    ],
-   "label": "[placeholder] task: Molecular dynamics simulations; Neural Equivariant Interatomic",
-   "gloss": "[placeholder] 154 concept nodes (45 task, 38 problem, 22 dataset); the label lists the most widely shared members."
+   "label": "Interatomic Potentials",
+   "gloss": "Methods, tasks, and problems related to machine learning for interatomic potentials."
   },
   {
    "id": "L0.5",
@@ -1718,8 +1718,8 @@
     "tech_00319",
     "tech_00320"
    ],
-   "label": "[placeholder] task: computational chemistry; molecular dynamics",
-   "gloss": "[placeholder] 155 concept nodes (42 task, 33 component, 33 problem); the label lists the most widely shared members."
+   "label": "Fracture Prediction Methods",
+   "gloss": "Tasks and techniques for predicting fracture patterns and toughness."
   },
   {
    "id": "L0.6",
@@ -1814,8 +1814,8 @@
     "tech_00703",
     "tech_00704"
    ],
-   "label": "[placeholder] technique: Gaussian radial basis function; Ionic conductivity prediction",
-   "gloss": "[placeholder] 62 concept nodes (29 technique, 11 component, 9 dataset); the label lists the most widely shared members."
+   "label": "Diffusion Modeling Tasks",
+   "gloss": "Tasks related to simulating and predicting Li and Na diffusion in materials."
   },
   {
    "id": "L0.7",
@@ -1894,8 +1894,8 @@
     "tech_00649",
     "tech_00654"
    ],
-   "label": "[placeholder] technique: Atomic Cluster Expansion; force MAE",
-   "gloss": "[placeholder] 54 concept nodes (31 technique, 12 component, 4 method); the label lists the most widely shared members."
+   "label": "CGCNN Models",
+   "gloss": "Models for material properties and deformation potential."
   },
   {
    "id": "L0.8",
@@ -2133,8 +2133,8 @@
     "tech_00621",
     "tech_00623"
    ],
-   "label": "[placeholder] method: materials science; computational physics",
-   "gloss": "[placeholder] 184 concept nodes (72 method, 48 technique, 26 component); the label lists the most widely shared members."
+   "label": "Machine Learning Techniques",
+   "gloss": "Techniques for materials and chemistry tasks."
   },
   {
    "id": "L0.9",
@@ -2283,8 +2283,8 @@
     "tech_00409",
     "tech_00410"
    ],
-   "label": "[placeholder] problem: Accelerated materials discover; Molecule property prediction",
-   "gloss": "[placeholder] 111 concept nodes (42 problem, 30 task, 27 technique); the label lists the most widely shared members."
+   "label": "Property Prediction Challenges",
+   "gloss": "Challenges in predicting material properties using machine learning."
   },
   {
    "id": "L1.1",
@@ -2300,8 +2300,8 @@
     "comp_00267",
     "metr_00077"
    ],
-   "label": "[placeholder] component: Edge feature vectors; Fully‑connected hidden layers",
-   "gloss": "[placeholder] 8 concept nodes (7 component, 1 metric); the label lists the most widely shared members."
+   "label": "Graph Neural Network Components",
+   "gloss": "Parts of graph-based ML models for materials."
   },
   {
    "id": "L1.10",
@@ -2314,8 +2314,8 @@
     "comp_00244",
     "comp_00245"
    ],
-   "label": "[placeholder] component: Adaptive loss‑prefactor schedu; C++ gradient module for descri",
-   "gloss": "[placeholder] 5 concept nodes (5 component); the label lists the most widely shared members."
+   "label": "Loss Function Components",
+   "gloss": "Components that define multi-term loss functions for machine learning in materials science."
   },
   {
    "id": "L1.11",
@@ -2337,8 +2337,8 @@
     "tech_00128",
     "tech_00129"
    ],
-   "label": "[placeholder] technique: Gaussian radial basis function; Equivariant message passing",
-   "gloss": "[placeholder] 14 concept nodes (12 technique, 1 component, 1 metric); the label lists the most widely shared members."
+   "label": "Equivariant Techniques",
+   "gloss": "Techniques preserving material symmetries in ML models."
   },
   {
    "id": "L1.12",
@@ -2389,8 +2389,8 @@
     "tech_00309",
     "tech_00310"
    ],
-   "label": "[placeholder] technique: Atomic Cluster Expansion; force MAE",
-   "gloss": "[placeholder] 26 concept nodes (9 technique, 6 component, 4 method); the label lists the most widely shared members."
+   "label": "Interatomic Potential Methods",
+   "gloss": "Techniques and methods for constructing interatomic potentials."
   },
   {
    "id": "L1.13",
@@ -2457,8 +2457,8 @@
     "tech_00317",
     "tech_00320"
    ],
-   "label": "[placeholder] component: Genetic Algorithms; Molecular dynamics",
-   "gloss": "[placeholder] 44 concept nodes (18 component, 9 method, 6 problem); the label lists the most widely shared members."
+   "label": "Fracture Prediction Models",
+   "gloss": "Models for predicting fracture behavior in materials."
   },
   {
    "id": "L1.14",
@@ -2529,8 +2529,8 @@
     "tech_00321",
     "tech_00323"
    ],
-   "label": "[placeholder] task: materials science; computational physics",
-   "gloss": "[placeholder] 35 concept nodes (16 task, 11 problem, 3 component); the label lists the most widely shared members."
+   "label": "Crystal Structure Prediction",
+   "gloss": "Tasks related to predicting crystal structures using ML."
   },
   {
    "id": "L1.15",
@@ -2616,8 +2616,8 @@
     "tech_00367",
     "tech_00373"
    ],
-   "label": "[placeholder] component: 2D heterostructure band‑alignm; Atoms class",
-   "gloss": "[placeholder] 33 concept nodes (18 component, 4 problem, 4 task); the label lists the most widely shared members."
+   "label": "Heterostructure Design",
+   "gloss": "Tasks and techniques for designing heterostructures."
   },
   {
    "id": "L1.16",
@@ -2675,8 +2675,8 @@
     "tech_00384",
     "tech_00385"
    ],
-   "label": "[placeholder] method: Random Forest; Vienna Ab Initio simulation Pa",
-   "gloss": "[placeholder] 32 concept nodes (20 method, 5 technique, 2 component); the label lists the most widely shared members."
+   "label": "Machine Learning Techniques",
+   "gloss": "Various techniques for predicting material properties."
   },
   {
    "id": "L1.17",
@@ -2716,8 +2716,8 @@
     "tech_00386",
     "tech_00387"
    ],
-   "label": "[placeholder] technique: High‑throughput DFT calculatio; High‑throughput screening",
-   "gloss": "[placeholder] 32 concept nodes (23 technique, 9 component); the label lists the most widely shared members."
+   "label": "Materials Property Prediction",
+   "gloss": "Techniques and components for predicting material properties."
   },
   {
    "id": "L1.18",
@@ -2796,8 +2796,8 @@
     "tech_00404",
     "tech_00408"
    ],
-   "label": "[placeholder] problem: AFLOW high-throughput material; AFLOW workflow engine",
-   "gloss": "[placeholder] 41 concept nodes (17 problem, 9 component, 7 technique); the label lists the most widely shared members."
+   "label": "Materials Property Problems",
+   "gloss": "Challenges in identifying and predicting material properties."
   },
   {
    "id": "L1.19",
@@ -2811,8 +2811,8 @@
     "comp_00394",
     "comp_00397"
    ],
-   "label": "[placeholder] component: AFLOW.IN / VASP POSCAR output ; Aconvasp command‑line tool",
-   "gloss": "[placeholder] 6 concept nodes (6 component); the label lists the most widely shared members."
+   "label": "Material Property Predictors",
+   "gloss": "Models for predicting material properties."
   },
   {
    "id": "L1.2",
@@ -2857,8 +2857,8 @@
     "meth_00433",
     "meth_00434"
    ],
-   "label": "[placeholder] component: Kohn-Sham density-functional t; SOAP descriptor",
-   "gloss": "[placeholder] 37 concept nodes (33 component, 4 method); the label lists the most widely shared members."
+   "label": "Descriptors for Materials",
+   "gloss": "Various components describing atomic environments in materials."
   },
   {
    "id": "L1.20",
@@ -2932,8 +2932,8 @@
     "tech_00495",
     "tech_00501"
    ],
-   "label": "[placeholder] problem: Matminer; AutoML",
-   "gloss": "[placeholder] 28 concept nodes (12 problem, 8 component, 4 technique); the label lists the most widely shared members."
+   "label": "Automated ML for Materials",
+   "gloss": "Techniques and problems in automating machine learning pipelines for materials."
   },
   {
    "id": "L1.21",
@@ -2956,8 +2956,8 @@
     "comp_00586",
     "comp_00587"
    ],
-   "label": "[placeholder] component: BANDS; CG ionic optimizer",
-   "gloss": "[placeholder] 15 concept nodes (15 component); the label lists the most widely shared members."
+   "label": "Electronic Minimizers and Correctors",
+   "gloss": "Algorithms for optimizing electronic structures in materials science."
   },
   {
    "id": "L1.22",
@@ -3065,8 +3065,8 @@
     "tech_00635",
     "tech_00637"
    ],
-   "label": "[placeholder] task: High-throughput materials scre; Phonon dispersion calculation",
-   "gloss": "[placeholder] 47 concept nodes (29 task, 14 problem, 2 technique); the label lists the most widely shared members."
+   "label": "High-Throughput Materials Tasks",
+   "gloss": "Tasks related to high-throughput materials discovery and screening."
   },
   {
    "id": "L1.23",
@@ -3104,8 +3104,8 @@
     "prob_00420",
     "prob_00421"
    ],
-   "label": "[placeholder] problem: Crystal Graph Convolutional Ne; Tensor-Field Networks",
-   "gloss": "[placeholder] 30 concept nodes (20 problem, 7 method, 3 component); the label lists the most widely shared members."
+   "label": "Training Challenges",
+   "gloss": "Problems and issues encountered during machine learning model training in materials science."
   },
   {
    "id": "L1.24",
@@ -3186,8 +3186,8 @@
     "tech_00703",
     "tech_00704"
    ],
-   "label": "[placeholder] technique: Ionic conductivity prediction; Active learning",
-   "gloss": "[placeholder] 48 concept nodes (17 technique, 10 component, 9 dataset); the label lists the most widely shared members."
+   "label": "Diffusion Modeling Techniques",
+   "gloss": "Techniques for modeling ionic diffusion in materials."
   },
   {
    "id": "L1.25",
@@ -3240,8 +3240,8 @@
     "metr_00018",
     "metr_00054"
    ],
-   "label": "[placeholder] dataset: Energy MAE; Water",
-   "gloss": "[placeholder] 45 concept nodes (41 dataset, 4 metric); the label lists the most widely shared members."
+   "label": "MD-17 Simulations",
+   "gloss": "Simulated molecular dynamics of various organic compounds."
   },
   {
    "id": "L1.26",
@@ -3331,8 +3331,8 @@
     "tech_00117",
     "tech_00127"
    ],
-   "label": "[placeholder] dataset: MAE; condensed matter physics",
-   "gloss": "[placeholder] 48 concept nodes (23 dataset, 11 component, 8 metric); the label lists the most widely shared members."
+   "label": "Energy Metrics",
+   "gloss": "Metrics related to energy in materials science."
   },
   {
    "id": "L1.27",
@@ -3373,8 +3373,8 @@
     "metr_00089",
     "metr_00090"
    ],
-   "label": "[placeholder] dataset: Amorphous carbon; Crystalline test set",
-   "gloss": "[placeholder] 33 concept nodes (21 dataset, 12 metric); the label lists the most widely shared members."
+   "label": "Amorphous Carbon Data",
+   "gloss": "Datasets related to amorphous carbon properties."
   },
   {
    "id": "L1.28",
@@ -3407,8 +3407,8 @@
     "meth_00366",
     "meth_00371"
    ],
-   "label": "[placeholder] method: DFT+U; projector-augmented wave",
-   "gloss": "[placeholder] 25 concept nodes (25 method); the label lists the most widely shared members."
+   "label": "DFT-based methods",
+   "gloss": "Density functional theory methods with various corrections"
   },
   {
    "id": "L1.29",
@@ -3445,8 +3445,8 @@
     "meth_00386",
     "metr_00019"
    ],
-   "label": "[placeholder] method: LAMMPS; PBE functional",
-   "gloss": "[placeholder] 29 concept nodes (24 method, 4 dataset, 1 metric); the label lists the most widely shared members."
+   "label": "Machine Learning Methods",
+   "gloss": "Common machine learning techniques and tools."
   },
   {
    "id": "L1.3",
@@ -3483,8 +3483,8 @@
     "comp_00472",
     "comp_00474"
    ],
-   "label": "[placeholder] component: embedding layer; AtomicOrbitals featurizer",
-   "gloss": "[placeholder] 29 concept nodes (29 component); the label lists the most widely shared members."
+   "label": "Featurization methods",
+   "gloss": "Various techniques to represent materials for machine learning."
   },
   {
    "id": "L1.30",
@@ -3493,8 +3493,8 @@
    "member_ids": [
     "meth_00198"
    ],
-   "label": "[placeholder] method: CUR matrix decomposition",
-   "gloss": "[placeholder] 1 concept nodes (1 method); the label lists the most widely shared members."
+   "label": "Matrix Decomposition Techniques",
+   "gloss": "Methods for decomposing matrices in materials science."
   },
   {
    "id": "L1.31",
@@ -3534,8 +3534,8 @@
     "task_00272",
     "task_00274"
    ],
-   "label": "[placeholder] task: Molecule property prediction; Prediction of material propert",
-   "gloss": "[placeholder] 32 concept nodes (24 task, 7 problem, 1 component); the label lists the most widely shared members."
+   "label": "Task-oriented Predictions",
+   "gloss": "Tasks include property prediction, screening, and stability assessment."
   },
   {
    "id": "L1.32",
@@ -3561,8 +3561,8 @@
     "prob_00360",
     "prob_00365"
    ],
-   "label": "[placeholder] problem: Accelerated materials discover; Thermodynamic stability predic",
-   "gloss": "[placeholder] 18 concept nodes (18 problem); the label lists the most widely shared members."
+   "label": "Material property prediction",
+   "gloss": "Problems related to predicting various material properties."
   },
   {
    "id": "L1.33",
@@ -3574,8 +3574,8 @@
     "prob_00124",
     "prob_00125"
    ],
-   "label": "[placeholder] problem: Efficient representation of la; Efficient sampling of high‑dim",
-   "gloss": "[placeholder] 4 concept nodes (4 problem); the label lists the most widely shared members."
+   "label": "Machine Learning Problems",
+   "gloss": "Common issues in ML for materials science."
   },
   {
    "id": "L1.34",
@@ -3587,8 +3587,8 @@
     "prob_00160",
     "prob_00161"
    ],
-   "label": "[placeholder] problem: Data scarcity for certain mate; Inability to model state‑depen",
-   "gloss": "[placeholder] 4 concept nodes (4 problem); the label lists the most widely shared members."
+   "label": "Material Property Challenges",
+   "gloss": "Issues related to modeling specific material properties."
   },
   {
    "id": "L1.35",
@@ -3605,8 +3605,8 @@
     "tech_00622",
     "tech_00624"
    ],
-   "label": "[placeholder] technique: Alpha2F spectral function calc; Chemical element permutation",
-   "gloss": "[placeholder] 9 concept nodes (7 technique, 1 problem, 1 task); the label lists the most widely shared members."
+   "label": "High-throughput DFT techniques",
+   "gloss": "Methods for accelerating DFT calculations and validations."
   },
   {
    "id": "L1.36",
@@ -3620,8 +3620,8 @@
     "prob_00383",
     "prob_00384"
    ],
-   "label": "[placeholder] problem: Aliasing errors in Fourier tra; Calculation failure handling",
-   "gloss": "[placeholder] 6 concept nodes (6 problem); the label lists the most widely shared members."
+   "label": "Machine Learning Challenges",
+   "gloss": "Problems encountered in ML for materials science."
   },
   {
    "id": "L1.37",
@@ -3649,8 +3649,8 @@
     "prob_00614",
     "prob_00615"
    ],
-   "label": "[placeholder] problem: Accuracy limit determination; Accuracy-efficiency gap in ato",
-   "gloss": "[placeholder] 20 concept nodes (20 problem); the label lists the most widely shared members."
+   "label": "Amorphous Materials Challenges",
+   "gloss": "Problems in simulating and predicting properties of amorphous materials."
   },
   {
    "id": "L1.38",
@@ -3685,8 +3685,8 @@
     "tech_00621",
     "tech_00623"
    ],
-   "label": "[placeholder] technique: machine learning; Transfer learning",
-   "gloss": "[placeholder] 27 concept nodes (14 technique, 12 component, 1 task); the label lists the most widely shared members."
+   "label": "Machine Learning Techniques",
+   "gloss": "Various methods and strategies for using ML in materials science."
   },
   {
    "id": "L1.39",
@@ -3700,8 +3700,8 @@
     "task_00004",
     "task_00117"
    ],
-   "label": "[placeholder] problem: False negative rate; First row anomaly",
-   "gloss": "[placeholder] 6 concept nodes (4 problem, 2 task); the label lists the most widely shared members."
+   "label": "Quantum-chemical fitting",
+   "gloss": "Tasks involving high-level quantum-chemical potential fitting and data biases."
   },
   {
    "id": "L1.4",
@@ -3887,8 +3887,8 @@
     "tech_00100",
     "tech_00288"
    ],
-   "label": "[placeholder] method: Message Passing Neural Network; crystal graph convolutional ne",
-   "gloss": "[placeholder] 48 concept nodes (25 method, 11 component, 6 dataset); the label lists the most widely shared members."
+   "label": "Graph-based Methods",
+   "gloss": "Models using graph representations for materials or molecules."
   },
   {
    "id": "L1.40",
@@ -3925,8 +3925,8 @@
     "task_00707",
     "task_00716"
    ],
-   "label": "[placeholder] task: computational chemistry; Force prediction",
-   "gloss": "[placeholder] 29 concept nodes (28 task, 1 problem); the label lists the most widely shared members."
+   "label": "Energy and Force Prediction",
+   "gloss": "Tasks involving prediction of energy, forces, and related properties."
   },
   {
    "id": "L1.41",
@@ -3948,8 +3948,8 @@
     "task_00022",
     "task_00188"
    ],
-   "label": "[placeholder] dataset: discovery rate; Binary classification",
-   "gloss": "[placeholder] 14 concept nodes (8 dataset, 4 metric, 2 task); the label lists the most widely shared members."
+   "label": "Evaluation Metrics",
+   "gloss": "Metrics for assessing machine learning models in materials science."
   },
   {
    "id": "L1.42",
@@ -3960,8 +3960,8 @@
     "task_00025",
     "task_00026"
    ],
-   "label": "[placeholder] task: Interatomic force prediction; Molecular dynamics trajectory ",
-   "gloss": "[placeholder] 3 concept nodes (3 task); the label lists the most widely shared members."
+   "label": "Material Property Prediction",
+   "gloss": "Tasks involving prediction of material properties."
   },
   {
    "id": "L1.43",
@@ -4010,8 +4010,8 @@
     "task_00221",
     "task_00223"
    ],
-   "label": "[placeholder] problem: Accelerated atomic‑property pr; Accelerated property evaluatio",
-   "gloss": "[placeholder] 24 concept nodes (9 problem, 7 task, 3 component); the label lists the most widely shared members."
+   "label": "Holey Graphene Design",
+   "gloss": "Tasks related to designing and optimizing holey graphene structures."
   },
   {
    "id": "L1.44",
@@ -4063,8 +4063,8 @@
     "task_00714",
     "task_00715"
    ],
-   "label": "[placeholder] task: Molecular dynamics simulations; atomistic simulation",
-   "gloss": "[placeholder] 44 concept nodes (44 task); the label lists the most widely shared members."
+   "label": "Amorphous Materials Simulation",
+   "gloss": "Tasks involving atomistic simulations of amorphous structures."
   },
   {
    "id": "L1.45",
@@ -4088,8 +4088,8 @@
     "task_00242",
     "task_00243"
    ],
-   "label": "[placeholder] task: Electronic structure calculati; Materials property calculation",
-   "gloss": "[placeholder] 16 concept nodes (16 task); the label lists the most widely shared members."
+   "label": "Property prediction tasks",
+   "gloss": "Tasks involving prediction of various material properties."
   },
   {
    "id": "L1.46",
@@ -4136,8 +4136,8 @@
     "task_00459",
     "task_00460"
    ],
-   "label": "[placeholder] task: Formation energy prediction; Crystal structure prediction",
-   "gloss": "[placeholder] 39 concept nodes (39 task); the label lists the most widely shared members."
+   "label": "Property Prediction",
+   "gloss": "Tasks involving predicting various material properties."
   },
   {
    "id": "L1.47",
@@ -4154,8 +4154,8 @@
     "task_00475",
     "task_00488"
    ],
-   "label": "[placeholder] problem: Geometry optimization; density functional theory",
-   "gloss": "[placeholder] 9 concept nodes (5 problem, 4 task); the label lists the most widely shared members."
+   "label": "Task-oriented Predictions",
+   "gloss": "Predictions related to material properties and tasks."
   },
   {
    "id": "L1.48",
@@ -4166,8 +4166,8 @@
     "task_00059",
     "task_00477"
    ],
-   "label": "[placeholder] task: Large‑scale twisted material m; Topological invariant analysis",
-   "gloss": "[placeholder] 3 concept nodes (3 task); the label lists the most widely shared members."
+   "label": "Defect Analysis",
+   "gloss": "Tasks involving point defects in materials."
   },
   {
    "id": "L1.50",
@@ -4192,8 +4192,8 @@
     "tech_00502",
     "tech_00503"
    ],
-   "label": "[placeholder] technique: Learning rate scheduling; Categorical feature encoding",
-   "gloss": "[placeholder] 17 concept nodes (17 technique); the label lists the most widely shared members."
+   "label": "Feature selection techniques",
+   "gloss": "Methods for reducing data dimensions in materials science."
   },
   {
    "id": "L1.51",
@@ -4237,8 +4237,8 @@
     "tech_00497",
     "tech_00499"
    ],
-   "label": "[placeholder] technique: Principal component analysis; Stochastic gradient descent",
-   "gloss": "[placeholder] 36 concept nodes (36 technique); the label lists the most widely shared members."
+   "label": "Regularization and Evaluation",
+   "gloss": "Techniques and methods for model regularization and performance evaluation."
   },
   {
    "id": "L1.52",
@@ -4306,8 +4306,8 @@
     "tech_00304",
     "tech_00305"
    ],
-   "label": "[placeholder] component: M3GNet; Elemental embeddings",
-   "gloss": "[placeholder] 48 concept nodes (34 component, 13 technique, 1 method); the label lists the most widely shared members."
+   "label": "Graph Neural Networks",
+   "gloss": "Components and techniques for materials representation."
   },
   {
    "id": "L1.53",
@@ -4331,8 +4331,8 @@
     "tech_00318",
     "tech_00319"
    ],
-   "label": "[placeholder] technique: Adam optimizer; 1/R weighting in input feature",
-   "gloss": "[placeholder] 16 concept nodes (16 technique); the label lists the most widely shared members."
+   "label": "Loss Function Techniques",
+   "gloss": "Various methods to define and modify loss functions."
   },
   {
    "id": "L1.55",
@@ -4352,8 +4352,8 @@
     "tech_00375",
     "tech_00376"
    ],
-   "label": "[placeholder] technique: Automated k‑point and plane‑wa; Automated workflow orchestrati",
-   "gloss": "[placeholder] 12 concept nodes (12 technique); the label lists the most widely shared members."
+   "label": "Model Evaluation Techniques",
+   "gloss": "Techniques for assessing model performance and preprocessing."
   },
   {
    "id": "L1.56",
@@ -4394,8 +4394,8 @@
     "tech_00928",
     "tech_00929"
    ],
-   "label": "[placeholder] technique: Angular distribution function ; CUR sparsification",
-   "gloss": "[placeholder] 33 concept nodes (33 technique); the label lists the most widely shared members."
+   "label": "MD-based techniques",
+   "gloss": "Techniques derived from molecular dynamics simulations."
   },
   {
    "id": "L1.57",
@@ -4409,8 +4409,8 @@
     "tech_00263",
     "tech_00264"
    ],
-   "label": "[placeholder] technique: Bayesian variance prediction; CUR matrix reconstruction",
-   "gloss": "[placeholder] 6 concept nodes (6 technique); the label lists the most widely shared members."
+   "label": "Matrix Reconstruction Techniques",
+   "gloss": "Methods for improving matrix data in materials science."
   },
   {
    "id": "L1.58",
@@ -4422,8 +4422,8 @@
     "tech_00325",
     "tech_00326"
    ],
-   "label": "[placeholder] technique: Crowd‑sourced issue reporting; Open‑source collaborative deve",
-   "gloss": "[placeholder] 4 concept nodes (4 technique); the label lists the most widely shared members."
+   "label": "Self-healing techniques",
+   "gloss": "Methods for automatically correcting errors in machine learning models."
   },
   {
    "id": "L1.59",
@@ -4451,8 +4451,8 @@
     "tech_00409",
     "tech_00410"
    ],
-   "label": "[placeholder] technique: Arrhenius fitting; Smooth cutoff function",
-   "gloss": "[placeholder] 20 concept nodes (20 technique); the label lists the most widely shared members."
+   "label": "Machine Learning Techniques",
+   "gloss": "Various methods for computational materials science."
   },
   {
    "id": "L1.6",
@@ -4539,8 +4539,8 @@
     "task_00027",
     "tech_00047"
    ],
-   "label": "[placeholder] method: SchNet; DimeNet",
-   "gloss": "[placeholder] 48 concept nodes (27 method, 17 component, 2 problem); the label lists the most widely shared members."
+   "label": "Graph Neural Network Methods",
+   "gloss": "Models using graph structures for materials or chemistry."
   },
   {
    "id": "L1.60",
@@ -4560,8 +4560,8 @@
     "tech_00652",
     "tech_00653"
    ],
-   "label": "[placeholder] technique: Automatic failure detection an; Automatic spin polarization ec",
-   "gloss": "[placeholder] 12 concept nodes (12 technique); the label lists the most widely shared members."
+   "label": "Convergence Criteria",
+   "gloss": "Techniques for accelerating convergence in calculations."
   },
   {
    "id": "L1.61",
@@ -4571,8 +4571,8 @@
     "data_00001",
     "metr_00013"
    ],
-   "label": "[placeholder] dataset: QM9; error ratio",
-   "gloss": "[placeholder] 2 concept nodes (1 dataset, 1 metric); the label lists the most widely shared members."
+   "label": "Material Property Prediction",
+   "gloss": "Predicting physical properties using ML models."
   },
   {
    "id": "L1.62",
@@ -4602,8 +4602,8 @@
     "tech_00924",
     "tech_00930"
    ],
-   "label": "[placeholder] component: density functional theory; Auto‑differentiation layer",
-   "gloss": "[placeholder] 22 concept nodes (11 component, 7 technique, 3 problem); the label lists the most widely shared members."
+   "label": "Surface Cleavage Techniques",
+   "gloss": "Methods and components for simulating surface cleavage."
   },
   {
    "id": "L1.63",
@@ -4674,8 +4674,8 @@
     "tech_00289",
     "tech_00290"
    ],
-   "label": "[placeholder] technique: Layer normalization; SiLU activation",
-   "gloss": "[placeholder] 36 concept nodes (20 technique, 7 component, 3 problem); the label lists the most widely shared members."
+   "label": "Atomistic ML Models",
+   "gloss": "Techniques and components for modeling atomic interactions."
   },
   {
    "id": "L1.64",
@@ -4711,8 +4711,8 @@
     "tech_00649",
     "tech_00654"
    ],
-   "label": "[placeholder] technique: Methfessel-Paxton smearing; Adaptive DBS stepping",
-   "gloss": "[placeholder] 28 concept nodes (22 technique, 6 component); the label lists the most widely shared members."
+   "label": "Filtering Techniques",
+   "gloss": "Techniques used to filter materials based on various properties."
   },
   {
    "id": "L1.7",
@@ -4908,8 +4908,8 @@
     "tech_00257",
     "tech_00262"
    ],
-   "label": "[placeholder] method: Neural Equivariant Interatomic; graph neural network",
-   "gloss": "[placeholder] 47 concept nodes (19 method, 14 problem, 6 component); the label lists the most widely shared members."
+   "label": "Interatomic Potential Methods",
+   "gloss": "Various methods for learning interatomic potentials."
   },
   {
    "id": "L1.9",
@@ -4967,8 +4967,8 @@
     "tech_00270",
     "tech_00273"
    ],
-   "label": "[placeholder] method: molecular dynamics; Molecular dynamics simulation",
-   "gloss": "[placeholder] 31 concept nodes (8 method, 8 task, 7 component); the label lists the most widely shared members."
+   "label": "Neural Network Potentials",
+   "gloss": "Methods and components for constructing neural network potentials."
   },
   {
    "id": "L2.1",
