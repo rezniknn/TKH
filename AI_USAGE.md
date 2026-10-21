@@ -687,6 +687,33 @@ accepted or changed, and what was checked.
   a pretrained embedding model. Both need a download, and neither is required by the
   brief.
 
+### 19. Notebook 02 failed on matplotlib < 3.10 (Claude Code)
+
+- **Task/module:** `notebooks/02_semantic_signal.ipynb`; `tests/test_notebook_compat.py`
+- **Prompt:** "Error when executring the notebook: TypeError: Axes.boxplot() got an
+  unexpected keyword argument 'orientation'"
+- **Cause:** The same class of bug as entry 10, reintroduced by the assistant. The
+  box-plot call tried to switch on the matplotlib version, but wrote
+  `orientation="horizontal" if new else None`. On older matplotlib that still passes
+  `orientation=None`, which the old API rejects. The notebook had been executed only in
+  the project `.venv` (matplotlib 3.11).
+- **Fix:**
+  - The keyword dictionary is now built under the version check, as in notebook 01.
+  - The near-duplicate example table differed between environments, because many pairs
+    tie at cosine 1.0 and their order depended on library versions. It now sorts
+    deterministically by rounded cosine and then by name.
+- **Prevention:** A new static test (`tests/test_notebook_compat.py`) scans every
+  notebook's code cells and fails on `orientation=` without a version check, or on
+  `boxplot(labels=/tick_labels=)`. It flagged the old version of notebook 02 and passes
+  the fixed one.
+- **Verified:**
+  - The notebook executes end to end in the project `.venv` (Python 3.12, matplotlib
+    3.11, scikit-learn 1.9) and in the user's Anaconda environment (Python 3.11,
+    matplotlib 3.7.2, scikit-learn 1.3.0, pandas 2.2.2). Neither run has error outputs;
+    the only stderr is Anaconda's own `bottleneck` version warning.
+  - All 15 text outputs are identical between the two environments.
+  - 401 tests pass.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
@@ -697,6 +724,8 @@ Candidates so far:
 - Entry 13: the first validator passed its own tests, but adversarial agents found
   crashes disguised as failures and invalid outputs it accepted. Every finding was
   reproduced on a concrete fixture and fixed, and each became a regression fixture.
+- Entry 19: the same version-gating bug reappeared in notebook 02 despite entry 10. It is
+  now caught statically by a test.
 - Entry 10 (strongest, a real code bug): the assistant fixed a matplotlib API error by
   moving to the newest keyword arguments, testing only in its own environment. That
   broke the notebook on matplotlib 3.7 in the user's environment. It was caught when
