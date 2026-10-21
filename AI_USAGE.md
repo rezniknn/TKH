@@ -260,6 +260,40 @@ accepted or changed, and what was checked.
 - **Caveat:** The interpretive text in the notebook describes the provided export. The
   notebook says so; with other inputs, only the code outputs are recomputed.
 
+### 10. Notebook failed on matplotlib < 3.10 (Claude Code)
+
+- **Task/module:** T1 notebook; environment reproducibility (`requirements.txt`,
+  README)
+- **Prompt:** "The notebook has the following error when executed in Python 3.11.5
+  environment: TypeError: Axes.boxplot() got an unexpected keyword argument
+  'orientation'. Fix the notebook, make sure it can execute end to end without errors
+  in Python environment recommended for this project"
+- **Cause:** In entry 8, the assistant fixed a `boxplot(labels=...)` error by moving to
+  the newest API, `orientation=` / `tick_labels=`. Those keywords exist only from
+  matplotlib 3.9–3.10, so the notebook broke on older matplotlib. The user's
+  environment had matplotlib 3.7.2. The fix had been tested only in the assistant's
+  own venv.
+- **Fix:**
+  - The boxplot now passes `orientation=` on matplotlib ≥ 3.10 and `vert=False`
+    otherwise, and sets the tick labels with `set_yticks(ticks, labels)`, which works
+    on 3.5 and later.
+  - The setup cell prints the Python, pandas and matplotlib versions.
+- **Second issue found while verifying:** `requirements.txt` could not be installed on
+  Python 3.11, because `numpy==2.5.4` requires Python ≥ 3.12. It is now pinned to
+  2.4.6. The README states that Python 3.11 and 3.12 are supported, gives a uv
+  alternative, and says to run the notebook with the project's `.venv`.
+- **Verified:** A multi-agent check ran the notebook in three environments, each
+  writing to a separate output folder:
+  - a clean Python 3.12 venv built from `requirements.txt` only;
+  - a clean Python 3.11 venv with the same pins and numpy 2.4.6;
+  - the user's Anaconda environment (Python 3.11.5, matplotlib 3.7.2, pandas 2.2.2).
+
+  All three ran end to end with no error outputs. The only warning was a pandas
+  `bottleneck` version warning that comes from the Anaconda install itself. A
+  separate audit agent checked the code against matplotlib 3.7–3.11, pandas 2.2–3.0,
+  numpy 1.26–2.x and Python 3.11–3.12, and found no further issues. The notebook was
+  then re-executed in the project `.venv` with no errors and no stderr output.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
@@ -267,6 +301,11 @@ code or a wrong claim, how it was caught, and what was changed. "None" is accept
 only if it says how the work was checked._
 
 Candidates so far:
+- Entry 10 (strongest, a real code bug): the assistant fixed a matplotlib API error by
+  moving to the newest keyword arguments, testing only in its own environment. That
+  broke the notebook on matplotlib 3.7 in the user's environment. It was caught when
+  the user ran it, and fixed with a version-tolerant call plus execution checks in
+  three environments.
 - Entry 7: the `xDeepH` "no node" claim and the `first_seen_year` snapshot
   recommendation, both caught by independent verifier agents and cross-checking.
 - Entry 3: the misnamed "internal fraction" formula in Perplexity's primer, found by

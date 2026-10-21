@@ -1,5 +1,5 @@
-# Pinned Python dependencies (deliverable 1), one 'package==version' per line. Tested with Python 3.12.
-numpy==2.5.4
+# Pinned Python dependencies (deliverable 1), one 'package==version' per line. Tested with Python 3.11 and 3.12 (Python >= 3.11 required: tomllib).
+numpy==2.4.6
 pandas==3.0.6
 matplotlib==3.11.2
 nbformat==5.11.1

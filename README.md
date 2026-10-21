@@ -3,12 +3,16 @@
 
 ## Setup
 
-Python 3.12.
+Python 3.11 or 3.12 (tested with both; 3.11 is the minimum, for `tomllib`).
 
 ```bash
 python3.12 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 ```
+
+Equivalent with [uv](https://docs.astral.sh/uv/): `uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -r requirements.txt`.
+
+Run the notebooks with this environment's Jupyter (`.venv/bin/jupyter`), or select `.venv` as the kernel in your editor. The pinned versions matter: other environments (e.g. an older Anaconda) may differ.
 
 ## Configuration
 
