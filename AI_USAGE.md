@@ -624,6 +624,69 @@ accepted or changed, and what was checked.
     allows this.
   - The id matcher is not evaluated, because ARI ignores ids.
 
+### 18. Investigation of the semantic signal in the metadata (Claude Code)
+
+- **Task/module:** P3 / T2 input analysis; `notebooks/02_semantic_signal.ipynb`,
+  `tkh/semantic.py`, `tkh/evaluate/groundtruth.py`, `tests/test_semantic.py`
+- **Prompt:** "Create a notebook with an investigation of semantic information that we
+  have available in the graph's metadata and if it can be meaningfully used by a
+  clustering algorithm"
+- **What the assistant did:**
+  - **Inventory.** Text fields by node type, their length, aliases, attached text and
+    noise.
+  - **Representations.** Lexical only, with no downloads: word and character n-gram
+    TF-IDF over the name, or the name plus attached claim/evaluation text, each raw and
+    with LSA. That gives 8 representations.
+  - **What similarity encodes.** Node type, paper identity, links across papers and
+    duplicates.
+  - **Agreement with the ground truth.** Same-question vs wrong-domain method pairs,
+    scored by AUC against a within-type shuffle null (99 permutations), with a z-score
+    and an empirical p-value.
+  - **Trial clustering.** Average linkage on semantics alone.
+  - **New code.** Text and vector helpers in `tkh/semantic.py`; strict name and alias
+    matching to ground truth in `tkh/evaluate/groundtruth.py`.
+- **Findings:**
+  - **Text is thin.** Concept nodes have only short names (median 2–5 tokens) and no
+    descriptions.
+  - **Lexical similarity partly regroups by type:** 10-NN share the node's type 0.43 of
+    the time, against 0.18 by chance.
+  - **It partly re-encodes the paper:** neighbours share a paper 0.23 of the time,
+    against 0.03 for random pairs.
+  - **It still adds links across papers,** for about half of the nodes with a strong
+    neighbour. Many of those are duplicates of the same entity across types (276 pairs
+    with cosine ≥ 0.9).
+  - **No detectable ground-truth separation** beyond the null in any representation
+    (p ≥ 0.21). Attached context text makes it worse.
+  - **Raw TF-IDF chains** into one cluster: 99.6% of nodes at k=15. LSA reduces this to
+    about 7% at k=60.
+- **Accepted / modified:** Accepted.
+- **Verified:**
+  - An independent agent reimplemented everything from the raw JSON without the repo
+    code and confirmed all headline numbers: 3,980 concept nodes; 42/63 matched slots;
+    121/56 pairs; AUC 0.581 with null mean about 0.54 and p about 0.3; the 10-NN type
+    and paper shares; the 99.6% giant cluster.
+  - Following its points, the notebook now states the test's low power (about 26
+    expected and 11 wrong-domain targets) and the LSA clustering's sensitivity to the
+    SVD seed.
+  - Two runs of the notebook give identical outputs.
+  - 399 tests pass.
+- **AI errors caught (candidates for §6a):**
+  1. **`clean()` normalised in the wrong order.** It replaced U+2011 after NFKC, but
+     NFKC maps U+2011 to U+2010, so hyphens were never normalised. Hyphenated names had
+     two spellings in the character n-grams. It was caught by an assertion in a
+     self-check and fixed by mapping every Unicode dash after NFKC; a test now covers
+     it. The near-duplicate count changed from 249 to 276.
+  2. **The null model was not reproducible.** It iterated over `set(types)`, and the
+     iteration order of a set of strings changes between runs (hash randomisation), so
+     the permutations differed across runs despite a fixed seed. It was caught when the
+     figure and the table of two runs disagreed; it now iterates in sorted order, and two
+     runs are confirmed identical.
+  3. **A prose claim was wrong.** The notebook said every observed AUC lies inside the
+     null range, but one lies below it. Corrected.
+- **Open:** Whether to bring in text from outside the export, such as arXiv abstracts or
+  a pretrained embedding model. Both need a download, and neither is required by the
+  brief.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
