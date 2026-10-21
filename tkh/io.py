@@ -48,6 +48,10 @@ def load_tkh(graph_path, articles_path=None):
     if missing:
         raise ValueError(f"{graph_path}: missing top-level keys {sorted(missing)}")
 
+    for n in raw["nodes"]:  # ids are strings throughout (the output schema requires it)
+        n["id"] = str(n["id"])
+    for e in raw["hyperedges"]:
+        e["id"], e["members"] = str(e["id"]), [str(m) for m in e["members"]]
     nodes = pd.DataFrame(raw["nodes"]).set_index("id")
     nodes["prov_articles"] = nodes["provenance"].map(lambda p: list((p or {}).get("articles", [])))
     nodes["entity_id"] = nodes["provenance"].map(lambda p: (p or {}).get("entity_id"))
@@ -65,6 +69,9 @@ def load_tkh(graph_path, articles_path=None):
         raise ValueError(f"no publication year for {len(unknown)} article ids, e.g. {sorted(unknown)[:5]}")
 
     incident = edges[["members", "article_id"]].explode("members").groupby("members")["article_id"].agg(set)
+    undated = [nid for nid, prov in nodes["prov_articles"].items() if not set(prov) | incident.get(nid, set())]
+    if undated:
+        raise ValueError(f"{len(undated)} nodes have no provenance article and no hyper-edge, so no entry year: {undated[:5]}")
     nodes["entry_year"] = [
         min(year_of[a] for a in set(prov) | incident.get(nid, set()))
         for nid, prov in nodes["prov_articles"].items()

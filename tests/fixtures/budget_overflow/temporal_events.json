@@ -84,7 +84,8 @@
    ],
    "to_ids": [
     "S_gnn",
-    "S_kernel"
+    "S_kernel",
+    "S_extra"
    ]
   },
   {
@@ -146,12 +147,13 @@
    ]
   },
   {
-   "event": "growth",
+   "event": "merge",
    "level": 1,
    "from_snapshot": 2022,
    "to_snapshot": 2024,
    "from_ids": [
-    "S_gnn"
+    "S_gnn",
+    "S_extra"
    ],
    "to_ids": [
     "S_gnn"

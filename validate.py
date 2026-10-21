@@ -12,11 +12,18 @@ snapshot c, OUT_DIR/<c>/hierarchy.json is checked against schema/hierarchy.schem
   - cutoff: every member id exists in that snapshot's node list (ids that enter in a
     later snapshot are reported separately from unknown ids);
   - labels: levels 0 and 1 carry a non-empty label and gloss (T5).
-OUT_DIR/temporal_events.json is checked against schema/temporal_events.schema.json and
-must refer only to super-node ids that exist, at the stated level, in the snapshots it
-names; event arity and snapshot order must be consistent with the event type.
+OUT_DIR/temporal_events.json is checked against schema/temporal_events.schema.json and:
+  - refers only to super-node ids that exist, at the stated level, in the snapshots it names;
+  - links consecutive snapshots only, with arity matching the event type;
+  - is a complete, consistent lineage (P5 identity tracking): per transition and level,
+    every super-node of the earlier snapshot has exactly one outgoing event and every
+    super-node of the later one exactly one incoming event; every super-node of the first
+    snapshot is born there; continue/growth keep the id, continue keeps the members,
+    growth only adds members; split children and merge sources other than the
+    persisting id must be new / gone.
 
-Each violation line is 'CODE location: message'. Exit 0 = pass, 1 = violations, 2 = usage error.
+Each violation line is 'CODE location: message'. Exit 0 = pass, 1 = violations,
+2 = usage or input error, 3 = internal validator error (never reported as a pass or a plain fail).
 """
 
 from collections import Counter, defaultdict
@@ -24,6 +31,7 @@ from pathlib import Path
 import argparse
 import json
 import sys
+import traceback
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
@@ -37,9 +45,16 @@ from tkh.io import load, snapshot  # noqa: E402
 SCHEMAS = ROOT / "schema"
 LABELLED_LEVELS = (0, 1)
 ARITY = {  # event -> (n from_ids, n to_ids); None = "two or more"
-    "birth": (0, 1), "death": (1, 0), "continue": (1, 1), "growth": (1, 1), "merge": (None, 1), "split": (1, None),
+    "birth": (0, 1), "death": (1, 0), "continue": (1, 1), "growth": (1, 1), "change": (1, 1),
+    "merge": (None, 1), "split": (1, None),
 }
+PERSIST = ("continue", "growth", "change")  # same id in both snapshots
 MAX_EXAMPLES = 5
+
+# JSON Schema counts 2.0 as an integer; Python's range() does not. Make "integer" strict.
+_types = jsonschema.Draft202012Validator.TYPE_CHECKER.redefine(
+    "integer", lambda _, x: isinstance(x, int) and not isinstance(x, bool))
+StrictValidator = jsonschema.validators.extend(jsonschema.Draft202012Validator, type_checker=_types)
 
 
 class Report:
@@ -51,28 +66,46 @@ class Report:
 
 
 def examples(items):
-    items = sorted(items)
+    items = sorted(map(repr, items))  # repr: ids differing only by whitespace/homoglyphs stay distinguishable
     more = f", ... (+{len(items) - MAX_EXAMPLES})" if len(items) > MAX_EXAMPLES else ""
     return ", ".join(items[:MAX_EXAMPLES]) + more
 
 
 def read_json(path, schema, rep, where):
-    if not path.is_file():
-        return None, False
+    """Returns (schema-valid doc or None, raw doc or None, file exists)."""
     try:
-        doc = json.loads(path.read_text())
-    except (json.JSONDecodeError, UnicodeDecodeError) as e:
-        rep("INVALID_JSON", where, f"{path.name}: {e}")
-        return None, True
-    errors = sorted(jsonschema.Draft202012Validator(schema).iter_errors(doc), key=lambda e: list(e.absolute_path))
-    for e in errors:
+        if not path.is_file():
+            return None, None, False
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except OSError as e:
+        rep("UNREADABLE", where, f"{path.name}: {e.strerror or e}")
+        return None, None, True
+    except (ValueError, UnicodeDecodeError, RecursionError) as e:  # JSONDecodeError is a ValueError
+        rep("INVALID_JSON", where, f"{path.name}: {type(e).__name__}: {str(e)[:200]}")
+        return None, None, True
+    errors = sorted(StrictValidator(schema).iter_errors(doc), key=lambda e: list(e.absolute_path))
+    for e in errors[:50]:
         loc = "/".join(map(str, e.absolute_path)) or "<root>"
-        rep("SCHEMA", where, f"{path.name} at {loc}: {e.message}")
-    return (None if errors else doc), True
+        rep("SCHEMA", where, f"{path.name} at {loc}: {e.message[:200]}")
+    if len(errors) > 50:
+        rep("SCHEMA", where, f"{path.name}: {len(errors) - 50} further schema errors not shown")
+    return (None if errors else doc), doc, True
+
+
+def best_effort_index(raw):
+    """{id: level} from a schema-invalid hierarchy, so event references into it are still checked."""
+    sns = raw.get("supernodes") if isinstance(raw, dict) else None
+    if not isinstance(sns, list):
+        return None
+    def level(s):
+        lv = s.get("level")
+        return lv if isinstance(lv, int) and not isinstance(lv, bool) else None  # None: exists, level unknown
+
+    return {s["id"]: level(s) for s in sns if isinstance(s, dict) and isinstance(s.get("id"), str)}
 
 
 def check_hierarchy(h, cutoff, snap_nodes, entry_year, budgets, rep):
-    """Structural checks for one schema-valid hierarchy. Returns {id: level} for event checks."""
+    """Structural checks for one schema-valid hierarchy."""
     w = str(cutoff)
     if h["cutoff"] != cutoff:
         rep("CUTOFF_MISMATCH", w, f"file declares cutoff {h['cutoff']}")
@@ -90,19 +123,20 @@ def check_hierarchy(h, cutoff, snap_nodes, entry_year, budgets, rep):
         by_level[s["level"]].append(s)
 
     if levels > len(budgets):
-        rep("NO_BUDGET", w, f"{levels} levels but budgets only for {len(budgets)}")
+        rep("NO_BUDGET", w, f"file declares {levels} levels, the run config has budgets for {len(budgets)}")
+    checked = min(levels, len(budgets))  # never loop over an unbounded declared level count
     for k in sorted(by_level):
         if k >= levels:
             rep("LEVEL_OUT_OF_RANGE", w, f"{len(by_level[k])} super-nodes at level {k}, file declares levels={levels}")
-    for k in range(levels):
+    for k in range(checked):
         if not by_level.get(k):
             rep("EMPTY_LEVEL", w, f"level {k} has no super-nodes")
-        elif k < len(budgets) and len(by_level[k]) > budgets[k]:
+        elif len(by_level[k]) > budgets[k]:
             rep("BUDGET_EXCEEDED", w, f"level {k} has {len(by_level[k])} super-nodes, budget N_{k}={budgets[k]}")
 
     for s in sns:
         sid, k, pid = s["id"], s["level"], s["parent_id"]
-        where = f"{w} {sid}"
+        where = f"{w} {sid!r}"
         if k == 0:
             if pid is not None:
                 rep("ROOT_HAS_PARENT", where, f"level-0 super-node has parent {pid!r}")
@@ -120,7 +154,7 @@ def check_hierarchy(h, cutoff, snap_nodes, entry_year, budgets, rep):
                 if not (s[field] or "").strip():
                     rep("MISSING_LABEL", where, f"level-{k} super-node has empty {field}")
 
-    for k in range(levels):
+    for k in range(checked):
         count = Counter(m for s in by_level.get(k, []) for m in s["member_ids"])
         twice = {m for m, n in count.items() if n > 1}
         if twice:
@@ -137,12 +171,14 @@ def check_hierarchy(h, cutoff, snap_nodes, entry_year, budgets, rep):
             rep("FUTURE_MEMBER", f"{w} level {k}", f"{len(future)} members not yet in snapshot <= {cutoff}: {later}")
         if unknown:
             rep("UNKNOWN_MEMBER", f"{w} level {k}", f"{len(unknown)} member ids not in the input graph: {examples(unknown)}")
-    return {sid: by_id[sid]["level"] for sid in by_id}
 
 
-def check_events(events, levels_of, cutoffs, rep):
-    """levels_of: {cutoff: {id: level}} for snapshots whose hierarchy passed the schema."""
+def check_events(events, index, members, cutoffs, rep):
+    """index: {cutoff: {id: level}} (best effort, also for schema-invalid files);
+    members: {cutoff: {id: set(member_ids)}} for schema-valid files only."""
     prev = {b: a for a, b in zip(cutoffs, cutoffs[1:])}
+    outgoing, incoming = defaultdict(Counter), defaultdict(Counter)  # (src, dst, level) -> Counter(id)
+
     for i, e in enumerate(events):
         where = f"events[{i}] {e['event']}"
         src, dst, kind, k = e["from_snapshot"], e["to_snapshot"], e["event"], e["level"]
@@ -152,6 +188,7 @@ def check_events(events, levels_of, cutoffs, rep):
         if src is None:
             if not (kind == "birth" and dst == cutoffs[0]):
                 rep("BAD_SNAPSHOT_ORDER", where, f"from_snapshot is null; only births in the first snapshot ({cutoffs[0]}) may omit it")
+                continue
         elif src not in cutoffs:
             rep("UNKNOWN_SNAPSHOT", where, f"from_snapshot {src} is not a configured snapshot")
             continue
@@ -159,53 +196,107 @@ def check_events(events, levels_of, cutoffs, rep):
             rep("BAD_SNAPSHOT_ORDER", where, f"{src} -> {dst} is not a pair of consecutive snapshots")
             continue
 
+        f_ids, t_ids = e["from_ids"], e["to_ids"]
         n_from, n_to = ARITY[kind]
-        if (n_from is None and len(e["from_ids"]) < 2) or (n_from is not None and len(e["from_ids"]) != n_from) \
-                or (n_to is None and len(e["to_ids"]) < 2) or (n_to is not None and len(e["to_ids"]) != n_to):
-            rep("BAD_EVENT_ARITY", where, f"{len(e['from_ids'])} -> {len(e['to_ids'])} ids is not a valid {kind}")
-        if kind in ("continue", "growth") and e["from_ids"] != e["to_ids"]:
-            rep("IDENTITY_CHANGED", where, f"{kind} must keep the super-node id, got {e['from_ids']} -> {e['to_ids']}")
+        if (n_from is None and len(f_ids) < 2) or (n_from is not None and len(f_ids) != n_from) \
+                or (n_to is None and len(t_ids) < 2) or (n_to is not None and len(t_ids) != n_to):
+            rep("BAD_EVENT_ARITY", where, f"{len(f_ids)} -> {len(t_ids)} ids is not a valid {kind}")
+        if kind in PERSIST and f_ids != t_ids:
+            rep("IDENTITY_CHANGED", where, f"{kind} must keep the super-node id, got {f_ids} -> {t_ids}")
+        outgoing[(src, dst, k)].update(f_ids)
+        incoming[(src, dst, k)].update(t_ids)
 
-        for side, snap, refs in (("from", src, e["from_ids"]), ("to", dst, e["to_ids"])):
-            if snap is None or snap not in levels_of:
-                continue  # missing/invalid hierarchy already reported
+        for side, snap, refs in (("from", src, f_ids), ("to", dst, t_ids)):
+            if snap is None or snap not in index:
+                continue  # missing/unparseable hierarchy already reported
             for sid in refs:
-                if sid not in levels_of[snap]:
+                if sid not in index[snap]:
                     rep("DANGLING_EVENT_REF", where, f"{side}_id {sid!r} does not exist in snapshot {snap}")
-                elif levels_of[snap][sid] != k:
-                    rep("EVENT_WRONG_LEVEL", where, f"{side}_id {sid!r} is at level {levels_of[snap][sid]} in {snap}, event says {k}")
-        if kind == "birth" and src in levels_of and any(sid in levels_of[src] for sid in e["to_ids"]):
-            rep("BIRTH_OF_EXISTING", where, f"{e['to_ids']} already exists in snapshot {src}")
-        if kind == "death" and dst in levels_of and any(sid in levels_of[dst] for sid in e["from_ids"]):
-            rep("DEATH_OF_SURVIVOR", where, f"{e['from_ids']} still exists in snapshot {dst}")
+                elif index[snap][sid] is not None and index[snap][sid] != k:
+                    rep("EVENT_WRONG_LEVEL", where, f"{side}_id {sid!r} is at level {index[snap][sid]} in {snap}, event says {k}")
+
+        old, new = index.get(src, {}), index.get(dst, {})
+        if kind == "birth" and src in index and any(x in old for x in t_ids):
+            rep("BIRTH_OF_EXISTING", where, f"{t_ids} already exists in snapshot {src}")
+        if kind == "death" and dst in index and any(x in new for x in f_ids):
+            rep("DEATH_OF_SURVIVOR", where, f"{f_ids} still exists in snapshot {dst}")
+        if kind == "split" and src in index:
+            existing = [x for x in t_ids if x in old and x not in f_ids]
+            if existing:
+                rep("SPLIT_INTO_EXISTING", where, f"split children {existing} already exist in snapshot {src}")
+        if kind == "merge" and dst in index:
+            surviving = [x for x in f_ids if x in new and x not in t_ids]
+            if surviving:
+                rep("MERGE_SOURCE_SURVIVES", where, f"merge sources {surviving} still exist in snapshot {dst}")
+        if kind in PERSIST and src in members and dst in members and f_ids == t_ids:
+            sid = f_ids[0]
+            a, b = members[src].get(sid), members[dst].get(sid)
+            if a is not None and b is not None:
+                if kind == "continue" and a != b:
+                    rep("EVENT_MEMBERSHIP_MISMATCH", where, f"{sid!r} changes members ({len(a)} -> {len(b)}); not a continue")
+                if kind == "growth" and not (a < b):
+                    rep("EVENT_MEMBERSHIP_MISMATCH", where, f"{sid!r} members are not a strict superset ({len(a)} -> {len(b)}); not a growth")
+                if kind == "change" and (a == b or a < b):
+                    rep("EVENT_MEMBERSHIP_MISMATCH", where, f"{sid!r} membership is {'unchanged' if a == b else 'pure growth'}; use continue/growth")
+
+    # Completeness and consistency of the lineage, per transition and level.
+    transitions = [(None, cutoffs[0])] + list(zip(cutoffs, cutoffs[1:]))
+    for src, dst in transitions:
+        if dst not in index or (src is not None and src not in index):
+            continue
+        levels = (set(index[dst].values()) | (set(index[src].values()) if src is not None else set())) - {None}
+        for k in sorted(levels):
+            label = f"{src} -> {dst} level {k}" if src is not None else f"first snapshot {dst} level {k}"
+            out, inc = outgoing[(src, dst, k)], incoming[(src, dst, k)]
+            if src is not None:
+                ids_src = {x for x, lv in index[src].items() if lv == k}
+                if lost := ids_src - set(out):
+                    rep("UNTRACKED_SUPERNODE", label, f"{len(lost)} super-nodes of {src} have no outgoing event: {examples(lost)}")
+                if multi := {x for x, n in out.items() if n > 1}:
+                    rep("LINEAGE_CONFLICT", label, f"super-nodes with more than one outgoing event: {examples(multi)}")
+            ids_dst = {x for x, lv in index[dst].items() if lv == k}
+            if orphan := ids_dst - set(inc):
+                rep("UNTRACKED_SUPERNODE", label, f"{len(orphan)} super-nodes of {dst} have no incoming event: {examples(orphan)}")
+            if multi := {x for x, n in inc.items() if n > 1}:
+                rep("LINEAGE_CONFLICT", label, f"super-nodes with more than one incoming event: {examples(multi)}")
 
 
-def validate(out_dir, cfg):
+def validate(out_dir, cfg, tkh=None):
     rep = Report()
     out_dir = Path(out_dir)
-    tkh = load(cfg)
+    tkh = tkh if tkh is not None else load(cfg)
     entry_year = tkh.nodes["entry_year"].to_dict()
-    h_schema = json.loads((SCHEMAS / "hierarchy.schema.json").read_text())
-    e_schema = json.loads((SCHEMAS / "temporal_events.schema.json").read_text())
-    cutoffs = list(cfg.cutoffs)
+    h_schema = json.loads((SCHEMAS / "hierarchy.schema.json").read_text(encoding="utf-8"))
+    e_schema = json.loads((SCHEMAS / "temporal_events.schema.json").read_text(encoding="utf-8"))
+    cutoffs = sorted(cfg.cutoffs)
+    names = {str(c) for c in cutoffs}
 
-    for d in sorted(p for p in out_dir.iterdir() if p.is_dir() and (p / "hierarchy.json").exists()):
-        if not d.name.isdigit() or int(d.name) not in cutoffs:
-            rep("UNEXPECTED_SNAPSHOT", d.name, f"hierarchy for a snapshot not in the run config {cutoffs}")
+    for d in sorted(out_dir.iterdir()):
+        try:
+            has_h = d.is_dir() and (d / "hierarchy.json").exists()
+        except OSError as e:
+            rep("UNREADABLE", repr(d.name), f"cannot inspect directory: {e.strerror or e}")
+            continue
+        if has_h and d.name not in names:  # exact string match: '02020' or non-ASCII digits are not '2020'
+            rep("UNEXPECTED_SNAPSHOT", repr(d.name), f"hierarchy for a snapshot not in the run config {cutoffs}")
 
-    levels_of = {}
+    index, members = {}, {}
     for c in cutoffs:
-        h, exists = read_json(hierarchy_path(out_dir, c), h_schema, rep, str(c))
+        h, raw, exists = read_json(hierarchy_path(out_dir, c), h_schema, rep, str(c))
         if not exists:
             rep("MISSING_SNAPSHOT", str(c), f"{hierarchy_path(out_dir, c)} not found")
         elif h is not None:
-            levels_of[c] = check_hierarchy(h, c, snapshot(tkh, c).node_ids, entry_year, cfg.budgets, rep)
+            check_hierarchy(h, c, snapshot(tkh, c).node_ids, entry_year, cfg.budgets, rep)
+            index[c] = {s["id"]: s["level"] for s in h["supernodes"]}
+            members[c] = {s["id"]: set(s["member_ids"]) for s in h["supernodes"]}
+        elif (idx := best_effort_index(raw)) is not None:
+            index[c] = idx
 
-    ev, exists = read_json(events_path(out_dir), e_schema, rep, "events")
+    ev, _, exists = read_json(events_path(out_dir), e_schema, rep, "events")
     if not exists:
         rep("MISSING_EVENTS", "events", f"{events_path(out_dir)} not found")
     elif ev is not None:
-        check_events(ev["events"], levels_of, cutoffs, rep)
+        check_events(ev["events"], index, members, cutoffs, rep)
     return rep.lines
 
 
@@ -216,12 +307,22 @@ def main(argv=None):
     try:
         cfg = config_from_args(args)
     except (FileNotFoundError, ValueError) as e:
-        print(f"USAGE {e}", file=sys.stderr)
+        print(f"USAGE config: {e}", file=sys.stderr)
         return 2
     if not args.out_dir.is_dir():
         print(f"USAGE output directory not found: {args.out_dir}", file=sys.stderr)
         return 2
-    lines = validate(args.out_dir, cfg)
+    try:
+        tkh = load(cfg)
+    except (OSError, ValueError, KeyError, TypeError) as e:
+        print(f"USAGE input graph {cfg.graph}: {type(e).__name__}: {e}", file=sys.stderr)
+        return 2
+    try:
+        lines = validate(args.out_dir, cfg, tkh)
+    except Exception as e:  # noqa: BLE001 - a crash must never look like a pass or an ordinary fail
+        print(f"INTERNAL {type(e).__name__}: {e}", file=sys.stderr)
+        traceback.print_exc()
+        return 3
     for line in lines:
         print(line)
     if not lines:

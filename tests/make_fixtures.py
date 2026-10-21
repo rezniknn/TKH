@@ -111,9 +111,12 @@ def event(events, kind, src=None, dst=None):
 
 
 def m_split_over_budget(h, e):
-    gnn = node(h, 2022, "S_gnn")
-    gnn["member_ids"] = ["m1"]
+    node(h, 2022, "S_gnn")["member_ids"] = ["m1"]
     h[2022]["supernodes"].append(sn("S_extra", 1, "S_models", ["m3"]))
+    # keep the event log consistent so that the budget is the only defect
+    event(e, "split")["to_ids"].append("S_extra")
+    next(x for x in e if x["from_ids"] == ["S_gnn"] and x["from_snapshot"] == 2022).update(
+        event="merge", from_ids=["S_gnn", "S_extra"], to_ids=["S_gnn"])
 
 
 def m_level_out_of_range(h, e):
@@ -121,17 +124,32 @@ def m_level_out_of_range(h, e):
 
 
 def m_empty_level(h, e):
-    h[2020]["levels"] = 3
-    h[2020]["budgets"] = [3, 5, 9]
+    h[2020]["supernodes"] = [s for s in h[2020]["supernodes"] if s["level"] == 0]
+
+
+def m_too_many_levels(h, e):
+    h[2020]["levels"] = 10 ** 15  # must be reported quickly, not looped over
+
+
+def m_split_into_existing(h, e):
+    e.append({"event": "split", "level": 1, "from_snapshot": 2020, "to_snapshot": 2022,
+              "from_ids": ["S_tasks"], "to_ids": ["S_tasks", "S_data"]})
+
+
+def m_merge_source_survives(h, e):
+    e.append({"event": "merge", "level": 1, "from_snapshot": 2022, "to_snapshot": 2024,
+              "from_ids": ["S_kernel", "S_gnn"], "to_ids": ["S_gnn"]})
 
 
 # Each mutation: (description, expected violation codes, function(hierarchies, events)).
 # File-level mutations (invalid JSON, missing/extra files) are applied after writing; see FILE_MUTATIONS.
+# Expected codes include genuine knock-on effects of the single injected defect, e.g. a growth label that
+# becomes wrong (EVENT_MEMBERSHIP_MISMATCH) or a skipped event leaving a super-node untracked.
 MUTATIONS = {
-    "node_in_two_clusters": ("P1: m1 is in both S_gnn and S_kernel at level 1 of 2022.", {"NODE_IN_TWO_CLUSTERS"},
+    "node_in_two_clusters": ("P1: m1 is in both S_gnn and S_kernel at level 1 of 2022.", {"NODE_IN_TWO_CLUSTERS", "EVENT_MEMBERSHIP_MISMATCH"},
                              lambda h, e: node(h, 2022, "S_kernel")["member_ids"].append("m1")),
     "node_not_covered": ("P1: t2 is removed from S_tasks, so no level-1 super-node of 2022 contains it.",
-                         {"NODE_NOT_COVERED"}, lambda h, e: node(h, 2022, "S_tasks")["member_ids"].remove("t2")),
+                         {"NODE_NOT_COVERED", "EVENT_MEMBERSHIP_MISMATCH"}, lambda h, e: node(h, 2022, "S_tasks")["member_ids"].remove("t2")),
     "budget_overflow": ("P2: S_gnn is split in 2022, giving 6 level-1 super-nodes against N_1 = 5.",
                         {"BUDGET_EXCEEDED"}, m_split_over_budget),
     "dangling_parent": ("P1: S_kernel's parent id points to a super-node that does not exist.", {"DANGLING_PARENT"},
@@ -145,9 +163,9 @@ MUTATIONS = {
     "not_nested": ("P1: S_kernel = {m2} is attached to S_eval, which does not contain m2.", {"NOT_NESTED"},
                    lambda h, e: node(h, 2022, "S_kernel").update(parent_id="S_eval")),
     "future_member": ("Cutoff: m3 (first published 2022) is a member in the 2020 snapshot at both levels.",
-                      {"FUTURE_MEMBER"},
+                      {"FUTURE_MEMBER", "EVENT_MEMBERSHIP_MISMATCH"},
                       lambda h, e: [node(h, 2020, s)["member_ids"].append("m3") for s in ("S_models", "S_gnn")]),
-    "unknown_member": ("Cutoff: a member id that is not in the input graph at all.", {"UNKNOWN_MEMBER"},
+    "unknown_member": ("Cutoff: a member id that is not in the input graph at all.", {"UNKNOWN_MEMBER", "EVENT_MEMBERSHIP_MISMATCH"},
                        lambda h, e: [node(h, 2020, s)["member_ids"].append("ghost") for s in ("S_models", "S_gnn")]),
     "duplicate_id": ("A second level-1 super-node of 2020 reuses the id S_data (with the same member d1).",
                      {"DUPLICATE_ID", "NODE_IN_TWO_CLUSTERS"},
@@ -162,32 +180,51 @@ MUTATIONS = {
                         lambda h, e: h[2022].update(cutoff=2024)),
     "budgets_mismatch": ("The output declares budgets other than the run config's.", {"BUDGETS_MISMATCH"},
                          lambda h, e: h[2022].update(budgets=[30, 50])),
-    "level_out_of_range": ("A level-2 super-node in a file declaring levels = 2.", {"LEVEL_OUT_OF_RANGE"},
+    "level_out_of_range": ("A level-2 super-node in a file declaring levels = 2.", {"LEVEL_OUT_OF_RANGE", "UNTRACKED_SUPERNODE"},
                            m_level_out_of_range),
-    "empty_level": ("The 2020 file declares 3 levels but has none at level 2 (budgets also extended), so level 2 also covers no node.",
-                    {"EMPTY_LEVEL", "NO_BUDGET", "BUDGETS_MISMATCH", "NODE_NOT_COVERED"}, m_empty_level),
+    "empty_level": ("Level 1 of 2020 has no super-nodes at all.",
+                    {"EMPTY_LEVEL", "NODE_NOT_COVERED", "DANGLING_EVENT_REF"}, m_empty_level),
+    "too_many_levels": ("The 2020 file declares 10**15 levels against 2 budgets (must not hang).", {"NO_BUDGET"},
+                        m_too_many_levels),
+    "schema_float_level": ("Schema: 'levels': 2.0 (JSON Schema would accept it as an integer; we do not).",
+                           {"SCHEMA"}, lambda h, e: h[2022].update(levels=2.0)),
+    "schema_bool_level": ("Schema: a super-node with 'level': true.", {"SCHEMA"},
+                          lambda h, e: node(h, 2022, "S_models").update(level=True)),
     "bad_event_reference": ("Events: a split names a target id that does not exist in 2022.", {"DANGLING_EVENT_REF"},
                             lambda h, e: event(e, "split")["to_ids"].append("S_ghost")),
-    "event_unknown_snapshot": ("Events: an event points to snapshot 2030.", {"UNKNOWN_SNAPSHOT"},
+    "event_unknown_snapshot": ("Events: an event points to snapshot 2030.", {"UNKNOWN_SNAPSHOT", "UNTRACKED_SUPERNODE"},
                                lambda h, e: event(e, "merge").update(to_snapshot=2030)),
-    "event_non_consecutive": ("Events: a growth event spans 2020 -> 2024.", {"BAD_SNAPSHOT_ORDER"},
+    "event_non_consecutive": ("Events: a growth event spans 2020 -> 2024.", {"BAD_SNAPSHOT_ORDER", "UNTRACKED_SUPERNODE"},
                               lambda h, e: event(e, "growth", 2020, 2022).update(to_snapshot=2024)),
-    "event_null_source": ("Events: a non-first-snapshot event with from_snapshot null.", {"BAD_SNAPSHOT_ORDER"},
+    "event_null_source": ("Events: a non-first-snapshot event with from_snapshot null.", {"BAD_SNAPSHOT_ORDER", "UNTRACKED_SUPERNODE"},
                           lambda h, e: event(e, "birth", 2020, 2022).update(from_snapshot=None)),
-    "event_wrong_arity": ("Events: a merge with a single source.", {"BAD_EVENT_ARITY"},
+    "event_wrong_arity": ("Events: a merge with a single source.", {"BAD_EVENT_ARITY", "UNTRACKED_SUPERNODE"},
                           lambda h, e: event(e, "merge")["from_ids"].remove("S_data")),
     "event_identity_changed": ("Events: the S_models growth event 2020 -> 2022 ends at S_eval instead.",
-                               {"IDENTITY_CHANGED"},
+                               {"IDENTITY_CHANGED", "LINEAGE_CONFLICT", "UNTRACKED_SUPERNODE"},
                                lambda h, e: next(x for x in e if x["event"] == "growth" and x["from_ids"] == ["S_models"]
                                                  and x["from_snapshot"] == 2020).update(to_ids=["S_eval"])),
     "event_wrong_level": ("Events: the split is recorded at level 0, but its ids are level-1.",
-                          {"EVENT_WRONG_LEVEL"}, lambda h, e: event(e, "split").update(level=0)),
-    "birth_of_existing": ("Events: S_kernel is 'born' in 2024 although it exists in 2022.", {"BIRTH_OF_EXISTING"},
+                          {"EVENT_WRONG_LEVEL", "UNTRACKED_SUPERNODE"}, lambda h, e: event(e, "split").update(level=0)),
+    "birth_of_existing": ("Events: S_kernel is 'born' in 2024 although it exists in 2022.", {"BIRTH_OF_EXISTING", "LINEAGE_CONFLICT"},
                           lambda h, e: e.append({"event": "birth", "level": 1, "from_snapshot": 2022,
                                                  "to_snapshot": 2024, "from_ids": [], "to_ids": ["S_kernel"]})),
-    "death_of_survivor": ("Events: S_kernel 'dies' in 2024 although it still exists there.", {"DEATH_OF_SURVIVOR"},
+    "death_of_survivor": ("Events: S_kernel 'dies' in 2024 although it still exists there.", {"DEATH_OF_SURVIVOR", "LINEAGE_CONFLICT"},
                           lambda h, e: e.append({"event": "death", "level": 1, "from_snapshot": 2022,
                                                  "to_snapshot": 2024, "from_ids": ["S_kernel"], "to_ids": []})),
+    "event_duplicate": ("Lineage: the S_gnn split 2020 -> 2022 is listed twice.", {"LINEAGE_CONFLICT"},
+                        lambda h, e: e.append(deepcopy(event(e, "split")))),
+    "split_into_existing": ("Lineage: S_tasks 'splits' into S_tasks and S_data, but S_data already exists in 2020.",
+                            {"SPLIT_INTO_EXISTING", "LINEAGE_CONFLICT"}, m_split_into_existing),
+    "merge_source_survives": ("Lineage: S_kernel is merged into S_gnn in 2024 but still exists there.",
+                              {"MERGE_SOURCE_SURVIVES", "LINEAGE_CONFLICT"}, m_merge_source_survives),
+    "untracked_supernode": ("Lineage: the death of S_new is not recorded, so S_new vanishes without an event.",
+                            {"UNTRACKED_SUPERNODE"}, lambda h, e: e.remove(event(e, "death"))),
+    "empty_event_log": ("Lineage: temporal_events.json has no events at all.", {"UNTRACKED_SUPERNODE"},
+                        lambda h, e: e.clear()),
+    "event_membership_mismatch": ("Events: S_data keeps {d1} 2020 -> 2022 but is labelled growth.",
+                                  {"EVENT_MEMBERSHIP_MISMATCH"},
+                                  lambda h, e: event(e, "continue", 2020, 2022).update(event="growth")),
     "event_schema": ("Schema: an unknown event type.", {"SCHEMA"},
                      lambda h, e: event(e, "merge").update(event="explode")),
 }
@@ -202,6 +239,10 @@ FILE_MUTATIONS = {  # name: (description, expected codes, function(out_dir))
                             lambda d: shutil.copytree(d / "2022", d / "2023")),
     "missing_events": ("temporal_events.json is missing.", {"MISSING_EVENTS"},
                        lambda d: (d / "temporal_events.json").unlink()),
+    "noncanonical_snapshot_dir": ("An extra snapshot directory '02020' (int('02020') == 2020, but it is not '2020').",
+                                  {"UNEXPECTED_SNAPSHOT"}, lambda d: shutil.copytree(d / "2020", d / "02020")),
+    "deep_nesting": ("The 2022 hierarchy.json is 100000 nested arrays (json.loads recursion limit).",
+                     {"INVALID_JSON"}, lambda d: (d / "2022" / "hierarchy.json").write_text("[" * 100000 + "]" * 100000)),
 }
 
 

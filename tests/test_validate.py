@@ -8,8 +8,12 @@ as a pass. Run: .venv/bin/python -m pytest tests/
 from pathlib import Path
 import copy
 import filecmp
+import json
+import os
+import shutil
 import subprocess
 import sys
+import time
 
 import pytest
 
@@ -72,6 +76,75 @@ def test_usage_errors_exit_2(tmp_path):
 def test_budget_override_on_command_line_is_enforced():
     rc, codes, _ = run_validator(FIXTURES / "valid", FIXTURE_CONFIG, "--budgets", "3", "4")
     assert rc == 1 and {"BUDGET_EXCEEDED", "BUDGETS_MISMATCH"} <= codes
+
+
+def test_huge_declared_level_count_is_reported_quickly():
+    t = time.perf_counter()
+    rc, codes, _ = run_validator(FIXTURES / "too_many_levels")
+    assert rc == 1 and codes == {"NO_BUDGET"} and time.perf_counter() - t < 20
+
+
+@pytest.mark.skipif(hasattr(os, "geteuid") and os.geteuid() == 0, reason="root can read mode-000 files")
+@pytest.mark.parametrize("target", ["2022/hierarchy.json", "temporal_events.json"])
+def test_unreadable_file_is_a_violation_not_a_crash(tmp_path, target):
+    out = shutil.copytree(FIXTURES / "valid", tmp_path / "out")
+    (out / target).chmod(0)
+    try:
+        rc, codes, text = run_validator(out)
+    finally:
+        (out / target).chmod(0o644)
+    assert rc == 1 and "UNREADABLE" in codes and "Traceback" not in text, text
+
+
+def _input_variant(tmp_path, mutate_graph=None, config_extra=""):
+    inp = tmp_path / "in"
+    inp.mkdir()
+    g = json.loads((FIXTURES / "_input" / "graph.json").read_text())
+    if mutate_graph:
+        mutate_graph(g)
+    (inp / "graph.json").write_text(json.dumps(g))
+    cfg = (FIXTURES / "_input" / "config.toml").read_text()
+    if config_extra:
+        cfg = cfg.replace("cutoffs = [2020, 2022, 2024]", config_extra)
+    (inp / "config.toml").write_text(cfg)
+    return inp / "config.toml"
+
+
+def test_integer_node_ids_in_input_graph_are_handled(tmp_path):
+    def to_int_ids(g):  # 'm1' -> 101 etc.; the output uses the string form '101'
+        conv = {n["id"]: 100 * (1 + "mtd".index(n["id"][0])) + int(n["id"][1:]) for n in g["nodes"]}
+        for n in g["nodes"]:
+            n["id"] = conv[n["id"]]
+        for e in g["hyperedges"]:
+            e["members"] = [conv[m] for m in e["members"]]
+        to_int_ids.conv = conv
+    cfg = _input_variant(tmp_path, to_int_ids)
+    h, e = make_fixtures.valid_output()
+    for doc in h.values():
+        for s in doc["supernodes"]:
+            s["member_ids"] = [str(to_int_ids.conv[m]) for m in s["member_ids"]]
+    write_outputs(tmp_path / "out", h, e)
+    rc, codes, out = run_validator(tmp_path / "out", cfg)
+    assert rc == 0, out
+
+
+def test_undated_input_node_is_an_input_error(tmp_path):
+    cfg = _input_variant(tmp_path, lambda g: g["nodes"].append(
+        {"id": "orphan", "type": "method", "surface_form": "orphan", "provenance": {"articles": []}}))
+    rc, _, out = run_validator(FIXTURES / "valid", cfg)
+    assert rc == 2 and "orphan" in out and "Traceback" not in out, out
+
+
+def test_duplicate_cutoffs_are_a_config_error(tmp_path):
+    cfg = _input_variant(tmp_path, config_extra="cutoffs = [2020, 2020, 2022, 2024]")
+    assert run_validator(FIXTURES / "valid", cfg)[0] == 2
+
+
+def test_internal_error_exits_3_not_1(monkeypatch, capsys):
+    import validate
+    monkeypatch.setattr(validate, "check_hierarchy", lambda *a, **k: 1 / 0)
+    rc = validate.main([str(FIXTURES / "valid"), "--config", str(FIXTURE_CONFIG)])
+    assert rc == 3 and "INTERNAL ZeroDivisionError" in capsys.readouterr().err
 
 
 # ---------------------------------------------------------------- real-data scale

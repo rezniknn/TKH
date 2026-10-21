@@ -70,8 +70,8 @@ def check_inputs(cfg):
         p = getattr(cfg, name)
         if p is not None and not p.is_file():
             raise FileNotFoundError(f"input '{name}' not found: {p} (config: {cfg.source})")
-    if len(cfg.cutoffs) < 3:
-        raise ValueError(f"need at least 3 snapshot cutoffs, got {cfg.cutoffs}")
+    if len(set(cfg.cutoffs)) != len(cfg.cutoffs) or len(cfg.cutoffs) < 3:
+        raise ValueError(f"need at least 3 distinct snapshot cutoffs, got {cfg.cutoffs}")
     if not cfg.budgets or any(b < 1 for b in cfg.budgets) or list(cfg.budgets) != sorted(cfg.budgets):
         raise ValueError(f"budgets must be positive and non-decreasing from level 0, got {cfg.budgets}")
 
