@@ -195,6 +195,35 @@ accepted or changed, and what was checked.
     1.1 pp. A type breakdown ("tasks 149, cited works 127…") could not be reproduced
     under any definition and was discarded.
 
+### 8. T1 notebook: loading and describing the evolving graph (Claude Code)
+
+- **Task/module:** T1; `tkh/io.py`, `tkh/describe.py`, `notebooks/01_describe_graph.ipynb`
+- **Prompt:** "Create a Jupyter notebook loading and describing the evolving graph (T1
+  in the assignment)."
+- **What the assistant did:**
+  - Implemented loading and snapshot slicing in `tkh/io.py`, using the
+    provenance-based rule from entry 7.
+  - Implemented the T1 statistics in `tkh/describe.py`: counts, node and relation
+    types, arity, hub structure, growth, leakage of the alternative year fields,
+    components, shared nodes, and data-quality checks.
+  - Built a notebook that calls these functions and saves static figures to
+    `figures/`.
+  - Created a Python 3.12 virtual environment and pinned the dependencies in
+    `requirements.txt`.
+- **Accepted / modified:** Accepted. Snapshot cutoffs are ≤2020, ≤2022, ≤2024 and ≤2026.
+- **Verified:**
+  - The notebook executes end to end with `nbconvert --execute`.
+  - Its numbers match the independently verified values from entry 7: 2,144 nodes at
+    ≤2022 under the union rule; 70,022 clique pairs vs 6,661 star pairs; 413 shared
+    nodes; 127 / 154 / 36 year and provenance inconsistencies.
+  - A closure assertion (every edge member is in its snapshot) passes at all four
+    cutoffs.
+  - The figures were inspected visually. Overlapping log-axis tick labels and
+    fractional year ticks were found this way and fixed.
+- **Bug caught:** The first execution failed because `Axes.boxplot(labels=...)` was
+  renamed to `tick_labels` in the installed matplotlib (3.11). The assistant
+  wrote code for an older API.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
