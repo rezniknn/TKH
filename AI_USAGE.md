@@ -758,6 +758,58 @@ accepted or changed, and what was checked.
 
   All three were found by inspecting the failures and fixed before commit.
 
+### 21. SHAC-T method: hypergraph-aware constrained agglomeration (Claude Code)
+
+- **Task/module:** T2, T4; `tkh/coarsen.py`, `tkh/hierarchy.py`, `scripts/build.py`,
+  `docs/formal_statement.md`, `tests/test_hierarchy.py`
+- **Prompt (abridged):** "propose an implementation of hypergraph-aware constrained
+  hierarchical agglomeration with semantic similarity and temporal matching as described
+  in notes/hypergraph_clustering_review_perplexity.md report documenting all design
+  decisions, assumptions and trade offs made. The implementation must be done in a way
+  that would allow easily making changes to the key parameters [...] select and document
+  the most optimal configuration providing empirical evidence [...] strictly adhere to
+  creteria defined in T2 [...] Any final representation produced by the algorithm must
+  adjere to P1 - P6 [...] in parallell with the implementation of the evaluation
+  framework described in T6 [...] including the implementation of a null model [...]
+  Circularity needs to be neutralised [...] Work only with the information available in
+  the graph export (semantic, structural), don't use abstracts or paper text."
+- **What the assistant did:** This is step 1 of an agreed plan; the evaluation, nulls
+  and labels follow in later entries.
+  - **Design.** Two independent design-review agents covered native vs projection,
+    normalisation, the giant-cluster cap, anchoring and the temporal term.
+  - **Structural score.** The degree-normalised λ−1 connectivity-cut reduction, computed
+    on the collapsed incidence (T4 applied at every merge).
+  - **Semantic score.** Centred character n-gram LSA of the names.
+  - **Mixing and constraints.** Mid-rank CDF mixing with weight α, a temporal
+    co-membership prior γ, and a size cap ρ with a feasibility lemma.
+  - **Other nodes.** Non-concept nodes are anchored to concept nodes; citations are
+    excluded from the clustering input.
+  - **Configuration.** All parameters are in `[method]` and can be overridden with
+    `--param`.
+- **Accepted / modified:** The first build took 77 s. After profiling (CDF lookups and
+  the weighted-incidence rebuild dominated), it takes 25 s with identical partitions.
+  A claim in the formal-statement draft named "accuracy" and "classification" as hubs.
+  Checking the data showed the real hubs are domain terms ("materials science",
+  "molecular dynamics", ...) and "MAE", and the text was corrected.
+- **Verified:**
+  - `validate.py out/` exits 0 on the real graph (15/60/240 super-nodes per snapshot),
+    and on the fixture graph.
+  - Tests:
+    - the T4 collapse cases;
+    - the merge-gain identity (Prop. 1) on 50 random cases;
+    - native = projection at singletons, and different after a merge;
+    - the ρ = 2 feasibility on 40 random cases;
+    - exact budgets, nesting and coverage;
+    - determinism;
+    - γ = 1 reproduces an unchanged snapshot;
+    - anchors lie in the snapshot.
+  - The draft's numbers were checked on the data: H = 0 for 99.4% of item pairs, and
+    87.8% of concept nodes sit in at most one edge.
+- **Not verified / limits:**
+  - No quality claim yet: coherence, stability, labels and the extrinsic task are
+    evaluated in later steps.
+  - Labels are placeholders.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

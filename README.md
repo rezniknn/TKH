@@ -95,3 +95,28 @@ Each ARI is reported with the largest cluster's share of nodes, because a giant 
 dominates pair-counting ARI. The evaluator takes a `build` function (input hypergraph to
 per-snapshot, per-level partitions), so it can be run on any method; it has not yet been
 run on one.
+
+## Method: SHAC-T (T2, T4)
+
+The formal statement, assumptions and trade-offs are in
+[docs/formal_statement.md](docs/formal_statement.md).
+
+- **Procedure.** A constrained greedy agglomeration over the concept nodes, run from the
+  finest level (240) to the coarsest (15). Each merge maximises a rank-normalised mix of:
+  - a hypergraph-native structural score, the degree-normalised reduction of the λ−1
+    connectivity cut on the collapsed incidence (`tkh/coarsen.py`, T4);
+  - a name-based semantic score.
+
+  A temporal prior on the previous snapshot's co-membership is added. A size cap keeps
+  every budget reachable.
+- **Other nodes.** Non-concept nodes are anchored to a concept node. Citations are never
+  used.
+
+```bash
+make build                                         # -> out/<cutoff>/hierarchy.json, temporal_events.json,
+                                                   #    out/<cutoff>/coarse_hyperedges.json, out/run_info.json
+.venv/bin/python scripts/build.py --param alpha=0.25 --param structure=projection --out /tmp/alt
+```
+
+Parameters (`alpha`, `gamma`, `rho`, `structure`, `lsa_dim`, `hub_frac`) live in
+`[method]` of the config. Labels are placeholders until the LLM labeller is added.

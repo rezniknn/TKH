@@ -13,6 +13,14 @@ cutoffs = [2020, 2022, 2024, 2026]               # cumulative snapshots: content
 [hierarchy]
 budgets = [15, 60, 240]                          # P2 hard limits: max super-nodes at level 0, 1, 2 (N_0 ~ 10-15)
 
+[method]                                         # SHAC-T parameters (tkh/hierarchy.py Params); pre-registered defaults
+alpha = 0.5                                      # weight of the semantic score (CDF-rank scale); 0 = structure only, 1 = semantics only
+gamma = 0.5                                      # temporal coupling: weight of previous-snapshot co-membership (0 = independent snapshots)
+rho = 2.0                                        # size cap: a level-k super-node holds <= rho * n / N_k concept nodes ("inf" = no cap)
+structure = "native"                             # "native" (hypergraph lambda-1 gain on the collapsed hypergraph) or "projection" (clique average linkage)
+lsa_dim = 100                                    # semantic LSA dimensions (char 3-5-gram TF-IDF of names + aliases, fitted per snapshot)
+hub_frac = 0.2                                   # nodes in more than this share of a snapshot's papers carry no structural signal
+
 [outputs]
 out_dir = "../out"
 figures_dir = "../figures"

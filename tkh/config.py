@@ -31,6 +31,8 @@ class Config:
     budgets: tuple = (15, 60, 240)       # P2: max super-nodes at level 0, 1, 2, ... (hard limits)
     out_dir: Path = REPO_ROOT / "out"
     figures_dir: Path = REPO_ROOT / "figures"
+    method: dict = field(default_factory=dict)   # [method]: clustering parameters (tkh.hierarchy.Params)
+    labels: dict = field(default_factory=dict)   # [labels]: LLM labeller / judge settings (tkh.label)
     source: Path | None = field(default=None, compare=False)  # the file this config was read from
 
 
@@ -60,6 +62,12 @@ def load_config(path=None):
         kw["cutoffs"] = tuple(sorted(int(c) for c in snaps["cutoffs"]))
     if "budgets" in hier:
         kw["budgets"] = tuple(int(b) for b in hier["budgets"])
+    kw["method"] = dict(raw.get("method", {}))
+    labels = dict(raw.get("labels", {}))
+    for k in ("labeller_prompt", "judge_prompt", "cache"):  # file paths, relative to the config file
+        if k in labels:
+            labels[k] = str(resolve(labels[k]))
+    kw["labels"] = labels
     cfg = Config(source=path, **kw)
     check_inputs(cfg)
     return cfg

@@ -1,0 +1,68 @@
+{
+ "params": {
+  "alpha": 0.5,
+  "gamma": 0.5,
+  "rho": 2.0,
+  "structure": "native",
+  "lsa_dim": 100,
+  "hub_frac": 0.2
+ },
+ "cid": "a0.5_g0.5_r2_native_d100_h0.2",
+ "runtime_s": 25.3,
+ "snapshots": {
+  "2020": {
+   "n_concept": 1018,
+   "hubs": [
+    "meth_00074",
+    "task_00001",
+    "task_00003",
+    "task_00012",
+    "task_00033"
+   ],
+   "n_edges": 141,
+   "n_anchored": 457
+  },
+  "2022": {
+   "n_concept": 1464,
+   "hubs": [
+    "meth_00030",
+    "meth_00074",
+    "metr_00002",
+    "task_00001",
+    "task_00003",
+    "task_00010",
+    "task_00012",
+    "task_00033"
+   ],
+   "n_edges": 230,
+   "n_anchored": 680
+  },
+  "2024": {
+   "n_concept": 2829,
+   "hubs": [
+    "meth_00074",
+    "metr_00002",
+    "task_00003",
+    "task_00010",
+    "task_00012",
+    "task_00033",
+    "task_00034"
+   ],
+   "n_edges": 406,
+   "n_anchored": 1265
+  },
+  "2026": {
+   "n_concept": 3980,
+   "hubs": [
+    "metr_00002",
+    "task_00003",
+    "task_00010",
+    "task_00012",
+    "task_00033",
+    "task_00034"
+   ],
+   "n_edges": 554,
+   "n_anchored": 1818
+  }
+ }
+}
