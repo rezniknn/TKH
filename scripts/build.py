@@ -2,8 +2,8 @@
 
     python scripts/build.py [--config CFG] [--out DIR] [--param alpha=0.25 ...]
 
-Parameters come from the config's [method] section (tkh/hierarchy.py Params); --param
-overrides single values. Writes, per snapshot, hierarchy.json and coarse_hyperedges.json
+Parameters come from the config's [method] section (tkh/hierarchy.py Params), then from
+<out>/selection.json written by scripts/sweep.py (the selected alpha), then from --param. Writes, per snapshot, hierarchy.json and coarse_hyperedges.json
 (the T4 collapse of the clustering hypergraph onto each level), plus temporal_events.json
 and run_info.json (parameters, hub sets, sizes, runtime).
 """
@@ -74,11 +74,19 @@ def run(cfg, params, out_dir, labeller=None):
 def main(argv=None):
     p = add_config_args(argparse.ArgumentParser(description=__doc__.split("\n")[0]))
     p.add_argument("--out", type=Path, help="output directory (default: the config's out_dir)")
-    p.add_argument("--param", nargs="*", help="override [method] parameters, e.g. alpha=0.25 structure=projection")
+    p.add_argument("--param", nargs="+", action="extend", default=[],
+                   help="override [method] parameters, e.g. alpha=0.25 structure=projection (repeatable)")
+    p.add_argument("--selection", type=Path, default=None,
+                   help="selection.json from scripts/sweep.py: use its selected parameters (default: <out>/selection.json if present)")
     args = p.parse_args(argv)
     cfg = config_from_args(args)
-    params = Params.from_config({**cfg.method, **parse_overrides(args.param)})
     out = args.out or cfg.out_dir
+    sel_path = args.selection or Path(out) / "selection.json"
+    selected = {}
+    if sel_path.exists():
+        selected = json.loads(sel_path.read_text())["selected_params"]
+        print(f"using selected parameters from {sel_path}: {selected}")
+    params = Params.from_config({**cfg.method, **selected, **parse_overrides(args.param)})
     _, events, info = run(cfg, params, out)
     print(f"{params.cid()}: {len(events)} events, {info['runtime_s']}s -> {out}")
 

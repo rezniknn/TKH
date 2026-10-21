@@ -174,3 +174,18 @@ def test_freeze_reference_keeps_old_assignments():
         old = sorted(set().union(*parts[a][k].values()))
         assert ari(labels(parts[a][k], old), labels(parts[b][k], old)) == 1.0
         assert len(parts[b][k]) == cfg.budgets[k]
+
+
+def test_leakage_guard_build_ignores_citations_and_cited_work_names():
+    from dataclasses import replace
+    cfg = load_config()
+    tkh = load(cfg)
+    p = Params.from_config(cfg.method)
+    ref = build_snapshot(tkh, snapshot(tkh, 2020), cfg.budgets, p)
+    no_cites = replace(tkh, edges=tkh.edges[tkh.edges["relation_type"] != "cites"])
+    nodes = tkh.nodes.copy()
+    cw = nodes["type"] == "cited_work"
+    nodes.loc[cw, "surface_form"] = [f"renamed {i}" for i in range(int(cw.sum()))]
+    renamed = replace(tkh, nodes=nodes)
+    for g in (no_cites, renamed):
+        assert build_snapshot(g, snapshot(g, 2020), cfg.budgets, p) == ref

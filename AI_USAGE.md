@@ -853,6 +853,83 @@ accepted or changed, and what was checked.
   - The Curveball shuffle does not preserve the paper count per node exactly: nodes'
     own provenance is unchanged, but the papers they share edges with change.
 
+### 23. Coherence (E1a, E1b), statistics, selection protocol and sweep, T6 (Claude Code)
+
+- **Task/module:** T6 coherence and parameter selection; `tkh/evaluate/coherence.py`,
+  `stats.py`, `selection.py`, `runs.py`, `scripts/sweep.py`, `configs/eval.toml`,
+  `data/eval_splits.json`, `tests/test_coherence.py`
+- **Prompt:** step 3 of the plan agreed for entry 21 (same prompt).
+- **What the assistant did:**
+  - **E1a (primary).** Residual bibliographic coupling (citations never enter the
+    clustering):
+    - name-matched cited works are dropped;
+    - coupling is the IDF-weighted Salton cosine;
+    - aggregation is at paper-pair level, over single-paper concepts;
+    - lift is computed per structural-overlap stratum and pooled;
+    - the interval is a paper jackknife.
+  - **E1b (descriptive).** Ground-truth co-membership, split into same-paper and
+    cross-paper pairs, with a question bootstrap.
+  - **Statistics.** Null summary with an empirical p, Wilson intervals, Holm correction
+    and a paired Wilcoxon test.
+  - **Selection protocol.** Fixed in `configs/eval.toml` before the sweep was run.
+    - Only α is selected, by the one-SE rule on E1a over cited-work half A, with ties
+      toward 0.5.
+    - Selection stability is checked over 50 other splits.
+  - **Sweep.** Parallel, resumable builds of the α grid, the four ablations, the
+    3 × 20 null builds and the perturbation runs.
+  - **Leakage guard.** A test confirms the build is unchanged without `cites` edges and
+    with renamed cited works.
+- **Accepted / modified:** The first overlap stratum counted any shared concept node.
+  The hubs ("materials science", ...) link every pair of citing papers, so the
+  no-overlap stratum was empty. Overlap now ignores hubs (283 of 666 pairs overlap at
+  ≤2026).
+- **Verified:**
+  - Tests:
+    - the toy lift computed by hand;
+    - random partitions give lift ≈ 1;
+    - the residual filter;
+    - the split is disjoint, stratified per citing count, deterministic and matches the
+      committed file;
+    - the one-SE rule and its tie-breaks;
+    - Holm and Wilson against hand values.
+- **Not verified / limits:**
+  - E1a has low power: 37 citing papers and wide jackknife intervals. On the sweep,
+    every α lies within one SE of the best, so the tie-break picks α = 0.5, and the
+    winner agrees in only 56% of the 50 other splits. The selection is therefore
+    reported as "not discriminated by E1a", not as an optimum.
+  - The random-labels null keeps the entry period, so its lift exceeds 1 (about 1.06 at
+    level 1). That makes it conservative.
+
+### 24. Extrinsic task: drill-down vs flat lexical vs personalised PageRank, T6 E4 (Claude Code)
+
+- **Task/module:** T6 extrinsic task; `tkh/evaluate/extrinsic.py`, `tests/test_extrinsic.py`
+- **Prompt:** step 4 of the plan agreed for entry 21 (same prompt).
+- **What the assistant did:** Retrieval of each question's expected methods, with a
+  unit cost per item read, scored on cost to the first target, recall@50/200 and
+  wrong_domain@B. Three methods:
+  - a best-first drill-down over super-node name profiles;
+  - a flat lexical ranking;
+  - personalised PageRank on the same clustering hypergraph.
+- **Accepted / modified:**
+  - **Tie bug.** In the first drill-down, nodes and super-nodes shared one frontier, and
+    at equal (zero) scores the super-nodes popped first, so nothing was retrieved until
+    everything had been opened. A target without a lexical match of its own also lost
+    to every positive-scoring super-node.
+  - **Fix.** Opening a finest-level super-node now reads its members as a topic.
+  - **PPR check.** PPR's many rank-1 hits looked suspicious and were inspected. They are
+    genuine: questions use a paper's task phrases, and the walk follows that paper's
+    star edge to its method.
+- **Verified:**
+  - Tests: best-first cost on a toy tree computed by hand; flat cost = rank; an
+    unmatched target is found by opening its topic.
+- **Not verified / limits:**
+  - 12 usable questions.
+  - First look across the sweep: E4 improves monotonically as α decreases (median cost
+    400 at α = 0 vs 1542 at α = 1). The selected α = 0.5 is no better than the
+    random-labels hierarchy, and PPR beats every hierarchy. This contradicts nothing in
+    the protocol (E4 is not used for selection), but it is a central trade-off for the
+    report.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

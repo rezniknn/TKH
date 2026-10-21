@@ -1,0 +1,39 @@
+# Evaluation and selection protocol (T6), pre-registered before the sweep was run.
+# Read by scripts/sweep.py and scripts/compute_metrics.py; FAST=1 uses the [fast] overrides.
+
+[selection]
+alpha_grid = [0.0, 0.25, 0.5, 0.75, 1.0]   # the only parameter selected; all others fixed in configs/default.toml [method]
+tie_toward = 0.5                           # one-SE rule: among configs within one SE of the best, the alpha closest to this
+snapshot = 2026                            # primary cell: E1a residual coupling lift, pooled over overlap strata,
+level = 1                                  #   on split half A (selection) / half B (reporting)
+stratum = "pooled"
+max_giant_share = 0.5                      # eligibility: largest level-0 super-node holds <= this share of concept nodes
+split_seed = 0                             # committed split in data/eval_splits.json
+stability_seeds = 50                       # selection re-run over this many other split seeds
+
+[ablations]                                # each changes ONE parameter of the selected configuration
+gamma0 = { gamma = 0.0 }
+rho_inf = { rho = "inf" }
+projection = { structure = "projection" }
+freeze = { freeze = true }
+
+[nulls]
+kinds = ["struct", "sem", "full"]          # 2x2 cells besides the model itself
+R = 20                                     # replicates per null kind
+random_labels_R = 999                      # random-labels permutations for E1
+
+[stability]
+frac = 0.10                                # share of clustering-relation edges removed
+seeds = [0, 1, 2, 3, 4]
+null_R = 5                                 # null replicates that also get the perturbation runs
+
+[eval]
+hub_frac = 0.2                             # fixed hub threshold of the E1a overlap strata (independent of the method)
+jobs = 8                                   # parallel builds
+
+[fast]                                     # FAST=1: a quick end-to-end run
+R = 5
+random_labels_R = 99
+seeds = [0, 1]
+null_R = 2
+stability_seeds = 10
