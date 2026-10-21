@@ -6,6 +6,83 @@ import unicodedata
 import pandas as pd
 
 
+# ---------------------------------------------------------------- illustrative unit
+
+def example_article(tkh):
+    """The article whose hyper-edges cover the most relation types and node types; ties go to the smallest."""
+    e, n = tkh.edges, tkh.nodes
+    best = None
+    for a, g in e.groupby("article_id"):
+        members = {m for ms in g["members"] for m in ms}
+        key = (-g["relation_type"].nunique(), -n.loc[sorted(members), "type"].nunique(), int(g["arity"].sum()), str(a))
+        best = min(best, (key, a)) if best else (key, a)
+    return best[1]
+
+
+def article_nodes(tkh, article_id):
+    """Nodes that appear in an article (provenance or a member of one of its hyper-edges)."""
+    in_edges = {m for ms in tkh.edges.loc[tkh.edges["article_id"] == article_id, "members"] for m in ms}
+    in_prov = set(tkh.nodes.index[tkh.nodes["prov_articles"].map(lambda a: article_id in a)])
+    return sorted(in_edges | in_prov)
+
+
+def node_examples(tkh, article_id, max_article_share=0.2):
+    """One node per type from the article. Prefer nodes shared with other articles but not generic hubs
+    (in more than max_article_share of all articles), then short names."""
+    n = tkh.nodes.loc[article_nodes(tkh, article_id)]
+    n_art = n["prov_articles"].map(len)
+    shared = (n_art >= 2) & (n_art <= max_article_share * len(tkh.articles))
+    n = n.assign(n_articles=n_art, _pref=~shared, name_len=n["surface_form"].str.len())
+    pick = (n.sort_values(["type", "_pref", "n_articles", "name_len"], ascending=[True, True, False, True])
+             .groupby("type", sort=False).head(1))
+    if "entity_id" in pick:
+        pick = pick.assign(entity_id=pick["entity_id"].astype("Int64"))
+    if "origin_year" in pick:
+        pick = pick.assign(origin_year=pick["origin_year"].astype("Int64"))
+    cols = [c for c in ("type", "surface_form", "year", "origin_year", "first_seen_year", "last_seen_year",
+                        "entry_year", "n_articles", "entity_id") if c in pick]
+    total = tkh.nodes["type"].value_counts()
+    out = pick[cols].assign(nodes_of_this_type=pick["type"].map(total))
+    return out.sort_values("nodes_of_this_type", ascending=False)
+
+
+def relation_examples(tkh, article_id, max_members=5):
+    """One hyper-edge per relation type from the article: hub, a few members, arity, attributes."""
+    e, n = tkh.edges, tkh.nodes
+    g = e[e["article_id"] == article_id]
+    rows = []
+    for r, gr in g.groupby("relation_type"):
+        # prefer the edge with the richest attributes, then the largest arity
+        richness = gr["attributes"].map(lambda a: len(a) if isinstance(a, dict) else 0) if "attributes" in gr else 0
+        eid = gr.assign(_r=richness).sort_values(["_r", "arity"], ascending=False).index[0]
+        m = e.at[eid, "members"]
+        show = lambda v: f"{n.at[v, 'surface_form'][:40]} [{n.at[v, 'type']}]"
+        attrs = e.at[eid, "attributes"] if "attributes" in e and isinstance(e.at[eid, "attributes"], dict) else {}
+        rows.append({
+            "relation_type": r, "edge_id": eid, "edges_in_article": len(gr), "arity": e.at[eid, "arity"],
+            "hub (members[0])": show(m[0]),
+            "other members": "; ".join(show(v) for v in m[1:max_members + 1]) + (" ..." if len(m) > max_members + 1 else ""),
+            "attributes": ", ".join(f"{k}={v}" for k, v in attrs.items() if k != "n_targets") or "-",
+        })
+    hub_type = lambda row: n.at[e.at[row, "members"][0], "type"]
+    out = pd.DataFrame(rows).set_index("relation_type")
+    return out.assign(_h=[hub_type(x) for x in out["edge_id"]]).sort_values(["_h", "relation_type"]).drop(columns="_h")
+
+
+def article_star(tkh, article_id):
+    """Per relation type: hub type, number of edges, distinct target nodes and their types (for the star diagram)."""
+    e, n = tkh.edges, tkh.nodes
+    g = e[e["article_id"] == article_id]
+    rows = []
+    for r, gr in g.groupby("relation_type"):
+        hubs = {ms[0] for ms in gr["members"]}
+        targets = sorted({v for ms in gr["members"] for v in ms[1:]} - hubs)
+        rows.append({"relation_type": r, "hub_type": n.at[next(iter(hubs)), "type"], "edges": len(gr),
+                     "targets": len(targets), "target_types": ", ".join(sorted(n.loc[targets, "type"].unique())),
+                     "examples": [n.at[v, "surface_form"] for v in targets]})
+    return pd.DataFrame(rows).set_index("relation_type")
+
+
 # ---------------------------------------------------------------- per snapshot
 
 def snapshot_summary(tkh, snaps):

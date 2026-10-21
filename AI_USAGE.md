@@ -472,6 +472,41 @@ accepted or changed, and what was checked.
     of the abstraction.
   - Many-to-many lineage cannot be expressed.
 
+### 14. Illustrative unit of each entity and relation, T1 notebook §1 (Claude Code)
+
+- **Task/module:** T1; `tkh/describe.py`, notebook 01 (new §1; former §1–7 renumbered
+  §2–8)
+- **Prompt:** "Update 01_describe_graph notebook to give an ilustrative example of what
+  an ilustrative unit of each data entity and each relation between entities look
+  like before diving into snapshot statistics, sizes, spans, evolution etc."
+- **What the assistant did:**
+  - Added helpers to `tkh/describe.py`: `example_article`, `article_nodes`,
+    `node_examples`, `relation_examples` and `article_star`.
+  - Added a new first section that walks through one paper. The paper is chosen by
+    code: the one covering the most relation and node types, with ties going to the
+    smallest. Here that is the MEGNet paper (2019), covering 11/11 relation types and
+    12/12 node types.
+  - The section shows the raw JSON of one node and one hyper-edge, one example node
+    per type, and one example hyper-edge per relation type with its hub, members and
+    attributes.
+  - It adds a star diagram (`figures/t1_example_article.png`) and a short list of what
+    this unit implies for the analysis.
+  - The node examples prefer nodes shared with other papers but present in no more
+    than 20% of them. The first version picked generic hubs such as 'materials
+    science', which was changed after inspection.
+- **Accepted / modified:** Accepted.
+- **Verified:**
+  - The notebook executes end to end in `.venv` with no error or stderr outputs.
+  - The section numbers and the cross-references inside the notebook were updated
+    together.
+  - The statements in the new text were checked against computed values: only
+    `claims` and `evaluated_on` carry descriptive attributes and repeat within a
+    paper, and 76% of the example paper's nodes appear in no other paper.
+  - The star diagram went through three layout iterations after visual inspection,
+    because of overlapping boxes and arrows crossing other boxes.
+- **Note:** The notebook-building script from earlier sessions was a scratch file and
+  has been lost. The notebook is now edited in place.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
