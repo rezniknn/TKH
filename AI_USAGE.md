@@ -563,6 +563,26 @@ accepted or changed, and what was checked.
     re-run the clustering on perturbed inputs. Both are useful, but they answer
     different questions.
 
+### 16. Persistent super-node ids and event log across snapshots (Claude Code)
+
+- **Task/module:** T3 identity bookkeeping; `tkh/temporal.py`, `tests/test_temporal.py`
+- **Prompt:** None of its own. The matcher was written as one component of a larger
+  request; the other outputs of that request were later removed from the repository at
+  the user's request, and the matcher was kept.
+- **What the assistant did:** Implemented `match_and_name`, which assigns persistent
+  super-node ids to independently built per-snapshot clusters by member overlap.
+  - Each old cluster points to its successor (largest overlap) and each new cluster to
+    its predecessor.
+  - Components of this pointer graph resolve into persist (continue / growth / change),
+    split, merge, birth or death.
+  - The resulting event log satisfies the validator's lineage rules: one fate per
+    super-node per transition, and global ids that are never reused.
+  - It only does identity bookkeeping. It does not regularise stability.
+- **Accepted / modified:** Accepted.
+- **Verified:** A property test runs 300 random sequences of nested partitions over 4
+  snapshots, including many-to-many overlaps. Every event log must pass the validator's
+  `check_events` and `check_id_namespace`.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
