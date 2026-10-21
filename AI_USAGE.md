@@ -930,6 +930,59 @@ accepted or changed, and what was checked.
     the protocol (E4 is not used for selection), but it is a central trade-off for the
     report.
 
+### 25. LLM labels, label-faithfulness judge and metrics pipeline, T5/T6 E3, §6a (Claude Code)
+
+- **Task/module:** T5, T6 E3, §6a.3–4; `tkh/llm.py`, `tkh/label.py`,
+  `tkh/evaluate/faithfulness.py`, `configs/prompts/`, `data/llm_cache.json`,
+  `scripts/compute_metrics.py`, `schema/metrics.schema.json`, `make_tables.py`, `Makefile`
+- **Prompt:** steps 5–6 of the plan agreed for entry 21. The user chose: "Use an open
+  source LLM call to produce labels. Make the choice of the exact model and prompt
+  configurable parameters", with Ollama, a committed response cache, and a judge from a
+  different open model family.
+- **What the assistant did:**
+  - **Runtime.** Ollama was installed from the official release binary into user space
+    (the x86 Homebrew on this arm64 machine could not build it).
+  - **Labeller.** qwen2.5:7b-instruct sees a seeded half of each super-node's members.
+  - **Judge evidence.** The held-out half, claim sentences and titles of the members'
+    papers, all with year ≤ cutoff.
+  - **Cache.** Keyed by model, model digest, rendered prompt and decoding options;
+    offline replay; a miss raises an error.
+  - **Metrics.** `compute_metrics.py` computes E1–E4 for the model, every configuration
+    and every null. `make_tables.py` fails on any missing cell.
+- **Accepted / modified:**
+  1. **The pre-registered absolute judge failed its own negative control.** llama3.1:8b
+     rated 100% of labels "accurate", including glosses swapped onto another
+     super-node's evidence and labels of random groups. The assistant had designed
+     E3 around this rating; the swapped-gloss control caught the failure.
+     - A calibration on 30 super-nodes showed gemma2:9b and phi4 are equally sycophantic
+       on absolute ratings.
+     - A forced choice (pick the true label among four) is answered at 2–3 times
+       chance by all three judges.
+     - Forced choice is now the primary E3 instrument. llama3.1:8b stays the primary
+       judge, as pre-registered, so the judge was not chosen by result. The other two
+       judges are robustness checks, and the failed absolute rating is still reported.
+  2. **The deterministic "future entity" check produced false positives.** It flagged
+     27/300 labels because dictionary words ("Materials" is a dataset node that enters in
+     2026) matched entity names. It now counts only proper-name-like names (acronym,
+     CamelCase or numbered tokens).
+  3. **The labeller prompt was tightened** after the first labels were generic ("Machine
+     Learning Methods").
+- **Verified:**
+  - Tests:
+    - an offline cache miss raises;
+    - a cache hit replays;
+    - decoding options are part of the key;
+    - the labeller's prompt never contains held-out members;
+    - the judge's evidence has no title after the cutoff;
+    - the deterministic checks fire, and dictionary words do not;
+    - the swapped glosses form a derangement.
+  - `validate.py out/` passes with the LLM labels; no label failed to generate.
+- **Not verified / limits:**
+  - There is no human rating sample.
+  - The judges are 7–14B local models; forced choice measures how *identifiable* a
+    label is from held-out evidence, which is a proxy for faithfulness, not an
+    entailment check of each claim.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

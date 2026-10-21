@@ -14,7 +14,9 @@ and tests: name, family, metric, cell, model, null, statistic, p, p_holm, primar
 Four primary tests, one per family, pre-registered and Holm-corrected:
     E1  model vs full-null: E1a lift, <=2026, level 1, pooled strata, split B (empirical p)
     E2  model vs full-null: perturbation ARI, <=2026, level 1 (Wilcoxon paired by perturbation seed)
-    E3  model vs random-labels: over-claim ('wrong') share, <=2026, levels 0-1, held-out pass (Fisher exact)
+    E3  model vs random-labels: forced-choice identification of the label from held-out evidence,
+        <=2026, levels 0-1, primary judge (Fisher exact). The pre-registered absolute rating
+        ('wrong' share) failed its swapped-gloss control and is reported as such (see faithfulness.py).
     E4  hierarchy vs flat lexical: cost to the first target, <=2026 (Wilcoxon paired by question)
 """
 
@@ -40,7 +42,10 @@ from tkh.config import add_config_args, config_from_args  # noqa: E402
 from tkh.evaluate import runs  # noqa: E402
 from tkh.evaluate.coherence import Ruler, coupling_lift, coverage, gt_comembership, load_split  # noqa: E402
 from tkh.evaluate.extrinsic import Index, evaluate as e4_evaluate, load_questions, penalised_first_cost  # noqa: E402
-from tkh.evaluate.faithfulness import Judge, evaluate_labels, summarise  # noqa: E402
+from tkh.evaluate.faithfulness import Judge, evaluate_labels, forced_choice, summarise  # noqa: E402
+from tkh.evaluate.stats import wilson  # noqa: E402
+from tkh.llm import CachedLLM  # noqa: E402
+from tkh.label import _mode  # noqa: E402
 from tkh.evaluate.groundtruth import load_ground_truth, question_targets  # noqa: E402
 from tkh.evaluate.nulls import permute_hierarchy  # noqa: E402
 from tkh.evaluate.stability import (ari, change_localisation, cross_snapshot_stability, labels,  # noqa: E402
@@ -228,7 +233,7 @@ def e3(tkh, cfg, ev, out, model, out_rows, tests, log):
     for (ps, c, k), rs in sorted(groups.items(), key=str):
         s = summarise([r["rating"] for r in rs])
         variant = {"held_out": "model", "full": "model", "swapped": "swapped-gloss", "random_labels": "random-labels"}[ps]
-        for m, key in (("over_claim_rate", "wrong"), ("vague_rate", "vague"), ("accurate_rate", "accurate"), ("unparsed_rate", "unparsed")):
+        for m, key in (("abs_over_claim_rate", "wrong"), ("abs_vague_rate", "vague"), ("abs_accurate_rate", "accurate"), ("abs_unparsed_rate", "unparsed")):
             out_rows.append(row("E3", m, variant, s[key]["share"], None if c == "all" else c, None if k == "all" else k,
                                 split=ps, ci_lo=s[key]["lo"], ci_hi=s[key]["hi"], n=s["n"], k=s[key]["k"]))
         if ps in ("held_out", "full"):
@@ -237,18 +242,55 @@ def e3(tkh, cfg, ev, out, model, out_rows, tests, log):
                 out_rows.append(row("E3", d[4:] + "_rate", variant, kk / len(rs), None if c == "all" else c,
                                     None if k == "all" else k, split=ps, n=len(rs), k=kk))
     m = groups[("held_out", 2026, "all")]
-    n = groups[("random_labels", 2026, "all")]
-    km, kn = sum(r["rating"] == "wrong" for r in m), sum(r["rating"] == "wrong" for r in n)
-    _, p = sps.fisher_exact([[km, len(m) - km], [kn, len(n) - kn]], alternative="less")
-    tests.append({"name": "E3 over-claim model vs random-labels", "family": "E3", "metric": "over_claim_rate",
-                  "cell": {"snapshot": 2026, "level": "0-1", "split": "held_out"}, "model": km / len(m), "null": "random-labels",
-                  "statistic": None, "p": float(p), "null_mean": kn / len(n), "R": 1, "primary": True})
     sw = groups[("swapped", 2026, "all")]
-    ks = sum(r["rating"] == "wrong" for r in sw)
-    _, p = sps.fisher_exact([[km, len(m) - km], [ks, len(sw) - ks]], alternative="less")
-    tests.append({"name": "E3 judge discriminates: model vs swapped glosses", "family": "E3", "metric": "over_claim_rate",
-                  "cell": {"snapshot": 2026, "level": "0-1"}, "model": km / len(m), "null": "swapped-gloss",
-                  "statistic": None, "p": float(p), "null_mean": ks / len(sw), "R": 1, "primary": False})
+    km, ks = sum(r["rating"] == "wrong" for r in m), sum(r["rating"] == "wrong" for r in sw)
+    am, as_ = sum(r["rating"] == "accurate" for r in m), sum(r["rating"] == "accurate" for r in sw)
+    _, p = sps.fisher_exact([[am, len(m) - am], [as_, len(sw) - as_]], alternative="greater")
+    tests.append({"name": "E3 absolute rating discriminates: accurate share true vs swapped glosses", "family": "E3",
+                  "metric": "abs_accurate_rate", "cell": {"snapshot": 2026, "level": "0-1"}, "model": am / len(m),
+                  "null": "swapped-gloss", "statistic": None, "p": float(p), "null_mean": as_ / len(sw), "R": 1, "primary": False})
+
+    # forced choice: primary judge on every snapshot; robustness judges at <=2026; model vs random-labels labels
+    fc = []
+    judges = [cfg.labels["judge_model"]] + list(ev.get("e3", {}).get("robustness_judges", []))
+    fseed = ev.get("e3", {}).get("forced_choice_seed", 0)
+    for jm in judges:
+        jj = judge if jm == cfg.labels["judge_model"] else Judge(tkh, cfg, CachedLLM(jm, cfg.labels["cache"], cfg.labels.get("endpoint", "http://localhost:11434"), _mode(cfg)))
+        fc += forced_choice(tkh, cfg, hier if jm == cfg.labels["judge_model"] else {2026: hier[2026]}, jj, seed=fseed, tag="model")
+        fc += forced_choice(tkh, cfg, rl_h, jj, seed=fseed, tag="random-labels")
+        jj.llm.save()
+        log(f"E3 forced choice {jm}: {jj.llm.calls} new calls")
+    fgroups = {}
+    for r in fc:
+        for c in (r["snapshot"], "all"):
+            for k in (r["level"], "all"):
+                fgroups.setdefault((r["judge"], r["variant"], c, k), []).append(r)
+    for (jm, variant, c, k), rs in sorted(fgroups.items(), key=str):
+        n, hit = len(rs), sum(r["hit"] for r in rs)
+        lo, hi = wilson(hit, n)
+        cell = dict(snapshot=None if c == "all" else c, level=None if k == "all" else k, stratum=jm, split="forced_choice")
+        out_rows.append(row("E3", "identification_rate", variant, hit / n, ci_lo=lo, ci_hi=hi, n=n, k=hit, **cell))
+        out_rows.append(row("E3", "over_claim_rate", variant, 1 - hit / n, ci_lo=1 - hi, ci_hi=1 - lo, n=n, k=n - hit, **cell))
+        out_rows.append(row("E3", "identification_chance_corrected", variant, (hit / n - 0.25) / 0.75,
+                            ci_lo=(lo - 0.25) / 0.75, ci_hi=(hi - 0.25) / 0.75, n=n, **cell))
+        if c == "all" and k == "all":
+            pos = {L: sum(r["choice"] == L for r in rs) / n for L in "ABCD"}
+            out_rows.append(row("E3", "choice_position_max_share", variant, max(pos.values()), n=n, **cell, positions=pos))
+    for jm in judges:
+        mm = fgroups[(jm, "model", 2026, "all")]
+        nn = fgroups[(jm, "random-labels", 2026, "all")]
+        hm, hn = sum(r["hit"] for r in mm), sum(r["hit"] for r in nn)
+        _, p = sps.fisher_exact([[hm, len(mm) - hm], [hn, len(nn) - hn]], alternative="greater")
+        tests.append({"name": f"E3 forced-choice identification model vs random-labels ({jm})", "family": "E3",
+                      "metric": "identification_rate", "cell": {"snapshot": 2026, "level": "0-1", "judge": jm},
+                      "model": hm / len(mm), "null": "random-labels", "statistic": None, "p": float(p),
+                      "null_mean": hn / len(nn), "R": 1, "primary": jm == cfg.labels["judge_model"]})
+        b = sps.binomtest(hm, len(mm), 0.25, alternative="greater")
+        tests.append({"name": f"E3 forced-choice identification model vs chance ({jm})", "family": "E3",
+                      "metric": "identification_rate", "cell": {"snapshot": 2026, "level": "0-1", "judge": jm},
+                      "model": hm / len(mm), "null": "chance 0.25", "statistic": None, "p": float(b.pvalue),
+                      "null_mean": 0.25, "R": 1, "primary": False})
+    rows += fc
     (Path(out) / "label_judgements.json").write_text(json.dumps(rows, indent=1, ensure_ascii=False) + "\n")
 
 

@@ -57,7 +57,8 @@ class CachedLLM:
             return d
         with urllib.request.urlopen(f"{self.endpoint}/api/tags", timeout=30) as r:
             tags = json.loads(r.read())["models"]
-        d = next((m["digest"] for m in tags if m["name"] == self.model or m["model"] == self.model), None)
+        want = {self.model, f"{self.model}:latest"}  # "phi4" is listed as "phi4:latest"
+        d = next((m["digest"] for m in tags if m["name"] in want or m["model"] in want), None)
         if d is None:
             raise RuntimeError(f"model {self.model!r} is not pulled on {self.endpoint} (ollama pull {self.model})")
         self.cache["models"][self.model] = d

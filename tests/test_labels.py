@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from tkh.config import load_config  # noqa: E402
-from tkh.evaluate.faithfulness import NameChecker, derangement, deterministic_checks, summarise  # noqa: E402
+from tkh.evaluate.faithfulness import NameChecker, _proper, derangement, deterministic_checks, summarise  # noqa: E402
 from tkh.io import load  # noqa: E402
 from tkh.label import Evidence, LLMLabeller, split_members  # noqa: E402
 from tkh.llm import CacheMiss, CachedLLM  # noqa: E402
@@ -89,12 +89,16 @@ def test_deterministic_checks_fire(real):
     cfg, tkh = real
     chk = NameChecker(tkh)
     n = tkh.nodes
-    late = next(v for v in n.index if n.at[v, "type"] == "method" and n.at[v, "entry_year"] > 2022 and len(str(n.at[v, "surface_form"])) >= 6)
-    early = next(v for v in n.index if n.at[v, "type"] == "method" and n.at[v, "entry_year"] <= 2020 and len(str(n.at[v, "surface_form"])) >= 6)
+    ok = lambda v: n.at[v, "type"] == "method" and _proper(str(n.at[v, "surface_form"])) and len(str(n.at[v, "surface_form"])) >= 5  # noqa: E731
+    late = next(v for v in n.index if ok(v) and n.at[v, "entry_year"] > 2022)
+    early = next(v for v in n.index if ok(v) and n.at[v, "entry_year"] <= 2020)
     text = f"Models such as {n.at[late, 'surface_form']} and {n.at[early, 'surface_form']} introduced in 2024."
     r = deterministic_checks(text, [early], 2020, chk)
-    assert r["year_after_cutoff"] and late in r["named_non_member"] and late in r["future_entity"]
-    assert early not in r["named_non_member"]
+    ln, en = str(n.at[late, "surface_form"]), str(n.at[early, "surface_form"])
+    if all(chk.entry[v] > 2020 for v in chk.nodes_of[ln]):
+        assert ln in r["future_entity"]
+    assert r["year_after_cutoff"] and ln in r["named_non_member"]
+    assert en not in r["named_non_member"]
     clean = deterministic_checks("Graph models of molecules.", [early], 2020, chk)
     assert not clean["year_after_cutoff"] and not clean["future_entity"]
 
@@ -105,3 +109,24 @@ def test_swapped_glosses_form_a_derangement_and_rates_sum_to_one():
         assert sorted(p) == list(range(n)) and all(i != j for i, j in enumerate(p))
     s = summarise(["accurate", "vague", "wrong", "wrong"])
     assert s["wrong"]["share"] == 0.5 and sum(s[k]["k"] for k in ("accurate", "vague", "wrong", "unparsed")) == 4
+
+
+def test_dictionary_words_are_not_named_entities(real):
+    cfg, tkh = real
+    chk = NameChecker(tkh)
+    assert _proper("CHGNet") and _proper("QM9") and _proper("M3GNet") and not _proper("Materials") and not _proper("Graph Network")
+    r = deterministic_checks("Materials property prediction with graph networks.", [], 2020, chk)
+    assert r["named_non_member"] == [] and r["future_entity"] == []
+
+
+def test_name_checks_handle_duplicate_entities(real):
+    cfg, tkh = real
+    chk = NameChecker(tkh)
+    chk.nodes_of = {"CGCNN": {"old", "new"}}
+    import re as _re
+    chk.pats = [("CGCNN", _re.compile(r"CGCNN"))]
+    chk.entry = {"old": 2018, "new": 2024}
+    r = deterministic_checks("CGCNN models", ["old"], 2022, chk)
+    assert r["named_non_member"] == [] and r["future_entity"] == []
+    r = deterministic_checks("CGCNN models", ["x"], 2022, chk)
+    assert r["named_non_member"] == ["CGCNN"] and r["future_entity"] == []

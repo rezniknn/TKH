@@ -24,6 +24,10 @@ random_labels_R = 999                      # random-labels permutations for E1
 random_labels_R_e4 = 99                    # random-labels permutations for E4 (one drill-down per question each)
 random_labels_e3_seed = 0                  # the one random-labels hierarchy that is labelled and judged for E3
 
+[e3]
+robustness_judges = ["gemma2:9b", "phi4"]  # forced choice repeated at <=2026 with judges of two more model families
+forced_choice_seed = 0
+
 [stability]
 frac = 0.10                                # share of clustering-relation edges removed
 seeds = [0, 1, 2, 3, 4]

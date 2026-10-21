@@ -146,18 +146,30 @@ def t_e2_levels(m):
 
 
 def t_e3(m):
+    judges = sorted({r["stratum"] for r in m.rows if r["family"] == "E3" and r["metric"] == "identification_rate"},
+                    key=lambda j: (j != m.meta["labels"]["judge_model"], j))
     body = []
-    for v, split, snap in (("model", "held_out", 2026), ("model", "full", 2026), ("swapped-gloss", "swapped", 2026),
-                           ("random-labels", "random_labels", 2026), ("model", "held_out", None)):
-        g = {k: m.get(family="E3", metric=f"{k}_rate", variant=v, snapshot=snap, level=None, split=split)
+    for j in judges:
+        for v in ("model", "random-labels"):
+            g = m.get(family="E3", metric="identification_rate", variant=v, snapshot=2026, level=None, stratum=j, split="forced_choice")
+            o = m.get(family="E3", metric="over_claim_rate", variant=v, snapshot=2026, level=None, stratum=j, split="forced_choice")
+            pz = m.get(family="E3", metric="choice_position_max_share", variant=v, snapshot=None, level=None, stratum=j, split="forced_choice")
+            tag = " (primary)" if j == m.meta["labels"]["judge_model"] else ""
+            body.append([j + tag, name_of(m, v) if v == "model" else v, g["n"], ci(g), ci(o), fmt(pz["value"])])
+    allsnap = m.get(family="E3", metric="identification_rate", variant="model", snapshot=None, level=None,
+                    stratum=m.meta["labels"]["judge_model"], split="forced_choice")
+    fc = md(["judge", "labels (≤2026, levels 0–1)", "n", "identified among 4 (chance 0.25)", "over-claim = not identified",
+             "most-chosen position share"], body)
+    ab = []
+    for v, split in (("model", "held_out"), ("swapped-gloss", "swapped"), ("random-labels", "random_labels")):
+        g = {k: m.get(family="E3", metric=f"abs_{k}_rate", variant=v, snapshot=2026, level=None, split=split)
              for k in ("over_claim", "vague", "accurate")}
-        what = {"held_out": "held-out evidence", "full": "full evidence", "swapped": "another super-node's evidence",
-                "random_labels": "held-out evidence"}[split]
-        body.append([f"{v} ({'all snapshots' if snap is None else '≤' + str(snap)})", what, g["over_claim"]["n"],
-                     ci(g["over_claim"]), ci(g["vague"]), ci(g["accurate"])])
+        ab.append([v, g["accurate"]["n"], ci(g["accurate"]), ci(g["vague"]), ci(g["over_claim"])])
     det = {k: m.get(family="E3", metric=f"{k}_rate", variant="model", snapshot=None, level=None, split="held_out")
            for k in ("year_after_cutoff", "named_non_member", "future_entity")}
-    return md(["labels", "judged against", "n", "over-claim (wrong)", "vague", "accurate"], body) + \
+    return fc + f"\n\nPrimary judge over all four snapshots: {ci(allsnap)} identified (n = {allsnap['n']}).\n\n" + \
+        "Absolute rating by the primary judge (failed its negative control):\n\n" + \
+        md(["labels judged against own held-out evidence (≤2026)", "n", "accurate", "vague", "wrong"], ab) + \
         "\n\nDeterministic checks (all snapshots, levels 0–1): " + \
         ", ".join(f"{k.replace('_', ' ')} {det[k]['k']}/{det[k]['n']}" for k in det) + "."
 

@@ -1,7 +1,20 @@
 """Label faithfulness: rates each label/gloss against its super-node's members and reports the over-claim rate with intervals.
 
-E3. A judge model from a different open family (config [labels] judge_model) rates every
-level-0/1 label and gloss as accurate / vague / wrong:
+E3. Two judge protocols, both with a judge model from a different open family than the
+labeller (config [labels] judge_model; robustness judges in configs/eval.toml [e3]).
+
+Forced choice (`forced_choice`, the primary instrument). The judge sees the HELD-OUT
+evidence of one super-node and four candidate labels+glosses of the same level and
+snapshot: its own and three random others, in a seeded random order. A label is counted
+as faithful if the judge picks it. Over-claim rate = 1 - identification rate; chance is
+0.25, and chance-corrected identification is (rate - 1/4) / (3/4). Unlike an absolute
+rating, this cannot be passed by agreeing with everything. The chosen positions are
+reported as a position-bias check.
+
+Absolute rating (kept, but it FAILED its negative control on this data: the 7-9B judges
+rated the swapped glosses accurate as often as the true ones, so its over-claim rate is
+reported only as a failed instrument). It rates every level-0/1 label and gloss as
+accurate / vague / wrong:
 - primary pass ("held_out"): evidence the labeller did not see, namely the held-out half
   of the members (tkh/label.split_members), plus claim sentences and titles of the
   snapshot papers those members come from. This removes the circularity of judging a
@@ -16,8 +29,9 @@ Wilson 95% intervals.
 
 Deterministic checks, independent of any model (`deterministic_checks`):
 - a year after the cutoff in the label or gloss;
-- a named non-member: a method/dataset name of the graph (whole-word, >= 4 characters)
-  that is not a member of the super-node;
+- a named non-member: a proper-name-like method/dataset name of the graph (it contains a
+  token with two or more capitals or a digit, e.g. CHGNet, QM9; dictionary words such as
+  the dataset node "Materials" are excluded) that is not a member of the super-node;
 - a named entity whose entry year is after the cutoff (future leakage).
 """
 
@@ -65,30 +79,45 @@ class Judge:
         return (r if r in RATINGS else "unparsed"), (resp.get("reason") if isinstance(resp, dict) else None)
 
 
+def _proper(name):
+    """True if the name contains a token with >= 2 capitals or a digit (acronym / CamelCase / numbered)."""
+    return any(sum(ch.isupper() for ch in t) >= 2 or (any(ch.isdigit() for ch in t) and any(ch.isalpha() for ch in t))
+               for t in re.findall(r"[\w-]+", name))
+
+
 class NameChecker:
+    """Proper-name-like method/dataset names of the graph, matched whole-word in label text.
+
+    Checks work per NAME, not per node: the graph has duplicate entities and shared aliases
+    (e.g. 'CGCNN' enters in 2024 while 'crystal graph convolutional neural networks' enters
+    in 2018), so a name is a non-member only if no node carrying it is a member, and a
+    future entity only if every node carrying it enters after the cutoff."""
+
     def __init__(self, tkh):
         n = tkh.nodes
         self.entry = n["entry_year"].to_dict()
-        self.pats = []
+        self.nodes_of = {}
         for v, sf, al, t in zip(n.index, n["surface_form"], n["aliases"] if "aliases" in n else [None] * len(n), n["type"]):
             if t not in NAMED_TYPES:
                 continue
             for s in [sf, *(al if isinstance(al, list) else [])]:
                 s = str(s).strip()
-                if len(s) >= 4:
-                    self.pats.append((v, re.compile(r"(?<![\w-])" + re.escape(s) + r"(?![\w-])")))
+                if len(s) >= 3 and _proper(s):
+                    self.nodes_of.setdefault(s, set()).add(v)
+        self.pats = [(s, re.compile(r"(?<![\w-])" + re.escape(s) + r"(?![\w-])")) for s in sorted(self.nodes_of)]
 
     def named(self, text):
-        return {v for v, p in self.pats if p.search(text)}
+        """{matched name: set of nodes carrying it}."""
+        return {s: self.nodes_of[s] for s, p in self.pats if p.search(text)}
 
 
 def deterministic_checks(text, members, cutoff, checker):
     years = [int(y) for y in re.findall(r"(?<!\d)(19\d\d|20\d\d)(?!\d)", text)]
     named = checker.named(text)
     mem = set(members)
-    return {"year_after_cutoff": any(y > cutoff for y in years),
-            "named_non_member": sorted(named - mem),
-            "future_entity": sorted(v for v in named if checker.entry.get(v, 0) > cutoff)}
+    non_member = sorted(s for s, vs in named.items() if not vs & mem)
+    future = sorted(s for s, vs in named.items() if all(checker.entry.get(v, 0) > cutoff for v in vs))
+    return {"year_after_cutoff": any(y > cutoff for y in years), "named_non_member": non_member, "future_entity": future}
 
 
 def summarise(ratings):
@@ -127,4 +156,31 @@ def evaluate_labels(tkh, cfg, hierarchies, judge, passes=("held_out",), swapped=
                     r, why = judge.rate(c, s["label"], s["gloss"] or "", judge.pack(c, other["member_ids"], "held_out"))
                     rows.append({"snapshot": c, "level": k, "id": s["id"], "pass": "swapped", "rating": r, "reason": why,
                                  "label": s["label"], "evidence_of": other["id"]})
+    return rows
+
+
+LETTERS = "ABCD"
+
+
+def forced_choice(tkh, cfg, hierarchies, judge, levels=(0, 1), seed=0, tag="model"):
+    """Rows per labelled super-node: did the judge pick its label among 4 (own + 3 same-level others)?"""
+    from tkh.llm import render
+    rows = []
+    for c, h in sorted(hierarchies.items()):
+        for k in levels:
+            lv = sorted((s for s in h["supernodes"] if s["level"] == k and s.get("label")), key=lambda s: s["id"])
+            if len(lv) < 4:
+                continue
+            for i, s in enumerate(lv):
+                rng = random.Random(f"{seed}|{c}|{k}|{s['id']}")
+                others = rng.sample([o for o in lv if o["id"] != s["id"]], 3)
+                pos = rng.randrange(4)
+                opts = others[:pos] + [s] + others[pos:]
+                text = "\n".join(f"{LETTERS[j]}. {o['label']}: {o['gloss'] or ''}" for j, o in enumerate(opts))
+                pk = judge.pack(c, s["member_ids"], "held_out")
+                resp = judge.llm.complete(render(cfg.labels["judge_choice_prompt"], cutoff=c, options=text, **pk))
+                ch = str(resp.get("choice", "")).strip().upper()[:1] if isinstance(resp, dict) else ""
+                rows.append({"snapshot": c, "level": k, "id": s["id"], "variant": tag, "judge": judge.llm.model,
+                             "true_pos": LETTERS[pos], "choice": ch if ch in LETTERS else None,
+                             "hit": ch == LETTERS[pos], "reason": resp.get("reason") if isinstance(resp, dict) else None})
     return rows
