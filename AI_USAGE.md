@@ -507,6 +507,62 @@ accepted or changed, and what was checked.
 - **Note:** The notebook-building script from earlier sessions was a scratch file and
   has been lost. The notebook is now edited in place.
 
+### 15. Null models used in hypergraph clustering research (Perplexity)
+
+- **Task/module:** T6 evaluation design (coherence vs a null model; the stability
+  baseline)
+- **Tool:** Perplexity Deep Research with the Academic connector enabled, as a
+  follow-up in the same thread as entry 12.
+- **Prompt:** "In the research papers studied earlier, what is typically used as a null
+  model to compare results of more advanced algorithms against?"
+- **Output:** A report on null models.
+  - **Default structural null:** a degree- and hyperedge-size-preserving random
+    hypergraph (configuration model).
+  - **Other families:** uniform random hypergraph; DCHSBM, described as a
+    community-generating reference rather than a no-structure null; microcanonical
+    degree-corrected nulls; attribute-preserving nulls; temporal nulls.
+  - **Proposed suite N0–N6:** uniform; degree-preserving; type-preserving; semantic
+    shuffle; structure shuffle; temporal rewiring; persistence-matched.
+  - **Protocol:** an effect size z and an empirical one-sided p-value,
+    (1 + #{M_null ≥ M_obs}) / (R + 1).
+  - **Terminology:** null model, baseline algorithm and ablation are distinct things.
+  - The full report is kept outside the repo, as working notes.
+- **Accepted / modified:**
+  - Accepted the terminology and the protocol: z-score and empirical p-value over R
+    null samples, with the pipeline and parameters held fixed.
+  - Accepted the idea of a layered null suite, with structure, semantic and temporal
+    controls, as input to the T6 design.
+  - No specific null has been chosen yet.
+- **Verified:**
+  - The empirical p-value formula is the standard add-one permutation estimate, so it
+    is never exactly 0.
+  - The brief's §5 T6 itself asks for a "degree/arity-preserving hypergraph shuffle, or
+    random labels", which matches the report's main recommendation.
+- **Not verified / caveats:**
+  - **Citations cannot be traced.** The `[cite:N]` markers refer to Perplexity's
+    internal source list, which was not exported, so no claim in the report can be
+    traced to a paper from this output.
+  - **Fit to this data** (from entries 7–8):
+    - Every hyper-edge is a star: its first member is the article or the presented
+      method, and its other members are of fixed types per relation (e.g.
+      `authored_by` → authors).
+    - A plain configuration-model rewiring (N1) that ignores types and roles would
+      give an author `uses_technique` membership and the like. That null is easy to
+      beat, and beating it says little.
+    - A useful structural null must preserve at least the relation type, the hub
+      position and the member type of each slot, i.e. a type- and role-preserving
+      variant of N2.
+  - **Stability nulls need more care.** Snapshots are cumulative and old nodes are
+    rarely touched again (entry 8: only 4–7% of old nodes are mentioned again per
+    transition). Temporal nulls (N5/N6) therefore need care, and a "freeze old
+    assignments" baseline is needed so that stability is not inflated by the data's
+    own inertia.
+  - **The coherence null is a different object.** For coherence (T6), the null is
+    over partitions (random labels with cluster sizes preserved, per level), measured
+    with a signal independent of clustering. The report's N3/N4 shuffles instead
+    re-run the clustering on perturbed inputs. Both are useful, but they answer
+    different questions.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
