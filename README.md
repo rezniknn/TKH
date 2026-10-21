@@ -93,8 +93,30 @@ mutations of that mock.
 
 Each ARI is reported with the largest cluster's share of nodes, because a giant cluster
 dominates pair-counting ARI. The evaluator takes a `build` function (input hypergraph to
-per-snapshot, per-level partitions), so it can be run on any method; it has not yet been
-run on one.
+per-snapshot, per-level partitions), so it can be run on any method.
+
+- **Scope.** Perturbation removes edges of the clustering relations only. The literal
+  all-edges variant is available with `relations=None` and is labelled as such. All
+  measures are computed on concept nodes only.
+- **Change localisation (P5).** The reassignment rate of old nodes touched by new
+  clustering edges, divided by that of untouched old nodes, with a permutation p-value.
+- **References.** A γ = 0 build and a `freeze` build (old assignments fixed; method
+  parameter `freeze=true`) are run alongside.
+
+## Null models (T6)
+
+`tkh/evaluate/nulls.py`. Every null runs through the same pipeline and is scored with the
+same metrics, against the real graph.
+
+| Null | What it keeps | What it destroys |
+|---|---|---|
+| `shuffle_hypergraph` (struct) | arity and type composition of every edge, each node's degree per period, members[0], hubs, all non-clustering edges | which concept nodes co-occur |
+| `semantic_permutation` (sem) | structure; text bijection within type × entry period | which node carries which name |
+| full | both of the above | both |
+| `permute_hierarchy` (random labels) | the tree, sizes, nesting, temporal structure; permutation within type × entry period × paper-count bin | which node sits in which super-node |
+
+`shuffle_hypergraph` is a Curveball shuffle within each period. At seed 0 it keeps 15% of
+the original incidences. Its invariants are asserted on every call.
 
 ## Method: SHAC-T (T2, T4)
 

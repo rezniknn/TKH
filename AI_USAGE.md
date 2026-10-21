@@ -810,6 +810,49 @@ accepted or changed, and what was checked.
     evaluated in later steps.
   - Labels are placeholders.
 
+### 22. Stability evaluator fixes, freeze reference and null models, T6 (Claude Code)
+
+- **Task/module:** T6 stability and nulls; `tkh/evaluate/stability.py`,
+  `tkh/evaluate/nulls.py`, `tkh/hierarchy.py` (`freeze`), `tests/test_nulls.py`
+- **Prompt:** step 2 of the plan agreed for entry 21 (same prompt).
+- **What the assistant did:**
+  - **Stability fixes** (from the evaluation design review):
+    - perturbation removes edges of the clustering relations only, so it cannot remove
+      `presents` edges, which would break anchoring and is not a clustering change;
+    - every measure is scored on concept nodes only;
+    - change localisation was added as the P5 metric.
+  - **Freeze reference.** Old nodes keep their previous groups and only new nodes are
+    placed.
+  - **Three nulls:**
+    - a Curveball structure shuffle that preserves per-period degree, arity, type
+      composition, members[0] and hubs;
+    - a name-text permutation within type × period;
+    - a random-labels permutation of the whole hierarchy.
+- **Accepted / modified:**
+  1. The first `freeze` build stopped with no feasible merge: the frozen sizes break the
+     cap-feasibility lemma. Freeze now runs without the cap; it is a reference, not the
+     method.
+  2. The first Curveball trade only excluded members shared between the two edges. It
+     could still copy a node into an edge where that node is members[0]. It now trades
+     only nodes absent from the other edge.
+  3. The first concept-only stability test could not fail, because ARI ignores label
+     names. It was rewritten so that the anchored nodes change their grouping, and a
+     check was added that scoring all nodes would have been fooled. It runs on the real
+     graph, because the fixture has no non-concept nodes.
+- **Verified:**
+  - Tests check the shuffle invariants (per-period degrees, arity, types, members[0],
+    hubs, untouched other edges, unchanged snapshot node sets), determinism per seed,
+    and that the shuffle actually mixes (15% of incidences retained).
+  - The semantic permutation is a bijection within its strata.
+  - The permuted hierarchy passes `validate.py`.
+  - The perturbation touches only the clustering relations.
+  - Change localisation matches a hand-computed toy case.
+  - Freeze gives ARI = 1 on old nodes at every transition and level.
+- **Not verified / limits:**
+  - The nulls have not yet been run through the metrics.
+  - The Curveball shuffle does not preserve the paper count per node exactly: nodes'
+    own provenance is unchanged, but the papers they share edges with change.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

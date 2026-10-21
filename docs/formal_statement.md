@@ -172,6 +172,7 @@ snapshots take about 25 s on a laptop. That is enough for the sweep and the null
 | α | 0.5 | semantic vs structural weight | selected on E1a, half A, by the one-SE rule **[results]** |
 | γ | 0.5 | temporal prior | pre-registered; γ = 0 reported as an ablation |
 | ρ | 2 | size cap | pre-registered; ρ = ∞ reported as an ablation |
+| freeze | false | reference only: old nodes keep their previous groups; runs without the cap | E2 reference, never the shipped method |
 | structure | native | native vs projection H | pre-registered; projection reported as an ablation |
 | lsa_dim | 100 | text projection rank | pre-registered |
 | hub_frac | 0.2 | hub removal threshold | pre-registered; hubs logged in `out/run_info.json` |
