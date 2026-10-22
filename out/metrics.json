@@ -36503,9 +36503,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 1022.5,
+   "value": 1042.6,
    "ci_lo": 177.5,
-   "ci_hi": 1758.5,
+   "ci_hi": 2493.25,
    "n": 12
   },
   {
@@ -36516,9 +36516,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.003968253968253968,
+   "value": 0.003968253968253969,
    "ci_lo": 0.0,
-   "ci_hi": 0.011904761904761904,
+   "ci_hi": 0.01190476190476191,
    "n": 12
   },
   {
@@ -36531,7 +36531,7 @@
    "split": null,
    "value": 0.01476447529079108,
    "ci_lo": 0.0,
-   "ci_hi": 0.03003542510121457,
+   "ci_hi": 0.030035425101214562,
    "n": 12
   },
   {
@@ -36763,9 +36763,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 702.5,
+   "value": 703.225,
    "ci_lo": 282.0,
-   "ci_hi": 1641.5,
+   "ci_hi": 2710.75,
    "n": 12
   },
   {
@@ -36828,9 +36828,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 238.5,
-   "ci_lo": 160.5,
-   "ci_hi": 1157.5,
+   "value": 239.95,
+   "ci_lo": 180.825,
+   "ci_hi": 1163.725,
    "n": 12
   },
   {
@@ -36854,9 +36854,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.13864522417153996,
-   "ci_lo": 0.008771929824561403,
-   "ci_hi": 0.3102948343079921,
+   "value": 0.08581402759034339,
+   "ci_lo": 0.015712672439646122,
+   "ci_hi": 0.1768563034188034,
    "n": 12
   },
   {
@@ -36893,9 +36893,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 1146.0,
+   "value": 1471.0749999999998,
    "ci_lo": 222.0,
-   "ci_hi": 2035.5,
+   "ci_hi": 2909.8999999999996,
    "n": 12
   },
   {
@@ -36906,9 +36906,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.006410256410256411,
+   "value": 0.006410256410256409,
    "ci_lo": 0.0,
-   "ci_hi": 0.019230769230769232,
+   "ci_hi": 0.01923076923076923,
    "n": 12
   },
   {
@@ -36958,9 +36958,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 440.5,
-   "ci_lo": 301.5,
-   "ci_hi": 1453.5,
+   "value": 446.55,
+   "ci_lo": 308.0,
+   "ci_hi": 1490.6,
    "n": 12
   },
   {
@@ -36997,9 +36997,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.16666666666666666,
+   "value": 0.15833333333333333,
    "ci_lo": 0.0,
-   "ci_hi": 0.4166666666666667,
+   "ci_hi": 0.3833333333333333,
    "n": 12
   },
   {
@@ -37023,9 +37023,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 860.5,
-   "ci_lo": 341.0,
-   "ci_hi": 2254.5,
+   "value": 859.45,
+   "ci_lo": 341.65,
+   "ci_hi": 2309.975,
    "n": 12
   },
   {
@@ -37036,9 +37036,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.007936507936507936,
+   "value": 0.007936507936507938,
    "ci_lo": 0.0,
-   "ci_hi": 0.023809523809523808,
+   "ci_hi": 0.02380952380952382,
    "n": 12
   },
   {
@@ -37049,7 +37049,7 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.02708694813957972,
+   "value": 0.027086948139579712,
    "ci_lo": 0.0,
    "ci_hi": 0.056535569693464426,
    "n": 12
@@ -37088,9 +37088,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 1196.5,
+   "value": 1497.075,
    "ci_lo": 130.0,
-   "ci_hi": 2231.5,
+   "ci_hi": 3207.1,
    "n": 12
   },
   {
@@ -37114,9 +37114,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.02840969946233104,
-   "ci_lo": 0.007936507936507936,
-   "ci_hi": 0.053979098386993114,
+   "value": 0.030383383672857357,
+   "ci_lo": 0.007936507936507938,
+   "ci_hi": 0.057941655688366185,
    "n": 12
   },
   {
@@ -37153,9 +37153,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 399.5,
-   "ci_lo": 69.0,
-   "ci_hi": 1449.5,
+   "value": 398.375,
+   "ci_lo": 71.35,
+   "ci_hi": 1444.725,
    "n": 12
   },
   {
@@ -37166,9 +37166,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.08771929824561403,
+   "value": 0.08892543859649123,
    "ci_lo": 0.0,
-   "ci_hi": 0.2543859649122807,
+   "ci_hi": 0.25701754385964914,
    "n": 12
   },
   {
@@ -37179,9 +37179,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.2631578947368421,
-   "ci_lo": 0.02631578947368421,
-   "ci_hi": 0.5131578947368421,
+   "value": 0.27149122807017545,
+   "ci_lo": 0.039473684210526314,
+   "ci_hi": 0.5214912280701754,
    "n": 12
   },
   {
@@ -37218,9 +37218,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 1542.0,
-   "ci_lo": 327.5,
-   "ci_hi": 2118.5,
+   "value": 2287.45,
+   "ci_lo": 329.3,
+   "ci_hi": 2548.8,
    "n": 12
   },
   {
@@ -37244,9 +37244,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.028693528693528692,
+   "value": 0.024847374847374853,
    "ci_lo": 0.0,
-   "ci_hi": 0.07020757020757021,
+   "ci_hi": 0.05866910866910868,
    "n": 12
   },
   {
@@ -37283,9 +37283,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 1638.125,
-   "ci_lo": 899.6125,
-   "ci_hi": 2302.3375,
+   "value": 1757.56125,
+   "ci_lo": 903.0925000000001,
+   "ci_hi": 2284.83875,
    "n": 20
   },
   {
@@ -37296,9 +37296,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.0014967975494291283,
+   "value": 0.0015461396546922863,
    "ci_lo": 0.0,
-   "ci_hi": 0.008630952380952378,
+   "ci_hi": 0.007708333333333333,
    "n": 20
   },
   {
@@ -37309,9 +37309,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.012565735920999077,
+   "value": 0.011721437675385043,
    "ci_lo": 0.0,
-   "ci_hi": 0.04775058640190216,
+   "ci_hi": 0.03900058640190219,
    "n": 20
   },
   {
@@ -37335,9 +37335,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 778.25,
-   "ci_lo": 395.975,
-   "ci_hi": 1270.7124999999999,
+   "value": 795.37125,
+   "ci_lo": 399.155625,
+   "ci_hi": 1442.0487499999995,
    "n": 20
   },
   {
@@ -37348,9 +37348,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.014083820662768032,
+   "value": 0.013728070175438594,
    "ci_lo": 0.0,
-   "ci_hi": 0.09791666666666662,
+   "ci_hi": 0.09499999999999997,
    "n": 20
   },
   {
@@ -37361,9 +37361,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.08592367671315039,
-   "ci_lo": 0.0020833333333333333,
-   "ci_hi": 0.20855263157894732,
+   "value": 0.08670340380866697,
+   "ci_lo": 0.004501705653021442,
+   "ci_hi": 0.20657346491228065,
    "n": 20
   },
   {
@@ -37374,7 +37374,7 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.04583333333333334,
+   "value": 0.04416666666666667,
    "ci_lo": 0.0,
    "ci_hi": 0.16666666666666666,
    "n": 20
@@ -37387,9 +37387,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 1308.35,
-   "ci_lo": 814.75,
-   "ci_hi": 1902.7375,
+   "value": 1330.8337500000002,
+   "ci_lo": 882.639375,
+   "ci_hi": 1815.501875,
    "n": 20
   },
   {
@@ -37400,9 +37400,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.0025132275132275133,
+   "value": 0.0023974867724867724,
    "ci_lo": 0.0,
-   "ci_hi": 0.02407407407407402,
+   "ci_hi": 0.023634259259259202,
    "n": 20
   },
   {
@@ -37413,9 +37413,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.016626234389392286,
+   "value": 0.01659333965255018,
    "ci_lo": 0.0,
-   "ci_hi": 0.07211518379281531,
+   "ci_hi": 0.07086518379281531,
    "n": 20
   },
   {
@@ -37426,7 +37426,7 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.024999999999999998,
+   "value": 0.026250000000000002,
    "ci_lo": 0.0,
    "ci_hi": 0.08333333333333333,
    "n": 20
@@ -37439,9 +37439,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 1269.949494949495,
-   "ci_lo": 745.025,
-   "ci_hi": 1980.8999999999994,
+   "value": 1416.1542929292932,
+   "ci_lo": 747.52,
+   "ci_hi": 2469.7487499999997,
    "n": 99
   },
   {
@@ -37452,9 +37452,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.001493984681119184,
+   "value": 0.0014511587611002815,
    "ci_lo": 0.0,
-   "ci_hi": 0.017361111111111042,
+   "ci_hi": 0.01495979532163737,
    "n": 99
   },
   {
@@ -37465,7 +37465,7 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.012706997356120159,
+   "value": 0.012599989354375316,
    "ci_lo": 0.0,
    "ci_hi": 0.08333333333333333,
    "n": 99
@@ -37478,9 +37478,9 @@
    "level": null,
    "stratum": null,
    "split": null,
-   "value": 0.04292929292929292,
+   "value": 0.04225589225589225,
    "ci_lo": 0.0,
-   "ci_hi": 0.25,
+   "ci_hi": 0.21437499999999976,
    "n": 99
   }
  ],
@@ -43882,7 +43882,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.24793976669824544,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -43899,7 +43900,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.509359375458354,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -43916,7 +43918,8 @@
    "statistic": null,
    "p": 0.59375,
    "null_mean": 0.8516688763633248,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -43933,7 +43936,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.1724865178096705,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -43950,7 +43954,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.3731708814917645,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -43967,7 +43972,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.7080961626446196,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -43984,7 +43990,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.11214393115233287,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44001,7 +44008,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.24606287923527023,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44018,7 +44026,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.5621590452766764,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44035,7 +44044,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.08937322317774393,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44052,7 +44062,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.19575765507841428,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44069,7 +44080,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.47838156854519426,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44086,7 +44098,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.2435763583773663,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44103,7 +44116,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.5290267493461868,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44120,7 +44134,8 @@
    "statistic": null,
    "p": 0.78125,
    "null_mean": 0.85429981778119,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44137,7 +44152,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.16369155118150885,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44154,7 +44170,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.38840849442012954,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44171,7 +44188,8 @@
    "statistic": null,
    "p": 0.09375,
    "null_mean": 0.7313560215970232,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44188,7 +44206,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.10437246992033523,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44205,7 +44224,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.2639984878160353,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44222,7 +44242,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.6049491773890746,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44239,7 +44260,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.08300743667457894,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44256,7 +44278,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.20468226034585066,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44273,7 +44296,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.5156102968539289,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44290,7 +44314,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.278646839684151,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44307,7 +44332,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.5402678239194022,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44324,7 +44350,8 @@
    "statistic": null,
    "p": 0.21875,
    "null_mean": 0.8425199590965693,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44341,7 +44368,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.1893810367494943,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44358,7 +44386,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.3740563982450479,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44375,7 +44404,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.7102099855765057,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44392,7 +44422,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.12115535011842267,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44409,7 +44440,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.23604143864816807,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44426,7 +44458,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.5574147664194584,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44443,7 +44476,8 @@
    "statistic": null,
    "p": 0.0625,
    "null_mean": 0.09951067301520837,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44460,7 +44494,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.19310473843443823,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": true,
    "p_holm": 0.125
   },
@@ -44477,7 +44512,8 @@
    "statistic": null,
    "p": 0.03125,
    "null_mean": 0.48870302281119704,
-   "R": 25,
+   "R": 5,
+   "n_runs": 25,
    "primary": false,
    "p_holm": null
   },
@@ -44638,11 +44674,11 @@
    "cell": {
     "snapshot": 2026
    },
-   "model": 1022.5,
+   "model": 1042.6,
    "null": "struct-null",
-   "statistic": -1.448465272894993,
+   "statistic": -1.5954902451832178,
    "p": 0.14285714285714285,
-   "null_mean": 1638.125,
+   "null_mean": 1757.56125,
    "R": 20,
    "primary": false,
    "p_holm": null
@@ -44654,11 +44690,11 @@
    "cell": {
     "snapshot": 2026
    },
-   "model": 1022.5,
+   "model": 1042.6,
    "null": "sem-null",
-   "statistic": 0.9930570932816669,
+   "statistic": 0.8570788157786406,
    "p": 0.9047619047619048,
-   "null_mean": 778.25,
+   "null_mean": 795.37125,
    "R": 20,
    "primary": false,
    "p_holm": null
@@ -44670,11 +44706,11 @@
    "cell": {
     "snapshot": 2026
    },
-   "model": 1022.5,
+   "model": 1042.6,
    "null": "full-null",
-   "statistic": -0.9061631103181766,
-   "p": 0.14285714285714285,
-   "null_mean": 1308.35,
+   "statistic": -0.9830390961410373,
+   "p": 0.23809523809523808,
+   "null_mean": 1330.8337500000002,
    "R": 20,
    "primary": false,
    "p_holm": null
@@ -44686,11 +44722,11 @@
    "cell": {
     "snapshot": 2026
    },
-   "model": 1022.5,
+   "model": 1042.6,
    "null": "random-labels",
-   "statistic": -0.7723683269655902,
+   "statistic": -0.854630125031101,
    "p": 0.21,
-   "null_mean": 1269.949494949495,
+   "null_mean": 1416.1542929292932,
    "R": 99,
    "primary": false,
    "p_holm": null
@@ -44702,10 +44738,10 @@
    "cell": {
     "snapshot": 2026
    },
-   "model": 1022.5,
+   "model": 1042.6,
    "null": "flat-lexical",
    "statistic": null,
-   "p": 0.454833984375,
+   "p": 0.830322265625,
    "null_mean": 1400.3333333333335,
    "R": 12,
    "primary": true,
@@ -44718,7 +44754,7 @@
    "cell": {
     "snapshot": 2026
    },
-   "model": 1022.5,
+   "model": 1042.6,
    "null": "ppr",
    "statistic": null,
    "p": 1.0,
@@ -44734,10 +44770,10 @@
    "cell": {
     "snapshot": 2026
    },
-   "model": 1022.5,
+   "model": 1042.6,
    "null": "degree-popularity",
    "statistic": null,
-   "p": 0.99951171875,
+   "p": 1.0,
    "null_mean": 10.75,
    "R": 12,
    "primary": false,

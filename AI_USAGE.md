@@ -1046,6 +1046,48 @@ accepted or changed, and what was checked.
   - The full-mode sweep was not re-run on a clean clone (FAST mode matched).
   - The literature citations were checked for existence and venue only.
 
+### 27. Second verification round, drill-down tie fix, report figures (Claude Code)
+
+- **Task/module:** a re-verification of entry 26's fixes; `tkh/evaluate/extrinsic.py`,
+  `make_tables.py`, `scripts/visualize.py`, `report.md`
+- **What the assistant did:** A second workflow ran four verifiers and a critic on
+  everything entry 26 changed.
+  - **Confirmed (reproduced exactly):**
+    - the real-hub nulls, rebuilt bit-for-bit;
+    - the null E1a and E2 numbers;
+    - the expected-rank formula, checked against Monte Carlo;
+    - the E3 single-concept packs;
+    - the four primary tests and Holm.
+- **Accepted / modified:**
+  1. **The drill-down still broke ties by node id in its frontier heap**, the same artefact
+     entry 26 removed from the flat baseline. Its metrics are now the mean over 20 seeded
+     random tie-breaks, and the query-independent profiles are cached.
+     - The model's E4 median cost became about 1043, matching the critic's independent
+       reimplementation.
+     - The primary E4 p went from 0.455 to 0.83.
+     - Every qualitative E4 conclusion survived.
+  2. **Report claims contradicted by its own tables were rewritten:**
+     - "the temporal prior makes change less localised": against γ = 0 it raises
+       localisation in most cells;
+     - "no hierarchy beats the nulls": the projection (E1a) and freeze (E4) ablations
+       exceed the full-null range descriptively;
+     - "the model does not exceed any null": false at level 2;
+     - "steadily", "even more" and "relation-pure" in E4;
+     - an interval wording;
+     - the §6 "verified" bullets, which predated the fixes.
+  3. **The pre-registration timing is now disclosed.** The primary tests were written down
+     after the sweep and after a first look at E1a and E4 values for the swept
+     configurations.
+  4. **The report had no figures.** Two metrics-driven figures were added (made by
+     `make_tables.py`), plus the deliverable-6 icicle of levels 0–2 across snapshots
+     (`scripts/visualize.py`, `make figures`). The prose was condensed.
+  5. **Smaller fixes:** the dead `null_build` was removed; stale comments corrected; a
+     mislabelled footnote count fixed; the E2 test's R field corrected; the miss penalty
+     raised above any method's maximum cost.
+- **Not verified / limits:**
+  - The figures were inspected visually only.
+  - The prose is close to the brief's upper length bound.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

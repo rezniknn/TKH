@@ -4,9 +4,9 @@ PYTHON ?= .venv/bin/python
 OUT ?= out
 REPORT ?= report.md
 
-.PHONY: all fast test fixtures sweep build validate metrics tables refresh-llm
+.PHONY: all fast test fixtures sweep build validate metrics tables figures refresh-llm
 
-all: sweep build validate metrics tables
+all: sweep build validate metrics tables figures
 
 fast:            ## quick end-to-end run into out_fast/ (fewer null replicates and seeds; report.md untouched)
 	FAST=1 $(MAKE) all OUT=out_fast REPORT=
@@ -31,6 +31,9 @@ metrics:         ## E1-E4 for the model, every configuration and every null -> $
 
 tables:          ## every report table from $(OUT)/metrics.json -> $(OUT)/tables.md (and report.md)
 	$(PYTHON) make_tables.py --metrics $(OUT)/metrics.json --out $(OUT)/tables.md --report "$(REPORT)"
+
+figures:         ## optional static view of levels 0-2 across snapshots -> figures/hierarchy_levels.png
+	$(PYTHON) scripts/visualize.py --out $(OUT) $(if $(REPORT),,--figures $(OUT)/figures)
 
 refresh-llm:     ## re-query the Ollama models for every label and judgement (needs a running server)
 	TKH_LLM_MODE=refresh $(MAKE) build metrics

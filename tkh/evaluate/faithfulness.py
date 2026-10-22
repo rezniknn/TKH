@@ -3,7 +3,8 @@
 E3. Two judge protocols, both with a judge model from a different open family than the
 labeller (config [labels] judge_model; robustness judges in configs/eval.toml [e3]).
 
-Forced choice (`forced_choice`, the primary instrument). The judge sees the HELD-OUT
+Forced choice (`forced_choice`; post hoc: it replaced the pre-registered absolute rating
+after that failed its control, and its tests are reported outside the Holm family). The judge sees the HELD-OUT
 evidence of one super-node and four candidate labels+glosses of the same level and
 snapshot: its own and three random others, in a seeded random order. A label is counted
 as faithful if the judge picks it. Over-claim rate = 1 - identification rate; chance is
@@ -11,7 +12,7 @@ as faithful if the judge picks it. Over-claim rate = 1 - identification rate; ch
 rating, this cannot be passed by agreeing with everything. The chosen positions are
 reported as a position-bias check.
 
-Absolute rating (kept, but it FAILED its negative control on this data: the 7-9B judges
+Absolute rating (the pre-registered instrument, kept as the E3 primary test, but it FAILED its negative control on this data: the 7-9B judges
 rated the swapped glosses accurate as often as the true ones, so its over-claim rate is
 reported only as a failed instrument). It rates every level-0/1 label and gloss as
 accurate / vague / wrong:

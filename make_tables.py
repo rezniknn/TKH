@@ -125,7 +125,7 @@ def t_e1_strict(m):
     d0 = m.get(family="E1", metric="coverage_cited_works_dropped_by_residual_filter", variant="ruler", snapshot=2026, split="all")
     d1 = m.get(family="E1", metric="coverage_cited_works_dropped_by_residual_filter", variant="ruler-strict", snapshot=2026, split="B")
     return md(["E1a lift, ≤2026, level 1, split B, pooled", "pre-registered filter (exact name)", "strict filter (substring), sensitivity"], body) + \
-        f"\n\nCited works removed by the residual filter at ≤2026: {d0['value']} (exact, all works); {d1['value']} (strict, half B)."
+        f"\n\nCitation incidences removed by the residual filter at ≤2026 (counted before the A/B split): {d0['value']} (exact); {d1['value']} (strict)."
 
 
 def t_e1_strata(m):
@@ -254,11 +254,70 @@ TABLES = {"data": t_data, "selection": t_selection, "e1": t_e1, "e1_strata": t_e
           "tests": t_tests, "tests_secondary": t_tests_secondary}
 
 
+def _cell(m, **sel):
+    r = m.get(**sel)
+    return r["value"], r["ci_lo"], r["ci_hi"]
+
+
+def figures(m, figdir):
+    """Report figures, drawn from metrics.json only (like the tables)."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    figdir.mkdir(parents=True, exist_ok=True)
+    grid = sorted(m.meta["configs"], key=lambda c: m.meta["configs"][c])
+    alphas = [m.meta["configs"][c] for c in grid]
+    name = lambda c: "model" if c == m.meta["selected"] else c  # noqa: E731
+    panels = [("E1a lift (≤2026, L1, half B, pooled)", dict(family="E1", metric="coupling_lift", snapshot=2026, level=1, stratum="pooled", split="B")),
+              ("perturbation ARI (≤2026, L1)", dict(family="E2", metric="perturbation_ari", snapshot=2026, level=1)),
+              ("E4 median cost to first target (≤2026)", dict(family="E4", metric="first_cost_median", snapshot=2026))]
+    fig, axes = plt.subplots(1, 3, figsize=(12, 3.3))
+    for ax, (title, sel) in zip(axes, panels):
+        vals = [_cell(m, variant=name(c), **sel) for c in grid]
+        ax.errorbar(alphas, [v for v, _, _ in vals], yerr=[[v - (lo if lo is not None else v) for v, lo, _ in vals],
+                                                           [(hi if hi is not None else v) - v for v, _, hi in vals]],
+                    marker="o", capsize=3, color="C0", label="SHAC-T")
+        nv, nlo, nhi = _cell(m, variant="full-null", **sel)
+        ax.axhspan(nlo, nhi, color="0.85", label="full-null 95% range")
+        ax.axhline(nv, color="0.5", lw=1)
+        if sel["family"] == "E4":
+            for b, st in (("flat-lexical", ":"), ("ppr", "--")):
+                ax.axhline(_cell(m, variant=b, **sel)[0], color="C3", ls=st, lw=1, label=b)
+        ax.axvline(m.meta["selected_params"]["alpha"], color="C1", lw=0.8, ls="-.")
+        ax.set_title(title, fontsize=9)
+        ax.set_xlabel("α (semantic weight)")
+    axes[0].legend(frameon=False, fontsize=7)
+    axes[2].legend(frameon=False, fontsize=7)
+    fig.tight_layout()
+    fig.savefig(figdir / "report_alpha.png", dpi=160)
+    plt.close(fig)
+
+    judges = sorted({r["stratum"] for r in m.rows if r["family"] == "E3" and r["metric"] == "identification_rate"},
+                    key=lambda j: (j != m.meta["labels"]["judge_model"], j))
+    fig, ax = plt.subplots(figsize=(6, 3))
+    for i, v in enumerate(("model", "random-clusters")):
+        cells = [_cell(m, family="E3", metric="identification_rate", variant=v, snapshot=2026, level=None, stratum=j,
+                       split="forced_choice") for j in judges]
+        xs = [k + (i - 0.5) * 0.35 for k in range(len(judges))]
+        ax.bar(xs, [c[0] for c in cells], width=0.35, color=["C0", "0.6"][i], label=["SHAC-T labels", "random-clusters labels"][i],
+               yerr=[[c[0] - c[1] for c in cells], [c[2] - c[0] for c in cells]], capsize=3)
+    ax.axhline(0.25, color="C3", ls="--", lw=1, label="chance (1 in 4)")
+    ax.set_xticks(range(len(judges)), judges)
+    ax.set_ylabel("label identified from held-out evidence")
+    ax.set_ylim(0, 1)
+    ax.legend(frameon=False, fontsize=7, loc="upper left")
+    fig.tight_layout()
+    fig.savefig(figdir / "report_e3.png", dpi=160)
+    plt.close(fig)
+    return [figdir / "report_alpha.png", figdir / "report_e3.png"]
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     p.add_argument("--metrics", type=Path, default=ROOT / "out" / "metrics.json")
     p.add_argument("--report", type=Path, default=ROOT / "report.md")
     p.add_argument("--out", type=Path, default=ROOT / "out" / "tables.md")
+    p.add_argument("--figures", type=Path, default=None, help="figure directory (default: figures/ with a report, else next to --out)")
     args = p.parse_args(argv)
     m = Metrics(args.metrics)
     try:
@@ -268,12 +327,17 @@ def main(argv=None):
         return 1
     args.out.write_text("\n\n".join(f"## {k}\n\n{v}" for k, v in tables.items()) + "\n")
     report = args.report if str(args.report) not in ("", ".") and args.report.is_file() else None
+    try:
+        figs = figures(m, args.figures or (ROOT / "figures" if report else args.out.parent / "figures"))
+    except MissingCell as e:
+        print(f"make_tables: missing cell for a figure: {e}", file=sys.stderr)
+        return 1
     if report:
         text = report.read_text()
         for k, v in tables.items():
             text = re.sub(rf"(<!-- table:{k} -->)(.*?)(<!-- /table:{k} -->)", lambda mm: f"{mm.group(1)}\n{v}\n{mm.group(3)}", text, flags=re.S)
         report.write_text(text)
-    print(f"{len(tables)} tables -> {args.out}" + (f" and {report}" if report else ""))
+    print(f"{len(tables)} tables -> {args.out}" + (f" and {report}" if report else "") + f"; {len(figs)} figures -> {figs[0].parent}")
     return 0
 
 

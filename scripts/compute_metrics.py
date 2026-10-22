@@ -187,8 +187,8 @@ def e2(tkh, cfg, ev, out, sel, variants, null_parts, out_rows, tests, log):
         p = wilcoxon_paired([m[s] for s in common], [np.mean(d[s]) for s in common], "greater") if len(common) >= 2 else None
         tests.append({"name": f"E2 perturbation ARI model vs {kind}", "family": "E2", "metric": "perturbation_ari",
                       "cell": {"snapshot": c, "level": k}, "model": float(np.mean([m[s] for s in common])) if common else None,
-                      "null": kind, "statistic": None, "p": p, "null_mean": float(np.mean(flat)), "R": len(flat),
-                      "primary": kind == "full" and c == 2026 and k == 1})
+                      "null": kind, "statistic": None, "p": p, "null_mean": float(np.mean(flat)), "R": len(common),
+                      "n_runs": len(flat), "primary": kind == "full" and c == 2026 and k == 1})
     log("E2 perturbation")
     cs = list(cfg.cutoffs)
     for name, parts in variants.items():
@@ -222,7 +222,7 @@ def e3(tkh, cfg, ev, out, model, out_rows, tests, log):
     judge = Judge(tkh, cfg)
     rows = evaluate_labels(tkh, cfg, hier, judge, passes=("held_out",))
     rows += evaluate_labels(tkh, cfg, {2026: hier[2026]}, judge, passes=("full",), swapped=True)
-    # random-labels null: one permuted hierarchy at <=2026, labelled and judged like the model
+    # random-clusters null: the random-labels permutation at <=2026, relabelled and judged like the model
     seed = ev["nulls"].get("random_labels_e3_seed", 0)
     perm = permute_hierarchy(model, tkh, seed, cs)
     sub = {2026: perm[2026]}
@@ -271,7 +271,7 @@ def e3(tkh, cfg, ev, out, model, out_rows, tests, log):
                   "metric": "abs_accurate_rate", "cell": {"snapshot": 2026, "level": "0-1"}, "model": am / len(m),
                   "null": "swapped-gloss", "statistic": None, "p": float(p), "null_mean": as_ / len(sw), "R": 1, "primary": False})
 
-    # forced choice: primary judge on every snapshot; robustness judges at <=2026; model vs random-labels labels
+    # forced choice (post hoc): primary judge on every snapshot; robustness judges at <=2026; model vs random-clusters
     fc = []
     judges = [cfg.labels["judge_model"]] + list(ev.get("e3", {}).get("robustness_judges", []))
     fseed = ev.get("e3", {}).get("forced_choice_seed", 0)
@@ -321,7 +321,7 @@ def e4(tkh, cfg, ev, model, variants, null_parts, rl, out_rows, tests, log):
     qs = load_questions(cfg.questions)
     targets = question_targets(tkh, load_ground_truth(cfg.ground_truth), CONCEPT_TYPES)
     index = Index(tkh, 2026)
-    n_items = len(index.items)
+    n_items = len(index.items) + sum(cfg.budgets)  # upper bound on any method's cost: every node and every profile
     hf = ev["eval"]["hub_frac"]
     per_q = {}
 

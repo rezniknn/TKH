@@ -41,66 +41,53 @@ The data shapes everything that follows:
 
 At each cutoff *t*, the concept nodes V_t (method, task, problem, technique, component,
 dataset, metric) are partitioned into P_{t,2} ⊑ P_{t,1} ⊑ P_{t,0}, with exactly
-min(N_k, |V_t|) super-nodes at level k. All other nodes (articles, authors, claims, cited
-works, future topics) are anchored to the super-node of one concept node of their paper.
-Super-nodes carry persistent ids and an event log across snapshots (T3), produced by
-overlap matching.
+min(N_k, |V_t|) super-nodes at level k. All other nodes are anchored to one concept node
+of their paper. Super-nodes carry persistent ids and an event log across snapshots (T3).
 
-**Criterion.** SHAC-T does not claim to optimise a global objective: even the
-single-level, unconstrained relatives of this problem are NP-hard. It is a deterministic
-greedy procedure with a stepwise criterion. Level by level, from the finest to the
-coarsest, it merges the feasible pair (A, B) that maximises
+**Criterion.** SHAC-T claims no global optimum: even single-level relatives of this
+problem are NP-hard. It is a deterministic greedy procedure. Level by level, finest
+first, it merges the feasible pair maximising
 
-  s_t(A,B) = (1−γ)·[α·F_S(S(A,B)) + (1−α)·F_H(H(A,B))] + γ·Π(A,B),
+  s_t(A,B) = (1−γ)·[α·F_S(S) + (1−α)·F_H(H)] + γ·Π, subject to |A| + |B| ≤ ρ·|V_t|/N_k.
 
-where:
-- **H (structure)** is the reduction of the weighted connectivity cut Σ_e w_e(λ_e − 1)
-  that the merge causes (Proposition 1), divided by √(d_A d_B). It is computed on the
-  *current collapsed incidence*, so the T4 rule (§3) is applied at every merge.
-- **S (semantics)** is the mean pairwise cosine of centred character-n-gram LSA vectors of
-  the node names, fitted per snapshot.
-- **F_S, F_H** are the mid-rank empirical CDFs of S and H, so α weighs two percentile
-  scales rather than two incomparable magnitudes.
-- **Π (time)** is the share of old-member pairs that were co-clustered at the same level
-  at t−1. It is the history cost of evolutionary clustering, used as a merge prior.
-- **Feasibility** is |A| + |B| ≤ ρ·|V_t|/N_k.
+- **H** is the merge's reduction of the weighted connectivity cut Σ_e w_e(λ_e − 1),
+  normalised by √(d_A d_B) and computed on the current collapsed incidence (T4, §3).
+- **S** is the mean cosine of centred character-n-gram LSA vectors of the names, fitted
+  per snapshot.
+- **F** are mid-rank empirical CDFs.
+- **Π** is the previous snapshot's co-membership, the history cost of evolutionary
+  clustering, used as a prior.
 
-**The structure–semantics trade-off** is the central design choice.
-- *The conflict.* The two signals almost never agree, because H is zero for nearly every
-  pair (data table).
-- *The resolution.* Rank-normalising both and mixing them with one weight α makes the
-  trade-off a single, interpretable parameter. It is swept, and selected by a
-  pre-registered rule on an independent signal, instead of emerging from scale accidents.
-- *The cost.* Magnitudes within each signal are lost.
+**Trade-off.** Structure and semantics almost never agree, because H is zero for nearly
+every pair (data table). Rank-normalising both and mixing them with one weight α turns the
+reconciliation into a single interpretable parameter, which is selected by a
+pre-registered rule on an independent signal. The cost is that magnitudes within each
+signal are lost.
 
-**Guaranteed by construction** (tests and `validate.py`):
-- P1, laminarity: level k merges level-k+1 super-nodes.
-- P2, the budgets: a lemma shows that with ρ ≥ 2 a feasible pair always exists, so every
-  level reaches exactly N_k.
-- A bound on the largest super-node.
-- P4: hypergraph-native scoring and the T4 collapse at every level.
-- Determinism.
-- No membership, structure or temporal information after the cutoff. Text is covered
-  only up to assumption A5: names and aliases are export-wide attributes.
+**By construction:**
+- P1 (laminarity) and P2 (exact budgets; a lemma shows ρ ≥ 2 always leaves a feasible
+  pair);
+- a size bound;
+- hypergraph-native scoring at every level (P4);
+- determinism;
+- no post-cutoff membership, structure or temporal input. Text is covered only up to
+  assumption A5: names and aliases are export-wide.
 
-**Measured, not guaranteed:** P3 coherence, what the projection changes (P4), P5
-stability, and P6 label faithfulness.
+**Measured:** P3, P5, P6, and what a projection changes (P4).
 
-**Complexity.** O(n²(m + d)) per level to initialise, then O(n(m + d)) per merge plus
-stale-row rescans (O(n²) worst case), with O(n²) memory. A four-snapshot build runs in
-well under a minute on a laptop.
+**Complexity.** O(n²(m + d)) per level, plus O(n(m + d)) per merge, plus stale-row rescans;
+O(n²) memory. A full build runs in well under a minute.
 
-**Rejected alternative: hypergraph modularity** and its greedy and Louvain-style
-optimisers (Kamiński et al. 2019; Chodrow et al. 2021).
-- It controls the number of communities only indirectly, through a resolution parameter,
-  while P2 is a hard constraint.
+**Rejected alternative: hypergraph modularity** and its greedy or Louvain-style optimisers
+(Kamiński et al. 2019; Chodrow et al. 2021).
+- It controls the number of communities only through a resolution parameter, while P2 is
+  hard.
 - It has a resolution limit.
-- On per-paper stars it rewards exactly the paper bundles the structural signal already
-  produces.
+- On per-paper stars it rewards the paper bundles that structure already yields.
 
-An attributed hypergraph SBM was considered and set aside. With a few hundred edges for
-thousands of nodes, inference is under-determined, and the model is not natively
-hierarchical with fixed budgets.
+An attributed hypergraph SBM was set aside: inference is under-determined at this edge
+density, and the model is not natively hierarchical with fixed budgets. Proofs and the
+remaining trade-offs are in the formal statement.
 
 ## 2. Literature positioning
 
@@ -141,69 +128,64 @@ every level. Those are exactly the edges a clique projection would split.
 **Common rules.**
 - All metrics use concept nodes only and the real graph, for the model, every swept
   configuration and ablation, and every null.
-- The protocol was fixed in `configs/eval.toml` before the sweep ran. Only α is selected,
-  by a one-SE rule on E1a over half A of the cited works. Half B is used only for
-  reporting.
+- Only α is selected, by a one-SE rule on E1a over half A of the cited works. Half B is
+  used for reporting.
 
-**Coherence (E1a, primary).** Residual bibliographic coupling, measured with signals the
-clustering never sees.
-- *Independence.* Citations never enter the clustering, and ground truth and labels never
-  enter the build or the selection. A test confirms that the ≤2020 build is unchanged
-  with `cites` edges deleted or cited works renamed. A leakage audit found no other path.
-- *Residual filter.* Cited works whose name equals a concept of the citing paper are
-  removed (an `extends X` paper cites X). A stricter substring filter is reported as a
-  sensitivity analysis.
-- *Score.* Coupling between papers is aggregated at paper-pair level, weighted by how
-  often the papers' single-paper concepts share a super-node. Lift = weighted mean
-  coupling ÷ unweighted mean coupling.
-- *Strata.* Pairs are stratified by whether they share a non-hub concept (direct
-  structural overlap), with a pooled standardised ratio.
+**Coherence (E1a, primary).** Residual bibliographic coupling.
+- *Independence.* Citations, ground truth and labels never enter the build or the
+  selection. A test and an independent leakage audit confirm this.
+- *Residual filter.* Cited works named like a concept of the citing paper are removed (an
+  `extends X` paper cites X). A stricter substring filter is a sensitivity analysis.
+- *Score.* Lift is the coupling of paper pairs weighted by how often their single-paper
+  concepts share a super-node, divided by the unweighted mean coupling.
+- *Strata.* Pairs are stratified by whether they share a non-hub concept, with a pooled
+  standardised ratio.
 - *Interval.* A log-scale paper jackknife.
 
-**E1b.** Ground-truth co-membership, descriptive only; the numbers are in
-`metrics.json`.
+**E1b.** Ground-truth co-membership, descriptive only.
 
-**The 2×2 nulls.** Each is rebuilt through the full pipeline and scored on the real
-graph:
-- *struct-null:* a Curveball shuffle of the clustering edges that preserves per-period
-  degree, arity and type composition, built with the real graph's hub sets;
-- *sem-null:* the name texts permuted within type × period;
-- *full-null:* both.
-
-**random-labels** permutes the concept nodes of the model's finished tree within type ×
-period × paper count. It keeps every size and the nesting.
+**Nulls.**
+- *Rebuilt through the whole pipeline:*
+  - **struct-null**, a Curveball shuffle of the clustering edges that preserves
+    per-period degree, arity and type mix, built with the real hub sets;
+  - **sem-null**, name texts permuted within type × period;
+  - **full-null**, both.
+- *Permuted after building:* **random-labels** permutes the concept nodes of the model's
+  finished tree within type × period × paper count.
 
 **Stability (E2).**
-- *Perturbation:* remove 10% of the clustering-relation edges, 5 seeds, ARI with
-  t-intervals.
+- *Perturbation:* 10% of the clustering edges removed, 5 seeds, ARI with t-intervals.
 - *Cross-snapshot:* ARI on common nodes.
-- *Change localisation:* reassignment of old nodes touched by new edges ÷ reassignment of
-  untouched old nodes.
-- *References:* γ = 0 (no temporal prior) and freeze (old assignments fixed).
+- *Change localisation:* reassignment of old nodes touched by new edges ÷ untouched.
+- *References:* γ = 0 and freeze.
 
 **Label faithfulness (E3).**
 - *Circularity control.* The labeller (qwen2.5:7b) sees a seeded half of each
-  super-node's members. The judge sees the other half, plus claim sentences and titles of
-  those members' papers, all with year ≤ cutoff. A super-node with a single concept gets
-  paper texts only.
+  super-node's members. The judge sees the other half, plus claims and titles of those
+  members' papers (year ≤ cutoff).
 - *Pre-registered instrument.* An absolute accurate / vague / wrong rating by
-  llama3.1:8b, a different model family, checked by a swapped-gloss negative control.
-- *Post-hoc instrument, added when that control failed (§5).* Forced choice: the judge
-  must pick the label written for the evidence among four same-level labels. It is
-  repeated with judges from two more families.
-- *Deterministic checks.* Years after the cutoff, named non-members, future entities.
+  llama3.1:8b, checked by a swapped-gloss control.
+- *Post-hoc replacement, added when that control failed.* Forced choice of the right
+  label among four, repeated with judges from two more families.
+- *Deterministic checks.* Dates, named non-members, future entities.
 
-**Extrinsic task (E4).** For each ground-truth question, find its expected methods at
-≤2026, charging one unit per item read. Compared methods:
-- a best-first drill-down from the 15 roots over super-node name profiles;
-- a flat lexical ranking;
-- personalised PageRank on the same clustering hypergraph;
+**Extrinsic task (E4).** Find each ground-truth question's expected methods at ≤2026, at
+one unit per item read. Compared methods:
+- a best-first drill-down from the 15 roots;
+- flat lexical ranking;
+- personalised PageRank on the clustering hypergraph;
 - a query-independent degree ranking.
 
-Ranked baselines are scored by their expected value under random tie-breaking.
+Every ranking is scored by its expectation under random tie-breaking.
 
-**Statistics.** Four pre-registered primary tests, one per family, Holm-corrected.
-Everything else is descriptive or post hoc and labelled as such.
+**Statistics.** Four primary tests, one per family, Holm-corrected; everything else is
+descriptive.
+
+**What "pre-registered" means here.** The selection rule and the design were committed in
+`configs/eval.toml` before the sweep ran. The four primary tests were written down after
+the sweep, after a first look at E1a for the α grid and at the E4 costs of the swept
+configurations, but before any null comparison was computed. The E4 scoring was later
+corrected (ties) after verification.
 
 ## 5. Results
 
@@ -220,6 +202,11 @@ Everything else is descriptive or post hoc and labelled as such.
 
 Same winner under 50 other cited-work splits: 0.56.
 <!-- /table:selection -->
+
+![Configurations across α](figures/report_alpha.png)
+
+*α sweep. The selected α is dashed; grey is the full-null 95% range. The E4 panel shows
+the median cost to the first target (lower is better), with flat and PPR as lines.*
 
 **Every α lies within one SE of the best.** The rule therefore falls to its pre-registered
 tie-break, and α = 0.5 is shipped as the protocol's outcome, not as a demonstrated
@@ -253,12 +240,14 @@ Paper pairs: 253 with a shared non-hub concept, 342 without.
 | full-null | 1.04 [1.01, 1.08] | 1.07 [1.02, 1.11] |
 | random-labels | 1.05 [1.02, 1.09] | 1.08 [1.04, 1.12] |
 
-Cited works removed by the residual filter at ≤2026: 260 (exact, all works); 342 (strict, half B).
+Citation incidences removed by the residual filter at ≤2026 (counted before the A/B split): 260 (exact); 342 (strict).
 <!-- /table:e1_strict -->
 
-**The selected hierarchy is not more coherent than chance by this ruler.**
-- The model's lift is indistinguishable from 1 at every level, and it does not exceed any
-  null.
+**The selected hierarchy is not shown to be more coherent than chance by this ruler.**
+- The model's lift is indistinguishable from 1 at levels 0 and 1, where it lies below
+  every null. At level 2 its point estimate is above every null, and nominally so against
+  random-labels in one uncorrected cell (`tests` in `metrics.json`), but its interval is
+  wide.
 - The nulls themselves sit slightly above 1, because they keep entry period, and papers
   of the same period cite similar work. That makes them a conservative baseline.
 - The pooled ratio and the stricter residual filter tell the same story.
@@ -272,18 +261,18 @@ Cited works removed by the residual filter at ≤2026: 260 (exact, all works); 3
 <!-- table:configs -->
 | configuration (≤2026, level 1) | E1a lift (B) | perturbation ARI | cross-snapshot ARI 2024→26 | change localisation | E4 median cost | E4 recall@200 | level-0 giant share |
 |---|---|---|---|---|---|---|---|
-| **SHAC-T (selected, α=0.5)** | 0.99 [0.74, 1.32] | 0.26 [0.23, 0.29] | 0.96 | 1.54 | 1022 [178, 1758] | 0.01 | 0.13 |
-| α = 0 | 0.90 [0.52, 1.57] | 0.35 [0.31, 0.39] | 0.85 | 1.52 | 400 [69, 1450] | 0.26 | 0.13 |
-| α = 0.25 | 1.11 [0.69, 1.78] | 0.26 [0.22, 0.29] | 0.96 | 2.27 | 702 [282, 1642] | 0.13 | 0.12 |
-| α = 0.75 | 1.17 [0.89, 1.54] | 0.24 [0.21, 0.27] | 0.94 | 0.94 | 1196 [130, 2232] | 0.03 | 0.13 |
-| α = 1 | 1.12 [0.92, 1.36] | 1.00 [1.00, 1.00] | 0.98 | 0.79 | 1542 [328, 2118] | 0.03 | 0.13 |
-| ablation: gamma0 | 1.41 [0.92, 2.16] | 0.37 [0.30, 0.44] | 0.37 | 1.08 | 860 [341, 2254] | 0.03 | 0.13 |
-| ablation: rho_inf | 1.14 [0.92, 1.42] | 0.18 [0.08, 0.28] | 1.00 | – | 440 [302, 1454] | 0.08 | 0.93 |
-| ablation: projection | 1.75 [1.15, 2.65] | 0.26 [0.24, 0.29] | 0.93 | 1.07 | 1146 [222, 2036] | 0.02 | 0.13 |
-| ablation: freeze | 1.22 [0.61, 2.45] | 0.35 [0.25, 0.44] | 1.00 | – | 238 [160, 1158] | 0.14 | 0.22 |
-| full-null | 1.04 [1.01, 1.08] | 0.19 [0.16, 0.22] | 0.89 | 1.25 | 1308 [815, 1903] | 0.02 | – |
-| struct-null | 1.06 [1.03, 1.11] | 0.20 [0.16, 0.23] | 0.90 | 1.19 | 1638 [900, 2302] | 0.01 | – |
-| sem-null | 1.08 [0.95, 1.23] | 0.20 [0.18, 0.23] | 0.89 | 1.26 | 778 [396, 1271] | 0.09 | – |
+| **SHAC-T (selected, α=0.5)** | 0.99 [0.74, 1.32] | 0.26 [0.23, 0.29] | 0.96 | 1.54 | 1043 [178, 2493] | 0.01 | 0.13 |
+| α = 0 | 0.90 [0.52, 1.57] | 0.35 [0.31, 0.39] | 0.85 | 1.52 | 398 [71, 1445] | 0.27 | 0.13 |
+| α = 0.25 | 1.11 [0.69, 1.78] | 0.26 [0.22, 0.29] | 0.96 | 2.27 | 703 [282, 2711] | 0.13 | 0.12 |
+| α = 0.75 | 1.17 [0.89, 1.54] | 0.24 [0.21, 0.27] | 0.94 | 0.94 | 1497 [130, 3207] | 0.03 | 0.13 |
+| α = 1 | 1.12 [0.92, 1.36] | 1.00 [1.00, 1.00] | 0.98 | 0.79 | 2287 [329, 2549] | 0.02 | 0.13 |
+| ablation: gamma0 | 1.41 [0.92, 2.16] | 0.37 [0.30, 0.44] | 0.37 | 1.08 | 859 [342, 2310] | 0.03 | 0.13 |
+| ablation: rho_inf | 1.14 [0.92, 1.42] | 0.18 [0.08, 0.28] | 1.00 | – | 447 [308, 1491] | 0.08 | 0.93 |
+| ablation: projection | 1.75 [1.15, 2.65] | 0.26 [0.24, 0.29] | 0.93 | 1.07 | 1471 [222, 2910] | 0.02 | 0.13 |
+| ablation: freeze | 1.22 [0.61, 2.45] | 0.35 [0.25, 0.44] | 1.00 | – | 240 [181, 1164] | 0.09 | 0.22 |
+| full-null | 1.04 [1.01, 1.08] | 0.19 [0.16, 0.22] | 0.89 | 1.25 | 1331 [883, 1816] | 0.02 | – |
+| struct-null | 1.06 [1.03, 1.11] | 0.20 [0.16, 0.23] | 0.90 | 1.19 | 1758 [903, 2285] | 0.01 | – |
+| sem-null | 1.08 [0.95, 1.23] | 0.20 [0.18, 0.23] | 0.89 | 1.26 | 795 [399, 1442] | 0.09 | – |
 
 α = 1 ignores edges, so its perturbation ARI is 1 by construction (not a stability result). Change localisation is undefined (–) when no untouched old node is reassigned.
 <!-- /table:configs -->
@@ -311,16 +300,22 @@ Cited works removed by the residual filter at ≤2026: 260 (exact, all works); 3
 
 **Reading E2:**
 - *Cross-snapshot identity.* Cross-snapshot ARI is high, and the temporal prior produces
-  it: without it (γ = 0) it collapses. That is the intended mechanism for P5, and its cost
-  is visible in the same tables. With the prior, change is less localised (the model is
-  below the nulls at levels 0 and 2 of the last transition), so the prior smooths change
-  *everywhere*, not only where the corpus is stable.
+  it: without it (γ = 0) it collapses. That is the intended P5 mechanism.
+- *Change localisation.* Against γ = 0, the prior *raises* localisation in most cells,
+  concentrating change on nodes the new edges touch. Against the nulls, which also use the
+  prior, the model is less localised at levels 0 and 2 of the last transition. So the
+  structure the model finds does not by itself make change more local.
 - *Perturbation.* Removing 10% of the clustering edges reshuffles much of the partition
   at every level. The model is more stable than the full-null, but not significantly so
   after correction. With five seeds, the paired test cannot reach significance after Holm
   correction.
 
 **Label faithfulness.**
+
+![Forced-choice identification](figures/report_e3.png)
+
+*Share of labels the judge picks out of four from evidence the labeller never saw (95%
+Wilson intervals), for the model's labels and for labels of randomly regrouped nodes.*
 
 <!-- table:e3 -->
 | judge | labels (≤2026, levels 0–1) | n | identified among 4 (chance 0.25) | over-claim = not identified | most-chosen position share |
@@ -366,29 +361,31 @@ Deterministic checks (all snapshots, levels 0–1): year after cutoff 0/300, nam
 <!-- table:e4 -->
 | method (≤2026, 12 questions) | median cost to first target | recall@50 | recall@200 | wrong-domain@200 |
 |---|---|---|---|---|
-| **SHAC-T (selected, α=0.5)** | 1022 [178, 1758] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.03] | 0.00 [0.00, 0.00] |
+| **SHAC-T (selected, α=0.5)** | 1043 [178, 2493] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.03] | 0.00 [0.00, 0.00] |
 | flat-lexical | 1400 [128, 2031] | 0.01 [0.00, 0.02] | 0.05 [0.03, 0.08] | 0.05 [0.02, 0.08] |
 | ppr | 4 [2, 174] | 0.33 [0.13, 0.54] | 0.44 [0.23, 0.66] | 1.08 [0.50, 1.67] |
 | degree-popularity | 11 [1, 40] | 0.47 [0.28, 0.67] | 0.64 [0.44, 0.82] | 2.62 [1.67, 3.58] |
-| full-null | 1308 [815, 1903] | 0.00 [0.00, 0.02] | 0.02 [0.00, 0.07] | 0.02 [0.00, 0.08] |
-| struct-null | 1638 [900, 2302] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.05] | 0.04 [0.00, 0.21] |
-| sem-null | 778 [396, 1271] | 0.01 [0.00, 0.10] | 0.09 [0.00, 0.21] | 0.05 [0.00, 0.17] |
-| random-labels | 1270 [745, 1981] | 0.00 [0.00, 0.02] | 0.01 [0.00, 0.08] | 0.04 [0.00, 0.25] |
+| full-null | 1331 [883, 1816] | 0.00 [0.00, 0.02] | 0.02 [0.00, 0.07] | 0.03 [0.00, 0.08] |
+| struct-null | 1758 [903, 2285] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.04] | 0.04 [0.00, 0.21] |
+| sem-null | 795 [399, 1442] | 0.01 [0.00, 0.09] | 0.09 [0.00, 0.21] | 0.04 [0.00, 0.17] |
+| random-labels | 1416 [748, 2470] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.08] | 0.04 [0.00, 0.21] |
 
 Ranked baselines are scored by their expected value under random tie-breaking. 'degree-popularity' ignores the question.
 <!-- /table:e4 -->
 
 **Reading E4:**
-- *Against flat search and the nulls.* The drill-down does not beat flat lexical search
-  or the nulls significantly.
-- *Against the structure baselines.* Personalised PageRank and, even more, a ranking that
-  *ignores the question* both dominate every hierarchy. The expected methods are among
-  the most connected nodes, so this task mostly measures popularity, and it is weak
-  evidence for any navigation structure.
-- *Across configurations.* The drill-down improves steadily as α decreases, and the
-  freeze reference is best: hierarchies that keep a paper's method next to its task
-  phrases are easier to navigate from question words. Notebook 03 shows the mechanism we
-  believe drives this: low-α clusters are paper- and relation-pure.
+- *Against flat search and the nulls.* The drill-down for the selected model does not beat
+  flat lexical search or the nulls significantly. All rankings are scored under random
+  tie-breaking.
+- *Against the structure baselines.* Personalised PageRank (best median cost) and a ranking
+  that *ignores the question* (best recall) both dominate every hierarchy. The expected
+  methods are among the most connected nodes, so this task largely measures popularity,
+  and it is weak evidence for any navigation structure.
+- *Across configurations.* The median cost falls monotonically as α decreases, while
+  recall@200 is not monotone. The freeze reference has the lowest median cost. A plausible
+  reading, not tested here: low-α clusters are paper-pure (notebook 03), so a paper's
+  method stays next to the task phrases a question uses. Freeze also differs in having no
+  size cap.
 
 **Primary tests (pre-registered, Holm-corrected).**
 
@@ -398,7 +395,7 @@ Ranked baselines are scored by their expected value under random tie-breaking. '
 | E1 | E1a model vs full | 0.985 | 1.044 | 1.000 | 1.000 |
 | E2 | E2 perturbation ARI model vs full | 0.259 | 0.193 | 0.031 | 0.125 |
 | E3 | E3 absolute over-claim (wrong share) model vs random-clusters — pre-registered; the instrument failed its swapped-gloss control | 0.000 | 0.000 | 1.000 | 1.000 |
-| E4 | E4 cost hierarchy vs flat-lexical | 1022.500 | 1400.333 | 0.455 | 1.000 |
+| E4 | E4 cost hierarchy vs flat-lexical | 1042.600 | 1400.333 | 0.830 | 1.000 |
 <!-- /table:tests -->
 
 <!-- table:tests_secondary -->
@@ -411,10 +408,10 @@ Ranked baselines are scored by their expected value under random tie-breaking. '
 | E3 | E3 forced-choice identification model vs chance (gemma2:9b) — post hoc | 0.640 | 0.250 | <0.001 |
 | E3 | E3 forced-choice identification model vs random-clusters (phi4) — post hoc, added after the absolute rating failed | 0.627 | 0.520 | 0.124 |
 | E3 | E3 forced-choice identification model vs chance (phi4) — post hoc | 0.627 | 0.250 | <0.001 |
-| E4 | E4 median cost model vs full-null | 1022.500 | 1308.350 | 0.143 |
-| E4 | E4 median cost model vs random-labels | 1022.500 | 1269.949 | 0.210 |
-| E4 | E4 cost hierarchy vs ppr | 1022.500 | 3.500 | 1.000 |
-| E4 | E4 cost hierarchy vs degree-popularity | 1022.500 | 10.750 | 1.000 |
+| E4 | E4 median cost model vs full-null | 1042.600 | 1330.834 | 0.238 |
+| E4 | E4 median cost model vs random-labels | 1042.600 | 1416.154 | 0.210 |
+| E4 | E4 cost hierarchy vs ppr | 1042.600 | 3.500 | 1.000 |
+| E4 | E4 cost hierarchy vs degree-popularity | 1042.600 | 10.750 | 1.000 |
 <!-- /table:tests_secondary -->
 
 **Which variant would we ship?**
@@ -426,27 +423,33 @@ Ranked baselines are scored by their expected value under random tie-breaking. '
 - *Recommendation for the next iteration.* α = 0 with γ = 0.5 and ρ = 2, re-selected on a
   fresh split.
 - *A lead, not a result.* The `projection` ablation has the highest E1a lift of all
-  variants on half B, with an interval that excludes the selected model's. It is a single
+  variants on half B. Its interval lies above the full-null range and excludes the
+  selected model's point estimate, though not its interval. It is a single
   post-hoc comparison, it is not better on E2 or E4, and the native score is the
   pre-registered P4 choice. So we report it as the most interesting lead, to be tested on
   an independent split, rather than switch to it. If it holds, it would mean that
   counting a large star once per member pair (the clique view) groups citation-coupled
   papers better than counting it once per super-node pair.
-- *The honest headline.* On this export, none of the hierarchies has shown coherence or
-  navigational value beyond the nulls. The temporal machinery works as designed. The
-  labels are faithful to their groups, but the groups are not shown to be better than
-  random ones.
+- *The honest headline.* On this export, the selected hierarchy has not shown coherence or
+  navigational value beyond the nulls in any pre-registered test. Two ablations exceed the
+  full-null range descriptively, post hoc and uncorrected: projection on E1a, and freeze
+  on E4 cost. They are the leads for the next iteration. The temporal machinery works as
+  designed. The labels are faithful to their groups, but the groups are not shown to be
+  better than random ones.
 
 ## 6. Verified vs assumed
 
-**Verified:**
-- `validate.py out/` passes. An independent validator written by a separate agent agrees,
-  and the broken fixtures are rejected.
-- Every number in `metrics.json` that we report was recomputed independently from the raw
-  export and outputs (E1a, E2, E3, E4, coverage, coarse edges, Holm, the selection
-  table).
-- A clean clone passes the tests. It rebuilds byte-identical hierarchies offline from the
-  committed LLM cache and reproduces `metrics.json`.
+**Verified** (by independent verifier agents that reimplemented each check, in two rounds,
+the second after the fixes it prompted; scripts in the session log):
+- `validate.py out/` passes. An independent validator agrees, and the broken fixtures are
+  rejected.
+- The reported E1a, E2, E3 and E4 values, the coverage counts, the coarse edges, Holm and
+  the selection table were recomputed from the raw export and the outputs. Round 2
+  covered the regenerated nulls, E3 and the E4 scoring. The final tie-randomised E4 values
+  were matched by an independent drill-down to within Monte Carlo error.
+- A clean clone of the round-1 commit passed the tests, rebuilt byte-identical
+  hierarchies offline from the committed LLM cache, and reproduced that commit's
+  `metrics.json`. The full sweep was not re-run on a clean clone.
 - The leakage audit found no path from citations, ground truth or labels into clustering
   or selection.
 - Data counts come from the generated data table.
@@ -466,21 +469,14 @@ Ranked baselines are scored by their expected value under random tie-breaking. '
 
 ## 7. With four more weeks
 
-1. **A better coherence ruler.**
-   - Retrieve abstracts (notebook 02 shows this is feasible) and use a different embedding
-     family as a second independent ruler.
-   - Split by citing paper, not by cited work, so the halves are independent.
-2. **Human ratings for E3.** A blinded human sample (30–60 labels) to calibrate the judges,
-   plus an entailment check per gloss sentence.
-3. **A real extrinsic task.** Popularity-controlled queries, where targets are not the hubs
-   of the graph, and the drill-down given the same structural information as PPR, e.g.
-   profiles that include member degree and relations.
-4. **Method.**
-   - Revisit the score at coarse levels, where rank-normalisation over few pairs is
-     coarse.
-   - Try a two-stage scheme: structural communities first, semantic merging only across
-     them.
-   - Re-run selection with α = 0 included as the pre-registered default.
-5. **Temporal treatment.**
-   - A localisation-aware prior that applies γ only to nodes untouched by new edges.
-   - A test of whether it raises localisation without losing identity.
+1. **Coherence ruler.**
+   - A second independent ruler: abstracts, which notebook 02 shows can be retrieved,
+     embedded with a different model family.
+   - A selection split by citing paper, so that the halves are independent.
+2. **Human ratings for E3.** A blinded sample to calibrate the judges, plus an entailment
+   check per gloss.
+3. **A popularity-controlled extrinsic task**, and a drill-down that gets the same
+   structural information as PPR.
+4. **Test the two leads on fresh data:** projection on E1a, and α = 0 / freeze on E4. Try a
+   two-stage scheme: structural communities first, semantic merging across them.
+5. **A localisation-aware temporal prior:** apply γ only to nodes that no new edge touches.

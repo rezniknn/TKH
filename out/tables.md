@@ -55,24 +55,24 @@ Paper pairs: 253 with a shared non-hub concept, 342 without.
 | full-null | 1.04 [1.01, 1.08] | 1.07 [1.02, 1.11] |
 | random-labels | 1.05 [1.02, 1.09] | 1.08 [1.04, 1.12] |
 
-Cited works removed by the residual filter at ≤2026: 260 (exact, all works); 342 (strict, half B).
+Citation incidences removed by the residual filter at ≤2026 (counted before the A/B split): 260 (exact); 342 (strict).
 
 ## configs
 
 | configuration (≤2026, level 1) | E1a lift (B) | perturbation ARI | cross-snapshot ARI 2024→26 | change localisation | E4 median cost | E4 recall@200 | level-0 giant share |
 |---|---|---|---|---|---|---|---|
-| **SHAC-T (selected, α=0.5)** | 0.99 [0.74, 1.32] | 0.26 [0.23, 0.29] | 0.96 | 1.54 | 1022 [178, 1758] | 0.01 | 0.13 |
-| α = 0 | 0.90 [0.52, 1.57] | 0.35 [0.31, 0.39] | 0.85 | 1.52 | 400 [69, 1450] | 0.26 | 0.13 |
-| α = 0.25 | 1.11 [0.69, 1.78] | 0.26 [0.22, 0.29] | 0.96 | 2.27 | 702 [282, 1642] | 0.13 | 0.12 |
-| α = 0.75 | 1.17 [0.89, 1.54] | 0.24 [0.21, 0.27] | 0.94 | 0.94 | 1196 [130, 2232] | 0.03 | 0.13 |
-| α = 1 | 1.12 [0.92, 1.36] | 1.00 [1.00, 1.00] | 0.98 | 0.79 | 1542 [328, 2118] | 0.03 | 0.13 |
-| ablation: gamma0 | 1.41 [0.92, 2.16] | 0.37 [0.30, 0.44] | 0.37 | 1.08 | 860 [341, 2254] | 0.03 | 0.13 |
-| ablation: rho_inf | 1.14 [0.92, 1.42] | 0.18 [0.08, 0.28] | 1.00 | – | 440 [302, 1454] | 0.08 | 0.93 |
-| ablation: projection | 1.75 [1.15, 2.65] | 0.26 [0.24, 0.29] | 0.93 | 1.07 | 1146 [222, 2036] | 0.02 | 0.13 |
-| ablation: freeze | 1.22 [0.61, 2.45] | 0.35 [0.25, 0.44] | 1.00 | – | 238 [160, 1158] | 0.14 | 0.22 |
-| full-null | 1.04 [1.01, 1.08] | 0.19 [0.16, 0.22] | 0.89 | 1.25 | 1308 [815, 1903] | 0.02 | – |
-| struct-null | 1.06 [1.03, 1.11] | 0.20 [0.16, 0.23] | 0.90 | 1.19 | 1638 [900, 2302] | 0.01 | – |
-| sem-null | 1.08 [0.95, 1.23] | 0.20 [0.18, 0.23] | 0.89 | 1.26 | 778 [396, 1271] | 0.09 | – |
+| **SHAC-T (selected, α=0.5)** | 0.99 [0.74, 1.32] | 0.26 [0.23, 0.29] | 0.96 | 1.54 | 1043 [178, 2493] | 0.01 | 0.13 |
+| α = 0 | 0.90 [0.52, 1.57] | 0.35 [0.31, 0.39] | 0.85 | 1.52 | 398 [71, 1445] | 0.27 | 0.13 |
+| α = 0.25 | 1.11 [0.69, 1.78] | 0.26 [0.22, 0.29] | 0.96 | 2.27 | 703 [282, 2711] | 0.13 | 0.12 |
+| α = 0.75 | 1.17 [0.89, 1.54] | 0.24 [0.21, 0.27] | 0.94 | 0.94 | 1497 [130, 3207] | 0.03 | 0.13 |
+| α = 1 | 1.12 [0.92, 1.36] | 1.00 [1.00, 1.00] | 0.98 | 0.79 | 2287 [329, 2549] | 0.02 | 0.13 |
+| ablation: gamma0 | 1.41 [0.92, 2.16] | 0.37 [0.30, 0.44] | 0.37 | 1.08 | 859 [342, 2310] | 0.03 | 0.13 |
+| ablation: rho_inf | 1.14 [0.92, 1.42] | 0.18 [0.08, 0.28] | 1.00 | – | 447 [308, 1491] | 0.08 | 0.93 |
+| ablation: projection | 1.75 [1.15, 2.65] | 0.26 [0.24, 0.29] | 0.93 | 1.07 | 1471 [222, 2910] | 0.02 | 0.13 |
+| ablation: freeze | 1.22 [0.61, 2.45] | 0.35 [0.25, 0.44] | 1.00 | – | 240 [181, 1164] | 0.09 | 0.22 |
+| full-null | 1.04 [1.01, 1.08] | 0.19 [0.16, 0.22] | 0.89 | 1.25 | 1331 [883, 1816] | 0.02 | – |
+| struct-null | 1.06 [1.03, 1.11] | 0.20 [0.16, 0.23] | 0.90 | 1.19 | 1758 [903, 2285] | 0.01 | – |
+| sem-null | 1.08 [0.95, 1.23] | 0.20 [0.18, 0.23] | 0.89 | 1.26 | 795 [399, 1442] | 0.09 | – |
 
 α = 1 ignores edges, so its perturbation ARI is 1 by construction (not a stability result). Change localisation is undefined (–) when no untouched old node is reassigned.
 
@@ -122,14 +122,14 @@ Deterministic checks (all snapshots, levels 0–1): year after cutoff 0/300, nam
 
 | method (≤2026, 12 questions) | median cost to first target | recall@50 | recall@200 | wrong-domain@200 |
 |---|---|---|---|---|
-| **SHAC-T (selected, α=0.5)** | 1022 [178, 1758] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.03] | 0.00 [0.00, 0.00] |
+| **SHAC-T (selected, α=0.5)** | 1043 [178, 2493] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.03] | 0.00 [0.00, 0.00] |
 | flat-lexical | 1400 [128, 2031] | 0.01 [0.00, 0.02] | 0.05 [0.03, 0.08] | 0.05 [0.02, 0.08] |
 | ppr | 4 [2, 174] | 0.33 [0.13, 0.54] | 0.44 [0.23, 0.66] | 1.08 [0.50, 1.67] |
 | degree-popularity | 11 [1, 40] | 0.47 [0.28, 0.67] | 0.64 [0.44, 0.82] | 2.62 [1.67, 3.58] |
-| full-null | 1308 [815, 1903] | 0.00 [0.00, 0.02] | 0.02 [0.00, 0.07] | 0.02 [0.00, 0.08] |
-| struct-null | 1638 [900, 2302] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.05] | 0.04 [0.00, 0.21] |
-| sem-null | 778 [396, 1271] | 0.01 [0.00, 0.10] | 0.09 [0.00, 0.21] | 0.05 [0.00, 0.17] |
-| random-labels | 1270 [745, 1981] | 0.00 [0.00, 0.02] | 0.01 [0.00, 0.08] | 0.04 [0.00, 0.25] |
+| full-null | 1331 [883, 1816] | 0.00 [0.00, 0.02] | 0.02 [0.00, 0.07] | 0.03 [0.00, 0.08] |
+| struct-null | 1758 [903, 2285] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.04] | 0.04 [0.00, 0.21] |
+| sem-null | 795 [399, 1442] | 0.01 [0.00, 0.09] | 0.09 [0.00, 0.21] | 0.04 [0.00, 0.17] |
+| random-labels | 1416 [748, 2470] | 0.00 [0.00, 0.01] | 0.01 [0.00, 0.08] | 0.04 [0.00, 0.21] |
 
 Ranked baselines are scored by their expected value under random tie-breaking. 'degree-popularity' ignores the question.
 
@@ -140,7 +140,7 @@ Ranked baselines are scored by their expected value under random tie-breaking. '
 | E1 | E1a model vs full | 0.985 | 1.044 | 1.000 | 1.000 |
 | E2 | E2 perturbation ARI model vs full | 0.259 | 0.193 | 0.031 | 0.125 |
 | E3 | E3 absolute over-claim (wrong share) model vs random-clusters — pre-registered; the instrument failed its swapped-gloss control | 0.000 | 0.000 | 1.000 | 1.000 |
-| E4 | E4 cost hierarchy vs flat-lexical | 1022.500 | 1400.333 | 0.455 | 1.000 |
+| E4 | E4 cost hierarchy vs flat-lexical | 1042.600 | 1400.333 | 0.830 | 1.000 |
 
 ## tests_secondary
 
@@ -153,7 +153,7 @@ Ranked baselines are scored by their expected value under random tie-breaking. '
 | E3 | E3 forced-choice identification model vs chance (gemma2:9b) — post hoc | 0.640 | 0.250 | <0.001 |
 | E3 | E3 forced-choice identification model vs random-clusters (phi4) — post hoc, added after the absolute rating failed | 0.627 | 0.520 | 0.124 |
 | E3 | E3 forced-choice identification model vs chance (phi4) — post hoc | 0.627 | 0.250 | <0.001 |
-| E4 | E4 median cost model vs full-null | 1022.500 | 1308.350 | 0.143 |
-| E4 | E4 median cost model vs random-labels | 1022.500 | 1269.949 | 0.210 |
-| E4 | E4 cost hierarchy vs ppr | 1022.500 | 3.500 | 1.000 |
-| E4 | E4 cost hierarchy vs degree-popularity | 1022.500 | 10.750 | 1.000 |
+| E4 | E4 median cost model vs full-null | 1042.600 | 1330.834 | 0.238 |
+| E4 | E4 median cost model vs random-labels | 1042.600 | 1416.154 | 0.210 |
+| E4 | E4 cost hierarchy vs ppr | 1042.600 | 3.500 | 1.000 |
+| E4 | E4 cost hierarchy vs degree-popularity | 1042.600 | 10.750 | 1.000 |

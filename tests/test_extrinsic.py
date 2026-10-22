@@ -66,3 +66,14 @@ def test_expected_score_under_random_ties():
     assert r["wrong@2"] == pytest.approx(1 / 5)
     r2 = expected_score(idx, scores, {"e", "f"}, set(), budgets=(2,))
     assert r2["first_cost"] == pytest.approx(1 + 6 / 3)          # first of 2 targets in a tie of 5
+
+
+def test_random_tie_breaks_only_permute_ties_and_are_seeded():
+    from tkh.evaluate.extrinsic import Tree, hierarchy_expected
+    idx = toy_index(NAMES)
+    tree = Tree(idx, LEVELS)
+    o1, c1 = hierarchy_search(idx, LEVELS, "phonon spectrum prediction", np.random.default_rng(1), tree)
+    assert o1[:2] == ["c", "e"] and c1[:2] == [5, 6]   # scored items keep their order whatever the draw
+    a = hierarchy_expected(idx, tree, "zzz unmatched query", {"e"}, set(), budgets=(6,), draws=30, seed=0)
+    b = hierarchy_expected(idx, tree, "zzz unmatched query", {"e"}, set(), budgets=(6,), draws=30, seed=0)
+    assert a == b and 3 < a["first_cost"] < 9            # all-zero scores: the target's cost is averaged over draws
