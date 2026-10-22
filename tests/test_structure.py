@@ -74,3 +74,39 @@ def test_matrix_agreement_aligns_and_detects_association(toy):
     shuffled = A.loc[A.index[::-1], A.index[::-1]]
     r = st.matrix_agreement(A, shuffled, n_perm=19)
     assert r["pairs in both"] == r["pairs in A"] and r["spearman"] == pytest.approx(1.0)
+
+
+def test_collapse_stats_on_a_toy_incidence():
+    import numpy as np
+    B = np.zeros((6, 2))
+    B[[0, 1, 2], 0] = 1          # edge 0: nodes 0,1,2
+    B[[3, 4], 1] = 1             # edge 1: nodes 3,4
+    r = st.collapse_stats(np.array([0, 0, 1, 2, 2, 1]), B)
+    assert r["internal edges"] == 0.5                    # edge 1 lies inside group 2
+    assert r["multi-way among linking edges"] == 0.0     # edge 0 touches groups 0 and 1 only
+    r = st.collapse_stats(np.array([0, 1, 2, 2, 2, 1]), B)
+    assert r["multi-way among linking edges"] == 1.0 and r["projection pairs per multi-way edge"] == 3.0
+
+
+@pytest.mark.parametrize("kind", ["random", "paper", "type"])
+@pytest.mark.parametrize("k", [15, 60, 240])
+def test_reference_partitions_have_k_groups_and_respect_their_constraint(kind, k):
+    from tkh.config import load_config
+    from tkh.io import load, snapshot
+    cfg = load_config()
+    tkh = load(cfg)
+    snap = snapshot(tkh, 2026)
+    items, B, _, _ = st.concept_incidence(tkh, snap)
+    lab = st.reference_partition(kind, items, k, tkh, seed=1, snap=snap)
+    assert len(set(lab)) == k and lab.min() == 0 and lab.max() == k - 1
+    if kind == "type":
+        t = tkh.nodes["type"]
+        assert all(len({t[items[i]] for i in range(len(items)) if lab[i] == g}) == 1 for g in range(k))
+    if kind == "paper":
+        papers, year = st.node_papers(tkh, snap), tkh.articles["year"].to_dict()
+        first = [min(papers[v], key=lambda a: (year[a], str(a))) for v in items]
+        if k >= len(snap.articles):
+            assert all(len({first[i] for i in range(len(items)) if lab[i] == g}) == 1 for g in range(k))
+    if kind == "random":
+        sizes = __import__("numpy").bincount(lab)
+        assert sizes.max() - sizes.min() <= 1
