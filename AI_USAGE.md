@@ -1123,6 +1123,29 @@ accepted or changed, and what was checked.
   - The traced retrieval uses id tie-breaking for a deterministic display, so its costs can
     differ slightly from the tie-averaged metrics.
 
+### 29. Notebook 01 §0: the article list vs the graph export (Claude Code)
+
+- **Task/module:** T1; `notebooks/01_describe_graph.ipynb` §0, `tkh/describe.collection_vs_graph`
+- **Prompt:** "In 01_describe_graph, highlight the relationship between
+  collection10_articles.csv and tkh_collection10.json. Are all articles from articles
+  collection present in the graph? Are there any articles present in the graph but not in
+  the collection? Is every article present only once? Start with that section before
+  showing one ilustrative example"
+- **What the assistant did:** Added section 0, before the illustrative example. It
+  explains the four places where the graph refers to an article (article nodes,
+  hyper-edge provenance, node provenance, `meta.articles`) and tabulates the checks plus a
+  per-article table.
+- **Result:**
+  - all 52 CSV articles are in the graph, each exactly once;
+  - no article id in the graph is missing from the CSV;
+  - titles, years and arXiv ids agree, and every hyper-edge year equals the CSV year;
+  - 36 of the 52 papers have an arXiv id.
+- **Verified:**
+  - The checks were computed directly from the raw JSON and CSV, independently of
+    `tkh.io`, and cross-checked with a separate ad hoc script before the notebook text was
+    written.
+  - The notebook runs in `.venv` and in Anaconda.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
