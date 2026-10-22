@@ -144,11 +144,13 @@ class Tree:
         self.n_groups = sum(len(lv) for lv in levels)
 
 
-def hierarchy_search(index, levels, text, rng=None, tree=None):
+def hierarchy_search(index, levels, text, rng=None, tree=None, trace=None):
     """(retrieved concept nodes in order, cost at which each was retrieved) for a laminar hierarchy.
     levels: [ {key: set(members)} per level ] (level 0 coarsest), concept nodes only.
     rng=None breaks score ties by node id; with a numpy Generator, ties (between super-nodes and
-    inside an opened leaf) are broken uniformly at random."""
+    inside an opened leaf) are broken uniformly at random.
+    trace: optional list that receives (cost, action, level, super-node, score) for every super-node
+    read ("read") and opened ("open"), for inspection (notebooks/04)."""
     tree = tree or Tree(index, levels)
     q = index.vec.transform([text]).toarray().ravel()
     tie = (lambda: float(rng.random())) if rng is not None else (lambda: 0.0)  # noqa: E731
@@ -159,11 +161,15 @@ def hierarchy_search(index, levels, text, rng=None, tree=None):
         cost += 1
         sc = round(float(tree.prof[k][g] @ q), 12)
         heapq.heappush(heap, (-sc, tie(), min(levels[k][g]), k, g))
+        if trace is not None:
+            trace.append((cost, "read", k, g, sc))
 
     for g in tree.keys[0]:
         push_group(0, g)
     while heap:
-        _, _, _, k, g = heapq.heappop(heap)
+        negsc, _, _, k, g = heapq.heappop(heap)
+        if trace is not None:
+            trace.append((cost, "open", k, g, -negsc))
         if k < len(levels) - 1:
             for c in tree.children[k].get(g, []):
                 push_group(k + 1, c)

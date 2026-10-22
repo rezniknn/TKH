@@ -17,7 +17,6 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 import matplotlib  # noqa: E402
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 from tkh.config import add_config_args, config_from_args  # noqa: E402
@@ -25,7 +24,8 @@ from tkh.io import load  # noqa: E402
 from tkh.semantic import CONCEPT_TYPES  # noqa: E402
 
 
-def icicle(ax, h, concept, colour_of):
+def icicle(ax, h, concept, colour_of, label_level0=True):
+    """colour_of(root_id, supernode) -> colour; root_id = id of the level-0 ancestor."""
     sns = h["supernodes"]
     kids = {}
     for s in sns:
@@ -34,8 +34,8 @@ def icicle(ax, h, concept, colour_of):
 
     def draw(s, x, root):
         w = size[s["id"]]
-        ax.add_patch(plt.Rectangle((x, -s["level"] - 1), w, 0.92, facecolor=colour_of(root), edgecolor="white", linewidth=0.3))
-        if s["level"] == 0 and w > 0.05 * len(concept):
+        ax.add_patch(plt.Rectangle((x, -s["level"] - 1), w, 0.92, facecolor=colour_of(root, s), edgecolor="white", linewidth=0.3))
+        if label_level0 and s["level"] == 0 and w > 0.05 * len(concept):
             n = max(4, int(150 * w / len(concept)))  # characters that fit the box at this font size
             lab = s["label"] if len(s["label"]) <= n else s["label"][:n - 1] + "…"
             ax.text(x + w / 2, -0.54, lab, ha="center", va="center", fontsize=6, clip_on=True)
@@ -59,6 +59,7 @@ def main(argv=None):
     p.add_argument("--out", type=Path, help="output directory with <cutoff>/hierarchy.json (default: config out_dir)")
     p.add_argument("--figures", type=Path, help="figure directory (default: config figures_dir)")
     args = p.parse_args(argv)
+    plt.switch_backend("Agg")  # here, not at import: notebooks import icicle() and keep their inline backend
     cfg = config_from_args(args)
     out = Path(args.out or cfg.out_dir)
     figs = Path(args.figures or cfg.figures_dir)
@@ -68,7 +69,7 @@ def main(argv=None):
     hier = {c: json.loads((out / str(c) / "hierarchy.json").read_text()) for c in cfg.cutoffs}
     roots = sorted({s["id"] for h in hier.values() for s in h["supernodes"] if s["level"] == 0})
     cmap = plt.get_cmap("tab20")
-    colour_of = lambda r: cmap(roots.index(r) % 20)  # noqa: E731
+    colour_of = lambda r, s: cmap(roots.index(r) % 20)  # noqa: E731
     fig, axes = plt.subplots(len(hier), 1, figsize=(11, 2.1 * len(hier)))
     for ax, (c, h) in zip(axes, hier.items()):
         concept = {v for s in h["supernodes"] if s["level"] == 0 for v in s["member_ids"] if ntype[v] in CONCEPT_TYPES}

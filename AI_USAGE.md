@@ -1088,6 +1088,41 @@ accepted or changed, and what was checked.
   - The figures were inspected visually only.
   - The prose is close to the brief's upper length bound.
 
+### 28. Notebook 04: inspecting the shipped hierarchies (Claude Code)
+
+- **Task/module:** `notebooks/04_inspect_hierarchies.ipynb`; a `trace` option in
+  `tkh/evaluate/extrinsic.hierarchy_search`; `scripts/visualize.icicle` made reusable
+- **Prompt:** "Create a notebook 04 that helps inspect snapshot hierarchies produced by the
+  model in /out folder, display a simple visulisation of one of the snapshots, inspect
+  generated lables for super nodes and their coherence, inspect temporal evolution of
+  snapshots at different hierarchy levels and visualise retrieval task on one of the
+  examples"
+- **What the assistant did:** A parameterised notebook (snapshot, level, super-node,
+  question) with five parts:
+  - per-snapshot and per-level summaries;
+  - an icicle of one snapshot and a table of its level-0 super-nodes;
+  - per super-node labels, glosses, forced-choice hits per judge, deterministic flags,
+    paper purity and within-super-node citation coupling lift, with a close-up of the
+    labeller's shown members vs the judge's held-out members;
+  - event counts per level and transition, cross-snapshot ARI, a level-0 lineage of sizes
+    and labels, and an overlap heatmap between consecutive snapshots;
+  - one question traced through the drill-down (opened super-nodes, path highlighted on
+    the icicle) against the flat, PPR and degree rankings.
+- **Accepted / modified:**
+  - Two drafted reading cells were contradicted by the outputs and rewritten: the Q3 path
+    was not guided by a strong profile match, and new level-0 ids come from splits, not
+    births.
+  - The notebook first rendered no figures: importing `scripts/visualize` switched
+    matplotlib to Agg at import time. The switch now happens in its `main()`.
+- **Verified:**
+  - The notebook executes in `.venv` and in the user's Anaconda environment (Python 3.11,
+    matplotlib 3.7).
+  - The figures were inspected.
+  - The reading-cell claims were checked against the computed tables.
+- **Not verified / limits:**
+  - The traced retrieval uses id tie-breaking for a deterministic display, so its costs can
+    differ slightly from the tie-averaged metrics.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
