@@ -1256,6 +1256,40 @@ accepted or changed, and what was checked.
   - The hub threshold used for sections 3–6 and 8 is a single operating point, with sensitivity shown in sections 2
     and 7 only.
 
+### 32. Positioning against four prior coarsening/clustering papers (Claude Code)
+
+- **Task/module:** `docs/prior_work_comparison.md` (new).
+- **Prompt:** "How does the coarsening method formalised in docs/formal_statement.md and implemented in /tkh folder
+  position against coarsening algorithms proposed in https://arxiv.org/html/2511.06600v1,
+  https://arxiv.org/html/2501.07745v1, https://arxiv.org/html/2406.17556 and https://arxiv.org/html/2405.18127v1.
+  Compare formal definitions, assumptions, limitations, evaluation metrics used and implementation details (find
+  repositories with the source code linked in the articles). Highlight what is different, what is similar and what can
+  be borrowed from this prior work as an improvement hypothesis to validate within this project"
+- **What the assistant did:**
+  - Four parallel agents, one per paper, each extracted the paper and cloned its repository read-only; no external
+    code was run.
+  - It found that only HyperEF 2.0 is a coarsening method:
+    - 2501.07745 is DynHAC (dynamic average-linkage HAC);
+    - 2406.17556 is h-Louvain (community detection);
+    - 2405.18127 is a coarse message-passing operator for GNNs, whose GitLab repository is empty.
+  - The document compares the definitions, the hyperedge collapse rules, the assumptions, the metrics and the
+    implementations.
+  - It derives two formal points:
+    - SHAC-T's semantic term equals average linkage, but its structural term is not reducible (counterexample given),
+      so DynHAC's guarantees do not transfer;
+    - the native and projection variants are two points of the multiplicity family that h-Louvain parameterises with τ.
+  - It proposes eight hypotheses (H1–H8), each with a test and a kill criterion, under a fresh-split protocol.
+- **Verified:**
+  - Three code claims were re-checked by hand in the clones: HyperEF 2.0's `HSC` ignores edge weights; its default
+    `R = 1.0`; h-Louvain's `VolA[m]` update in `last_step`.
+  - The SHAC-T numbers quoted were checked against `report.md` §5 and `docs/formal_statement.md`.
+- **Not verified / limits:**
+  - The other code-level statements are from the agents' reading only.
+  - Paper equations were read partly through summarising fetches.
+  - DynHAC's and MPC's numbers were not recomputed.
+  - The reducibility counterexample is worked by hand and has no test yet.
+  - None of H1–H8 has been run.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
