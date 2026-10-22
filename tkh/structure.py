@@ -279,7 +279,7 @@ def hub_sensitivity(tkh, types, shares=(None, 0.5, 0.3, 0.2, 0.1, 0.05), snap=No
 
 
 def concept_components(tkh, snap, relations=CONCEPT_RELATIONS, max_paper_share=0.2):
-    """Connected components of the concept clustering hypergraph (concept relations; hubs removed from
+    """Connected components of the concept-relation hypergraph (concept relations; hubs removed from
     the node set): returns (component sizes, papers spanned by each, in the same order, hub set)."""
     papers = node_papers(tkh, snap)
     ntype = tkh.nodes["type"].to_dict()

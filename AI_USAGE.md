@@ -1207,6 +1207,55 @@ accepted or changed, and what was checked.
     hub weights) are untested. Each needs an outcome test on held-out evidence.
   - The notebook recommends reading E1a's no-overlap stratum as primary. `report.md` has not been changed.
 
+### 31. Notebook 03 made independent of the implemented method; coarse-level analysis moved to notebook 05 (Claude Code)
+
+- **Task/module:** `notebooks/03_structural_signal.ipynb`, `notebooks/05_inspect_hierarchies.ipynb` (new section 3),
+  `tkh/structure.py`, `tests/test_structure.py`
+- **Prompt:** "The notebook should not in any way rely on the already implemented coarsening method, the goal of the
+  notebook is to advice what information a coarsening algorithm should rely on so remove any references to already
+  implemented method (e.g. sections 7). Verify that the notebook does not rely on any assumptions about a coarsening
+  algorithm already implemented and instead presents empirical evidence that will be useful for the consutruction of
+  said algorithm. Move What survives at coarser levels section to 05_inspect_hierarchies.ipynb, the notebook that
+  anlyses the results that the implemented coarsening algorithm produces and integrate it into that notebook"
+- **What the assistant did:**
+  - **New section 7 in notebook 03.** The shipped-hierarchy section was replaced by a method-independent analysis. The
+    concept-relation hypergraph is collapsed onto reference partitions that encode no clustering (random,
+    paper-preserving, type-preserving) at 15 / 60 / 240 groups with 20 seeds. Group-pair affinities are computed under
+    two edge weightings.
+  - **Conclusion (B) rebuilt on that evidence.** Untested carry-over ideas are listed as hypotheses.
+  - **Method-derived inputs removed:**
+    - the concept types and relations are now defined in `tkh/structure.py` and checked against the export's schema;
+    - the citation-coupling ruler is reimplemented in `structure.citation_coupling`, identical to the E1a ruler, so
+      the notebook no longer runs `tkh.coarsen` code through `tkh.evaluate.coherence`;
+    - the group grid is defined in the notebook rather than read from the method's config;
+    - the 20% hub value is labelled as the project's default, used only as an operating point;
+    - the "How SHAC-T compares" part was removed.
+  - **Notebook 05.** The shipped-hierarchy analysis moved here as section 3, comparing the shipped levels with the
+    reference partitions on the same statistics. Later sections were renumbered.
+- **Accepted / modified (two verification workflows):**
+  - **The method-independence audit found remaining reliance:**
+    - section 7 scored group pairs with the method's own affinity and weights;
+    - (B) restated the implemented collapse rule's fields;
+    - the evaluation ruler executed coarsening code.
+  - **It also found factual errors:**
+    - presence saturation was overgeneralised; type partitions are a counterexample, explained by a schema fact;
+    - "most edges are large stars" was wrong;
+    - notebook 05 wrongly called the paper reference equal-sized and misstated level-2 edge absorption.
+  - **The final check confirmed** that no method module is loaded or read. Its remaining minor points were fixed: a
+    leftover fixed-weight hypothesis, an inherited parameter source, the robustness scope, the dataset/metric
+    exception, the claims check cell, and wording.
+- **Verified:**
+  - Notebook 03 loads no `tkh.coarsen`, `tkh.hierarchy` or `tkh.semantic` module and reads nothing from `out/`
+    (`sys.modules` check).
+  - The independent ruler equals E1a's.
+  - All new tables were recomputed independently.
+  - Both notebooks run in `.venv` and Anaconda.
+  - The new tests cover the reference-partition constraints and the collapse statistics.
+- **Not verified / limits:**
+  - The (A) and (B) hypotheses still need outcome tests.
+  - The hub threshold used for sections 3–6 and 8 is a single operating point, with sensitivity shown in sections 2
+    and 7 only.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
