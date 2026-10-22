@@ -26,7 +26,7 @@ The evaluation results are in `report.md` §5. All numbers there are generated f
   `cites`, `claims`, `presents`, `authored_by` and `proposes_future_work` never enter
   G_t's incidence. All snapshot edges do count towards a node's paper count for the hub
   threshold, but `cites` edges contain no concept node. Citations are therefore free to
-  serve as the held-out signal in the evaluation (T6, E1a). Their only use in the build is
+  serve as the held-out signal in the evaluation (T6, M1). Their only use in the build is
   to anchor `cited_work` nodes, which are outside every metric.
 - **Text.** z_v = the mean-centred, L2-normalised projection of node v's name and
   aliases. The projection is a character 3–5-gram TF-IDF followed by a deterministic
@@ -123,9 +123,10 @@ super-node holds two endpoints of one edge:
 - the projection (`structure = "projection"`, the average linkage of the singleton
   clique weights) counts it once per member pair.
 
-This is the controlled comparison T2 asks for. The projection variant differs from the
-native method in that one place only (test
-`test_native_and_projection_agree_at_singletons_and_diverge_later`).
+The projection variant differs from the native method in that one place only (test
+`test_native_and_projection_agree_at_singletons_and_diverge_later`). It stays in the code to
+pin down Prop. 2, but it is not part of the evaluation: the method works on the hypergraph
+directly, and no pairwise projection is built or compared.
 
 **Lemma (cap feasibility).** If ρ ≥ 2, a feasible pair exists whenever K > N_k items
 remain. *Proof:* the two smallest items have total size ≤ 2n_t/K < 2n_t/N_k ≤ c_{t,k}. ∎
@@ -161,10 +162,10 @@ snapshot t:
 | Hypergraph-native structure at coarse levels | guaranteed: H is computed on the collapsed incidence (Prop. 1) |
 | Determinism | guaranteed: deterministic SVD, deterministic tie-breaking; tested |
 | No future information | guaranteed for structure, membership and the temporal prior (G_t, V_t, P_{t−1}); for text only up to A5 (export-wide names and aliases) |
-| P3 semantic coherence | measured (T6 E1a, E1b) |
-| P4 hyper-edge fidelity | the native score and the T4 collapse are used by construction; what a projection changes is measured (the `projection` ablation) |
-| P5 temporal stability | measured (T6 E2: perturbation, cross-snapshot, change localisation) |
-| P6 faithful labels | measured (T6 E3); the labeller's input is restricted to the snapshot and to half of the members |
+| P3 semantic coherence | measured (T6 M1: residual citation coupling, a signal no coarsening input contains) |
+| P4 hyper-edge fidelity | by construction: the native score and the T4 collapse work on the hypergraph; no pairwise projection is built |
+| P5 temporal stability | measured (T6 M2: perturbation of all relations, HARI vs the configuration null, cross-snapshot, change localisation) |
+| P6 faithful labels | measured (T6 M3: claim-level entailment with judge controls); the labeller's input is restricted to the snapshot and to the evaluator's seen half of the members, which `validate.py` checks |
 
 ## 7. Complexity
 
@@ -183,11 +184,11 @@ graphs would need a sparse score structure, because of the O(n²) memory.
 
 | Parameter | Default | Role | Selection |
 |---|---|---|---|
-| α | 0.5 | semantic vs structural weight | selected on E1a, half A, by the one-SE rule: every α was within one SE, so the tie-break picked 0.5 |
+| α | 0.5 | semantic vs structural weight | selected on M1 (no-overlap stratum, dev half A) by the one-SE rule: every α was within one SE, so the tie-break picked 0.5 |
 | γ | 0.5 | temporal prior | pre-registered; γ = 0 reported as an ablation |
 | ρ | 2 | size cap | pre-registered; ρ = ∞ reported as an ablation |
-| freeze | false | reference only: old nodes keep their previous groups; runs without the cap | E2 reference, never the shipped method |
-| structure | native | native vs projection H | pre-registered; projection reported as an ablation |
+| freeze | false | reference only: old nodes keep their previous groups; runs without the cap | ablation reference, never the shipped method |
+| structure | native | native vs projection H | fixed to native; projection is not evaluated |
 | lsa_dim | 100 | text projection rank | pre-registered |
 | hub_frac | 0.2 | hub removal threshold | pre-registered; hubs logged in `out/run_info.json` |
 
@@ -224,8 +225,8 @@ All seven can be overridden from the command line: `scripts/build.py --param alp
   names as attributes. But at about 4k nodes and about 550 edges, with 88% of concept
   nodes in at most one edge, inference is badly under-determined. It is also not natively
   hierarchical with fixed budgets.
-- **Clique expansion.** It is kept only as the `projection` ablation (Prop. 2), so that
-  what it discards can be measured.
+- **Clique expansion.** Rejected: it splits each multi-member edge into equal-weight pairs,
+  which is exactly what P4 rules out (Prop. 2 shows where the two diverge).
 - **Rank-normalised mixing vs raw mixing.** Raw S and H live on incomparable scales. At
   singletons, H is 0 for 98–99% of pairs; at coarser levels fewer pairs are 0, e.g. about
   73% at the start of level 0 at ≤2026. Percentile ranks make α interpretable. The cost is that

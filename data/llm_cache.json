@@ -102,6 +102,20 @@
    },
    "prompt_sha256": "c445f1488a91e446901972372aeae20d490ff0a2dde9e9430b948f40ca3a86f5"
   },
+  "021ede129cbcc46dd98661aae16b9e5c42b0a3306fa5d7f58b2afef6d3c69690": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Fracture Prediction Techniques involve methods.",
+     "Fracture Prediction Techniques involve techniques.",
+     "Methods are used for predicting crack paths.",
+     "Techniques are used for predicting crack paths.",
+     "Methods are used for predicting fracture toughness.",
+     "Techniques are used for predicting fracture toughness."
+    ]
+   },
+   "prompt_sha256": "c57efd1737a8ad206128bfa4629b7966dbd011f478c329efd59bef2906a22c3f"
+  },
   "024d34fb5b2cba664be3f6c79e430aae4e31d6f6244eef2b9c2780c25cbb98cd": {
    "model": "gemma2:9b",
    "response": {
@@ -181,6 +195,14 @@
     "reason": "The label and gloss specifically and correctly describe the common theme of various machine learning techniques for training and optimizing models in materials science and chemistry."
    },
    "prompt_sha256": "08f3fd05bf0fc72109776deb476f4b5bf1db1b5744e3396d52199338514ad817"
+  },
+  "034b9b40aefee2b1c4a0382dc4ec23ab364047841d97dddacb8ac7e7b45c4f97": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "4df2e4d642812a7b08ba2bc0ec4fd2742d4f93b9aae33f9b69ee84f03fdbf53d"
   },
   "035545cc4f88812094544c7a97802b1ce8266a57f3fbf0a38ba7df9173465a65": {
    "model": "llama3.1:8b",
@@ -590,6 +612,14 @@
    },
    "prompt_sha256": "3d0d7664d8794879142b517208527149cc8ab4ec1b86d980c3d6c243b1dc490d"
   },
+  "0b335b8bcfa33ce2a06e0e7d979f7ece8f28d12d25bc7f7a617ccf7c5cab8243": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "334b443369527c152c9a2a3b84f2fb837fe5236353d93258c4837b3e52c425fc"
+  },
   "0b893d16200db06c24cbbcacea1563e7ec0f09b8ced0624e13a0d37188046a2e": {
    "model": "llama3.1:8b",
    "response": {
@@ -645,6 +675,14 @@
     "reason": "The evidence specifically describes graph neural networks for materials science and chemistry applications."
    },
    "prompt_sha256": "cf9c8e1210df1369b7bce8547b1394e182d1615f53e203112abc858ce01a442a"
+  },
+  "0cc6defac4e2fb9a4fe05aa62fef09bce604b8d3c4ca620e1f1c0e79d59b8267": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeePMD accurately reproduces radial distribution functions and three‑body angular distribution functions of liquid water and ice, matching AIMD results."
+   },
+   "prompt_sha256": "a23226c4cda23280ebd914062c2610e4049a9606db4df5b3119dc9f338278d0c"
   },
   "0cd082cffa8a2d04ed094b7ba32afbb9fa2c747dff490e8a87d0ed10d2310c49": {
    "model": "qwen2.5:7b-instruct",
@@ -901,6 +939,14 @@
     "reason": "The evidence exclusively consists of graph-based methods for materials science and chemistry."
    },
    "prompt_sha256": "24b4ec76fd3b5a490eeff9f7173310667c9ba07529aa23ea80ace05f248c0596"
+  },
+  "13130396cc4ee03d7c64ad16c8dae9284e8775bca089e8519c9a9a2115ed871d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "The model predicts fracture toughness values that are comparable to those obtained from atomistic molecular dynamics simulations."
+   },
+   "prompt_sha256": "188edc12ed5532b755c3bca1e6dba0c0b7613d900ed87e0510b890f9790feeb2"
   },
   "1363aa8e86e79b01950f8f64db8cc2dde4a7e24c46048d391ea36a60a6503e34": {
    "model": "llama3.1:8b",
@@ -1262,6 +1308,14 @@
    },
    "prompt_sha256": "281751feae1fb6859115df71532960565a37d56f5003500c3665f4d8bcb6a06f"
   },
+  "19fee5c6907bbae45896b468e5b7d119f178329df3d40551eda847e177021bcc": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Direct force prediction [method]"
+   },
+   "prompt_sha256": "2ce129fc45ba6ff99f06d4c5fc3068bd450cabed3c34437e01752f4691ca25f6"
+  },
   "1a0076f30e8c2fe60287a83282baa2ba068ce8a6600f94706b1ef82bbfb1978c": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1334,6 +1388,14 @@
    },
    "prompt_sha256": "fdb903254cedf23d353d7e5adce5639e25fbbc07c311012d2d61b3cbe91d7bc8"
   },
+  "1aefd521ef42daaa786f5254675cd03d251a85ec3cc3194776575380d1eb6587": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Equivariant message passing [technique]"
+   },
+   "prompt_sha256": "2deee2b4b6b1dc04451f8d1081f794e966e8cc1b2939261ed9fea045758b0950"
+  },
   "1b0497e8d4e7c6282ab5a80b01e400a130fe2d723413bf1a545f92137308949f": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1397,6 +1459,14 @@
     "reason": "The label and gloss precisely match the common theme of calculating and representing free-energy in materials science."
    },
    "prompt_sha256": "2917973774d5254e1537e088f76385902ee40661676222b0420e1dd1850675e0"
+  },
+  "1bab23ceca624ded1bce60471d74b37ed8c096669ef8a59bccf630ff997ff97f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "c4d52462436de4eaa4939f7524312632aaea45efe07449a538a7e112ebb56e73"
   },
   "1bae77ad3f57939c5dacbcc1231a874c3fe252e1b651dc01c29b80c078f1d88c": {
    "model": "llama3.1:8b",
@@ -1525,6 +1595,14 @@
     "reason": "The group consists of tasks and models related to predicting material properties and behavior."
    },
    "prompt_sha256": "7e54a91fb7a7cce3ef55352ea646e6b6ce947d066b8767346b4d2f20078d1487"
+  },
+  "1e3593dfef960f4bf49381112cbf849c06689955a4cadd956f2a0a66218d90a4": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "SO(3) data augmentation [technique]"
+   },
+   "prompt_sha256": "9c47ba8b06c02c284c8407e2099533d98fb0dc600f5dabcc5d84821321d47a27"
   },
   "1e35e23a181a46f1cb3e5950f0c95ca4e51fc1ea26e16d1f9405dbaff4cd9b14": {
    "model": "qwen2.5:7b-instruct",
@@ -2046,6 +2124,14 @@
    },
    "prompt_sha256": "50edd136a38a2954b9739fdf7e029523f077085b79ce40f41e9837c6117f9427"
   },
+  "29ca5c370ba5ecf6cc2c33fd461642b8fd428d64e3e10fb64a92d5ba17dbf207": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "EquiformerV2 outperforms state-of-the-art methods on OC20 and OC22 datasets, improving upon eSCN by 4-9% on force MAE and 4-18.9% on energy MAE."
+   },
+   "prompt_sha256": "f75dc82f947433c3c47afdd4cda0052937c8ab5fe741c77845a1dc4643d9e1d9"
+  },
   "2a1a2c7f95102193bb681469c5da3f02346bd403ee0c270cd2b896386729cbcc": {
    "model": "llama3.1:8b",
    "response": {
@@ -2110,6 +2196,14 @@
    },
    "prompt_sha256": "fa8b0a4d81421894b70fb023754ae3685208d2786d2190a5d5be302c12421593"
   },
+  "2b4ba338f95013c62c7cd3e869a0f76c84799f6922937f63d571158ffa92b310": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Multi‑term loss function [component]"
+   },
+   "prompt_sha256": "a45e4f81e4caeed3839a3d902c3892a482ddee85bfe04f9e6566252d270569cf"
+  },
   "2b4d717920bf9316a14f2a38389d7c31bd2da80b1569764fae6ac699bd693dd9": {
    "model": "gemma2:9b",
    "response": {
@@ -2166,6 +2260,14 @@
    },
    "prompt_sha256": "49f65e7e2d710ceb5aaa362d28c38839d5855ee82e1b78a6ff3da516730ccd7e"
   },
+  "2d2318494dceae72fd638c969de688b56b904c7b3e40bb0e0ddffd2131d1280e": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "a30313efac99e17439e9efa62b555f107ebe7becebce1b10a8988cf42673ce0c"
+  },
   "2d3625f8a0e82502bc42344c525a8481452ec6ebfee1b4b2948e95a16c2f0163": {
    "model": "gemma2:9b",
    "response": {
@@ -2174,6 +2276,14 @@
    },
    "prompt_sha256": "50e9a9d4a0bec7c330fdf363ca9e27e1a6f8a640faf04a0776ff5f110f40eb8a"
   },
+  "2d5551101ff5d3f37f412b91aef532a73eb947f5e5b251a0fd97c67e83694343": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Using a loss function with adaptive prefactors that emphasize forces early and energies/virial later reduces the total training time to a few core‑hours for all test cases."
+   },
+   "prompt_sha256": "f078b044f3e4be046b5489490e5e7f22a8aede1c93d71cae1235746aac4d354d"
+  },
   "2dd7f1511b97bbc0f324f7058410c07949fafcc1ec1abd6aad7991044f2a8552": {
    "model": "phi4",
    "response": {
@@ -2181,6 +2291,14 @@
     "reason": "The group consists of various methods and techniques for training and optimizing machine learning models."
    },
    "prompt_sha256": "0e63a9b3b7c17f8ba2345e752eff2943ddd957eb169e8fc26a90ec5081a88a7e"
+  },
+  "2e056a03fc1933b370b299d95eeaad69465ab62425c1df114332bfd8958a3982": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "ConvLSTM-based fracture prediction model [method]"
+   },
+   "prompt_sha256": "cf4a789053f96b5d1e90dbebd4c02c7a451748c98de1431c459b3fe992c5b4b3"
   },
   "2e13fec67e8665e366790065257189d3292c7098bfbf3293f29e651be24125eb": {
    "model": "llama3.1:8b",
@@ -2470,6 +2588,14 @@
    },
    "prompt_sha256": "9bf5c5e438af797ed5c7ce61fd2166be32f18ef249c0d9de288f194dc54dc4ba"
   },
+  "3355008f4909b042cca0b27ea63708e39751df4c5f0630b4e8ed35d28eade6ed": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "88ad79145d9fcbd3dd3998f17a9cb205f91751daf6793421b57a1f9b84e13bca"
+  },
   "336184167cd0e4ec5444d0775c95ac38ee8032659d9bbfebdfc5fb39ff14a376": {
    "model": "llama3.1:8b",
    "response": {
@@ -2485,6 +2611,14 @@
     "gloss": "Metrics related to formation energy in materials."
    },
    "prompt_sha256": "3b402381af0b66effdd3508fd3159cb06559b217d21d6a986b687849988dc5f3"
+  },
+  "337e8e11fcbb2fdc44e8e0c1cd47765646261d07a67abcf24f3788f12db9282d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Spatiotemporal fracture behavior forecasting [task]"
+   },
+   "prompt_sha256": "74e9b762658d9ab51b69c739b79b81fedfd2ecec91be327dd2df62a58def5d89"
   },
   "3431c5f7caf73ccd24708b9987b0546fdf6baebe0184e071d376f3bb12f7a7e3": {
    "model": "llama3.1:8b",
@@ -3182,6 +3316,14 @@
    },
    "prompt_sha256": "2c07d5c6958d191c55049bf9970de4c0c0c132f2e1787396794b5e116cd6475c"
   },
+  "40d5eda9b72da6ad44cbb9f249a9024d162d2fea24263068a8dc9035f9bc6a23": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "4a3e3d08f99a5291b094ad78f0878e72bf1be5418e232d4cd28de81d67b97522"
+  },
   "40dbed16af9a238043353331b51b889058cdb85092b4de820f4a5ebf97a81d6b": {
    "model": "llama3.1:8b",
    "response": {
@@ -3374,6 +3516,14 @@
    },
    "prompt_sha256": "930d0215da02cab97442aac4e7ea4f2048f936d4ac519da5a5c6d6b50372b6af"
   },
+  "453d25367946f3b15aa1fc51b7cc8a0598c260e35fd2fcdfdeee2a23fa93b0f6": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Using a loss function with adaptive prefactors that emphasize forces early and energies/virial later reduces the total training time to a few core‑hours for all test cases."
+   },
+   "prompt_sha256": "d39a4d3a7f159c68a897a1d4d10dffb97b61a72c72ae3d18a711b657cc351cad"
+  },
   "459c3d919f0fbfc1d126eca9cb1d03af53ccde36e1e26b14a895723c9455c0b3": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -3421,6 +3571,14 @@
     "gloss": "Methods and components for DFT-level accuracy in materials simulations."
    },
    "prompt_sha256": "a7d25ae254805095ac418712b602fe103e462ce67a0d7a2ec96ba37a447dd489"
+  },
+  "45db62aa541c9baf27f92feab4331d48da53553dec061b1c62b9560f674a5dfe": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeepH-E3 provides a universal E(3)-equivariant deep-learning framework that exactly preserves Euclidean symmetry of the DFT Hamiltonian, including spin-orbit coupling."
+   },
+   "prompt_sha256": "ca8a1e9cd275a4e221f9a436f58a73e8d994981ae2daf9b7cb637b1ddae53318"
   },
   "45df43d7ac4bbbaee5e2d5e804f92711383c794a8c10df7dabf6fc11c3971e7c": {
    "model": "llama3.1:8b",
@@ -3574,6 +3732,14 @@
    },
    "prompt_sha256": "9a8c76c077a3345057e23305918f7704b19aacf039345fec836f63bf47b83f54"
   },
+  "49b46308eb0063da40b2fe2fa2dce04aa01bb01ecb353dc953622126652bb798": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "A curated dataset of 476 binary ionic compound melting temperatures spanning 0-4,000°C was compiled for machine learning model development."
+   },
+   "prompt_sha256": "3ca3d6260764c773c1cc8b184902a0fe8c1ce5c6d3cb321fe0e195dfa0b4bfb8"
+  },
   "49cf0f573b54a71fb1c94f356e938dba1d0a6c08b212c25bef65c595b66514dd": {
    "model": "llama3.1:8b",
    "response": {
@@ -3726,6 +3892,14 @@
    },
    "prompt_sha256": "871ce5ab5d0ccd04af27f04467ad226d8c5e7d803cc1f9f4665b573410328d86"
   },
+  "4d0cee6269274c7c46adbb8144447305b134e489a2f6e7de602ad178391e0302": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "The model predicts fracture toughness values that are comparable to those obtained from atomistic molecular dynamics simulations."
+   },
+   "prompt_sha256": "da9e7483ef70f373781e739b27e4738eb7f4f36ba49bca3c6253c601f1c7d63a"
+  },
   "4d1afc48224bb2a7e15c32852319056305ecb6681ff15c4ee32072533f81259d": {
    "model": "llama3.1:8b",
    "response": {
@@ -3838,6 +4012,14 @@
    },
    "prompt_sha256": "96c4b49b373213c736c126d057f575ba98e0b793669dfeecd727a4494b850175"
   },
+  "4fa3a46553b55f6e722cd633e6329522ea7fb2ff9da77c046f4c78a50fc8191c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Atomic Cluster Expansion (ACE) high‑body‑order features [component]"
+   },
+   "prompt_sha256": "c11058608e384d1aba0c8b1466cb7cf11331491791067d8623a06cd1ee3a9146"
+  },
   "4faa60cdf31c165c309670a27505a9b9a09ceeda7175e52ca62834b17cebce6b": {
    "model": "phi4",
    "response": {
@@ -3893,6 +4075,14 @@
     "reason": "The label and gloss precisely capture the common theme of addressing challenges and solutions in training interatomic potentials across various papers."
    },
    "prompt_sha256": "0cf65ec1e5b0a03fd2473c9272295d6273c01ec6b9b6c6610d1b85b09d673044"
+  },
+  "5199493939d903e17896fd56e921ec6bbee4c914bd3ac6d51e20c31e6ddd0826": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "552275612601d0ae021c2ccf6ab16cd5716e502f43ec4ef1043a4dbce5c68de9"
   },
   "519a559ee7be570ff19c9dc2cc13c9ddcd4b9bba648dc6d48216694389dc31a1": {
    "model": "llama3.1:8b",
@@ -4494,6 +4684,22 @@
    },
    "prompt_sha256": "72791611911e347844493cd0530e175cc024efdef12693025bc7c09c4b07e76b"
   },
+  "5d4b48b4a31ddb25c093f9d04142975317444b39c745312edddb4ebb62f3a691": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Matbench v0.1 is a benchmark suite containing 13 supervised machine learning tasks (10 regression, 3 classification) for materials property prediction, with dataset sizes ranging from 312 to 132,752 samples."
+   },
+   "prompt_sha256": "6be26a400af41a6defd0ebafc4679869b06a3b156685444d8997bec2fddb4b34"
+  },
+  "5d5318b764b756fd4fffbf67dd06e5f07fa6ef0b73310f0b45e619d2d00cd813": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Material fingerprints [component]"
+   },
+   "prompt_sha256": "a6ec79b9f41d1af21dfcfee2c964c0f5225ba585e90ad291c346322af850f77c"
+  },
   "5d5b23998918d9c39ca1228af25f1acdb9f8d30c31611ee15ab7b557aa968c29": {
    "model": "llama3.1:8b",
    "response": {
@@ -4718,6 +4924,14 @@
    },
    "prompt_sha256": "3d0d7664d8794879142b517208527149cc8ab4ec1b86d980c3d6c243b1dc490d"
   },
+  "63bed9bbcffa5ebdae86f0e48a1d8322e0df492974cf992eef6c2bd646ffa2f9": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Data heterogeneity in materials property prediction [problem]"
+   },
+   "prompt_sha256": "3a97bad4044b9027b461bb7509a7ac3795c461480ab98e069c6c65e85ec9c5c8"
+  },
   "63c6f12e6667f05b932abfbe7b2a196c17cf534b87fe7711b7a78ab6d7cb0f7e": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -4797,6 +5011,14 @@
     "gloss": "Problems related to predicting material properties."
    },
    "prompt_sha256": "615e3fdf95187e06f11d5dc6b7945fa3bb240645b1adfb12e9c7d30f9d8907ad"
+  },
+  "652b55e492af5ce54f90d99efa3af1d761bb09fc2bdabe9bd22242d33c088761": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Using a loss function with adaptive prefactors that emphasize forces early and energies/virial later reduces the total training time to a few core‑hours for all test cases."
+   },
+   "prompt_sha256": "177773e418e8bd2a4216f4ea33b7f97fa9aa13400803fae285dd6d6a66be1e05"
   },
   "653b600a3d4a374e68ba8a848192057e29ddb3f34153f24af08916e6fa53be90": {
    "model": "llama3.1:8b",
@@ -4893,6 +5115,17 @@
     "reason": "The group primarily consists of components and techniques related to machine learning models for materials science."
    },
    "prompt_sha256": "90a61cdd0997cb4cfadb0c76a86965b2b39cf388736c52ef3755569e1725cdd6"
+  },
+  "673b7afdf1545709f5e0503d41f68b964410391b902d59c912df5f0219b4f7cf": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "ML Model Components are components of ML models.",
+     "ML Model Components are layers of ML models.",
+     "ML Model Components are related to materials."
+    ]
+   },
+   "prompt_sha256": "85adc913ed3682af5a3611706677900ebf27fd7b6bba1da825156d839e115ddb"
   },
   "673ee153ad7eb2bb1ec2e07961fdc243c1daea2f3ea348e9af71f4708adb9592": {
    "model": "gemma2:9b",
@@ -5094,6 +5327,14 @@
    },
    "prompt_sha256": "72791611911e347844493cd0530e175cc024efdef12693025bc7c09c4b07e76b"
   },
+  "6ae1ce713f50e46dc327df1b83c233ea5326b66ef0060972b4181423e6f18c1f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Fully‑connected hidden layers [component]"
+   },
+   "prompt_sha256": "9272001fb80a8be3809527de827e8bbf5c80c1ac33e0fc2ccc1d026ec50e17c3"
+  },
   "6af65be7bfa1bde2c65d9f0ced54a3fb05fc52736868e05b8d919879db498984": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -5141,6 +5382,14 @@
     "reason": "The label and gloss specifically and correctly describe the common theme of using Graph Neural Networks for modeling molecular and crystal structures in materials science and chemistry."
    },
    "prompt_sha256": "f01bb323d388e141e65d7fcbd52d0930cb918872771f4b1b0639e4dd1d0d9fe3"
+  },
+  "6c627bec42adaa70311f98ef6203f1a6dce11da9a4e719d6c750e46455ddabcc": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "740ae53756fad700c26fa3cea9fc591ba2d19adc8411d9c211f012adce77338f"
   },
   "6c6f1abff7360fef8974b7b002b59dd4af6ab9b1391480c5cd62f7f959716353": {
    "model": "gemma2:9b",
@@ -5205,6 +5454,14 @@
     "reason": "The label and gloss precisely match the common theme of designing and analyzing heterostructures in materials science and chemistry."
    },
    "prompt_sha256": "f6298df7068a493c862d877a04886ed89c47b34c685f2ad553d5fe8084918d0a"
+  },
+  "6d435d46b5f847d73bd107f448c358d07445b809a4e7ec1c3e4a68a817c2f65e": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeepH-E3 provides a universal E(3)-equivariant deep-learning framework that exactly preserves Euclidean symmetry of the DFT Hamiltonian, including spin-orbit coupling."
+   },
+   "prompt_sha256": "8d86c4e35b99a36ce08024017b8e34213843726f56e83d8c07fdb77e90c741fb"
   },
   "6dd5183edf8cb8d6e09f1ddb769d1dd32e9eb18113b3ec45407b162af930bc6f": {
    "model": "llama3.1:8b",
@@ -5470,6 +5727,14 @@
    },
    "prompt_sha256": "aece436c763ffff2d0db031a088c3b67af9b3235870143343ea2fac781fba5f2"
   },
+  "73886623a6458a756d957e7a4ad55f5c9c13979902afe06b29961562ed7eb62f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "5-fold cross-validation [technique]"
+   },
+   "prompt_sha256": "aaaea0e131ef072a78a0dcb87fba8b4ed09e0cf2610dd4b9b312b358dfafb6c1"
+  },
   "739afa4e25a264ef44c8dc172de113b0bcf07a0b3ec9ddbcbcc648288ec9bc7b": {
    "model": "llama3.1:8b",
    "response": {
@@ -5718,6 +5983,14 @@
    },
    "prompt_sha256": "07b95e8414522727b357aaa4fc942b65d98e24caae2278fcb46936ea97c927fb"
   },
+  "77a4fa47712c87e56a66694a6f2f3488db729aff202334f834f7116e90360a18": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "41da055df1ee5706d848be94fd791771f4dbd627172c042ed32e400cc6914e16"
+  },
   "77a5cd81312b8e6b25d325dbce59cbd1f4f7639aeb1333c6f61cc9aba798adec": {
    "model": "llama3.1:8b",
    "response": {
@@ -5749,6 +6022,14 @@
     "gloss": "Components that define multi-term loss functions for machine learning in materials science."
    },
    "prompt_sha256": "f47b305652f860f2127b5d7b7619a8df7bff60225ba1c1c3922bd6fde8409d3b"
+  },
+  "78634713fbdb598cc612f5dfca1404499997038e5cf18cba50c9f64d3d5c4f8f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Direct force prediction [method]"
+   },
+   "prompt_sha256": "e85fd0ae22f8589a72c277c55d4902370adf30ac62fa06118d6ee1fb95b1b52a"
   },
   "7865ce9f5865ce8410a5507788f80623b4825ae7192c70e0bcefbb428abfbe86": {
    "model": "llama3.1:8b",
@@ -5958,6 +6239,14 @@
    },
    "prompt_sha256": "0173e0749ee3e8c10b5676a25dc27c2e705c8b4572f279c8a0c2dae5f86d5727"
   },
+  "7d6c4a0414b51649275d21e30daf05c4d814bb08484dfc6f4041e00bde0234f8": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "5ece6716a7815fa80a0913392cb849a12f0ef4ff771b905cd89fb4c7c8ebc31e"
+  },
   "7d9f29f672d61c700fca49b75120bb6de7ade55a455b3746d7f0a17a43c2d15e": {
    "model": "llama3.1:8b",
    "response": {
@@ -6166,6 +6455,14 @@
    },
    "prompt_sha256": "88f7ba7af7765e6a45e56c17ffe9ddf6901bd58f49fb7c940fed4e8d7096443c"
   },
+  "80e1d40107cc624172a7128ddce5796d105ff5e2847798c24712712875445cf0": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "ConvLSTM-based fracture prediction model [method]"
+   },
+   "prompt_sha256": "3ae319e5e55d0502d5b037269d4170a05e92f48877eb3525e73a72b6cc1ad491"
+  },
   "80e59932384e12c7b43306ef1179cd3b83e2a08f5eaf9d483c6986815ec0bfd3": {
    "model": "llama3.1:8b",
    "response": {
@@ -6318,6 +6615,14 @@
    },
    "prompt_sha256": "7d6cb176323e01bc07eae8ea6d00b316a1e599805058c535cc1cde3cfcc4cb86"
   },
+  "84320f0ef5ea4540d467555b1927572cbdfbc7e1595d2c680f5260e016441ea7": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "f254c19d9ad524e24e12c8607390b7b01a0fc86e4f087966d856008f8c6c876f"
+  },
   "84436f0a342f95aca2b0349ae438b38072e1daa72a533f150ce4133eaf1b19b7": {
    "model": "llama3.1:8b",
    "response": {
@@ -6373,6 +6678,14 @@
     "gloss": "Tasks involving predicting various material properties."
    },
    "prompt_sha256": "52b1b9212211a8278d2931618dd44d839f0a52f6c20af1ffe986a52c2fda5691"
+  },
+  "84e7257f07cd7b25ce8bc96363ed3a4f981b446be237fe2ba78d5984e7b4a0f9": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "The model predicts fracture toughness values that are comparable to those obtained from atomistic molecular dynamics simulations."
+   },
+   "prompt_sha256": "91f9b1c2816171bf770d715b79a7738369addfd538d009d9921d3ddd4a0380ef"
   },
   "84ec5caff6ce02dcd49e288d08305a5bf93e47c4fde4b4048b8065bca37517ca": {
    "model": "llama3.1:8b",
@@ -6446,6 +6759,19 @@
    },
    "prompt_sha256": "096e872068e19368cbb64b2fd75276e0521c6770f2a8c37c9391030794918484"
   },
+  "85d53dd6e25b2b57a19dabf98ae286dad752f905dce7fdcb53e539b85df6e349": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Force Prediction Methods'.",
+     "The gloss describes methods for predicting atomic forces.",
+     "The gloss pertains to materials.",
+     "The methods are used for predicting atomic forces.",
+     "The focus is on atomic forces in materials."
+    ]
+   },
+   "prompt_sha256": "b508d11b69e078f0a0c72fa2da64f31f1d033ce7e523c9f78c70a966a32bf471"
+  },
   "85dcc008f722bafe6cfb1acc36a3c218265fecbb8cd666203325dcbdfc662352": {
    "model": "llama3.1:8b",
    "response": {
@@ -6501,6 +6827,14 @@
     "reason": "The label and gloss specifically and correctly describe the common theme of using neural network methods for materials and chemistry tasks."
    },
    "prompt_sha256": "7c3678ef4096b574392bda62c64969f91522c8c091e28fc400da810849c3e107"
+  },
+  "86a9f2d635f4d833cefc8afb30e6117901a136af1cb025439c421d9d553f9417": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "d9da705826979b94889343adf8b35b29dded8bba66351d7f425e6b2779f59ce0"
   },
   "86df09738bb3b6ccc18c497f596999366bd8f0bcfe1847704e7ca67348daee9a": {
    "model": "llama3.1:8b",
@@ -6621,6 +6955,14 @@
     "reason": "The group focuses on methods for predicting atomic interactions, which is the core of interatomic potential learning."
    },
    "prompt_sha256": "d2244e36bdc2e55f0d8f1bfceb2432bbbc0085fdabb9674676c6ce87cc501fdc"
+  },
+  "886aacbd91ee7738aa133ab4bbb90a61aad5745425b1e5faf48ce834d4cdc068": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "E(3)-equivariant neural network [technique]"
+   },
+   "prompt_sha256": "268c34acbb16f597b260eac9e080b26dbd2e4f799fea306c18e2c73657a19149"
   },
   "886d9c39e516f0727143714fbd594cef38049fdb08f75e1d8129fbcf5539dd42": {
    "model": "llama3.1:8b",
@@ -6877,6 +7219,14 @@
     "reason": "The group consists of techniques used for materials property prediction, such as configurable preset systems and nested loop optimization."
    },
    "prompt_sha256": "fab948c929440b8fc88d54a376959a62f577c4d05006c2543c5c2b95110ef64a"
+  },
+  "8ceb26cf301e99d36301cb9fc26f2295c025a741f3b656a42f81afd25acaa457": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Multi‑term loss function [component]"
+   },
+   "prompt_sha256": "e50a9b5b92dd09248e076d3448f63c68808b7346754b1232baed0afa9834ca6b"
   },
   "8d451ab613edb68fffb015eea471d82c8074d82dbebe9528866550446d7ffeb5": {
    "model": "qwen2.5:7b-instruct",
@@ -7197,6 +7547,14 @@
     "gloss": "Techniques and components for predicting DFT Hamiltonian matrices."
    },
    "prompt_sha256": "69e019d179e39a2d57fd3a6226e005fc7b0824ca1b2c32f37e48882f0012023c"
+  },
+  "9366317f3336b985d043b5d8f6b550efa52ca39f33f0f4baff369a249b499321": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "A curated dataset of 476 binary ionic compound melting temperatures spanning 0-4,000°C was compiled for machine learning model development."
+   },
+   "prompt_sha256": "1e1697812ff7d5188a35c2c4bc7f964d2e1e378406a6e8bb75e00e5c42d36b56"
   },
   "93ac6db45f03e9e885f22ff6b5a2e654f781c9c91ea42e5e2a216b75f728482d": {
    "model": "llama3.1:8b",
@@ -7566,6 +7924,14 @@
    },
    "prompt_sha256": "2881249abbb95aea37db66a12cdf5f6fffa53ecc58dd60bbbc76b0ccc4633fc1"
   },
+  "99d89a686c7858a122f47459c86ad7eb165a2be710452a225daaaca6b1fc2a4a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Composition-based elemental property weighting [component]"
+   },
+   "prompt_sha256": "5b832fa20f4c85eeb50eef0fc2d611a8ee6833b2d5c3e122efeac2e5e46dad1b"
+  },
   "9a10b41459573dcb55b9b45f82c4495782b8f06de4a69d47c650fa88c6c60651": {
    "model": "llama3.1:8b",
    "response": {
@@ -7926,6 +8292,14 @@
    },
    "prompt_sha256": "a1a2e45c1212a99e8f68b04a8f4d4fa95a6b6a7c58e6adb50b7127643d58f273"
   },
+  "a3d3e2c67f543424a071df4091318c789960f1976727a90a2f83ab16e0ce0324": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "e781ee2df3db28956abc709435f0a35eade42d1abe53651d61116d55f70b33ae"
+  },
   "a3f59b4c5b52f8ddae766abe993ed974158ef4ee53f7e4adada4c09319c90199": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -8174,6 +8548,14 @@
    },
    "prompt_sha256": "74759f08341f83032ee5fc41c739ac2934ce31993dc7eb2ff833efdd9a185d85"
   },
+  "a9d60eab563aee12380a1f02103b7e644d09e505a25736460dea491faa7c287c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "ee628107457c2c441783a5a575e17ef883dfe3cc33e8bab11644f3e79f0373ce"
+  },
   "a9dceae34d2aeca3ea5fefc9523ddbfcd71db23133851c2e5eb7f8739b426671": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -8253,6 +8635,14 @@
     "gloss": "Tasks related to designing and optimizing holey graphene structures."
    },
    "prompt_sha256": "c9fd5efd05a52a602fe47530f9a7f1ae23918101bd779d9c53073fe93d4e53d7"
+  },
+  "ac330a9ae74a66f414b2d57ea6bebf99f0360acbe16314cf580b30888d6b3e64": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "The ConvLSTM model accurately predicts fracture patterns, crack‑length trends, and both mode‑I (tensile) and mode‑II (shear) loading responses across crystal orientations, closely matching atomistic molecular dynamics simulations, with only a minor discrepancy for the x100 orientation under mode‑II shear."
+   },
+   "prompt_sha256": "ce6d15985aae31de92db295b83c364e2c478cd8b644c48340387d2d7ce4be387"
   },
   "ac3a9a92de89644cc429985d511446c6ab0a54c7a7abab827314594f75005c37": {
    "model": "llama3.1:8b",
@@ -8358,6 +8748,14 @@
    },
    "prompt_sha256": "6a58fb3455cb86a3e58dd1bb2306d36990c3f57367515f05929c2ff384a52f63"
   },
+  "ae6b3f0544c466c8d7fae304e171dbdc8651ab2e4c6755dc06b06b5d409e9d00": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "b14e1a9e3183dfa8726e43c1ca25fc494091b2ccba5312dfadb1724250ba1bba"
+  },
   "ae6bf5918c42f88036f20a5da19c8da2f5031096b6ecc4cb7918f61f43375390": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -8414,6 +8812,17 @@
    },
    "prompt_sha256": "7c5a102c1ffe02cddb16e9edc57f108b41b9c7333e25d725535e17dce922bf8e"
   },
+  "af8dbc7e4012fc5bda96c655bc61b3fd3be6549296f19c1defe876c465b74dca": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Equivariant Techniques are techniques.",
+     "Equivariant Techniques ensure model equivariance.",
+     "Equivariant Techniques are used in materials science."
+    ]
+   },
+   "prompt_sha256": "b43fb2822cd684ce54f6349ece0cf1937f077892a63c294b7c0a7b12a77f21d2"
+  },
   "af9909c65289ab10da6d965f0806eb14cb55cc911df28ee8bb1eeae5ff8a0423": {
    "model": "llama3.1:8b",
    "response": {
@@ -8453,6 +8862,14 @@
     "reason": "The group primarily consists of machine learning methods and techniques applied to materials science and chemistry tasks."
    },
    "prompt_sha256": "2881249abbb95aea37db66a12cdf5f6fffa53ecc58dd60bbbc76b0ccc4633fc1"
+  },
+  "b055fe7a5d673e82d473638799404aeb171a09b3be92fab90f694263213b426c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Multi‑term loss function [component]"
+   },
+   "prompt_sha256": "e902759cbe5ad2cb93acae62791dc4f96f474f2da79f82c91ba6c355b0a02f14"
   },
   "b057b9488282d7eea453103ef438877f87338e0fc31cb7608da10561a1ae0a4e": {
    "model": "gemma2:9b",
@@ -8638,6 +9055,14 @@
    },
    "prompt_sha256": "d887ef0b4230971e57ff2d9ce2cea4af03a6a543b09ca25767625b91926dfdf8"
   },
+  "b581daca6bc73992540ba840c7c9f8067dd36b58da4119dceeb64250523f7376": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crack path prediction in crystalline solids [task]"
+   },
+   "prompt_sha256": "35c89e2e3130b00648ed2f11719ec3414be24696fda5d621f8487603c7937cf1"
+  },
   "b58bd794a1b5d56c7bcaded5d33b7230ee92194e57a607d60e7df0dd04502a05": {
    "model": "llama3.1:8b",
    "response": {
@@ -8669,6 +9094,14 @@
     "gloss": "Methods for handling errors or inconsistencies in machine learning models."
    },
    "prompt_sha256": "9615edc3d2d388fba26ebe3de20967440fb64c1578f6f82a0b120b5d60113b1f"
+  },
+  "b60ef73b1fb262a0ca8fa2b80f177f8221b187edbb0ed69348a02e0a3f83eaf3": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Efficient prediction of dynamic brittle fracture paths [problem]"
+   },
+   "prompt_sha256": "d3be928a46ff7553f4cb60f826c56df010cb295c78368ee7517737fed9b0d2da"
   },
   "b60f7c6a6257f0da381c61f6b4a2720f68d54f2b3deee121a3d971069931ea44": {
    "model": "llama3.1:8b",
@@ -8830,6 +9263,14 @@
    },
    "prompt_sha256": "4dc63dc8cf0958f614ddac4b1bd9bbf3d586916bc78d80de249a0ad6f80f3217"
   },
+  "b894b3825041421475415f4c986d1decec9d692456806701a516f58db29e5881": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "E(3)-equivariant neural network [technique]"
+   },
+   "prompt_sha256": "25947e2e353d06535120c75475af94e445705b00da8310ddff92a09385826c0d"
+  },
   "b8a9d56cf84ca75dd7cedb3569bba400ccfeef53e2cb6d91a5669ef386d01947": {
    "model": "llama3.1:8b",
    "response": {
@@ -8845,6 +9286,14 @@
     "gloss": "Methods for improving model performance and efficiency."
    },
    "prompt_sha256": "97892ba4db34cc33b1d3c41931801b4c227b930e2d5913e56f261fe9c43e8cef"
+  },
+  "b8f639ca4c17f142a3d680f04b91850e1e568718e66c4361349a2e487b702c4f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Efficient prediction of dynamic brittle fracture paths [problem]"
+   },
+   "prompt_sha256": "28e5ef10f99d62636f9744165bd04ba84956d4cb209f18afeaae8323fdf0dc5a"
   },
   "b8fb496cac9da5afaa7a660d6e28a848d76667d9b97828592b65430e052fc5dd": {
    "model": "gemma2:9b",
@@ -8910,6 +9359,14 @@
    },
    "prompt_sha256": "691a6052a2ce44380ba2750700d19cdbb86c9f4674e0b56d8755e16949ec125d"
   },
+  "babbad8287a5817817e47524e1dab25c49ebd1b80138601ea3293625ee1f97cf": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "8604f08f10a1f18ad320a3f21bf11992617bfc56749dc5db882bf5314017bbec"
+  },
   "bb47f6554d8bfb7f976f5578def2c51b0ba0777d20af8cc3f7ee80fa42f2fbcc": {
    "model": "llama3.1:8b",
    "response": {
@@ -8966,6 +9423,14 @@
    },
    "prompt_sha256": "b9b540ff10a4cb2493c6aecfffc0b76366ef63cff5b8753d52597c0284b07852"
   },
+  "bc4da8d9cb7ebc02ed30abd82b3e101530c9d5bb4ad750624ce4c36b482a6754": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Direct force evaluation [technique]"
+   },
+   "prompt_sha256": "8823c9153760832ae383434efac545b682d99056aa9083faedf39b2b1f5977a2"
+  },
   "bc5fdeb74de700859e2c6527d7d03f75f3cca5593801909204c138e32e25573f": {
    "model": "llama3.1:8b",
    "response": {
@@ -8973,6 +9438,22 @@
     "reason": "The label and gloss precisely match the common theme of optimizing electronic structures in materials science."
    },
    "prompt_sha256": "1c92a9ccde2665c155b22e8f210d9f9d41e37b5b1381105a4e9287501d8f3938"
+  },
+  "bc61e01a961f5835d4e59a4b4d31aa1d8609bc455ceb91320f414506eff85a8d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Direct force prediction [method]"
+   },
+   "prompt_sha256": "ad8211ff1b94f80884d45e88740e39011f209d7a824c5893a6a39683ec0497c1"
+  },
+  "bcd695aff2878ee8ecdcf7c9dcbf24276767d0364b9d20f787fbc6a4bf497d14": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "ca079fc50d4ed2157b586e99428d87fe8a38148668a16af0b76a718e39cce62f"
   },
   "bcddc13eb1d9f061c93ee300576249abc8b9480d9c1570ab2c4456c98fe3686e": {
    "model": "qwen2.5:7b-instruct",
@@ -9037,6 +9518,14 @@
     "reason": "The group consists of techniques used for energy and force prediction in materials science."
    },
    "prompt_sha256": "94b6493706e639110c76d11a16441f3654e1e52dbeb8d945e7a1110dee966d66"
+  },
+  "bdd8ba139e38c785a2f327bf235582be88b0b9cffc95e8de70e80461ae5dd424": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "A curated dataset of 476 binary ionic compound melting temperatures spanning 0-4,000°C was compiled for machine learning model development."
+   },
+   "prompt_sha256": "bc1d934abd2ef267b9a9430552eaf51a7421aff90a293f9023468836b5403445"
   },
   "beb69bac5a436cf24ca4212a151d1b64c7c389ce834740dd8163f9d582a02a14": {
    "model": "phi4",
@@ -9206,6 +9695,14 @@
    },
    "prompt_sha256": "a888e4b616848cf458ea9d1a27460f95d7a43215362dc0a1a350f59c4b3d4a37"
   },
+  "c1eee8e74f180f89e540a4dbe3060c8dd942633b5676392ae804afca3ba40f0e": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "1a82e9da49ae129f7ed62866c08fcbf763dc8e680d438420cacbf61d079d2523"
+  },
   "c205512e9b1f8fc68daeae26cf52a54b3a648c54e1d73feb83658c52141e4bfb": {
    "model": "llama3.1:8b",
    "response": {
@@ -9269,6 +9766,14 @@
     "reason": "The evidence exclusively focuses on density functional theory calculations and related concepts."
    },
    "prompt_sha256": "ed095d38581dee7b1942ba06bafba0177ac646c84bd8b33beea1150f7d6eb479"
+  },
+  "c33402e2b8083a5c64990c84c7c31e1144ebbfc664a3fa1ba911545207b76559": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Multi‑term loss function [component]"
+   },
+   "prompt_sha256": "7c36e0f02630542dadeed6e46b4b61dd5651e477654da6ee4713c48133867255"
   },
   "c354f39a68e3671889408dabceca578d487ae725fc171b6821a643967069c2e4": {
    "model": "llama3.1:8b",
@@ -10246,6 +10751,14 @@
    },
    "prompt_sha256": "79f8ed5233be3200f122c2dd066a8859e9f90c5709b59c7c7395049017837b97"
   },
+  "d517fbccc2c001df78d5ae8d84690cd0ed09f8836695eefde2e214c6efd7c5bd": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "a7033e0f08366ab0d5a8bed35f5a656333896ffaf279b186cf9483ca65aa116f"
+  },
   "d51ce6005d9d8cab0b00aeaa0942e831427a6acd169e259bb0dc598651266155": {
    "model": "phi4",
    "response": {
@@ -10261,6 +10774,14 @@
     "reason": "The group discusses various components and techniques used in machine learning for materials science, such as MEGNet and AFLOW."
    },
    "prompt_sha256": "684a765ad319c41d9440f4a783023a97086e09cb2e2909bfb90907ab585d856f"
+  },
+  "d552c9d2001c570f038731c36f411eec29dee0563b8dba4bd8be9ca4b66e0297": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "The model predicts fracture toughness values that are comparable to those obtained from atomistic molecular dynamics simulations."
+   },
+   "prompt_sha256": "09c1b43efe973087ce0284bb64a5e7d388e4d19b980fcf09562a804e120bbac2"
   },
   "d56cba7e39ca9695d9e4ed3c68f14066e3539438d36e947e06b1fe0879982484": {
    "model": "llama3.1:8b",
@@ -10309,6 +10830,18 @@
     "reason": "The label and gloss specifically and correctly describe the common theme of improving model performance in materials science."
    },
    "prompt_sha256": "c7489007fcb24a1e26d73834cc9b782497b549f91fb10584f5dbf3d0aaf45001"
+  },
+  "d6845616917bf8e62201f5d75df881f54f1581d682d531da5d0feb2d447f7b02": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Materials Property Prediction'.",
+     "The gloss describes tasks involving prediction of material properties.",
+     "The gloss mentions the use of ML (machine learning).",
+     "The gloss is associated with the label 'Materials Property Prediction'."
+    ]
+   },
+   "prompt_sha256": "3e61d451e8250aea32156ebc47548481c048fa8fc8e733fbada3082d9dec7812"
   },
   "d686bf4d65eb739828d73060bb3e54d60f9c22f8258c2e109c074ad7e1b4a269": {
    "model": "qwen2.5:7b-instruct",
@@ -10421,6 +10954,18 @@
     "reason": "The label and gloss specifically and correctly describe the common theme of density functional theory calculations in the provided evidence."
    },
    "prompt_sha256": "b1ae583c2deff0b809c1734d00e1de52c8c6d3b214995338331fbf8442bdc5b2"
+  },
+  "d99941584a34b02dd3c125a00e23c0d4676cd4edef5dfd10b33364314df86a1f": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Loss Function Components are components.",
+     "Loss Function Components define multi-term loss functions.",
+     "Loss Function Components are used in machine learning.",
+     "Loss Function Components are used in materials science."
+    ]
+   },
+   "prompt_sha256": "a27365efbf0826f677e9c1ee36f87b2a2b7d47a2a86d03b2ebfb394f1912f527"
   },
   "d9a3bc400676c2ef38e116936f49ba88ea162036586fd6093cb48b13d66e32a3": {
    "model": "qwen2.5:7b-instruct",
@@ -10966,6 +11511,14 @@
    },
    "prompt_sha256": "30180729d2f939e3436dc0daceb4243177863618df76d344c205c14c6421f42a"
   },
+  "e487874ccecb4863f7afad0938b2a2ff3798ee7c315f67f7062b1aaa25aeffeb": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Progressive loss‑weight schedule [component]"
+   },
+   "prompt_sha256": "c640fe49957f68591d7a5b7ebf90e29874eabf70a560b02416214e86f34738ea"
+  },
   "e54f5fe5f663e4d632491de0cfadb561d12d3cca80e03747aad383790522c457": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -11069,6 +11622,14 @@
     "gloss": "Techniques for assessing model performance and preprocessing."
    },
    "prompt_sha256": "bb620be30eb3febdee17ab2a0be01686e269836fff26af6c1f61b5b73e40ce67"
+  },
+  "e7d787cbe2d97729359c6a6064cd99de570c13a5b41c0a23fb562a4c74963cb1": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Matbench v0.1 is a benchmark suite containing 13 supervised machine learning tasks (10 regression, 3 classification) for materials property prediction, with dataset sizes ranging from 312 to 132,752 samples."
+   },
+   "prompt_sha256": "01cd070a7116f9e5e900cacdef798ee714dcf41f4d9e9236d07c0fd51f38ca64"
   },
   "e7e7ac96118f2335a6d3da940de52bc2b56fade33416b94929c23c7ac2c2ad4d": {
    "model": "gemma2:9b",
@@ -11221,6 +11782,14 @@
     "reason": "The label and gloss precisely capture the common theme of representing local atomic surroundings in various components and techniques."
    },
    "prompt_sha256": "05eac63f0640ab510844c05be585f2b4934f3c9eb2871cc92df7abca9c1bf7bf"
+  },
+  "eac15c2f91cb33273a8b224a52490ceea8a1a9e5a83611891b1538598104aa02": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "The ConvLSTM model accurately predicts fracture patterns, crack‑length trends, and both mode‑I (tensile) and mode‑II (shear) loading responses across crystal orientations, closely matching atomistic molecular dynamics simulations, with only a minor discrepancy for the x100 orientation under mode‑II shear."
+   },
+   "prompt_sha256": "9bc2db9b7cef89a77aac4d0f8aff16967bf34ede56328879c6936352f7bb66e1"
   },
   "eacca2c595c5b51f91262a97547740f0ac93a1df7b42753a06de71ddaa95d7af": {
    "model": "llama3.1:8b",
@@ -11598,6 +12167,14 @@
    },
    "prompt_sha256": "e63210b80d3a8d309131249eba94d14ccdea47d04305d3bf1fab3f2a08d97b83"
   },
+  "f2ef140698e4acf14d66b144a75bc5d0a9a5d31852cc555c754c4ed4b4e1ca8c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Matbench Discovery evaluation [task]"
+   },
+   "prompt_sha256": "aedc84d029b1c9aed10323b5f7b27cd6d3b12086d9dbf2ec01137a7b1b5aa8e9"
+  },
   "f313dda86e12aeffbe8076b3ffff3186abe74855cdc88a3cd2d8340bf0fdeeae": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -11741,6 +12318,14 @@
     "reason": "The evidence describes various techniques for assessing model performance and preprocessing, matching the label and gloss."
    },
    "prompt_sha256": "947ad38dc69d308185d9956da5a6e96c007cf8f26b4095df431e41e91c2b8d5a"
+  },
+  "f5a94d100a3a48461b20892e3c2e912d6b8254c87f921a2b6680d2e70a60c511": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Gaussian radial basis functions [technique]"
+   },
+   "prompt_sha256": "ecce2bb1dd1ae0a7e842693d458d252a99bdd239e00a15769dffcd2c813af9fa"
   },
   "f5dd0b990c63c698c8cf22d737f59a0d37ebad6c7aad9bc86bf540462687899a": {
    "model": "qwen2.5:7b-instruct",
@@ -12174,6 +12759,14 @@
    },
    "prompt_sha256": "af25dd7cf6bbffa481e0888e55be75c380cffc91fd3d43d53a6a962736782144"
   },
+  "fc25b09f935868207892929d84e32bd10af45d3b905ffbd3491ea08860565be7": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "86-feature materials fingerprint [component]"
+   },
+   "prompt_sha256": "63874a2a54480f4026897edca2851ee815c3503d7f1ff395b6c33ec0e02c4899"
+  },
   "fc3e0494c3b6332959edffc977bef2cae576acaef4e31582e3f1beef5ef00f87": {
    "model": "llama3.1:8b",
    "response": {
@@ -12229,6 +12822,14 @@
     "reason": "The label and gloss specifically and correctly describe the common theme of graph neural networks for molecular and material graph representations in the provided evidence."
    },
    "prompt_sha256": "abf9e24925393d02bfb21fe9353ea1a5b56250c8df856a947d1887fdda264985"
+  },
+  "fe538a75676439aaf8b33be0d417caa9f7d20d00621309605c4961c3e7c2c300": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Using a loss function with adaptive prefactors that emphasize forces early and energies/virial later reduces the total training time to a few core‑hours for all test cases."
+   },
+   "prompt_sha256": "4ea2505508ad4301efff5cba1443556676249d6718c9cd5524f07114a702176d"
   },
   "fe91e06853c049f72766a9a05a5cd9e47f54ce2dc8004b4c91a0f36369c662db": {
    "model": "gemma2:9b",

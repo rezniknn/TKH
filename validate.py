@@ -292,6 +292,32 @@ def check_id_namespace(index, cutoffs, rep):
             rep("ID_REUSED", repr(sid), f"exists in {sorted(at)} but not in {gap}; a gone id must not come back")
 
 
+def check_label_inputs(out_dir, cutoffs, members, ntype, seed, rep):
+    """If a run ships <cutoff>/label_inputs.json, every super-node's labeller input ('shown') must lie inside the
+    evaluator's seen half (tkh.evalkit.split), and its recorded held-out half must equal the evaluator's."""
+    from tkh.evalkit.split import split_members
+    from tkh.structure import CONCEPT_TYPES
+    for c in cutoffs:
+        p = Path(out_dir) / str(c) / "label_inputs.json"
+        if not p.is_file() or c not in members:
+            continue
+        try:
+            li = json.loads(p.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as e:
+            rep("UNREADABLE", f"{c}/label_inputs.json", str(e))
+            continue
+        for sid, rec in li.items():
+            if sid not in members[c]:
+                rep("LABEL_INPUT_UNKNOWN_SUPERNODE", f"{c}/{sid}", "label input for a super-node not in the hierarchy")
+                continue
+            seen, held = split_members([v for v in members[c][sid] if ntype.get(v) in CONCEPT_TYPES], seed)
+            leak = set(rec.get("shown", [])) - set(seen)
+            if leak:
+                rep("LABEL_INPUT_LEAK", f"{c}/{sid}", f"labeller saw {len(leak)} member(s) outside the evaluator's seen half, e.g. {examples(sorted(leak))}")
+            if "held_out" in rec and sorted(rec["held_out"]) != held:
+                rep("LABEL_INPUT_SPLIT_MISMATCH", f"{c}/{sid}", "recorded held-out half differs from the evaluator's split")
+
+
 def validate(out_dir, cfg, tkh=None):
     rep = Report()
     out_dir = Path(out_dir)
@@ -324,6 +350,7 @@ def validate(out_dir, cfg, tkh=None):
             index[c] = idx
 
     check_id_namespace(index, cutoffs, rep)
+    check_label_inputs(out_dir, cutoffs, members, tkh.nodes["type"].to_dict(), int(cfg.labels.get("seed", 0)), rep)
     ev, _, exists = read_json(events_path(out_dir), e_schema, rep, "events")
     if not exists:
         rep("MISSING_EVENTS", "events", f"{events_path(out_dir)} not found")

@@ -1,46 +1,60 @@
-# Evaluation and selection protocol (T6), pre-registered before the sweep was run.
-# Read by scripts/sweep.py and scripts/compute_metrics.py; FAST=1 uses the [fast] overrides.
-
-[selection]
-alpha_grid = [0.0, 0.25, 0.5, 0.75, 1.0]   # the only parameter selected; all others fixed in configs/default.toml [method]
-tie_toward = 0.5                           # one-SE rule: among configs within one SE of the best, the alpha closest to this
-snapshot = 2026                            # primary cell: E1a residual coupling lift, pooled over overlap strata,
-level = 1                                  #   on split half A (selection) / half B (reporting)
-stratum = "pooled"
-max_giant_share = 0.5                      # eligibility: largest level-0 super-node holds <= this share of concept nodes
-split_seed = 0                             # committed split in data/eval_splits.json
-stability_seeds = 50                       # selection re-run over this many other split seeds
-
-[ablations]                                # each changes ONE parameter of the selected configuration
-gamma0 = { gamma = 0.0 }
-rho_inf = { rho = "inf" }
-projection = { structure = "projection" }
-freeze = { freeze = true }
-
-[nulls]
-kinds = ["struct", "sem", "full"]          # 2x2 cells besides the model itself
-R = 20                                     # replicates per null kind
-random_labels_R = 999                      # random-labels permutations for E1
-random_labels_R_e4 = 99                    # random-labels permutations for E4 (one drill-down per question each)
-random_labels_e3_seed = 0                  # the one random-labels hierarchy that is labelled and judged for E3
-
-[e3]
-robustness_judges = ["gemma2:9b", "phi4"]  # forced choice repeated at <=2026 with judges of two more model families
-forced_choice_seed = 0
-
-[stability]
-frac = 0.10                                # share of clustering-relation edges removed
-seeds = [0, 1, 2, 3, 4]
-null_R = 5                                 # null replicates that also get the perturbation runs
+# Evaluation protocol v2 (method-independent; tkh/evalkit, scripts/evaluate.py). Pre-registered by git commit
+# before the run it governs. FAST=1 uses the [fast] overrides.
 
 [eval]
-hub_frac = 0.2                             # fixed hub threshold of the E1a overlap strata (independent of the method)
-jobs = 8                                   # parallel builds
+hub_frac = 0.2                               # evaluator's fixed hub share (data contract), for M1 strata and M4 baselines
+jobs = 8                                     # parallel method re-runs
+cache_dir = "../out/eval_cache"              # frozen null / perturbed exports and the builds made from them
+primary_snapshot = 2026
+primary_level = 1
+# The one hook through which the evaluator re-runs a method (null and perturbed graphs). {extra} carries per-run
+# method arguments (e.g. hyperparameters of a variant).
+build_cmd = "{python} scripts/build.py --graph {graph} --out {out} --placeholder-labels --selection out/selection.json {extra}"
 
-[fast]                                     # FAST=1: a quick end-to-end run
-R = 5
+[m1]                                         # coherence: residual citation coupling (independent ruler)
+primary_stratum = "no_overlap"               # pairs sharing no non-hub concept: shared structure cannot explain coupling
+split_seed = 0                               # committed cited-work split data/eval_splits.json; half A = dev, half B = report
+random_labels_R = 999
+
+[m2]                                         # stability
+frac = 0.10                                  # the brief: remove 10% of hyper-edges (all relations), per period
+seeds = [0, 1, 2, 3, 4]
+sensitivity_relations = "concept"            # extra row: remove 10% of the method-centred concept relations only
+
+[m3]                                         # label faithfulness: claim-level entailment, one judge family ([labels] judge_model)
+enabled = false                              # deferred: the LLM judge is off in method-iteration runs (deterministic checks still run)
+snapshots = [2026]
+levels = [0, 1]
+j_min = 0.4                                  # validity gate on the hard (sibling) controls
+
+[m4]                                         # extrinsic retrieval: known-item queries from claim sentences, target names masked
+snapshot = 2026
+draws = 20                                   # random tie-breaks averaged for the drill-down
+null_draws = 5
+budgets = [50, 200]
+
+[nulls]                                      # M5: type- and period-preserving hypergraph configuration model (frozen exports)
+R = 99
+R_m4 = 19                                    # null hierarchies also scored on M4 (each costs one full retrieval run)
+sweeps = 10
+
+[mde]
+fractions = [0.05, 0.1, 0.2, 0.4]            # share of concept nodes whose whole ancestor path is swapped
+seeds = [0, 1, 2]
+
+[selection]                                  # SHAC-T alpha selection (scripts/sweep.py): one-SE rule on M1, dev half A
+alpha_grid = [0.0, 0.25, 0.5, 0.75, 1.0]
+tie_toward = 0.5
+max_giant_share = 0.5
+
+[ablations]                                  # each changes ONE parameter of the selected configuration
+gamma0 = { gamma = 0.0 }
+rho_inf = { rho = "inf" }
+freeze = { freeze = true }
+
+[fast]
+R = 9
+R_m4 = 3
 random_labels_R = 99
-random_labels_R_e4 = 19
 seeds = [0, 1]
-null_R = 2
-stability_seeds = 10
+mde_seeds = [0]

@@ -24,17 +24,18 @@ make test     # unit tests and the validator's broken-fixture proof
 ```
 
 - **What `make all` does.**
-  - `sweep`: α grid, selection on E1a half A, ablations, nulls and perturbation runs
-    → `out/selection.json` and the git-ignored `out/runs/`.
+  - `sweep`: α grid, selection on M1 dev half A, ablation runs, all built through `build_cmd`
+    → `out/selection.json` and the git-ignored `out/eval_cache/variants/`.
   - `build`: the selected configuration with LLM labels → `out/<cutoff>/hierarchy.json`,
     `temporal_events.json`, `coarse_hyperedges.json` and `label_inputs.json`.
   - `validate`: `validate.py out/`.
-  - `metrics`: E1–E4 for the model, every configuration and every null →
-    `out/metrics.json` (schema `schema/metrics.schema.json`) and
-    `out/label_judgements.json`.
+  - `metrics`: M1–M5 and the sensitivity checks for the model (`scripts/evaluate.py`), plus
+    every variant and the foreign baseline → `out/metrics.json` (schema
+    `schema/metrics.schema.json`). Null and perturbed exports are frozen under
+    `out/eval_cache/`.
   - `tables`: `make_tables.py`, which writes every number table of `report.md` and
     `out/tables.md`.
-- **LLM calls (labels and the E3 judges) replay from the committed cache
+- **LLM calls (labels and the M3 judge) replay from the committed cache
   `data/llm_cache.json`.** A clean checkout needs no model server. `TKH_LLM_MODE` selects
   the mode:
   - `offline` (default): replay; a missing key raises `CacheMiss`.
@@ -111,46 +112,37 @@ its expected codes. The tests also cover inputs that can't be committed as fixtu
 errors), a mock built from the full input graph (`tests/mock_output.py`), and
 mutations of that mock.
 
-## Stability evaluation (T6)
+## Evaluation (T6): method-independent
 
-`tkh/evaluate/stability.py` measures stability in two ways, as T6 asks.
+The evaluator judges **artefacts, not algorithms**. `scripts/evaluate.py --run DIR` scores any run directory in the
+output format, using:
+- `<cutoff>/hierarchy.json`, `temporal_events.json` and optionally `label_inputs.json`;
+- the export;
+- the evaluator's own definitions in `tkh/evalkit/` and `tkh/structure.py`.
 
-- **Perturbation stability.** Remove 10% of the hyper-edges, stratified by publication
-  period (5 seeds), rebuild with the builder that produced the hierarchy, and compute
-  ARI against the unperturbed hierarchy per snapshot and level. Reported with a 95%
-  t-interval.
-- **Cross-snapshot stability.** ARI between consecutive snapshots on the nodes present
-  in both, per level. Reported with a 95% interval over half-subsamples of the nodes
-  and a permutation p-value against random labels that keep cluster sizes (floor 0.001).
+It imports no coarsening code, which `tests/test_eval_independence.py` enforces. Method re-runs on perturbed and null
+graphs go through one shell hook, `[eval] build_cmd` in `configs/eval.toml`. `scripts/baseline_paper_linkage.py`, a
+deliberately simple non-SHAC-T coarsening, is evaluated through the same interface.
 
-Each ARI is reported with the largest cluster's share of nodes, because a giant cluster
-dominates pair-counting ARI. The evaluator takes a `build` function (input hypergraph to
-per-snapshot, per-level partitions), so it can be run on any method.
+**Data contract,** the same for every method:
+- concept-node scope (the schema's method-centred member types);
+- a fixed evaluator hub share of 0.2;
+- the citation residual filter;
+- the `tkh.io` snapshot rule.
 
-- **Scope.** Perturbation removes edges of the clustering relations only. The literal
-  all-edges variant is available with `relations=None` and is labelled as such. All
-  measures are computed on concept nodes only.
-- **Change localisation (P5).** The reassignment rate of old nodes touched by new
-  clustering edges, divided by that of untouched old nodes, with a permutation p-value.
-- **References.** A γ = 0 build and a `freeze` build (old assignments fixed; method
-  parameter `freeze=true`) are run alongside.
+**Metrics:**
 
-## Null models (T6)
-
-`tkh/evaluate/nulls.py`. The struct, sem and full nulls are rebuilt through the same
-pipeline (the struct and full nulls with the real graph's hub sets). The random-labels null
-permutes the model's finished tree. All of them are scored with the
-same metrics, against the real graph.
-
-| Null | What it keeps | What it destroys |
+| | Metric | Primary reading |
 |---|---|---|
-| `shuffle_hypergraph` (struct) | arity and type composition of every edge, each node's degree per period, members[0], hubs, all non-clustering edges | which concept nodes co-occur |
-| `semantic_permutation` (sem) | structure; text bijection within type × entry period | which node carries which name |
-| full | both of the above | both |
-| `permute_hierarchy` (random labels) | the tree, sizes, nesting, temporal structure; permutation within type × entry period × paper-count bin | which node sits in which super-node |
+| M1 coherence | Residual citation-coupling lift of paper pairs grouped together (`tkh/evaluate/coherence.py`) | No-overlap stratum (pairs sharing no non-hub concept); dev half A for selection, half B for the report |
+| M2 stability | Perturbation, removing 10% of all hyper-edges over 5 seeds, scored by per-level ARI and the level-pooled HARI (`tkh/evalkit/laminar.py`); cross-snapshot HARI; change localisation; event counts | HARI vs the null, paired by seed |
+| M3 labels | Claim-level entailment over-claim rate from one judge (`tkh/evalkit/entailment.py`): quote-verified support, judge Se/Sp from known-answer controls, Rogan–Gladen correction, a validity gate | Deferred: the judge is off by default (`[m3] enabled = false`); the deterministic label checks still run |
+| M4 retrieval | Known-item queries from claim sentences with the target masked (`tkh/evalkit/queries.py`); drill-down vs flat, PPR, degree and the best flat baseline, by target popularity | Drill-down vs flat lexical |
+| M5 null | The type- and period-preserving hypergraph **configuration model** (`tkh/evalkit/exports.py`): frozen null exports re-run through `build_cmd`; plus random labels | — |
 
-`shuffle_hypergraph` is a Curveball shuffle within each period. At seed 0 it keeps 15% of
-the original incidences. Its invariants are asserted on every call.
+- **Sensitivity.** Each metric's sensitivity is checked by path-swap degradations of the evaluated tree (`tkh/evalkit/degrade.py`).
+- **Comparing runs.** `scripts/compare_runs.py BASE OTHER …` gives paired deltas on dev evidence, plus the pre-registered decision rule.
+- **The SHAC-T wrapper.** `scripts/compute_metrics.py` evaluates the shipped run in full, every variant and the foreign baseline in light mode, and merges the results into `out/metrics.json`.
 
 ## Method: SHAC-T (T2, T4)
 
@@ -167,14 +159,14 @@ The formal statement, assumptions and trade-offs are in
   every budget reachable.
 - **Other nodes.** Non-concept nodes are anchored to a concept node. Citations never enter
   the clustering hypergraph. They only anchor `cited_work` nodes, which no metric scores, and
-  serve as the held-out ruler of E1a.
+  serve as the held-out ruler of M1.
 
 ```bash
 make build                                         # -> out/<cutoff>/hierarchy.json, temporal_events.json,
                                                    #    out/<cutoff>/coarse_hyperedges.json, out/run_info.json
-.venv/bin/python scripts/build.py --param alpha=0.25 --param structure=projection --out /tmp/alt
+.venv/bin/python scripts/build.py --param alpha=0.25 --out /tmp/alt
 ```
 
-Parameters (`alpha`, `gamma`, `rho`, `structure`, `lsa_dim`, `hub_frac`, and `freeze` for the reference variant) live in
+Parameters (`alpha`, `gamma`, `rho`, `lsa_dim`, `hub_frac`, and `freeze` for the reference variant) live in
 `[method]` of the config. Labels at levels 0–1 come from the LLM labeller (`[labels]`);
 `--placeholder-labels` gives deterministic stand-ins without an LLM.

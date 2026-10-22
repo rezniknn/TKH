@@ -11,7 +11,7 @@
     "type": "object",
     "required": ["family", "metric", "variant", "snapshot", "level", "stratum", "split", "value", "ci_lo", "ci_hi", "n"],
     "properties": {
-     "family": {"enum": ["data", "selection", "structure", "E1", "E2", "E3", "E4"]},
+     "family": {"enum": ["data", "selection", "compare", "M1", "M2", "M3", "M4", "M5", "MDE"]},
      "metric": {"type": "string", "minLength": 1},
      "variant": {"type": "string", "minLength": 1},
      "snapshot": {"type": ["integer", "null"]},
@@ -29,9 +29,9 @@
    "type": "array",
    "items": {
     "type": "object",
-    "required": ["name", "family", "metric", "cell", "model", "null", "p", "p_holm", "primary"],
+    "required": ["name", "family", "cell", "model", "null", "p", "p_holm", "primary"],
     "properties": {
-     "family": {"enum": ["E1", "E2", "E3", "E4"]},
+     "family": {"enum": ["M1", "M2", "M3", "M4"]},
      "p": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
      "p_holm": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
      "primary": {"type": "boolean"}

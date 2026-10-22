@@ -2,10 +2,9 @@
 
     python make_tables.py [--metrics out/metrics.json] [--report report.md] [--out out/tables.md]
 
-Each table is a list of cells, each selected from metrics.json by exact field values; a
-cell that matches no row, or more than one, stops the script (exit 1), so a table can
-never silently show a stale or invented number. Tables go to out/tables.md and replace the
-marked regions of report.md:  <!-- table:NAME --> ... <!-- /table:NAME -->
+Each table is a list of cells, each selected from metrics.json by exact field values; a cell that matches no row, or
+more than one, stops the script (exit 1), so a table can never silently show a stale or invented number. Tables go
+to out/tables.md and replace the marked regions of report.md:  <!-- table:NAME --> ... <!-- /table:NAME -->
 """
 
 from pathlib import Path
@@ -32,6 +31,12 @@ class Metrics:
             raise MissingCell(f"{len(hits)} rows match {sel}")
         return hits[0]
 
+    def maybe(self, **sel):
+        hits = [r for r in self.rows if all(r.get(k) == v for k, v in sel.items())]
+        if len(hits) > 1:
+            raise MissingCell(f"{len(hits)} rows match {sel}")
+        return hits[0] if hits else None
+
     def test(self, name, **cell):
         hits = [t for t in self.tests if t["name"] == name and all(t["cell"].get(k) == v for k, v in cell.items())]
         if len(hits) != 1:
@@ -50,8 +55,10 @@ def fmt(x, d=2):
 
 
 def ci(r, d=2):
+    if r is None:
+        return "–"
     v = fmt(r["value"], d)
-    return v if r["ci_lo"] is None else f"{v} [{fmt(r['ci_lo'], d)}, {fmt(r['ci_hi'], d)}]"
+    return v if r.get("ci_lo") is None else f"{v} [{fmt(r['ci_lo'], d)}, {fmt(r['ci_hi'], d)}]"
 
 
 def pval(p):
@@ -72,195 +79,174 @@ def name_of(m, cid):
             return f"ablation: {name}"
     if cid in m.meta["configs"]:
         return f"α = {m.meta['configs'][cid]:g}"
+    if cid == m.meta.get("baseline"):
+        return "baseline: paper linkage (not SHAC-T)"
     return cid
 
 
 def variants(m):
-    abl = list(m.meta["ablations"].values())
     cfgs = sorted((c for c in m.meta["configs"] if c != m.meta["selected"]), key=lambda c: m.meta["configs"][c])
-    return ["model"] + cfgs + abl
+    return ["model"] + cfgs + list(m.meta["ablations"].values()) + [m.meta["baseline"]]
 
 
-NULLS = ["struct-null", "sem-null", "full-null", "random-labels"]
+C, L = 2026, 1
 
 
 def t_data(m):
     cs = sorted({r["snapshot"] for r in m.rows if r["family"] == "data" and r["snapshot"]})
-    spec = [("papers", "papers", 0), ("nodes", "nodes (all types)", 0), ("concept_nodes", "concept nodes (clustered)", 0),
-            ("hyperedges", "hyper-edges (all relations)", 0), ("clustering_edges", "clustering edges (concept relations, hubs removed)", 0),
-            ("clustering_edges_per_paper", "clustering edges per paper", 1), ("max_clustering_arity", "max clustering-edge arity", 0),
-            ("hubs", "hubs removed (> 20% of papers)", 0), ("share_concept_in_at_most_one_edge", "concept nodes in ≤ 1 clustering edge", 2),
-            ("share_pairs_H_zero_singletons", "node pairs sharing no clustering edge", 3)]
+    spec = [("papers", "papers", 0), ("nodes", "nodes (all types)", 0), ("concept_nodes", "concept nodes (evaluation scope)", 0),
+            ("hyperedges", "hyper-edges (all relations)", 0), ("clustering_edges", "concept-relation edges (hubs removed)", 0),
+            ("hubs", "hubs (> 20% of papers)", 0), ("share_concept_in_at_most_one_edge", "concept nodes in ≤ 1 concept-relation edge", 2)]
     body = [[label] + [fmt(m.get(family="data", metric=k, snapshot=c)["value"], d) for c in cs] for k, label, d in spec]
-    cit = [m.get(family="E1", metric="coverage_n_citing_papers", variant="ruler", snapshot=c, split="all")["value"] for c in cs]
-    body.append(["papers with citations (E1a ruler)"] + [fmt(v) for v in cit])
-    q = m.get(family="data", metric="usable_questions")
-    return md(["snapshot (cumulative)"] + [f"≤{c}" for c in cs], body) + \
-        f"\n\nGround-truth questions usable for E1b/E4 (≥ 1 expected method matches a node): {q['value']} of {q['n']}."
+    body.append(["papers with citations (M1 ruler)"] + [fmt(m.get(family="M1", metric="coverage_n_citing_papers", variant="ruler", snapshot=c)["value"]) for c in cs])
+    return md(["snapshot (cumulative)"] + [f"≤{c}" for c in cs], body)
 
 
 def t_selection(m):
-    rows = sorted((r for r in m.rows if r["family"] == "selection" and r["metric"] == "coupling_lift_halfA"), key=lambda r: r["alpha"])
-    body = [[f"{r['alpha']:g}", fmt(r["value"]), fmt(r["value"] - r["ci_lo"]), fmt(r["giant_share"]), fmt(r["eligible"]),
-             fmt(r["within_1se"]), "**selected**" if r["variant"] == m.meta["selected"] else ""] for r in rows]
-    agr = m.get(family="selection", metric="winner_agreement")
-    return md(["α", "E1a lift (half A)", "SE", "level-0 giant share", "eligible", "within 1 SE", ""], body) + \
-        f"\n\nSame winner under {agr['n']} other cited-work splits: {fmt(agr['value'])}."
+    rows = sorted((r for r in m.rows if r["family"] == "selection" and r["metric"] == "coupling_lift_dev"), key=lambda r: r["alpha"])
+    body = [[f"{r['alpha']:g}", ci(r), fmt(r["se"]), fmt(r["giant_share"]), fmt(r["within_1se"]),
+             "**selected**" if r["variant"] == m.meta["selected"] else ""] for r in rows]
+    return md(["α", "M1 no-overlap lift, dev half A", "jackknife SE", "level-0 giant share", "within 1 SE", ""], body)
 
 
-def t_e1(m):
+def t_m1(m):
     body = []
-    for v in ["model"] + NULLS:
-        cells = [m.get(family="E1", metric="coupling_lift", variant=v, snapshot=2026, level=k, stratum="pooled", split="B") for k in (0, 1, 2)]
-        body.append([name_of(m, v) if v == "model" else v] + [ci(c) for c in cells])
-    return md(["variant (E1a lift, ≤2026, split B, pooled)", "level 0 (15)", "level 1 (60)", "level 2 (240)"], body)
+    for v in ("model", "configuration-null", "random-labels"):
+        cells = [ci(m.get(family="M1", metric="coupling_lift", variant=v, snapshot=C, level=k, stratum="no_overlap", split="B")) for k in (0, 1, 2)]
+        body.append([name_of(m, v) if v == "model" else v] + cells)
+    t = m.test("M1 coupling lift vs configuration null", snapshot=C, level=L, stratum="no_overlap", split="B")
+    strata = [ci(m.get(family="M1", metric="coupling_lift", variant="model", snapshot=C, level=L, stratum=s, split="B")) for s in ("overlap", "pooled")]
+    return md(["M1 lift, ≤2026, no-overlap stratum, report half B", "level 0 (15)", "level 1 (60)", "level 2 (240)"], body) + \
+        f"\n\nPrimary test, level 1 vs the configuration null: p = {pval(t['p'])} (R = {t['R']}). " \
+        f"Descriptive strata of the selected model, level 1: overlap {strata[0]}, pooled {strata[1]}."
 
 
-def t_e1_strict(m):
+def t_m2(m):
     body = []
-    for v in ["model", "full-null", "random-labels"]:
-        a = m.get(family="E1", metric="coupling_lift", variant=v, snapshot=2026, level=1, stratum="pooled", split="B")
-        b = m.get(family="E1", metric="coupling_lift_strict_filter", variant=v, snapshot=2026, level=1, stratum="pooled", split="B")
-        body.append([name_of(m, v) if v == "model" else v, ci(a), ci(b)])
-    d0 = m.get(family="E1", metric="coverage_cited_works_dropped_by_residual_filter", variant="ruler", snapshot=2026, split="all")
-    d1 = m.get(family="E1", metric="coverage_cited_works_dropped_by_residual_filter", variant="ruler-strict", snapshot=2026, split="B")
-    return md(["E1a lift, ≤2026, level 1, split B, pooled", "pre-registered filter (exact name)", "strict filter (substring), sensitivity"], body) + \
-        f"\n\nCitation incidences removed by the residual filter at ≤2026 (counted before the A/B split): {d0['value']} (exact); {d1['value']} (strict)."
+    for v in ("model", "configuration-null"):
+        h = m.get(family="M2", metric="perturbation_hari", variant=v, snapshot=C, stratum="all")
+        s = m.maybe(family="M2", metric="perturbation_hari", variant=v, snapshot=C, stratum="concept")
+        x = [ci(m.get(family="M2", metric="cross_snapshot_hari", variant=v, snapshot=c)) for c in (2022, 2024, 2026)]
+        body.append([name_of(m, v) if v == "model" else v, ci(h), ci(s)] + x)
+    lv = [ci(m.get(family="M2", metric="perturbation_ari", variant="model", snapshot=C, level=k, stratum="all")) for k in (0, 1, 2)]
+    return md(["variant", "perturbation HARI (10% of all edges)", "… concept relations only", "cross-snapshot HARI 20→22",
+               "22→24", "24→26"], body) + f"\n\nPer-level perturbation ARI of the selected model (≤2026): level 0 {lv[0]}, level 1 {lv[1]}, level 2 {lv[2]}."
 
 
-def t_e1_strata(m):
+def t_m2_local(m):
     body = []
-    for v in ["model", "full-null"]:
-        cells = [m.get(family="E1", metric="coupling_lift", variant=v, snapshot=2026, level=1, stratum=s, split="B")
-                 for s in ("overlap", "no_overlap", "pooled", "all")]
-        body.append([name_of(m, v) if v == "model" else v] + [ci(c) for c in cells])
-    n = [m.get(family="E1", metric="coupling_lift", variant="model", snapshot=2026, level=1, stratum=s, split="B")["n"]
-         for s in ("overlap", "no_overlap")]
-    return md(["level 1, ≤2026, split B", "overlap pairs", "no-overlap pairs", "pooled", "unstratified"], body) + \
-        f"\n\nPaper pairs: {n[0]} with a shared non-hub concept, {n[1]} without."
-
-
-def t_configs(m):
-    body = []
-    for v in variants(m):
-        e1 = m.get(family="E1", metric="coupling_lift", variant=v, snapshot=2026, level=1, stratum="pooled", split="B")
-        e2 = m.get(family="E2", metric="perturbation_ari", variant=v, snapshot=2026, level=1)
-        cx = m.get(family="E2", metric="cross_snapshot_ari", variant=v, snapshot=2026, level=1)
-        lo = m.get(family="E2", metric="change_localisation_ratio", variant=v, snapshot=2026, level=1)
-        e4 = m.get(family="E4", metric="first_cost_median", variant=v, snapshot=2026)
-        r2 = m.get(family="E4", metric="recall@200", variant=v, snapshot=2026)
-        g = m.get(family="structure", metric="giant_share_level0", variant=v, snapshot=2026)
-        body.append([name_of(m, v), ci(e1), ci(e2), fmt(cx["value"]), fmt(lo["value"]), ci(e4, 0), fmt(r2["value"]), fmt(g["value"])])
-    for v in ("full-null", "struct-null", "sem-null"):
-        e1 = m.get(family="E1", metric="coupling_lift", variant=v, snapshot=2026, level=1, stratum="pooled", split="B")
-        e2 = m.get(family="E2", metric="perturbation_ari", variant=v, snapshot=2026, level=1)
-        cx = m.get(family="E2", metric="cross_snapshot_ari", variant=v, snapshot=2026, level=1)
-        lo = m.get(family="E2", metric="change_localisation_ratio", variant=v, snapshot=2026, level=1)
-        e4 = m.get(family="E4", metric="first_cost_median", variant=v, snapshot=2026)
-        r2 = m.get(family="E4", metric="recall@200", variant=v, snapshot=2026)
-        body.append([v, ci(e1), ci(e2), fmt(cx["value"]), fmt(lo["value"]), ci(e4, 0), fmt(r2["value"]), "–"])
-    return md(["configuration (≤2026, level 1)", "E1a lift (B)", "perturbation ARI", "cross-snapshot ARI 2024→26",
-               "change localisation", "E4 median cost", "E4 recall@200", "level-0 giant share"], body) + \
-        "\n\nα = 1 ignores edges, so its perturbation ARI is 1 by construction (not a stability result). " \
-        "Change localisation is undefined (–) when no untouched old node is reassigned."
-
-
-def t_e2_localisation(m):
-    body = []
-    for v in ["model", m.meta["ablations"]["gamma0"], "full-null", "struct-null", "sem-null"]:
-        cells = []
-        for c in (2022, 2024, 2026):
-            for k in (0, 1, 2):
-                cells.append(fmt(m.get(family="E2", metric="change_localisation_ratio", variant=v, snapshot=c, level=k)["value"]))
-        body.append([name_of(m, v) if not v.endswith("-null") else v] + cells)
+    for v in ("model", "configuration-null"):
+        cells = [ci(m.get(family="M2", metric="change_localisation", variant=v, snapshot=c, level=k)) for c in (2022, 2024, 2026) for k in (0, 1, 2)]
+        body.append([name_of(m, v) if v == "model" else v] + cells)
     head = ["variant"] + [f"{t} L{k}" for t in ("20→22", "22→24", "24→26") for k in (0, 1, 2)]
     return md(head, body)
 
 
-def t_e2_levels(m):
+def t_events(m):
+    kinds = ("continue", "growth", "change", "merge", "split", "birth", "death")
     body = []
-    for v in ["model", m.meta["ablations"]["gamma0"], m.meta["ablations"]["freeze"], "full-null"]:
-        cells = [m.get(family="E2", metric="perturbation_ari", variant=v, snapshot=2026, level=k) for k in (0, 1, 2)]
-        xs = [m.get(family="E2", metric="cross_snapshot_ari", variant=v, snapshot=2026, level=k) for k in (0, 1, 2)]
-        body.append([name_of(m, v) if v != "full-null" else v] + [ci(c) for c in cells] + [fmt(x["value"]) for x in xs])
-    return md(["variant (≤2026)", "pert. ARI L0", "pert. ARI L1", "pert. ARI L2", "2024→26 ARI L0", "L1", "L2"], body)
+    for c in (2022, 2024, 2026):
+        for k in (0, 1, 2):
+            body.append([f"→{c}", k] + [fmt(m.get(family="M2", metric=f"events_{e}", variant="model", snapshot=c, level=k)["value"]) for e in kinds])
+    return md(["transition", "level"] + list(kinds), body)
 
 
-def t_e3(m):
-    judges = sorted({r["stratum"] for r in m.rows if r["family"] == "E3" and r["metric"] == "identification_rate"},
-                    key=lambda j: (j != m.meta["labels"]["judge_model"], j))
+def t_m3_det(m):
+    det = [m.get(family="M3", metric=f"det_{k}_rate", variant="model") for k in ("year_after_cutoff", "named_non_member", "future_entity")]
+    return "Deterministic checks (all snapshots, levels 0–1): " + \
+        ", ".join(f"{n} {d['k']}/{d['n']} {ci(d)}" for n, d in zip(("year after cutoff", "named non-member", "future entity"), det)) + "."
+
+
+def t_m3(m):
+    g = lambda k: m.get(family="M3", metric=k, variant="model")  # noqa: E731
+    if not m.maybe(family="M3", metric="valid", variant="model"):
+        return "The M3 LLM judge is deferred in this run (`[m3] enabled = false` in `configs/eval.toml`). " + t_m3_det(m)
+    valid = g("valid")["value"]
+    body = [["over-claim, held-out evidence (raw)", ci(g("raw_over_claim_held_out")), g("raw_over_claim_held_out")["n"]],
+            ["over-claim, all members (raw)", ci(g("raw_over_claim_all")), g("raw_over_claim_all")["n"]],
+            ["over-claim, held-out, corrected for judge error", ci(g("corrected_over_claim_held_out")), g("corrected_over_claim_held_out")["n"]]]
+    for t in ("swap", "sibling", "inflation", "temporal"):
+        r = m.maybe(family="M3", metric=f"Se_{t}", variant="model")
+        if r:
+            body.append([f"judge sensitivity Se, {t} controls", ci(r), r["n"]])
+    body.append(["judge specificity Sp, true controls", ci(g("Sp")), g("Sp")["n"]])
+    body.append(["Youden J on hard (sibling) controls", fmt(g("J_sibling")["value"]), g("J_sibling")["n"]])
+    body.append(["decompositions passing the check", fmt(g("decomposition_ok")["value"]), "–"])
+    body.append(["'supported' verdicts rejected by the quote check", fmt(g("quote_rejections")["value"]), "–"])
+    return md(["M3 (judge: " + str(m.meta["labels"]["judge_model"]) + ", ≤2026, levels 0–1)", "value", "n"], body) + \
+        f"\n\nValidity gate (J ≥ 0.4): **{'passed' if valid else 'FAILED — the over-claim rate is not interpretable'}**. " + t_m3_det(m)
+
+
+def t_m4(m):
     body = []
-    for j in judges:
-        for v in ("model", "random-clusters"):
-            g = m.get(family="E3", metric="identification_rate", variant=v, snapshot=2026, level=None, stratum=j, split="forced_choice")
-            o = m.get(family="E3", metric="over_claim_rate", variant=v, snapshot=2026, level=None, stratum=j, split="forced_choice")
-            pz = m.get(family="E3", metric="choice_position_max_share", variant=v, snapshot=None, level=None, stratum=j, split="forced_choice")
-            tag = " (primary)" if j == m.meta["labels"]["judge_model"] else ""
-            body.append([j + tag, name_of(m, v) if v == "model" else v, g["n"], ci(g), ci(o), fmt(pz["value"])])
-    allsnap = m.get(family="E3", metric="identification_rate", variant="model", snapshot=None, level=None,
-                    stratum=m.meta["labels"]["judge_model"], split="forced_choice")
-    fc = md(["judge", "labels (≤2026, levels 0–1)", "n", "identified among 4 (chance 0.25)", "over-claim = not identified",
-             "most-chosen position share"], body)
-    ab = []
-    for v, split in (("model", "held_out"), ("swapped-gloss", "swapped"), ("random-clusters", "random_labels")):
-        g = {k: m.get(family="E3", metric=f"abs_{k}_rate", variant=v, snapshot=2026, level=None, split=split)
-             for k in ("over_claim", "vague", "accurate")}
-        ab.append([v, g["accurate"]["n"], ci(g["accurate"]), ci(g["vague"]), ci(g["over_claim"])])
-    det = {k: m.get(family="E3", metric=f"{k}_rate", variant="model", snapshot=None, level=None, split="held_out")
-           for k in ("year_after_cutoff", "named_non_member", "future_entity")}
-    single = m.get(family="E3", metric="single_concept_supernodes", variant="model")
-    return fc + f"\n\nPrimary judge over all four snapshots: {ci(allsnap)} identified (n = {allsnap['n']}). " \
-        f"'random-clusters' = the model's tree with concept nodes permuted, relabelled by the same labeller and judged on its own held-out half. " \
-        f"{single['value']} of {single['n']} labelled super-nodes have a single concept; their judge sees only paper texts.\n\n" + \
-        "Absolute rating by the primary judge (failed its negative control):\n\n" + \
-        md(["labels judged against own held-out evidence (≤2026)", "n", "accurate", "vague", "wrong"], ab) + \
-        "\n\nDeterministic checks (all snapshots, levels 0–1): " + \
-        ", ".join(f"{k.replace('_', ' ')} {det[k]['k']}/{det[k]['n']}" for k in det) + "."
+    for v, s in (("model", "hierarchy (members)"), ("model", "hierarchy (labels)"), ("flat", "flat"), ("ppr", "ppr"),
+                 ("degree", "degree"), ("best flat", "best flat"), ("configuration-null", "hierarchy (members)")):
+        c = m.get(family="M4", metric="first_cost", variant=v, snapshot=C, stratum=s)
+        r50 = m.maybe(family="M4", metric="recall@50", variant=v, snapshot=C, stratum=s)
+        r200 = m.maybe(family="M4", metric="recall@200", variant=v, snapshot=C, stratum=s)
+        label = {"model": f"{name_of(m, 'model')}, {s.split('(')[1][:-1]} profiles"}.get(v, v)
+        body.append([label, ci(c, 0), ci(r50), ci(r200)])
+    q = m.get(family="M4", metric="first_cost", variant="model", snapshot=C, stratum="hierarchy (members)")
+    return md(["method (≤2026)", "mean cost to the target", "recall@50", "recall@200"], body) + \
+        f"\n\n{q.get('queries')} known-item queries over {q['n']} targets; means and 95% intervals by bootstrap over targets."
 
 
-def t_e4(m):
+def t_m4_degree(m):
+    bins = sorted({r["split"] for r in m.rows if r["family"] == "M4" and r["metric"] == "first_cost_by_target_degree"})
     body = []
-    for v in ["model", "flat-lexical", "ppr", "degree-popularity", "full-null", "struct-null", "sem-null", "random-labels"]:
-        c = m.get(family="E4", metric="first_cost_median", variant=v, snapshot=2026)
-        r5 = m.get(family="E4", metric="recall@50", variant=v, snapshot=2026)
-        r2 = m.get(family="E4", metric="recall@200", variant=v, snapshot=2026)
-        w = m.get(family="E4", metric="wrong@200", variant=v, snapshot=2026)
-        body.append([name_of(m, v) if v == "model" else v, ci(c, 0), ci(r5), ci(r2), ci(w)])
-    return md(["method (≤2026, 12 questions)", "median cost to first target", "recall@50", "recall@200", "wrong-domain@200"], body) + \
-        "\n\nRanked baselines are scored by their expected value under random tie-breaking. 'degree-popularity' ignores the question."
+    for v, s in (("model", "hierarchy (members)"), ("flat", "flat"), ("ppr", "ppr"), ("degree", "degree")):
+        body.append([v if v != "model" else "selected hierarchy"] + [ci(m.get(family="M4", metric="first_cost_by_target_degree", variant=v, snapshot=C, stratum=s, split=b), 0) for b in bins])
+    return md(["mean cost by target popularity"] + bins, body)
+
+
+def t_mde(m):
+    fr = sorted({r["split"] for r in m.rows if r["family"] == "MDE"}, key=lambda s: float(s.split()[1]))
+    b1 = [ci(m.get(family="MDE", metric="coupling_lift_dev", variant="model", split=f)) for f in fr]
+    b4 = [ci(m.maybe(family="MDE", metric="m4_first_cost", variant="model", split=f), 0) for f in fr]
+    return md(["metric under path-swap degradation"] + [f.replace("swap ", "") for f in fr],
+              [["M1 no-overlap lift (dev, level 1)"] + b1, ["M4 mean cost (members)"] + b4])
+
+
+def t_variants(m):
+    body = []
+    for v in variants(m):
+        e1 = m.maybe(family="M1", metric="coupling_lift", variant=v, snapshot=C, level=L, stratum="no_overlap", split="B")
+        e2 = m.maybe(family="M2", metric="perturbation_hari", variant=v, snapshot=C, stratum="all")
+        x = m.maybe(family="M2", metric="cross_snapshot_hari", variant=v, snapshot=C)
+        e4 = m.maybe(family="M4", metric="first_cost", variant=v, snapshot=C, stratum="hierarchy (members)")
+        d = [m.maybe(family="compare", metric=f"delta_{f}", variant=v) for f in ("M1", "M2", "M4")]
+        body.append([name_of(m, v), ci(e1), ci(e2), fmt(x["value"]) if x else "–", ci(e4, 0)] + [ci(x_, 2 if i < 2 else 0) if v != "model" else "–" for i, x_ in enumerate(d)])
+    return md(["run", "M1 no-overlap (B)", "perturbation HARI", "cross-snapshot HARI 24→26", "M4 mean cost",
+               "Δ M1 (dev A)", "Δ perturbation HARI", "Δ M4 cost"], body) + \
+        "\n\nΔ = run minus the selected model, paired: M1 by jackknife over shared citing papers, M2 by perturbation seed, M4 by target."
 
 
 def t_tests(m):
-    body = [[t["family"], t["name"] + (f" — {t['note']}" if t.get("note") else ""), fmt(t["model"], 3), fmt(t.get("null_mean"), 3),
-             pval(t["p"]), pval(t["p_holm"])] for t in m.tests if t["primary"]]
+    body = [[t["family"], t["name"], fmt(t["model"], 3), fmt(t.get("null_mean"), 3), pval(t["p"]), pval(t["p_holm"])]
+            for t in m.tests if t["primary"]]
     return md(["family", "pre-registered primary test", "model", "null / baseline", "p", "p (Holm)"], body)
 
 
-SECONDARY = ["E3 forced-choice identification model vs chance", "E3 forced-choice identification model vs random-clusters",
-             "E3 absolute rating discriminates", "E4 cost hierarchy vs ppr", "E4 cost hierarchy vs degree-popularity",
-             "E4 median cost model vs random-labels", "E4 median cost model vs full-null"]
+SECONDARY = [("M1 coupling lift vs random-labels", dict(snapshot=C, level=L, stratum="no_overlap", split="B")),
+             ("M2 cross-snapshot HARI vs configuration null", dict(snapshot=C)),
+             ("M4 cost hierarchy (members) vs best flat", dict(snapshot=C)),
+             ("M4 cost hierarchy (members) vs configuration null", dict(snapshot=C))]
 
 
 def t_tests_secondary(m):
-    body = [[t["family"], t["name"] + (f" — {t['note']}" if t.get("note") else ""), fmt(t["model"], 3), fmt(t.get("null_mean"), 3), pval(t["p"])]
-            for t in m.tests if not t["primary"] and any(t["name"].startswith(x) for x in SECONDARY)]
-    if not body:
-        raise MissingCell("no secondary tests")
-    return md(["family", "secondary / post-hoc test (descriptive, no correction)", "model", "null / baseline", "p"], body)
+    body = []
+    for name, cell in SECONDARY:
+        t = m.test(name, **cell)
+        body.append([t["family"], name, fmt(t["model"], 3), fmt(t.get("null_mean"), 3), pval(t["p"])])
+    return md(["family", "secondary test (descriptive, no correction)", "model", "null / baseline", "p"], body)
 
 
-TABLES = {"data": t_data, "selection": t_selection, "e1": t_e1, "e1_strata": t_e1_strata, "e1_strict": t_e1_strict,
-          "configs": t_configs, "e2_levels": t_e2_levels, "e2_localisation": t_e2_localisation, "e3": t_e3, "e4": t_e4,
-          "tests": t_tests, "tests_secondary": t_tests_secondary}
-
-
-def _cell(m, **sel):
-    r = m.get(**sel)
-    return r["value"], r["ci_lo"], r["ci_hi"]
+TABLES = {"data": t_data, "selection": t_selection, "m1": t_m1, "m2": t_m2, "m2_local": t_m2_local, "events": t_events,
+          "m3": t_m3, "m4": t_m4, "m4_degree": t_m4_degree, "mde": t_mde, "variants": t_variants, "tests": t_tests,
+          "tests_secondary": t_tests_secondary}
 
 
 def figures(m, figdir):
-    """Report figures, drawn from metrics.json only (like the tables)."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -268,48 +254,39 @@ def figures(m, figdir):
     grid = sorted(m.meta["configs"], key=lambda c: m.meta["configs"][c])
     alphas = [m.meta["configs"][c] for c in grid]
     name = lambda c: "model" if c == m.meta["selected"] else c  # noqa: E731
-    panels = [("E1a lift (≤2026, L1, half B, pooled)", dict(family="E1", metric="coupling_lift", snapshot=2026, level=1, stratum="pooled", split="B")),
-              ("perturbation ARI (≤2026, L1)", dict(family="E2", metric="perturbation_ari", snapshot=2026, level=1)),
-              ("E4 median cost to first target (≤2026)", dict(family="E4", metric="first_cost_median", snapshot=2026))]
+    panels = [("M1 no-overlap lift (≤2026, L1, report half B)", dict(family="M1", metric="coupling_lift", snapshot=C, level=L, stratum="no_overlap", split="B")),
+              ("perturbation HARI (≤2026, 10% of all edges)", dict(family="M2", metric="perturbation_hari", snapshot=C, stratum="all")),
+              ("M4 mean cost to target (≤2026, lower is better)", dict(family="M4", metric="first_cost", snapshot=C, stratum="hierarchy (members)"))]
     fig, axes = plt.subplots(1, 3, figsize=(12, 3.3))
     for ax, (title, sel) in zip(axes, panels):
-        vals = [_cell(m, variant=name(c), **sel) for c in grid]
-        ax.errorbar(alphas, [v for v, _, _ in vals], yerr=[[v - (lo if lo is not None else v) for v, lo, _ in vals],
-                                                           [(hi if hi is not None else v) - v for v, _, hi in vals]],
-                    marker="o", capsize=3, color="C0", label="SHAC-T")
-        nv, nlo, nhi = _cell(m, variant="full-null", **sel)
-        ax.axhspan(nlo, nhi, color="0.85", label="full-null 95% range")
-        ax.axhline(nv, color="0.5", lw=1)
-        if sel["family"] == "E4":
-            for b, st in (("flat-lexical", ":"), ("ppr", "--")):
-                ax.axhline(_cell(m, variant=b, **sel)[0], color="C3", ls=st, lw=1, label=b)
+        vals = [m.get(variant=name(c), **sel) for c in grid]
+        y = [r["value"] for r in vals]
+        lo = [r["value"] - (r["ci_lo"] if r["ci_lo"] is not None else r["value"]) for r in vals]
+        hi = [(r["ci_hi"] if r["ci_hi"] is not None else r["value"]) - r["value"] for r in vals]
+        ax.errorbar(alphas, y, yerr=[lo, hi], marker="o", capsize=3, color="C0", label="SHAC-T")
+        nr = m.get(variant="configuration-null", **sel)
+        if nr["ci_lo"] is not None:
+            ax.axhspan(nr["ci_lo"], nr["ci_hi"], color="0.85", label="configuration null 95% range")
+        ax.axhline(nr["value"], color="0.5", lw=1)
+        bl = m.maybe(variant=m.meta["baseline"], **sel)
+        if bl:
+            ax.axhline(bl["value"], color="C3", ls=":", lw=1, label="paper-linkage baseline")
         ax.axvline(m.meta["selected_params"]["alpha"], color="C1", lw=0.8, ls="-.")
-        ax.set_title(title, fontsize=9)
-        ax.set_xlabel("α (semantic weight)")
+        ax.set_title(title, fontsize=9); ax.set_xlabel("α (semantic weight)")
     axes[0].legend(frameon=False, fontsize=7)
-    axes[2].legend(frameon=False, fontsize=7)
-    fig.tight_layout()
-    fig.savefig(figdir / "report_alpha.png", dpi=160)
-    plt.close(fig)
-
-    judges = sorted({r["stratum"] for r in m.rows if r["family"] == "E3" and r["metric"] == "identification_rate"},
-                    key=lambda j: (j != m.meta["labels"]["judge_model"], j))
-    fig, ax = plt.subplots(figsize=(6, 3))
-    for i, v in enumerate(("model", "random-clusters")):
-        cells = [_cell(m, family="E3", metric="identification_rate", variant=v, snapshot=2026, level=None, stratum=j,
-                       split="forced_choice") for j in judges]
-        xs = [k + (i - 0.5) * 0.35 for k in range(len(judges))]
-        ax.bar(xs, [c[0] for c in cells], width=0.35, color=["C0", "0.6"][i], label=["SHAC-T labels", "random-clusters labels"][i],
-               yerr=[[c[0] - c[1] for c in cells], [c[2] - c[0] for c in cells]], capsize=3)
-    ax.axhline(0.25, color="C3", ls="--", lw=1, label="chance (1 in 4)")
-    ax.set_xticks(range(len(judges)), judges)
-    ax.set_ylabel("label identified from held-out evidence")
-    ax.set_ylim(0, 1)
-    ax.legend(frameon=False, fontsize=7, loc="upper left")
-    fig.tight_layout()
-    fig.savefig(figdir / "report_e3.png", dpi=160)
-    plt.close(fig)
-    return [figdir / "report_alpha.png", figdir / "report_e3.png"]
+    fig.tight_layout(); fig.savefig(figdir / "report_alpha.png", dpi=160); plt.close(fig)
+    fr = sorted({r["split"] for r in m.rows if r["family"] == "MDE"}, key=lambda s: float(s.split()[1]))
+    xs = [float(f.split()[1]) for f in fr]
+    fig, axes = plt.subplots(1, 2, figsize=(8, 3))
+    for ax, (met, title) in zip(axes, (("coupling_lift_dev", "M1 no-overlap lift (dev)"), ("m4_first_cost", "M4 mean cost (members)"))):
+        rs = [m.maybe(family="MDE", metric=met, variant="model", split=f) for f in fr]
+        ok = [(x, r) for x, r in zip(xs, rs) if r]
+        ax.errorbar([x for x, _ in ok], [r["value"] for _, r in ok],
+                    yerr=[[r["value"] - (r["ci_lo"] or r["value"]) for _, r in ok], [(r["ci_hi"] or r["value"]) - r["value"] for _, r in ok]],
+                    marker="o", capsize=3)
+        ax.set_xlabel("share of nodes whose path is swapped"); ax.set_title(title, fontsize=9)
+    fig.tight_layout(); fig.savefig(figdir / "report_mde.png", dpi=160); plt.close(fig)
+    return [figdir / "report_alpha.png", figdir / "report_mde.png"]
 
 
 def main(argv=None):
@@ -317,7 +294,7 @@ def main(argv=None):
     p.add_argument("--metrics", type=Path, default=ROOT / "out" / "metrics.json")
     p.add_argument("--report", type=Path, default=ROOT / "report.md")
     p.add_argument("--out", type=Path, default=ROOT / "out" / "tables.md")
-    p.add_argument("--figures", type=Path, default=None, help="figure directory (default: figures/ with a report, else next to --out)")
+    p.add_argument("--figures", type=Path, default=None)
     args = p.parse_args(argv)
     m = Metrics(args.metrics)
     try:

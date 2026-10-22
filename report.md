@@ -73,7 +73,7 @@ signal are lost.
 - no post-cutoff membership, structure or temporal input. Text is covered only up to
   assumption A5: names and aliases are export-wide.
 
-**Measured:** P3, P5, P6, and what a projection changes (P4).
+**Measured:** P3, P5 and P6 (section 4).
 
 **Complexity.** O(n²(m + d)) per level, plus O(n(m + d)) per merge, plus stale-row rescans;
 O(n²) memory. A full build runs in well under a minute.
@@ -105,8 +105,8 @@ remaining trade-offs are in the formal statement.
   Cunningham (ASONAM 2010).
 - **What this setting needs.** Edges here are large per-paper stars. A pairwise
   projection splits each of them into a clique of equal-weight pairs, so the method needs
-  a score that counts an edge once per pair of super-nodes. The `projection` ablation
-  measures what that changes.
+  a score that counts an edge once per pair of super-nodes, which SHAC-T does by working on
+  the hypergraph directly; no pairwise projection is built.
 
 ## 3. Hyper-edge collapse (T4), as implemented
 
@@ -123,69 +123,51 @@ score (it is kept as metadata), as does which fine members took part.
 raw edges. Notebook 04 shows that a substantial share of coarse edges stays multi-way at
 every level. Those are exactly the edges a clique projection would split.
 
-## 4. Evaluation design, and how circularity is neutralised
+## 4. Evaluation design: method-independent, and how circularity is neutralised
 
-**Common rules.**
-- All metrics use concept nodes only and the real graph, for the model, every swept
-  configuration and ablation, and every null.
-- Only α is selected, by a one-SE rule on E1a over half A of the cited works. Half B is
-  used for reporting.
+**The evaluator judges artefacts, not the algorithm.**
+- `scripts/evaluate.py` scores any run directory in the output format (`hierarchy.json`, `temporal_events.json`, optionally `label_inputs.json`) against the export.
+- It uses only its own definitions (`tkh/evalkit/`, `tkh/structure.py`) and imports no coarsening code, which a test enforces.
+- Re-runs on perturbed and null graphs go through one shell hook (`build_cmd`). A deliberately simple non-SHAC-T coarsening is evaluated through the same interface.
+- The data contract is the same for every method: concept-node scope (the schema's method-centred member types), a fixed evaluator hub share, the citation residual filter, and the snapshot rule.
+- The protocol is committed in `configs/eval.toml` before the run it governs.
 
-**Coherence (E1a, primary).** Residual bibliographic coupling.
-- *Independence.* Citations, ground truth and labels never enter the build or the
-  selection. A test and an independent leakage audit confirm this.
-- *Residual filter.* Cited works named like a concept of the citing paper are removed (an
-  `extends X` paper cites X). A stricter substring filter is a sensitivity analysis.
-- *Score.* Lift is the coupling of paper pairs weighted by how often their single-paper
-  concepts share a super-node, divided by the unweighted mean coupling.
-- *Strata.* Pairs are stratified by whether they share a non-hub concept, with a pooled
-  standardised ratio.
+**M1, coherence (P3): residual citation coupling.**
+- *Independence.* Citations enter no coarsening input. Cited works named like a concept of the citing paper are removed (an `extends X` paper cites X).
+- *Score.* The lift is the citation coupling of paper pairs, weighted by how often their single-paper concepts share a super-node, divided by the average coupling.
+- *Primary stratum.* Pairs sharing no non-hub concept. In the other stratum, shared structure alone explains part of the coupling (notebook 03, §8), so it is descriptive.
+- *Splits.* Dev half A of the cited works is used for selection and iteration; half B for this report.
 - *Interval.* A log-scale paper jackknife.
 
-**E1b.** Ground-truth co-membership, descriptive only.
+**M2, stability (P5, T6).**
+- *Perturbation.* Remove 10% of **all** hyper-edges per period, five seeds, re-run through `build_cmd`. The same perturbed files are used for every run.
+- *Scores.* Per-level ARI, plus a laminar analogue: the level-pooled adjusted Rand index HARI = Σ_k(I_k − E_k)/Σ_k(M_k − E_k).
+- *Test.* Against the null graph perturbed with the same seeds, paired by seed. Stability is never read alone, because a method that ignores the perturbed input is trivially stable.
+- *Over time.* Cross-snapshot HARI. Change localisation, where "touched" means being in any edge of a new paper. Event counts per level and transition.
 
-**Nulls.**
-- *Rebuilt through the whole pipeline:*
-  - **struct-null**, a Curveball shuffle of the clustering edges that preserves
-    per-period degree, arity and type mix, built with the real hub sets;
-  - **sem-null**, name texts permuted within type × period;
-  - **full-null**, both.
-- *Permuted after building:* **random-labels** permutes the concept nodes of the model's
-  finished tree within type × period × paper count.
+**M3, label faithfulness (P6). Implemented, deferred in this iteration.** The LLM judge is switched off in evaluation runs (`[m3] enabled = false`) to keep method iteration fast. Only the deterministic label checks are reported; the judge will be run at a later stage. The design: claim-level entailment by one judge from a different model family than the labeller.
+- *Decomposition.* Each label and gloss is split into atomic claims, and the split is checked deterministically.
+- *Support.* A claim is supported only if the judge quotes an evidence line that is actually in the evidence. The evidence is the evaluator's held-out half of the members, plus their papers' claims and titles (the circularity control). A second pass uses all members.
+- *Judge validity.* Known-answer controls estimate it: claims of other super-nodes, of siblings, scope inflation and post-cutoff dates (false), and held-out facts (true). The over-claim rate is reported raw and corrected for judge error.
+- *Gate.* If Youden's J on the hard controls is below 0.4, the rate is not interpretable.
+- *Contract.* `validate.py` checks that the labeller only saw the evaluator's seen half.
 
-**Stability (E2).**
-- *Perturbation:* 10% of the clustering edges removed, 5 seeds, ARI with t-intervals.
-- *Cross-snapshot:* ARI on common nodes.
-- *Change localisation:* reassignment of old nodes touched by new edges ÷ untouched.
-- *References:* γ = 0 and freeze.
+**M4, extrinsic retrieval (T6).**
+- *Queries.* Known-item queries are generated from claim sentences, with the target method's names masked.
+- *Methods compared.* A best-first drill-down over the hierarchy (profiles from member names, or from labels) vs flat lexical ranking, personalised PageRank on the evaluator's hypergraph, and a query-independent degree ranking.
+- *Reporting.* Results are broken down by target popularity. Each query is also compared against the best flat method for that query.
 
-**Label faithfulness (E3).**
-- *Circularity control.* The labeller (qwen2.5:7b) sees a seeded half of each
-  super-node's members. The judge sees the other half, plus claims and titles of those
-  members' papers (year ≤ cutoff).
-- *Pre-registered instrument.* An absolute accurate / vague / wrong rating by
-  llama3.1:8b, checked by a swapped-gloss control.
-- *Post-hoc replacement, added when that control failed.* Forced choice of the right
-  label among four, repeated with judges from two more families.
-- *Deterministic checks.* Dates, named non-members, future entities.
+**M5, null model.** The type- and period-preserving **hypergraph configuration model**, the standard null in the hypergraph-clustering literature (degree- and edge-size-preserving; Chodrow 2020; the reference model of hypergraph modularity).
+- *Sampling.* Curveball trades between edges of the same relation and period, within a member type. Each node's degree per relation and period is kept, as are every edge's arity and type mix, its hub (`members[0]`), and the `presents` edges.
+- *Use.* Frozen null exports, so every method is re-run on the same null graphs. The random-labels permutation of the evaluated tree is a cheap companion.
 
-**Extrinsic task (E4).** Find each ground-truth question's expected methods at ≤2026, at
-one unit per item read. Compared methods:
-- a best-first drill-down from the 15 roots;
-- flat lexical ranking;
-- personalised PageRank on the clustering hypergraph;
-- a query-independent degree ranking.
+**Sensitivity and comparison.**
+- *Sensitivity.* Each metric is checked by swapping the whole ancestor paths of a growing share of nodes. A metric that does not get worse under degradation cannot rank variants.
+- *Comparison.* Variants are compared with the selected run by paired deltas on dev evidence (`scripts/compare_runs.py`).
 
-Every ranking is scored by its expectation under random tie-breaking.
-
-**Statistics.** Four primary tests, one per family, Holm-corrected; everything else is
-descriptive.
-
-**What "pre-registered" means here.** The selection rule and the design were committed in
-`configs/eval.toml` before the sweep ran. The four primary tests were written down after
-the sweep, after a first look at E1a for the α grid and at the E4 costs of the swept
-configurations, but before any null comparison was computed. The E4 scoring was later
-corrected (ties) after verification.
+**Statistics.**
+- *Primary tests.* Three, one per family, Holm-corrected: M1 against the configuration null; M2 against the perturbed null, paired by seed; M4 against flat lexical retrieval, paired by target.
+- *M3.* Deferred (see above). When run, it is an estimate with its validity gate, with no null comparison.
 
 ## 5. Results
 

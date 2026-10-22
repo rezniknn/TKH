@@ -36,7 +36,7 @@ from scipy.sparse import csr_matrix
 from sklearn.decomposition import TruncatedSVD
 
 from tkh import semantic as sm
-from tkh.coarsen import concept_nodes, hubs, incidence
+from tkh.coarsen import CLUSTER_RELATIONS, concept_nodes, hubs, incidence
 from tkh.io import make_snapshots
 
 
@@ -344,6 +344,16 @@ def anchors(tkh, snap, concept):
     ntype = tkh.nodes["type"].to_dict()
     year = tkh.articles["year"].to_dict()
     presented = {a: m[1] for m, r, a in zip(e["members"], e["relation_type"], e["article_id"]) if r == "presents"}
+    # fallback when a paper's presents edge is missing (e.g. a perturbed export): the hub of its method-centred
+    # stars, else any concept node of the paper
+    for m, r, a in zip(e["members"], e["relation_type"], e["article_id"]):
+        if a not in presented and r in CLUSTER_RELATIONS and m[0] in concept:
+            presented[a] = m[0]
+    for m, a in zip(e["members"], e["article_id"]):
+        if a not in presented:
+            cm = sorted(v for v in m if v in concept)
+            if cm:
+                presented[a] = cm[0]
     art_node = {}
     if "node_id" in tkh.articles:
         art_node = {nid: a for a, nid in tkh.articles["node_id"].items() if isinstance(nid, str)}
@@ -376,8 +386,8 @@ def anchors(tkh, snap, concept):
         else:
             arts = (set(tkh.nodes.at[v, "prov_articles"]) & snap.articles) | papers_of.get(v, set())
         cand = [presented[a] for a in order(arts) if a in presented and presented[a] in concept]
-        if not cand:
-            raise ValueError(f"no anchor for {v} ({t}) in snapshot <= {snap.cutoff}")
+        if not cand:  # the node's papers have no concept node left in this snapshot: deterministic last resort
+            cand = [min(concept)]
         out[v] = cand[0]
     return out
 

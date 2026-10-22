@@ -23,7 +23,7 @@ hub_frac = 0.2                                   # nodes in more than this share
 
 [labels]                                         # T5 labels (tkh/label.py) and T6 E3 judge (tkh/evaluate/faithfulness.py), via a local Ollama server
 labeller_model = "qwen2.5:7b-instruct"           # open model that writes labels and glosses (levels 0-1)
-judge_model = "llama3.1:8b"                      # judge from a different open model family
+judge_model = "phi4"                              # M3 judge: one family (Microsoft), different from the qwen labeller
 endpoint = "http://localhost:11434"
 labeller_prompt = "prompts/labeller.txt"         # prompt templates ({placeholders} filled from the evidence)
 judge_prompt = "prompts/judge.txt"               # absolute rating (accurate / vague / wrong)

@@ -1,5 +1,5 @@
 # One-command pipeline (6a.4): 'make all' runs sweep -> build -> validate -> metrics -> tables on a clean checkout,
-# offline: the LLM labels and judgements replay from the committed cache data/llm_cache.json.
+# offline: the LLM labels and M3 judgements replay from the committed cache data/llm_cache.json.
 PYTHON ?= .venv/bin/python
 OUT ?= out
 REPORT ?= report.md
@@ -17,7 +17,7 @@ test:            ## validator proof (6a.2) and unit tests
 fixtures:        ## regenerate tests/fixtures/ from tests/make_fixtures.py
 	$(PYTHON) tests/make_fixtures.py
 
-sweep:           ## alpha grid, selection on E1a half A, ablations, nulls, perturbation runs -> $(OUT)/selection.json, $(OUT)/runs/
+sweep:           ## alpha grid, selection on M1 dev half A, ablations (via build_cmd) -> $(OUT)/selection.json
 	$(PYTHON) scripts/sweep.py --out $(OUT)
 
 build:           ## SHAC-T hierarchy (selected parameters) with LLM labels -> $(OUT)/<cutoff>/hierarchy.json, temporal_events.json
@@ -26,7 +26,7 @@ build:           ## SHAC-T hierarchy (selected parameters) with LLM labels -> $(
 validate:        ## check $(OUT)/ against the run config ($$TKH_CONFIG or configs/default.toml)
 	$(PYTHON) validate.py $(OUT)
 
-metrics:         ## E1-E4 for the model, every configuration and every null -> $(OUT)/metrics.json
+metrics:         ## M1-M5 for the model (scripts/evaluate.py), variants and the foreign baseline -> $(OUT)/metrics.json
 	$(PYTHON) scripts/compute_metrics.py --out $(OUT)
 
 tables:          ## every report table from $(OUT)/metrics.json -> $(OUT)/tables.md (and report.md)
