@@ -9,7 +9,7 @@
 - **Companion documents.** The full formal statement, with proofs, is in
   [docs/formal_statement.md](docs/formal_statement.md). The method diagnostics (sizes,
   paper and type purity, the coarse hypergraph) are in
-  [notebooks/03_method.ipynb](notebooks/03_method.ipynb).
+  [notebooks/04_method.ipynb](notebooks/04_method.ipynb).
 
 <!-- table:data -->
 | snapshot (cumulative) | ≤2020 | ≤2022 | ≤2024 | ≤2026 |
@@ -120,7 +120,7 @@ score (it is kept as metadata), as does which fine members took part.
 
 **Output and diagnostics.** Coarse edges are written per snapshot to
 `out/<t>/coarse_hyperedges.json`, and an independent verifier re-derived them from the
-raw edges. Notebook 03 shows that a substantial share of coarse edges stays multi-way at
+raw edges. Notebook 04 shows that a substantial share of coarse edges stays multi-way at
 every level. Those are exactly the edges a clique projection would split.
 
 ## 4. Evaluation design, and how circularity is neutralised
@@ -383,7 +383,7 @@ Ranked baselines are scored by their expected value under random tie-breaking. '
   and it is weak evidence for any navigation structure.
 - *Across configurations.* The median cost falls monotonically as α decreases, while
   recall@200 is not monotone. The freeze reference has the lowest median cost. A plausible
-  reading, not tested here: low-α clusters are paper-pure (notebook 03), so a paper's
+  reading, not tested here: low-α clusters are paper-pure (notebook 04), so a paper's
   method stays next to the task phrases a question uses. Freeze also differs in having no
   size cap.
 

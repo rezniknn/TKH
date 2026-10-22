@@ -1090,7 +1090,7 @@ accepted or changed, and what was checked.
 
 ### 28. Notebook 04: inspecting the shipped hierarchies (Claude Code)
 
-- **Task/module:** `notebooks/04_inspect_hierarchies.ipynb`; a `trace` option in
+- **Task/module:** `notebooks/04_inspect_hierarchies.ipynb` (renumbered to `05_` in entry 30); a `trace` option in
   `tkh/evaluate/extrinsic.hierarchy_search`; `scripts/visualize.icicle` made reusable
 - **Prompt:** "Create a notebook 04 that helps inspect snapshot hierarchies produced by the
   model in /out folder, display a simple visulisation of one of the snapshots, inspect
@@ -1145,6 +1145,67 @@ accepted or changed, and what was checked.
     `tkh.io`, and cross-checked with a separate ad hoc script before the notebook text was
     written.
   - The notebook runs in `.venv` and in Anaconda.
+
+### 30. Notebook 03: structural signal between papers, and renumbering of notebooks 03–04 → 04–05 (Claude Code)
+
+- **Task/module:** `notebooks/03_structural_signal.ipynb`, `tkh/structure.py`, `tests/test_structure.py`. The method
+  diagnostics and the inspection notebook were renumbered to `04_method.ipynb` and `05_inspect_hierarchies.ipynb`, and
+  their references were updated in `report.md`, `docs/formal_statement.md` and `tkh/evaluate/extrinsic.py`.
+- **Prompt:** "Create an in depth exploration of structural signal in the graph in a separate notebook (03, update
+  numbering of consequent notebooks). The goal is to understand in detail how different papers in the graph are linked
+  together, types of relationships between papers that could be established using strucural information, how the link
+  between paper changes when considering contept nodes only vs document medatadata nodes vs concepts + metadata nodes
+  combined. The outcome of the notebook should be a clear definition of what structural signals present in the graph's
+  finest level view are most useful for the coarsening algorithm to produce super nodes, which structural information
+  should be carried over to the coarser level in order to be able to perform coarsening of super nodes on that level,
+  which structural information need to be left out of the coarsening to be able to evaluate coherence independently"
+- **What the assistant did:** A notebook with nine sections:
+  1. which node types link papers;
+  2. hubs and their sensitivity;
+  3. typed paper–paper links (lineage `extends -> presents`, shared methods, tasks and benchmarks; co-authorship,
+     bibliographic coupling, direct citation);
+  4. the concept, metadata and combined views, with all-pairs association against a year-stratified permutation null;
+  5. node-level bridges and relation weight shares;
+  6. temporal attachment and hub churn;
+  7. what survives at coarse levels in the shipped hierarchy;
+  8. leakage into the evaluation, and the E1a strata;
+  9. conclusions (A) use, (B) carry over, (C) leave out. Claims backed by outcome evidence are separated from
+     hypotheses, each with the test that would settle it.
+- **Accepted / modified (two verification workflows):**
+  - **Round 1 (four verifiers and a critic).** Every number reproduced from the raw export, but two conclusions were
+    wrong.
+    1. *Concept and metadata views were called "independent".* This rested on a Spearman restricted to pairs linked in
+       at least one view, which is biased strongly negative by construction. Over all pairs against a year-stratified
+       null, the views are positively associated (all-pairs Spearman 0.36 against a null of about 0.11; odds ratio
+       about 4).
+    2. *Section 7 claimed the residual filter justifies E1a.* "0 lineage citations survive the filter" is true by
+       construction. E1a's overlap stratum turned out to be exactly the concept view's linked pairs, with coupling about
+       twice as likely there. Only the no-overlap stratum is a clean test, and the notebook now says so.
+    - *Other fixes:*
+      - the combined view no longer hub-filters cited works;
+      - ARI is reported over a range of k;
+      - citation coverage (37 of 52 papers) is reported;
+      - a relation weight table was added (`evaluated_on` is 54% of the edges but carries 85% of the weight);
+      - a temporal section was added;
+      - component counts no longer include hubs;
+      - lineage direction now comes from roles;
+      - bridge pairs are relation-specific.
+  - **Round 2 (two verifiers).** All round-1 fixes confirmed.
+    - *A lineage false positive:* two papers presenting the same node were labelled lineage, because a presented method
+      also sits in the hub position of `extends`. Lineage now requires `extends` membership.
+    - *Hub-churn edge counts* included new papers' edges; the corrected counts are 20 / 21 / 8 existing edges, not
+      29 / 26 / 10.
+    - *The temporal attachment table* hub-filtered lineage links.
+    - *Several wording fixes.*
+- **Verified:**
+  - All tables were recomputed independently from the raw JSON and CSV, twice.
+  - The notebook runs in `.venv` and in Anaconda.
+  - `tests/test_structure.py` covers sharing, lineage direction, the same-node-presented case, IDF and hub weights,
+    components and matrix alignment.
+- **Not verified / limits:**
+  - The (A) and (B) items marked as hypotheses (typed or lineage weights, an `evaluated_on` cap, endpoint counts, soft
+    hub weights) are untested. Each needs an outcome test on held-out evidence.
+  - The notebook recommends reading E1a's no-overlap stratum as primary. `report.md` has not been changed.
 
 ## Case where the AI was wrong (§6a)
 

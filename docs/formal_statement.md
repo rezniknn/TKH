@@ -198,7 +198,7 @@ All seven can be overridden from the command line: `scripts/build.py --param alp
 - **A1.** Concept relations within a paper are evidence of relatedness. Every clustering
   edge is a star around one paper's method (one per relation, plus one per evaluated_on
   link; about 11 per paper), so structure is mostly paper co-occurrence. The structural signal is
-  therefore expected to rebuild papers. This is measured (paper purity, notebook 03) and
+  therefore expected to rebuild papers. This is measured (paper purity, notebook 04) and
   not hidden.
 - **A2.** Name strings carry weak but real semantic signal (notebook 02: useful for
   generic tasks and metrics, useless for proper-named methods). This is why α is

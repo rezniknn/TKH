@@ -150,7 +150,7 @@ def hierarchy_search(index, levels, text, rng=None, tree=None, trace=None):
     rng=None breaks score ties by node id; with a numpy Generator, ties (between super-nodes and
     inside an opened leaf) are broken uniformly at random.
     trace: optional list that receives (cost, action, level, super-node, score) for every super-node
-    read ("read") and opened ("open"), for inspection (notebooks/04)."""
+    read ("read") and opened ("open"), for inspection (notebooks/05)."""
     tree = tree or Tree(index, levels)
     q = index.vec.transform([text]).toarray().ravel()
     tie = (lambda: float(rng.random())) if rng is not None else (lambda: 0.0)  # noqa: E731
