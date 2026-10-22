@@ -22,6 +22,11 @@ import urllib.request
 DEFAULT_OPTIONS = {"temperature": 0, "seed": 0, "num_predict": 256, "num_ctx": 8192}
 
 
+def mode(cfg):
+    """LLM mode: $TKH_LLM_MODE, else the config's [labels] mode, else offline."""
+    return os.environ.get("TKH_LLM_MODE") or cfg.labels.get("mode", "offline")
+
+
 class CacheMiss(RuntimeError):
     pass
 

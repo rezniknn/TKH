@@ -40,10 +40,16 @@ import random
 
 import numpy as np
 
-from tkh.coarsen import hubs, node_papers
 from tkh.evaluate.groundtruth import key
 from tkh.io import snapshot
-from tkh.semantic import CONCEPT_TYPES
+from tkh.structure import CONCEPT_TYPES, node_papers
+
+
+def hubs(tkh, snap, frac):
+    """Concept nodes in more than `frac` of the snapshot's papers (the evaluator's hub rule)."""
+    papers = node_papers(tkh, snap)
+    limit = frac * len(snap.articles)
+    return {v for v in snap.node_ids if tkh.nodes.at[v, "type"] in CONCEPT_TYPES and len(papers.get(v, ())) > limit}
 
 
 # ---------------------------------------------------------------- split and ruler

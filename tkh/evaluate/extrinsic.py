@@ -31,9 +31,25 @@ import heapq
 import numpy as np
 from scipy.sparse import diags
 
-from tkh import semantic as sm
-from tkh.coarsen import concept_nodes, hubs, incidence
+from tkh.evalkit import text as evtext
 from tkh.io import snapshot
+from tkh.structure import CONCEPT_TYPES, concept_incidence
+
+
+def _concept_items(tkh, snap):
+    return sorted(v for v in snap.node_ids if tkh.nodes.at[v, "type"] in CONCEPT_TYPES)
+
+
+def _incidence_rows(index, tkh, hub_frac):
+    """The evaluator's concept-relation hypergraph (hubs removed) with one row per index item (hub rows empty)."""
+    from scipy.sparse import csr_matrix
+    items, B, _, _ = concept_incidence(tkh, index.snap, max_paper_share=hub_frac)
+    rows = [index.pos[v] for v in items]
+    Bs = csr_matrix(B)
+    coo = Bs.tocoo()
+    full = csr_matrix((coo.data, (np.asarray(rows)[coo.row], coo.col)), shape=(len(index.items), B.shape[1]))
+    w = 1.0 / (np.asarray(B.sum(axis=0)).ravel() - 1)
+    return full, w
 
 
 class Index:
@@ -41,10 +57,10 @@ class Index:
 
     def __init__(self, tkh, cutoff):
         self.snap = snapshot(tkh, cutoff)
-        self.items = concept_nodes(tkh, self.snap)
+        self.items = _concept_items(tkh, self.snap)
         self.pos = {v: i for i, v in enumerate(self.items)}
-        names = sm.names(tkh)
-        self.X, self.vec = sm.vectorize([names[v] for v in self.items], "word")
+        names = evtext.names(tkh)
+        self.X, self.vec = evtext.word_tfidf([names[v] for v in self.items])
         self.X = self.X.tocsr()
 
     def query(self, text):
@@ -65,7 +81,7 @@ def ppr(index, tkh, text, hub_frac=0.2, damping=0.85, iters=100):
 
 
 def degree_scores(index, tkh, hub_frac=0.2):
-    B, _, _, _ = incidence(tkh, index.snap, index.items, hubs(tkh, index.snap, hub_frac))
+    B, _ = _incidence_rows(index, tkh, hub_frac)
     return np.asarray(B.sum(axis=1)).ravel()
 
 
@@ -73,7 +89,7 @@ def ppr_scores(index, tkh, text, hub_frac=0.2, damping=0.85, iters=100):
     s = np.clip(index.query(text), 0, None)
     if s.sum() == 0:
         return index.query(text)
-    B, w, _, _ = incidence(tkh, index.snap, index.items, hubs(tkh, index.snap, hub_frac))
+    B, w = _incidence_rows(index, tkh, hub_frac)
     A = (B @ diags(w) @ B.T).tocsr()
     A.setdiag(0)
     A.eliminate_zeros()

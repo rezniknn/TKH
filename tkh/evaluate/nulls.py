@@ -33,8 +33,7 @@ import random
 
 import numpy as np
 
-from tkh.coarsen import CLUSTER_RELATIONS
-from tkh.semantic import CONCEPT_TYPES
+from tkh.structure import CONCEPT_RELATIONS as CLUSTER_RELATIONS, CONCEPT_TYPES
 
 
 def _period(year, cutoffs):

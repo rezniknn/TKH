@@ -40,7 +40,9 @@ import random
 import re
 
 from tkh.evaluate.stats import wilson
-from tkh.label import Evidence, _mode, split_members
+from tkh.evalkit.evidence import Evidence
+from tkh.evalkit.split import split_members
+from tkh.llm import mode as _mode
 
 RATINGS = ("accurate", "vague", "wrong")
 NAMED_TYPES = ("method", "dataset")
