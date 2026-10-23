@@ -1056,6 +1056,31 @@ accepted or changed, and what was checked.
     pre-fix results;
   - the documentation fixes that depend on new numbers.
 
+### 28. Rebuild with the verification fixes; coherence and stability with and without the temporal prior (Claude Code)
+
+- **Task/module:** `out/` (rebuilt), `out/metrics.json`
+- **Prompt:** "Rebuild graph projections using default parameters and run the evaluation using coherence and
+  stability metrics reporting back the results and concluding how adding temporal prior influenced coherence of
+  projections on differnent levels / at different snapshots"
+- **What the assistant did:**
+  - Two arms, with the user's consent for this run only (no γ sweep and no parameter sweep): build, validate,
+    coherence (99 nulls) and stability (5 perturbation seeds, 99 attachment nulls).
+    - default parameters (γ = 0.5) into `out/`;
+    - the γ = 0 baseline into the git-ignored `out/gamma/0/`.
+  - Paper purity was compared per level and snapshot.
+- **Results:**
+  - ≤2020 is identical in both arms (no prior on the first snapshot).
+  - With the prior, level 2 gains robust coherence at ≤2024 (0.81 → 1.86) and ≤2026 (1.04 → 1.57).
+  - Level 0 loses it at ≤2026 (1.46 robust → 0.88).
+  - Level 1 is robust at ≤2026 in both arms, and loses its ≤2022 signal (1.52 → 1.06).
+  - Cross-snapshot HARI is 0.80–0.89 against 0.34–0.58; localisation ratios are 2.4–7.0 against 1.1–1.9.
+  - Under the attachment null the prior's stability is not significant (p 0.06–0.33).
+  - Robustness to perturbation halves (HARI 0.30 → 0.17 at ≤2026).
+- **Verified:** `validate.py` passes for both arms; tests pass (442).
+- **Not done:**
+  - `out/gamma/gamma.json`, `out/sweep.json` and the formal statement §§3, 8–10, 12 still hold pre-fix numbers.
+  - The documentation fixes from the verification are still open.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

@@ -19,7 +19,7 @@
   2024,
   2026
  ],
- "runtime_s": 31.0,
+ "runtime_s": 32.7,
  "snapshots": {
   "2020": {
    "n_concept": 1018,
@@ -84,7 +84,7 @@
     "task_00012",
     "task_00033"
    ],
-   "n_stable": 983,
+   "n_stable": 876,
    "levels": [
     {
      "budget": 15,
@@ -93,31 +93,31 @@
      "max_size": 194,
      "singletons": 0,
      "merges": 45,
-     "linked": 38,
-     "multi_endpoint": 37,
-     "prior": 45
+     "linked": 41,
+     "multi_endpoint": 39,
+     "prior": 43
     },
     {
      "budget": 60,
      "super_nodes": 60,
      "cap": 48.8,
-     "max_size": 48,
+     "max_size": 45,
      "singletons": 3,
      "merges": 180,
-     "linked": 164,
-     "multi_endpoint": 150,
-     "prior": 171
+     "linked": 166,
+     "multi_endpoint": 156,
+     "prior": 141
     },
     {
      "budget": 240,
      "super_nodes": 240,
      "cap": 12.2,
      "max_size": 12,
-     "singletons": 22,
+     "singletons": 20,
      "merges": 1224,
-     "linked": 1134,
-     "multi_endpoint": 680,
-     "prior": 752
+     "linked": 1139,
+     "multi_endpoint": 682,
+     "prior": 677
     }
    ],
    "n_anchored": 680
@@ -135,29 +135,29 @@
     "task_00033",
     "task_00034"
    ],
-   "n_stable": 1382,
+   "n_stable": 1169,
    "levels": [
     {
      "budget": 15,
      "super_nodes": 15,
      "cap": 377.2,
-     "max_size": 372,
+     "max_size": 359,
      "singletons": 0,
      "merges": 45,
-     "linked": 39,
-     "multi_endpoint": 36,
+     "linked": 43,
+     "multi_endpoint": 41,
      "prior": 45
     },
     {
      "budget": 60,
      "super_nodes": 60,
      "cap": 94.3,
-     "max_size": 94,
+     "max_size": 93,
      "singletons": 0,
      "merges": 180,
-     "linked": 157,
-     "multi_endpoint": 143,
-     "prior": 170
+     "linked": 161,
+     "multi_endpoint": 152,
+     "prior": 160
     },
     {
      "budget": 240,
@@ -166,9 +166,9 @@
      "max_size": 23,
      "singletons": 3,
      "merges": 2589,
-     "linked": 2370,
-     "multi_endpoint": 1471,
-     "prior": 1152
+     "linked": 2380,
+     "multi_endpoint": 1482,
+     "prior": 949
     }
    ],
    "n_anchored": 1265
@@ -185,29 +185,29 @@
     "task_00033",
     "task_00034"
    ],
-   "n_stable": 2723,
+   "n_stable": 2629,
    "levels": [
     {
      "budget": 15,
      "super_nodes": 15,
      "cap": 530.67,
-     "max_size": 530,
+     "max_size": 512,
      "singletons": 0,
      "merges": 45,
-     "linked": 40,
-     "multi_endpoint": 38,
+     "linked": 41,
+     "multi_endpoint": 40,
      "prior": 45
     },
     {
      "budget": 60,
      "super_nodes": 60,
      "cap": 132.67,
-     "max_size": 128,
+     "max_size": 120,
      "singletons": 0,
      "merges": 180,
-     "linked": 157,
-     "multi_endpoint": 144,
-     "prior": 172
+     "linked": 159,
+     "multi_endpoint": 151,
+     "prior": 170
     },
     {
      "budget": 240,
@@ -216,9 +216,9 @@
      "max_size": 33,
      "singletons": 0,
      "merges": 3740,
-     "linked": 3447,
-     "multi_endpoint": 2166,
-     "prior": 2491
+     "linked": 3453,
+     "multi_endpoint": 2177,
+     "prior": 2399
     }
    ],
    "n_anchored": 1818
