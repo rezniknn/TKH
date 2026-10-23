@@ -35,16 +35,16 @@ class StubLLM:
         self.prompts.append(prompt)
         if "Write a short, specific label" in prompt:
             return {"label": "Stub label", "gloss": "Stub gloss about the group."}
-        if "atomic factual claims" in prompt:
+        if "atomic claims" in prompt:
             gloss = re.search(r"Gloss: (.*)", prompt).group(1)
             return {"claims": [gloss]}
         claim = re.search(r"Claim: (.*)", prompt).group(1)
-        lines = [ln[2:] for ln in prompt.split("\n") if ln.startswith("- ")]
+        lines = [re.sub(r"^\d+\. ", "", ln) for ln in prompt.split("\n") if re.match(r"^\d+\. ", ln)]
         target = re.sub(r'^The group has a member named "(.*)"\.$', r"\1", claim)
         hit = next((ln for ln in lines if target and ln.startswith(target)), None)
         if self.lie:
-            return {"verdict": "supported", "quote": "a line that is not in the evidence"}
-        return {"verdict": "supported", "quote": hit} if hit else {"verdict": "unsupported", "quote": ""}
+            return {"verdict": "supported", "line": 999}
+        return {"verdict": "supported", "line": lines.index(hit) + 1} if hit else {"verdict": "unsupported", "line": 0}
 
     def complete_many(self, prompts, workers=1):
         return [self.complete(p) for p in prompts]
@@ -104,7 +104,7 @@ def test_offline_cache_miss_raises(tmp_path):
         CachedLLM("phi4", tmp_path / "c.json", mode="offline").complete("hello")
 
 
-def test_quote_check_rejects_fabricated_quotes():
+def test_line_check_rejects_citations_of_missing_lines():
     cfg = load_config()
     j = Judge(cfg, llm=StubLLM(lie=True))
     v = j.entail_many([(2026, "Some claim.", ["line one about something", "line two"])])[0]

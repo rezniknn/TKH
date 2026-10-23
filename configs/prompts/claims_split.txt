@@ -1,7 +1,10 @@
-Split the following label and gloss into a short list of atomic factual claims about a group of concepts.
-Each claim must be one simple statement that can be checked on its own, and must use only words and facts from the label and gloss. Do not add anything.
+Rewrite a group's label and gloss as 2 to 4 atomic claims about the members of the group.
+Rules:
+- Every claim starts with "The group" and states ONE property that could be checked against a list of the members: what kind of members it contains, what they are used for, or what they share. Example: "The group contains equivariant neural network models."
+- The first claim restates the label: "The group is about <label>."
+- Use only words and facts from the label and gloss. Do not add anything.
 
 Label: {label}
 Gloss: {gloss}
 
-Answer with JSON only: {{"claims": ["...", "..."]}}
+Answer with JSON only: {{"claims": ["The group ...", "The group ..."]}}

@@ -41,7 +41,8 @@ RIGOR = {   # n_names: true and false member-name controls per label
 }
 J_MIN = 0.4
 STOP = set("a an and are as at be by for from group groups has have in into is it its of on or that the their these "
-           "this those to using via with which whose they them such than then also more most".split())
+           "this those to using via with which whose they them such than then also more most contains contain includes include "
+           "about members member used use share shares shared property properties focus focused related".split())   # claim frame words
 NAMED_TYPES = ("method", "dataset")
 
 
@@ -65,14 +66,20 @@ class Judge:
         return out
 
     def entail_many(self, jobs):
-        """[(cutoff, claim, held-out lines)] -> [{"verdict", "quote_ok", "supported"}]."""
-        prompts = [render(self.entail_t, cutoff=c, claim=cl, evidence="\n".join(f"- {x}" for x in held)) for c, cl, held in jobs]
+        """[(cutoff, claim, held-out lines)] -> [{"verdict", "line", "quote_ok", "supported"}]. The judge cites a numbered
+        line; a claim counts as supported only if the cited line exists (a deterministic check against sycophancy)."""
+        prompts = [render(self.entail_t, cutoff=c, claim=cl, evidence="\n".join(f"{i}. {x}" for i, x in enumerate(held, 1)))
+                   for c, cl, held in jobs]
         out = []
         for (c, cl, held), r in zip(jobs, self.llm.complete_many(prompts, self.s["workers"])):
             verdict = str(r.get("verdict", "")).lower() if isinstance(r, dict) else "unparsed"
-            q = _norm(r.get("quote", "")) if isinstance(r, dict) else ""
-            quote_ok = len(q) >= 6 and any(q == _norm(x) or (len(_norm(x)) >= 6 and (q in _norm(x) or _norm(x) in q)) for x in held)
-            out.append({"verdict": verdict, "quote_ok": quote_ok, "supported": verdict == "supported" and quote_ok})
+            try:
+                line = int(r.get("line", 0)) if isinstance(r, dict) else 0
+            except (TypeError, ValueError):
+                line = 0
+            quote_ok = 1 <= line <= len(held)
+            out.append({"verdict": verdict, "line": held[line - 1] if quote_ok else None, "quote_ok": quote_ok,
+                        "supported": verdict == "supported" and quote_ok})
         return out
 
 

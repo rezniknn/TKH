@@ -1,11 +1,13 @@
 You check one claim about a group of concepts from scientific papers (machine learning for materials science and chemistry, literature up to {cutoff}).
 
-Evidence about the group, one item per line:
+Evidence about the group, one numbered item per line. Items are member concepts ("name [type]"), facts about members (relations, results, claims, future work) and paper titles. The list is a sample of the group's evidence.
 {evidence}
 
 Claim: {claim}
 
-Is the claim supported by the evidence? A claim is supported only if some evidence line states or directly implies it. Generic statements that fit any group in this field are not supported unless a line backs them. Use no outside knowledge.
-If supported, copy the single evidence line that best supports it, exactly as written. If not supported, leave the quote empty.
+First find the evidence line that best matches the claim, and give its number (0 if no line matches). Then decide:
+- "supported": that line states the claim or directly shows a member it describes. For example, "The group contains equivariant models" is supported by a line naming an equivariant model, and "The group is about X" is supported by a line that is about X.
+- A claim that the group has a member with a given name is supported only by a line that contains that name.
+- "unsupported": no line backs the claim, the claim only fits through outside knowledge, or it is so generic that it fits any group in this field.
 
-Answer with JSON only: {{"verdict": "supported" | "unsupported", "quote": "exact evidence line or empty"}}
+Answer with JSON only: {{"line": <number>, "verdict": "supported" | "unsupported"}}
