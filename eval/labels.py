@@ -30,14 +30,14 @@ from eval.experiments import _finite, real_hubs
 from tkh.coarsen import concept_nodes
 from tkh.hierarchy import Params, anchors, build_concept
 from tkh.io import load, snapshot
-from tkh.label import LABELLED_LEVELS, LLMLabeller, settings
+from tkh.label import LABELLED_LEVELS, Evidence, LLMLabeller, settings
 from tkh.llm import CachedLLM, render
 from tkh.null import label_permutation, null_tkh
 
-RIGOR = {   # n_names: true and false member-name controls per label
-    "quick": {"levels": [0], "model_cutoffs": "last", "null_cutoffs": "last", "R_config": 1, "R_labels": 1, "n_names": 3, "max_claims": 3},
-    "standard": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "last", "R_config": 3, "R_labels": 3, "n_names": 2, "max_claims": 3},
-    "full": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "all", "R_config": 5, "R_labels": 5, "n_names": 2, "max_claims": 3},
+RIGOR = {   # n_names: true and false member-name controls per label; n_cross: other super-nodes per cross control
+    "quick": {"levels": [0], "model_cutoffs": "last", "null_cutoffs": "last", "R_config": 1, "R_labels": 1, "n_names": 3, "n_cross": 3, "max_claims": 3},
+    "standard": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "last", "R_config": 3, "R_labels": 3, "n_names": 2, "n_cross": 2, "max_claims": 3},
+    "full": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "all", "R_config": 5, "R_labels": 5, "n_names": 2, "n_cross": 2, "max_claims": 3},
 }
 J_MIN = 0.4
 STOP = set("a an and are as at be by for from group groups has have in into is it its of on or that the their these "
@@ -177,7 +177,9 @@ def _labelled(labeller, c, full, levels, tag):
     """Label the given levels of one tree (batched); rows as in _run_tree."""
     par = _parents(full)
     todo = [(k, g, sorted(m)) for k in levels for g, m in sorted(full[k].items(), key=lambda kv: str(kv[0]))]
-    labeller.llm.complete_many([labeller.prompt(c, labeller.view(c, m)[0]) for _, _, m in todo], labeller.s["workers"])
+    for k in levels:
+        labeller.set_context(c, full[k].values())
+    labeller.llm.complete_many([labeller.prompt(c, labeller.view(c, m)[0], m) for _, _, m in todo], labeller.s["workers"])
     rows = []
     for k, g, m in todo:
         lab, gloss = labeller(c, k, m)
@@ -231,7 +233,7 @@ def judge_trees(trees, judge, checker, rigor, seed=0):
       true    MEMBER_CLAIM with a held-out member's name                       (should be supported)
       false   MEMBER_CLAIM with a concept of another super-node of the level that appears nowhere in this super-node's
               evidence                                                        (should be unsupported)
-      cross   the label's own first claim against ANOTHER super-node's held-out lines (should be unsupported: a
+      cross   the label's own first claim against n_cross OTHER super-nodes' held-out lines (should be unsupported: a
               specific label does not fit other groups; guards against vague labels lowering the over-claim rate)
       sibling a sibling's first claim (diagnostic only: siblings share a field, so it is not a reliable false)
     Se = P(unsupported | false), Sp = P(supported | true), J = Se + Sp - 1 (gate J >= J_MIN)."""
@@ -257,9 +259,9 @@ def judge_trees(trees, judge, checker, rigor, seed=0):
         for n in rng.sample(false, min(r["n_names"], len(false))):
             jobs.append((c, MEMBER_CLAIM.format(n), held)); meta.append((t, key, "false", None))
         if same:
-            other = rng.choice(same)
-            if other[8]:
-                jobs.append((c, claims[0], other[8])); meta.append((t, key, "cross", None))
+            for other in rng.sample(same, min(r["n_cross"], len(same))):
+                if other[8]:
+                    jobs.append((c, claims[0], other[8])); meta.append((t, key, "cross", None))
             sib = [x for x in same if x[3] == parent and parent is not None] or same
             jobs.append((c, claims_of[(t, rng.choice(sib)[2])][0][0], held)); meta.append((t, key, "sibling", None))
     verdicts = judge.entail_many(jobs)
@@ -352,11 +354,15 @@ def label_check(cfg, params, run_dir, rigor="standard", cutoffs=None, levels=Non
     labeller, judge = LLMLabeller(tkh, cfg), Judge(cfg)
     rows = _run_tree(run_dir, pick(r["model_cutoffs"]), levels)
     if relabel:
-        labeller.llm.complete_many([labeller.prompt(x[0], labeller.view(x[0], x[4])[0]) for x in rows], labeller.s["workers"])
+        for c, k in {(x[0], x[1]) for x in rows}:
+            labeller.set_context(c, [x[4] for x in rows if (x[0], x[1]) == (c, k)])
+        labeller.llm.complete_many([labeller.prompt(x[0], labeller.view(x[0], x[4])[0], x[4]) for x in rows], labeller.s["workers"])
         rows = [(*x[:5], *labeller(x[0], x[1], x[4]), *labeller.view(x[0], x[4])) for x in rows]
     trees = {"model": rows}
     if nulls:
         trees.update(null_trees(cfg, params, run_dir, tkh, labeller, pick(r["null_cutoffs"]), levels, r["R_config"], r["R_labels"]))
+    ev = Evidence(tkh)   # the judge's view: facts with a head method outside the group flag it (Evidence.judge_view)
+    trees = {t: [(*x[:8], ev.judge_view(x[0], x[4], x[8])) for x in rows] for t, rows in trees.items()}
     summary, recs = judge_trees(trees, judge, NameChecker(tkh), rigor)
     nc = set(pick(r["null_cutoffs"]))
     cut = {row[2]: row[0] for row in trees["model"]}

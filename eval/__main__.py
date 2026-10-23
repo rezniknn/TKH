@@ -15,6 +15,7 @@ metrics.json.
 
 from pathlib import Path
 import argparse
+from dataclasses import replace
 import json
 
 from eval.experiments import p3_check, sweep
@@ -43,6 +44,7 @@ def main(argv=None):
     p.add_argument("--levels", type=int, nargs="*", help="override the rigor's levels")
     p.add_argument("--no-nulls", action="store_true", help="judge the run only (prompt iteration)")
     p.add_argument("--relabel", action="store_true", help="relabel the run's tree with the current labeller prompt")
+    p.add_argument("--prompts", type=Path, help="prompt directory to use instead of the configured one (comparisons)")
     p.add_argument("--tag", help="write metrics and judgements to DIR/label_dev/<tag>.json instead (iteration log)")
     for name in ("gamma", "sweep"):
         p = add_config_args(sub.add_parser(name))
@@ -59,6 +61,10 @@ def main(argv=None):
         if args.cmd == "p3":
             res, section = p3_check(cfg, params, args.run, args.R, args.R_labels, args.jobs), "coherence"
         elif args.cmd == "labels":
+            if args.relabel:   # the current labeller settings (configs/default.toml), not the run's
+                cfg = replace(cfg, labels={**cfg.labels, **load_config().labels})
+            if args.prompts:
+                cfg = replace(cfg, labels={**cfg.labels, "prompts": str(args.prompts.resolve())})
             res, recs = label_check(cfg, params, args.run, args.rigor, args.cutoffs, args.levels, not args.no_nulls, args.relabel)
             if args.tag:
                 d = args.run / "label_dev"

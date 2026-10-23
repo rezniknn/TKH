@@ -29,6 +29,7 @@ prompts = "prompts"                              # configs/prompts/
 mode = "offline"                                 # offline | live | refresh (env TKH_LLM_MODE overrides)
 seed = 0                                         # seed of the 50/50 evidence split
 max_items = 40                                   # evidence lines per half
+contrast = 10                                    # neighbouring groups shown to the labeller (0 = off)
 workers = 4                                      # parallel LLM calls on cache misses
 
 [outputs]
