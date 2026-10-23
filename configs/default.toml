@@ -4,8 +4,6 @@
 [inputs]
 graph = "../data/tkh_collection10.json"          # required: TKH export (meta, nodes, hyperedges)
 articles = "../data/collection10_articles.csv"   # optional: id, year[, title, arxiv_id]; else derived from the graph
-questions = "../data/questions.csv"              # optional: T6 extrinsic-task queries
-ground_truth = "../data/ground_truth.json"       # optional: T6 targets and faithfulness references
 
 [snapshots]
 cutoffs = [2020, 2022, 2024, 2026]               # cumulative snapshots: content published <= each year

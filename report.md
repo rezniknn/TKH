@@ -1,1 +1,1 @@
-<!-- Report (deliverable 4, 3-5 pages): formal statement (Deliverable 0), method and literature positioning, T4 coarsening rule, evaluation incl. coherence-circularity handling, verified vs assumed, four-more-weeks plan. Every number table comes from make_tables.py. -->
+<!-- Report (deliverable 4, 3-5 pages): formal statement (Deliverable 0), method and literature positioning, T4 coarsening rule, evaluation incl. coherence-circularity handling, verified vs assumed, four-more-weeks plan. -->

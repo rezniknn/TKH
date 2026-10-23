@@ -25,8 +25,6 @@ ENV_VAR = "TKH_CONFIG"
 class Config:
     graph: Path                          # TKH export: JSON with meta, nodes, hyperedges
     articles: Path | None = None         # optional CSV with columns id, year (title, arxiv_id used if present)
-    questions: Path | None = None        # optional; T6 extrinsic task queries
-    ground_truth: Path | None = None     # optional; T6 targets and faithfulness references
     cutoffs: tuple = (2020, 2022, 2024, 2026)
     budgets: tuple = (15, 60, 240)       # P2: max super-nodes at level 0, 1, 2, ... (hard limits)
     out_dir: Path = REPO_ROOT / "out"
@@ -36,7 +34,7 @@ class Config:
     source: Path | None = field(default=None, compare=False)  # the file this config was read from
 
 
-INPUTS = ("graph", "articles", "questions", "ground_truth")
+INPUTS = ("graph", "articles")
 OUTPUTS = ("out_dir", "figures_dir")
 
 

@@ -4,9 +4,6 @@
 Implementation: `tkh/coarsen.py` (T4 collapse), `tkh/hierarchy.py` (method),
 `scripts/build.py` (pipeline). Parameters: the `[method]` section of `configs/default.toml`.
 
-The evaluation results are in `report.md` §5. All numbers there are generated from
-`out/metrics.json` by `make_tables.py`.
-
 ## 1. Input and notation
 
 - **Snapshots.** Cutoffs t ∈ {2020, 2022, 2024, 2026}. An edge belongs to snapshot t iff
@@ -26,8 +23,8 @@ The evaluation results are in `report.md` §5. All numbers there are generated f
   `cites`, `claims`, `presents`, `authored_by` and `proposes_future_work` never enter
   G_t's incidence. All snapshot edges do count towards a node's paper count for the hub
   threshold, but `cites` edges contain no concept node. Citations are therefore free to
-  serve as the held-out signal in the evaluation (T6, M1). Their only use in the build is
-  to anchor `cited_work` nodes, which are outside every metric.
+  serve as a held-out signal for evaluation. Their only use in the build is to anchor
+  `cited_work` nodes.
 - **Text.** z_v = the mean-centred, L2-normalised projection of node v's name and
   aliases. The projection is a character 3–5-gram TF-IDF followed by a deterministic
   truncated SVD (100 dimensions), fitted on V_t of each snapshot separately, so no node
@@ -148,8 +145,7 @@ snapshot t:
 
 - **No name matching.** No anchor uses name matching, so cited works do not leak into
   clusters through text.
-- **Excluded from metrics.** Anchored nodes are excluded from every metric
-  (`concept_only`).
+- **Concept-only view.** `concept_only` restricts a partition to the concept nodes.
 - **Failure is loud.** A node with no anchor raises an error; none occurs in the data.
 
 ## 6. Guaranteed vs measured
@@ -162,10 +158,10 @@ snapshot t:
 | Hypergraph-native structure at coarse levels | guaranteed: H is computed on the collapsed incidence (Prop. 1) |
 | Determinism | guaranteed: deterministic SVD, deterministic tie-breaking; tested |
 | No future information | guaranteed for structure, membership and the temporal prior (G_t, V_t, P_{t−1}); for text only up to A5 (export-wide names and aliases) |
-| P3 semantic coherence | measured (T6 M1: residual citation coupling, a signal no coarsening input contains) |
+| P3 semantic coherence | to be measured (evaluation not implemented) |
 | P4 hyper-edge fidelity | by construction: the native score and the T4 collapse work on the hypergraph; no pairwise projection is built |
-| P5 temporal stability | measured (T6 M2: perturbation of all relations, HARI vs the configuration null, cross-snapshot, change localisation) |
-| P6 faithful labels | measured (T6 M3: claim-level entailment with judge controls); the labeller's input is restricted to the snapshot and to the evaluator's seen half of the members, which `validate.py` checks |
+| P5 temporal stability | to be measured (evaluation not implemented) |
+| P6 faithful labels | to be measured (evaluation not implemented); labels are placeholders in this version |
 
 ## 7. Complexity
 
@@ -176,34 +172,32 @@ Per level, with n items, m fine edges and d = 100 text dimensions:
   O(n²) per merge. There are n − N_k merges.
 
 Memory is O(n²), for the dense score matrix. At ≤2026, n = 3980 and m = 554; the four
-snapshots take about 25–30 s in one process on a laptop. That is enough for the sweep, the
-nulls and the perturbation runs (189 builds, about 23 minutes on 8 processes). Much larger
+snapshots take about 25–30 s in one process on a laptop. Much larger
 graphs would need a sparse score structure, because of the O(n²) memory.
 
 ## 8. Parameters
 
 | Parameter | Default | Role | Selection |
 |---|---|---|---|
-| α | 0.5 | semantic vs structural weight | selected on M1 (no-overlap stratum, dev half A) by the one-SE rule: every α was within one SE, so the tie-break picked 0.5 |
-| γ | 0.5 | temporal prior | pre-registered; γ = 0 reported as an ablation |
-| ρ | 2 | size cap | pre-registered; ρ = ∞ reported as an ablation |
-| freeze | false | reference only: old nodes keep their previous groups; runs without the cap | ablation reference, never the shipped method |
-| structure | native | native vs projection H | fixed to native; projection is not evaluated |
+| α | 0.5 | semantic vs structural weight | pre-registered default; to be selected once an evaluation exists |
+| γ | 0.5 | temporal prior | pre-registered |
+| ρ | 2 | size cap | pre-registered |
+| structure | native | native vs projection H | pre-registered: native |
 | lsa_dim | 100 | text projection rank | pre-registered |
 | hub_frac | 0.2 | hub removal threshold | pre-registered; hubs logged in `out/run_info.json` |
 
-All seven can be overridden from the command line: `scripts/build.py --param alpha=0.25`.
+All six can be overridden from the command line: `scripts/build.py --param alpha=0.25`.
 
 ## 9. Assumptions
 
 - **A1.** Concept relations within a paper are evidence of relatedness. Every clustering
   edge is a star around one paper's method (one per relation, plus one per evaluated_on
   link; about 11 per paper), so structure is mostly paper co-occurrence. The structural signal is
-  therefore expected to rebuild papers. This is measured (paper purity, notebook 04) and
-  not hidden.
+  therefore expected to rebuild papers. Paper purity is to be measured by the
+  evaluation.
 - **A2.** Name strings carry weak but real semantic signal (notebook 02: useful for
   generic tasks and metrics, useless for proper-named methods). This is why α is
-  bounded and selected, not fixed at 1.
+  bounded, not fixed at 1.
 - **A3.** Membership in the previous snapshot is a valid prior for the current one
   (P5). γ trades stability against adaptation.
 - **A4.** The provenance year is the time a node and an edge enter the graph.
@@ -232,19 +226,10 @@ All seven can be overridden from the command line: `scripts/build.py --param alp
   73% at the start of level 0 at ≤2026. Percentile ranks make α interpretable. The cost is that
   magnitudes inside each signal are lost.
 - **Size cap.** It prevents the giant clusters that pure average linkage produces on
-  sparse data. The cost is that sizes are partly imposed, not discovered. ρ = ∞ is
-  reported as an ablation.
+  sparse data. The cost is that sizes are partly imposed, not discovered.
 - **Hub removal.** It stops generic domain terms and metrics from fusing unrelated
   papers. At ≤2026 the hubs are "materials science", "computational chemistry",
   "computational materials science", "computational physics", "molecular dynamics" and
   "MAE". The cost is that the hubs' own placement is decided by
   text only.
 
-## 11. Results
-
-See `report.md` §5–6. In short:
-- **Selection.** E1a, the pre-registered selection criterion, does not discriminate the
-  α values. The selected α = 0.5 is the one-SE tie-break default.
-- **Comparison with the nulls.** The selected configuration does not beat the nulls on
-  coherence or on the extrinsic task. It beats them on perturbation stability, but not
-  after correction.

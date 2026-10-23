@@ -1,4 +1,4 @@
-<!-- Project overview, setup and exact reproduction steps (deliverable 1). Explains how 'make all' runs build -> validate -> metrics -> tables. -->
+<!-- Project overview, setup and exact reproduction steps (deliverable 1). Explains how 'make build' and 'make validate' produce and check the outputs. -->
 # Multi-resolution semantic abstraction over the TKH
 
 ## Setup
@@ -40,8 +40,7 @@ This regenerates `figures/t1_*.png` (or the configured `figures_dir`).
 
 `notebooks/02_semantic_signal.ipynb` asks what semantic information the export's metadata
 carries and whether clustering can use it. It covers lexical TF-IDF representations
-(`tkh/semantic.py`), tests against ground-truth groups with a type-preserving null
-(`tkh/evaluate/groundtruth.py`), and a trial clustering on semantics alone.
+(`tkh/semantic.py`) and a trial clustering on semantics alone.
 
 Its §5 checks whether paper abstracts can be retrieved from the export's identifiers
 (`tkh/abstracts.py`: arXiv API by id, OpenAlex/arXiv title search). The live part is
@@ -78,23 +77,6 @@ its expected codes. The tests also cover inputs that can't be committed as fixtu
 (unreadable files, integer ids, undated input nodes, duplicate cutoffs, internal
 errors), a mock built from the full input graph (`tests/mock_output.py`), and
 mutations of that mock.
-
-## Stability evaluation (T6)
-
-`tkh/evaluate/stability.py` measures stability in two ways, as T6 asks.
-
-- **Perturbation stability.** Remove 10% of the hyper-edges, stratified by publication
-  period (5 seeds), rebuild with the builder that produced the hierarchy, and compute
-  ARI against the unperturbed hierarchy per snapshot and level. Reported with a 95%
-  t-interval.
-- **Cross-snapshot stability.** ARI between consecutive snapshots on the nodes present
-  in both, per level. Reported with a 95% interval over half-subsamples of the nodes
-  and a permutation p-value against random labels that keep cluster sizes (floor 0.001).
-
-Each ARI is reported with the largest cluster's share of nodes, because a giant cluster
-dominates pair-counting ARI. The evaluator takes a `build` function (input hypergraph to
-per-snapshot, per-level partitions), so it can be run on any method; it has not yet been
-run on one.
 
 ## Method: SHAC-T (T2, T4)
 

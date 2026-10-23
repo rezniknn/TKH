@@ -1,4 +1,4 @@
-# One-command pipeline (6a.4): 'make all' runs build -> validate -> metrics -> tables on a clean checkout.
+# Pipeline: 'make build' writes out/, 'make validate' checks it; 'make test' runs the unit tests and the validator's broken fixtures.
 PYTHON ?= .venv/bin/python
 OUT ?= out
 

@@ -346,10 +346,7 @@ def anchors(tkh, snap, concept):
 
 
 def build(tkh, cutoffs, budgets, params, text_perm=None, return_diag=False):
-    """{cutoff: [ {key: set(all members)} per level ]} (level 0 coarsest), plus optional diagnostics.
-
-    The same signature serves perturbation stability (build(tkh_perturbed)) and the nulls.
-    """
+    """{cutoff: [ {key: set(all members)} per level ]} (level 0 coarsest), plus optional diagnostics."""
     out, diag, prev = {}, {}, None
     for snap in make_snapshots(tkh, cutoffs):
         concept_levels, d = build_snapshot(tkh, snap, budgets, params, prev=prev, text_perm=text_perm, return_diag=True)
@@ -369,7 +366,7 @@ def build(tkh, cutoffs, budgets, params, text_perm=None, return_diag=False):
 
 
 def concept_only(parts, tkh):
-    """Restrict full partitions to concept nodes (metrics are computed on concept nodes only)."""
+    """Restrict full partitions to concept nodes ."""
     t = tkh.nodes["type"]
     return {c: [{g: {v for v in mem if t.at[v] in sm.CONCEPT_TYPES} for g, mem in lv.items()} for lv in levels]
             for c, levels in parts.items()}

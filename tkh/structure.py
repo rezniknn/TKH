@@ -10,11 +10,19 @@ All functions take an optional snapshot; without one they use the whole export.
 
 from collections import Counter, defaultdict
 import math
+import re
+import unicodedata
 
 import numpy as np
 import pandas as pd
 
-from tkh.evaluate.groundtruth import key
+
+def key(s):
+    """Normalised name: NFKC, lower case, alphanumerics only; a trailing parenthetical is dropped."""
+    s = unicodedata.normalize("NFKC", str(s)).lower()
+    s = re.sub(r"\s*\([^)]*\)\s*$", "", s)
+    return re.sub(r"[^0-9a-z]+", "", s)
+
 
 # Node types that occur as members of the relations whose hub is a paper's presented method, and those
 # relations; notebook 03 section 1 checks both against the export's schema. Defined here, independently of
