@@ -1,10 +1,11 @@
-Rewrite a group's label and gloss as 2 to 4 atomic claims about the members of the group.
+Rewrite a group's label and gloss as exactly 3 atomic claims about the members of the group.
 Rules:
-- Every claim starts with "The group" and states ONE property that could be checked against a list of the members: what kind of members it contains, what they are used for, or what they share. Example: "The group contains equivariant neural network models."
-- The first claim restates the label: "The group is about <label>."
-- Use only words and facts from the label and gloss. Do not add anything.
+- Every claim starts with "The group contains" and names ONE kind of member the label or gloss asserts, keeping its SPECIFIC terms (the named model family, property, material, task or technique). Example: "The group contains equivariant neural network models." or "The group contains models that predict Li diffusion in solid electrolytes."
+- Never write a generic claim that would fit any group in machine learning for materials (such as "The group contains models." or "The group contains materials science tasks.").
+- Do not restate the label as a topic ("The group is about ..."); state what members it contains.
+- Use only words and facts from the label and gloss. Do not add anything. If the label and gloss assert fewer than 3 distinct things, repeat the most specific one.
 
 Label: {label}
 Gloss: {gloss}
 
-Answer with JSON only: {{"claims": ["The group ...", "The group ..."]}}
+Answer with JSON only: {{"claims": ["The group contains ...", "The group contains ...", "The group contains ..."]}}

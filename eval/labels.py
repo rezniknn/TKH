@@ -35,9 +35,9 @@ from tkh.llm import CachedLLM, render
 from tkh.null import label_permutation, null_tkh
 
 RIGOR = {   # n_names: true and false member-name controls per label
-    "quick": {"levels": [0], "model_cutoffs": "last", "null_cutoffs": "last", "R_config": 1, "R_labels": 1, "n_names": 3, "max_claims": 4},
-    "standard": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "last", "R_config": 3, "R_labels": 3, "n_names": 2, "max_claims": 5},
-    "full": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "all", "R_config": 5, "R_labels": 5, "n_names": 2, "max_claims": 5},
+    "quick": {"levels": [0], "model_cutoffs": "last", "null_cutoffs": "last", "R_config": 1, "R_labels": 1, "n_names": 3, "max_claims": 3},
+    "standard": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "last", "R_config": 3, "R_labels": 3, "n_names": 2, "max_claims": 3},
+    "full": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "all", "R_config": 5, "R_labels": 5, "n_names": 2, "max_claims": 3},
 }
 J_MIN = 0.4
 STOP = set("a an and are as at be by for from group groups has have in into is it its of on or that the their these "
@@ -61,8 +61,9 @@ class Judge:
         out = []
         for (l, g), r in zip(pairs, resps):
             claims = [str(c).strip() for c in (r.get("claims") or [])] if isinstance(r, dict) else []
-            ok = bool(claims) and all(_content_ok(c, f"{l} {g}") for c in claims)
-            out.append((claims[:max_claims] if ok else [l, g], ok))
+            kept = [c for c in claims if _content_ok(c, f"{l} {g}")]   # generic or invented claims are dropped
+            ok = bool(kept) and len(kept) == len(claims)
+            out.append((kept[:max_claims] if kept else [l, g], ok))
         return out
 
     def entail_many(self, jobs):
@@ -87,9 +88,16 @@ def _words(s):
     return {w for w in re.findall(r"[a-z0-9][a-z0-9\-]+", s.lower()) if w not in STOP and len(w) > 2}
 
 
+GENERIC = set("model models method methods technique techniques task tasks problem problems component components dataset "
+              "datasets metric metrics material materials science chemistry chemical molecular molecules machine learning "
+              "deep neural data prediction predicting predict properties property computational computation simulation "
+              "simulations approaches approach framework frameworks tools systems".split())
+
+
 def _content_ok(claim, source):
+    """The claim reuses the label and gloss (>= 80% of its content words) and keeps at least one specific word."""
     w = _words(claim)
-    return not w or len(w & _words(source)) >= 0.8 * len(w)
+    return bool(w - GENERIC) and len(w & _words(source)) >= 0.8 * len(w)
 
 
 def _norm(s):

@@ -43,8 +43,9 @@ class StubLLM:
         target = re.sub(r'^The group has a member named "(.*)"\.$', r"\1", claim)
         hit = next((ln for ln in lines if target and ln.startswith(target)), None)
         if self.lie:
-            return {"verdict": "supported", "line": 999}
-        return {"verdict": "supported", "line": lines.index(hit) + 1} if hit else {"verdict": "unsupported", "line": 0}
+            return {"verdict": "supported", "line": 999, "phrase": "line one"}
+        return ({"verdict": "supported", "line": lines.index(hit) + 1, "phrase": hit} if hit
+                else {"verdict": "unsupported", "line": 0, "phrase": ""})
 
     def complete_many(self, prompts, workers=1):
         return [self.complete(p) for p in prompts]
