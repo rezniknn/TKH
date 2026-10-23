@@ -31,6 +31,7 @@ class Config:
     out_dir: Path = REPO_ROOT / "out"
     figures_dir: Path = REPO_ROOT / "figures"
     method: dict = field(default_factory=dict)   # [method]: clustering parameters (tkh.hierarchy.Params)
+    labels: dict = field(default_factory=dict)   # [labels]: labeller and judge settings (tkh.label.LABEL_DEFAULTS)
     source: Path | None = field(default=None, compare=False)  # the file this config was read from
 
 
@@ -61,6 +62,11 @@ def load_config(path=None):
     if "budgets" in hier:
         kw["budgets"] = tuple(int(b) for b in hier["budgets"])
     kw["method"] = dict(raw.get("method", {}))
+    labels = dict(raw.get("labels", {}))
+    for k in ("cache", "prompts"):   # paths, relative to the config file
+        if k in labels:
+            labels[k] = str(resolve(labels[k]))
+    kw["labels"] = labels
     cfg = Config(source=path, **kw)
     check_inputs(cfg)
     return cfg
@@ -110,7 +116,7 @@ def parse_overrides(pairs):
     return out
 
 
-def to_toml(cfg, method, where):
+def to_toml(cfg, method, where, labels=None):
     """The resolved run configuration as TOML text for a file in directory `where` (input paths relative to it),
     so a run can be re-validated or rebuilt on its own, also from another checkout."""
     val = lambda v: f'"{v}"' if isinstance(v, (str, Path)) else str(list(v)) if isinstance(v, (list, tuple)) else str(v).lower() if isinstance(v, bool) else str(v)  # noqa: E731
@@ -118,4 +124,6 @@ def to_toml(cfg, method, where):
     lines = ["[inputs]", f"graph = {val(rel(cfg.graph))}"] + ([f"articles = {val(rel(cfg.articles))}"] if cfg.articles else [])
     lines += ["", "[snapshots]", f"cutoffs = {val(cfg.cutoffs)}", "", "[hierarchy]", f"budgets = {val(cfg.budgets)}", "", "[method]"]
     lines += [f"{k} = {val(v)}" for k, v in method.items()]
+    if labels:
+        lines += ["", "[labels]"] + [f"{k} = {val(rel(v) if k in ('cache', 'prompts') else v)}" for k, v in labels.items()]
     return "\n".join(lines) + "\n"

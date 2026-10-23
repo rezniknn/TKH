@@ -1,11 +1,12 @@
-# Pipeline: 'make all' = build -> validate -> p3 (coherence) -> stability -> test; both checks write $(OUT)/metrics.json.
+# Pipeline: 'make all' = build -> validate -> p3 (coherence) -> stability -> labels -> test; checks write $(OUT)/metrics.json.
+# LLM calls replay from data/llm_cache.json (TKH_LLM_MODE=offline, the default); live/refresh need a local Ollama server.
 PYTHON ?= .venv/bin/python
 OUT ?= out
 SEED ?= 0
 
-.PHONY: all test fixtures build validate null p3 stability gamma sweep
+.PHONY: all test fixtures build validate null p3 stability labels gamma sweep
 
-all: build validate p3 stability test
+all: build validate p3 stability labels test
 
 test:            ## unit tests and the validator's broken fixtures (6a.2)
 	$(PYTHON) -m pytest tests/ -q -p no:cacheprovider
@@ -28,6 +29,9 @@ p3:              ## held-out P3 check of $(OUT)/ against 99 configuration-null r
 
 stability:       ## perturbation (10% of hyper-edges, 5 seeds) and cross-snapshot stability vs a new-paper null
 	$(PYTHON) -m eval stability --run $(OUT)
+
+labels:          ## label faithfulness: held-out NLI judge with controls and nulls (RIGOR=quick|standard|full)
+	$(PYTHON) -m eval labels --run $(OUT) --rigor $(or $(RIGOR),standard)
 
 gamma:           ## temporal-prior variants gamma = 0..1: stability and coherence, paired vs gamma = 0 -> $(OUT)/gamma/gamma.json
 	$(PYTHON) -m eval gamma --out $(OUT)/gamma

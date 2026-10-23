@@ -1,0 +1,7 @@
+Split the following label and gloss into a short list of atomic factual claims about a group of concepts.
+Each claim must be one simple statement that can be checked on its own, and must use only words and facts from the label and gloss. Do not add anything.
+
+Label: {label}
+Gloss: {gloss}
+
+Answer with JSON only: {{"claims": ["...", "..."]}}

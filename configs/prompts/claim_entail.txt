@@ -1,0 +1,11 @@
+You check one claim about a group of concepts from scientific papers (machine learning for materials science and chemistry, literature up to {cutoff}).
+
+Evidence about the group, one item per line:
+{evidence}
+
+Claim: {claim}
+
+Is the claim supported by the evidence? A claim is supported only if some evidence line states or directly implies it. Generic statements that fit any group in this field are not supported unless a line backs them. Use no outside knowledge.
+If supported, copy the single evidence line that best supports it, exactly as written. If not supported, leave the quote empty.
+
+Answer with JSON only: {{"verdict": "supported" | "unsupported", "quote": "exact evidence line or empty"}}
