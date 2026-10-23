@@ -37,10 +37,11 @@ def clean(s):
 
 
 def name_key(s):
-    """Normalised name for exact matching: NFKC, lower case, alphanumerics only; a trailing parenthetical is dropped."""
+    """Normalised name for exact matching: NFKC, lower case, letters and digits only (any script, so Greek
+    letters survive); a trailing parenthetical is dropped."""
     s = unicodedata.normalize("NFKC", str(s)).lower()
     s = re.sub(r"\s*\([^)]*\)\s*$", "", s)
-    return re.sub(r"[^0-9a-z]+", "", s)
+    return re.sub(r"[\W_]+", "", s)
 
 
 def name_keys(tkh):

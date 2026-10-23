@@ -1,8 +1,9 @@
 """Experiments on the last snapshot: the held-out P3 check of one run against the nulls, and the configuration sweep.
 
-p3_check: lift per level of a run (its hierarchy.json) under the exact and the fuzzy residual filter, with
-  paper-bootstrap CIs, against R configuration-null rebuilds (same parameters, real hub sets) and R_labels
-  random-label permutations of the run's own tree.
+p3_check: for every snapshot and level of a run (its hierarchy.json), the unadjusted lift and the
+  period-adjusted lift under every period scheme (tkh/p3.py; "interval" is primary), under the exact and the fuzzy
+  residual filter, with paper-bootstrap CIs, against R configuration-null
+  rebuilds at that cutoff (same parameters, real hub sets) and R_labels random-label permutations of the run's tree.
 sweep: every configuration of a grid is built once; over `splits` seeded halves (A, B) of the cited works,
   each split selects on half A by the one-SE rule (criterion: mean lift over levels; SE: paper bootstrap;
   among configurations within one SE of the best, the one closest to the default, compared parameter by
@@ -15,6 +16,7 @@ from collections import Counter
 from itertools import product
 from pathlib import Path
 import json
+import math
 import os
 
 import numpy as np
@@ -23,7 +25,7 @@ from tkh.coarsen import hubs
 from tkh.hierarchy import Params, build_snapshot
 from tkh.io import load, snapshot
 from tkh.null import label_permutation, null_tkh
-from tkh.p3 import Ruler, null_summary, split_works
+from tkh.p3 import PERIODS, Ruler, null_summary, split_works
 
 _W = {}
 
@@ -34,13 +36,14 @@ def _init(cfg):
 
 
 def _levels(job):
-    """Concept partitions at the last cutoff for (params dict, null seed or None)."""
-    pdict, seed = job
+    """Concept partitions for (params dict, null seed or None, cutoffs or None = the last cutoff only):
+    a list of levels for one cutoff, or {cutoff: levels} when cutoffs are given (one null graph per seed)."""
+    pdict, seed, cutoffs = (*job, None)[:3]
     cfg, real = _W["cfg"], _W["tkh"]
-    params, c = Params.from_config(pdict), max(cfg.cutoffs)
-    hubset = hubs(real, snapshot(real, c), params.hub_frac)
+    params = Params.from_config(pdict)
     tkh = real if seed is None else null_tkh(_W["raw"], cfg.articles, cfg.cutoffs, seed)[0]
-    return build_snapshot(tkh, snapshot(tkh, c), cfg.budgets, params, hubset)[0]
+    one = lambda c: build_snapshot(tkh, snapshot(tkh, c), cfg.budgets, params, hubs(real, snapshot(real, c), params.hub_frac))[0]  # noqa: E731
+    return one(max(cfg.cutoffs)) if cutoffs is None else {c: one(c) for c in cutoffs}
 
 
 def _pool(cfg, jobs, n_jobs):
@@ -56,35 +59,54 @@ def _concept_levels(hierarchy):
 
 
 def p3_check(cfg, params, run_dir, R=99, R_labels=999, n_jobs=8):
+    """Per snapshot and level: unadjusted and period-adjusted lifts (every period scheme; "interval" primary),
+    under the exact and the fuzzy residual filter, vs both nulls."""
     tkh = load(cfg)
-    c = max(cfg.cutoffs)
-    snap = snapshot(tkh, c)
-    levels = _concept_levels(json.loads((Path(run_dir) / str(c) / "hierarchy.json").read_text()))
-    rulers = {f: Ruler(tkh, snap, fuzzy=f == "fuzzy") for f in ("exact", "fuzzy")}
-    nulls = _pool(cfg, [(params.as_dict(), s) for s in range(R)], n_jobs) if R else []
-    out = {"snapshot": c, "params": params.as_dict(), "budgets": list(cfg.budgets), "levels": []}
-    perms = [label_permutation(tkh, snap, cfg.cutoffs, s) for s in range(R_labels)]
-    for k, lv in enumerate(levels):
-        row = {"level": k, "super_nodes": len(lv)}
-        for f, ru in rulers.items():
-            g = ru.labels(lv)
-            a = ru.coassign(g=g)
-            obs = ru.lift(a)
-            se, lo, hi = ru.bootstrap(a)
+    cutoffs = sorted(cfg.cutoffs)
+    nulls = _pool(cfg, [(params.as_dict(), s, cutoffs) for s in range(R)], n_jobs) if R else []
+    out = {"params": params.as_dict(), "budgets": list(cfg.budgets), "primary": "interval", "periods": list(PERIODS),
+           "R": R, "R_labels": R_labels, "p": "one-sided, (1 + #null >= obs) / (R + 1)", "snapshots": {}}
+    for c in cutoffs:
+        snap = snapshot(tkh, c)
+        levels = _concept_levels(json.loads((Path(run_dir) / str(c) / "hierarchy.json").read_text()))
+        perms = [label_permutation(tkh, snap, cfg.cutoffs, s) for s in range(R_labels)]
+        rows = [{"level": k, "super_nodes": len(lv)} for k, lv in enumerate(levels)]
+        coverage = {}
+        for f in ("exact", "fuzzy"):
+            rulers = {p: Ruler(tkh, snap, fuzzy=f == "fuzzy", cutoffs=cutoffs, period=p) for p in PERIODS}
+            ru = rulers["interval"]   # pairs, coupling and co-assignment do not depend on the period scheme
+            coverage[f] = ru.coverage()
             idx = {v: i for i, v in enumerate(ru.nodes)}
-            # node perm[v] takes v's super-node: g'[idx[perm[v]]] = g[idx[v]]
-            rl = []
-            for pm in perms:
-                src, dst = zip(*((idx[v], idx[u]) for v, u in pm.items()))
-                gp = g.copy()
-                gp[list(dst)] = g[list(src)]
-                rl.append(ru.lift(ru.coassign(g=gp)))
-            row[f] = {"lift": obs, "ci95": [lo, hi], "se": se,
-                      "configuration_null": null_summary(obs, [ru.lift(ru.coassign(n[k])) for n in nulls]),
-                      "random_labels": null_summary(obs, rl)}
-        out["levels"].append(row)
-    out["coverage"] = {f: ru.coverage() for f, ru in rulers.items()}
-    return out
+            moves = [tuple(map(list, zip(*((idx[v], idx[u]) for v, u in pm.items())))) for pm in perms]
+            for k, lv in enumerate(levels):
+                g = ru.labels(lv)
+                a = ru.coassign(g=g)
+                rand = []
+                for src, dst in moves:   # node perm[v] takes v's super-node: g'[idx[perm[v]]] = g[idx[v]]
+                    gp = g.copy()
+                    gp[dst] = g[src]
+                    rand.append(ru.coassign(g=gp))
+                conf = [ru.coassign(n[c][k]) for n in nulls]
+                res = {}
+                for mode in ("unadjusted",) + PERIODS:
+                    r_, adj = rulers["interval" if mode == "unadjusted" else mode], mode != "unadjusted"
+                    obs = r_.lift(a, adjusted=adj)
+                    se, lo, hi, nb = r_.bootstrap(a, adjusted=adj)
+                    res[mode] = {"lift": obs, "ci95": [lo, hi], "se": se, "bootstrap_defined": nb,
+                                 "configuration_null": null_summary(obs, [r_.lift(x, adjusted=adj) for x in conf]),
+                                 "random_labels": null_summary(obs, [r_.lift(x, adjusted=adj) for x in rand])}
+                rows[k][f] = res
+        out["snapshots"][str(c)] = {"coverage": coverage, "levels": rows}
+    return _finite(out)
+
+
+def _finite(x):
+    """NaN/inf -> None, so that metrics.json is strict JSON."""
+    if isinstance(x, dict):
+        return {k: _finite(v) for k, v in x.items()}
+    if isinstance(x, list):
+        return [_finite(v) for v in x]
+    return None if isinstance(x, float) and not math.isfinite(x) else x
 
 
 GRID = {"alpha": [0.25, 0.5, 0.75], "rho": [2.0, 4.0], "edge_weight": ["inverse_size", "relation_balanced"],

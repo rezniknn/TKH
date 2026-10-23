@@ -121,3 +121,19 @@ def test_no_overlap_pairs_share_no_name_including_aliases(real):
     keys = {p: set().union(*(nk[v] for v in ru.concepts[p])) for p in ru.papers}
     P = ru.papers
     assert all(not keys[P[i]] & keys[P[j]] for i, j in zip(*np.nonzero(ru.mask)))
+
+
+def test_period_adjusted_lift_removes_a_pure_period_effect(real):
+    """If coupling depends only on the pair's period stratum, the adjusted lift is 1 for any partition,
+    and with a single stratum it equals the unadjusted lift."""
+    cfg, tkh, _ = real
+    snap = snapshot(tkh, 2026)
+    ru = Ruler(tkh, snap)
+    items = concept_nodes(tkh, snap)
+    a = ru.coassign({g: set(items[g::15]) for g in range(15)})
+    unadj = ru.lift(a)
+    c = ru.c.copy()
+    ru.c = ru.stratum.astype(float) % 97 + 1.0          # coupling = a function of the period stratum only
+    assert ru.lift(a, adjusted=True) == pytest.approx(1.0)
+    ru.c, ru.stratum = c, np.zeros_like(ru.stratum)   # a single stratum
+    assert ru.lift(a, adjusted=True) == pytest.approx(unadj)

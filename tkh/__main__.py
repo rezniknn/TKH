@@ -3,7 +3,8 @@
   build  --out DIR                    one SHAC run (tkh/pipeline.py)
   null   --seed S --out DIR           configuration-null export DIR/graph.json and a run built on it
                                       (validate: validate.py DIR --config DIR/run_config.toml)
-  p3     --run DIR [--R 99]           held-out P3 check of a run against both nulls -> DIR/metrics.json
+  p3     --run DIR [--R 99]           held-out P3 check of a run per snapshot and level, unadjusted and
+                                      period-adjusted, against both nulls -> DIR/metrics.json
   sweep  --out FILE                   configuration grid and one-SE selection on cited-work halves
 
 [method] parameters come from the config (tkh/hierarchy.py Params); --param overrides single values.
@@ -59,12 +60,15 @@ def main(argv=None):
         cfg = load_config(args.run / "run_config.toml")
         params = Params.from_config(cfg.method)
         res = p3_check(cfg, params, args.run, args.R, args.R_labels, args.jobs)
-        (args.run / "metrics.json").write_text(json.dumps(res, indent=1) + "\n")
-        for row in res["levels"]:
-            e = row["exact"]
-            print(f"level {row['level']} ({row['super_nodes']}): lift {e['lift']:.3f} [{e['ci95'][0]:.2f}, {e['ci95'][1]:.2f}]"
-                  f"  config null {e['configuration_null'].get('mean', float('nan')):.3f} p={e['configuration_null'].get('p')}"
-                  f"  random labels {e['random_labels'].get('mean', float('nan')):.3f} p={e['random_labels'].get('p')}")
+        (args.run / "metrics.json").write_text(json.dumps(res, indent=1, allow_nan=False) + "\n")
+        for c, snap in res["snapshots"].items():
+            for row in snap["levels"]:
+                for mode in ("unadjusted", "interval"):
+                    e = row["exact"][mode]
+                    cn, rl = e["configuration_null"], e["random_labels"]
+                    print(f"<={c} level {row['level']} ({row['super_nodes']}) {mode:15s} lift {e['lift']:.3f}"
+                          f"  config null {cn.get('mean', float('nan')):.3f} p={cn.get('p')}"
+                          f"  random labels {rl.get('mean', float('nan')):.3f} p={rl.get('p')}")
         return
 
     cfg = config_from_args(args)

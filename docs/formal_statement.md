@@ -184,7 +184,7 @@ raises an error; none occurs in the data.
 | Size bound | **by construction**: no super-node exceeds ρ·n_t/N_k concept nodes; anchored nodes are not counted |
 | Determinism | **by construction**: deterministic SVD and tie-breaking; tested on the fixture and on the real ≤2020 snapshot |
 | No future information | structure, membership and labels use snapshot t only; text only up to A4 |
-| P3 semantic coherence | **empirical**, at the last snapshot only (§8): level 0 beats both nulls; level 1 beats the configuration null, and random labels only under the fuzzy filter; level 2 beats neither |
+| P3 semantic coherence | **empirical** (§8), controlling for publication period: levels 0 and 1 at ≤2026 beat both nulls under every period control; level 2 and the earlier snapshots show no robust evidence |
 | P5 temporal stability | not addressed: matching does identity bookkeeping only |
 | P6 faithful labels | not addressed: placeholders |
 
@@ -232,39 +232,65 @@ once on the real export, identically for every configuration and null:
   structure explains nothing.
 - **Co-assignment:** a_pq = Σ_S n_S(p) n_S(q) / (n_p n_q) per level.
 - **Lift:** Σ a·c / (Σ a · mean c); 1 means chance.
-- **Coverage at ≤2026:** 37 citing papers, 252 no-overlap pairs, 58 of them coupled; the filter
-  removes 260 citation incidences.
-- **Only the last snapshot is checked.** Earlier snapshots have too few evaluable pairs: 9, 14 and
-  25 citing papers at ≤2020, ≤2022 and ≤2024, with 5, 11 and 21 coupled no-overlap pairs.
+- **Period control.** Papers of the same period cite the same work, and both nulls keep period composition,
+  so an unadjusted lift rewards "same era". The period-adjusted lift is Σ a·c / Σ a·e (indirect
+  standardisation), where e_pq is the mean coupling of the no-overlap pairs in the same stratum of
+  publication periods.
+  - **Primary scheme:** the snapshot cutoff intervals. These are the strata within which random labels
+    permute, so both null means fall to about 1.0 after adjustment.
+  - **Sensitivity:** bins of 1, 2 and 3 years, and the absolute year gap. A result counts as **robust**
+    only if it holds under every scheme.
+  - **p-values:** one-sided, p = (1 + #null ≥ obs)/(R + 1). With R = 99 null rebuilds and R = 999
+    random-label draws, the smallest possible values are 0.01 and 0.001.
+- **Every snapshot is evaluated on its own:** the ruler, the nulls and the pairs are rebuilt at each cutoff.
 
-**Results at ≤2026** (`out/metrics.json`). Lifts use the exact filter, with a paper-bootstrap
-95% CI. Null means come from 99 null rebuilds and 999 random-label draws. p = (1 + #null ≥ obs)/(R + 1).
+**Coverage per snapshot (exact filter):**
 
-| Level | Lift [95% CI] | Configuration null: mean, p | Random labels: mean, p |
-|---|---|---|---|
-| 0 (15) | 1.38 [0.81, 2.14] | 1.05, **0.01** | 1.08, **0.001** |
-| 1 (60) | 1.28 [0.63, 2.30] | 1.15, **0.02** | 1.25, 0.19 |
-| 2 (240) | 1.08 [0.46, 2.03] | 1.39, 1.00 | 1.43, 1.00 |
+| Snapshot | Citing papers | No-overlap pairs | Coupled pairs | Interval strata |
+|---|---|---|---|---|
+| ≤2020 | 9 | 18 | 5 | 1 |
+| ≤2022 | 14 | 34 | 11 | 3 |
+| ≤2024 | 25 | 100 | 21 | 6 |
+| ≤2026 | 37 | 253 | 58 | 10 |
 
-Under the fuzzy filter:
-- level 0 gives 1.55 (p = 0.01 and 0.001);
-- level 1 gives 1.48, which also beats random labels (1.20, p = 0.001);
-- level 2 gives 1.30, which beats neither null (p = 0.69 and 0.75).
+**Period-adjusted coherence** (primary scheme, exact filter; `out/metrics.json`). Each cell gives the lift
+[95% paper-bootstrap CI]; then, for each null, its mean and p.
+
+| Snapshot | Level | Lift [95% CI] | Configuration null | Random labels | Robust across period controls |
+|---|---|---|---|---|---|
+| ≤2026 | 0 (15) | 1.46 [0.79, 2.07] | 1.01, **0.01** | 1.01, **0.001** | **yes** (1.21–1.46; both nulls at their p floor under every scheme) |
+| ≤2026 | 1 (60) | 1.26 [0.66, 2.08] | 1.01, **0.01** | 1.02, **0.001** | **yes** (1.15–1.32; both nulls at their p floor under every scheme) |
+| ≤2026 | 2 (240) | 1.04 [0.43, 1.81] | 1.03, 0.36 | 1.03, 0.38 | no: 1.36–1.41 with year bins, 1.19 with year gap (p = 0.32) |
+| ≤2024 | 0 | 0.87 [0.11, 3.01] | 1.01, 1.00 | 1.00, 1.00 | no evidence under any scheme |
+| ≤2024 | 1 | 1.43 [0.04, 2.86] | 1.02, **0.01** | 1.01, **0.001** | no: 0.92–1.08 with year bins |
+| ≤2024 | 2 | 0.81 [0.00, 2.38] | 1.02, 1.00 | 1.02, 1.00 | no evidence |
+| ≤2022 | 0 | 0.41 [0.03, 1.93] | 1.00, 1.00 | 0.99, 1.00 | no evidence |
+| ≤2022 | 1 | 1.52 [0.19, 4.61] | 1.00, **0.01** | 1.01, **0.001** | no: 0.98–1.11 with 1- and 2-year bins |
+| ≤2022 | 2 | 0.96 [0.02, 2.23] | 1.08, 0.87 | 1.02, 0.75 | no evidence |
+| ≤2020 | 0 | 0.03 [0.00, 4.93] | 0.96, 1.00 | 0.99, 1.00 | not evaluable (5 coupled pairs, 1 stratum) |
+| ≤2020 | 1 | 0.16 [0.00, 6.98] | 0.96, 1.00 | 0.98, 1.00 | not evaluable |
+| ≤2020 | 2 | undefined (no no-overlap pair co-assigned) | – | – | not evaluable |
+
+The unadjusted lifts, the other period schemes and the fuzzy residual filter are all in `metrics.json`.
+Under the fuzzy filter, all three levels at ≤2026 beat both nulls with interval adjustment.
 
 **Reading:**
-- **Level 0** groups concepts of citation-coupled papers more than chance, and more than the same
-  pipeline on degree-preserving random structure.
-- **Level 1** beats the structural null. It beats the random-label baseline only under the fuzzy
-  filter, so it is supported less firmly.
-- **Level 2** does not show P3. Its small, cap-bound super-nodes mostly rebuild paper bundles (A1),
-  and random partitions of the same sizes do as well or better.
-- **Random labels exceed 1.** They keep each super-node's mix of type and entry period, and papers
-  of the same period cite similar work. That is why the baseline is the null, not 1.
-- **Two kinds of uncertainty.**
-  - The null tests are conditional on these 37 papers: the ruler is held fixed and only the
-    partition varies.
-  - Over papers, the bootstrap CIs are wide and include 1 at every level.
-  - So the evidence is "better than chance for this corpus", not a population estimate.
+- **Robust evidence of P3: ≤2026, levels 0 and 1.** There, the hierarchy groups concepts of
+  citation-coupled papers within the same publication period more often than a degree-preserving null
+  rebuild or a random relabelling does.
+- **The period control is essential.** Without it, level 1 does not beat random labels (p = 0.19) and
+  level 2 looks worse than chance (1.08 against 1.43): the nulls gain from same-period mixing. With it,
+  the nulls fall to about 1.0, and level 2 sits at chance (1.04). Whether level 2 looks significant
+  depends on the period control chosen, so it is not robust.
+- **Level 2 mostly rebuilds per-paper bundles** (A1; median paper purity 1.0). So few different papers are
+  related at that level that the result hinges on how pairs are stratified.
+- **The earlier snapshots cannot show P3.**
+  - They have 5–21 coupled pairs. At ≤2022 and ≤2024, three pairs carry 81–96% of Σ a·c.
+  - Their single significant cells (level 1) vanish under other period controls.
+  - The ≤2020 snapshot is a single period stratum with 18 pairs.
+- **Two kinds of uncertainty.** The null tests are conditional on each snapshot's papers: the ruler is held
+  fixed and only the partition varies. Over papers, the bootstrap CIs are wide and include 1 everywhere. So
+  the evidence is "better than chance for this corpus", not a population estimate.
 
 ## 9. Parameters and selection
 

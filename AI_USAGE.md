@@ -895,6 +895,48 @@ accepted or changed, and what was checked.
   - P5 and P6 are out of scope here; labels are placeholders.
   - `make_tables.py` and a full T6 evaluation are not part of this step.
 
+### 23. Coherence per snapshot and level, controlling for publication period (Claude Code)
+
+- **Task/module:** P3, T6 null comparison; `tkh/p3.py`, `tkh/experiments.py`, `tkh/semantic.py`,
+  `tkh/__main__.py`, `tests/test_null.py`, `docs/formal_statement.md` §§6, 8
+- **Prompts:**
+  - "Exaplain what the failed check at Level 2 mean in detail"
+  - "Evaluate model's coherence against null models controling for publication period as a confounder.
+    Run evalution for each snapshot individually and report per-level coherence of the model compared to
+    null models"
+- **What the assistant did:**
+  - **Diagnosis of the level-2 failure.**
+    - Level 2 is mostly single-paper bundles: median paper purity 1.0, and only 52% of no-overlap pairs
+      are co-assigned.
+    - Both nulls keep period composition, and same-period papers are coupled more often (35% vs 20%).
+    - So random labels gained from same-period mixing (61–65% of their co-assignment mass on same-period
+      pairs, against 22% for SHAC).
+  - **Period-adjusted lift.** Indirect standardisation: Σ a·c / Σ a·e, with e the mean coupling in the
+    pair's period stratum.
+  - **Per-snapshot check.** Every snapshot is evaluated on its own: the ruler, the nulls and the pairs are
+    rebuilt at each cutoff, with 99 configuration-null rebuilds and 999 random labels per snapshot.
+- **Accepted / modified (an independent recomputation and a method review):**
+  - The recomputation reproduced every cell exactly.
+  - **Period bins.** My first version used 2-year bins. The review showed they straddle the cutoff
+    intervals, leave period structure in the random-label null, and that level 2's verdict flips with the
+    binning. Changed: the primary strata are now the cutoff intervals (aligned with the null's
+    permutation strata). 1-, 2- and 3-year bins and the year gap are reported as sensitivity, and only
+    results that hold under every scheme are called robust.
+  - **Name key.** It dropped Greek letters. It is now Unicode-aware.
+  - **Output.** `metrics.json` held bare NaN literals; it is now strict JSON. Undefined bootstrap draws
+    are counted. One null graph per seed instead of one per cutoff.
+- **Verified:**
+  - **Robust P3 evidence:** ≤2026 levels 0 (lift 1.46) and 1 (1.26). Both nulls are at about 1.0 and at
+    their p floor under every period scheme.
+  - **Not robust:** ≤2026 level 2 (1.04, p = 0.36).
+  - **No robust evidence:** ≤2022 and ≤2024, with 11 and 21 coupled pairs.
+  - **Not evaluable:** ≤2020, with 5 coupled pairs in one stratum.
+  - 431 tests pass, including that the adjustment cancels a pure period effect.
+- **Not verified / limits:**
+  - The null tests are conditional on each snapshot's papers; the paper-bootstrap CIs include 1
+    everywhere.
+  - Citation coupling as a proxy for meaning is assumption A3.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
