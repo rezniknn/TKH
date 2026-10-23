@@ -165,7 +165,8 @@ class _Level:
         s = self.alpha * self.FS(S) + (1 - self.alpha) * self.FH(H)
         if self.M is not None:
             P = self._Pi(r)
-            s = np.where(np.isnan(P), s, (1 - self.gamma) * s + self.gamma * np.nan_to_num(P))
+            st = np.where(np.isnan(P), s, (1 - self.gamma) * s + self.gamma * np.nan_to_num(P))
+            return np.round(st, 9) + 1e-10 * s   # ties of s_t (e.g. Pi = 0 at gamma = 1) broken by the plain score
         return np.round(s, 9)
 
     def merge(self, i, j):
@@ -310,11 +311,16 @@ def anchors(tkh, snap, concept):
 
 
 def stable_nodes(tkh, prev_snap, snap, prev_hubs, hubset):
-    """Concept nodes of the previous snapshot whose clustering input did not change: not a (non-hub) member of a
-    clustering edge from a new paper, and same hub status. The temporal prior applies to these only."""
+    """Concept nodes of the previous snapshot that the corpus change does not touch: not a (non-hub) member of a
+    clustering edge from a new paper, same hub status, and not in an old clustering edge that gains or loses a
+    hub. The temporal prior applies to these only. (Edge weights of old edges still change under relation_balanced,
+    because the new edges enter the per-relation totals.)"""
     old = set(concept_nodes(tkh, prev_snap))
-    e = snap.edges[(snap.edges["article_year"] > prev_snap.cutoff) & snap.edges["relation_type"].isin(CLUSTER_RELATIONS)]
-    touched = {v for m in e["members"] for v in m if v not in hubset} | (prev_hubs ^ hubset)
+    e = snap.edges[snap.edges["relation_type"].isin(CLUSTER_RELATIONS)]
+    new = e[e["article_year"] > prev_snap.cutoff]
+    churn = prev_hubs ^ hubset
+    touched = {v for m in new["members"] for v in m if v not in hubset} | churn
+    touched |= {v for m in e[e["article_year"] <= prev_snap.cutoff]["members"] if churn & set(m) for v in m}
     return frozenset(old - touched)
 
 

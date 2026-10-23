@@ -1028,8 +1028,33 @@ accepted or changed, and what was checked.
   - `validate.py out --config out/run_config.toml` passes on the rebuilt `out/`.
   - All tables in the formal statement are generated from `out/metrics.json` and `out/gamma/gamma.json` by
     script.
-- **Not verified / limits:**
-  - An independent recomputation is pending; see the next commit.
+- **Independent verification** (a workflow of 4 finders plus a skeptic per finding; 13 findings survived, none
+  refuted):
+  - **Major:** the "new-paper" null kept each node's degree per period. New papers therefore touched the same
+    old nodes as in the real data, so the stable set was identical in null and real runs, and "the null is just
+    as stable" was largely built in.
+  - **Major:** the uncapped 87% giant share holds at γ = 0, not at the shipped γ = 0.5 (42%).
+  - **Minor:**
+    - γ = 1 ties were broken by item index;
+    - neighbours of churned hubs counted as stable;
+    - removal stratified by period only, removing 7.9–11.7% of clustering edges;
+    - the HARI docstring said deep levels weigh more (level 0 is about 75%);
+    - with R = 19 the null p floor was 0.05;
+    - the paper-purity number and definition, runtime claims, p floors and the localisation "superset" wording
+      were wrong.
+- **Fixes applied (code):**
+  - `tkh/null.attachment_null`: degree-weighted random attachment of the new papers' old endpoints, so the
+    touched set varies;
+  - a plain-score tie-break when the prior is active;
+  - hub-churn neighbours excluded from the stable set;
+  - removal stratified by (period, relation);
+  - the HARI docstring corrected;
+  - the null R default raised to 99;
+  - tests updated (442 pass).
+- **Not yet done (needs consent for a rerun of about 60–75 min):**
+  - `out/`, `metrics.json`, `gamma.json`, `sweep.json` and the formal statement §§3, 8–10, 12 still hold the
+    pre-fix results;
+  - the documentation fixes that depend on new numbers.
 
 ## Case where the AI was wrong (§6a)
 

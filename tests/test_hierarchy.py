@@ -219,7 +219,11 @@ def test_stable_nodes_exclude_nodes_touched_by_new_papers_and_hub_changes(real):
     touched = {v for m, r in zip(new["members"], new["relation_type"]) if r in ("addresses", "solves", "extends",
                "uses_component", "uses_technique", "evaluated_on") for v in m if v not in h1}
     assert stable <= set(concept_nodes(tkh, s0)) and not stable & touched and not stable & (h0 ^ h1)
-    assert len(stable) > 0.8 * len(concept_nodes(tkh, s0))       # most old nodes are untouched (cumulative data)
+    churn = h0 ^ h1
+    old_e = s1.edges[s1.edges["article_year"] <= 2022]
+    near_churn = {v for m in old_e["members"] if churn & set(m) for v in m}
+    assert not stable & near_churn                                   # old edges that gained or lost a hub
+    assert len(stable) > 0.7 * len(concept_nodes(tkh, s0))       # most old nodes are untouched (cumulative data)
 
 
 @pytest.mark.parametrize("gamma", [0.0, 0.5, 1.0])

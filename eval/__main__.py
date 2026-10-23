@@ -27,7 +27,7 @@ def main(argv=None):
     for name in ("p3", "stability"):
         p = sub.add_parser(name)
         p.add_argument("--run", type=Path, required=True)
-        p.add_argument("--R", type=int, default=99 if name == "p3" else 19)
+        p.add_argument("--R", type=int, default=99)
         p.add_argument("--jobs", type=int, default=8)
         if name == "p3":
             p.add_argument("--R-labels", type=int, default=999)

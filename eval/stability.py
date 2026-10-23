@@ -5,16 +5,17 @@ All scores are on concept nodes (anchored nodes follow their anchor and would in
   ARI     adjusted Rand index of two partitions of the same nodes, per level (0 = chance, 1 = identical)
   HARI    level-pooled laminar analogue: sum_k (I_k - E_k) / sum_k (M_k - E_k) over the levels, with the per-level
           pair-counting terms of ARI (index, expected, maximum); 1 for identical trees, expectation 0 under a node
-          permutation applied at all levels; agreement deep in the tree weighs more
+          permutation applied at all levels. Levels weigh by their pair mass M_k - E_k, so the coarsest level
+          dominates (about 75% at the default budgets); the per-level ARIs are reported next to it
 
-1. Perturbation (the brief's protocol): remove 10% of all hyper-edges, stratified by publication period, for seeds
+1. Perturbation (the brief's protocol): remove 10% of all hyper-edges, stratified by period and relation, for seeds
    0-4; rebuild the whole chain with the run's parameters; ARI per snapshot and level and HARI per snapshot against
    the unperturbed run; mean and t-interval over the seeds.
 2. Cross-snapshot: per transition t-1 -> t, ARI per level and HARI on the concept nodes present in both, with a
-   percentile interval over half-subsamples of the nodes, against a new-paper null: the graph <= t-1 stays real and
-   only the edges of interval (t-1, t] are rewired by the configuration model (tkh/null.py), then snapshot t is
-   rebuilt from the real t-1 hierarchy. p = (1 + #null >= obs) / (R + 1): is the observed persistence more than
-   what new papers of the same size and degrees, attaching at random, would leave?
+   percentile interval over half-subsamples of the nodes, against a random-attachment null (tkh/null.attachment_null):
+   the new papers keep their edges, but every old endpoint is redrawn among the old nodes of its type in proportion
+   to their degree, so a random set of old nodes is touched; snapshot t is then rebuilt from the real t-1 hierarchy.
+   p = (1 + #null >= obs) / (R + 1): is the observed persistence more than random attachment would leave?
 3. Change localisation: per transition and level, the reassignment rate (1 - Jaccard of a node's old co-members) of
    old concept nodes that new papers touch (members of any edge of a new paper, any relation) vs untouched ones,
    their ratio and a node-bootstrap interval. Good: change concentrated on touched nodes (P5).
@@ -37,7 +38,7 @@ from eval.coherence import null_summary
 from tkh.coarsen import concept_nodes
 from tkh.hierarchy import Params, build_concept, build_snapshot, stable_nodes
 from tkh.io import load, snapshot
-from tkh.null import null_tkh
+from tkh.null import attachment_null
 
 
 # ---------------------------------------------------------------- agreement
@@ -91,11 +92,13 @@ def _subsample(levels_a, levels_b, nodes, n_rep=200, seed=0):
 # ---------------------------------------------------------------- perturbation
 
 def remove_edges(tkh, frac, seed, cutoffs):
-    """tkh without round(frac * n) randomly chosen hyper-edges of each publication-period stratum (all relations).
-    Node entry years are kept, so every snapshot keeps its node set."""
+    """tkh without round(frac * n) randomly chosen hyper-edges of each (publication period, relation) stratum, so
+    every seed removes 10% of all hyper-edges and 10% of each relation in every period. Node entry years are kept,
+    so every snapshot keeps its node set."""
     rng = random.Random(seed)
     period = tkh.edges["article_year"].map(lambda y: bisect.bisect_left(sorted(cutoffs), y))
-    drop = [e for p in sorted(period.unique()) for e in rng.sample(sorted(period.index[period == p]), round(frac * (period == p).sum()))]
+    strata = tkh.edges.groupby([period, tkh.edges["relation_type"]]).groups
+    drop = [e for key in sorted(strata) for e in rng.sample(sorted(strata[key]), round(frac * len(strata[key])))]
     return replace(tkh, edges=tkh.edges.drop(index=drop)), drop
 
 
@@ -107,12 +110,11 @@ def _perturbed(job):
 
 
 def _new_paper_null(job):
-    """Snapshot c1 rebuilt from the real hierarchy at c0 on a graph whose (c0, c1] edges are rewired (seed)."""
+    """Snapshot c1 rebuilt from the real hierarchy at c0 on a graph whose (c0, c1] edges attach to random old nodes."""
     pdict, seed, c0, c1, prev_levels = job
     cfg, real = _W["cfg"], _W["tkh"]
     params = Params.from_config(pdict)
-    cs = sorted(cfg.cutoffs)
-    tkh = null_tkh(_W["raw"], cfg.articles, cs, seed, intervals={cs.index(c1)})[0]
+    tkh = attachment_null(real, c0, c1, seed)
     rh = real_hubs(real, cfg, params)
     s0, s1 = snapshot(tkh, c0), snapshot(tkh, c1)
     stable = stable_nodes(tkh, s0, s1, set(rh[c0]), rh[c1])
@@ -121,7 +123,7 @@ def _new_paper_null(job):
 
 # ---------------------------------------------------------------- the check
 
-def stability_check(cfg, params, run_dir, seeds=range(5), frac=0.10, R=19, n_sub=200, n_jobs=8):
+def stability_check(cfg, params, run_dir, seeds=range(5), frac=0.10, R=99, n_sub=200, n_jobs=8):
     tkh = load(cfg)
     cs = sorted(cfg.cutoffs)
     concept = {c: set(concept_nodes(tkh, snapshot(tkh, c))) for c in cs}

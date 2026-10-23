@@ -11,6 +11,11 @@ The null keeps the real names, so it measures what the hypergraph structure adds
 given the semantics. It is run through the same pipeline with the same parameters, and the real
 snapshot's hub sets are passed in so that hub_frac means the same thing in real and null runs.
 
+attachment_null: for one transition c0 -> c1, every old concept node at the end of a new paper's clustering edge is
+redrawn among the old concept nodes of its type, with probability proportional to their clustering degree up to c0
+(preferential attachment). The graph <= c0 and the new nodes stay as they are; so does each edge's arity, type mix and
+head. It randomises WHICH old nodes the new papers touch, the null for cross-snapshot stability.
+
 random_labels: concept-node ids permuted within (type, entry interval) over a fixed tree, which keeps
 the laminar structure and every super-node's size: the chance baseline for a given size profile.
 """
@@ -82,6 +87,37 @@ def null_tkh(raw, articles_path, cutoffs, seed, real=None, sweeps=10, intervals=
             if s_null.node_ids != s_real.node_ids:
                 raise AssertionError(f"null seed {seed} changed the node set of snapshot <= {s_real.cutoff}")
     return tkh, out, diag
+
+
+def attachment_null(tkh, c0, c1, seed):
+    """TKH whose (c0, c1] clustering edges attach to random old concept nodes (see the module docstring)."""
+    from dataclasses import replace
+    rng = random.Random(seed)
+    ntype, entry = tkh.nodes["type"].to_dict(), tkh.nodes["entry_year"].to_dict()
+    e = tkh.edges
+    clust = e["relation_type"].isin(CLUSTER_RELATIONS)
+    deg = {}
+    for m in e.loc[clust & (e["article_year"] <= c0), "members"]:
+        for v in m[1:]:
+            deg[v] = deg.get(v, 0) + 1
+    pool = {}
+    for v, d in sorted(deg.items()):
+        pool.setdefault(ntype[v], ([], []))[0].append(v)
+        pool[ntype[v]][1].append(d)
+    members = e["members"].copy()
+    for eid in sorted(e.index[clust & (e["article_year"] > c0) & (e["article_year"] <= c1)]):
+        m = list(members[eid])
+        for i in range(1, len(m)):
+            v = m[i]
+            if entry[v] <= c0 and ntype[v] in pool:
+                cand, w = pool[ntype[v]]
+                for _ in range(100):   # degree-weighted draw that keeps the edge free of duplicates
+                    u = rng.choices(cand, w)[0]
+                    if u not in m:
+                        m[i] = u
+                        break
+        members[eid] = m
+    return replace(tkh, edges=e.assign(members=members))
 
 
 def label_permutation(tkh, snap, cutoffs, seed):
