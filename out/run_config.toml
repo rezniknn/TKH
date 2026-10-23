@@ -15,3 +15,15 @@ rho = 2.0
 edge_weight = "relation_balanced"
 hub_frac = 0.2
 lsa_dim = 100
+
+[labels]
+labeller = "llm"
+labeller_model = "qwen2.5:7b-instruct"
+judge_model = "phi4"
+endpoint = "http://localhost:11434"
+cache = "../data/llm_cache.json"
+prompts = "../configs/prompts"
+mode = "offline"
+seed = 0
+max_items = 40
+workers = 4
