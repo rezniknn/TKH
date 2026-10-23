@@ -1,23 +1,25 @@
-"""T4: hyper-edge collapse rule (m = n, 1 < m < n, three or more super-nodes). This rule is applied by the method itself, not only described.
+"""Clustering hypergraph of a snapshot and the T4 hyper-edge collapse rule, which the method itself applies.
 
-The clustering hypergraph of a snapshot (`incidence`) uses only the concept relations
-(CLUSTER_RELATIONS) restricted to concept nodes, with hub nodes removed. `cites`,
-`claims`, `presents`, `authored_by` and `proposes_future_work` never enter it.
+Clustering hypergraph (`incidence`): the six method-centred relations (CLUSTER_RELATIONS), members
+restricted to concept nodes, deduplicated, hubs removed; edges left with < 2 members are dropped.
+`cites`, `claims`, `presents`, `authored_by` and `proposes_future_work` never enter it.
 
-Collapse onto super-nodes (`collapse`), per fine hyper-edge e with arity n and its
-endpoints spread over lambda_e distinct super-nodes:
-  - lambda_e = 1 (m = n, all endpoints in one super-node): the edge becomes INTERNAL. It
-    no longer links super-nodes and carries no affinity; it is kept as metadata (count
-    and weight of internal edges per super-node).
-  - 1 < lambda_e < n (some endpoints share a super-node): a COARSE edge over the
-    lambda_e distinct super-nodes, with per-super-node endpoint counts kept as metadata.
-  - lambda_e >= 3: the coarse edge stays ONE multi-way hyper-edge; it is never split into
-    pairs. (lambda_e = n means nothing collapsed yet.)
-What the rule loses: which fine members participated (kept only as fine edge ids) and the
-endpoint multiplicity in the merge score (the score uses presence, i.e. lambda_e; counts
-are metadata). The merge score of tkh.hierarchy is the reduction of the weighted
-connectivity cut  sum_e w_e (lambda_e - 1)  that a merge causes, which is computed from
-exactly this collapsed incidence.
+Edge weights (`edge_weight`):
+  inverse_size       w_e = 1 / (|e'| - 1)
+  relation_balanced  inverse_size, rescaled so that every relation has the same total weight
+                     (inverse_size alone gives evaluated_on ~85% of the mass, notebook 03 section 5)
+
+Collapse onto super-nodes (`collapse`), per fine edge e of arity n spread over lambda_e super-nodes:
+  - lambda_e = 1 (m = n): INTERNAL. It links no super-nodes and drops out of every merge score's
+    numerator; its weight still counts in the super-node's degree d_A.
+  - 1 < lambda_e < n: PARTIAL. One coarse edge over the lambda_e super-nodes; per-super-node
+    endpoint counts are kept as metadata.
+  - lambda_e >= 3: MULTI-WAY. The coarse edge stays one hyper-edge; it is never split into pairs.
+    (lambda_e = n: nothing collapsed yet.)
+The merge score (tkh/hierarchy.py) uses exactly this collapsed incidence (presence, i.e. lambda_e):
+its numerator is the reduction of the weighted connectivity cut sum_e w_e (lambda_e - 1) caused by
+a merge. What the rule loses: endpoint multiplicity in the score (counts are metadata only) and
+which fine members took part (kept as fine edge ids in the records).
 """
 
 import numpy as np
@@ -26,6 +28,7 @@ from scipy.sparse import csr_matrix
 from tkh.semantic import CONCEPT_TYPES
 
 CLUSTER_RELATIONS = ("addresses", "solves", "extends", "uses_component", "uses_technique", "evaluated_on")
+EDGE_WEIGHTS = ("inverse_size", "relation_balanced")
 
 
 def concept_nodes(tkh, snap):
@@ -43,20 +46,25 @@ def node_papers(tkh, snap):
     return out
 
 
+def hub_threshold(snap, frac):
+    """Smallest paper count that makes a node a hub: more than frac * #papers."""
+    return int(np.floor(frac * len(snap.articles))) + 1
+
+
 def hubs(tkh, snap, frac):
-    """Concept nodes present in more than `frac` of the snapshot's papers (generic hubs)."""
+    """Concept nodes present in more than `frac` of the snapshot's papers (frac = 1: no hubs)."""
     papers = node_papers(tkh, snap)
-    limit = frac * len(snap.articles)
-    return {n for n in concept_nodes(tkh, snap) if len(papers[n]) > limit}
+    limit = hub_threshold(snap, frac)
+    return {n for n in concept_nodes(tkh, snap) if len(papers[n]) >= limit}
 
 
-def incidence(tkh, snap, items, hubset):
+def incidence(tkh, snap, items, hubset, edge_weight="inverse_size"):
     """Clustering hypergraph over `items` (concept nodes, in order).
 
-    Returns (B, w, edge_ids, relations): B is a CSR n_items x n_edges 0/1 incidence, w the
-    edge weights 1 / (|e'| - 1) on the reduced edges e' (hubs and non-items removed; edges
-    left with < 2 members dropped).
+    Returns (B, w, edge_ids, relations): B is a CSR n_items x n_edges 0/1 incidence, w the edge weights.
     """
+    if edge_weight not in EDGE_WEIGHTS:
+        raise ValueError(f"edge_weight must be one of {EDGE_WEIGHTS}, got {edge_weight!r}")
     pos = {n: i for i, n in enumerate(items)}
     e = snap.edges[snap.edges["relation_type"].isin(CLUSTER_RELATIONS)]
     rows, cols, w, ids, rels = [], [], [], [], []
@@ -64,14 +72,18 @@ def incidence(tkh, snap, items, hubset):
         mem = [pos[v] for v in dict.fromkeys(m) if v in pos and v not in hubset]
         if len(mem) < 2:
             continue
-        j = len(ids)
         rows += mem
-        cols += [j] * len(mem)
+        cols += [len(ids)] * len(mem)
         w.append(1.0 / (len(mem) - 1))
         ids.append(eid)
         rels.append(r)
+    w = np.asarray(w)
+    if edge_weight == "relation_balanced":
+        rel = np.asarray(rels)
+        for r in set(rels):
+            w[rel == r] /= w[rel == r].sum()
     B = csr_matrix((np.ones(len(rows)), (rows, cols)), shape=(len(items), len(ids)))
-    return B, np.asarray(w), ids, rels
+    return B, w, ids, rels
 
 
 def collapse(labels, B):
@@ -95,14 +107,26 @@ def connectivity_cut(lam, w):
     return float(np.sum(np.asarray(w) * (np.asarray(lam) - 1)))
 
 
-def coarse_edge_records(coll, w, edge_ids, relations, sn_ids):
-    """JSON-ready coarse hyper-edges (one per fine edge), for out/<cutoff>/coarse_hyperedges.json."""
-    C = coll["counts"].tocsc()
-    out = []
-    for j, eid in enumerate(edge_ids):
-        col = C[:, j]
-        members = {sn_ids[i]: int(v) for i, v in zip(col.indices, col.data)}
-        out.append({"fine_edge": eid, "relation_type": relations[j], "arity": int(coll["arity"][j]),
-                    "weight": float(w[j]), "lambda": int(coll["lam"][j]), "class": str(coll["cls"][j]),
-                    "multiway": bool(coll["multiway"][j]), "endpoint_counts": dict(sorted(members.items()))})
+def coarse_edges(levels, items, B, w, edge_ids, relations, sn_ids):
+    """T4 collapse of the clustering hypergraph onto every level, for out/<cutoff>/coarse_hyperedges.json.
+
+    levels: [ {key: set(concept members)} per level ]; sn_ids[k][key] = persistent super-node id."""
+    pos = {v: i for i, v in enumerate(items)}
+    out = {}
+    for k, groups in enumerate(levels):
+        keys = sorted(groups, key=lambda g: sn_ids[k][g])
+        labels = np.empty(len(items), int)
+        for i, g in enumerate(keys):
+            labels[[pos[v] for v in groups[g]]] = i
+        coll = collapse(labels, B)
+        C = coll["counts"].tocsc()
+        recs = []
+        for j, eid in enumerate(edge_ids):
+            col = C[:, j]
+            recs.append({"fine_edge": eid, "relation_type": relations[j], "arity": int(coll["arity"][j]),
+                         "weight": float(w[j]), "lambda": int(coll["lam"][j]), "class": str(coll["cls"][j]),
+                         "multiway": bool(coll["multiway"][j]),
+                         "endpoint_counts": dict(sorted((sn_ids[k][keys[i]], int(v)) for i, v in zip(col.indices, col.data)))})
+        summary = {c: int((coll["cls"] == c).sum()) for c in ("internal", "partial", "uncollapsed")}
+        out[k] = {"summary": summary | {"multiway": int(coll["multiway"].sum()), "edges": len(edge_ids)}, "edges": recs}
     return out

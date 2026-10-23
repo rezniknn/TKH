@@ -1,30 +1,28 @@
-"""T2: builds the laminar multi-level hierarchy P_0..P_K per snapshot, combining structural and semantic signal; enforces P1 by construction and P2 budgets as hard limits.
+"""T2: SHAC, the laminar multi-level hierarchy P_0..P_K per snapshot; P1 by construction, P2 budgets as hard limits.
 
-SHAC-T (Semantic-Hypergraph Agglomerative Coarsening with Temporal coupling); the formal
-statement is docs/formal_statement.md. Per snapshot t and level k (finest first), starting
-from the concept nodes as singletons and then from the level-(k+1) super-nodes:
+Semantic-Hypergraph Agglomerative Coarsening; the formal statement is docs/formal_statement.md.
+Per snapshot and level k (finest first), starting from the concept nodes as singletons and then
+from the level-(k+1) super-nodes:
 
-  repeat: merge the feasible pair (A, B) with the highest score s_t(A, B)
+  repeat: merge the feasible pair (A, B) with the highest score s(A, B)
   until exactly min(N_k, #items) super-nodes remain
 
-  s(A, B)   = alpha * F_S(S(A, B)) + (1 - alpha) * F_H(H(A, B))
-  s_t(A, B) = (1 - gamma) * s(A, B) + gamma * P(A, B)    if A and B both hold old nodes, else s(A, B)
-
-  S(A, B) = mean_A . mean_B of centred, L2-normalised char-n-gram LSA vectors of the member
-            names (= average pairwise cosine)
-  H(A, B) = sum_{e containing A and B} w_e / sqrt(d_A d_B),  d_A = sum_{e containing A} w_e,
-            on the CURRENT collapsed incidence (tkh/coarsen.py): the degree-normalised
-            reduction of the weighted connectivity cut sum_e w_e (lambda_e - 1) when A, B merge
-            ("projection" variant: average over member pairs of the singleton values instead)
-  P(A, B) = fraction of (old a in A, old b in B) pairs co-clustered at the same level in
-            the previous snapshot
-  F_X     = mid-rank empirical CDF of X over all item pairs at the start of the level
+  s(A, B) = alpha * F_S(S(A, B)) + (1 - alpha) * F_H(H(A, B))
+  S(A, B) = mean_A . mean_B of centred, L2-normalised char-n-gram LSA vectors of the member names
+            (= average pairwise cosine)
+  H(A, B) = sum_{e containing A and B} w_e / sqrt(d_A d_B),  d_A = sum_{e containing A} w_e, on the
+            CURRENT collapsed incidence (tkh/coarsen.py): the degree-normalised reduction of the
+            weighted connectivity cut sum_e w_e (lambda_e - 1) when A and B merge; 0 if d_A d_B = 0
+  F_S     = mid-rank empirical CDF of S over all item pairs at the start of the level
+  F_H     = mid-rank empirical CDF of H over the item pairs with H > 0, and F_H(0) = 0: a pair that
+            shares no edge gets no structural credit
   feasible: |A| + |B| <= rho * n_t / N_k  (concept nodes; rho >= 2 always leaves a feasible pair)
+  ties    : scores rounded to 1e-9, then the lowest item index
 
 Non-concept nodes are anchored (`anchors`) and inherit their anchor's super-node.
 """
 
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, fields
 import math
 
 import numpy as np
@@ -32,39 +30,41 @@ from scipy.sparse import csr_matrix
 from sklearn.decomposition import TruncatedSVD
 
 from tkh import semantic as sm
-from tkh.coarsen import concept_nodes, hubs, incidence
+from tkh.coarsen import EDGE_WEIGHTS, concept_nodes, hub_threshold, hubs, incidence
 from tkh.io import make_snapshots
 
 
 @dataclass(frozen=True)
 class Params:
-    alpha: float = 0.5
-    gamma: float = 0.5
-    rho: float = 2.0
-    structure: str = "native"     # "native" | "projection"
+    alpha: float = 0.5                     # weight of the semantic rank; 0 = structure only, 1 = semantics only
+    rho: float = 2.0                       # size cap factor (>= 2, or inf)
+    edge_weight: str = "relation_balanced"
+    hub_frac: float = 0.2                  # hubs: concept nodes in more than this share of the snapshot's papers
     lsa_dim: int = 100
-    hub_frac: float = 0.2
 
     @classmethod
     def from_config(cls, d):
         d = dict(d or {})
+        unknown = set(d) - {f.name for f in fields(cls)}
+        if unknown:
+            raise ValueError(f"unknown [method] parameters {sorted(unknown)}")
         if "rho" in d:
-            d["rho"] = float("inf") if str(d["rho"]).lower() in ("inf", "none") else float(d["rho"])
-        p = cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
-        if p.structure not in ("native", "projection"):
-            raise ValueError(f"structure must be 'native' or 'projection', got {p.structure!r}")
-        if not (0 <= p.alpha <= 1 and 0 <= p.gamma <= 1) or p.rho < 2:
-            raise ValueError(f"need 0<=alpha<=1, 0<=gamma<=1, rho>=2: {p}")
+            d["rho"] = math.inf if str(d["rho"]).lower() in ("inf", "none") else float(d["rho"])
+        p = cls(**d)
+        if not 0 <= p.alpha <= 1 or p.rho < 2 or not 0 < p.hub_frac <= 1:
+            raise ValueError(f"need 0 <= alpha <= 1, rho >= 2, 0 < hub_frac <= 1: {p}")
+        if p.edge_weight not in EDGE_WEIGHTS or not (isinstance(p.lsa_dim, int) and p.lsa_dim > 0):
+            raise ValueError(f"need edge_weight in {EDGE_WEIGHTS} and a positive integer lsa_dim: {p}")
         return p
-
-    def cid(self):
-        r = "inf" if math.isinf(self.rho) else f"{self.rho:g}"
-        return f"a{self.alpha:g}_g{self.gamma:g}_r{r}_{self.structure}_d{self.lsa_dim}_h{self.hub_frac:g}"
 
     def as_dict(self):
         d = asdict(self)
         d["rho"] = "inf" if math.isinf(self.rho) else self.rho
         return d
+
+    def cid(self):
+        r = "inf" if math.isinf(self.rho) else f"{self.rho:g}"
+        return f"a{self.alpha:g}_r{r}_{self.edge_weight}_h{self.hub_frac:g}_d{self.lsa_dim}"
 
 
 # ---------------------------------------------------------------- signals
@@ -86,132 +86,88 @@ def centred_lsa(texts, dim):
 
 
 class _MidRankCDF:
-    """F(x) = (#{v < x} + #{v <= x}) / (2N) over a fixed sample of values (mid-rank empirical CDF)."""
+    """F(x) = (#{v < x} + #{v <= x}) / (2N) over a fixed sample; positive=True: sample of x > 0 only, F(x <= 0) = 0."""
 
-    def __init__(self, values):
-        self.u, inv, cnt = np.unique(values, return_inverse=True, return_counts=True)
+    def __init__(self, values, positive=False):
+        self.positive = positive
+        values = values[values > 0] if positive else values
+        self.u, cnt = np.unique(values, return_counts=True)
         self.cum = np.concatenate([[0], np.cumsum(cnt)])
-        self.n = len(values)
-        self.at_sample = (self.cum[inv] + self.cum[inv + 1]) / (2.0 * self.n)  # F of each sample value
+        self.n = max(len(values), 1)
 
     def __call__(self, x):
         x = np.asarray(x, dtype=float)
         flat = x.ravel()
-        order = np.argsort(flat, kind="stable")  # sorted queries make the binary searches ~3x faster
+        order = np.argsort(flat, kind="stable")  # sorted queries make the binary searches faster
         xs = flat[order]
         out = np.empty_like(flat)
         out[order] = (self.cum[np.searchsorted(self.u, xs, "left")] + self.cum[np.searchsorted(self.u, xs, "right")]) / (2.0 * self.n)
+        if self.positive:
+            out[flat <= 0] = 0.0
         return out.reshape(x.shape)
-
-
-def _sym_from_upper(n, iu, vals):
-    out = np.zeros((n, n))
-    out[iu] = vals
-    out[(iu[1], iu[0])] = vals
-    return out
 
 
 # ---------------------------------------------------------------- engine
 
 class _Level:
-    """Greedy constrained agglomeration of `n` items down to `target` items."""
+    """Greedy constrained agglomeration of n items down to a target count, on the collapsed incidence."""
 
-    def __init__(self, sem, size, X, w, Wfine_sum, M, old, params, cap):
-        self.p, self.cap = params, cap
+    def __init__(self, sem, size, C, w, alpha, cap):
+        self.alpha, self.cap = alpha, cap
         self.sem = sem.astype(np.float64)            # sum of member vectors
         self.size = size.astype(np.float64)          # concept nodes per item
-        self.X = X.astype(np.float64)                # native: presence; (dense n x E)
+        self.C = C.astype(np.float64)                # endpoint counts per item and fine edge (n x E)
+        self.X = (self.C > 0).astype(np.float64)     # collapsed incidence (presence)
         self.w = w.astype(np.float64)
-        self.W = Wfine_sum                           # projection: summed singleton H between items (n x n) or None
-        self.M = M                                   # temporal: counts of old members per previous cluster (n x K') or None
-        self.old = old                               # old members per item
-        self.alive = np.ones(len(size), bool)
-        n = len(size)
         self.d = self.X @ self.w
+        n = len(size)
+        self.alive = np.ones(n, bool)
         iu = np.triu_indices(n, 1)
-        S, H = self._S_all(), self._H_all()
-        if n > 1:
-            self.FS, self.FH = _MidRankCDF(S[iu]), _MidRankCDF(H[iu])
-            fs, fh = _sym_from_upper(n, iu, self.FS.at_sample), _sym_from_upper(n, iu, self.FH.at_sample)
-        else:
-            self.FS = self.FH = (lambda x: np.zeros_like(np.asarray(x, float)))
-            fs = fh = np.zeros((n, n))
+        S, H = self._S(), self._H()
+        self.FS, self.FH = _MidRankCDF(S[iu]), _MidRankCDF(H[iu], positive=True)
+        self.score = self._combine(S, H)
         del S, H
-        self.score = self._combine(None, None, np.arange(n), fs=fs, fh=fh)
         np.fill_diagonal(self.score, -np.inf)
-        self._mask_all()
+        if math.isfinite(cap):
+            self.score[np.add.outer(self.size, self.size) > cap] = -np.inf
         self.best = np.argmax(self.score, axis=1)
         self.bval = self.score[np.arange(n), self.best]
+        self.stats = {"merges": 0, "linked": 0, "multi_endpoint": 0}
 
-    # signal values for item rows `r` against all items
-    def _S_all(self, r=None):
+    def _S(self, r=None):
         mean = self.sem / self.size[:, None]
         return (mean if r is None else mean[r]) @ mean.T
 
-    def _H_all(self, r=None):
-        if self.p.structure == "projection":
-            W = self.W if r is None else self.W[r]
-            sz = self.size if r is None else self.size[r]
-            return W / np.outer(sz, self.size)
+    def _H(self, r=None):
         Xr = self.X if r is None else self.X[r]
         num = (Xr * self.w) @ self.X.T
-        d = self.d
-        dr = d if r is None else d[r]
-        den = np.sqrt(np.outer(dr, d))
+        dr = self.d if r is None else self.d[r]
+        den = np.sqrt(np.outer(dr, self.d))
         return np.divide(num, den, out=np.zeros_like(num), where=den > 0)
 
-    def _P_all(self, r=None):
-        if self.M is None:
-            return None
-        num = (self.M if r is None else self.M[r]) @ self.M.T
-        o = self.old if r is None else self.old[r]
-        den = np.outer(o, self.old)
-        return np.divide(num, den, out=np.full_like(num, np.nan, dtype=float), where=den > 0)
+    def _combine(self, S, H):
+        return np.round(self.alpha * self.FS(S) + (1 - self.alpha) * self.FH(H), 9)
 
-    def _combine(self, S, H, rows, fs=None, fh=None):
-        a, g = self.p.alpha, self.p.gamma
-        fs = self.FS(S) if fs is None else fs
-        fh = self.FH(H) if fh is None else fh
-        s = a * fs + (1 - a) * fh
-        if g > 0 and self.M is not None:
-            P = self._P_all(rows if len(rows) < len(self.size) else None)
-            s = np.where(np.isnan(P), s, (1 - g) * s + g * np.nan_to_num(P))
-        return np.round(s, 9)
-
-    def _mask_all(self):
-        if math.isfinite(self.cap):
-            self.score[np.add.outer(self.size, self.size) > self.cap] = -np.inf
-        self.score[:, ~self.alive] = -np.inf
-        self.score[~self.alive, :] = -np.inf
-
-    def _row(self, i):
-        S, H = self._S_all([i]), self._H_all([i])
-        row = self._combine(S, H, np.array([i]))[0]
+    def merge(self, i, j):
+        """Merge item j into item i (i < j)."""
+        shared = (self.X[i] > 0) & (self.X[j] > 0)
+        self.stats["merges"] += 1
+        self.stats["linked"] += bool(shared.any())
+        # native and clique-expansion H differ exactly when a shared edge has >= 2 endpoints on one side
+        self.stats["multi_endpoint"] += bool((shared & ((self.C[i] >= 2) | (self.C[j] >= 2))).any())
+        self.sem[i] += self.sem[j]
+        self.size[i] += self.size[j]
+        self.C[i] += self.C[j]
+        self.X[i] = self.C[i] > 0
+        self.d[i] = self.X[i] @ self.w
+        self.alive[j] = False
+        self.score[j, :] = self.score[:, j] = -np.inf
+        row = self._combine(self._S([i]), self._H([i]))[0]
         row[i] = -np.inf
         row[~self.alive] = -np.inf
         if math.isfinite(self.cap):
             row[self.size[i] + self.size > self.cap] = -np.inf
-        return row
-
-    def merge(self, i, j):
-        """Merge item j into item i (i < j)."""
-        self.sem[i] += self.sem[j]
-        self.size[i] += self.size[j]
-        if self.p.structure == "projection":
-            self.W[i, :] += self.W[j, :]
-            self.W[:, i] += self.W[:, j]
-        else:
-            self.X[i] = np.maximum(self.X[i], self.X[j])  # presence on the collapsed incidence
-            self.d[i] = self.X[i] @ self.w
-        if self.M is not None:
-            self.M[i] += self.M[j]
-            self.old[i] += self.old[j]
-        self.alive[j] = False
-        self.score[j, :] = -np.inf
-        self.score[:, j] = -np.inf
-        row = self._row(i)
-        self.score[i, :] = row
-        self.score[:, i] = row
+        self.score[i, :] = self.score[:, i] = row
         self.bval[j] = -np.inf
         self.best[i] = int(np.argmax(row))
         self.bval[i] = row[self.best[i]]
@@ -241,62 +197,37 @@ class _Level:
 
 # ---------------------------------------------------------------- per snapshot
 
-def build_snapshot(tkh, snap, budgets, params, prev=None, text_perm=None, return_diag=False):
-    """Concept-node partitions [level 0 .. K-1] (level 0 coarsest) for one snapshot.
+def build_snapshot(tkh, snap, budgets, params, hubset=None):
+    """Concept-node partitions [level 0 .. K-1] (level 0 coarsest) for one snapshot, plus diagnostics.
 
-    prev: previous snapshot's concept partitions in the same format (for gamma), or None.
-    text_perm: optional {node: node whose name text to use} (semantic null).
-    """
+    hubset: optional fixed hub set (a null model passes the real snapshot's hubs); default: computed here.
+    Returns (levels, graph, diag): graph = (items, B, w, edge_ids, relations), the clustering hypergraph."""
     items = concept_nodes(tkh, snap)
     n = len(items)
-    hubset = hubs(tkh, snap, params.hub_frac)
-    B, w, edge_ids, rels = incidence(tkh, snap, items, hubset)
+    if hubset is None:
+        hubset = hubs(tkh, snap, params.hub_frac)
+    B, w, edge_ids, rels = incidence(tkh, snap, items, hubset, params.edge_weight)
     names = sm.names(tkh)
-    texts = [names[text_perm.get(v, v) if text_perm else v] for v in items]
-    Z = centred_lsa(texts, params.lsa_dim)
+    Z = centred_lsa([names[v] for v in items], params.lsa_dim)
     Xfine = B.toarray()
-    Wfine = None
-    if params.structure == "projection":
-        Xw = Xfine * w
-        num = Xw @ Xfine.T
-        d = Xfine @ w
-        den = np.sqrt(np.outer(d, d))
-        Wfine = np.divide(num, den, out=np.zeros_like(num), where=den > 0)
-        np.fill_diagonal(Wfine, 0.0)
-    pos = {v: i for i, v in enumerate(items)}
 
     groups = [[i] for i in range(n)]  # items of the level being built, as fine indices
-    levels = [None] * len(budgets)
+    levels, level_diag = [None] * len(budgets), [None] * len(budgets)
     for k in reversed(range(len(budgets))):
         target = min(budgets[k], len(groups))
         cap = params.rho * n / budgets[k] if math.isfinite(params.rho) else math.inf
         P = csr_matrix((np.ones(n), (np.concatenate([[g] * len(m) for g, m in enumerate(groups)]).astype(int),
                                      np.concatenate(groups))), shape=(len(groups), n))
-        sem = P @ Z
-        size = np.asarray(P.sum(axis=1)).ravel()
-        X = (P @ Xfine > 0).astype(float)
-        W = (P @ Wfine @ P.T) if Wfine is not None else None
-        if W is not None:
-            np.fill_diagonal(W, 0.0)
-        M = old = None
-        if prev is not None and params.gamma > 0:
-            prev_of = {v: c for c, mem in prev[k].items() for v in mem if v in pos}
-            keys = sorted(set(prev_of.values()), key=str)
-            kidx = {c: j for j, c in enumerate(keys)}
-            M = np.zeros((len(groups), max(len(keys), 1)))
-            for g, mem in enumerate(groups):
-                for i in mem:
-                    c = prev_of.get(items[i])
-                    if c is not None:
-                        M[g, kidx[c]] += 1
-            old = M.sum(axis=1)
-        lvl = _Level(sem, size, X, w, W, M, old, params, cap)
+        lvl = _Level(P @ Z, np.asarray(P.sum(axis=1)).ravel(), P @ Xfine, w, params.alpha, cap)
         merged = lvl.run(target)
         groups = [sorted(i for item in grp for i in groups[item]) for grp in merged]
         levels[k] = {g: {items[i] for i in mem} for g, mem in enumerate(groups)}
-    if return_diag:
-        return levels, {"n_concept": n, "hubs": sorted(hubset), "n_edges": len(edge_ids)}
-    return levels
+        sizes = [len(m) for m in groups]
+        level_diag[k] = {"budget": budgets[k], "super_nodes": len(groups), "cap": round(cap, 2) if math.isfinite(cap) else "inf",
+                         "max_size": max(sizes), "singletons": sizes.count(1), **lvl.stats}
+    diag = {"n_concept": n, "n_edges": len(edge_ids), "hub_threshold_papers": hub_threshold(snap, params.hub_frac),
+            "hubs": sorted(hubset), "levels": level_diag}
+    return levels, (items, B, w, edge_ids, rels), diag
 
 
 # ---------------------------------------------------------------- anchoring and full build
@@ -315,8 +246,7 @@ def anchors(tkh, snap, concept):
     for m, a in zip(e["members"], e["article_id"]):
         for v in m:
             papers_of.setdefault(v, set()).add(a)
-    claim_method = {}
-    citer = {}
+    claim_method, citer = {}, {}
     for m, r, a in zip(e["members"], e["relation_type"], e["article_id"]):
         if r == "claims":
             meth = [v for v in m if ntype[v] == "method" and v in concept]
@@ -345,28 +275,21 @@ def anchors(tkh, snap, concept):
     return out
 
 
-def build(tkh, cutoffs, budgets, params, text_perm=None, return_diag=False):
-    """{cutoff: [ {key: set(all members)} per level ]} (level 0 coarsest), plus optional diagnostics."""
-    out, diag, prev = {}, {}, None
+def build(tkh, cutoffs, budgets, params, hubsets=None):
+    """Full build. Returns (parts, graphs, diag):
+    parts[cutoff] = [ {key: set(all members)} per level ] (level 0 coarsest); graphs[cutoff] = the clustering
+    hypergraph plus the concept-only levels (for the T4 records); diag[cutoff] = run diagnostics."""
+    parts, graphs, diag = {}, {}, {}
     for snap in make_snapshots(tkh, cutoffs):
-        concept_levels, d = build_snapshot(tkh, snap, budgets, params, prev=prev, text_perm=text_perm, return_diag=True)
-        concept = set().union(*concept_levels[-1].values()) if concept_levels else set()
-        anc = anchors(tkh, snap, concept)
+        levels, graph, d = build_snapshot(tkh, snap, budgets, params, (hubsets or {}).get(snap.cutoff))
+        anc = anchors(tkh, snap, set(graph[0]))
         full = []
-        for lv in concept_levels:
+        for lv in levels:
             where = {v: g for g, mem in lv.items() for v in mem}
             groups = {g: set(mem) for g, mem in lv.items()}
             for v, a in anc.items():
                 groups[where[a]].add(v)
             full.append(groups)
-        out[snap.cutoff] = full
+        parts[snap.cutoff], graphs[snap.cutoff] = full, (levels, *graph)
         diag[snap.cutoff] = {**d, "n_anchored": len(anc)}
-        prev = concept_levels
-    return (out, diag) if return_diag else out
-
-
-def concept_only(parts, tkh):
-    """Restrict full partitions to concept nodes ."""
-    t = tkh.nodes["type"]
-    return {c: [{g: {v for v in mem if t.at[v] in sm.CONCEPT_TYPES} for g, mem in lv.items()} for lv in levels]
-            for c, levels in parts.items()}
+    return parts, graphs, diag

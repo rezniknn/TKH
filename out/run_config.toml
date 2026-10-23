@@ -1,0 +1,16 @@
+[inputs]
+graph = "/Users/alexeyr/Personal/TKH/repo/data/tkh_collection10.json"
+articles = "/Users/alexeyr/Personal/TKH/repo/data/collection10_articles.csv"
+
+[snapshots]
+cutoffs = [2020, 2022, 2024, 2026]
+
+[hierarchy]
+budgets = [15, 60, 240]
+
+[method]
+alpha = 0.5
+rho = 2.0
+edge_weight = "relation_balanced"
+hub_frac = 0.2
+lsa_dim = 100

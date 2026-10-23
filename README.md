@@ -1,4 +1,4 @@
-<!-- Project overview, setup and exact reproduction steps (deliverable 1). Explains how 'make build' and 'make validate' produce and check the outputs. -->
+<!-- Project overview, setup and exact reproduction steps (deliverable 1). Explains how 'make all' builds, validates and checks the outputs. -->
 # Multi-resolution semantic abstraction over the TKH
 
 ## Setup
@@ -53,8 +53,12 @@ TKH_ONLINE=1 .venv/bin/jupyter nbconvert --to notebook --execute --inplace noteb
 ## Output validator (§6a)
 
 ```bash
-.venv/bin/python validate.py out/          # or: make validate
+.venv/bin/python validate.py out/ --config out/run_config.toml     # or: make validate
 ```
+
+Every run writes its resolved configuration to `<run>/run_config.toml`, so a run with
+non-default budgets, cutoffs or inputs (e.g. a null-model graph) is validated against
+exactly what built it.
 
 The validator checks every configured snapshot's `out/<cutoff>/hierarchy.json` and
 `out/temporal_events.json` against `schema/` and the run config:
@@ -78,27 +82,34 @@ its expected codes. The tests also cover inputs that can't be committed as fixtu
 errors), a mock built from the full input graph (`tests/mock_output.py`), and
 mutations of that mock.
 
-## Method: SHAC-T (T2, T4)
+## Method: SHAC (T2, T4)
 
-The formal statement, assumptions and trade-offs are in
-[docs/formal_statement.md](docs/formal_statement.md).
+The formal statement (objective, trade-offs, complexity, guarantees, rejected
+alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
 
-- **Procedure.** A constrained greedy agglomeration over the concept nodes, run from the
-  finest level (240) to the coarsest (15). Each merge maximises a rank-normalised mix of:
-  - a hypergraph-native structural score, the degree-normalised reduction of the λ−1
-    connectivity cut on the collapsed incidence (`tkh/coarsen.py`, T4);
-  - a name-based semantic score.
+- **Procedure.** A budget-constrained greedy agglomeration over the concept nodes, run
+  from the finest level to the coarsest, so that every level is a cut of one merge tree
+  (P1). Each merge maximises `alpha * F_S + (1 - alpha) * F_H`:
+  - `F_H`: rank of the degree-normalised reduction of the λ−1 connectivity cut on the
+    collapsed incidence (`tkh/coarsen.py`, the T4 rule); unlinked pairs get 0;
+  - `F_S`: rank of the average-linkage cosine of character n-gram LSA vectors of the names.
 
-  A temporal prior on the previous snapshot's co-membership is added. A size cap keeps
-  every budget reachable.
-- **Other nodes.** Non-concept nodes are anchored to a concept node. Citations are never
-  used.
+  A size cap `rho * n / N_k` guarantees that every level reaches exactly `min(N_k, n)`
+  super-nodes (P2), for any budget list.
+- **Other nodes.** Non-concept nodes are anchored to a concept node after clustering.
+  Citations, claims, titles and authors are never used.
+- **Null models** (`tkh/null.py`): the type- and period-preserving hypergraph
+  configuration model, run through the same pipeline, and random labels.
+- **Held-out P3 check** (`tkh/p3.py`): bibliographic coupling of papers whose concepts a
+  level groups together, on paper pairs that share no concept node.
 
 ```bash
-make build                                         # -> out/<cutoff>/hierarchy.json, temporal_events.json,
-                                                   #    out/<cutoff>/coarse_hyperedges.json, out/run_info.json
-.venv/bin/python scripts/build.py --param alpha=0.25 --param structure=projection --out /tmp/alt
+make all                                     # build -> validate -> p3 -> test (about 6 min on 8 cores)
+make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
+.venv/bin/python -m tkh build --out /tmp/alt --budgets 10 40 160 640 --param rho=4
+make null SEED=3                             # one null-model run, validated against its own graph
+make sweep                                   # configuration grid with held-out selection -> out/sweep.json
 ```
 
-Parameters (`alpha`, `gamma`, `rho`, `structure`, `lsa_dim`, `hub_frac`) live in
-`[method]` of the config. Labels are placeholders until the LLM labeller is added.
+Parameters (`alpha`, `rho`, `edge_weight`, `hub_frac`, `lsa_dim`) live in `[method]` of
+the config; unknown keys are an error. Labels are placeholders until a labeller is added.

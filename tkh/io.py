@@ -43,10 +43,15 @@ def load_tkh(graph_path, articles_path=None):
     """Load a TKH export. articles_path is optional: without it, article years come from
     hyper-edge provenance and titles/arxiv ids from article nodes."""
     graph_path = Path(graph_path)
-    raw = json.loads(graph_path.read_text())
+    return from_raw(json.loads(graph_path.read_text()), articles_path, graph_path)
+
+
+def from_raw(raw, articles_path=None, source="graph"):
+    """TKH from an export already parsed into a dict (e.g. a null-model export built in memory)."""
+    raw = json.loads(json.dumps(raw))  # private copy: ids are normalised in place below
     missing = {"nodes", "hyperedges"} - set(raw)
     if missing:
-        raise ValueError(f"{graph_path}: missing top-level keys {sorted(missing)}")
+        raise ValueError(f"{source}: missing top-level keys {sorted(missing)}")
 
     for n in raw["nodes"]:  # ids are strings throughout (the output schema requires it)
         n["id"] = str(n["id"])

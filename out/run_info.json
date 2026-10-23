@@ -1,0 +1,211 @@
+{
+ "params": {
+  "alpha": 0.5,
+  "rho": 2.0,
+  "edge_weight": "relation_balanced",
+  "hub_frac": 0.2,
+  "lsa_dim": 100
+ },
+ "cid": "a0.5_r2_relation_balanced_h0.2_d100",
+ "budgets": [
+  15,
+  60,
+  240
+ ],
+ "cutoffs": [
+  2020,
+  2022,
+  2024,
+  2026
+ ],
+ "graph": "/Users/alexeyr/Personal/TKH/repo/data/tkh_collection10.json",
+ "runtime_s": 27.3,
+ "snapshots": {
+  "2020": {
+   "n_concept": 1018,
+   "n_edges": 141,
+   "hub_threshold_papers": 4,
+   "hubs": [
+    "meth_00074",
+    "task_00001",
+    "task_00003",
+    "task_00012",
+    "task_00033"
+   ],
+   "levels": [
+    {
+     "budget": 15,
+     "super_nodes": 15,
+     "cap": 135.73,
+     "max_size": 135,
+     "singletons": 1,
+     "merges": 45,
+     "linked": 38,
+     "multi_endpoint": 37
+    },
+    {
+     "budget": 60,
+     "super_nodes": 60,
+     "cap": 33.93,
+     "max_size": 33,
+     "singletons": 5,
+     "merges": 180,
+     "linked": 173,
+     "multi_endpoint": 153
+    },
+    {
+     "budget": 240,
+     "super_nodes": 240,
+     "cap": 8.48,
+     "max_size": 8,
+     "singletons": 67,
+     "merges": 778,
+     "linked": 778,
+     "multi_endpoint": 456
+    }
+   ],
+   "n_anchored": 457
+  },
+  "2022": {
+   "n_concept": 1464,
+   "n_edges": 230,
+   "hub_threshold_papers": 5,
+   "hubs": [
+    "meth_00030",
+    "meth_00074",
+    "metr_00002",
+    "task_00001",
+    "task_00003",
+    "task_00010",
+    "task_00012",
+    "task_00033"
+   ],
+   "levels": [
+    {
+     "budget": 15,
+     "super_nodes": 15,
+     "cap": 195.2,
+     "max_size": 190,
+     "singletons": 0,
+     "merges": 45,
+     "linked": 42,
+     "multi_endpoint": 42
+    },
+    {
+     "budget": 60,
+     "super_nodes": 60,
+     "cap": 48.8,
+     "max_size": 48,
+     "singletons": 3,
+     "merges": 180,
+     "linked": 165,
+     "multi_endpoint": 150
+    },
+    {
+     "budget": 240,
+     "super_nodes": 240,
+     "cap": 12.2,
+     "max_size": 12,
+     "singletons": 33,
+     "merges": 1224,
+     "linked": 1181,
+     "multi_endpoint": 713
+    }
+   ],
+   "n_anchored": 680
+  },
+  "2024": {
+   "n_concept": 2829,
+   "n_edges": 406,
+   "hub_threshold_papers": 8,
+   "hubs": [
+    "meth_00074",
+    "metr_00002",
+    "task_00003",
+    "task_00010",
+    "task_00012",
+    "task_00033",
+    "task_00034"
+   ],
+   "levels": [
+    {
+     "budget": 15,
+     "super_nodes": 15,
+     "cap": 377.2,
+     "max_size": 376,
+     "singletons": 0,
+     "merges": 45,
+     "linked": 42,
+     "multi_endpoint": 42
+    },
+    {
+     "budget": 60,
+     "super_nodes": 60,
+     "cap": 94.3,
+     "max_size": 94,
+     "singletons": 0,
+     "merges": 180,
+     "linked": 180,
+     "multi_endpoint": 171
+    },
+    {
+     "budget": 240,
+     "super_nodes": 240,
+     "cap": 23.57,
+     "max_size": 23,
+     "singletons": 6,
+     "merges": 2589,
+     "linked": 2475,
+     "multi_endpoint": 1559
+    }
+   ],
+   "n_anchored": 1265
+  },
+  "2026": {
+   "n_concept": 3980,
+   "n_edges": 554,
+   "hub_threshold_papers": 11,
+   "hubs": [
+    "metr_00002",
+    "task_00003",
+    "task_00010",
+    "task_00012",
+    "task_00033",
+    "task_00034"
+   ],
+   "levels": [
+    {
+     "budget": 15,
+     "super_nodes": 15,
+     "cap": 530.67,
+     "max_size": 529,
+     "singletons": 0,
+     "merges": 45,
+     "linked": 40,
+     "multi_endpoint": 39
+    },
+    {
+     "budget": 60,
+     "super_nodes": 60,
+     "cap": 132.67,
+     "max_size": 131,
+     "singletons": 0,
+     "merges": 180,
+     "linked": 180,
+     "multi_endpoint": 174
+    },
+    {
+     "budget": 240,
+     "super_nodes": 240,
+     "cap": 33.17,
+     "max_size": 33,
+     "singletons": 5,
+     "merges": 3740,
+     "linked": 3596,
+     "multi_endpoint": 2287
+    }
+   ],
+   "n_anchored": 1818
+  }
+ }
+}

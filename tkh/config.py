@@ -30,7 +30,6 @@ class Config:
     out_dir: Path = REPO_ROOT / "out"
     figures_dir: Path = REPO_ROOT / "figures"
     method: dict = field(default_factory=dict)   # [method]: clustering parameters (tkh.hierarchy.Params)
-    labels: dict = field(default_factory=dict)   # [labels]: LLM labeller / judge settings (tkh.label)
     source: Path | None = field(default=None, compare=False)  # the file this config was read from
 
 
@@ -61,11 +60,6 @@ def load_config(path=None):
     if "budgets" in hier:
         kw["budgets"] = tuple(int(b) for b in hier["budgets"])
     kw["method"] = dict(raw.get("method", {}))
-    labels = dict(raw.get("labels", {}))
-    for k in ("labeller_prompt", "judge_prompt", "cache"):  # file paths, relative to the config file
-        if k in labels:
-            labels[k] = str(resolve(labels[k]))
-    kw["labels"] = labels
     cfg = Config(source=path, **kw)
     check_inputs(cfg)
     return cfg
@@ -78,8 +72,8 @@ def check_inputs(cfg):
             raise FileNotFoundError(f"input '{name}' not found: {p} (config: {cfg.source})")
     if len(set(cfg.cutoffs)) != len(cfg.cutoffs) or len(cfg.cutoffs) < 3:
         raise ValueError(f"need at least 3 distinct snapshot cutoffs, got {cfg.cutoffs}")
-    if not cfg.budgets or any(b < 1 for b in cfg.budgets) or list(cfg.budgets) != sorted(cfg.budgets):
-        raise ValueError(f"budgets must be positive and non-decreasing from level 0, got {cfg.budgets}")
+    if len(cfg.budgets) < 2 or any(b < 1 for b in cfg.budgets) or list(cfg.budgets) != sorted(cfg.budgets):
+        raise ValueError(f"need >= 2 positive, non-decreasing budgets from level 0 (levels 0 and 1 are labelled), got {cfg.budgets}")
 
 
 def add_config_args(parser: argparse.ArgumentParser):
@@ -101,3 +95,12 @@ def config_from_args(args):
     cfg = replace(cfg, **over)
     check_inputs(cfg)
     return cfg
+
+
+def to_toml(cfg, method):
+    """The resolved run configuration as TOML text (absolute paths), so a run can be re-validated or rebuilt alone."""
+    val = lambda v: f'"{v}"' if isinstance(v, (str, Path)) else str(list(v)) if isinstance(v, (list, tuple)) else str(v).lower() if isinstance(v, bool) else str(v)  # noqa: E731
+    lines = ["[inputs]", f"graph = {val(cfg.graph)}"] + ([f"articles = {val(cfg.articles)}"] if cfg.articles else [])
+    lines += ["", "[snapshots]", f"cutoffs = {val(cfg.cutoffs)}", "", "[hierarchy]", f"budgets = {val(cfg.budgets)}", "", "[method]"]
+    lines += [f"{k} = {val(v)}" for k, v in method.items()]
+    return "\n".join(lines) + "\n"

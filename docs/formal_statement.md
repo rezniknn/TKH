@@ -1,235 +1,337 @@
 # Formal statement of the method (Deliverable 0)
 
-**SHAC-T:** semantic–hypergraph agglomerative coarsening with temporal coupling.
-Implementation: `tkh/coarsen.py` (T4 collapse), `tkh/hierarchy.py` (method),
-`scripts/build.py` (pipeline). Parameters: the `[method]` section of `configs/default.toml`.
+**SHAC:** semantic–hypergraph agglomerative coarsening, a budget-constrained hierarchical
+agglomeration of the concept nodes that scores merges on the collapsed hypergraph and on name
+semantics.
+
+| Part | Code |
+|---|---|
+| Method | `tkh/hierarchy.py` |
+| Clustering hypergraph and T4 collapse | `tkh/coarsen.py` |
+| Run | `tkh/pipeline.py`, `python -m tkh build` |
+| Null models | `tkh/null.py` |
+| Held-out P3 check | `tkh/p3.py`, `tkh/experiments.py` |
+
+Parameters are in `[method]` of `configs/default.toml`. Every number below comes from
+`out/run_info.json`, `out/metrics.json` or `out/sweep.json`, all produced by `make all` and
+`make sweep`.
 
 ## 1. Input and notation
 
-- **Snapshots.** Cutoffs t ∈ {2020, 2022, 2024, 2026}. An edge belongs to snapshot t iff
-  its provenance article has year ≤ t. A node belongs to t iff it has a provenance article
-  or an incident edge with year ≤ t (`tkh/io.py`).
-- **Items.** V_t = the concept nodes of snapshot t (types method, task, problem,
-  technique, component, dataset, metric), n_t = |V_t|. At ≤2026, n_t = 3980.
-  All other nodes (article, author, claim, cited_work, future_topic) are *anchored* (§5).
-- **Clustering hypergraph** G_t = (V_t, E_t):
-  - E_t holds the snapshot's edges with relation in addresses, solves, extends,
-    uses_component, uses_technique, evaluated_on, restricted to V_t;
-  - hubs (concept nodes in more than `hub_frac` = 20% of the snapshot's papers) are
-    removed from every edge;
-  - edges left with fewer than 2 members are dropped;
-  - each remaining edge e has weight w_e = 1/(|e| − 1).
+- **Snapshots.** Cutoffs t ∈ {2020, 2022, 2024, 2026}, configurable. An edge is in snapshot t iff
+  its paper is from year ≤ t. A node's entry year is the earliest year of its provenance papers and
+  of its incident edges' papers; the node is in t iff that year is ≤ t (`tkh/io.py`; notebook 01
+  §2 shows why the export's other year fields leak).
+- **Items.** V_t is the set of concept nodes of snapshot t: types method, task, problem, technique,
+  component, dataset and metric, which are exactly the member types of the method-centred relations
+  (notebook 03 §1). n_t = |V_t| is 1018, 1464, 2829 and 3980.
+  - Articles, authors, claims, cited works and future topics are anchored after clustering (§5).
+- **Clustering hypergraph G_t = (V_t, E_t).**
+  - E_t holds the snapshot's edges of the six method-centred relations (addresses, solves, extends,
+    uses_component, uses_technique, evaluated_on), with members restricted to V_t and deduplicated.
+  - Hubs are removed: concept nodes in more than `hub_frac` of the snapshot's papers, i.e. in at
+    least ⌊hub_frac·|papers_t|⌋ + 1 papers. With the default 0.2 the threshold is 4, 5, 8 and 11
+    papers, giving 5, 8, 7 and 6 hubs.
+  - Edges left with fewer than 2 members are dropped, leaving m_t = 141, 230, 406 and 554 edges.
+  - `cites`, `claims`, `presents`, `authored_by` and `proposes_future_work` never enter G_t.
+- **Edge weights w_e** (`edge_weight`):
+  - `inverse_size`: w_e = 1/(|e| − 1).
+  - `relation_balanced` (default): inverse_size rescaled so that each relation's weights sum to 1.
+  - Why the default: under inverse_size alone, evaluated_on, which is mostly small benchmark
+    triples from a few papers, carries 85% of the weight (notebook 03 §5). Any weighting chooses
+    which relation drives the grouping, so the default spreads the choice evenly.
+- **Text.** z_v is the L2-normalised, mean-centred LSA projection of node v's name and aliases:
+  - a character 3–5-gram TF-IDF (sublinear), fitted on V_t only;
+  - then an exact SVD below 400 dimensions, otherwise ARPACK with a fixed seed, to `lsa_dim` = 100
+    dimensions.
 
-  `cites`, `claims`, `presents`, `authored_by` and `proposes_future_work` never enter
-  G_t's incidence. All snapshot edges do count towards a node's paper count for the hub
-  threshold, but `cites` edges contain no concept node. Citations are therefore free to
-  serve as a held-out signal for evaluation. Their only use in the build is to anchor
-  `cited_work` nodes.
-- **Text.** z_v = the mean-centred, L2-normalised projection of node v's name and
-  aliases. The projection is a character 3–5-gram TF-IDF followed by a deterministic
-  truncated SVD (100 dimensions), fitted on V_t of each snapshot separately, so no node
-  of a later snapshot shapes the projection. Names and aliases themselves are export-wide
-  attributes with no per-alias provenance, so an alias of an early node may stem from a
-  later paper (assumption A5).
-- **Budgets.** N_0 < N_1 < N_2 = 15 < 60 < 240. Level 0 is the coarsest.
+  Raw TF-IDF chains into one giant cluster, while LSA does not (notebook 02 §3).
+- **Never used:** titles, claims, future topics, edge attributes, cited works, citations, authors,
+  abstracts. Notebook 03 §8 explains why: they re-encode "same paper" or serve as held-out
+  evidence.
+- **Budgets.** N_0 ≤ N_1 ≤ … ≤ N_{K−1}, any list of length ≥ 2; the default is (15, 60, 240).
+  - Level 0 is the coarsest. The brief fixes only N_0 ≈ 10–15.
+  - No part of the method depends on the budget values, only on their order.
+  - The singleton level P_K is implicit in `member_ids`; it is not written as a level.
 
-## 2. Output
+## 2. Objective
 
-For each t, partitions P_{t,0}, …, P_{t,2} of V_t with:
-- |P_{t,k}| = min(N_k, n_t);
-- P_{t,k+1} refines P_{t,k} (laminar).
+SHAC optimises no global objective. The problem it would face is a hierarchical partition with
+hard budgets. Even its single-level, unconstrained relatives, modularity and normalised cut, are
+NP-hard. SHAC is instead a **deterministic greedy procedure with a stepwise criterion**. The
+criterion is the method; there is no optimality guarantee.
 
-Each anchored node is added to its anchor's super-node at every level. The partitions
-are therefore partitions of the whole snapshot, and P1 (laminarity) and P2 (budgets)
-hold over all nodes. Super-node ids and the event log come from
-`tkh/temporal.match_and_name`.
+**Level k of snapshot t**, run from the finest level to the coarsest:
+- **Start.** The items are the super-nodes of level k+1, or the singletons of V_t at the finest level.
+- **Step.** Repeat: merge the feasible pair (A, B) with the largest s(A, B). Stop when
+  min(N_k, #items) items remain.
 
-## 3. Objective
+**Score:**
 
-SHAC-T has no global objective that it optimises. That problem would be a constrained
-hierarchical partition problem; even its single-level, unconstrained versions
-(modularity, normalised cut) are NP-hard. The method is defined instead as a
-**deterministic greedy procedure with a stepwise criterion**, applied level by level from
-the finest level to the coarsest.
+    s(A, B) = α · F_S(S(A, B)) + (1 − α) · F_H(H(A, B))
 
-**Level k of snapshot t.**
-- **Start.** The items are the super-nodes of P_{t,k+1}, or the singletons of V_t when
-  k is the finest level.
-- **Step.** Repeat: merge the feasible pair (A, B) maximising s_t(A, B), until
-  min(N_k, n_t) items remain. Then P_{t,k} is the result.
+- **Semantic term.** S(A, B) = ⟨z̄_A, z̄_B⟩, the dot product of the members' mean vectors. This
+  equals the average pairwise cosine between members of A and members of B (average linkage).
+- **Structural term.** H(A, B) = Σ_{e: A∈e, B∈e} w_e / √(d_A d_B), with d_A = Σ_{e∋A} w_e
+  (0 if d_A·d_B = 0).
+  - It is computed on the **current collapsed incidence**: A ∈ e iff e has at least one endpoint in A (§3).
+  - Its numerator is the reduction of the weighted connectivity cut that the merge causes (Prop. 1).
+  - The denominator is a Salton normalisation by hyperdegree, which stops high-degree super-nodes
+    from absorbing everything.
+- **Reconciliation.**
+  - F_S is the mid-rank CDF of S over all live item pairs at the start of the level.
+  - F_H is the mid-rank CDF of H over the pairs with H > 0, with **F_H(0) = 0**.
+  - Both are frozen for the level.
+  - Ranks put two incomparable scales on [0, 1]. A pair that shares no edge gets no structural
+    credit, and can win only on semantics, at weight α.
+  - The convex mix is the explicit structure-versus-content trade-off that P3 asks for. α = 0 is
+    structure only and α = 1 is semantics only.
+- **Feasibility.** The size cap |A| + |B| ≤ c_{t,k} = ρ · n_t / N_k, counted in concept nodes,
+  with ρ ≥ 2.
+- **Ties.** Scores are rounded to 1e-9, then the lower item index wins (ids sorted). The build is
+  deterministic.
 
-**Feasibility (size cap).** |A| + |B| ≤ c_{t,k} = ρ·n_t/N_k, with sizes counted in
-concept nodes.
+**Why a joint score rather than two stages.** The two signals fail in different places:
+- names alone cannot relate proper-named methods across families (SchNet's best name neighbour
+  scores 0.11, notebook 02 §2);
+- structure alone mostly links nodes of one paper, because 94% of concept nodes are in a single
+  paper and cross-paper evidence is a few bridges (notebook 03 §§3, 5).
 
-**Score.**
+A two-stage scheme, structure first and then semantics, would freeze paper bundles before names
+could join them across papers. A single score lets either signal decide each merge.
 
-    s(A, B)   = α·F_S(S(A, B)) + (1 − α)·F_H(H(A, B))
-    s_t(A, B) = (1 − γ)·s(A, B) + γ·Π(A, B)   if A and B both contain nodes of snapshot t−1
-              = s(A, B)                         otherwise
+## 3. T4: what a hyper-edge becomes, and how the method uses it
 
-- **Semantic term.** S(A, B) = ⟨z̄_A, z̄_B⟩, where z̄_A is the mean of z_v over A. This
-  equals the average pairwise cosine between members of A and members of B.
-- **Structural term (native).** H(A, B) = Σ_{e : A∈e, B∈e} w_e / √(d_A d_B), with
-  d_A = Σ_{e∋A} w_e, computed on the **current collapsed incidence**. Here "A ∈ e" means
-  that e has at least one endpoint in A (§4).
-- **Reconciliation.** F_S and F_H are the mid-rank empirical CDFs of S and H over all
-  item pairs, fitted once at the start of each level. They put both signals on a common
-  scale, the percentile rank in [0, 1], before mixing.
-- **Temporal term.** Π(A, B) is the fraction of pairs (a, b) ∈ (A ∩ V_{t−1}) × (B ∩ V_{t−1})
-  that shared a super-node at level k in snapshot t−1. It plays the role of the
-  *history cost* (agreement with the previous clustering) of evolutionary clustering
-  (Chakrabarti et al., KDD 2006), in the preserving-cluster-membership form of Chi et al.
-  (KDD 2007), used as a merge prior. The other two terms play the role of the snapshot
-  cost.
+A fine edge e with arity n has endpoint counts c_S(e) over the super-nodes S. Let
+λ_e = #{S : c_S(e) > 0}.
 
-**Ties.** Scores are rounded to 1e-9, and ties go to the smaller item index (node ids
-sorted), so the build is deterministic.
+| Case | Coarse edge | In the score |
+|---|---|---|
+| m = n (λ_e = 1) | **internal**: links no super-nodes; kept as a record | drops out of every H numerator; its weight still counts in d_A, which lowers H for that super-node |
+| 1 < m < n (λ_e < n) | **partial**: one coarse edge over the λ_e super-nodes, with c_S(e) kept as metadata | counted once per pair of super-nodes it touches (presence) |
+| three or more super-nodes (λ_e ≥ 3) | **multi-way**: stays one hyper-edge, never split into pairs | its weight enters H for every pair of super-nodes it touches, and the cut reduction Σ w_e(λ_e − 1) keeps it whole |
 
-## 4. Hypergraph-native structure and the T4 collapse rule
+The score is computed from exactly this collapsed incidence, which is updated after every merge
+(`_Level.merge`). The records in `out/<t>/coarse_hyperedges.json` come from the same incidence and
+partition.
 
-**Collapse.** After merges, a fine edge e with arity n has its endpoints in λ_e
-distinct super-nodes:
-- **λ_e = 1 (m = n):** the edge is internal. It is kept as metadata and contributes no
-  affinity.
-- **1 < λ_e < n:** the edge becomes a coarse edge over λ_e super-nodes, keeping the
-  endpoint counts as metadata.
-- **λ_e ≥ 3:** it remains one multi-way coarse hyper-edge and is never split into pairs.
+**What the rule loses:**
+- endpoint multiplicity in the score, which uses presence only;
+- which fine members took part, kept only as the fine edge id.
 
-Coarse edges are written to `out/<t>/coarse_hyperedges.json`.
+**At ≤2026**, of the 554 edges:
 
-**What the rule loses.** Endpoint multiplicity, and which fine members participated
-(only the fine edge id is kept).
+| Level | Internal | Partial | Uncollapsed | Multi-way |
+|---|---|---|---|---|
+| 0 | 311 | 217 | 26 | 59 |
+| 1 | 218 | 289 | 47 | 105 |
+| 2 | 82 | 381 | 91 | 203 |
 
-**Proposition 1 (merge gain).** Let the connectivity cut be C = Σ_e w_e (λ_e − 1).
-Merging A and B reduces C by exactly Σ_{e : A∈e, B∈e} w_e. *Proof:* an edge with
-endpoints in both A and B loses one distinct super-node; no other edge changes. ∎
+**Proposition 1 (merge gain).** Let C = Σ_e w_e (λ_e − 1). Merging A and B reduces C by exactly
+Σ_{e: A∈e, B∈e} w_e. *Proof:* an edge with endpoints in both A and B loses one distinct super-node,
+and no other edge changes. ∎ This is tested on 50 random cases.
 
-H is therefore the cut reduction normalised by √(d_A d_B), a Salton-type normalisation
-that stops large or high-degree super-nodes from absorbing everything. The test
-`test_merge_gain_equals_connectivity_cut_reduction` checks the identity on 50 random
-cases.
+**Proposition 2 (where native and clique expansion differ).**
+- At singletons, H(a, b) = Σ_{e∋a,b} w_e / √(d_a d_b) is a normalised weighted clique expansion.
+- The native score differs from clique average linkage only once a super-node holds two or more
+  endpoints of an edge it shares with its merge partner. Native H counts that edge once per pair of
+  super-nodes; the clique view counts it once per member pair.
+- Measured at ≤2026, this happens in **39 of 45, 174 of 180 and 2287 of 3740 merges** at levels 0,
+  1 and 2 (`multi_endpoint` in `run_info.json`). So the hypergraph form decides most merges.
+- No pairwise projection is built or compared.
 
-**Proposition 2 (singleton equivalence).** At singletons, H(a, b) = Σ_{e∋a,b} w_e/√(d_a d_b),
-with d_a the weighted hypergraph degree. The `projection` variant is *defined* from these
-same singleton values W(a, b) (clique-expansion edge weights w_e = 1/(|e| − 1), normalised
-by the hypergraph degrees), and scores a pair of super-nodes by their average over member
-pairs. Native and projection scores therefore coincide at the first merge, by
-construction. They differ once a
-super-node holds two endpoints of one edge:
-- the native H counts that edge once per pair of super-nodes (presence, λ);
-- the projection (`structure = "projection"`, the average linkage of the singleton
-  clique weights) counts it once per member pair.
+**Lemma (cap feasibility).** If ρ ≥ 2 and K > N_k items remain, a feasible pair exists. *Proof:*
+the two smallest items have total size ≤ 2n_t/K < 2n_t/N_k ≤ c_{t,k}. ∎
+- Every level therefore has exactly min(N_k, n_t) super-nodes, for any budget list (tested on five
+  lists, including N_k > n_t).
+- ρ < 2 is rejected.
 
-The projection variant differs from the native method in that one place only (test
-`test_native_and_projection_agree_at_singletons_and_diverge_later`). It stays in the code to
-pin down Prop. 2, but it is not part of the evaluation: the method works on the hypergraph
-directly, and no pairwise projection is built or compared.
+## 4. Output
 
-**Lemma (cap feasibility).** If ρ ≥ 2, a feasible pair exists whenever K > N_k items
-remain. *Proof:* the two smallest items have total size ≤ 2n_t/K < 2n_t/N_k ≤ c_{t,k}. ∎
+For each t, the output is a set of partitions P_{t,0}, …, P_{t,K−1} of the whole snapshot with:
+- |P_{t,k}| = min(N_k, n_t) super-nodes;
+- P_{t,k+1} refining P_{t,k}, because every level is a cut of one merge sequence.
 
-Hence every level reaches exactly min(N_k, n_t) super-nodes (test
-`test_cap_rho_two_always_reaches_the_target`). Configurations with ρ < 2 are rejected.
+Anchored nodes are added to their anchor's super-node at every level. Ids and the event log come
+from overlap matching (`tkh/temporal.py`).
+
+Labels are deterministic placeholders. They restate the composition, counting papers within the
+snapshot only.
 
 ## 5. Anchoring of non-concept nodes
 
-Each non-concept node v in snapshot t joins the super-node of one concept node a(v) of
-snapshot t:
-
 | Node type | Anchor |
 |---|---|
-| claim | the method member of its `claims` edge, else the presented method of the paper |
-| cited_work | the presented method of the earliest citing paper (year, then id) |
+| claim | the method member of its `claims` edge, else the paper's presented method |
+| cited_work | the presented method of the earliest citing paper |
 | article | its own presented method |
-| author, future_topic | the presented method of the earliest of their papers |
+| author, future_topic | the presented method of their earliest paper |
 
-- **No name matching.** No anchor uses name matching, so cited works do not leak into
-  clusters through text.
-- **Concept-only view.** `concept_only` restricts a partition to the concept nodes.
-- **Failure is loud.** A node with no anchor raises an error; none occurs in the data.
+No anchor uses names, so cited works cannot reach clusters through text. A node with no anchor
+raises an error; none occurs in the data.
 
 ## 6. Guaranteed vs measured
 
 | Property | Status |
 |---|---|
-| P1 laminarity | guaranteed: level k merges level-(k+1) super-nodes; checked by `validate.py` |
-| P2 budgets | guaranteed: exactly min(N_k, n_t) super-nodes (lemma, §4); checked by `validate.py` |
-| Giant-cluster bound | guaranteed: no super-node exceeds ρ·n_t/N_k concept nodes |
-| Hypergraph-native structure at coarse levels | guaranteed: H is computed on the collapsed incidence (Prop. 1) |
-| Determinism | guaranteed: deterministic SVD, deterministic tie-breaking; tested |
-| No future information | guaranteed for structure, membership and the temporal prior (G_t, V_t, P_{t−1}); for text only up to A5 (export-wide names and aliases) |
-| P3 semantic coherence | to be measured (evaluation not implemented) |
-| P4 hyper-edge fidelity | by construction: the native score and the T4 collapse work on the hypergraph; no pairwise projection is built |
-| P5 temporal stability | to be measured (evaluation not implemented) |
-| P6 faithful labels | to be measured (evaluation not implemented); labels are placeholders in this version |
+| P1 laminarity | **by construction** (one merge sequence); checked by `validate.py` |
+| P2 budgets | **by construction**: exactly min(N_k, n_t) per level (lemma); checked by `validate.py` |
+| Hyper-edge fidelity (P4, T4) | **by construction**: H is computed on the collapsed incidence (Prop. 1), and multi-way edges stay whole |
+| Size bound | **by construction**: no super-node exceeds ρ·n_t/N_k concept nodes; anchored nodes are not counted |
+| Determinism | **by construction**: deterministic SVD and tie-breaking; tested on the fixture and on the real ≤2020 snapshot |
+| No future information | structure, membership and labels use snapshot t only; text only up to A4 |
+| P3 semantic coherence | **empirical**: the held-out check of §8, which supports levels 0–1 but not level 2 |
+| P5 temporal stability | not addressed: matching does identity bookkeeping only |
+| P6 faithful labels | not addressed: placeholders |
 
 ## 7. Complexity
 
-Per level, with n items, m fine edges and d = 100 text dimensions:
-- **Initialisation:** O(n²(m + d)) for the score matrix, plus O(n² log n) for the CDFs.
-- **Each merge:** O(n(m + d)) to recompute the merged item's row. Rows whose cached best
-  partner was one of the merged items are rescanned at O(n) each, so the worst case is
-  O(n²) per merge. There are n − N_k merges.
+Per level, with n items, m fine edges and d = `lsa_dim`:
+- **Initialisation:** O(n²(m + d)) time for the score matrix, plus O(n² log n) for the rank CDFs.
+- **Each merge:** O(n(m + d)) to rescore the merged item. Rows whose best partner was a merged item
+  are rescanned at O(n) each. There are n − N_k merges.
+- **Memory:** O(n²) for the dense score matrix (127 MB at n = 3980), plus O(nm) for the incidence.
 
-Memory is O(n²), for the dense score matrix. At ≤2026, n = 3980 and m = 554; the four
-snapshots take about 25–30 s in one process on a laptop. Much larger
-graphs would need a sparse score structure, because of the O(n²) memory.
+The full build of four snapshots takes 27 s in one process (`run_info.json`). Much larger graphs
+would need a sparse candidate set.
 
-## 8. Parameters
+## 8. Null models and the held-out P3 check
 
-| Parameter | Default | Role | Selection |
+**Null model** (`tkh/null.py`): the **type- and period-preserving hypergraph configuration model**.
+- It is the degree- and arity-preserving shuffle that the brief names (T6) and the standard
+  structural null for hypergraph clustering (Chodrow 2020, vertex-labelled).
+- **Sampling.** Curveball trades on the edge tails (members[1:]) within each stratum of
+  (relation, cutoff interval, member type), for 10 sweeps.
+- **Preserved:** each node's degree per relation, interval and type, and each edge's arity,
+  type mix, hub members[0], paper and year. Hence every snapshot keeps its node set (asserted),
+  and the other relations are untouched.
+- **Mixing:** 86% of the incidences move.
+- **Use.** The null graph runs through the same pipeline with the same parameters, and with the
+  real snapshot's hub sets, so `hub_frac` means the same thing in both. Its output passes
+  `validate.py` (`make null`).
+- **What it measures.** The null keeps the names, so it measures what structure adds beyond
+  degrees, given the semantics.
+- **Companion:** random labels, i.e. concept-node ids permuted within (type, entry interval) over
+  the evaluated tree, which keeps the laminar structure and every size.
+
+**Held-out ruler** (`tkh/p3.py`). P3 asks for closeness in meaning. The proxy is bibliographic
+coupling, a signal that no clustering input contains. It is fixed by the evaluator and computed
+once on the real export, identically for every configuration and null:
+- **Coupling c_pq:** the IDF-weighted Salton cosine of two papers' cited-work sets.
+- **Residual filter:** drop a paper's cited works named like one of its own concept nodes, so that
+  "extends X / cites X" does not count.
+  - *exact*: equal normalised names;
+  - *fuzzy*: also name containment.
+- **Pairs:** only **no-overlap** pairs count, i.e. pairs sharing no concept node and no
+  normalised name, excluding evaluator hubs (fixed share 0.4, independent of `hub_frac`). On these
+  pairs, shared structure explains nothing.
+- **Co-assignment:** a_pq = Σ_S n_S(p) n_S(q) / (n_p n_q) per level.
+- **Lift:** Σ a·c / (Σ a · mean c); 1 means chance.
+- **Coverage at ≤2026:** 37 citing papers, 267 no-overlap pairs, 73 of them coupled.
+
+**Results at ≤2026** (`out/metrics.json`). Lifts use the exact filter, with a paper-bootstrap
+95% CI. Null means come from 99 null rebuilds and 999 random-label draws. p = (1 + #null ≥ obs)/(R + 1).
+
+| Level | Lift [95% CI] | Configuration null: mean, p | Random labels: mean, p |
 |---|---|---|---|
-| α | 0.5 | semantic vs structural weight | pre-registered default; to be selected once an evaluation exists |
-| γ | 0.5 | temporal prior | pre-registered |
-| ρ | 2 | size cap | pre-registered |
-| structure | native | native vs projection H | pre-registered: native |
-| lsa_dim | 100 | text projection rank | pre-registered |
-| hub_frac | 0.2 | hub removal threshold | pre-registered; hubs logged in `out/run_info.json` |
+| 0 (15) | 1.42 [0.88, 2.25] | 1.06, **0.01** | 1.08, **0.001** |
+| 1 (60) | 1.29 [0.73, 2.16] | 1.18, **0.02** | 1.29, 0.57 |
+| 2 (240) | 1.07 [0.48, 2.11] | 1.47, 1.00 | 1.49, 1.00 |
 
-All six can be overridden from the command line: `scripts/build.py --param alpha=0.25`.
+Under the fuzzy filter, level 1 also beats random labels (1.44 vs 1.27, p = 0.001), and level 2
+stays below both nulls.
 
-## 9. Assumptions
+**Reading:**
+- The coarse levels group concepts of citation-coupled papers more than chance, and more than the
+  same pipeline on degree-preserving random structure.
+- The finest level does not: its small, cap-bound super-nodes mostly rebuild paper bundles (A1),
+  and here random partitions do better.
+- **Random labels exceed 1.** They keep each super-node's mix of type and entry period, and papers
+  of the same period cite similar work. That is why the baseline is the null, not 1.
+- **Two kinds of uncertainty.** The null tests are conditional on the 37 papers. The bootstrap CIs
+  over papers are wide and include 1 at every level.
 
-- **A1.** Concept relations within a paper are evidence of relatedness. Every clustering
-  edge is a star around one paper's method (one per relation, plus one per evaluated_on
-  link; about 11 per paper), so structure is mostly paper co-occurrence. The structural signal is
-  therefore expected to rebuild papers. Paper purity is to be measured by the
-  evaluation.
-- **A2.** Name strings carry weak but real semantic signal (notebook 02: useful for
-  generic tasks and metrics, useless for proper-named methods). This is why α is
-  bounded, not fixed at 1.
-- **A3.** Membership in the previous snapshot is a valid prior for the current one
-  (P5). γ trades stability against adaptation.
-- **A4.** The provenance year is the time a node and an edge enter the graph.
-- **A5.** Node names and aliases, which are export-wide, carry no information from after
-  the cutoff that matters for clustering. This is not verifiable from the export.
+## 9. Parameters and selection
 
-## 10. Trade-offs and rejected alternatives
+| Parameter | Default | Role |
+|---|---|---|
+| α (`alpha`) | 0.5 | weight of the semantic rank |
+| ρ (`rho`) | 2 | size-cap factor (≥ 2, or inf) |
+| `edge_weight` | relation_balanced | edge weighting (§1) |
+| `hub_frac` | 0.2 | hub threshold as a share of the snapshot's papers (1.0 = no hubs) |
+| `lsa_dim` | 100 | text projection rank |
 
-- **Greedy agglomeration vs global optimisation.** Agglomeration controls the budgets
-  exactly, gives laminarity by construction, and is deterministic and explainable merge
-  by merge. The cost is that early merges cannot be undone and there is no optimality
-  guarantee.
-- **Hypergraph modularity and its greedy or Louvain-style optimisers (rejected):**
-  Kamiński et al. 2019, and the later h-Louvain by the same group. They give no direct
-  control over the number of communities, only an indirect one through a resolution
-  parameter, while P2 makes the count a hard constraint. They suffer from the resolution limit. And
-  on per-paper stars they would reward exactly the paper bundles that A1 warns about.
-- **Attributed hypergraph SBM (discussed, not used).** It is principled and could use
-  names as attributes. But at about 4k nodes and about 550 edges, with 88% of concept
-  nodes in at most one edge, inference is badly under-determined. It is also not natively
-  hierarchical with fixed budgets.
-- **Clique expansion.** Rejected: it splits each multi-member edge into equal-weight pairs,
-  which is exactly what P4 rules out (Prop. 2 shows where the two diverge).
-- **Rank-normalised mixing vs raw mixing.** Raw S and H live on incomparable scales. At
-  singletons, H is 0 for 98–99% of pairs; at coarser levels fewer pairs are 0, e.g. about
-  73% at the start of level 0 at ≤2026. Percentile ranks make α interpretable. The cost is that
-  magnitudes inside each signal are lost.
-- **Size cap.** It prevents the giant clusters that pure average linkage produces on
-  sparse data. The cost is that sizes are partly imposed, not discovered.
-- **Hub removal.** It stops generic domain terms and metrics from fusing unrelated
-  papers. At ≤2026 the hubs are "materials science", "computational chemistry",
-  "computational materials science", "computational physics", "molecular dynamics" and
-  "MAE". The cost is that the hubs' own placement is decided by
-  text only.
+- **Overrides.** Every parameter, the budgets and the cutoffs can be overridden, e.g.
+  `python -m tkh build --param alpha=0.25 hub_frac=0.3 --budgets 10 40 160`.
+- **Strict parsing.** Unknown parameters are an error.
+- **Run record.** Each run writes its resolved `run_config.toml` and validates against it.
 
+**Selection protocol** (`make sweep`, `out/sweep.json`):
+- **Grid:** α ∈ {0.25, 0.5, 0.75} × ρ ∈ {2, 4} × edge_weight ∈ {inverse_size, relation_balanced} ×
+  hub_frac ∈ {0.1, 0.15, 0.2, 0.3, 1.0}, i.e. 60 configurations. At ≤2026 these hub fractions give
+  20, 10, 6, 2 and 0 hubs.
+- **Ablations:** α = 0 and α = 1, reported but not selectable.
+- **Splits:** 20 seeded halves (A, B) of the cited works, stratified by citation count.
+- **Rule per split:** on half A, take the best configuration by mean lift over levels. Among the
+  configurations within one paper-bootstrap SE of it, pick the one closest to the default,
+  comparing in the order α, ρ, edge_weight, hub_frac. Report that pick on half B.
+
+**Outcome: the ruler cannot rank the configurations.**
+- The SE of the best configuration is about 0.66 (median), on criteria around 1.3.
+- 16 to 60 of the 60 configurations lie within one SE, depending on the split.
+- Across configurations, half-A and half-B means correlate at only 0.20.
+- So the rule falls back to the default, picked in 18 of 20 splits. **The default is not shown to
+  be optimal; it is not distinguishable.**
+- Descriptively, the structure-only ablation α = 0 has a higher half-B mean (1.41) than the
+  default (1.19), and α = 1 is lowest (1.09). This is consistent with structure carrying the
+  cross-paper evidence, but it is within the noise.
+- Telling configurations apart needs a stronger independent signal than 37 citing papers. That is
+  for the evaluation (T6).
+
+## 10. Assumptions
+
+- **A1.** Concept relations within a paper indicate relatedness. Every clustering edge is a star
+  around one paper's method, so structure is mostly paper co-occurrence, and fine levels rebuild
+  papers (§8).
+- **A2.** Names carry weak but real semantic signal: informative for tasks, problems and
+  techniques, nearly useless for proper-named methods (notebook 02). That is why α < 1.
+- **A3.** Bibliographic coupling between papers that share no concept is a proxy for closeness in
+  meaning.
+- **A4.** Names and aliases are export-wide and undated. They are assumed to carry no information
+  from after the cutoff that matters; this cannot be checked from the export.
+- **A5.** The provenance publication year is when a node or edge enters the graph.
+
+## 11. Trade-offs and rejected alternatives
+
+- **Greedy agglomeration vs global optimisation.**
+  - Gains: exact budgets, laminarity by construction, determinism, and merges that can each be
+    explained.
+  - Costs: early merges cannot be undone, and there is no optimality guarantee.
+- **Hypergraph modularity / h-Louvain (Kamiński et al.), rejected.**
+  - It controls the number of communities only indirectly, through a resolution parameter,
+    whereas P2 makes that number a hard limit.
+  - Communities at different resolutions are not nested, so it gives no laminar cuts.
+  - It suffers from the resolution limit.
+  - It builds its own degree null into the objective, which would blur the comparison with the
+    configuration null.
+- **Spectral hypergraph coarsening (HyperEF-style), rejected.** It controls a coarsening ratio, not
+  exact per-level budgets, and has no semantic term.
+- **Clique expansion, rejected.** It splits every multi-member edge into pairs: 9.5 member pairs
+  per incidence at ≤2026, and multi-way coarse edges disappear. Prop. 2 and the
+  measured merge shares show where it would change decisions.
+- **Semantics only, rejected.** Proper-named methods find only their own family (notebook 02). The
+  α = 1 ablation is lowest on the held-out ruler.
+- **Rank mixing vs raw mixing.**
+  - Raw S and H live on incomparable scales, and H is 0 for 99% of singleton pairs.
+  - Ranks make α an interpretable weight. F_H(0) = 0 keeps the structural rank from being nearly
+    binary.
+  - The cost is that magnitudes inside each signal are lost.
+- **Size cap.** It prevents the giant clusters that average linkage produces on sparse data (without a
+  cap, 87% of the concept nodes fall into one level-0 super-node at ≤2026). The cost is that sizes are imposed: the cap
+  binds at every level, for example a maximum of 529 against a cap of 531 at level 0, ≤2026.
+- **Hub removal.**
+  - It stops generic terms such as "materials science", "MAE" and "molecular dynamics" from fusing
+    unrelated papers.
+  - The cost is that hubs are placed by their names alone.
+  - The threshold is a parameter: its meaning shifts across snapshots (4 to 11 papers at 0.2), so
+    the effective threshold is logged per run.
