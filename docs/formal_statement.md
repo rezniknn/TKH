@@ -18,7 +18,7 @@ semantics.
 | Run | `tkh/pipeline.py`, `python -m tkh build` |
 | Null models | `tkh/null.py`, `python -m tkh null` |
 | Output checks (schema, P1, P2, cutoff, labels present, events) | `validate.py` |
-| Held-out P3 check and experiments (evaluation, outside the method package) | `eval/coherence.py`, `eval/experiments.py`, `python -m eval p3`, `python -m eval sweep` |
+| Held-out coherence check and experiments (evaluation, outside the method package) | `eval/coherence.py`, `eval/experiments.py`, `python -m eval coherence`, `python -m eval sweep` |
 | Stability evaluation and the temporal-prior variants | `eval/stability.py`, `python -m eval stability`, `python -m eval gamma` |
 
 **Configuration.**
@@ -336,11 +336,11 @@ loading).
 - Per-snapshot time grows roughly with n_t².
 - Much larger graphs would need a sparse candidate set.
 
-The evaluation is separate: `make p3` (§8) runs 99 null rebuilds per snapshot on 8 worker processes,
+The evaluation is separate: `make coherence` (§8) runs 99 null rebuilds per snapshot on 8 worker processes,
 `make stability` (§9) runs 5 perturbed rebuilds and 19 new-paper nulls per transition, and
 `make sweep` (§10) takes about 8 min on 8 cores.
 
-## 8. Null models and the held-out P3 check
+## 8. Null models and the held-out coherence check
 
 **Null model** (`tkh/null.py`): the **type- and period-preserving hypergraph configuration model**.
 - It is the degree- and arity-preserving shuffle that the brief names (T6), and the standard structural
@@ -395,7 +395,7 @@ the real export, and applies it identically to every configuration and null.
   random-label draws, the floors are 0.01 and 0.001.
 - **Every snapshot is evaluated on its own.** The ruler, the pairs and the random labels are rebuilt at
   each cutoff, and the null hierarchy is rebuilt at each cutoff from the seed's null graph.
-- **Command:** `make p3`, i.e. `python -m eval p3 --run out`.
+- **Command:** `make coherence`, i.e. `python -m eval coherence --run out`.
   - It reads the run's own `run_config.toml`, refuses null runs, and writes `out/metrics.json`.
   - A new build into the same directory deletes `metrics.json`.
 
@@ -434,7 +434,7 @@ fuzzy filter are all in `metrics.json`. Under the fuzzy filter, the same cells a
 - **Robust evidence of P3: levels 1 and 2 at ≤2022, ≤2024 and ≤2026.** There, the hierarchy groups the
   concepts of citation-coupled papers within the same period more than a degree-preserving null rebuild or
   a random relabelling does, under every period scheme.
-- **Level 0 shows no P3** at any snapshot (lift 0.84–1.03; ≤2020 0.03). Its 15 super-nodes are mixed over
+- **Level 0 shows no coherence** at any snapshot (lift 0.84–1.03; ≤2020 0.03). Its 15 super-nodes are mixed over
   many papers (median paper purity 0.23 at ≤2026), so co-assignment barely tells papers apart.
 - **The period control is essential.** Without it, at ≤2026, levels 1 and 2 still beat both nulls (1.30 and
   1.61), but the nulls rise to 1.05–1.22 through same-period mixing. With it, the nulls fall to about 1.0.
@@ -525,11 +525,11 @@ with 95% intervals over 200 half-subsamples of the nodes.
 | 2024→2026 | change 7, continue 3, growth 2, merge 1, split 1 | change 24, continue 13, growth 17, merge 2, split 2 | birth 7, change 38, continue 129, growth 54, merge 8, split 2 |
 
 **What the prior buys and what it costs** (`make gamma`, `out/gamma/gamma.json`). Each γ is a full run,
-scored on stability and on the period-adjusted P3 coherence. P3 uses 19 null rebuilds and 199 random labels,
+scored on stability and on the period-adjusted coherence. The coherence check uses 19 null rebuilds and 199 random labels,
 so its p floor is 0.005. Differences to γ = 0 are paired: by seed for perturbation, and by node subsample for
 cross-snapshot.
 
-| γ | Cross-snapshot HARI (20→22 / 22→24 / 24→26) | Δ vs γ = 0, 24→26 [95%] | Perturbation HARI ≤2026 [95%] | Δ vs γ = 0 [95%] | Localisation ratio level 0, 24→26 | P3 lift ≤2026, levels 0 / 1 / 2 (random-label p) |
+| γ | Cross-snapshot HARI (20→22 / 22→24 / 24→26) | Δ vs γ = 0, 24→26 [95%] | Perturbation HARI ≤2026 [95%] | Δ vs γ = 0 [95%] | Localisation ratio level 0, 24→26 | Coherence lift ≤2026, levels 0 / 1 / 2 (random-label p) |
 |---|---|---|---|---|---|---|
 | 0 | 0.58 / 0.47 / 0.34 | – | 0.33 [0.28, 0.38] | – | 1.1 | 1.46 (0.005) / 1.26 (0.005) / 1.04 (0.395) |
 | 0.25 | 0.91 / 0.75 / 0.73 | +0.39 [+0.36, +0.41] | 0.18 [0.15, 0.21] | -0.15 [-0.20, -0.10] | 1.6 | 1.38 (0.005) / 0.96 (0.895) / 1.24 (0.005) |
@@ -580,7 +580,7 @@ cross-snapshot.
 - **Run record and validation.**
   - Each build writes its resolved `run_config.toml`, with input paths relative to the run directory.
   - Validation is a separate step: `validate.py <out> --config <out>/run_config.toml`. It runs in
-    `make validate`, in `make all` (build → validate → p3 → test) and in `make null`.
+    `make validate`, in `make all` (build → validate → coherence → test) and in `make null`.
 
 **Selection protocol** (`make sweep`, `out/sweep.json`; latest snapshot only).
 - **Grid:** α ∈ {0.25, 0.5, 0.75} × ρ ∈ {2, 4} × edge_weight ∈ {inverse_size, relation_balanced} ×

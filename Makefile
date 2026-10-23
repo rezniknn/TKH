@@ -1,12 +1,12 @@
-# Pipeline: 'make all' = build -> validate -> p3 (coherence) -> stability -> labels -> test; checks write $(OUT)/metrics.json.
+# Pipeline: 'make all' = build -> validate -> coherence -> stability -> labels -> test; checks write $(OUT)/metrics.json.
 # LLM calls replay from data/llm_cache.json (TKH_LLM_MODE=offline, the default); live/refresh need a local Ollama server.
 PYTHON ?= .venv/bin/python
 OUT ?= out
 SEED ?= 0
 
-.PHONY: all test fixtures build validate null p3 stability labels gamma sweep
+.PHONY: all test fixtures build validate null coherence stability labels gamma sweep
 
-all: build validate p3 stability labels test
+all: build validate coherence stability labels test
 
 test:            ## unit tests and the validator's broken fixtures (6a.2)
 	$(PYTHON) -m pytest tests/ -q -p no:cacheprovider
@@ -24,8 +24,8 @@ null:            ## one configuration-null export and run -> out_null/$(SEED)/, 
 	$(PYTHON) -m tkh null --seed $(SEED) --out out_null/$(SEED) $(if $(PARAMS),--param $(PARAMS))
 	$(PYTHON) validate.py out_null/$(SEED) --config out_null/$(SEED)/run_config.toml
 
-p3:              ## held-out P3 check of $(OUT)/ against 99 configuration-null rebuilds and 999 random labels
-	$(PYTHON) -m eval p3 --run $(OUT)
+coherence:       ## held-out coherence check of $(OUT)/ against 99 configuration-null rebuilds and 999 random labels
+	$(PYTHON) -m eval coherence --run $(OUT)
 
 stability:       ## perturbation (10% of hyper-edges, 5 seeds) and cross-snapshot stability vs a new-paper null
 	$(PYTHON) -m eval stability --run $(OUT)

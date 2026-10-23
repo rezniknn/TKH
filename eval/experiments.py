@@ -1,6 +1,6 @@
-"""Experiments on the last snapshot: the held-out P3 check of one run against the nulls, and the configuration sweep.
+"""Experiments on the last snapshot: the held-out coherence check of one run against the nulls, and the configuration sweep.
 
-p3_check: for every snapshot and level of a run (its hierarchy.json), the unadjusted lift and the
+coherence_check: for every snapshot and level of a run (its hierarchy.json), the unadjusted lift and the
   period-adjusted lift under every period scheme (eval/coherence.py; "interval" is primary), under the exact and the fuzzy
   residual filter, with paper-bootstrap CIs, against R configuration-null
   rebuilds at that cutoff (same parameters, real hub sets) and R_labels random-label permutations of the run's tree.
@@ -64,7 +64,7 @@ def _concept_levels(hierarchy):
     return [{s["id"]: set(s["member_ids"]) for s in hierarchy["supernodes"] if s["level"] == k} for k in range(K)]
 
 
-def p3_check(cfg, params, run_dir, R=99, R_labels=999, n_jobs=8):
+def coherence_check(cfg, params, run_dir, R=99, R_labels=999, n_jobs=8):
     """Per snapshot and level: unadjusted and period-adjusted lifts (every period scheme; "interval" primary),
     under the exact and the fuzzy residual filter, vs both nulls."""
     tkh = load(cfg)

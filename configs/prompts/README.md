@@ -16,7 +16,7 @@ Plain-text templates with `{placeholders}`; literal braces are written `{{ }}`. 
 - future-work topics;
 - paper titles.
 
-Cited works are excluded, because they are the P3 coherence ruler. Authors are excluded too.
+Cited works are excluded, because they are the coherence ruler. Authors are excluded too.
 
 **The 50/50 split.** Each super-node's evidence is split into two halves, seeded and stratified by kind (`split_evidence`). The labeller sees only the seen half; the judge sees only the held-out half.
 

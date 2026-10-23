@@ -1,6 +1,6 @@
-"""Command line of the evaluation: python -m eval {p3,stability,gamma,sweep}.
+"""Command line of the evaluation: python -m eval {coherence,stability,labels,gamma,sweep}.
 
-  p3         --run DIR [--R 99] [--R-labels 999]   held-out P3 coherence per snapshot and level, unadjusted and
+  coherence  --run DIR [--R 99] [--R-labels 999]   held-out coherence per snapshot and level, unadjusted and
                                                    period-adjusted, against both nulls -> DIR/metrics.json "coherence"
   stability  --run DIR [--seeds 5] [--R 19]        perturbation and cross-snapshot stability (ARI, HARI, CIs,
                                                    new-paper null), change localisation, events -> "stability"
@@ -9,7 +9,7 @@
   gamma      [--out DIR] [--param k=v ...]         temporal-prior variants gamma = 0 ... 1: stability and coherence
                                                    per variant, paired differences to gamma = 0 -> DIR/gamma.json
   sweep      --out FILE [--param k=v ...]          configuration grid and one-SE selection on cited-work halves
-p3 and stability use the run's own run_config.toml and refuse null-model runs; each updates its own section of
+coherence, stability and labels use the run's own run_config.toml and refuse null-model runs; each updates its own section of
 metrics.json.
 """
 
@@ -18,7 +18,7 @@ import argparse
 from dataclasses import replace
 import json
 
-from eval.experiments import p3_check, sweep
+from eval.experiments import coherence_check, sweep
 from eval.labels import RIGOR, label_check
 from eval.stability import gamma_tradeoff, stability_check
 from tkh.config import add_config_args, config_from_args, load_config, parse_overrides
@@ -28,12 +28,12 @@ from tkh.hierarchy import Params
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="python -m eval", description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("p3", "stability"):
+    for name in ("coherence", "stability"):
         p = sub.add_parser(name)
         p.add_argument("--run", type=Path, required=True)
         p.add_argument("--R", type=int, default=99)
         p.add_argument("--jobs", type=int, default=8)
-        if name == "p3":
+        if name == "coherence":
             p.add_argument("--R-labels", type=int, default=999)
         else:
             p.add_argument("--seeds", type=int, default=5)
@@ -53,13 +53,13 @@ def main(argv=None):
         p.add_argument("--jobs", type=int, default=8)
     args = ap.parse_args(argv)
 
-    if args.cmd in ("p3", "stability", "labels"):   # the run's own resolved config, so the check uses exactly its inputs
+    if args.cmd in ("coherence", "stability", "labels"):   # the run's own resolved config, so the check uses exactly its inputs
         if "null" in json.loads((args.run / "run_info.json").read_text()):
             raise SystemExit(f"{args.run} is a null-model run: the checks evaluate real runs")
         cfg = load_config(args.run / "run_config.toml")
         params = Params.from_config(cfg.method)
-        if args.cmd == "p3":
-            res, section = p3_check(cfg, params, args.run, args.R, args.R_labels, args.jobs), "coherence"
+        if args.cmd == "coherence":
+            res, section = coherence_check(cfg, params, args.run, args.R, args.R_labels, args.jobs), "coherence"
         elif args.cmd == "labels":
             if args.relabel:   # the current labeller settings (configs/default.toml), not the run's
                 cfg = replace(cfg, labels={**cfg.labels, **load_config().labels})

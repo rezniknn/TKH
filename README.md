@@ -107,7 +107,7 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
   edges are used only to anchor claim and cited-work nodes afterwards.
 - **Null models** (`tkh/null.py`): the type- and period-preserving hypergraph
   configuration model, run through the same pipeline, and random labels.
-- **Held-out P3 check** (`eval/coherence.py`, run by `python -m eval p3`): bibliographic coupling of papers whose concepts a
+- **Held-out coherence check** (`eval/coherence.py`, run by `python -m eval coherence`): bibliographic coupling of papers whose concepts a
   level groups together, on paper pairs that share no concept node, adjusted for publication
   period (papers of one period cite the same work); every snapshot and level, against both nulls.
 - **Stability check** (`eval/stability.py`): rebuild after removing 10% of hyper-edges (5 seeds)
@@ -115,7 +115,7 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
   edges are rewired; change localisation; event counts. `make gamma` compares gamma = 0 ... 1.
 
 ```bash
-make all                                     # build -> validate -> p3 -> stability -> test (about 15 min on 8 cores)
+make all                                     # build -> validate -> coherence -> stability -> test (about 15 min on 8 cores)
 make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
 .venv/bin/python -m tkh build --out /tmp/alt --budgets 10 40 160 640 --param rho=4
 make null SEED=3                             # one null-model run, validated against its own graph

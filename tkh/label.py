@@ -7,7 +7,7 @@ Evidence of a super-node (`evidence`) is a list of text lines, all from its snap
   claim     member claim nodes, "claim: <sentence>"
   future    member future-topic nodes, "future work: <topic>"
   paper     member article nodes, "paper: <title>"
-Cited works and citations are left out (they are the P3 coherence ruler); authors carry no meaning.
+Cited works and citations are left out (they are the coherence ruler); authors carry no meaning.
 
 The evidence is split 50/50 (`split_evidence`): seeded by the super-node's members, stratified by kind. The labeller
 sees only the seen half; the held-out half is reserved for the faithfulness judge (eval/labels.py), which breaks the

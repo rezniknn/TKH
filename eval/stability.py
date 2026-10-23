@@ -201,11 +201,11 @@ def _events(run_dir):
 
 # ---------------------------------------------------------------- variants: what the temporal prior buys and costs
 
-def gamma_tradeoff(cfg, base, gammas=(0.0, 0.25, 0.5, 0.75, 1.0), out_dir=None, R_p3=19, R_labels=199, R=19, n_jobs=8):
+def gamma_tradeoff(cfg, base, gammas=(0.0, 0.25, 0.5, 0.75, 1.0), out_dir=None, R_coherence=19, R_labels=199, R=19, n_jobs=8):
     """Each gamma is built as a full run (out_dir/<gamma>/) and scored on stability (this module) and on the
-    period-adjusted P3 coherence (eval/experiments.p3_check, fewer nulls). Differences to gamma = 0 are paired: by
+    period-adjusted coherence (eval/experiments.coherence_check, fewer nulls). Differences to gamma = 0 are paired: by
     seed for perturbation, by node subsample for cross-snapshot HARI."""
-    from eval.experiments import p3_check
+    from eval.experiments import coherence_check
     from tkh.pipeline import run
     out_dir = Path(out_dir or Path(cfg.out_dir) / "gamma")
     res, runs = {}, {}
@@ -214,7 +214,7 @@ def gamma_tradeoff(cfg, base, gammas=(0.0, 0.25, 0.5, 0.75, 1.0), out_dir=None, 
         d = out_dir / f"{g:g}"
         run(cfg, p, d)
         st = stability_check(cfg, p, d, R=R, n_jobs=n_jobs)
-        co = p3_check(cfg, p, d, R=R_p3, R_labels=R_labels, n_jobs=n_jobs)
+        co = coherence_check(cfg, p, d, R=R_coherence, R_labels=R_labels, n_jobs=n_jobs)
         runs[g] = (d, st)
         res[f"{g:g}"] = {"stability": st, "coherence": co}
     tkh = load(cfg)

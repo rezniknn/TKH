@@ -1,4 +1,4 @@
-"""Tests for tkh/null.py (configuration model, random labels) and eval/coherence.py (held-out P3 check)."""
+"""Tests for tkh/null.py (configuration model, random labels) and eval/coherence.py (held-out coherence check)."""
 
 from collections import Counter
 from pathlib import Path
@@ -78,7 +78,7 @@ def test_random_labels_keep_sizes_and_strata(real):
     assert set().union(*rl.values()) == set(items) and rl != lv
 
 
-# ---------------------------------------------------------------- P3 ruler
+# ---------------------------------------------------------------- coherence ruler
 
 def test_lift_is_one_for_constant_coupling_and_mask_excludes_overlap(real):
     cfg, tkh, _ = real

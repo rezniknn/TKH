@@ -1163,6 +1163,19 @@ accepted or changed, and what was checked.
     sets, not significant. The dev gain was a selection effect over 10 iterations on 15 labels.
   - Both the confirmation set and the test set have now been looked at.
 
+### 31. p3 renamed to coherence (Claude Code)
+
+- **Task/module:** `eval/__main__.py`, `eval/experiments.py`, `eval/stability.py`, Makefile, README,
+  `docs/formal_statement.md`, docstrings and comments
+- **Prompt:** "Rename p3 to coherence throughout the project"
+- **What the assistant did:**
+  - Renamed `python -m eval p3` to `python -m eval coherence`, `make p3` to `make coherence`, `p3_check` to
+    `coherence_check` and `R_p3` to `R_coherence`.
+  - Changed "P3 check" and "P3 ruler" to "coherence check" and "coherence ruler" in code and docs.
+  - Kept "P3" where it names the brief's requirement (Semantic coherence), for traceability to the brief.
+    Earlier entries of this log are left as written.
+- **Verified:** 450 tests pass; `make -n coherence` and `python -m eval coherence --help` work.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

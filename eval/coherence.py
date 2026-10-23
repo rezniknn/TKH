@@ -1,4 +1,4 @@
-"""Held-out P3 check: are papers whose concept nodes a hierarchy groups together related by an independent signal?
+"""Held-out coherence check: are papers whose concept nodes a hierarchy groups together related by an independent signal?
 
 The signal is bibliographic coupling, which no clustering input contains (citations and cited works never
 enter the method). Everything below is fixed by the evaluator and computed once on the REAL export, the same
