@@ -1,0 +1,1482 @@
+{
+ "metrics": {
+  "rigor": "quick",
+  "protocol": {
+   "levels": [
+    0
+   ],
+   "model_cutoffs": "last",
+   "null_cutoffs": "last",
+   "R_config": 1,
+   "R_labels": 1,
+   "n_names": 3,
+   "max_claims": 4
+  },
+  "labeller_model": "qwen2.5:7b-instruct",
+  "judge_model": "phi4",
+  "j_min": 0.4,
+  "trees": {
+   "model": {
+    "labels": 15,
+    "judged": 15,
+    "over_claim": {
+     "value": 0.5333333333333333,
+     "ci95": [
+      0.26666666666666666,
+      0.8
+     ],
+     "n": 15
+    },
+    "claim_unsupported": 0.2894736842105263,
+    "Se": 0.9777777777777777,
+    "Sp": 0.8444444444444444,
+    "J": 0.8222222222222222,
+    "valid": true,
+    "corrected_over_claim": 0.35637493418913624,
+    "cross_support": 0.3333333333333333,
+    "sibling_support": 0.2,
+    "decomposition_ok": 0.4,
+    "quote_rejected": 0,
+    "no_held_out": 0,
+    "deterministic": {
+     "year_after_cutoff": 0,
+     "named_non_member": 1,
+     "future_entity": 0
+    }
+   }
+  },
+  "model_on_null_cutoffs": {
+   "value": 0.5333333333333333,
+   "ci95": [
+    0.26666666666666666,
+    0.8
+   ],
+   "n": 15
+  },
+  "nulls": {}
+ },
+ "judgements": [
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "label",
+   "claim": "Equivariant Neural Networks are models.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "label",
+   "claim": "Equivariant Neural Networks preserve symmetry.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "label",
+   "claim": "Equivariant Neural Networks are related to materials.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "label",
+   "claim": "Equivariant Neural Networks are related to molecules.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "true",
+   "claim": "The group has a member named \"Stochastic gradient descent\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "true",
+   "claim": "The group has a member named \"Gradient-domain machine learning\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "true",
+   "claim": "The group has a member named \"Shear modulus prediction\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "false",
+   "claim": "The group has a member named \"Minimum reduction aggregation\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "false",
+   "claim": "The group has a member named \"Adaptive DBS stepping\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "false",
+   "claim": "The group has a member named \"Energy gap (∆ε) prediction\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "cross",
+   "claim": "Equivariant Neural Networks are models.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.1",
+   "kind": "sibling",
+   "claim": "Model Evaluation Metrics are used to evaluate model performance.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "label",
+   "claim": "High-throughput DFT calculations",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "label",
+   "claim": "Techniques and protocols for efficient DFT calculations.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "true",
+   "claim": "The group has a member named \"Python Materials Genomics\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "true",
+   "claim": "The group has a member named \"Auto-differentiation layer\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "true",
+   "claim": "The group has a member named \"Arrhenius fitting\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "false",
+   "claim": "The group has a member named \"Iterative database extension\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "false",
+   "claim": "The group has a member named \"Dropout on attention weights\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "false",
+   "claim": "The group has a member named \"computational chemistry\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "cross",
+   "claim": "High-throughput DFT calculations",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.10",
+   "kind": "sibling",
+   "claim": "Graph Neural Networks for Defects",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "label",
+   "claim": "Diffusion Coefficient Computation",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "label",
+   "claim": "Models predicting ionic and Li diffusion in solid electrolytes.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "true",
+   "claim": "The group has a member named \"Atomic Simulation Environment\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "true",
+   "claim": "The group has a member named \"Al\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "true",
+   "claim": "The group has a member named \"F1\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "false",
+   "claim": "The group has a member named \"discovery rate\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "false",
+   "claim": "The group has a member named \"Charge transfer dynamics\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "false",
+   "claim": "The group has a member named \"Fourier feature expansion\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "cross",
+   "claim": "Diffusion Coefficient Computation",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.11",
+   "kind": "sibling",
+   "claim": "Deep learning for materials",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "label",
+   "claim": "Phase Diagram Construction involves tasks.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "label",
+   "claim": "Phase Diagram Construction involves techniques.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "label",
+   "claim": "Tasks are for phase diagram generation.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "label",
+   "claim": "Techniques are for phase diagram generation.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "true",
+   "claim": "The group has a member named \"Chemical space generalization benchmarking\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "true",
+   "claim": "The group has a member named \"Voltage-composition curve prediction\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "true",
+   "claim": "The group has a member named \"Phase diagram construction and stability assessment\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "false",
+   "claim": "The group has a member named \"Geometry optimization\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "false",
+   "claim": "The group has a member named \"Spherical harmonics expansion\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "false",
+   "claim": "The group has a member named \"Automatic spin polarization economization\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "cross",
+   "claim": "Phase Diagram Construction involves tasks.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.14",
+   "kind": "sibling",
+   "claim": "E(3)-equivariant models are models.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "label",
+   "claim": "E(3)-equivariant ML models",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "label",
+   "claim": "Models using E(3)-equivariant representations for materials science.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "true",
+   "claim": "The group has a member named \"Principal component analysis (PCA) of latent features\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "true",
+   "claim": "The group has a member named \"MD-induced distortion test\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "true",
+   "claim": "The group has a member named \"sp3 atom counting\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "false",
+   "claim": "The group has a member named \"Vienna Ab-initio simulation package\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "false",
+   "claim": "The group has a member named \"PhysNet\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "false",
+   "claim": "The group has a member named \"solid-state physics\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "cross",
+   "claim": "E(3)-equivariant ML models",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.15",
+   "kind": "sibling",
+   "claim": "Equivariant Neural Networks are models.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "label",
+   "claim": "Graph Neural Networks for Defects",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "label",
+   "claim": "Models predicting atomic properties in defective crystalline solids.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "true",
+   "claim": "The group has a member named \"Polycrystalline graphene\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "true",
+   "claim": "The group has a member named \"Accelerated property evaluation\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "true",
+   "claim": "The group has a member named \"Atomic tensile stress prediction\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "false",
+   "claim": "The group has a member named \"ML-IAP\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "false",
+   "claim": "The group has a member named \"2D heterostructure band-alignment analysis\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "false",
+   "claim": "The group has a member named \"TeaNet\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "cross",
+   "claim": "Graph Neural Networks for Defects",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.16",
+   "kind": "sibling",
+   "claim": "Atomic Energy Prediction",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "label",
+   "claim": "Melting Temperature Prediction",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "label",
+   "claim": "Techniques and components for predicting melting temperatures of materials.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "true",
+   "claim": "The group has a member named \"Fine-tuning on MPtrj and sAlex\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "true",
+   "claim": "The group has a member named \"Envelope function\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "true",
+   "claim": "The group has a member named \"Fine-tuning from OC20 checkpoints\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "false",
+   "claim": "The group has a member named \"Arrhenius extrapolation\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "false",
+   "claim": "The group has a member named \"Data efficiency in interatomic potential prediction\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "false",
+   "claim": "The group has a member named \"Elastic constant prediction\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "cross",
+   "claim": "Melting Temperature Prediction",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.17",
+   "kind": "sibling",
+   "claim": "Graph Neural Networks are models.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "label",
+   "claim": "E(3)-equivariant models are models.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "label",
+   "claim": "E(3)-equivariant models preserve 3D rotational symmetry.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "label",
+   "claim": "E(3)-equivariant models are used for materials simulation.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "true",
+   "claim": "The group has a member named \"Energy surface discontinuities\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "true",
+   "claim": "The group has a member named \"M3GNet\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "true",
+   "claim": "The group has a member named \"Allegro\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "false",
+   "claim": "The group has a member named \"Atomistic trajectory generation for lithium solid-state electrolytes\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "false",
+   "claim": "The group has a member named \"GNoME dataset\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "false",
+   "claim": "The group has a member named \"Vienna Ab-initio simulation package\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "cross",
+   "claim": "E(3)-equivariant models are models.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.2",
+   "kind": "sibling",
+   "claim": "High-throughput DFT calculations",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "label",
+   "claim": "Model Evaluation Metrics are used to evaluate model performance.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "label",
+   "claim": "Model Evaluation Metrics are used in materials science.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "true",
+   "claim": "The group has a member named \"MAE evaluation\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "true",
+   "claim": "The group has a member named \"charge equilibration\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "true",
+   "claim": "The group has a member named \"embedding layer\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "false",
+   "claim": "The group has a member named \"Boltzmann sampling\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "false",
+   "claim": "The group has a member named \"mechanical design\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "false",
+   "claim": "The group has a member named \"Gate activation\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "cross",
+   "claim": "Model Evaluation Metrics are used to evaluate model performance.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.3",
+   "kind": "sibling",
+   "claim": "Interatomic Potentials",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "label",
+   "claim": "Interatomic Potentials",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "label",
+   "claim": "Models for predicting atomic interactions in materials.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "true",
+   "claim": "The group has a member named \"Kohn-Sham density-functional theory\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "true",
+   "claim": "The group has a member named \"atomistic modeling\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "true",
+   "claim": "The group has a member named \"Molecular dynamics simulation\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "false",
+   "claim": "The group has a member named \"PNA-based GNN predictor\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "false",
+   "claim": "The group has a member named \"Automated workflow orchestration\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "false",
+   "claim": "The group has a member named \"Light Gradient-Boosting Machine\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "cross",
+   "claim": "Interatomic Potentials",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.4",
+   "kind": "sibling",
+   "claim": "Equivariant GNNs",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "label",
+   "claim": "Equivariant GNNs",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "label",
+   "claim": "Models addressing computational complexity and expressivity in materials science.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "true",
+   "claim": "The group has a member named \"Edge-irreducible representation\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "true",
+   "claim": "The group has a member named \"Energy and force prediction under external electric fields\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "true",
+   "claim": "The group has a member named \"Construction of Interatomic Potentials with Magnetic and Charge Degrees of Freedom\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "false",
+   "claim": "The group has a member named \"DFT energy and force prediction\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "false",
+   "claim": "The group has a member named \"Cumulative error distribution analysis\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "false",
+   "claim": "The group has a member named \"Accurate stability classification for high-throughput materials discovery\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "cross",
+   "claim": "Equivariant GNNs",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.5",
+   "kind": "sibling",
+   "claim": "Fracture Prediction Models are models.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "label",
+   "claim": "Fracture Prediction Models are models.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "label",
+   "claim": "Fracture Prediction Models predict crack patterns.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "label",
+   "claim": "Fracture Prediction Models predict fracture toughness.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "label",
+   "claim": "Fracture Prediction Models are used in crystalline solids.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "true",
+   "claim": "The group has a member named \"Cell stress prediction\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "true",
+   "claim": "The group has a member named \"Force prediction\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "true",
+   "claim": "The group has a member named \"Adsorption energy prediction\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "false",
+   "claim": "The group has a member named \"Automated validation checks\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "false",
+   "claim": "The group has a member named \"Charge, spin, and DFT task embeddings\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "false",
+   "claim": "The group has a member named \"Composition-based node encoding\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "cross",
+   "claim": "Fracture Prediction Models are models.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.6",
+   "kind": "sibling",
+   "claim": "Atomic Energy Prediction",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "label",
+   "claim": "Deep learning for materials",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "label",
+   "claim": "Models using deep neural networks for materials simulation and discovery.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "true",
+   "claim": "The group has a member named \"Amorphous Si3N4 generation\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "true",
+   "claim": "The group has a member named \"Tensor-Field Networks\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "true",
+   "claim": "The group has a member named \"Crowd-sourced issue reporting\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "false",
+   "claim": "The group has a member named \"molecular simulation\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "false",
+   "claim": "The group has a member named \"Force and Torque Gradient Formulas\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "false",
+   "claim": "The group has a member named \"mechanical design\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "cross",
+   "claim": "Deep learning for materials",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.7",
+   "kind": "sibling",
+   "claim": "Phase Diagram Construction involves tasks.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "label",
+   "claim": "Graph Neural Networks are models.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "label",
+   "claim": "Graph Neural Networks are used for materials exploration.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "label",
+   "claim": "Graph Neural Networks are used for property prediction.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "true",
+   "claim": "The group has a member named \"Atomic Cluster Expansion\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "true",
+   "claim": "The group has a member named \"crystal graph convolutional neural networks\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "true",
+   "claim": "The group has a member named \"Crystal graph representation\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "false",
+   "claim": "The group has a member named \"Fine-tuning of interatomic potentials using vibrational spectra\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "false",
+   "claim": "The group has a member named \"Principal component analysis\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "false",
+   "claim": "The group has a member named \"Three-body angle graph construction\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "cross",
+   "claim": "Graph Neural Networks are models.",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.8",
+   "kind": "sibling",
+   "claim": "Equivariant GNNs",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "label",
+   "claim": "Atomic Energy Prediction",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "label",
+   "claim": "Models predicting atomic energy for molecular properties.",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "true",
+   "claim": "The group has a member named \"Dudarev U-parameter implementation\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "true",
+   "claim": "The group has a member named \"Materials property prediction\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "true",
+   "claim": "The group has a member named \"Energy gap (∆ε) prediction\".",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "false",
+   "claim": "The group has a member named \"Lowest-energy conformer selection\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "false",
+   "claim": "The group has a member named \"Automated validation checks\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "false",
+   "claim": "The group has a member named \"Ionic conductivity prediction\".",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "cross",
+   "claim": "Atomic Energy Prediction",
+   "verdict": "supported",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2026:L0.9",
+   "kind": "sibling",
+   "claim": "High-throughput DFT calculations",
+   "verdict": "unsupported",
+   "quote_ok": false,
+   "supported": false
+  }
+ ]
+}

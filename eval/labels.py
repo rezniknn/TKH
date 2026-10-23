@@ -140,7 +140,8 @@ def _run_tree(run_dir, cutoffs, levels):
         for s in h["supernodes"]:
             if s["level"] in levels:
                 i = inp[s["id"]]
-                rows.append((c, s["level"], s["id"], s["parent_id"], s["member_ids"], s["label"], s["gloss"], i["seen"], i["held_out"]))
+                rows.append((c, s["level"], f"{c}:{s['id']}", s["parent_id"] and f"{c}:{s['parent_id']}", s["member_ids"],
+                             s["label"], s["gloss"], i["seen"], i["held_out"]))   # ids persist across snapshots: key by cutoff
     return rows
 
 
@@ -166,7 +167,7 @@ def _labelled(labeller, c, full, levels, tag):
     for k, g, m in todo:
         lab, gloss = labeller(c, k, m)
         seen, held = labeller.view(c, m)
-        rows.append((c, k, f"{tag}:{g}", None if par[k][g] is None else f"{tag}:{par[k][g]}", m, lab, gloss, seen, held))
+        rows.append((c, k, f"{tag}:{c}:{g}", None if par[k][g] is None else f"{tag}:{c}:{par[k][g]}", m, lab, gloss, seen, held))
     return rows
 
 
