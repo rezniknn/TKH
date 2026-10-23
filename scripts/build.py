@@ -2,10 +2,10 @@
 
     python scripts/build.py [--config CFG] [--out DIR] [--param alpha=0.25 ...]
 
-Parameters come from the config's [method] section (tkh/hierarchy.py Params), then from
-<out>/selection.json written by scripts/sweep.py (the selected alpha), then from --param. Writes, per snapshot, hierarchy.json and coarse_hyperedges.json
+Parameters come from the config's [method] section (tkh/hierarchy.py Params); --param
+overrides single values. Writes, per snapshot, hierarchy.json and coarse_hyperedges.json
 (the T4 collapse of the clustering hypergraph onto each level), plus temporal_events.json
-and run_info.json (parameters, hub sets, sizes; the runtime is printed).
+and run_info.json (parameters, hub sets, sizes, runtime).
 """
 
 from pathlib import Path
@@ -24,7 +24,7 @@ from tkh.config import add_config_args, config_from_args  # noqa: E402
 from tkh.export import assemble_hierarchies, write_outputs  # noqa: E402
 from tkh.hierarchy import Params, build  # noqa: E402
 from tkh.io import load, snapshot  # noqa: E402
-from tkh.label import LLMLabeller, placeholder_labeller  # noqa: E402
+from tkh.label import placeholder_labeller  # noqa: E402
 from tkh.temporal import match_and_name  # noqa: E402
 
 
@@ -56,57 +56,30 @@ def coarse_edges(tkh, cutoff, hierarchy, params):
     return out
 
 
-def _rel(p):
-    try:
-        return str(Path(p).resolve().relative_to(ROOT))
-    except (TypeError, ValueError):
-        return p
-
-
-def run(cfg, params, out_dir, placeholder=False):
-    """placeholder=True uses the deterministic stand-in labels instead of the LLM (tests, quick runs)."""
+def run(cfg, params, out_dir, labeller=None):
     tkh = load(cfg)
     t0 = time.perf_counter()
     parts, diag = build(tkh, cfg.cutoffs, cfg.budgets, params, return_diag=True)
     ids, events = match_and_name(parts, list(cfg.cutoffs))
-    labeller = placeholder_labeller(tkh) if placeholder else LLMLabeller(tkh, cfg)
-    hier = assemble_hierarchies(parts, ids, labeller, cfg.budgets)
+    hier = assemble_hierarchies(parts, ids, labeller or placeholder_labeller(tkh), cfg.budgets)
     write_outputs(out_dir, hier, events)
-    if not placeholder:
-        labeller.llm.save()
-        for c, h in hier.items():  # P6 audit: exactly what the labeller saw for every labelled super-node
-            rec = {s["id"]: labeller.inputs[(c, s["level"], tuple(s["member_ids"]))] for s in h["supernodes"]
-                   if s["level"] in (0, 1)}
-            (Path(out_dir) / str(c) / "label_inputs.json").write_text(json.dumps(rec, indent=1) + "\n")
     for c, h in hier.items():
         (Path(out_dir) / str(c) / "coarse_hyperedges.json").write_text(json.dumps(coarse_edges(tkh, c, h, params), indent=1) + "\n")
-    runtime = round(time.perf_counter() - t0, 1)  # printed, not stored: run_info.json is a tracked deliverable
-    info = {"params": params.as_dict(), "cid": params.cid(),
-            "labels": "placeholder" if placeholder else {"labeller_model": cfg.labels.get("labeller_model"),
-                                                         "labeller_prompt": _rel(cfg.labels.get("labeller_prompt"))},
+    info = {"params": params.as_dict(), "cid": params.cid(), "runtime_s": round(time.perf_counter() - t0, 1),
             "snapshots": {str(c): d for c, d in diag.items()}}
     (Path(out_dir) / "run_info.json").write_text(json.dumps(info, indent=1) + "\n")
-    return hier, events, {**info, "runtime_s": runtime}
+    return hier, events, info
 
 
 def main(argv=None):
     p = add_config_args(argparse.ArgumentParser(description=__doc__.split("\n")[0]))
     p.add_argument("--out", type=Path, help="output directory (default: the config's out_dir)")
-    p.add_argument("--param", nargs="+", action="extend", default=[],
-                   help="override [method] parameters, e.g. alpha=0.25 structure=projection (repeatable)")
-    p.add_argument("--placeholder-labels", action="store_true", help="deterministic stand-in labels (no LLM)")
-    p.add_argument("--selection", type=Path, default=None,
-                   help="selection.json from scripts/sweep.py: use its selected parameters (default: <out>/selection.json if present)")
+    p.add_argument("--param", nargs="*", help="override [method] parameters, e.g. alpha=0.25 structure=projection")
     args = p.parse_args(argv)
     cfg = config_from_args(args)
+    params = Params.from_config({**cfg.method, **parse_overrides(args.param)})
     out = args.out or cfg.out_dir
-    sel_path = args.selection or Path(out) / "selection.json"
-    selected = {}
-    if sel_path.exists():
-        selected = json.loads(sel_path.read_text())["selected_params"]
-        print(f"using selected parameters from {sel_path}: {selected}")
-    params = Params.from_config({**cfg.method, **selected, **parse_overrides(args.param)})
-    _, events, info = run(cfg, params, out, placeholder=args.placeholder_labels)
+    _, events, info = run(cfg, params, out)
     print(f"{params.cid()}: {len(events)} events, {info['runtime_s']}s -> {out}")
 
 

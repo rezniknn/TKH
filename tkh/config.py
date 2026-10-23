@@ -64,7 +64,7 @@ def load_config(path=None):
         kw["budgets"] = tuple(int(b) for b in hier["budgets"])
     kw["method"] = dict(raw.get("method", {}))
     labels = dict(raw.get("labels", {}))
-    for k in ("labeller_prompt", "judge_prompt", "judge_choice_prompt", "cache"):  # file paths, relative to the config file
+    for k in ("labeller_prompt", "judge_prompt", "cache"):  # file paths, relative to the config file
         if k in labels:
             labels[k] = str(resolve(labels[k]))
     kw["labels"] = labels

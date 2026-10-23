@@ -12,39 +12,6 @@ python3.12 -m venv .venv
 
 Equivalent with [uv](https://docs.astral.sh/uv/): `uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -r requirements.txt`.
 
-Any Python 3.11/3.12 interpreter works in place of `python3.12` (e.g. `python3 -m venv .venv`
-if `python3 --version` reports 3.11 or 3.12).
-
-## Reproduce everything (§6a.4)
-
-```bash
-make all      # sweep -> build -> validate -> metrics -> tables (about 30 min on 8 cores; offline)
-make fast     # the same with fewer null replicates and seeds, into out_fast/ (report.md untouched)
-make test     # unit tests and the validator's broken-fixture proof
-```
-
-- **What `make all` does.**
-  - `sweep`: α grid, selection on M1 dev half A, ablation runs, all built through `build_cmd`
-    → `out/selection.json` and the git-ignored `out/eval_cache/variants/`.
-  - `build`: the selected configuration with LLM labels → `out/<cutoff>/hierarchy.json`,
-    `temporal_events.json`, `coarse_hyperedges.json` and `label_inputs.json`.
-  - `validate`: `validate.py out/`.
-  - `metrics`: M1–M5 and the sensitivity checks for the model (`scripts/evaluate.py`), plus
-    every variant and the foreign baseline → `out/metrics.json` (schema
-    `schema/metrics.schema.json`). Null and perturbed exports are frozen under
-    `out/eval_cache/`.
-  - `tables`: `make_tables.py`, which writes every number table of `report.md` and
-    `out/tables.md`.
-- **LLM calls (labels and the M3 judge) replay from the committed cache
-  `data/llm_cache.json`.** A clean checkout needs no model server. `TKH_LLM_MODE` selects
-  the mode:
-  - `offline` (default): replay; a missing key raises `CacheMiss`.
-  - `live`: call the server on a miss.
-  - `refresh`: re-query everything; `make refresh-llm` does this.
-
-  Live modes need a local [Ollama](https://ollama.com) server with the models named in
-  `[labels]` of the config (`ollama pull qwen2.5:7b-instruct llama3.1:8b gemma2:9b phi4`).
-
 Run the notebooks with this environment's Jupyter (`.venv/bin/jupyter`), or select `.venv` as the kernel in your editor. The pinned versions matter: other environments (e.g. an older Anaconda) may differ.
 
 ## Configuration
@@ -112,37 +79,22 @@ its expected codes. The tests also cover inputs that can't be committed as fixtu
 errors), a mock built from the full input graph (`tests/mock_output.py`), and
 mutations of that mock.
 
-## Evaluation (T6): method-independent
+## Stability evaluation (T6)
 
-The evaluator judges **artefacts, not algorithms**. `scripts/evaluate.py --run DIR` scores any run directory in the
-output format, using:
-- `<cutoff>/hierarchy.json`, `temporal_events.json` and optionally `label_inputs.json`;
-- the export;
-- the evaluator's own definitions in `tkh/evalkit/` and `tkh/structure.py`.
+`tkh/evaluate/stability.py` measures stability in two ways, as T6 asks.
 
-It imports no coarsening code, which `tests/test_eval_independence.py` enforces. Method re-runs on perturbed and null
-graphs go through one shell hook, `[eval] build_cmd` in `configs/eval.toml`. `scripts/baseline_paper_linkage.py`, a
-deliberately simple non-SHAC-T coarsening, is evaluated through the same interface.
+- **Perturbation stability.** Remove 10% of the hyper-edges, stratified by publication
+  period (5 seeds), rebuild with the builder that produced the hierarchy, and compute
+  ARI against the unperturbed hierarchy per snapshot and level. Reported with a 95%
+  t-interval.
+- **Cross-snapshot stability.** ARI between consecutive snapshots on the nodes present
+  in both, per level. Reported with a 95% interval over half-subsamples of the nodes
+  and a permutation p-value against random labels that keep cluster sizes (floor 0.001).
 
-**Data contract,** the same for every method:
-- concept-node scope (the schema's method-centred member types);
-- a fixed evaluator hub share of 0.2;
-- the citation residual filter;
-- the `tkh.io` snapshot rule.
-
-**Metrics:**
-
-| | Metric | Primary reading |
-|---|---|---|
-| M1 coherence | Residual citation-coupling lift of paper pairs grouped together (`tkh/evaluate/coherence.py`) | No-overlap stratum (pairs sharing no non-hub concept); dev half A for selection, half B for the report |
-| M2 stability | Perturbation, removing 10% of all hyper-edges over 5 seeds, scored by per-level ARI and the level-pooled HARI (`tkh/evalkit/laminar.py`); cross-snapshot HARI; change localisation; event counts | HARI vs the null, paired by seed |
-| M3 labels | Claim-level entailment over-claim rate from one judge (`tkh/evalkit/entailment.py`): quote-verified support, judge Se/Sp from known-answer controls, Rogan–Gladen correction, a validity gate | Deferred: the judge is off by default (`[m3] enabled = false`); the deterministic label checks still run |
-| M4 retrieval | Known-item queries from claim sentences with the target masked (`tkh/evalkit/queries.py`); drill-down vs flat, PPR, degree and the best flat baseline, by target popularity | Drill-down vs flat lexical |
-| M5 null | The type- and period-preserving hypergraph **configuration model** (`tkh/evalkit/exports.py`): frozen null exports re-run through `build_cmd`; plus random labels | — |
-
-- **Sensitivity.** Each metric's sensitivity is checked by path-swap degradations of the evaluated tree (`tkh/evalkit/degrade.py`).
-- **Comparing runs.** `scripts/compare_runs.py BASE OTHER …` gives paired deltas on dev evidence, plus the pre-registered decision rule.
-- **The SHAC-T wrapper.** `scripts/compute_metrics.py` evaluates the shipped run in full, every variant and the foreign baseline in light mode, and merges the results into `out/metrics.json`.
+Each ARI is reported with the largest cluster's share of nodes, because a giant cluster
+dominates pair-counting ARI. The evaluator takes a `build` function (input hypergraph to
+per-snapshot, per-level partitions), so it can be run on any method; it has not yet been
+run on one.
 
 ## Method: SHAC-T (T2, T4)
 
@@ -157,16 +109,14 @@ The formal statement, assumptions and trade-offs are in
 
   A temporal prior on the previous snapshot's co-membership is added. A size cap keeps
   every budget reachable.
-- **Other nodes.** Non-concept nodes are anchored to a concept node. Citations never enter
-  the clustering hypergraph. They only anchor `cited_work` nodes, which no metric scores, and
-  serve as the held-out ruler of M1.
+- **Other nodes.** Non-concept nodes are anchored to a concept node. Citations are never
+  used.
 
 ```bash
 make build                                         # -> out/<cutoff>/hierarchy.json, temporal_events.json,
                                                    #    out/<cutoff>/coarse_hyperedges.json, out/run_info.json
-.venv/bin/python scripts/build.py --param alpha=0.25 --out /tmp/alt
+.venv/bin/python scripts/build.py --param alpha=0.25 --param structure=projection --out /tmp/alt
 ```
 
-Parameters (`alpha`, `gamma`, `rho`, `lsa_dim`, `hub_frac`, and `freeze` for the reference variant) live in
-`[method]` of the config. Labels at levels 0–1 come from the LLM labeller (`[labels]`);
-`--placeholder-labels` gives deterministic stand-ins without an LLM.
+Parameters (`alpha`, `gamma`, `rho`, `structure`, `lsa_dim`, `hub_frac`) live in
+`[method]` of the config. Labels are placeholders until the LLM labeller is added.

@@ -21,19 +21,6 @@ structure = "native"                             # "native" (hypergraph lambda-1
 lsa_dim = 100                                    # semantic LSA dimensions (char 3-5-gram TF-IDF of names + aliases, fitted per snapshot)
 hub_frac = 0.2                                   # nodes in more than this share of a snapshot's papers carry no structural signal
 
-[labels]                                         # T5 labels (tkh/label.py) and T6 E3 judge (tkh/evaluate/faithfulness.py), via a local Ollama server
-labeller_model = "qwen2.5:7b-instruct"           # open model that writes labels and glosses (levels 0-1)
-judge_model = "phi4"                              # M3 judge: one family (Microsoft), different from the qwen labeller
-endpoint = "http://localhost:11434"
-labeller_prompt = "prompts/labeller.txt"         # prompt templates ({placeholders} filled from the evidence)
-judge_prompt = "prompts/judge.txt"               # absolute rating (accurate / vague / wrong)
-judge_choice_prompt = "prompts/judge_choice.txt" # forced choice among 4 labels (post-hoc E3 instrument)
-cache = "../data/llm_cache.json"                 # committed response cache: offline runs replay it
-mode = "offline"                                 # offline | live | refresh (env TKH_LLM_MODE overrides)
-seed = 0                                         # member split into labeller half / held-out judge half
-max_members = 40                                 # members shown per prompt (highest degree first)
-max_claims = 12                                  # claim sentences in the judge's evidence
-
 [outputs]
 out_dir = "../out"
 figures_dir = "../figures"

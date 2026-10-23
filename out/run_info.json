@@ -5,14 +5,10 @@
   "rho": 2.0,
   "structure": "native",
   "lsa_dim": 100,
-  "hub_frac": 0.2,
-  "freeze": false
+  "hub_frac": 0.2
  },
  "cid": "a0.5_g0.5_r2_native_d100_h0.2",
- "labels": {
-  "labeller_model": "qwen2.5:7b-instruct",
-  "labeller_prompt": "configs/prompts/labeller.txt"
- },
+ "runtime_s": 25.3,
  "snapshots": {
   "2020": {
    "n_concept": 1018,

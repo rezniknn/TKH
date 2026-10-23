@@ -21,10 +21,6 @@ from the concept nodes as singletons and then from the level-(k+1) super-nodes:
   F_X     = mid-rank empirical CDF of X over all item pairs at the start of the level
   feasible: |A| + |B| <= rho * n_t / N_k  (concept nodes; rho >= 2 always leaves a feasible pair)
 
-freeze=True is a reference, not the method: old nodes keep their previous same-level groups
-(pre-merged, and two such groups never merge), so only new nodes are placed (E2, P5). It runs
-without the size cap: the frozen sizes are fixed, so the feasibility lemma does not apply.
-
 Non-concept nodes are anchored (`anchors`) and inherit their anchor's super-node.
 """
 
@@ -36,7 +32,7 @@ from scipy.sparse import csr_matrix
 from sklearn.decomposition import TruncatedSVD
 
 from tkh import semantic as sm
-from tkh.coarsen import CLUSTER_RELATIONS, concept_nodes, hubs, incidence
+from tkh.coarsen import concept_nodes, hubs, incidence
 from tkh.io import make_snapshots
 
 
@@ -48,13 +44,10 @@ class Params:
     structure: str = "native"     # "native" | "projection"
     lsa_dim: int = 100
     hub_frac: float = 0.2
-    freeze: bool = False          # reference variant: old assignments frozen
 
     @classmethod
     def from_config(cls, d):
         d = dict(d or {})
-        if isinstance(d.get("freeze"), str):
-            d["freeze"] = d["freeze"].lower() in ("1", "true", "yes")
         if "rho" in d:
             d["rho"] = float("inf") if str(d["rho"]).lower() in ("inf", "none") else float(d["rho"])
         p = cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
@@ -66,8 +59,7 @@ class Params:
 
     def cid(self):
         r = "inf" if math.isinf(self.rho) else f"{self.rho:g}"
-        cid = f"a{self.alpha:g}_g{self.gamma:g}_r{r}_{self.structure}_d{self.lsa_dim}_h{self.hub_frac:g}"
-        return cid + ("_freeze" if self.freeze else "")
+        return f"a{self.alpha:g}_g{self.gamma:g}_r{r}_{self.structure}_d{self.lsa_dim}_h{self.hub_frac:g}"
 
     def as_dict(self):
         d = asdict(self)
@@ -124,9 +116,8 @@ def _sym_from_upper(n, iu, vals):
 class _Level:
     """Greedy constrained agglomeration of `n` items down to `target` items."""
 
-    def __init__(self, sem, size, X, w, Wfine_sum, M, old, params, cap, frozen=None):
+    def __init__(self, sem, size, X, w, Wfine_sum, M, old, params, cap):
         self.p, self.cap = params, cap
-        self.frozen = frozen                         # freeze reference: items holding old nodes (never merged together)
         self.sem = sem.astype(np.float64)            # sum of member vectors
         self.size = size.astype(np.float64)          # concept nodes per item
         self.X = X.astype(np.float64)                # native: presence; (dense n x E)
@@ -192,8 +183,6 @@ class _Level:
             self.score[np.add.outer(self.size, self.size) > self.cap] = -np.inf
         self.score[:, ~self.alive] = -np.inf
         self.score[~self.alive, :] = -np.inf
-        if self.frozen is not None:
-            self.score[np.outer(self.frozen, self.frozen)] = -np.inf
 
     def _row(self, i):
         S, H = self._S_all([i]), self._H_all([i])
@@ -202,8 +191,6 @@ class _Level:
         row[~self.alive] = -np.inf
         if math.isfinite(self.cap):
             row[self.size[i] + self.size > self.cap] = -np.inf
-        if self.frozen is not None and self.frozen[i]:
-            row[self.frozen] = -np.inf
         return row
 
     def merge(self, i, j):
@@ -219,8 +206,6 @@ class _Level:
         if self.M is not None:
             self.M[i] += self.M[j]
             self.old[i] += self.old[j]
-        if self.frozen is not None:
-            self.frozen[i] |= self.frozen[j]
         self.alive[j] = False
         self.score[j, :] = -np.inf
         self.score[:, j] = -np.inf
@@ -256,17 +241,15 @@ class _Level:
 
 # ---------------------------------------------------------------- per snapshot
 
-def build_snapshot(tkh, snap, budgets, params, prev=None, text_perm=None, return_diag=False, hub_set=None):
+def build_snapshot(tkh, snap, budgets, params, prev=None, text_perm=None, return_diag=False):
     """Concept-node partitions [level 0 .. K-1] (level 0 coarsest) for one snapshot.
 
     prev: previous snapshot's concept partitions in the same format (for gamma), or None.
     text_perm: optional {node: node whose name text to use} (semantic null).
-    hub_set: optional fixed hub set (structure nulls use the REAL graph's hubs, so that model and
-        null cluster the same nodes structurally); default: hubs of `snap` at params.hub_frac.
     """
     items = concept_nodes(tkh, snap)
     n = len(items)
-    hubset = set(hub_set) if hub_set is not None else hubs(tkh, snap, params.hub_frac)
+    hubset = hubs(tkh, snap, params.hub_frac)
     B, w, edge_ids, rels = incidence(tkh, snap, items, hubset)
     names = sm.names(tkh)
     texts = [names[text_perm.get(v, v) if text_perm else v] for v in items]
@@ -285,13 +268,8 @@ def build_snapshot(tkh, snap, budgets, params, prev=None, text_perm=None, return
     groups = [[i] for i in range(n)]  # items of the level being built, as fine indices
     levels = [None] * len(budgets)
     for k in reversed(range(len(budgets))):
-        frozen = None
-        if prev is not None and params.freeze:
-            groups, frozen = _freeze_groups(groups, items, prev[k])
         target = min(budgets[k], len(groups))
         cap = params.rho * n / budgets[k] if math.isfinite(params.rho) else math.inf
-        if frozen is not None:
-            cap = math.inf  # frozen groups fix the sizes, so the feasibility lemma no longer applies
         P = csr_matrix((np.ones(n), (np.concatenate([[g] * len(m) for g, m in enumerate(groups)]).astype(int),
                                      np.concatenate(groups))), shape=(len(groups), n))
         sem = P @ Z
@@ -301,7 +279,7 @@ def build_snapshot(tkh, snap, budgets, params, prev=None, text_perm=None, return
         if W is not None:
             np.fill_diagonal(W, 0.0)
         M = old = None
-        if prev is not None and params.gamma > 0 and not params.freeze:
+        if prev is not None and params.gamma > 0:
             prev_of = {v: c for c, mem in prev[k].items() for v in mem if v in pos}
             keys = sorted(set(prev_of.values()), key=str)
             kidx = {c: j for j, c in enumerate(keys)}
@@ -312,28 +290,13 @@ def build_snapshot(tkh, snap, budgets, params, prev=None, text_perm=None, return
                     if c is not None:
                         M[g, kidx[c]] += 1
             old = M.sum(axis=1)
-        lvl = _Level(sem, size, X, w, W, M, old, params, cap, frozen)
+        lvl = _Level(sem, size, X, w, W, M, old, params, cap)
         merged = lvl.run(target)
         groups = [sorted(i for item in grp for i in groups[item]) for grp in merged]
         levels[k] = {g: {items[i] for i in mem} for g, mem in enumerate(groups)}
     if return_diag:
         return levels, {"n_concept": n, "hubs": sorted(hubset), "n_edges": len(edge_ids)}
     return levels
-
-
-def _freeze_groups(groups, items, prev_level):
-    """Pre-merge the groups whose old nodes share a previous cluster; returns (groups, frozen mask).
-    Laminarity of the previous hierarchy guarantees each group's old nodes lie in one previous cluster."""
-    prev_of = {v: c for c, mem in prev_level.items() for v in mem}
-    by_prev, free = {}, []
-    for g in groups:
-        cs = {prev_of[items[i]] for i in g if items[i] in prev_of}
-        if len(cs) > 1:
-            raise ValueError(f"group spans previous clusters {cs}")
-        (by_prev.setdefault(cs.pop(), []).extend(g)) if cs else free.append(g)
-    old = [sorted(m) for _, m in sorted(by_prev.items(), key=lambda kv: min(kv[1]))]
-    merged = sorted(old + free, key=min)
-    return merged, np.array([min(g) in {min(o) for o in old} for g in merged])
 
 
 # ---------------------------------------------------------------- anchoring and full build
@@ -344,16 +307,6 @@ def anchors(tkh, snap, concept):
     ntype = tkh.nodes["type"].to_dict()
     year = tkh.articles["year"].to_dict()
     presented = {a: m[1] for m, r, a in zip(e["members"], e["relation_type"], e["article_id"]) if r == "presents"}
-    # fallback when a paper's presents edge is missing (e.g. a perturbed export): the hub of its method-centred
-    # stars, else any concept node of the paper
-    for m, r, a in zip(e["members"], e["relation_type"], e["article_id"]):
-        if a not in presented and r in CLUSTER_RELATIONS and m[0] in concept:
-            presented[a] = m[0]
-    for m, a in zip(e["members"], e["article_id"]):
-        if a not in presented:
-            cm = sorted(v for v in m if v in concept)
-            if cm:
-                presented[a] = cm[0]
     art_node = {}
     if "node_id" in tkh.articles:
         art_node = {nid: a for a, nid in tkh.articles["node_id"].items() if isinstance(nid, str)}
@@ -386,21 +339,20 @@ def anchors(tkh, snap, concept):
         else:
             arts = (set(tkh.nodes.at[v, "prov_articles"]) & snap.articles) | papers_of.get(v, set())
         cand = [presented[a] for a in order(arts) if a in presented and presented[a] in concept]
-        if not cand:  # the node's papers have no concept node left in this snapshot: deterministic last resort
-            cand = [min(concept)]
+        if not cand:
+            raise ValueError(f"no anchor for {v} ({t}) in snapshot <= {snap.cutoff}")
         out[v] = cand[0]
     return out
 
 
-def build(tkh, cutoffs, budgets, params, text_perm=None, return_diag=False, hub_sets=None):
+def build(tkh, cutoffs, budgets, params, text_perm=None, return_diag=False):
     """{cutoff: [ {key: set(all members)} per level ]} (level 0 coarsest), plus optional diagnostics.
 
     The same signature serves perturbation stability (build(tkh_perturbed)) and the nulls.
     """
     out, diag, prev = {}, {}, None
     for snap in make_snapshots(tkh, cutoffs):
-        concept_levels, d = build_snapshot(tkh, snap, budgets, params, prev=prev, text_perm=text_perm, return_diag=True,
-                                           hub_set=None if hub_sets is None else hub_sets[snap.cutoff])
+        concept_levels, d = build_snapshot(tkh, snap, budgets, params, prev=prev, text_perm=text_perm, return_diag=True)
         concept = set().union(*concept_levels[-1].values()) if concept_levels else set()
         anc = anchors(tkh, snap, concept)
         full = []

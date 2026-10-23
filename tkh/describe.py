@@ -1,7 +1,5 @@
 """T1: per-snapshot statistics: node/edge counts, node types, hyper-edge arity distribution, time span, growth between snapshots, data-quality issues."""
 
-from pathlib import Path
-import json
 import re
 import unicodedata
 
@@ -338,52 +336,3 @@ def quality_report(tkh):
         if lacking:
             add(f"articles without a '{r}' edge", lacking, "uneven extraction coverage")
     return pd.DataFrame(rows).set_index("check")
-
-
-def collection_vs_graph(cfg):
-    """How the article list (CSV) and the graph export refer to the same papers.
-
-    The graph refers to articles in four places: article nodes (provenance.articles holds the
-    article id), hyper-edge provenance (article_id, article_year), node provenance (articles)
-    and meta.articles (a count). Returns (checks, per-article table)."""
-    raw = json.loads(Path(cfg.graph).read_text())
-    csv = pd.read_csv(cfg.articles, dtype={"arxiv_id": str}).set_index("id")
-    art_nodes = [n for n in raw["nodes"] if n["type"] == "article"]
-    node_of = {}
-    for n in art_nodes:
-        for a in n["provenance"].get("articles", []):
-            node_of.setdefault(a, []).append(n["id"])
-    edge_ids = {e["provenance"]["article_id"] for e in raw["hyperedges"]}
-    prov_ids = {a for n in raw["nodes"] for a in (n.get("provenance") or {}).get("articles", [])}
-    edges_per = pd.Series([e["provenance"]["article_id"] for e in raw["hyperedges"]]).value_counts()
-    nodes_per = pd.Series([a for n in raw["nodes"] for a in (n.get("provenance") or {}).get("articles", [])]).value_counts()
-    cs = set(csv.index)
-    norm = lambda v: None if v is None or (isinstance(v, float) and pd.isna(v)) else str(v)  # noqa: E731
-    per = pd.DataFrame({
-        "year": csv["year"],
-        "article node": [", ".join(node_of.get(a, [])) or "—" for a in csv.index],
-        "title matches": [bool(node_of.get(a)) and next(n for n in art_nodes if n["id"] == node_of[a][0])["surface_form"] == csv.at[a, "title"] for a in csv.index],
-        "hyper-edges": edges_per.reindex(csv.index).fillna(0).astype(int),
-        "nodes citing it in provenance": nodes_per.reindex(csv.index).fillna(0).astype(int),
-        "title": csv["title"]})
-    first = {a: next(n for n in art_nodes if n["id"] == ids[0]) for a, ids in node_of.items()}
-    checks = {
-        "articles in CSV": len(csv),
-        "distinct article ids in CSV": csv.index.nunique(),
-        "distinct titles in CSV": csv["title"].nunique(),
-        "meta.articles (count in the export)": raw["meta"].get("articles"),
-        "article nodes in the graph": len(art_nodes),
-        "CSV articles with no article node": len(cs - set(node_of)),
-        "CSV articles with > 1 article node": sum(len(v) > 1 for v in node_of.values()),
-        "article nodes pointing to > 1 article id": sum(len(n["provenance"].get("articles", [])) != 1 for n in art_nodes),
-        "article ids in the graph not in the CSV": len((set(node_of) | edge_ids | prov_ids) - cs),
-        "CSV articles with no hyper-edge": len(cs - edge_ids),
-        "title / year / arXiv mismatches (node vs CSV)": sum(
-            first[a]["surface_form"] != csv.at[a, "title"] or first[a]["year"] != csv.at[a, "year"]
-            or norm(first[a]["provenance"].get("arxiv_id")) != norm(csv.at[a, "arxiv_id"]) for a in first),
-        "hyper-edges whose article_year differs from the CSV year": sum(
-            e["provenance"]["article_year"] != csv.at[e["provenance"]["article_id"], "year"]
-            for e in raw["hyperedges"] if e["provenance"]["article_id"] in cs),
-        "CSV articles with an arXiv id": int(csv["arxiv_id"].notna().sum()),
-    }
-    return pd.Series(checks, name="value").to_frame(), per
