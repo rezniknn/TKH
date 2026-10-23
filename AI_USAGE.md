@@ -966,6 +966,30 @@ accepted or changed, and what was checked.
   `tkh/structure.py`. The CLI subcommand stays `python -m eval p3`.
 - **Verified:** 431 tests pass; no reference to `p3.py` remains outside the AI usage log.
 
+### 26. Formal statement brought in line with the implementation (Claude Code)
+
+- **Task/module:** `docs/formal_statement.md`
+- **Prompts:**
+  - "Is T4 requirement satisfied already and well-documented in the formal statement?"
+  - "Update the formal statement to reflect what is currently implemented"
+- **What the assistant did:**
+  - **Audit.** A workflow of 4 auditors, one per section group, checked every claim and number against the
+    code and outputs, and 69 skeptic agents re-checked each discrepancy. 68 survived.
+  - **Rewrite.** The statement was rewritten in full.
+  - **§3 (T4):**
+    - a disjoint class table (internal, partial, uncollapsed), with multi-way as a flag, mapped to the
+      brief's m;
+    - why presence rather than counts;
+    - fixed weights; parallel edges kept separate; which edges are collapsed;
+    - the record format and the complete list of losses.
+  - **Elsewhere:** module table, hubs as items, exact text pipeline, anchoring rules, the validator's actual
+    checks, determinism limits, complexity and memory, null and ruler details, and assumptions A6–A7.
+- **Verified:**
+  - A final independent fact-check reproduced every number.
+  - It found one wrong figure (rescans 8340 → 7870), one understated memory peak (1.5 → about 2 GB), and
+    three wording issues. All were fixed.
+  - All tables have consistent column counts.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
