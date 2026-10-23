@@ -7,7 +7,8 @@ from the level-(k+1) super-nodes:
   repeat: merge the feasible pair (A, B) with the highest score s(A, B)
   until exactly min(N_k, #items) super-nodes remain
 
-  s(A, B) = alpha * F_S(S(A, B)) + (1 - alpha) * F_H(H(A, B))
+  s(A, B)   = alpha * F_S(S(A, B)) + (1 - alpha) * F_H(H(A, B))
+  s_t(A, B) = (1 - gamma) * s(A, B) + gamma * Pi(A, B)    if A and B both hold stable old nodes, else s(A, B)
   S(A, B) = mean_A . mean_B of centred, L2-normalised char-n-gram LSA vectors of the member names
             (= average pairwise cosine)
   H(A, B) = sum_{e containing A and B} w_e / sqrt(d_A d_B),  d_A = sum_{e containing A} w_e, on the
@@ -17,6 +18,11 @@ from the level-(k+1) super-nodes:
   F_H     = mid-rank empirical CDF of H over the item pairs with H > 0, and F_H(0) = 0: a pair that
             shares no edge gets no structural credit
   feasible: |A| + |B| <= rho * n_t / N_k  (concept nodes; rho >= 2 always leaves a feasible pair)
+  Pi(A, B)= share of the pairs (a in A, b in B) of STABLE old nodes that shared a level-k super-node in the
+            previous snapshot. Stable: concept nodes of the previous snapshot that no new edge of this
+            snapshot touches and whose hub status did not change. This localised temporal prior keeps
+            untouched regions together and leaves change where the corpus changed (P5); gamma = 0 builds
+            every snapshot independently.
   ties    : S and H rounded to 1e-12 before ranking, scores to 1e-9, then the lowest item index
 
 Non-concept nodes are anchored (`anchors`) and inherit their anchor's super-node.
@@ -30,13 +36,14 @@ from scipy.sparse import csr_matrix
 from sklearn.decomposition import TruncatedSVD
 
 from tkh import semantic as sm
-from tkh.coarsen import EDGE_WEIGHTS, concept_nodes, hub_threshold, hubs, incidence
-from tkh.io import make_snapshots
+from tkh.coarsen import CLUSTER_RELATIONS, EDGE_WEIGHTS, concept_nodes, hub_threshold, hubs, incidence
+from tkh.io import make_snapshots, snapshot
 
 
 @dataclass(frozen=True)
 class Params:
     alpha: float = 0.5                     # weight of the semantic rank; 0 = structure only, 1 = semantics only
+    gamma: float = 0.5                     # weight of the temporal prior; 0 = independent snapshots
     rho: float = 2.0                       # size cap factor (>= 2, or inf)
     edge_weight: str = "relation_balanced"
     hub_frac: float = 0.2                  # hubs: concept nodes in more than this share of the snapshot's papers
@@ -51,8 +58,8 @@ class Params:
         if "rho" in d:
             d["rho"] = math.inf if str(d["rho"]).lower() in ("inf", "none") else float(d["rho"])
         p = cls(**d)
-        if not 0 <= p.alpha <= 1 or p.rho < 2 or not 0 < p.hub_frac <= 1:
-            raise ValueError(f"need 0 <= alpha <= 1, rho >= 2, 0 < hub_frac <= 1: {p}")
+        if not 0 <= p.alpha <= 1 or not 0 <= p.gamma <= 1 or p.rho < 2 or not 0 < p.hub_frac <= 1:
+            raise ValueError(f"need 0 <= alpha <= 1, 0 <= gamma <= 1, rho >= 2, 0 < hub_frac <= 1: {p}")
         if p.edge_weight not in EDGE_WEIGHTS or not (isinstance(p.lsa_dim, int) and p.lsa_dim > 0):
             raise ValueError(f"need edge_weight in {EDGE_WEIGHTS} and a positive integer lsa_dim: {p}")
         return p
@@ -64,7 +71,7 @@ class Params:
 
     def cid(self):
         r = "inf" if math.isinf(self.rho) else f"{self.rho:g}"
-        return f"a{self.alpha:g}_r{r}_{self.edge_weight}_h{self.hub_frac:g}_d{self.lsa_dim}"
+        return f"a{self.alpha:g}_g{self.gamma:g}_r{r}_{self.edge_weight}_h{self.hub_frac:g}_d{self.lsa_dim}"
 
 
 # ---------------------------------------------------------------- signals
@@ -112,8 +119,10 @@ class _MidRankCDF:
 class _Level:
     """Greedy constrained agglomeration of n items down to a target count, on the collapsed incidence."""
 
-    def __init__(self, sem, size, C, w, alpha, cap):
-        self.alpha, self.cap = alpha, cap
+    def __init__(self, sem, size, C, w, alpha, cap, gamma=0.0, M=None):
+        self.alpha, self.cap, self.gamma = alpha, cap, gamma
+        # temporal prior: stable old members per item and previous-snapshot super-node (n x K'), or None
+        self.M = M.astype(np.float64) if M is not None and gamma > 0 else None
         self.sem = sem.astype(np.float64)            # sum of member vectors
         self.size = size.astype(np.float64)          # concept nodes per item
         self.C = C.astype(np.float64)                # endpoint counts per item and fine edge (n x E)
@@ -132,7 +141,7 @@ class _Level:
             self.score[np.add.outer(self.size, self.size) > cap] = -np.inf
         self.best = np.argmax(self.score, axis=1)
         self.bval = self.score[np.arange(n), self.best]
-        self.stats = {"merges": 0, "linked": 0, "multi_endpoint": 0}
+        self.stats = {"merges": 0, "linked": 0, "multi_endpoint": 0, "prior": 0}
 
     # S and H are rounded to 1e-12 before ranking, so values equal up to floating-point error tie exactly
     def _S(self, r=None):
@@ -146,8 +155,18 @@ class _Level:
         den = np.sqrt(np.outer(dr, self.d))
         return np.round(np.divide(num, den, out=np.zeros_like(num), where=den > 0), 12)
 
-    def _combine(self, S, H):
-        return np.round(self.alpha * self.FS(S) + (1 - self.alpha) * self.FH(H), 9)
+    def _Pi(self, r=None):
+        """Pi for rows r against all items; NaN where either side holds no stable old node."""
+        Mr = self.M if r is None else self.M[r]
+        num, den = Mr @ self.M.T, np.outer(Mr.sum(axis=1), self.M.sum(axis=1))
+        return np.divide(num, den, out=np.full_like(num, np.nan), where=den > 0)
+
+    def _combine(self, S, H, r=None):
+        s = self.alpha * self.FS(S) + (1 - self.alpha) * self.FH(H)
+        if self.M is not None:
+            P = self._Pi(r)
+            s = np.where(np.isnan(P), s, (1 - self.gamma) * s + self.gamma * np.nan_to_num(P))
+        return np.round(s, 9)
 
     def merge(self, i, j):
         """Merge item j into item i (i < j)."""
@@ -156,6 +175,9 @@ class _Level:
         self.stats["linked"] += bool(shared.any())
         # native and clique-expansion H differ exactly when a shared edge has >= 2 endpoints on one side
         self.stats["multi_endpoint"] += bool((shared & ((self.C[i] >= 2) | (self.C[j] >= 2))).any())
+        if self.M is not None:
+            self.stats["prior"] += bool(self.M[i].any() and self.M[j].any())
+            self.M[i] += self.M[j]
         self.sem[i] += self.sem[j]
         self.size[i] += self.size[j]
         self.C[i] += self.C[j]
@@ -163,7 +185,7 @@ class _Level:
         self.d[i] = self.X[i] @ self.w
         self.alive[j] = False
         self.score[j, :] = self.score[:, j] = -np.inf
-        row = self._combine(self._S([i]), self._H([i]))[0]
+        row = self._combine(self._S([i]), self._H([i]), [i])[0]
         row[i] = -np.inf
         row[~self.alive] = -np.inf
         if math.isfinite(self.cap):
@@ -198,10 +220,11 @@ class _Level:
 
 # ---------------------------------------------------------------- per snapshot
 
-def build_snapshot(tkh, snap, budgets, params, hubset=None):
+def build_snapshot(tkh, snap, budgets, params, hubset=None, prev=None, stable=frozenset()):
     """Concept-node partitions [level 0 .. K-1] (level 0 coarsest) for one snapshot, plus diagnostics.
 
     hubset: optional fixed hub set (a null model passes the real snapshot's hubs); default: computed here.
+    prev, stable: the previous snapshot's concept levels and its stable nodes (temporal prior; see `stable_nodes`).
     Returns (levels, graph, diag): graph = (items, B, w, edge_ids, relations), the clustering hypergraph."""
     items = concept_nodes(tkh, snap)
     n = len(items)
@@ -219,7 +242,16 @@ def build_snapshot(tkh, snap, budgets, params, hubset=None):
         cap = params.rho * n / budgets[k] if math.isfinite(params.rho) else math.inf
         P = csr_matrix((np.ones(n), (np.concatenate([[g] * len(m) for g, m in enumerate(groups)]).astype(int),
                                      np.concatenate(groups))), shape=(len(groups), n))
-        lvl = _Level(P @ Z, np.asarray(P.sum(axis=1)).ravel(), P @ Xfine, w, params.alpha, cap)
+        M = None
+        if prev is not None and params.gamma > 0 and stable:
+            prev_of = {v: c for c, mem in prev[k].items() for v in mem if v in stable}
+            kidx = {c: j for j, c in enumerate(sorted(set(prev_of.values()), key=str))}
+            M = np.zeros((len(groups), max(len(kidx), 1)))
+            for g, mem in enumerate(groups):
+                for i in mem:
+                    if items[i] in prev_of:
+                        M[g, kidx[prev_of[items[i]]]] += 1
+        lvl = _Level(P @ Z, np.asarray(P.sum(axis=1)).ravel(), P @ Xfine, w, params.alpha, cap, params.gamma, M)
         merged = lvl.run(target)
         groups = [sorted(i for item in grp for i in groups[item]) for grp in merged]
         levels[k] = {g: {items[i] for i in mem} for g, mem in enumerate(groups)}
@@ -227,7 +259,7 @@ def build_snapshot(tkh, snap, budgets, params, hubset=None):
         level_diag[k] = {"budget": budgets[k], "super_nodes": len(groups), "cap": round(cap, 2) if math.isfinite(cap) else "inf",
                          "max_size": max(sizes), "singletons": sizes.count(1), **lvl.stats}
     diag = {"n_concept": n, "n_edges": len(edge_ids), "hub_threshold_papers": hub_threshold(snap, params.hub_frac),
-            "hubs": sorted(hubset), "levels": level_diag}
+            "hubs": sorted(hubset), "n_stable": len(stable), "levels": level_diag}
     return levels, (items, B, w, edge_ids, rels), diag
 
 
@@ -277,13 +309,35 @@ def anchors(tkh, snap, concept):
     return out
 
 
+def stable_nodes(tkh, prev_snap, snap, prev_hubs, hubset):
+    """Concept nodes of the previous snapshot whose clustering input did not change: not a (non-hub) member of a
+    clustering edge from a new paper, and same hub status. The temporal prior applies to these only."""
+    old = set(concept_nodes(tkh, prev_snap))
+    e = snap.edges[(snap.edges["article_year"] > prev_snap.cutoff) & snap.edges["relation_type"].isin(CLUSTER_RELATIONS)]
+    touched = {v for m in e["members"] for v in m if v not in hubset} | (prev_hubs ^ hubset)
+    return frozenset(old - touched)
+
+
+def build_concept(tkh, cutoffs, budgets, params, hubsets=None):
+    """Concept-node levels of every snapshot, built in order so that each sees the previous one (temporal prior).
+    Returns {cutoff: (levels, graph, diag)}; graph = (items, B, w, edge_ids, relations)."""
+    out, prev = {}, None
+    for snap in make_snapshots(tkh, cutoffs):
+        hubset = hubsets[snap.cutoff] if hubsets and snap.cutoff in hubsets else hubs(tkh, snap, params.hub_frac)
+        stable = stable_nodes(tkh, prev[0], snap, prev[1], hubset) if prev else frozenset()
+        levels, graph, d = build_snapshot(tkh, snap, budgets, params, hubset, prev[2] if prev else None, stable)
+        out[snap.cutoff] = (levels, graph, d)
+        prev = (snap, set(hubset), levels)
+    return out
+
+
 def build(tkh, cutoffs, budgets, params, hubsets=None):
     """Full build. Returns (parts, graphs, diag):
     parts[cutoff] = [ {key: set(all members)} per level ] (level 0 coarsest); graphs[cutoff] = the clustering
     hypergraph plus the concept-only levels (for the T4 records); diag[cutoff] = run diagnostics."""
     parts, graphs, diag = {}, {}, {}
-    for snap in make_snapshots(tkh, cutoffs):
-        levels, graph, d = build_snapshot(tkh, snap, budgets, params, (hubsets or {}).get(snap.cutoff))
+    for c, (levels, graph, d) in build_concept(tkh, cutoffs, budgets, params, hubsets).items():
+        snap = snapshot(tkh, c)
         anc = anchors(tkh, snap, set(graph[0]))
         full = []
         for lv in levels:
@@ -292,6 +346,6 @@ def build(tkh, cutoffs, budgets, params, hubsets=None):
             for v, a in anc.items():
                 groups[where[a]].add(v)
             full.append(groups)
-        parts[snap.cutoff], graphs[snap.cutoff] = full, (levels, *graph)
-        diag[snap.cutoff] = {**d, "n_anchored": len(anc)}
+        parts[c], graphs[c] = full, (levels, *graph)
+        diag[c] = {**d, "n_anchored": len(anc)}
     return parts, graphs, diag

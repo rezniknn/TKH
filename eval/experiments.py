@@ -22,7 +22,7 @@ import os
 import numpy as np
 
 from tkh.coarsen import hubs
-from tkh.hierarchy import Params, build_snapshot
+from tkh.hierarchy import Params, build_concept
 from tkh.io import load, snapshot
 from tkh.null import label_permutation, null_tkh
 from eval.coherence import PERIODS, Ruler, null_summary, split_works
@@ -36,21 +36,27 @@ def _init(cfg):
 
 
 def _levels(job):
-    """Concept partitions for (params dict, null seed or None, cutoffs or None = the last cutoff only):
-    a list of levels for one cutoff, or {cutoff: levels} when cutoffs are given (one null graph per seed)."""
+    """Concept partitions for (params dict, null seed or None, cutoffs or None = the last cutoff only), built as one
+    chain over all cutoffs (the temporal prior couples them) with the real snapshots' hub sets: a list of levels for
+    the last cutoff, or {cutoff: levels} when cutoffs are given."""
     pdict, seed, cutoffs = (*job, None)[:3]
     cfg, real = _W["cfg"], _W["tkh"]
     params = Params.from_config(pdict)
     tkh = real if seed is None else null_tkh(_W["raw"], cfg.articles, cfg.cutoffs, seed)[0]
-    one = lambda c: build_snapshot(tkh, snapshot(tkh, c), cfg.budgets, params, hubs(real, snapshot(real, c), params.hub_frac))[0]  # noqa: E731
-    return one(max(cfg.cutoffs)) if cutoffs is None else {c: one(c) for c in cutoffs}
+    built = build_concept(tkh, cfg.cutoffs, cfg.budgets, params, real_hubs(real, cfg, params))
+    return built[max(cfg.cutoffs)][0] if cutoffs is None else {c: built[c][0] for c in cutoffs}
 
 
-def _pool(cfg, jobs, n_jobs):
+def real_hubs(tkh, cfg, params):
+    return {c: hubs(tkh, snapshot(tkh, c), params.hub_frac) for c in cfg.cutoffs}
+
+
+def _pool(cfg, jobs, n_jobs, fn=None):
+    """Run fn (default _levels) over jobs in worker processes that hold the config, the real TKH and the raw export."""
     for v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "VECLIB_MAXIMUM_THREADS"):
         os.environ.setdefault(v, "1")   # one BLAS thread per worker process (read by the spawned workers)
     with ProcessPoolExecutor(n_jobs, initializer=_init, initargs=(cfg,)) as ex:
-        return list(ex.map(_levels, jobs))
+        return list(ex.map(fn or _levels, jobs))
 
 
 def _concept_levels(hierarchy):

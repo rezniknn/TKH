@@ -17,7 +17,7 @@ import validate  # noqa: E402
 from tkh.coarsen import collapse, concept_nodes, connectivity_cut, hubs, incidence  # noqa: E402
 from tkh.config import load_config  # noqa: E402
 from tkh.export import assemble_hierarchies, write_outputs  # noqa: E402
-from tkh.hierarchy import Params, _Level, _MidRankCDF, anchors, build  # noqa: E402
+from tkh.hierarchy import Params, _Level, _MidRankCDF, anchors, build, build_concept, build_snapshot, stable_nodes  # noqa: E402
 from tkh.io import load, snapshot  # noqa: E402
 from tkh.label import placeholder_labeller  # noqa: E402
 from tkh.pipeline import run  # noqa: E402
@@ -126,7 +126,7 @@ def test_cap_rho_two_always_reaches_the_target():
 
 
 @pytest.mark.parametrize("bad", [{"alpha": 1.5}, {"rho": 1.0}, {"hub_frac": 0.0}, {"edge_weight": "clique"},
-                                 {"lsa_dim": 0}, {"gamma": 0.5}])
+                                 {"lsa_dim": 0}, {"gamma": 1.5}, {"structure": "native"}])
 def test_invalid_or_unknown_params_rejected(bad):
     with pytest.raises(ValueError):
         Params.from_config(bad)
@@ -188,3 +188,42 @@ def test_anchors_cover_all_non_concept_nodes_with_snapshot_concepts(real):
         anc = anchors(tkh, snap, concept)
         assert set(anc) == snap.node_ids - concept
         assert set(anc.values()) <= concept
+
+
+# ---------------------------------------------------------------- temporal prior (T3)
+
+def test_gamma_zero_builds_every_snapshot_independently(real):
+    cfg, tkh = real
+    p = Params.from_config({**cfg.method, "gamma": 0.0})
+    chained = build_concept(tkh, [2020, 2022], cfg.budgets, p)
+    alone = build_snapshot(tkh, snapshot(tkh, 2022), cfg.budgets, p)[0]
+    assert chained[2022][0] == alone
+
+
+def test_gamma_one_reproduces_an_unchanged_snapshot(real):
+    cfg, tkh = real
+    snap = snapshot(tkh, 2020)
+    p = Params.from_config({**cfg.method, "gamma": 1.0})
+    first = build_snapshot(tkh, snap, cfg.budgets, p)[0]
+    again = build_snapshot(tkh, snap, cfg.budgets, p, prev=first, stable=frozenset(concept_nodes(tkh, snap)))[0]
+    canon = lambda lv: sorted(sorted(m) for m in lv.values())  # noqa: E731
+    assert all(canon(a) == canon(b) for a, b in zip(first, again))
+
+
+def test_stable_nodes_exclude_nodes_touched_by_new_papers_and_hub_changes(real):
+    cfg, tkh = real
+    s0, s1 = snapshot(tkh, 2022), snapshot(tkh, 2024)
+    h0, h1 = hubs(tkh, s0, 0.2), hubs(tkh, s1, 0.2)
+    stable = stable_nodes(tkh, s0, s1, h0, h1)
+    new = s1.edges[s1.edges["article_year"] > 2022]
+    touched = {v for m, r in zip(new["members"], new["relation_type"]) if r in ("addresses", "solves", "extends",
+               "uses_component", "uses_technique", "evaluated_on") for v in m if v not in h1}
+    assert stable <= set(concept_nodes(tkh, s0)) and not stable & touched and not stable & (h0 ^ h1)
+    assert len(stable) > 0.8 * len(concept_nodes(tkh, s0))       # most old nodes are untouched (cumulative data)
+
+
+@pytest.mark.parametrize("gamma", [0.0, 0.5, 1.0])
+def test_fixture_runs_with_any_gamma_validate(gamma, tmp_path):
+    cfg = load_config(FIXTURE_CONFIG)
+    run(cfg, Params.from_config({"hub_frac": 1.0, "gamma": gamma}), tmp_path)
+    assert validate.validate(tmp_path, load_config(tmp_path / "run_config.toml"), load(cfg)) == []

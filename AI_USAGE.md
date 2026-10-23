@@ -990,6 +990,47 @@ accepted or changed, and what was checked.
     three wording issues. All were fixed.
   - All tables have consistent column counts.
 
+### 27. T3 temporal coupling (localised prior) and the T6 stability evaluator (Claude Code)
+
+- **Task/module:** T3, T6 stability, P5; `tkh/hierarchy.py` (`gamma`, `stable_nodes`, `build_concept`),
+  `tkh/null.py` (`intervals=`), `eval/stability.py`, `eval/experiments.py`, `eval/__main__.py`,
+  `tests/test_hierarchy.py`, `tests/test_stability.py`, `docs/formal_statement.md` §§2, 6, 8, 9, 12, README,
+  Makefile
+- **Prompt (abridged):** "Your objective is to extend currently implemented coarsening method to ensure temporal
+  stability across snapshots grounded in literature review [...] The implementation must strictly ahere to the
+  requirements outlined in T3 [...] Simultaneously, implement an evaluator computing stability metric strictly
+  adhere to the requirements outlined in T6 Stability [...] The implementation is only considered done when 1.
+  The implementation is adjusted to satisfy temporal stability creteria 2. An implementation of stability
+  evaluator is done and saved in repo/eval folder 3. Output graph representations are reconstructed and
+  verified 4. Evaluation is run on the reconstructed graphs reporting the results". The user's design choices:
+  a localised temporal prior; CIs, a new-paper null and variant comparisons; a γ sweep that reports the
+  trade-off without selection.
+- **What the assistant did:**
+  - **Method.** The literature review's evolutionary-clustering term: s_t = (1 − γ)s + γΠ, where Π is the
+    previous co-membership of *stable* old nodes, i.e. those not touched by a new paper's clustering edge and
+    with unchanged hub status.
+    - Snapshots are built as a chain; γ = 0 reproduces the old build exactly (tested).
+    - This reuses the removed γ prior from git history, now restricted to the stable set.
+  - **Evaluator.**
+    - Perturbation: 10% of all hyper-edges, 5 seeds, full chain rebuild, ARI per level and HARI, t-intervals.
+    - Cross-snapshot ARI and HARI with subsample intervals, against a new-paper null (only the new interval's
+      edges rewired; 19 seeds).
+    - Change localisation (touched vs untouched reassignment) and event counts.
+    - A γ ∈ {0, 0.25, 0.5, 0.75, 1} trade-off, paired against γ = 0.
+- **Results** (shipped γ = 0.5):
+  - Cross-snapshot HARI is 0.83–0.95, up from 0.34–0.58 at γ = 0, and change concentrates on touched nodes
+    (ratios 2.5–24).
+  - The new-paper null is as stable, so the persistence comes from the mechanism, not from the data.
+  - Robustness to perturbation halves at later snapshots (HARI 0.33 → 0.17 at ≤2026): path dependence.
+  - P3 moves from level 0 to levels 1–2.
+- **Verified:**
+  - 441 tests pass.
+  - `validate.py out --config out/run_config.toml` passes on the rebuilt `out/`.
+  - All tables in the formal statement are generated from `out/metrics.json` and `out/gamma/gamma.json` by
+    script.
+- **Not verified / limits:**
+  - An independent recomputation is pending; see the next commit.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

@@ -26,8 +26,9 @@ def _interval(year, cutoffs):
     return bisect.bisect_left(sorted(cutoffs), year)   # 0: <= c_0, 1: (c_0, c_1], ...
 
 
-def configuration_null(raw, cutoffs, seed, sweeps=10):
-    """Null export (a new dict; `raw` is not modified) and a mixing diagnostic."""
+def configuration_null(raw, cutoffs, seed, sweeps=10, intervals=None):
+    """Null export (a new dict; `raw` is not modified) and a mixing diagnostic. intervals: rewire only the edges of
+    these cutoff intervals (e.g. only a transition's new papers); default all."""
     rng = random.Random(seed)
     ntype = {str(n["id"]): n["type"] for n in raw["nodes"]}
     edges = [dict(e, members=[str(m) for m in e["members"]]) for e in raw["hyperedges"]]
@@ -35,7 +36,8 @@ def configuration_null(raw, cutoffs, seed, sweeps=10):
     for i, e in enumerate(edges):
         if e["relation_type"] in CLUSTER_RELATIONS:
             key = (e["relation_type"], _interval(e["provenance"]["article_year"], cutoffs))
-            strata.setdefault(key, []).append(i)
+            if intervals is None or key[1] in intervals:
+                strata.setdefault(key, []).append(i)
     before = {i: set(edges[i]["members"][1:]) for idx in strata.values() for i in idx}
     trades = 0
     for key in sorted(strata):
@@ -47,8 +49,8 @@ def configuration_null(raw, cutoffs, seed, sweeps=10):
             trades += _curveball(edges[a], edges[b], ntype, rng)
     moved = sum(len(before[i] - set(edges[i]["members"][1:])) for i in before)
     total = sum(len(s) for s in before.values())
-    out = dict(raw, hyperedges=edges, meta=dict(raw.get("meta", {}), null={"model": "configuration", "seed": seed,
-                                                                             "sweeps": sweeps, "cutoffs": list(cutoffs)}))
+    out = dict(raw, hyperedges=edges, meta=dict(raw.get("meta", {}), null={"model": "configuration", "seed": seed, "sweeps": sweeps,
+                                                                             "cutoffs": list(cutoffs), "intervals": intervals and sorted(intervals)}))
     return out, {"seed": seed, "trades": trades, "moved_share": round(moved / max(total, 1), 4)}
 
 
@@ -71,9 +73,9 @@ def _curveball(ea, eb, ntype, rng):
     return int(changed)
 
 
-def null_tkh(raw, articles_path, cutoffs, seed, real=None, sweeps=10):
-    """(null TKH, diagnostic); with `real` given, asserts that every snapshot keeps its node set."""
-    out, diag = configuration_null(raw, cutoffs, seed, sweeps)
+def null_tkh(raw, articles_path, cutoffs, seed, real=None, sweeps=10, intervals=None):
+    """(null TKH, null export, diagnostic); with `real` given, asserts that every snapshot keeps its node set."""
+    out, diag = configuration_null(raw, cutoffs, seed, sweeps, intervals)
     tkh = from_raw(out, articles_path, f"null seed {seed}")
     if real is not None:
         for s_null, s_real in zip(make_snapshots(tkh, cutoffs), make_snapshots(real, cutoffs)):
