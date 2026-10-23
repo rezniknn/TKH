@@ -6,11 +6,12 @@ for every configuration, budget list and null replicate; only the evaluated part
 
   evaluator hubs  concept nodes in >= floor(EVAL_HUB_FRAC * #papers) + 1 papers (fixed, not the method's hub_frac)
   concepts(p)     non-hub concept nodes of paper p (provenance or incident edges)
+  names           normalised surface forms AND aliases (tkh.semantic.name_keys): the names the method's text sees
   coupling c_pq   IDF-weighted Salton cosine of the cited-work sets of p and q, after a residual filter that drops
-                  p's cited works named like one of p's own concept nodes (exact: equal normalised names; fuzzy:
+                  p's cited works named like one of p's own concept nodes (exact: a shared normalised name; fuzzy:
                   also containment of names of >= 4 characters), so that "extends X / cites X" is not counted
-  no-overlap      paper pairs that share no non-hub concept node and no normalised concept name: here the
-                  hierarchy can only relate them by grouping DIFFERENT nodes, and shared structure explains nothing
+  no-overlap      paper pairs that share no non-hub concept node and no concept name: here the hierarchy can only
+                  relate them by grouping DIFFERENT nodes, and shared structure explains nothing
   a_pq(level)     sum_S n_S(p) n_S(q) / (n_p n_q): how much the level co-assigns the two papers' concepts
   lift            sum a c / (sum a * mean c) over no-overlap pairs among citing papers; 1 = chance
 
@@ -24,8 +25,8 @@ import random
 import numpy as np
 from scipy.sparse import csr_matrix
 
-from tkh.coarsen import concept_nodes, node_papers
-from tkh.structure import key as name_key
+from tkh.coarsen import concept_nodes, hubs, node_papers
+from tkh.semantic import name_keys
 
 EVAL_HUB_FRAC = 0.4
 
@@ -34,21 +35,20 @@ class Ruler:
     def __init__(self, tkh, snap, works=None, fuzzy=False):
         papers = node_papers(tkh, snap)
         concept = concept_nodes(tkh, snap)
-        limit = math.floor(EVAL_HUB_FRAC * len(snap.articles)) + 1
-        hubs = {v for v in concept if len(papers[v]) >= limit}
-        name = tkh.nodes["surface_form"].to_dict()
+        hubset = hubs(tkh, snap, EVAL_HUB_FRAC)
+        nk = name_keys(tkh)
         self.concepts, keys = defaultdict(set), defaultdict(set)
         for v in concept:
-            if v not in hubs:
+            if v not in hubset:
                 for a in papers[v]:
                     self.concepts[a].add(v)
-                    keys[a].add(name_key(name[v]))
+                    keys[a] |= nk[v]
         cites, removed = defaultdict(set), 0
         e = snap.edges
         for m, r, a in zip(e["members"], e["relation_type"], e["article_id"]):
             if r == "cites":
                 for w in m[1:]:
-                    if _named_like(name_key(name[w]), keys[a], fuzzy):
+                    if any(_named_like(k, keys[a], fuzzy) for k in nk[w]):
                         removed += 1
                     else:
                         cites[a].add(w)
@@ -127,8 +127,9 @@ def split_works(tkh, snap, seed):
     for n in sorted(by_df):
         ws = sorted(by_df[n])
         rng.shuffle(ws)
-        A.update(ws[0::2])
-        B.update(ws[1::2])
+        first, second = (A, B) if rng.random() < 0.5 else (B, A)   # an odd stratum's extra work goes to either half
+        first.update(ws[0::2])
+        second.update(ws[1::2])
     return A, B
 
 

@@ -43,12 +43,15 @@ carries and whether clustering can use it. It covers lexical TF-IDF representati
 (`tkh/semantic.py`) and a trial clustering on semantics alone.
 
 Its §5 checks whether paper abstracts can be retrieved from the export's identifiers
-(`tkh/abstracts.py`: arXiv API by id, OpenAlex/arXiv title search). The live part is
-opt-in, and nothing is stored:
+(`tkh/abstracts.py`: arXiv API by id, OpenAlex/arXiv title search). This is a feasibility
+probe for the notebook only; the method never uses abstracts. The live part is opt-in,
+and nothing is stored:
 
 ```bash
 TKH_ONLINE=1 .venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/02_semantic_signal.ipynb
-``` The snapshot rule is in `tkh/io.py` and the statistics in `tkh/describe.py`.
+```
+
+The snapshot rule is in `tkh/io.py` and the statistics in `tkh/describe.py`.
 
 ## Output validator (§6a)
 
@@ -97,7 +100,8 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
   A size cap `rho * n / N_k` guarantees that every level reaches exactly `min(N_k, n)`
   super-nodes (P2), for any budget list.
 - **Other nodes.** Non-concept nodes are anchored to a concept node after clustering.
-  Citations, claims, titles and authors are never used.
+  Citations, claims, titles and authors never enter the clustering; `claims` and `cites`
+  edges are used only to anchor claim and cited-work nodes afterwards.
 - **Null models** (`tkh/null.py`): the type- and period-preserving hypergraph
   configuration model, run through the same pipeline, and random labels.
 - **Held-out P3 check** (`tkh/p3.py`): bibliographic coupling of papers whose concepts a

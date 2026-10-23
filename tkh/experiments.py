@@ -6,7 +6,8 @@ p3_check: lift per level of a run (its hierarchy.json) under the exact and the f
 sweep: every configuration of a grid is built once; over `splits` seeded halves (A, B) of the cited works,
   each split selects on half A by the one-SE rule (criterion: mean lift over levels; SE: paper bootstrap;
   among configurations within one SE of the best, the one closest to the default, compared parameter by
-  parameter in the order alpha, rho, edge_weight, hub_frac) and reports that choice on half B.
+  parameter in the order alpha, rho, edge_weight, hub_frac) and reports that choice on half B. The base
+  configuration is the run's [method] (with --param overrides).
 """
 
 from concurrent.futures import ProcessPoolExecutor
@@ -86,46 +87,48 @@ def p3_check(cfg, params, run_dir, R=99, R_labels=999, n_jobs=8):
     return out
 
 
-DEFAULT = Params()
 GRID = {"alpha": [0.25, 0.5, 0.75], "rho": [2.0, 4.0], "edge_weight": ["inverse_size", "relation_balanced"],
         "hub_frac": [0.1, 0.15, 0.2, 0.3, 1.0]}
 ABLATIONS = [{"alpha": 0.0}, {"alpha": 1.0}]
 
 
-def _distance(p):
-    return (abs(p["alpha"] - DEFAULT.alpha), abs(p["rho"] - DEFAULT.rho), p["edge_weight"] != DEFAULT.edge_weight,
-            abs(p["hub_frac"] - DEFAULT.hub_frac))
+def _distance(p, base):
+    """How far configuration p is from the base, compared parameter by parameter (alpha, rho, edge_weight, hub_frac)."""
+    p = Params.from_config(p)
+    return (abs(p.alpha - base.alpha), abs(p.rho - base.rho) if p.rho != base.rho else 0.0,
+            p.edge_weight != base.edge_weight, abs(p.hub_frac - base.hub_frac))
 
 
-def sweep(cfg, grid=GRID, splits=20, n_jobs=8, B=200):
+def sweep(cfg, base, grid=GRID, splits=20, n_jobs=8, n_boot=200):
+    """Grid around `base` (the configured parameters, also the one-SE fallback and the reported default)."""
     tkh = load(cfg)
     snap = snapshot(tkh, max(cfg.cutoffs))
-    configs = [dict(zip(grid, v)) for v in product(*grid.values())]
-    configs += [{**DEFAULT.as_dict(), **a} for a in ABLATIONS]
-    configs = [Params.from_config({**DEFAULT.as_dict(), **c}).as_dict() for c in configs]
+    configs = [{**base.as_dict(), **dict(zip(grid, v))} for v in product(*grid.values())]
+    configs += [{**base.as_dict(), **a} for a in ABLATIONS]
+    configs = [Params.from_config(c).as_dict() for c in configs]
     levels = _pool(cfg, [(c, None) for c in configs], n_jobs)
     selectable = len(configs) - len(ABLATIONS)
+    base_i = configs.index(base.as_dict()) if base.as_dict() in configs else None
     picks, table = [], []
     for s in range(splits):
-        A, Bw = split_works(tkh, snap, s)
-        ra, rb = Ruler(tkh, snap, A), Ruler(tkh, snap, Bw)
+        A, B = split_works(tkh, snap, s)
+        ra, rb = Ruler(tkh, snap, A), Ruler(tkh, snap, B)
+        boot = _boot_weights(len(ra.papers), n_boot, s)
         crit = []
-        for lv in levels:
-            aa = [ra.coassign(x) for x in lv]
-            vals = [np.mean([ra.lift(a, w) for a in aa]) for w in [None] + _boot_weights(len(ra.papers), B, s)]
-            ab = [rb.coassign(x) for x in lv]
-            crit.append((vals[0], float(np.std(vals[1:], ddof=1)), float(np.mean([rb.lift(a) for a in ab]))))
-        best = max(range(selectable), key=lambda i: crit[i][0])
-        within = [i for i in range(selectable) if crit[i][0] >= crit[best][0] - crit[best][1]]
-        pick = min(within, key=lambda i: _distance(configs[i]))
+        for lv in levels:   # criterion: mean lift over levels; SE: paper bootstrap on half A
+            aa, ab = [ra.coassign(x) for x in lv], [rb.coassign(x) for x in lv]
+            draws = np.array([np.mean([ra.lift(a, w) for a in aa]) for w in boot])   # nan if a draw has no pairs
+            crit.append({"A": float(np.mean([ra.lift(a) for a in aa])), "se_A": float(np.nanstd(draws, ddof=1)),
+                         "B": float(np.mean([rb.lift(a) for a in ab]))})
+        best = max((i for i in range(selectable) if np.isfinite(crit[i]["A"])), key=lambda i: crit[i]["A"])
+        within = [i for i in range(selectable) if crit[i]["A"] >= crit[best]["A"] - crit[best]["se_A"]]
+        pick = min(within, key=lambda i: _distance(configs[i], base))
         picks.append(pick)
-        table.append({"split": s, "best": best, "pick": pick, "pick_A": crit[pick][0], "pick_B": crit[pick][2],
-                      "default_B": crit[configs.index(DEFAULT.as_dict())][2] if DEFAULT.as_dict() in configs else None,
-                      "per_config": [{"A": a, "se_A": se, "B": b} for a, se, b in crit]})
+        table.append({"split": s, "best": best, "pick": pick, "n_within_1se": len(within),
+                      "base_B": crit[base_i]["B"] if base_i is not None else None, "per_config": crit})
     modal, n_modal = Counter(picks).most_common(1)[0]
-    return {"snapshot": snap.cutoff, "budgets": list(cfg.budgets), "configs": configs, "n_selectable": selectable,
-            "splits": table, "selected": configs[modal], "selected_share": n_modal / splits,
-            "selected_B": [t["pick_B"] for t in table]}
+    return {"snapshot": snap.cutoff, "budgets": list(cfg.budgets), "base": base.as_dict(), "configs": configs,
+            "n_selectable": selectable, "splits": table, "selected": configs[modal], "selected_share": n_modal / splits}
 
 
 def _boot_weights(n, B, seed):

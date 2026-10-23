@@ -7,7 +7,8 @@
   sweep  --out FILE                   configuration grid and one-SE selection on cited-work halves
 
 [method] parameters come from the config (tkh/hierarchy.py Params); --param overrides single values.
-Budgets, cutoffs and inputs can be overridden with --budgets, --cutoffs, --graph, --articles.
+Budgets, cutoffs and inputs can be overridden with --budgets, --cutoffs, --graph, --articles (build, null, sweep);
+p3 always uses the run's own run_config.toml.
 """
 
 from pathlib import Path
@@ -36,22 +37,25 @@ def _overrides(pairs):
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="python -m tkh", description=__doc__.split("\n")[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("build", "null", "p3", "sweep"):
+    for name in ("build", "null", "sweep"):
         p = add_config_args(sub.add_parser(name))
         p.add_argument("--param", nargs="*", help="override [method] parameters, e.g. alpha=0.25 hub_frac=0.3")
-        p.add_argument("--jobs", type=int, default=8)
-        if name in ("build", "null", "sweep"):
-            p.add_argument("--out", type=Path)
+        p.add_argument("--out", type=Path, required=name == "null")
         if name == "null":
             p.add_argument("--seed", type=int, required=True)
-        if name == "p3":
-            p.add_argument("--run", type=Path, required=True)
-            p.add_argument("--R", type=int, default=99)
-            p.add_argument("--R-labels", type=int, default=999)
+        if name == "sweep":
+            p.add_argument("--jobs", type=int, default=8)
+    p = sub.add_parser("p3")   # uses the run's own run_config.toml only
+    p.add_argument("--run", type=Path, required=True)
+    p.add_argument("--R", type=int, default=99)
+    p.add_argument("--R-labels", type=int, default=999)
+    p.add_argument("--jobs", type=int, default=8)
     args = ap.parse_args(argv)
 
     if args.cmd == "p3":   # the run's own resolved config, so the check uses exactly its inputs and parameters
         from tkh.experiments import p3_check
+        if "null" in json.loads((args.run / "run_info.json").read_text()):
+            raise SystemExit(f"{args.run} is a null-model run: the P3 check evaluates real runs (its ruler is built on the real export)")
         cfg = load_config(args.run / "run_config.toml")
         params = Params.from_config(cfg.method)
         res = p3_check(cfg, params, args.run, args.R, args.R_labels, args.jobs)
@@ -80,7 +84,7 @@ def main(argv=None):
         print(f"null seed {args.seed} ({diag['moved_share']:.0%} of incidences moved): {len(events)} events -> {args.out}")
     elif args.cmd == "sweep":
         from tkh.experiments import sweep
-        res = sweep(cfg, n_jobs=args.jobs)
+        res = sweep(cfg, params, n_jobs=args.jobs)
         out = args.out or cfg.out_dir / "sweep.json"
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(json.dumps(res, indent=1) + "\n")

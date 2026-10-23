@@ -111,3 +111,13 @@ def test_split_halves_are_disjoint_and_cover_all_cited_works(real):
     A, B = split_works(tkh, snap, 0)
     works = {w for m, r in zip(snap.edges["members"], snap.edges["relation_type"]) if r == "cites" for w in m[1:]}
     assert not A & B and A | B == works and abs(len(A) - len(B)) <= 20
+
+
+def test_no_overlap_pairs_share_no_name_including_aliases(real):
+    from tkh.semantic import name_keys
+    cfg, tkh, _ = real
+    snap = snapshot(tkh, 2026)
+    ru, nk = Ruler(tkh, snap), name_keys(tkh)
+    keys = {p: set().union(*(nk[v] for v in ru.concepts[p])) for p in ru.papers}
+    P = ru.papers
+    assert all(not keys[P[i]] & keys[P[j]] for i, j in zip(*np.nonzero(ru.mask)))

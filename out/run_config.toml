@@ -1,6 +1,6 @@
 [inputs]
-graph = "/Users/alexeyr/Personal/TKH/repo/data/tkh_collection10.json"
-articles = "/Users/alexeyr/Personal/TKH/repo/data/collection10_articles.csv"
+graph = "../data/tkh_collection10.json"
+articles = "../data/collection10_articles.csv"
 
 [snapshots]
 cutoffs = [2020, 2022, 2024, 2026]

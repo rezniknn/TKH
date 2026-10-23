@@ -97,10 +97,12 @@ def config_from_args(args):
     return cfg
 
 
-def to_toml(cfg, method):
-    """The resolved run configuration as TOML text (absolute paths), so a run can be re-validated or rebuilt alone."""
+def to_toml(cfg, method, where):
+    """The resolved run configuration as TOML text for a file in directory `where` (input paths relative to it),
+    so a run can be re-validated or rebuilt on its own, also from another checkout."""
     val = lambda v: f'"{v}"' if isinstance(v, (str, Path)) else str(list(v)) if isinstance(v, (list, tuple)) else str(v).lower() if isinstance(v, bool) else str(v)  # noqa: E731
-    lines = ["[inputs]", f"graph = {val(cfg.graph)}"] + ([f"articles = {val(cfg.articles)}"] if cfg.articles else [])
+    rel = lambda p: os.path.relpath(Path(p).resolve(), Path(where).resolve())  # noqa: E731
+    lines = ["[inputs]", f"graph = {val(rel(cfg.graph))}"] + ([f"articles = {val(rel(cfg.articles))}"] if cfg.articles else [])
     lines += ["", "[snapshots]", f"cutoffs = {val(cfg.cutoffs)}", "", "[hierarchy]", f"budgets = {val(cfg.budgets)}", "", "[method]"]
     lines += [f"{k} = {val(v)}" for k, v in method.items()]
     return "\n".join(lines) + "\n"

@@ -10,18 +10,14 @@ All functions take an optional snapshot; without one they use the whole export.
 
 from collections import Counter, defaultdict
 import math
-import re
-import unicodedata
 
 import numpy as np
 import pandas as pd
 
+from tkh.semantic import name_key
 
-def key(s):
-    """Normalised name: NFKC, lower case, alphanumerics only; a trailing parenthetical is dropped."""
-    s = unicodedata.normalize("NFKC", str(s)).lower()
-    s = re.sub(r"\s*\([^)]*\)\s*$", "", s)
-    return re.sub(r"[^0-9a-z]+", "", s)
+
+key = name_key   # one normaliser for the package (tkh/semantic.py)
 
 
 # Node types that occur as members of the relations whose hub is a paper's presented method, and those
@@ -246,7 +242,8 @@ def citation_coupling(tkh, snap=None, works=None):
 
     Each citing paper's cited works, minus those whose normalised name equals a concept-node name of that paper
     (the residual filter), optionally restricted to `works`; coupling = IDF-weighted Salton cosine. Returns
-    (papers, coupling matrix, removed citation incidences). Same definition as the E1a ruler."""
+    (papers, coupling matrix, removed citation incidences). Exploratory (notebook 03): the method's held-out
+    check (tkh/p3.py) uses its own fixed ruler, with aliases and a no-overlap pair set."""
     papers = node_papers(tkh, snap)
     ntype = tkh.nodes["type"].to_dict()
     pk = defaultdict(set)

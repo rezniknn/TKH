@@ -810,6 +810,91 @@ accepted or changed, and what was checked.
     evaluated in later steps.
   - Labels are placeholders.
 
+### 22. SHAC rewrite: simple constrained hypergraph agglomeration, null model, held-out P3 check (Claude Code)
+
+- **Task/module:** T2, T4, P1–P3; `tkh/hierarchy.py`, `tkh/coarsen.py`, `tkh/null.py`, `tkh/p3.py`,
+  `tkh/experiments.py`, `tkh/pipeline.py`, `tkh/__main__.py`, `docs/formal_statement.md`,
+  `tests/test_hierarchy.py`, `tests/test_null.py`, `Makefile`, `README.md`
+- **Prompt (abridged):** "Your objective is to propose a simple implementation of hypergraph-aware
+  constrained hierarchical agglomeration with semantic similarity [...] documenting all design
+  decisions, assumptions and trade offs made. The implementation must be done in a way that would allow
+  easily making changes to the key parameters [...] select and document the most optimal configuration
+  providing empirical evidence. The implementation must strictly adhere to creteria defined in T2 [...]
+  Any final representation produced by the algorithm must adjere to P1, P2 and P3 [...] The fixtures
+  produced by the method have to pass implemented validation described in 6a [...] Work only with the
+  information available in the graph export (semantic, structural), don't use abstracts or paper text.
+  Take into account conclusions from 01_descrive_graph.ipynb, 02_semantic_signal.ipynb and
+  03_structural_signal.ipynb [...] The implementation is only considered done when 1. A formal statment
+  is defined [...] 2. An implementation of the method in python is done in /thk folder 3. An
+  implementation of a suitable null model [...] 4. When the implemented model is run on the input data
+  provided producing graph representation that fullfilts P1, P2 and P3 creteira 5. When the output
+  representation is validated by the implemented validator". Follow-up decisions by the user: P3 is
+  shown with an independent held-out check; clean rewrite reusing proven parts; "make threashold for a
+  node to be considered a hub a varying parameter"; "make sure no assumptions on the budget sizes drive
+  the design decisions"; "include testing different hub_frac values around the default 0.2 value".
+- **What the assistant did:**
+  - **Grounding.** Parallel readers covered the brief, the literature notes, notebooks 01–03 and the
+    existing code. A reviewer turned them into a compliance matrix. Three design reviewers (compliance,
+    statistics, simplicity) and a synthesis then fixed the design before any code was written.
+  - **Method (SHAC).**
+    - The structural rank is positive-only (F_H(0) = 0), so unlinked pairs get no structural credit.
+    - `relation_balanced` edge weights are the default; inverse_size gives evaluated_on 85% of the
+      weight.
+    - Parameters are strict (unknown keys are an error); `hub_frac` is a free parameter and 1.0 means
+      no hubs.
+    - Any budget list of length ≥ 2 works.
+    - The T4 records come from the method's own incidence.
+    - Removed: the γ prior, the projection variant and the null hooks. The label future-information
+      leak is fixed.
+  - **Null model.** The type- and period-preserving hypergraph configuration model: Curveball trades
+    within (relation, cutoff interval, member type). Every snapshot keeps its node set, which is
+    asserted. Null runs go through the same pipeline and validate. Random labels are a companion.
+  - **Held-out P3 check.** Bibliographic coupling on paper pairs that share no concept node or name,
+    with a residual filter; the ruler is fixed by the evaluator.
+  - **Selection.** A sweep over 60 configurations, plus α = 0 and α = 1 ablations, with one-SE
+    selection on 20 cited-work halves.
+  - **Formal statement.** Rewritten in full.
+- **Accepted / modified (an independent verification workflow: 5 finders, each finding checked by a
+  skeptic; 32 of 35 survived):**
+  - **Two majors in my code.**
+    - The rank CDFs ran on raw floats, so last-digit round-off split ties and changed the 2022
+      hierarchy. S and H are now rounded to 1e-12 before ranking.
+    - The P3 no-overlap and residual filters ignored aliases, which the clustering sees. They now use
+      surface forms and aliases.
+  - **Minor code fixes.**
+    - The sweep ignored the configured parameters.
+    - The half split always gave odd strata's extra work to half A.
+    - A claim-anchor edge case.
+    - CLI arguments that were accepted but ignored.
+    - A stale `metrics.json` after a rebuild.
+    - A P3 check on a null run is now refused.
+  - **Formal statement corrections.**
+    - "Supports levels 0–1" overstated level 1.
+    - The α = 1 ablation was called "lowest", which is false.
+    - The SE scale was mis-paired with the criterion.
+    - Runtime, cap and SVD wording.
+    - Data numbers that do not come from `out/`.
+  - All results were recomputed after the fixes.
+- **Verified:**
+  - `validate.py` passes on `out/` (15/60/240 super-nodes, 4 snapshots), on a null run validated
+    against its own graph, and on runs with budgets (10, 40, 160, 640), (12, 3000) and (1, 2) …
+    (1, 2, 4, 8, 16) on the fixture.
+  - Tests: 430 pass, including the null invariants (degrees per relation, interval and type; arity;
+    hubs; other relations untouched; node sets), F_H(0) = 0, Prop. 1, the cap lemma, exact level
+    sizes for any budget list, determinism on the real ≤2020 snapshot, and an alias-aware no-overlap
+    mask.
+  - P3 at ≤2026 against 99 null rebuilds and 999 random labels:
+    - level 0 beats both nulls (p = 0.01, 0.001);
+    - level 1 beats the configuration null (p = 0.02), and random labels only under the fuzzy filter;
+    - level 2 beats neither.
+- **Not verified / limits:**
+  - P3 holds at the coarse levels only, and only conditionally on the 37 citing papers. The bootstrap
+    CIs over papers include 1.
+  - The ruler cannot rank configurations: the half-A and half-B rankings correlate at a median ρ of
+    −0.07. So the shipped default is "not distinguishable", not "optimal".
+  - P5 and P6 are out of scope here; labels are placeholders.
+  - `make_tables.py` and a full T6 evaluation are not part of this step.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

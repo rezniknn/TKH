@@ -17,7 +17,7 @@ from the level-(k+1) super-nodes:
   F_H     = mid-rank empirical CDF of H over the item pairs with H > 0, and F_H(0) = 0: a pair that
             shares no edge gets no structural credit
   feasible: |A| + |B| <= rho * n_t / N_k  (concept nodes; rho >= 2 always leaves a feasible pair)
-  ties    : scores rounded to 1e-9, then the lowest item index
+  ties    : S and H rounded to 1e-12 before ranking, scores to 1e-9, then the lowest item index
 
 Non-concept nodes are anchored (`anchors`) and inherit their anchor's super-node.
 """
@@ -134,16 +134,17 @@ class _Level:
         self.bval = self.score[np.arange(n), self.best]
         self.stats = {"merges": 0, "linked": 0, "multi_endpoint": 0}
 
+    # S and H are rounded to 1e-12 before ranking, so values equal up to floating-point error tie exactly
     def _S(self, r=None):
         mean = self.sem / self.size[:, None]
-        return (mean if r is None else mean[r]) @ mean.T
+        return np.round((mean if r is None else mean[r]) @ mean.T, 12)
 
     def _H(self, r=None):
         Xr = self.X if r is None else self.X[r]
         num = (Xr * self.w) @ self.X.T
         dr = self.d if r is None else self.d[r]
         den = np.sqrt(np.outer(dr, self.d))
-        return np.divide(num, den, out=np.zeros_like(num), where=den > 0)
+        return np.round(np.divide(num, den, out=np.zeros_like(num), where=den > 0), 12)
 
     def _combine(self, S, H):
         return np.round(self.alpha * self.FS(S) + (1 - self.alpha) * self.FH(H), 9)
@@ -251,8 +252,9 @@ def anchors(tkh, snap, concept):
         if r == "claims":
             meth = [v for v in m if ntype[v] == "method" and v in concept]
             for v in m:
-                if ntype[v] == "claim":
-                    claim_method.setdefault(v, meth[0] if meth else presented.get(a))
+                cand = meth[0] if meth else presented.get(a)
+                if ntype[v] == "claim" and cand in concept and claim_method.get(v) is None:
+                    claim_method[v] = cand
         elif r == "cites":
             for v in m[1:]:
                 citer.setdefault(v, set()).add(a)

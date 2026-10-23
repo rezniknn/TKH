@@ -36,6 +36,23 @@ def clean(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
+def name_key(s):
+    """Normalised name for exact matching: NFKC, lower case, alphanumerics only; a trailing parenthetical is dropped."""
+    s = unicodedata.normalize("NFKC", str(s)).lower()
+    s = re.sub(r"\s*\([^)]*\)\s*$", "", s)
+    return re.sub(r"[^0-9a-z]+", "", s)
+
+
+def name_keys(tkh):
+    """{node id: set of name_key of its surface form and aliases} (the names the method's text sees)."""
+    al = tkh.nodes["aliases"] if "aliases" in tkh.nodes else None
+    out = {}
+    for nid, sf in tkh.nodes["surface_form"].items():
+        extra = al.get(nid) if al is not None else None
+        out[nid] = {k for k in map(name_key, [sf, *(extra if isinstance(extra, list) else [])]) if k}
+    return out
+
+
 def names(tkh):
     """{node id: surface form + aliases}."""
     al = tkh.nodes["aliases"] if "aliases" in tkh.nodes else None

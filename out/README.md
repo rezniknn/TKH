@@ -1,1 +1,1 @@
-<!-- Generated deliverables, produced by 'make build': <snapshot>/hierarchy.json and <snapshot>/coarse_hyperedges.json per snapshot, temporal_events.json, run_info.json. -->
+<!-- Generated deliverables, produced by 'make all': <snapshot>/hierarchy.json and <snapshot>/coarse_hyperedges.json per snapshot, temporal_events.json, run_config.toml (resolved inputs and parameters), run_info.json (diagnostics), metrics.json (held-out P3 check vs nulls); 'make sweep' adds sweep.json. -->

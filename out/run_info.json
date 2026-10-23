@@ -18,8 +18,7 @@
   2024,
   2026
  ],
- "graph": "/Users/alexeyr/Personal/TKH/repo/data/tkh_collection10.json",
- "runtime_s": 27.3,
+ "runtime_s": 28.5,
  "snapshots": {
   "2020": {
    "n_concept": 1018,
@@ -85,8 +84,8 @@
      "budget": 15,
      "super_nodes": 15,
      "cap": 195.2,
-     "max_size": 190,
-     "singletons": 0,
+     "max_size": 187,
+     "singletons": 1,
      "merges": 45,
      "linked": 42,
      "multi_endpoint": 42
@@ -98,8 +97,8 @@
      "max_size": 48,
      "singletons": 3,
      "merges": 180,
-     "linked": 165,
-     "multi_endpoint": 150
+     "linked": 163,
+     "multi_endpoint": 149
     },
     {
      "budget": 240,
@@ -108,7 +107,7 @@
      "max_size": 12,
      "singletons": 33,
      "merges": 1224,
-     "linked": 1181,
+     "linked": 1184,
      "multi_endpoint": 713
     }
    ],

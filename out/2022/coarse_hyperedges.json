@@ -1,10 +1,10 @@
 {
  "0": {
   "summary": {
-   "internal": 170,
-   "partial": 53,
-   "uncollapsed": 7,
-   "multiway": 15,
+   "internal": 174,
+   "partial": 52,
+   "uncollapsed": 4,
+   "multiway": 14,
    "edges": 230
   },
   "edges": [
@@ -17,7 +17,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 2
+     "L0.16": 2
     }
    },
    {
@@ -77,7 +77,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 5
+     "L0.4": 5
     }
    },
    {
@@ -85,11 +85,12 @@
     "relation_type": "extends",
     "arity": 6,
     "weight": 0.0397482358683799,
-    "lambda": 1,
-    "class": "internal",
+    "lambda": 2,
+    "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 6
+     "L0.1": 4,
+     "L0.4": 2
     }
    },
    {
@@ -101,7 +102,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 5
+     "L0.4": 5
     }
    },
    {
@@ -109,12 +110,11 @@
     "relation_type": "uses_component",
     "arity": 8,
     "weight": 0.07247374989749944,
-    "lambda": 2,
-    "class": "partial",
+    "lambda": 1,
+    "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 2,
-     "L0.4": 6
+     "L0.4": 8
     }
    },
    {
@@ -126,7 +126,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 7
+     "L0.4": 7
     }
    },
    {
@@ -138,7 +138,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 8
+     "L0.20": 8
     }
    },
    {
@@ -150,7 +150,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 3
+     "L0.20": 3
     }
    },
    {
@@ -162,8 +162,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 1,
-     "L0.19": 6
+     "L0.20": 6,
+     "L0.4": 1
     }
    },
    {
@@ -175,7 +175,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 8
+     "L0.20": 8
     }
    },
    {
@@ -187,7 +187,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 19
+     "L0.20": 19
     }
    },
    {
@@ -199,7 +199,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 16
+     "L0.20": 16
     }
    },
    {
@@ -219,12 +219,11 @@
     "relation_type": "evaluated_on",
     "arity": 23,
     "weight": 0.0006973645091081275,
-    "lambda": 2,
-    "class": "partial",
+    "lambda": 1,
+    "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.16": 13,
-     "L0.4": 10
+     "L0.4": 23
     }
    },
    {
@@ -232,14 +231,13 @@
     "relation_type": "extends",
     "arity": 17,
     "weight": 0.012421323708868719,
-    "lambda": 5,
+    "lambda": 4,
     "class": "partial",
     "multiway": true,
     "endpoint_counts": {
-     "L0.1": 1,
-     "L0.19": 2,
      "L0.2": 12,
-     "L0.4": 1,
+     "L0.20": 2,
+     "L0.4": 2,
      "L0.5": 1
     }
    },
@@ -284,12 +282,11 @@
     "relation_type": "addresses",
     "arity": 13,
     "weight": 0.021132415441807075,
-    "lambda": 2,
-    "class": "partial",
+    "lambda": 1,
+    "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.17": 12,
-     "L0.20": 1
+     "L0.19": 13
     }
    },
    {
@@ -301,9 +298,9 @@
     "class": "partial",
     "multiway": true,
     "endpoint_counts": {
-     "L0.1": 2,
+     "L0.1": 4,
      "L0.10": 1,
-     "L0.20": 6
+     "L0.19": 4
     }
    },
    {
@@ -315,8 +312,8 @@
     "class": "partial",
     "multiway": true,
     "endpoint_counts": {
+     "L0.19": 1,
      "L0.2": 16,
-     "L0.20": 1,
      "L0.4": 1
     }
    },
@@ -329,7 +326,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.20": 9
+     "L0.19": 9
     }
    },
    {
@@ -341,7 +338,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.20": 18
+     "L0.19": 18
     }
    },
    {
@@ -353,7 +350,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.20": 15
+     "L0.19": 15
     }
    },
    {
@@ -361,12 +358,11 @@
     "relation_type": "addresses",
     "arity": 8,
     "weight": 0.0362269979002407,
-    "lambda": 2,
-    "class": "partial",
+    "lambda": 1,
+    "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 3,
-     "L0.4": 5
+     "L0.4": 8
     }
    },
    {
@@ -386,12 +382,11 @@
     "relation_type": "extends",
     "arity": 12,
     "weight": 0.018067379940172684,
-    "lambda": 2,
-    "class": "partial",
+    "lambda": 1,
+    "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 1,
-     "L0.4": 11
+     "L0.4": 12
     }
    },
    {
@@ -436,11 +431,12 @@
     "relation_type": "addresses",
     "arity": 10,
     "weight": 0.028176553922409434,
-    "lambda": 1,
-    "class": "internal",
+    "lambda": 2,
+    "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 10
+     "L0.16": 1,
+     "L0.20": 9
     }
    },
    {
@@ -452,7 +448,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 8
+     "L0.20": 8
     }
    },
    {
@@ -464,7 +460,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 8
+     "L0.20": 8
     }
    },
    {
@@ -476,7 +472,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 9
+     "L0.20": 9
     }
    },
    {
@@ -489,7 +485,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L0.1": 15,
-     "L0.19": 1
+     "L0.20": 1
     }
    },
    {
@@ -501,7 +497,7 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 3,
+     "L0.20": 3,
      "L0.4": 12
     }
    },
@@ -527,8 +523,8 @@
     "multiway": true,
     "endpoint_counts": {
      "L0.1": 6,
-     "L0.4": 2,
-     "L0.9": 1
+     "L0.17": 1,
+     "L0.4": 2
     }
    },
    {
@@ -590,7 +586,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L0.1": 1,
-     "L0.17": 4
+     "L0.19": 4
     }
    },
    {
@@ -610,11 +606,12 @@
     "relation_type": "extends",
     "arity": 4,
     "weight": 0.06624705978063317,
-    "lambda": 1,
-    "class": "internal",
+    "lambda": 2,
+    "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 4
+     "L0.1": 3,
+     "L0.4": 1
     }
    },
    {
@@ -722,8 +719,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.3": 2,
-     "L0.6": 13
+     "L0.6": 13,
+     "L0.9": 2
     }
    },
    {
@@ -760,7 +757,7 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 1,
+     "L0.16": 1,
      "L0.6": 10
     }
    },
@@ -798,7 +795,7 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 13,
+     "L0.20": 13,
      "L0.8": 5
     }
    },
@@ -811,10 +808,10 @@
     "class": "partial",
     "multiway": true,
     "endpoint_counts": {
-     "L0.11": 5,
-     "L0.3": 6,
-     "L0.4": 14,
-     "L0.8": 1
+     "L0.3": 1,
+     "L0.4": 6,
+     "L0.8": 1,
+     "L0.9": 18
     }
    },
    {
@@ -886,8 +883,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.3": 5,
-     "L0.8": 3
+     "L0.8": 3,
+     "L0.9": 5
     }
    },
    {
@@ -955,13 +952,12 @@
     "relation_type": "extends",
     "arity": 13,
     "weight": 0.01656176494515829,
-    "lambda": 3,
+    "lambda": 2,
     "class": "partial",
-    "multiway": true,
+    "multiway": false,
     "endpoint_counts": {
-     "L0.3": 2,
-     "L0.4": 10,
-     "L0.9": 1
+     "L0.4": 1,
+     "L0.9": 12
     }
    },
    {
@@ -1009,7 +1005,7 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.17": 9,
+     "L0.19": 9,
      "L0.2": 1
     }
    },
@@ -1127,12 +1123,11 @@
     "relation_type": "addresses",
     "arity": 7,
     "weight": 0.04226483088361415,
-    "lambda": 2,
-    "class": "partial",
+    "lambda": 1,
+    "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.3": 6,
-     "L0.9": 1
+     "L0.9": 7
     }
    },
    {
@@ -1144,7 +1139,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.3": 2
+     "L0.9": 2
     }
    },
    {
@@ -1156,7 +1151,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.3": 5
+     "L0.9": 5
     }
    },
    {
@@ -1168,7 +1163,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.3": 8
+     "L0.9": 8
     }
    },
    {
@@ -1180,7 +1175,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.3": 7
+     "L0.9": 7
     }
    },
    {
@@ -1193,8 +1188,8 @@
     "multiway": true,
     "endpoint_counts": {
      "L0.11": 15,
-     "L0.3": 2,
-     "L0.4": 1
+     "L0.4": 1,
+     "L0.9": 2
     }
    },
    {
@@ -1239,11 +1234,12 @@
     "relation_type": "uses_component",
     "arity": 14,
     "weight": 0.039024326867884325,
-    "lambda": 1,
-    "class": "internal",
+    "lambda": 2,
+    "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.11": 14
+     "L0.11": 11,
+     "L0.4": 3
     }
    },
    {
@@ -1263,12 +1259,13 @@
     "relation_type": "addresses",
     "arity": 36,
     "weight": 0.00724539958004814,
-    "lambda": 2,
+    "lambda": 3,
     "class": "partial",
-    "multiway": false,
+    "multiway": true,
     "endpoint_counts": {
-     "L0.17": 34,
-     "L0.3": 2
+     "L0.19": 34,
+     "L0.3": 1,
+     "L0.9": 1
     }
    },
    {
@@ -1288,12 +1285,13 @@
     "relation_type": "extends",
     "arity": 11,
     "weight": 0.01987411793418995,
-    "lambda": 2,
+    "lambda": 3,
     "class": "partial",
-    "multiway": false,
+    "multiway": true,
     "endpoint_counts": {
      "L0.1": 2,
-     "L0.3": 9
+     "L0.3": 2,
+     "L0.9": 7
     }
    },
    {
@@ -1343,8 +1341,8 @@
     "multiway": true,
     "endpoint_counts": {
      "L0.10": 6,
-     "L0.17": 26,
-     "L0.19": 1
+     "L0.19": 26,
+     "L0.20": 1
     }
    },
    {
@@ -1370,7 +1368,7 @@
     "endpoint_counts": {
      "L0.1": 2,
      "L0.10": 1,
-     "L0.4": 12
+     "L0.9": 12
     }
    },
    {
@@ -1419,10 +1417,10 @@
     "class": "partial",
     "multiway": true,
     "endpoint_counts": {
-     "L0.17": 38,
+     "L0.19": 38,
      "L0.2": 1,
-     "L0.3": 2,
-     "L0.4": 1
+     "L0.4": 1,
+     "L0.9": 2
     }
    },
    {
@@ -1435,9 +1433,9 @@
     "multiway": true,
     "endpoint_counts": {
      "L0.1": 1,
-     "L0.17": 3,
-     "L0.2": 12,
-     "L0.4": 2
+     "L0.19": 3,
+     "L0.2": 10,
+     "L0.4": 4
     }
    },
    {
@@ -1510,8 +1508,8 @@
     "multiway": true,
     "endpoint_counts": {
      "L0.10": 1,
-     "L0.3": 1,
-     "L0.4": 20
+     "L0.4": 2,
+     "L0.9": 19
     }
    },
    {
@@ -1597,7 +1595,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L0.1": 1,
-     "L0.9": 1
+     "L0.17": 1
     }
    },
    {
@@ -1658,7 +1656,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.16": 2
+     "L0.4": 2
     }
    },
    {
@@ -1906,12 +1904,11 @@
     "relation_type": "evaluated_on",
     "arity": 2,
     "weight": 0.015342019200378806,
-    "lambda": 2,
-    "class": "uncollapsed",
+    "lambda": 1,
+    "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.16": 1,
-     "L0.4": 1
+     "L0.4": 2
     }
    },
    {
@@ -2004,12 +2001,11 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 2,
-    "class": "partial",
+    "lambda": 1,
+    "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.16": 1,
-     "L0.4": 2
+     "L0.4": 3
     }
    },
    {
@@ -2029,12 +2025,11 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 2,
-    "class": "partial",
+    "lambda": 1,
+    "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.16": 1,
-     "L0.4": 2
+     "L0.4": 3
     }
    },
    {
@@ -2094,7 +2089,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 3
+     "L0.20": 3
     }
    },
    {
@@ -2106,7 +2101,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 3
+     "L0.20": 3
     }
    },
    {
@@ -2118,7 +2113,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 3
+     "L0.20": 3
     }
    },
    {
@@ -2130,7 +2125,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 2
+     "L0.20": 2
     }
    },
    {
@@ -2142,7 +2137,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 2
+     "L0.20": 2
     }
    },
    {
@@ -2154,7 +2149,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 3
+     "L0.20": 3
     }
    },
    {
@@ -2166,7 +2161,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 3
+     "L0.20": 3
     }
    },
    {
@@ -2214,8 +2209,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 1,
-     "L0.11": 2
+     "L0.11": 2,
+     "L0.4": 1
     }
    },
    {
@@ -2227,8 +2222,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 1,
-     "L0.11": 2
+     "L0.11": 2,
+     "L0.4": 1
     }
    },
    {
@@ -2240,8 +2235,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.1": 1,
-     "L0.11": 2
+     "L0.11": 2,
+     "L0.4": 1
     }
    },
    {
@@ -2481,7 +2476,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 3
+     "L0.20": 3
     }
    },
    {
@@ -2493,7 +2488,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.19": 3
+     "L0.20": 3
     }
    },
    {
@@ -2505,8 +2500,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.2": 2,
-     "L0.20": 1
+     "L0.19": 1,
+     "L0.2": 2
     }
    },
    {
@@ -2518,8 +2513,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.20": 2,
-     "L0.4": 1
+     "L0.1": 2,
+     "L0.19": 1
     }
    },
    {
@@ -2531,7 +2526,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.20": 3
+     "L0.19": 3
     }
    },
    {
@@ -2539,13 +2534,12 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 3,
-    "class": "uncollapsed",
-    "multiway": true,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
     "endpoint_counts": {
-     "L0.1": 1,
-     "L0.20": 1,
-     "L0.4": 1
+     "L0.1": 2,
+     "L0.19": 1
     }
    },
    {
@@ -2553,13 +2547,12 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 3,
-    "class": "uncollapsed",
-    "multiway": true,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
     "endpoint_counts": {
-     "L0.1": 1,
-     "L0.20": 1,
-     "L0.4": 1
+     "L0.1": 2,
+     "L0.19": 1
     }
    },
    {
@@ -2572,7 +2565,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L0.10": 2,
-     "L0.20": 1
+     "L0.19": 1
     }
    },
    {
@@ -2584,7 +2577,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.20": 3
+     "L0.19": 3
     }
    },
    {
@@ -2596,7 +2589,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L0.20": 3
+     "L0.19": 3
     }
    },
    {
@@ -2644,7 +2637,7 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.17": 2,
+     "L0.19": 2,
      "L0.2": 1
     }
    },
@@ -2756,7 +2749,7 @@
     "class": "uncollapsed",
     "multiway": true,
     "endpoint_counts": {
-     "L0.17": 1,
+     "L0.19": 1,
      "L0.2": 1,
      "L0.4": 1
     }
@@ -2770,8 +2763,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.2": 2,
-     "L0.4": 1
+     "L0.2": 1,
+     "L0.4": 2
     }
    },
    {
@@ -2783,7 +2776,7 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.17": 2,
+     "L0.19": 2,
      "L0.2": 1
     }
    },
@@ -2829,11 +2822,12 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 1,
-    "class": "internal",
+    "lambda": 2,
+    "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L0.2": 3
+     "L0.2": 1,
+     "L0.4": 2
     }
    },
    {
@@ -2853,9 +2847,9 @@
  "1": {
   "summary": {
    "internal": 85,
-   "partial": 128,
-   "uncollapsed": 17,
-   "multiway": 27,
+   "partial": 131,
+   "uncollapsed": 14,
+   "multiway": 26,
    "edges": 230
   },
   "edges": [
@@ -2868,7 +2862,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.72": 2
+     "L1.70": 2
     }
    },
    {
@@ -2966,7 +2960,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.5": 2,
-     "L1.74": 6
+     "L1.73": 6
     }
    },
    {
@@ -2978,8 +2972,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.5": 5,
-     "L1.75": 2
+     "L1.29": 2,
+     "L1.5": 5
     }
    },
    {
@@ -2992,7 +2986,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.47": 4,
-     "L1.82": 4
+     "L1.81": 4
     }
    },
    {
@@ -3004,8 +2998,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 2,
-     "L1.82": 1
+     "L1.79": 2,
+     "L1.81": 1
     }
    },
    {
@@ -3018,7 +3012,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.5": 1,
-     "L1.82": 6
+     "L1.81": 6
     }
    },
    {
@@ -3030,7 +3024,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.82": 8
+     "L1.81": 8
     }
    },
    {
@@ -3042,8 +3036,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.82": 11,
-     "L1.83": 8
+     "L1.81": 11,
+     "L1.82": 8
     }
    },
    {
@@ -3055,7 +3049,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.82": 16
+     "L1.81": 16
     }
    },
    {
@@ -3067,7 +3061,7 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.74": 3,
+     "L1.73": 3,
      "L1.8": 2
     }
    },
@@ -3081,8 +3075,8 @@
     "multiway": true,
     "endpoint_counts": {
      "L1.24": 9,
-     "L1.71": 13,
-     "L1.74": 1
+     "L1.69": 13,
+     "L1.73": 1
     }
    },
    {
@@ -3097,9 +3091,9 @@
      "L1.10": 1,
      "L1.2": 1,
      "L1.5": 1,
-     "L1.65": 11,
-     "L1.74": 1,
-     "L1.81": 2
+     "L1.64": 11,
+     "L1.73": 1,
+     "L1.79": 2
     }
    },
    {
@@ -3111,7 +3105,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.74": 4
+     "L1.73": 4
     }
    },
    {
@@ -3123,7 +3117,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.74": 8
+     "L1.73": 8
     }
    },
    {
@@ -3135,7 +3129,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.74": 8
+     "L1.73": 8
     }
    },
    {
@@ -3147,8 +3141,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.73": 12,
-     "L1.77": 1
+     "L1.72": 10,
+     "L1.75": 3
     }
    },
    {
@@ -3160,9 +3154,9 @@
     "class": "partial",
     "multiway": true,
     "endpoint_counts": {
-     "L1.61": 2,
-     "L1.77": 6,
-     "L1.80": 1
+     "L1.61": 4,
+     "L1.75": 4,
+     "L1.78": 1
     }
    },
    {
@@ -3174,9 +3168,9 @@
     "class": "partial",
     "multiway": true,
     "endpoint_counts": {
-     "L1.65": 16,
-     "L1.74": 1,
-     "L1.77": 1
+     "L1.64": 16,
+     "L1.73": 1,
+     "L1.75": 1
     }
    },
    {
@@ -3188,7 +3182,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.77": 9
+     "L1.75": 9
     }
    },
    {
@@ -3200,7 +3194,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.77": 18
+     "L1.75": 18
     }
    },
    {
@@ -3212,7 +3206,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.77": 15
+     "L1.75": 15
     }
    },
    {
@@ -3301,7 +3295,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.43": 1,
-     "L1.81": 9
+     "L1.79": 9
     }
    },
    {
@@ -3313,7 +3307,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 8
+     "L1.79": 8
     }
    },
    {
@@ -3325,7 +3319,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 8
+     "L1.79": 8
     }
    },
    {
@@ -3337,7 +3331,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 9
+     "L1.79": 9
     }
    },
    {
@@ -3349,7 +3343,7 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 1,
+     "L1.79": 1,
      "L1.9": 15
     }
    },
@@ -3362,8 +3356,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.74": 12,
-     "L1.81": 3
+     "L1.73": 12,
+     "L1.79": 3
     }
    },
    {
@@ -3492,7 +3486,7 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.72": 4,
+     "L1.71": 4,
      "L1.9": 1
     }
    },
@@ -3590,7 +3584,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.12": 2,
-     "L1.79": 13
+     "L1.77": 13
     }
    },
    {
@@ -3602,7 +3596,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.79": 4
+     "L1.77": 4
     }
    },
    {
@@ -3615,8 +3609,8 @@
     "multiway": true,
     "endpoint_counts": {
      "L1.11": 3,
-     "L1.65": 8,
-     "L1.79": 1
+     "L1.64": 8,
+     "L1.77": 1
     }
    },
    {
@@ -3629,7 +3623,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.43": 1,
-     "L1.79": 10
+     "L1.77": 10
     }
    },
    {
@@ -3641,8 +3635,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.78": 5,
-     "L1.79": 12
+     "L1.76": 5,
+     "L1.77": 12
     }
    },
    {
@@ -3655,7 +3649,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.52": 11,
-     "L1.79": 10
+     "L1.77": 10
     }
    },
    {
@@ -3682,9 +3676,9 @@
     "endpoint_counts": {
      "L1.12": 5,
      "L1.26": 13,
+     "L1.29": 5,
      "L1.3": 1,
      "L1.32": 1,
-     "L1.69": 5,
      "L1.8": 1
     }
    },
@@ -3723,7 +3717,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.32": 15,
-     "L1.64": 11
+     "L1.63": 11
     }
    },
    {
@@ -3798,7 +3792,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.14": 13,
-     "L1.64": 1
+     "L1.63": 1
     }
    },
    {
@@ -3837,7 +3831,7 @@
      "L1.12": 2,
      "L1.15": 1,
      "L1.26": 9,
-     "L1.8": 1
+     "L1.29": 1
     }
    },
    {
@@ -3913,7 +3907,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.2": 1,
-     "L1.66": 8
+     "L1.65": 8
     }
    },
    {
@@ -4074,7 +4068,7 @@
     "endpoint_counts": {
      "L1.12": 2,
      "L1.20": 1,
-     "L1.70": 14,
+     "L1.68": 14,
      "L1.8": 1
     }
    },
@@ -4095,12 +4089,13 @@
     "relation_type": "extends",
     "arity": 8,
     "weight": 0.028391597048842785,
-    "lambda": 2,
+    "lambda": 3,
     "class": "partial",
-    "multiway": false,
+    "multiway": true,
     "endpoint_counts": {
      "L1.20": 1,
-     "L1.8": 7
+     "L1.29": 1,
+     "L1.8": 6
     }
    },
    {
@@ -4125,7 +4120,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.20": 11,
-     "L1.69": 3
+     "L1.29": 3
     }
    },
    {
@@ -4152,7 +4147,7 @@
      "L1.12": 1,
      "L1.3": 1,
      "L1.48": 16,
-     "L1.73": 18
+     "L1.72": 18
     }
    },
    {
@@ -4233,8 +4228,8 @@
      "L1.18": 5,
      "L1.45": 12,
      "L1.48": 14,
-     "L1.76": 1,
-     "L1.82": 1
+     "L1.74": 1,
+     "L1.81": 1
     }
    },
    {
@@ -4246,7 +4241,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.76": 4
+     "L1.74": 4
     }
    },
    {
@@ -4260,7 +4255,7 @@
     "endpoint_counts": {
      "L1.1": 1,
      "L1.26": 12,
-     "L1.76": 1,
+     "L1.74": 1,
      "L1.9": 1
     }
    },
@@ -4274,7 +4269,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.35": 17,
-     "L1.76": 1
+     "L1.74": 1
     }
    },
    {
@@ -4286,8 +4281,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.76": 17,
-     "L1.80": 1
+     "L1.74": 17,
+     "L1.78": 1
     }
    },
    {
@@ -4295,12 +4290,13 @@
     "relation_type": "uses_technique",
     "arity": 32,
     "weight": 0.016413980576616746,
-    "lambda": 2,
+    "lambda": 3,
     "class": "partial",
-    "multiway": false,
+    "multiway": true,
     "endpoint_counts": {
      "L1.59": 24,
-     "L1.76": 8
+     "L1.74": 1,
+     "L1.80": 7
     }
    },
    {
@@ -4324,17 +4320,16 @@
     "relation_type": "evaluated_on",
     "arity": 18,
     "weight": 0.0009024717176693416,
-    "lambda": 7,
+    "lambda": 6,
     "class": "partial",
     "multiway": true,
     "endpoint_counts": {
      "L1.2": 1,
      "L1.22": 1,
      "L1.23": 6,
-     "L1.24": 2,
+     "L1.24": 4,
      "L1.33": 3,
-     "L1.46": 3,
-     "L1.63": 2
+     "L1.46": 3
     }
    },
    {
@@ -4347,7 +4342,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.2": 3,
-     "L1.65": 9
+     "L1.64": 9
     }
    },
    {
@@ -4373,7 +4368,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.2": 26,
-     "L1.67": 5
+     "L1.66": 5
     }
    },
    {
@@ -4399,7 +4394,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.18": 23,
-     "L1.68": 1
+     "L1.67": 1
     }
    },
    {
@@ -4414,7 +4409,7 @@
      "L1.12": 1,
      "L1.18": 1,
      "L1.26": 18,
-     "L1.8": 2
+     "L1.29": 2
     }
    },
    {
@@ -4567,7 +4562,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.71": 2
+     "L1.69": 2
     }
    },
    {
@@ -4580,7 +4575,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4593,7 +4588,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4606,7 +4601,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4619,7 +4614,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4632,7 +4627,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4645,7 +4640,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4658,7 +4653,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4671,7 +4666,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4684,7 +4679,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4697,7 +4692,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4710,7 +4705,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4723,7 +4718,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4736,7 +4731,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4749,7 +4744,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4762,7 +4757,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4775,7 +4770,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4788,7 +4783,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4801,7 +4796,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4814,7 +4809,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4827,7 +4822,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4839,8 +4834,8 @@
     "class": "uncollapsed",
     "multiway": false,
     "endpoint_counts": {
-     "L1.71": 1,
-     "L1.74": 1
+     "L1.69": 1,
+     "L1.73": 1
     }
    },
    {
@@ -4853,7 +4848,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4866,7 +4861,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.62": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4879,7 +4874,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4892,7 +4887,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4905,7 +4900,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4918,7 +4913,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4932,7 +4927,7 @@
     "endpoint_counts": {
      "L1.24": 1,
      "L1.61": 1,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4945,8 +4940,8 @@
     "multiway": true,
     "endpoint_counts": {
      "L1.24": 1,
-     "L1.71": 1,
-     "L1.74": 1
+     "L1.69": 1,
+     "L1.73": 1
     }
    },
    {
@@ -4959,7 +4954,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.24": 2,
-     "L1.74": 1
+     "L1.73": 1
     }
    },
    {
@@ -4972,8 +4967,8 @@
     "multiway": true,
     "endpoint_counts": {
      "L1.24": 1,
-     "L1.71": 1,
-     "L1.74": 1
+     "L1.69": 1,
+     "L1.73": 1
     }
    },
    {
@@ -5033,7 +5028,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 3
+     "L1.79": 3
     }
    },
    {
@@ -5045,7 +5040,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 3
+     "L1.79": 3
     }
    },
    {
@@ -5057,7 +5052,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 3
+     "L1.79": 3
     }
    },
    {
@@ -5069,7 +5064,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 2
+     "L1.79": 2
     }
    },
    {
@@ -5081,7 +5076,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 2
+     "L1.79": 2
     }
    },
    {
@@ -5093,7 +5088,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 3
+     "L1.79": 3
     }
    },
    {
@@ -5105,7 +5100,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 3
+     "L1.79": 3
     }
    },
    {
@@ -5205,7 +5200,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.76": 2
+     "L1.74": 2
     }
    },
    {
@@ -5217,7 +5212,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.76": 2
+     "L1.74": 2
     }
    },
    {
@@ -5229,7 +5224,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.76": 3
+     "L1.74": 3
     }
    },
    {
@@ -5241,7 +5236,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.79": 3
+     "L1.77": 3
     }
    },
    {
@@ -5253,7 +5248,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.79": 3
+     "L1.77": 3
     }
    },
    {
@@ -5265,7 +5260,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.79": 3
+     "L1.77": 3
     }
    },
    {
@@ -5433,8 +5428,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 2,
-     "L1.82": 1
+     "L1.79": 2,
+     "L1.81": 1
     }
    },
    {
@@ -5446,8 +5441,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.81": 2,
-     "L1.82": 1
+     "L1.79": 2,
+     "L1.81": 1
     }
    },
    {
@@ -5460,7 +5455,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.33": 2,
-     "L1.77": 1
+     "L1.75": 1
     }
    },
    {
@@ -5472,8 +5467,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.24": 1,
-     "L1.77": 2
+     "L1.61": 2,
+     "L1.75": 1
     }
    },
    {
@@ -5485,7 +5480,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.77": 3
+     "L1.75": 3
     }
    },
    {
@@ -5493,13 +5488,12 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 3,
-    "class": "uncollapsed",
-    "multiway": true,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
     "endpoint_counts": {
-     "L1.24": 1,
-     "L1.61": 1,
-     "L1.77": 1
+     "L1.61": 2,
+     "L1.75": 1
     }
    },
    {
@@ -5507,13 +5501,12 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 3,
-    "class": "uncollapsed",
-    "multiway": true,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
     "endpoint_counts": {
-     "L1.24": 1,
-     "L1.61": 1,
-     "L1.77": 1
+     "L1.61": 2,
+     "L1.75": 1
     }
    },
    {
@@ -5525,8 +5518,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L1.77": 1,
-     "L1.80": 2
+     "L1.75": 1,
+     "L1.78": 2
     }
    },
    {
@@ -5538,7 +5531,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.77": 3
+     "L1.75": 3
     }
    },
    {
@@ -5550,7 +5543,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L1.77": 3
+     "L1.75": 3
     }
    },
    {
@@ -5726,13 +5719,12 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 3,
-    "class": "uncollapsed",
-    "multiway": true,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
     "endpoint_counts": {
      "L1.2": 1,
-     "L1.24": 1,
-     "L1.63": 1
+     "L1.24": 2
     }
    },
    {
@@ -5797,7 +5789,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L1.2": 1,
-     "L1.63": 2
+     "L1.24": 2
     }
    },
    {
@@ -5818,9 +5810,9 @@
  "2": {
   "summary": {
    "internal": 17,
-   "partial": 142,
-   "uncollapsed": 71,
-   "multiway": 126,
+   "partial": 145,
+   "uncollapsed": 68,
+   "multiway": 123,
    "edges": 230
   },
   "edges": [
@@ -6077,7 +6069,7 @@
     "endpoint_counts": {
      "L2.263": 2,
      "L2.268": 1,
-     "L2.322": 11,
+     "L2.323": 11,
      "L2.88": 1,
      "L2.90": 1,
      "L2.93": 1
@@ -6151,9 +6143,9 @@
      "L2.273": 1,
      "L2.307": 2,
      "L2.308": 2,
-     "L2.309": 1,
+     "L2.309": 2,
      "L2.310": 1,
-     "L2.53": 2
+     "L2.311": 1
     }
    },
    {
@@ -6167,9 +6159,9 @@
     "endpoint_counts": {
      "L2.268": 1,
      "L2.273": 1,
-     "L2.321": 1,
-     "L2.322": 3,
-     "L2.323": 11,
+     "L2.322": 1,
+     "L2.323": 3,
+     "L2.324": 11,
      "L2.92": 1
     }
    },
@@ -6397,16 +6389,15 @@
     "relation_type": "evaluated_on",
     "arity": 9,
     "weight": 0.0019177524000473507,
-    "lambda": 7,
+    "lambda": 6,
     "class": "partial",
     "multiway": true,
     "endpoint_counts": {
      "L2.103": 1,
-     "L2.53": 1,
+     "L2.53": 2,
      "L2.54": 2,
      "L2.55": 1,
      "L2.57": 1,
-     "L2.58": 1,
      "L2.74": 2
     }
    },
@@ -6486,7 +6477,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.13": 1,
-     "L2.58": 1
+     "L2.53": 1
     }
    },
    {
@@ -6618,7 +6609,7 @@
     "endpoint_counts": {
      "L2.173": 1,
      "L2.288": 12,
-     "L2.311": 1,
+     "L2.312": 1,
      "L2.94": 1
     }
    },
@@ -6631,7 +6622,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L2.311": 4
+     "L2.312": 4
     }
    },
    {
@@ -6644,8 +6635,8 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.244": 3,
-     "L2.311": 1,
-     "L2.321": 8
+     "L2.312": 1,
+     "L2.322": 8
     }
    },
    {
@@ -6659,7 +6650,7 @@
     "endpoint_counts": {
      "L2.166": 1,
      "L2.280": 9,
-     "L2.311": 1
+     "L2.312": 1
     }
    },
    {
@@ -6673,7 +6664,7 @@
     "endpoint_counts": {
      "L2.300": 5,
      "L2.301": 11,
-     "L2.311": 1
+     "L2.312": 1
     }
    },
    {
@@ -6687,7 +6678,7 @@
     "endpoint_counts": {
      "L2.255": 11,
      "L2.297": 9,
-     "L2.311": 1
+     "L2.312": 1
     }
    },
    {
@@ -7325,7 +7316,7 @@
      "L2.254": 3,
      "L2.283": 1,
      "L2.285": 4,
-     "L2.313": 1
+     "L2.314": 1
     }
    },
    {
@@ -7337,8 +7328,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L2.312": 2,
-     "L2.313": 2
+     "L2.313": 2,
+     "L2.314": 2
     }
    },
    {
@@ -7354,7 +7345,7 @@
      "L2.113": 1,
      "L2.13": 1,
      "L2.242": 11,
-     "L2.313": 1
+     "L2.314": 1
     }
    },
    {
@@ -7369,7 +7360,7 @@
      "L2.249": 1,
      "L2.272": 8,
      "L2.282": 8,
-     "L2.313": 1
+     "L2.314": 1
     }
    },
    {
@@ -7383,7 +7374,7 @@
     "endpoint_counts": {
      "L2.261": 6,
      "L2.302": 1,
-     "L2.313": 11
+     "L2.314": 11
     }
    },
    {
@@ -7399,7 +7390,7 @@
      "L2.292": 6,
      "L2.298": 7,
      "L2.299": 9,
-     "L2.313": 1
+     "L2.314": 1
     }
    },
    {
@@ -7585,13 +7576,12 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 3,
-    "class": "uncollapsed",
-    "multiway": true,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
     "endpoint_counts": {
      "L2.103": 1,
-     "L2.53": 1,
-     "L2.58": 1
+     "L2.53": 2
     }
    },
    {
@@ -7604,7 +7594,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.103": 1,
-     "L2.58": 1
+     "L2.53": 1
     }
    },
    {
@@ -7707,7 +7697,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.314": 1,
+     "L2.315": 1,
      "L2.54": 1
     }
    },
@@ -7721,7 +7711,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.314": 1,
+     "L2.315": 1,
      "L2.54": 1
     }
    },
@@ -7735,7 +7725,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.314": 1,
+     "L2.315": 1,
      "L2.54": 1
     }
    },
@@ -7749,7 +7739,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.314": 1,
+     "L2.315": 1,
      "L2.54": 1
     }
    },
@@ -7777,7 +7767,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.314": 1,
+     "L2.315": 1,
      "L2.54": 1
     }
    },
@@ -7791,7 +7781,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.314": 1,
+     "L2.315": 1,
      "L2.54": 1
     }
    },
@@ -7805,7 +7795,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.314": 1,
+     "L2.315": 1,
      "L2.54": 1
     }
    },
@@ -7819,7 +7809,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.314": 1,
+     "L2.315": 1,
      "L2.54": 1
     }
    },
@@ -7833,7 +7823,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.314": 1,
+     "L2.315": 1,
      "L2.54": 1
     }
    },
@@ -8014,7 +8004,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.315": 2
+     "L2.316": 2
     }
    },
    {
@@ -8083,7 +8073,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.316": 1,
+     "L2.317": 1,
      "L2.54": 1
     }
    },
@@ -8111,7 +8101,7 @@
     "multiway": true,
     "endpoint_counts": {
      "L2.268": 1,
-     "L2.317": 1,
+     "L2.318": 1,
      "L2.54": 1
     }
    },
@@ -8213,7 +8203,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.263": 1,
-     "L2.318": 2
+     "L2.319": 2
     }
    },
    {
@@ -8252,7 +8242,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.263": 1,
-     "L2.319": 2
+     "L2.320": 2
     }
    },
    {
@@ -8265,7 +8255,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.263": 1,
-     "L2.319": 2
+     "L2.320": 2
     }
    },
    {
@@ -8359,7 +8349,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.13": 1,
-     "L2.58": 1
+     "L2.53": 1
     }
    },
    {
@@ -8371,7 +8361,7 @@
     "class": "internal",
     "multiway": false,
     "endpoint_counts": {
-     "L2.313": 2
+     "L2.314": 2
     }
    },
    {
@@ -8383,8 +8373,8 @@
     "class": "uncollapsed",
     "multiway": false,
     "endpoint_counts": {
-     "L2.312": 1,
-     "L2.313": 1
+     "L2.313": 1,
+     "L2.314": 1
     }
    },
    {
@@ -8396,8 +8386,8 @@
     "class": "partial",
     "multiway": false,
     "endpoint_counts": {
-     "L2.312": 2,
-     "L2.313": 1
+     "L2.313": 2,
+     "L2.314": 1
     }
    },
    {
@@ -8410,7 +8400,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.270": 1,
-     "L2.311": 2
+     "L2.312": 2
     }
    },
    {
@@ -8423,7 +8413,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.270": 1,
-     "L2.311": 2
+     "L2.312": 2
     }
    },
    {
@@ -8436,7 +8426,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.270": 1,
-     "L2.311": 2
+     "L2.312": 2
     }
    },
    {
@@ -8643,7 +8633,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.273": 1,
-     "L2.320": 2
+     "L2.321": 2
     }
    },
    {
@@ -8657,7 +8647,7 @@
     "endpoint_counts": {
      "L2.273": 1,
      "L2.307": 1,
-     "L2.54": 1
+     "L2.309": 1
     }
    },
    {
@@ -8678,13 +8668,12 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 3,
-    "class": "uncollapsed",
-    "multiway": true,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
     "endpoint_counts": {
      "L2.273": 1,
-     "L2.53": 1,
-     "L2.54": 1
+     "L2.309": 2
     }
    },
    {
@@ -8692,13 +8681,12 @@
     "relation_type": "evaluated_on",
     "arity": 3,
     "weight": 0.007671009600189403,
-    "lambda": 3,
-    "class": "uncollapsed",
-    "multiway": true,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
     "endpoint_counts": {
      "L2.273": 1,
-     "L2.53": 1,
-     "L2.54": 1
+     "L2.309": 2
     }
    },
    {
@@ -8711,7 +8699,7 @@
     "multiway": false,
     "endpoint_counts": {
      "L2.273": 1,
-     "L2.309": 2
+     "L2.310": 2
     }
    },
    {
@@ -8725,7 +8713,7 @@
     "endpoint_counts": {
      "L2.271": 1,
      "L2.273": 1,
-     "L2.310": 1
+     "L2.311": 1
     }
    },
    {

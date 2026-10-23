@@ -12,9 +12,9 @@ semantics.
 | Null models | `tkh/null.py` |
 | Held-out P3 check | `tkh/p3.py`, `tkh/experiments.py` |
 
-Parameters are in `[method]` of `configs/default.toml`. Every number below comes from
-`out/run_info.json`, `out/metrics.json` or `out/sweep.json`, all produced by `make all` and
-`make sweep`.
+Parameters are in `[method]` of `configs/default.toml`. Every result in §§3, 8 and 9 comes from
+`out/run_info.json`, `out/metrics.json`, `out/sweep.json` or `out/<t>/coarse_hyperedges.json`, produced by
+`make all` and `make sweep`. Data facts cite notebooks 01–03.
 
 ## 1. Input and notation
 
@@ -37,21 +37,24 @@ Parameters are in `[method]` of `configs/default.toml`. Every number below comes
 - **Edge weights w_e** (`edge_weight`):
   - `inverse_size`: w_e = 1/(|e| − 1).
   - `relation_balanced` (default): inverse_size rescaled so that each relation's weights sum to 1.
-  - Why the default: under inverse_size alone, evaluated_on, which is mostly small benchmark
-    triples from a few papers, carries 85% of the weight (notebook 03 §5). Any weighting chooses
+  - Why the default: under inverse_size alone, evaluated_on carries 85% of the weight, because it is
+    mostly small benchmark triples, a large share of them from a few papers (notebook 03 §5). Any weighting chooses
     which relation drives the grouping, so the default spreads the choice evenly.
 - **Text.** z_v is the L2-normalised, mean-centred LSA projection of node v's name and aliases:
   - a character 3–5-gram TF-IDF (sublinear), fitted on V_t only;
-  - then an exact SVD below 400 dimensions, otherwise ARPACK with a fixed seed, to `lsa_dim` = 100
-    dimensions.
+  - then a dense exact SVD when the TF-IDF matrix has at most 400 rows or columns, otherwise ARPACK
+    with a fixed seed, to `lsa_dim` = 100 dimensions.
 
-  Raw TF-IDF chains into one giant cluster, while LSA does not (notebook 02 §3).
-- **Never used:** titles, claims, future topics, edge attributes, cited works, citations, authors,
-  abstracts. Notebook 03 §8 explains why: they re-encode "same paper" or serve as held-out
+  In notebook 02's trial clustering, raw TF-IDF chains (99.6% of nodes in one of 15 clusters), while
+  LSA reduces this to 39% at 15 clusters and 7.5% at 60.
+- **Never used in G_t or z_v:** titles, claims, future topics, edge attributes, cited works,
+  citations, authors, abstracts. `claims` and `cites` edges are used only to anchor claim and
+  cited-work nodes after clustering (§5). Notebook 03 §8 explains why: they re-encode "same paper" or serve as held-out
   evidence.
 - **Budgets.** N_0 ≤ N_1 ≤ … ≤ N_{K−1}, any list of length ≥ 2; the default is (15, 60, 240).
   - Level 0 is the coarsest. The brief fixes only N_0 ≈ 10–15.
-  - No part of the method depends on the budget values, only on their order.
+  - No step assumes particular values: N_k enters only as the stopping target min(N_k, n_t) and
+    through the size cap ρ·n_t/N_k, so any non-decreasing list works.
   - The singleton level P_K is implicit in `member_ids`; it is not written as a level.
 
 ## 2. Objective
@@ -88,8 +91,9 @@ criterion is the method; there is no optimality guarantee.
     structure only and α = 1 is semantics only.
 - **Feasibility.** The size cap |A| + |B| ≤ c_{t,k} = ρ · n_t / N_k, counted in concept nodes,
   with ρ ≥ 2.
-- **Ties.** Scores are rounded to 1e-9, then the lower item index wins (ids sorted). The build is
-  deterministic.
+- **Ties.** S and H are rounded to 1e-12 before ranking, so values that differ only by
+  floating-point error tie exactly; scores are rounded to 1e-9; then the lower item index wins (ids
+  sorted). The build is deterministic.
 
 **Why a joint score rather than two stages.** The two signals fail in different places:
 - names alone cannot relate proper-named methods across families (SchNet's best name neighbour
@@ -180,7 +184,7 @@ raises an error; none occurs in the data.
 | Size bound | **by construction**: no super-node exceeds ρ·n_t/N_k concept nodes; anchored nodes are not counted |
 | Determinism | **by construction**: deterministic SVD and tie-breaking; tested on the fixture and on the real ≤2020 snapshot |
 | No future information | structure, membership and labels use snapshot t only; text only up to A4 |
-| P3 semantic coherence | **empirical**: the held-out check of §8, which supports levels 0–1 but not level 2 |
+| P3 semantic coherence | **empirical**, at the last snapshot only (§8): level 0 beats both nulls; level 1 beats the configuration null, and random labels only under the fuzzy filter; level 2 beats neither |
 | P5 temporal stability | not addressed: matching does identity bookkeeping only |
 | P6 faithful labels | not addressed: placeholders |
 
@@ -192,7 +196,7 @@ Per level, with n items, m fine edges and d = `lsa_dim`:
   are rescanned at O(n) each. There are n − N_k merges.
 - **Memory:** O(n²) for the dense score matrix (127 MB at n = 3980), plus O(nm) for the incidence.
 
-The full build of four snapshots takes 27 s in one process (`run_info.json`). Much larger graphs
+The full build of four snapshots takes about 29 s in one process (`runtime_s` in `run_info.json`). Much larger graphs
 would need a sparse candidate set.
 
 ## 8. Null models and the held-out P3 check
@@ -218,38 +222,49 @@ would need a sparse candidate set.
 coupling, a signal that no clustering input contains. It is fixed by the evaluator and computed
 once on the real export, identically for every configuration and null:
 - **Coupling c_pq:** the IDF-weighted Salton cosine of two papers' cited-work sets.
+- **Names:** normalised surface forms and aliases, i.e. exactly the names the method's text sees.
 - **Residual filter:** drop a paper's cited works named like one of its own concept nodes, so that
   "extends X / cites X" does not count.
-  - *exact*: equal normalised names;
-  - *fuzzy*: also name containment.
-- **Pairs:** only **no-overlap** pairs count, i.e. pairs sharing no concept node and no
-  normalised name, excluding evaluator hubs (fixed share 0.4, independent of `hub_frac`). On these
-  pairs, shared structure explains nothing.
+  - *exact*: a shared normalised name;
+  - *fuzzy*: also name containment, for names of ≥ 4 characters.
+- **Pairs:** only **no-overlap** pairs count, i.e. pairs sharing no concept node and no concept name,
+  excluding evaluator hubs (fixed share 0.4, independent of `hub_frac`). On these pairs, shared
+  structure explains nothing.
 - **Co-assignment:** a_pq = Σ_S n_S(p) n_S(q) / (n_p n_q) per level.
 - **Lift:** Σ a·c / (Σ a · mean c); 1 means chance.
-- **Coverage at ≤2026:** 37 citing papers, 267 no-overlap pairs, 73 of them coupled.
+- **Coverage at ≤2026:** 37 citing papers, 252 no-overlap pairs, 58 of them coupled; the filter
+  removes 260 citation incidences.
+- **Only the last snapshot is checked.** Earlier snapshots have too few evaluable pairs: 9, 14 and
+  25 citing papers at ≤2020, ≤2022 and ≤2024, with 5, 11 and 21 coupled no-overlap pairs.
 
 **Results at ≤2026** (`out/metrics.json`). Lifts use the exact filter, with a paper-bootstrap
 95% CI. Null means come from 99 null rebuilds and 999 random-label draws. p = (1 + #null ≥ obs)/(R + 1).
 
 | Level | Lift [95% CI] | Configuration null: mean, p | Random labels: mean, p |
 |---|---|---|---|
-| 0 (15) | 1.42 [0.88, 2.25] | 1.06, **0.01** | 1.08, **0.001** |
-| 1 (60) | 1.29 [0.73, 2.16] | 1.18, **0.02** | 1.29, 0.57 |
-| 2 (240) | 1.07 [0.48, 2.11] | 1.47, 1.00 | 1.49, 1.00 |
+| 0 (15) | 1.38 [0.81, 2.14] | 1.05, **0.01** | 1.08, **0.001** |
+| 1 (60) | 1.28 [0.63, 2.30] | 1.15, **0.02** | 1.25, 0.19 |
+| 2 (240) | 1.08 [0.46, 2.03] | 1.39, 1.00 | 1.43, 1.00 |
 
-Under the fuzzy filter, level 1 also beats random labels (1.44 vs 1.27, p = 0.001), and level 2
-stays below both nulls.
+Under the fuzzy filter:
+- level 0 gives 1.55 (p = 0.01 and 0.001);
+- level 1 gives 1.48, which also beats random labels (1.20, p = 0.001);
+- level 2 gives 1.30, which beats neither null (p = 0.69 and 0.75).
 
 **Reading:**
-- The coarse levels group concepts of citation-coupled papers more than chance, and more than the
-  same pipeline on degree-preserving random structure.
-- The finest level does not: its small, cap-bound super-nodes mostly rebuild paper bundles (A1),
-  and here random partitions do better.
+- **Level 0** groups concepts of citation-coupled papers more than chance, and more than the same
+  pipeline on degree-preserving random structure.
+- **Level 1** beats the structural null. It beats the random-label baseline only under the fuzzy
+  filter, so it is supported less firmly.
+- **Level 2** does not show P3. Its small, cap-bound super-nodes mostly rebuild paper bundles (A1),
+  and random partitions of the same sizes do as well or better.
 - **Random labels exceed 1.** They keep each super-node's mix of type and entry period, and papers
   of the same period cite similar work. That is why the baseline is the null, not 1.
-- **Two kinds of uncertainty.** The null tests are conditional on the 37 papers. The bootstrap CIs
-  over papers are wide and include 1 at every level.
+- **Two kinds of uncertainty.**
+  - The null tests are conditional on these 37 papers: the ruler is held fixed and only the
+    partition varies.
+  - Over papers, the bootstrap CIs are wide and include 1 at every level.
+  - So the evidence is "better than chance for this corpus", not a population estimate.
 
 ## 9. Parameters and selection
 
@@ -277,14 +292,19 @@ stays below both nulls.
   comparing in the order α, ρ, edge_weight, hub_frac. Report that pick on half B.
 
 **Outcome: the ruler cannot rank the configurations.**
-- The SE of the best configuration is about 0.66 (median), on criteria around 1.3.
-- 16 to 60 of the 60 configurations lie within one SE, depending on the split.
-- Across configurations, half-A and half-B means correlate at only 0.20.
-- So the rule falls back to the default, picked in 18 of 20 splits. **The default is not shown to
-  be optimal; it is not distinguishable.**
-- Descriptively, the structure-only ablation α = 0 has a higher half-B mean (1.41) than the
-  default (1.19), and α = 1 is lowest (1.09). This is consistent with structure carrying the
-  cross-paper evidence, but it is within the noise.
+- The best configuration's bootstrap SE is about 0.87 (median), on its criterion of about 1.8.
+  Configurations average 1.2.
+- Between 3 and 56 of the 60 configurations lie within one SE, depending on the split.
+- The ranking does not replicate: within a split, the half-A and half-B rankings of the
+  configurations correlate at a median Spearman ρ of −0.07 (range −0.39 to 0.18).
+- So the rule mostly falls back to the default, picked in 16 of 20 splits. **The default is not
+  shown to be optimal; it is not distinguishable.**
+- Descriptively, on half B (mean over splits):
+  - the structure-only ablation α = 0 scores 1.45, 4th of 62;
+  - the default scores 1.25, 25th of the 60 grid configurations;
+  - α = 1 scores 1.10, 48th of 62.
+
+  This is consistent with structure carrying the cross-paper evidence, but it is within the noise.
 - Telling configurations apart needs a stronger independent signal than 37 citing papers. That is
   for the evaluation (T6).
 
@@ -320,7 +340,8 @@ stays below both nulls.
   per incidence at ≤2026, and multi-way coarse edges disappear. Prop. 2 and the
   measured merge shares show where it would change decisions.
 - **Semantics only, rejected.** Proper-named methods find only their own family (notebook 02). The
-  α = 1 ablation is lowest on the held-out ruler.
+  α = 1 ablation scores below the default and below α = 0 on the held-out ruler, but within the
+  noise (§9).
 - **Rank mixing vs raw mixing.**
   - Raw S and H live on incomparable scales, and H is 0 for 99% of singleton pairs.
   - Ranks make α an interpretable weight. F_H(0) = 0 keeps the structural rank from being nearly
@@ -328,7 +349,8 @@ stays below both nulls.
   - The cost is that magnitudes inside each signal are lost.
 - **Size cap.** It prevents the giant clusters that average linkage produces on sparse data (without a
   cap, 87% of the concept nodes fall into one level-0 super-node at ≤2026). The cost is that sizes are imposed: the cap
-  binds at every level, for example a maximum of 529 against a cap of 531 at level 0, ≤2026.
+  is nearly reached at every level: at ≤2026 the largest super-nodes hold 529, 131 and 33 concept
+  nodes, against caps of 530.7, 132.7 and 33.2.
 - **Hub removal.**
   - It stops generic terms such as "materials science", "MAE" and "molecular dynamics" from fusing
     unrelated papers.

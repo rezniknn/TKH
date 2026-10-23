@@ -25,6 +25,7 @@ from tkh.temporal import match_and_name
 def run(cfg, params, out_dir, tkh=None, hubsets=None, info=None):
     """Build and write one run; `tkh` (e.g. a null model) defaults to the config's graph."""
     out_dir = Path(out_dir)
+    (out_dir / "metrics.json").unlink(missing_ok=True)   # a P3 result of an earlier build would be stale
     tkh = tkh if tkh is not None else load(cfg)
     t0 = time.perf_counter()
     parts, graphs, diag = build(tkh, cfg.cutoffs, cfg.budgets, params, hubsets)
@@ -34,9 +35,10 @@ def run(cfg, params, out_dir, tkh=None, hubsets=None, info=None):
     for c, (levels, items, B, w, eids, rels) in graphs.items():
         (out_dir / str(c) / "coarse_hyperedges.json").write_text(
             json.dumps(coarse_edges(levels, items, B, w, eids, rels, ids[c]), indent=1) + "\n")
-    (out_dir / "run_config.toml").write_text(to_toml(cfg, params.as_dict()))
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "run_config.toml").write_text(to_toml(cfg, params.as_dict(), out_dir))
     run_info = {"params": params.as_dict(), "cid": params.cid(), "budgets": list(cfg.budgets), "cutoffs": list(cfg.cutoffs),
-                "graph": str(cfg.graph), **(info or {}), "runtime_s": round(time.perf_counter() - t0, 1),
+                **(info or {}), "runtime_s": round(time.perf_counter() - t0, 1),
                 "snapshots": {str(c): d for c, d in diag.items()}}
     (out_dir / "run_info.json").write_text(json.dumps(run_info, indent=1) + "\n")
     return hier, events, run_info
