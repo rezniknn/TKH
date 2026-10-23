@@ -957,6 +957,15 @@ accepted or changed, and what was checked.
   - A small sweep runs through the process pool.
   - No module in `tkh/` imports `eval`.
 
+### 25. eval/p3.py renamed to eval/coherence.py (Claude Code)
+
+- **Task/module:** `eval/coherence.py`
+- **Prompt:** "Rename p3.py to coherence.py"
+- **What the assistant did:** `git mv`, and updated the imports in `eval/experiments.py` and
+  `tests/test_null.py` and the references in the README, formal statement, `eval/__init__.py` and
+  `tkh/structure.py`. The CLI subcommand stays `python -m eval p3`.
+- **Verified:** 431 tests pass; no reference to `p3.py` remains outside the AI usage log.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

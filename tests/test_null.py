@@ -1,4 +1,4 @@
-"""Tests for tkh/null.py (configuration model, random labels) and eval/p3.py (held-out P3 check)."""
+"""Tests for tkh/null.py (configuration model, random labels) and eval/coherence.py (held-out P3 check)."""
 
 from collections import Counter
 from pathlib import Path
@@ -17,7 +17,7 @@ from tkh.config import load_config  # noqa: E402
 from tkh.hierarchy import Params  # noqa: E402
 from tkh.io import load, snapshot  # noqa: E402
 from tkh.null import _interval, configuration_null, null_tkh, random_labels  # noqa: E402
-from eval.p3 import Ruler, split_works  # noqa: E402
+from eval.coherence import Ruler, split_works  # noqa: E402
 from tkh.pipeline import run, with_graph  # noqa: E402
 
 FIXTURE_CONFIG = ROOT / "tests" / "fixtures" / "_input" / "config.toml"

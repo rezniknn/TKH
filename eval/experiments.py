@@ -1,7 +1,7 @@
 """Experiments on the last snapshot: the held-out P3 check of one run against the nulls, and the configuration sweep.
 
 p3_check: for every snapshot and level of a run (its hierarchy.json), the unadjusted lift and the
-  period-adjusted lift under every period scheme (eval/p3.py; "interval" is primary), under the exact and the fuzzy
+  period-adjusted lift under every period scheme (eval/coherence.py; "interval" is primary), under the exact and the fuzzy
   residual filter, with paper-bootstrap CIs, against R configuration-null
   rebuilds at that cutoff (same parameters, real hub sets) and R_labels random-label permutations of the run's tree.
 sweep: every configuration of a grid is built once; over `splits` seeded halves (A, B) of the cited works,
@@ -25,7 +25,7 @@ from tkh.coarsen import hubs
 from tkh.hierarchy import Params, build_snapshot
 from tkh.io import load, snapshot
 from tkh.null import label_permutation, null_tkh
-from eval.p3 import PERIODS, Ruler, null_summary, split_works
+from eval.coherence import PERIODS, Ruler, null_summary, split_works
 
 _W = {}
 
