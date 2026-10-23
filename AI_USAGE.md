@@ -1116,6 +1116,53 @@ accepted or changed, and what was checked.
     4 parallel slots, so standard would take about 8 h and full about 40 h.
   - The standard and full runs await consent.
 
+### 30. Judge and labeller iteration on quick runs (Claude Code)
+
+- **Task/module:** T5, T6 label faithfulness; `configs/prompts/`, `eval/labels.py`, `tkh/label.py`,
+  `eval/__main__.py`, `out/label_dev/`
+- **Prompt (abridged):** "Fix the judge. Iterate on the judge prompt, evidence provided to the judge and, if
+  needed, on the lableller prompt and evidence provided to the labeler, to improve validation rate of the judge
+  and to decrease over-claim rate. Iterate until there is a proven improvement to both metrics using quick runs"
+- **Protocol:**
+  - Iterations on a dev set (≤2026, level 0, 15 labels). The chosen configuration was then checked on a
+    confirmation set (≤2022 and ≤2024, level 0, 30 labels) and on an untouched test set (≤2026, level 1,
+    60 labels).
+  - "Proven" means a paired bootstrap 95% CI over super-nodes that excludes 0.
+  - Guard: cross-support, which is a label's first claim checked against other groups' held-out evidence.
+    This catches over-claim that falls only because claims became vague.
+  - The baseline is the original code (commit 2d94160) rerun in a git worktree, with only the number of
+    cross trials raised. It reproduces the first baseline byte for byte, offline.
+- **What changed** (iterations 1–10, each logged in `out/label_dev/<tag>.json`):
+  - **Judge.**
+    - Group-level claim decomposition: exactly 3 "The group contains …" claims, and generic claims are dropped.
+    - Numbered evidence: the judge cites a line, and the cited line must exist.
+    - The judge's view of fact lines flags a head method outside the group. Before this, a method from
+      group A, named in group B's evidence, made A's claims look supported there.
+  - **Labeller.**
+    - It sees its 10 most edge-sharing neighbour groups. These come from their seen halves only, so no
+      held-out line enters any prompt.
+    - The label must name a specific model family, property, task or technique.
+  - **Measurement.** 3 cross trials per label (it had been 1); `--prompts`; `--relabel` uses the current
+    labeller settings.
+  - **Rejected:**
+    - A verbatim-phrase check: it rejected true matches and raised over-claim to 0.73.
+    - The it5/it6 claims: over-claim −0.40, proven, but cross-support rose to 0.60.
+- **Results** (baseline → it10; Δ [95% CI]):
+
+  | Set | n | over-claim | J | cross-support |
+  |---|---|---|---|---|
+  | dev | 15 | 0.53 → 0.33, −0.20 [−0.53, 0.13] | 0.87 → 0.96, +0.09 [0.02, 0.18] | 0.31 → 0.42, +0.11 [−0.04, 0.24] |
+  | confirmation | 30 | 0.40 → 0.47, +0.07 [−0.17, 0.27] | 0.85 → 0.99, +0.13 [0.06, 0.24] | 0.29 → 0.39, +0.10 [−0.04, 0.26] |
+  | test | 60 | 0.50 → 0.55, +0.05 [−0.10, 0.20] | 0.95 → 0.97, +0.02 [−0.02, 0.07] | 0.12 → 0.16, +0.04 [−0.03, 0.11] |
+
+- **Not achieved:**
+  - The goal of a proven improvement to both metrics was not reached.
+  - J improved with a CI excluding 0 on dev and on the confirmation set. On the test set the baseline J was
+    already 0.95, and there is no proven gain.
+  - The over-claim reduction on dev did not generalise: it is +0.07 and +0.05 on the confirmation and test
+    sets, not significant. The dev gain was a selection effect over 10 iterations on 15 labels.
+  - Both the confirmation set and the test set have now been looked at.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

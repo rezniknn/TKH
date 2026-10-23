@@ -1,0 +1,3801 @@
+{
+ "metrics": {
+  "rigor": "quick",
+  "protocol": {
+   "levels": [
+    0
+   ],
+   "model_cutoffs": "last",
+   "null_cutoffs": "last",
+   "R_config": 1,
+   "R_labels": 1,
+   "n_names": 3,
+   "n_cross": 3,
+   "max_claims": 3
+  },
+  "labeller_model": "qwen2.5:7b-instruct",
+  "judge_model": "phi4",
+  "j_min": 0.4,
+  "trees": {
+   "model": {
+    "labels": 30,
+    "judged": 30,
+    "over_claim": {
+     "value": 0.4666666666666667,
+     "ci95": [
+      0.3,
+      0.6333333333333333
+     ],
+     "n": 30
+    },
+    "claim_unsupported": 0.26666666666666666,
+    "Se": 1.0,
+    "Sp": 0.9887640449438202,
+    "J": 0.9887640449438202,
+    "valid": true,
+    "corrected_over_claim": 0.5160315972222221,
+    "cross_support": 0.3888888888888889,
+    "sibling_support": 0.26666666666666666,
+    "decomposition_ok": 0.6,
+    "quote_rejected": 4,
+    "no_held_out": 0,
+    "deterministic": {
+     "year_after_cutoff": 0,
+     "named_non_member": 2,
+     "future_entity": 0
+    }
+   }
+  },
+  "model_on_null_cutoffs": {
+   "value": 0.4666666666666667,
+   "ci95": [
+    0.3,
+    0.6333333333333333
+   ],
+   "n": 30
+  },
+  "nulls": {}
+ },
+ "judgements": [
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "label",
+   "claim": "The group contains models with rotational symmetry.",
+   "verdict": "supported",
+   "line": "SchNet solves Energy-conserving force field learning, Modeling of non-grid spatial data, Rotational invariance/equivariance, Smooth potential energy surface",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "true",
+   "claim": "The group has a member named \"Cyclical learning rate schedule\".",
+   "verdict": "supported",
+   "line": "Cyclical learning rate schedule [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "true",
+   "claim": "The group has a member named \"DCGAT-2\".",
+   "verdict": "supported",
+   "line": "Crystal-Graph Attention Network uses component CGAT-2, DCGAT-2, CGAT, Hypernetwork, Global context vector, Residual neural network, Edge update mechanism, CGAT-1/2/3 network series",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "true",
+   "claim": "The group has a member named \"Adam optimizer with learning-rate schedule\".",
+   "verdict": "supported",
+   "line": "Adam optimizer with learning-rate schedule [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "false",
+   "claim": "The group has a member named \"Experimental metallicity classification\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "false",
+   "claim": "The group has a member named \"Thermodynamic stability prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "false",
+   "claim": "The group has a member named \"SOAP descriptor\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "cross",
+   "claim": "The group contains models with rotational symmetry.",
+   "verdict": "supported",
+   "line": "Gaussian Approximation Potential (GAP) for silicon solves Accurate, transferable interatomic potential for silicon, Uncertainty estimation for ML potentials, Efficient sampling of high-dimensional PES, Accurate data-driven interatomic potentials, Permutation and rotation invariance, Efficient representation of large training sets, Uncertainty quantification, Joint fitting of energies, forces and stresses",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "cross",
+   "claim": "The group contains models with rotational symmetry.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "cross",
+   "claim": "The group contains models with rotational symmetry.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.1",
+   "kind": "sibling",
+   "claim": "The group contains techniques for generating material descriptors.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "label",
+   "claim": "The group contains models for materials discovery.",
+   "verdict": "supported",
+   "line": "AFLOW high-throughput DFT calculation protocol solves Reproducibility of DFT calculations, High-throughput calculation standardization, Local minima trapping in geometry optimization, Calculation failure handling, electronic structure of correlated systems, materials discovery acceleration, band structure prediction, Reproducibility in high-throughput DFT",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "label",
+   "claim": "The group contains graph neural networks.",
+   "verdict": "supported",
+   "line": "graph neural networks with three-body interactions uses technique Spherical Bessel and spherical harmonics expansion, Smooth cutoff function, Gated multi-layer perceptron, Auto-differentiation for forces and stresses, Joint training on energy, force, and stress targets, Elemental embedding, Multi-step n-body to bond to graph convolution pipeline, pre-relaxation using a learned interatomic potential",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "true",
+   "claim": "The group has a member named \"Band structure calculations\".",
+   "verdict": "supported",
+   "line": "Band structure calculations [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "true",
+   "claim": "The group has a member named \"Density-functional perturbation theory\".",
+   "verdict": "supported",
+   "line": "Density-functional perturbation theory [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "true",
+   "claim": "The group has a member named \"Arrhenius analysis module\".",
+   "verdict": "supported",
+   "line": "Arrhenius analysis module [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "false",
+   "claim": "The group has a member named \"Vectorial and Tensorial Property Expansion\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "false",
+   "claim": "The group has a member named \"Composition-only property prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "false",
+   "claim": "The group has a member named \"Gap-deformation potential prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "cross",
+   "claim": "The group contains models for materials discovery.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "cross",
+   "claim": "The group contains models for materials discovery.",
+   "verdict": "supported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "cross",
+   "claim": "The group contains models for materials discovery.",
+   "verdict": "supported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.10",
+   "kind": "sibling",
+   "claim": "The group contains models for multi-degree-of-freedom atomic properties.",
+   "verdict": "supported",
+   "line": "graph neural networks with three-body interactions is evaluated on Top 1000 materials, Top 1000 oxide materials, DFT relaxation time with M3GNet pre-relaxation",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "label",
+   "claim": "The group contains models for predicting Li ion diffusion in solid electrolytes.",
+   "verdict": "supported",
+   "line": "Li diffusion simulation in LGPS [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "label",
+   "claim": "The group contains models for predicting Na ion diffusion in solid electrolytes.",
+   "verdict": "supported",
+   "line": "Na diffusion simulation in NASICON [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "label",
+   "claim": "The group contains models for predicting ion diffusion in solid electrolytes.",
+   "verdict": "supported",
+   "line": "DeePMD training protocol for diffusion coefficient computation is evaluated on Li10GeP2S12, Li7La3Zr2O12, Na3Zr2Si2PO12, LGPS, LLZO, NASICON",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "true",
+   "claim": "The group has a member named \"Outlier detection in training loops\".",
+   "verdict": "supported",
+   "line": "Outlier detection in training loops [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "true",
+   "claim": "The group has a member named \"LGPS\".",
+   "verdict": "supported",
+   "line": "LGPS [dataset]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "true",
+   "claim": "The group has a member named \"deep tensor neural network\".",
+   "verdict": "supported",
+   "line": "deep tensor neural network [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "false",
+   "claim": "The group has a member named \"grid-based interstitial search\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "false",
+   "claim": "The group has a member named \"Carbon dimer potential energy curve computation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "false",
+   "claim": "The group has a member named \"Fracture pattern prediction from MD simulations\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "cross",
+   "claim": "The group contains models for predicting Li ion diffusion in solid electrolytes.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "cross",
+   "claim": "The group contains models for predicting Li ion diffusion in solid electrolytes.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "cross",
+   "claim": "The group contains models for predicting Li ion diffusion in solid electrolytes.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.11",
+   "kind": "sibling",
+   "claim": "The group contains hybrid functional calculations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "label",
+   "claim": "The group contains challenges in modeling amorphous carbon.",
+   "verdict": "supported",
+   "line": "Large-scale amorphous carbon simulation [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "label",
+   "claim": "The group contains machine learning potentials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "label",
+   "claim": "The group contains amorphous carbon.",
+   "verdict": "supported",
+   "line": "Large-scale amorphous carbon simulation [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "true",
+   "claim": "The group has a member named \"Unphysical extrapolation at small distances\".",
+   "verdict": "supported",
+   "line": "Unphysical extrapolation at small distances [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "true",
+   "claim": "The group has a member named \"ML potential extrapolation\".",
+   "verdict": "supported",
+   "line": "ML potential extrapolation [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "true",
+   "claim": "The group has a member named \"Spurious energy barriers\".",
+   "verdict": "supported",
+   "line": "Spurious energy barriers [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "false",
+   "claim": "The group has a member named \"computational physics\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "false",
+   "claim": "The group has a member named \"BANDS\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "false",
+   "claim": "The group has a member named \"HF-scavenging coating screen\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "cross",
+   "claim": "The group contains challenges in modeling amorphous carbon.",
+   "verdict": "supported",
+   "line": "Gaussian approximation potentials addresses Atomistic simulations of liquid carbon, Atomistic simulations of amorphous carbon, Nanoscale amorphous carbon structure simulations, Amorphous carbon (a-C) structure modeling, Carbon dimer potential energy curve computation, High-density amorphous phase modeling, Amorphous carbon surface (ta-C) modeling, Crystalline allotrope modeling",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "cross",
+   "claim": "The group contains challenges in modeling amorphous carbon.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "cross",
+   "claim": "The group contains challenges in modeling amorphous carbon.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.12",
+   "kind": "sibling",
+   "claim": "The group contains models for predicting fracture paths in crystalline materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "label",
+   "claim": "The group contains tasks related to phase diagram creation.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "label",
+   "claim": "The group contains tasks related to material stability assessment.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "label",
+   "claim": "The group contains tasks related to phase diagram creation and material stability assessment.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "true",
+   "claim": "The group has a member named \"Kernel normalisation and integer power\".",
+   "verdict": "supported",
+   "line": "Kernel normalisation and integer power [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "true",
+   "claim": "The group has a member named \"SOAP descriptor construction\".",
+   "verdict": "supported",
+   "line": "SOAP descriptor construction [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "false",
+   "claim": "The group has a member named \"Long-range behavior modeling\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "false",
+   "claim": "The group has a member named \"Power spectrum construction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "false",
+   "claim": "The group has a member named \"Dropout regularization layers\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "cross",
+   "claim": "The group contains tasks related to phase diagram creation.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "cross",
+   "claim": "The group contains tasks related to phase diagram creation.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "cross",
+   "claim": "The group contains tasks related to phase diagram creation.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.14",
+   "kind": "sibling",
+   "claim": "The group contains models with rotational symmetry.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "label",
+   "claim": "The group contains techniques for molecular dynamics quenches.",
+   "verdict": "supported",
+   "line": "melt-quench trajectory generation [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "label",
+   "claim": "The group contains techniques for molecular dynamics simulations.",
+   "verdict": "supported",
+   "line": "melt-quench trajectory generation [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "label",
+   "claim": "The group contains datasets for molecular dynamics quenches and simulations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "true",
+   "claim": "The group has a member named \"Force locality test\".",
+   "verdict": "supported",
+   "line": "Force locality test [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "true",
+   "claim": "The group has a member named \"Sparse representation\".",
+   "verdict": "supported",
+   "line": "Sparse representation [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "true",
+   "claim": "The group has a member named \"Angular distribution function analysis\".",
+   "verdict": "supported",
+   "line": "Angular distribution function analysis [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "false",
+   "claim": "The group has a member named \"Polycrystalline aluminum bulk\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "false",
+   "claim": "The group has a member named \"Gate nonlinearity\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "false",
+   "claim": "The group has a member named \"Density of states calculation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "cross",
+   "claim": "The group contains techniques for molecular dynamics quenches.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "cross",
+   "claim": "The group contains techniques for molecular dynamics quenches.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "cross",
+   "claim": "The group contains techniques for molecular dynamics quenches.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.15",
+   "kind": "sibling",
+   "claim": "The group contains hybrid functional calculations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "label",
+   "claim": "The group contains graph neural network models for atomic property prediction.",
+   "verdict": "supported",
+   "line": "Graph Neural Network for atomic property prediction in defective crystalline solids [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "label",
+   "claim": "The group contains graph neural network models for mechanical design.",
+   "verdict": "supported",
+   "line": "Graph Neural Network for atomic property prediction in defective crystalline solids [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "label",
+   "claim": "The group contains graph neural network models for defective crystalline solids.",
+   "verdict": "supported",
+   "line": "Graph Neural Network for atomic property prediction in defective crystalline solids [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "true",
+   "claim": "The group has a member named \"Atomic tensile stress prediction\".",
+   "verdict": "supported",
+   "line": "Atomic tensile stress prediction [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "true",
+   "claim": "The group has a member named \"Brute-force screening module\".",
+   "verdict": "supported",
+   "line": "Brute-force screening module [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "true",
+   "claim": "The group has a member named \"Spatial-coordinate node features\".",
+   "verdict": "supported",
+   "line": "Spatial-coordinate node features [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "false",
+   "claim": "The group has a member named \"Debye temperature estimation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "false",
+   "claim": "The group has a member named \"Dimensionality reduction stage\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "false",
+   "claim": "The group has a member named \"Car-Parrinello molecular dynamics\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "cross",
+   "claim": "The group contains graph neural network models for atomic property prediction.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "cross",
+   "claim": "The group contains graph neural network models for atomic property prediction.",
+   "verdict": "supported",
+   "line": "graph neural network, Message Passing Neural Network, DimeNet, Tersoff bond order potential, embedded-atom-method, Modified Embedded Atom Method, Behler-Parrinello Neural Network Potential, AMBER force field (extended by graph neural networks with three-body interactions, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "cross",
+   "claim": "The group contains graph neural network models for atomic property prediction.",
+   "verdict": "unsupported",
+   "line": "Supervised GNN training, Graph construction from atomic coordinates, Voronoi-based grain generation, Non-equilibrium MD tensile testing, Genetic algorithm optimization, Transfer learning for new loading conditions, Graph representation of atomic structures, Node-wise regression (used as techniques by Graph Neural Network for atomic property prediction in defective crystalline solids, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.16",
+   "kind": "sibling",
+   "claim": "The group contains models for materials discovery.",
+   "verdict": "supported",
+   "line": "claim: Coupling the GNN with a genetic algorithm efficiently discovers optimal holey graphene designs (e.g., arrow-shaped hole patterns) that achieve significantly lower stress concentration than suboptimal designs, using only ~800 stress evaluations-an order of magnitude fewer than brute-force search-and reliably locates the global minimum in most of 1,000 random initializations.",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "label",
+   "claim": "The group contains models for interatomic potentials in materials.",
+   "verdict": "supported",
+   "line": "Gaussian approximation potentials addresses Atomistic simulations of liquid carbon, Atomistic simulations of amorphous carbon, Nanoscale amorphous carbon structure simulations, Amorphous carbon (a-C) structure modeling, Carbon dimer potential energy curve computation, High-density amorphous phase modeling, Amorphous carbon surface (ta-C) modeling, Crystalline allotrope modeling",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "label",
+   "claim": "The group contains Gaussian Approximation Potentials.",
+   "verdict": "supported",
+   "line": "Gaussian approximation potentials addresses Atomistic simulations of liquid carbon, Atomistic simulations of amorphous carbon, Nanoscale amorphous carbon structure simulations, Amorphous carbon (a-C) structure modeling, Carbon dimer potential energy curve computation, High-density amorphous phase modeling, Amorphous carbon surface (ta-C) modeling, Crystalline allotrope modeling",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "label",
+   "claim": "The group contains models for interatomic potentials in materials.",
+   "verdict": "supported",
+   "line": "Gaussian approximation potentials addresses Atomistic simulations of liquid carbon, Atomistic simulations of amorphous carbon, Nanoscale amorphous carbon structure simulations, Amorphous carbon (a-C) structure modeling, Carbon dimer potential energy curve computation, High-density amorphous phase modeling, Amorphous carbon surface (ta-C) modeling, Crystalline allotrope modeling",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "true",
+   "claim": "The group has a member named \"Accurate, transferable interatomic potential for silicon\".",
+   "verdict": "supported",
+   "line": "Accurate, transferable interatomic potential for silicon [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "true",
+   "claim": "The group has a member named \"Brenner potential\".",
+   "verdict": "supported",
+   "line": "Brenner potential [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "true",
+   "claim": "The group has a member named \"Ice Ih\".",
+   "verdict": "supported",
+   "line": "Ice Ih (c) [dataset]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "false",
+   "claim": "The group has a member named \"SOAP descriptor construction\".",
+   "verdict": "unsupported",
+   "line": "Gaussian Approximation Potential (GAP) for silicon uses component Repulsive pair potential, Many-body kernel term, Sparse set of representative atoms, Uncertainty quantification, SOAP descriptor, Kernel normalization and exponentiation, Representative environment selection, Regularized least-squares solution for expansion coefficients",
+   "quote_ok": true,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "false",
+   "claim": "The group has a member named \"Box-plot visualization of MSE distribution\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "false",
+   "claim": "The group has a member named \"Gamma-centered k-mesh for hexagonal, fcc, rhombohedral lattices\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "cross",
+   "claim": "The group contains models for interatomic potentials in materials.",
+   "verdict": "supported",
+   "line": "Deep Potential Molecular Dynamics solves DFT-level accuracy with linear scaling, Symmetry preservation without handcrafted descriptors, Efficient force and virial prediction, Efficient training of interatomic potentials with forces and virial regularization, Maintaining permutational symmetry across chemical species, Accurate reproduction of AIMD structural properties",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "cross",
+   "claim": "The group contains models for interatomic potentials in materials.",
+   "verdict": "supported",
+   "line": "Diverse DFT training database construction, SOAP descriptor construction, CUR matrix reconstruction, Kernel normalisation and integer power (used as techniques by Gaussian Approximation Potential (GAP) for silicon, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "cross",
+   "claim": "The group contains models for interatomic potentials in materials.",
+   "verdict": "supported",
+   "line": "Equivariant convolution, Radial basis functions, Clebsch-Gordan tensor product, SiLU activation, Gate nonlinearity, ResNet-style skip connections, Energy-gradient force derivation (used as techniques by Neural Equivariant Interatomic Potentials, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.2",
+   "kind": "sibling",
+   "claim": "The group contains models for materials discovery.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "label",
+   "claim": "The group contains techniques for generating material descriptors.",
+   "verdict": "supported",
+   "line": "Automatminer uses component Automatminer pipeline, Matbench test suite, Materials-specific featurization library, Automatminer autofeaturizer Express preset, SineCoulombMatrix featurizer, Magpie features, Ensemble-based decision tree feature selector, TPOT evolutionary optimizer",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "label",
+   "claim": "The group contains presets for generating material descriptors.",
+   "verdict": "supported",
+   "line": "Automatminer Heavy preset [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "label",
+   "claim": "The group contains methods for automated featurization.",
+   "verdict": "supported",
+   "line": "Automatminer uses component Automatminer pipeline, Matbench test suite, Materials-specific featurization library, Automatminer autofeaturizer Express preset, SineCoulombMatrix featurizer, Magpie features, Ensemble-based decision tree feature selector, TPOT evolutionary optimizer",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "true",
+   "claim": "The group has a member named \"Dataset size scaling characterization\".",
+   "verdict": "supported",
+   "line": "Dataset size scaling characterization [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "true",
+   "claim": "The group has a member named \"Binary cross-entropy\".",
+   "verdict": "supported",
+   "line": "Binary cross-entropy [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "true",
+   "claim": "The group has a member named \"Matminer\".",
+   "verdict": "supported",
+   "line": "Matminer [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "false",
+   "claim": "The group has a member named \"high-throughput workflow automation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "false",
+   "claim": "The group has a member named \"Deep Potential\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "false",
+   "claim": "The group has a member named \"melt-quench trajectory generation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "cross",
+   "claim": "The group contains techniques for generating material descriptors.",
+   "verdict": "supported",
+   "line": "Atomic Cluster Expansion extended to scalar, vectorial, tensorial properties with magnetic moments and charge transfer uses technique Orthogonalization of Non-Orthogonal Basis, Clebsch-Gordan Coupling, Wigner Symbol Recoupling, Spherical-Harmonic Expansion of Cartesian Tensors, Hierarchical Body-Order Expansion, Analytic Gradient Evaluation",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "cross",
+   "claim": "The group contains techniques for generating material descriptors.",
+   "verdict": "supported",
+   "line": "Kernel normalisation and integer power [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "cross",
+   "claim": "The group contains techniques for generating material descriptors.",
+   "verdict": "supported",
+   "line": "Gaussian Approximation Potential (GAP) for silicon uses component Repulsive pair potential, Many-body kernel term, Sparse set of representative atoms, Uncertainty quantification, SOAP descriptor, Kernel normalization and exponentiation, Representative environment selection, Regularized least-squares solution for expansion coefficients",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.3",
+   "kind": "sibling",
+   "claim": "The group contains models for materials discovery.",
+   "verdict": "supported",
+   "line": "Automatminer uses component Automatminer pipeline, Matbench test suite, Materials-specific featurization library, Automatminer autofeaturizer Express preset, SineCoulombMatrix featurizer, Magpie features, Ensemble-based decision tree feature selector, TPOT evolutionary optimizer",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "label",
+   "claim": "The group contains models for molecular dynamics simulations.",
+   "verdict": "supported",
+   "line": "Deep Potential Molecular Dynamics addresses Molecular dynamics simulation, Molecular dynamics simulation of liquid water and ice, MD simulation of organic molecules, molecular dynamics",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "label",
+   "claim": "The group contains models using deep neural networks.",
+   "verdict": "supported",
+   "line": "deep neural network approach to represent DFT Hamiltonian extends Message Passing Neural Network, Crystal Graph Convolutional Neural Network, Directional Message Passing, Symmetry-adapted Graph Neural Network, Tensor-Field Networks, Cormorant, SE(3)-Transformer, Tensor-product-based equivariant network",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "label",
+   "claim": "The group contains deep potential models.",
+   "verdict": "supported",
+   "line": "Deep Potential Molecular Dynamics uses technique Local reference frame construction, Neighbor sorting by species and inverse distance, 1/R weighting in input features, Hyperbolic-tangent activation, Adam optimizer, Energy-force-virial joint loss, Progressive weighting of loss terms, Linear-scaling via atomic decomposition",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "true",
+   "claim": "The group has a member named \"Tensor-Field Networks\".",
+   "verdict": "supported",
+   "line": "Tensor-Field Networks [method] (also: TFN)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "true",
+   "claim": "The group has a member named \"Message Passing Neural Network\".",
+   "verdict": "supported",
+   "line": "Message Passing Neural Network [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "true",
+   "claim": "The group has a member named \"MAE (meV)\".",
+   "verdict": "supported",
+   "line": "MAE (meV) [metric]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "false",
+   "claim": "The group has a member named \"random density sampling\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "false",
+   "claim": "The group has a member named \"Dropout regularization layers\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "false",
+   "claim": "The group has a member named \"Force and Torque Gradient Formulas\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "cross",
+   "claim": "The group contains models for molecular dynamics simulations.",
+   "verdict": "supported",
+   "line": "DeePMD training protocol for diffusion coefficient computation solves Time-scale limitation in first-principles molecular dynamics, Computational cost of materials screening, Overfitting in neural network potentials, Achieving Boltzmann-distributed training without expensive pre-simulations, efficient training set construction, accurate force field generation, Neural network potential convergence for solid-state electrolytes, Non-physical trajectory generation in early training",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "cross",
+   "claim": "The group contains models for molecular dynamics simulations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "cross",
+   "claim": "The group contains models for molecular dynamics simulations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.4",
+   "kind": "sibling",
+   "claim": "The group contains models with rotational symmetry.",
+   "verdict": "supported",
+   "line": "deep neural network approach to represent DFT Hamiltonian extends Message Passing Neural Network, Crystal Graph Convolutional Neural Network, Directional Message Passing, Symmetry-adapted Graph Neural Network, Tensor-Field Networks, Cormorant, SE(3)-Transformer, Tensor-product-based equivariant network",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "label",
+   "claim": "The group contains models for multi-degree-of-freedom atomic properties.",
+   "verdict": "supported",
+   "line": "claim: Although the full magnetic and charge-transfer ACE contains many parameters, hierarchical ordering of interactions allows robust and systematic fitting to reference data.",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "label",
+   "claim": "The group contains models for atomic properties in materials.",
+   "verdict": "supported",
+   "line": "Atomic Cluster Expansion extended to scalar, vectorial, tensorial properties with magnetic moments and charge transfer extends Atomic Cluster Expansion",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "label",
+   "claim": "The group contains atomic cluster expansion methods.",
+   "verdict": "supported",
+   "line": "Atomic Cluster Expansion extended to scalar, vectorial, tensorial properties with magnetic moments and charge transfer extends Atomic Cluster Expansion",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "true",
+   "claim": "The group has a member named \"Wigner Symbol Recoupling\".",
+   "verdict": "supported",
+   "line": "Wigner Symbol Recoupling [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "true",
+   "claim": "The group has a member named \"Magnetic and Charge Degrees of Freedom\".",
+   "verdict": "supported",
+   "line": "Magnetic and Charge Degrees of Freedom [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "true",
+   "claim": "The group has a member named \"Scalable high-dimensional node representations\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "false",
+   "claim": "The group has a member named \"Atomistic simulations of liquid carbon\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "false",
+   "claim": "The group has a member named \"Automatic failure detection and recovery\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "false",
+   "claim": "The group has a member named \"Bulk crystal equation-of-state calculations\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "cross",
+   "claim": "The group contains models for multi-degree-of-freedom atomic properties.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "cross",
+   "claim": "The group contains models for multi-degree-of-freedom atomic properties.",
+   "verdict": "supported",
+   "line": "SchNet solves Energy-conserving force field learning, Modeling of non-grid spatial data, Rotational invariance/equivariance, Smooth potential energy surface",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "cross",
+   "claim": "The group contains models for multi-degree-of-freedom atomic properties.",
+   "verdict": "supported",
+   "line": "graph neural networks with three-body interactions is evaluated on Top 1000 materials, Top 1000 oxide materials, DFT relaxation time with M3GNet pre-relaxation",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.5",
+   "kind": "sibling",
+   "claim": "The group contains models for density functional theory potentials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "label",
+   "claim": "The group contains models for predicting fracture paths in crystalline materials.",
+   "verdict": "supported",
+   "line": "ConvLSTM-based fracture prediction model addresses Crack-pattern prediction, Fracture-toughness prediction, Bicrystal fracture prediction, Gradient-orientation fracture prediction, Crack path prediction in crystalline solids, Spatiotemporal fracture behavior forecasting",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "label",
+   "claim": "The group contains models for predicting fracture toughness in crystalline materials.",
+   "verdict": "supported",
+   "line": "ConvLSTM-based fracture prediction model addresses Crack-pattern prediction, Fracture-toughness prediction, Bicrystal fracture prediction, Gradient-orientation fracture prediction, Crack path prediction in crystalline solids, Spatiotemporal fracture behavior forecasting",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "label",
+   "claim": "The group contains models for predicting fracture paths and toughness in crystalline materials.",
+   "verdict": "supported",
+   "line": "ConvLSTM-based fracture prediction model addresses Crack-pattern prediction, Fracture-toughness prediction, Bicrystal fracture prediction, Gradient-orientation fracture prediction, Crack path prediction in crystalline solids, Spatiotemporal fracture behavior forecasting",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "true",
+   "claim": "The group has a member named \"Image-based data-processing pipeline\".",
+   "verdict": "supported",
+   "line": "Image-based data-processing pipeline [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "true",
+   "claim": "The group has a member named \"Shear modulus prediction\".",
+   "verdict": "supported",
+   "line": "Elastic modulus prediction [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "true",
+   "claim": "The group has a member named \"Fracture-toughness prediction\".",
+   "verdict": "supported",
+   "line": "Fracture-toughness prediction [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "false",
+   "claim": "The group has a member named \"graphene\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "false",
+   "claim": "The group has a member named \"Dropout regularization layers\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "false",
+   "claim": "The group has a member named \"Deep Potential method\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "cross",
+   "claim": "The group contains models for predicting fracture paths in crystalline materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "cross",
+   "claim": "The group contains models for predicting fracture paths in crystalline materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "cross",
+   "claim": "The group contains models for predicting fracture paths in crystalline materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.6",
+   "kind": "sibling",
+   "claim": "The group contains models for molecular dynamics simulations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "label",
+   "claim": "The group contains models for density functional theory potentials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "label",
+   "claim": "The group contains density functional theory potentials.",
+   "verdict": "supported",
+   "line": "density functional theory [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "true",
+   "claim": "The group has a member named \"GGA+U\".",
+   "verdict": "supported",
+   "line": "GGA+U [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "true",
+   "claim": "The group has a member named \"Manual management of large calculation campaigns\".",
+   "verdict": "supported",
+   "line": "Manual management of large calculation campaigns [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "true",
+   "claim": "The group has a member named \"Materials API\".",
+   "verdict": "supported",
+   "line": "Materials API [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "false",
+   "claim": "The group has a member named \"Interstitial site discovery and energetics\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "false",
+   "claim": "The group has a member named \"Automated phonon and vibrational property extraction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "false",
+   "claim": "The group has a member named \"HF-induced cathode degradation mitigation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "cross",
+   "claim": "The group contains models for density functional theory potentials.",
+   "verdict": "supported",
+   "line": "deep neural network approach to represent DFT Hamiltonian extends Message Passing Neural Network, Crystal Graph Convolutional Neural Network, Directional Message Passing, Symmetry-adapted Graph Neural Network, Tensor-Field Networks, Cormorant, SE(3)-Transformer, Tensor-product-based equivariant network",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "cross",
+   "claim": "The group contains models for density functional theory potentials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "cross",
+   "claim": "The group contains models for density functional theory potentials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.7",
+   "kind": "sibling",
+   "claim": "The group contains models for molecular dynamics simulations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "label",
+   "claim": "The group contains models using crystal structures.",
+   "verdict": "supported",
+   "line": "JARVIS integrated materials design infrastructure uses component JARVIS-DFT, JARVIS-FF, JARVIS-ML, JARVIS-Tools, CFID, Atoms class, VaspJob / LammpsJob / Wannier90Win classes, Automatic k-point convergence protocol",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "label",
+   "claim": "The group contains crystal graph CNNs.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "true",
+   "claim": "The group has a member named \"Force-field selection and validation\".",
+   "verdict": "supported",
+   "line": "Force-field selection and validation [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "true",
+   "claim": "The group has a member named \"Composition-weighted binary averaging heuristic\".",
+   "verdict": "supported",
+   "line": "Composition-weighted binary averaging heuristic [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "true",
+   "claim": "The group has a member named \"Discovery rate on 1000 sampled structures\".",
+   "verdict": "supported",
+   "line": "Discovery rate on 1000 sampled structures [dataset]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "false",
+   "claim": "The group has a member named \"Accelerated atomic-property prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "false",
+   "claim": "The group has a member named \"Force locality test\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "false",
+   "claim": "The group has a member named \"Brenner potential\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "cross",
+   "claim": "The group contains models using crystal structures.",
+   "verdict": "supported",
+   "line": "Crystal structural relaxation, Molecular dynamics simulations, Phonon and elasticity calculations, High-throughput materials screening, Energy, force, and stress prediction for arbitrary crystals, crystal structure relaxation, phonon band structure calculation, Elastic modulus prediction (addressed by graph neural networks with three-body interactions, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "cross",
+   "claim": "The group contains models using crystal structures.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "cross",
+   "claim": "The group contains models using crystal structures.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.8",
+   "kind": "sibling",
+   "claim": "The group contains models for density functional theory potentials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "label",
+   "claim": "The group contains hybrid functional calculations.",
+   "verdict": "supported",
+   "line": "Hybrid functional workflow [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "label",
+   "claim": "The group contains DFT+U workflows.",
+   "verdict": "supported",
+   "line": "claim: AFLOW implements DFT+U using the Dudarev formalism with default Ueff values for a wide range of elements.",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "label",
+   "claim": "The group contains transition metal compounds.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "true",
+   "claim": "The group has a member named \"Apennsy analysis module\".",
+   "verdict": "supported",
+   "line": "Apennsy analysis module [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "true",
+   "claim": "The group has a member named \"Dudarev U-parameter implementation\".",
+   "verdict": "supported",
+   "line": "Dudarev U-parameter implementation [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "true",
+   "claim": "The group has a member named \"Hybrid functional workflow\".",
+   "verdict": "supported",
+   "line": "Hybrid functional workflow [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "false",
+   "claim": "The group has a member named \"AtomicOrbitals featurizer\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "false",
+   "claim": "The group has a member named \"Band structure energy window selection\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "false",
+   "claim": "The group has a member named \"Chemical element permutation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "cross",
+   "claim": "The group contains hybrid functional calculations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "cross",
+   "claim": "The group contains hybrid functional calculations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "cross",
+   "claim": "The group contains hybrid functional calculations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2022:L0.9",
+   "kind": "sibling",
+   "claim": "The group contains models with rotational symmetry.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "label",
+   "claim": "The group contains equivariant graph neural network models.",
+   "verdict": "supported",
+   "line": "deep equivariant neural network method uses technique E(3) equivariance, Time-reversal equivariance via parity indexing, Tensor-product layer with Clebsch-Gordan coefficients, Spherical-harmonic embedding of geometric inputs, Gaussian radial basis expansion, Mean-squared-error loss on Hamiltonian matrix elements, Message passing on a graph of atoms and edges",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "label",
+   "claim": "The group contains models for atomistic systems.",
+   "verdict": "supported",
+   "line": "Crystal-Graph Attention Network addresses thermodynamic stability prediction, superconductor candidate identification, superhard materials discovery, gap deformation potential screening, Convex hull distance prediction, Crystal structure volume prediction, Ultra-hard material discovery, Superconducting material discovery",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "label",
+   "claim": "The group contains models for molecular systems with rotational invariance.",
+   "verdict": "supported",
+   "line": "deep equivariant neural network method uses technique E(3) equivariance, Time-reversal equivariance via parity indexing, Tensor-product layer with Clebsch-Gordan coefficients, Spherical-harmonic embedding of geometric inputs, Gaussian radial basis expansion, Mean-squared-error loss on Hamiltonian matrix elements, Message passing on a graph of atoms and edges",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "true",
+   "claim": "The group has a member named \"Artificial Neural Networks\".",
+   "verdict": "supported",
+   "line": "Artificial Neural Networks [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "true",
+   "claim": "The group has a member named \"Accuracy-efficiency trade-off in large-scale DFT\".",
+   "verdict": "supported",
+   "line": "Accuracy-efficiency trade-off in large-scale DFT [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "true",
+   "claim": "The group has a member named \"AdamW optimizer\".",
+   "verdict": "supported",
+   "line": "AdamW optimizer [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "false",
+   "claim": "The group has a member named \"Composition-only property prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "false",
+   "claim": "The group has a member named \"snapshot extraction at multiple time points\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "false",
+   "claim": "The group has a member named \"Band gap filtering\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "cross",
+   "claim": "The group contains equivariant graph neural network models.",
+   "verdict": "supported",
+   "line": "MACE-MP-0 extends SphereNet, E(n)-equivariant graph neural network, NequIP, Equivariant Transformers, SEGNN, BOTNet, Allegro, HIP-NN",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "cross",
+   "claim": "The group contains equivariant graph neural network models.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "cross",
+   "claim": "The group contains equivariant graph neural network models.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.1",
+   "kind": "sibling",
+   "claim": "The group contains models predicting phonon-related properties.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "label",
+   "claim": "The group contains models for materials exploration.",
+   "verdict": "supported",
+   "line": "graph neural networks with three-body interactions uses component Position-included material graph, Element embedding layer, Bond distance expansion, Three-body angular module, Many-body to bond update, Graph convolution block, Readout module, Auto-differentiation layer",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "label",
+   "claim": "The group contains graph neural networks.",
+   "verdict": "supported",
+   "line": "graph neural networks with three-body interactions uses component Position-included material graph, Element embedding layer, Bond distance expansion, Three-body angular module, Many-body to bond update, Graph convolution block, Readout module, Auto-differentiation layer",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "true",
+   "claim": "The group has a member named \"Aliasing errors in Fourier transforms\".",
+   "verdict": "supported",
+   "line": "Aliasing errors in Fourier transforms [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "true",
+   "claim": "The group has a member named \"Adaptive DBS stepping\".",
+   "verdict": "supported",
+   "line": "Adaptive DBS stepping [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "true",
+   "claim": "The group has a member named \"condensed matter physics\".",
+   "verdict": "supported",
+   "line": "condensed matter physics [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "false",
+   "claim": "The group has a member named \"Accelerated materials discovery\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "false",
+   "claim": "The group has a member named \"Crystalline test set\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "false",
+   "claim": "The group has a member named \"Crack matrix y\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "cross",
+   "claim": "The group contains models for materials exploration.",
+   "verdict": "supported",
+   "line": "Phonax (E(3)-equivariant graph neural network framework for phonon and Hessian prediction) uses component Phonax framework, Extended periodic graph construction, Hessian-based training augmentation, Symmetry-aware E(3)-equivariant GNN energy model, Irreducible-representation analysis for IR/Raman activity, Hessian eigenvalue spectrum loss, Generalized energy model with electric-field coupling, Modified NequIP architecture for field dependence",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "cross",
+   "claim": "The group contains models for materials exploration.",
+   "verdict": "supported",
+   "line": "Ionic conductivity prediction, Bandgap calculation, AIMD simulations (addressed by graph networks for materials exploration, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "cross",
+   "claim": "The group contains models for materials exploration.",
+   "verdict": "supported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.10",
+   "kind": "sibling",
+   "claim": "The group contains models predicting energy for atoms.",
+   "verdict": "supported",
+   "line": "graph neural networks with three-body interactions is evaluated on Top 1000 materials (any chemistry), energy MAE (eV/atom) (metric energy MAE (eV/atom), value 0.112, task benchmark set for property prediction)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "label",
+   "claim": "The group contains models for predicting diffusion coefficients in materials.",
+   "verdict": "supported",
+   "line": "DeePMD training protocol for diffusion coefficient computation addresses Ionic diffusion coefficient prediction, Activation energy computation, Li10GeP2S12 diffusion modeling, Li7La3Zr2O12 diffusion modeling, Na3Zr2Si2PO12 diffusion modeling, LGPS solid electrolyte simulation, LLZO solid electrolyte simulation, NASICON solid electrolyte simulation",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "label",
+   "claim": "The group contains models for diffusion coefficient computation.",
+   "verdict": "supported",
+   "line": "DeePMD training protocol for diffusion coefficient computation uses technique Active learning, Nosé-Hoover thermostat, Interquartile range outlier filtering, Minimum ion-ion distance cutoff, Maximum bond variation check, Batch size adjustment, Self-consistent training, FPMD simulations",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "label",
+   "claim": "The group contains models for predicting diffusion coefficients in materials.",
+   "verdict": "supported",
+   "line": "DeePMD training protocol for diffusion coefficient computation addresses Ionic diffusion coefficient prediction, Activation energy computation, Li10GeP2S12 diffusion modeling, Li7La3Zr2O12 diffusion modeling, Na3Zr2Si2PO12 diffusion modeling, LGPS solid electrolyte simulation, LLZO solid electrolyte simulation, NASICON solid electrolyte simulation",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "true",
+   "claim": "The group has a member named \"5-fold cross-validation\".",
+   "verdict": "supported",
+   "line": "5-fold cross-validation [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "true",
+   "claim": "The group has a member named \"3×3 matrix blocks\".",
+   "verdict": "supported",
+   "line": "3×3 matrix blocks [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "true",
+   "claim": "The group has a member named \"SchNet\".",
+   "verdict": "supported",
+   "line": "SchNet [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "false",
+   "claim": "The group has a member named \"Automated phonon and vibrational property extraction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "false",
+   "claim": "The group has a member named \"Efficient structural relaxation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "false",
+   "claim": "The group has a member named \"Atomic Simulation Environment\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "cross",
+   "claim": "The group contains models for predicting diffusion coefficients in materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "cross",
+   "claim": "The group contains models for predicting diffusion coefficients in materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "cross",
+   "claim": "The group contains models for predicting diffusion coefficients in materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.11",
+   "kind": "sibling",
+   "claim": "The group contains models using E(3)-equivariant representations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "label",
+   "claim": "The group contains E(3)-equivariant graph neural networks.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "true",
+   "claim": "The group has a member named \"Linear sp-bonded chain detection\".",
+   "verdict": "supported",
+   "line": "Linear sp-bonded chain detection [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "true",
+   "claim": "The group has a member named \"Near-surface structure sampling\".",
+   "verdict": "supported",
+   "line": "Near-surface structure sampling [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "true",
+   "claim": "The group has a member named \"Energy prediction accuracy\".",
+   "verdict": "supported",
+   "line": "Energy prediction accuracy [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "false",
+   "claim": "The group has a member named \"Alternative GNN backbones\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "false",
+   "claim": "The group has a member named \"SchNet\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "false",
+   "claim": "The group has a member named \"PNA-based GNN predictor\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "cross",
+   "claim": "The group contains E(3)-equivariant graph neural networks.",
+   "verdict": "supported",
+   "line": "deep equivariant neural network method uses technique E(3) equivariance, Time-reversal equivariance via parity indexing, Tensor-product layer with Clebsch-Gordan coefficients, Spherical-harmonic embedding of geometric inputs, Gaussian radial basis expansion, Mean-squared-error loss on Hamiltonian matrix elements, Message passing on a graph of atoms and edges",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "cross",
+   "claim": "The group contains E(3)-equivariant graph neural networks.",
+   "verdict": "supported",
+   "line": "Phonon dispersion and density-of-states calculation, Molecular vibrational mode and IR/Raman activity prediction, High-throughput screening of materials for phononic properties, Phonon band structure prediction, Energy and force prediction under external electric fields, Born effective charge and dielectric constant prediction, Fine-tuning of interatomic potentials using vibrational spectra, physics (addressed by Phonax (E(3)-equivariant graph neural network framework for phonon and Hessian prediction), which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "cross",
+   "claim": "The group contains E(3)-equivariant graph neural networks.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.12",
+   "kind": "sibling",
+   "claim": "The group contains models using equivariant convolutions.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "label",
+   "claim": "The group contains models predicting energy for atoms.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "label",
+   "claim": "The group contains models predicting stress for atoms.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "label",
+   "claim": "The group contains models predicting conductivity for atoms.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "true",
+   "claim": "The group has a member named \"Investigation of temperature, particle size, and charge-cycling effects\".",
+   "verdict": "supported",
+   "line": "Investigation of temperature, particle size, and charge-cycling effects [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "true",
+   "claim": "The group has a member named \"Formation-energy computation for LixCoO2 configurations\".",
+   "verdict": "supported",
+   "line": "Formation-energy computation for LixCoO2 configurations [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "true",
+   "claim": "The group has a member named \"Free-energy surrogate modeling for LiCoO2\".",
+   "verdict": "supported",
+   "line": "Free-energy surrogate modeling for LiCoO2 [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "false",
+   "claim": "The group has a member named \"HOMO energy (εHOMO) prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "false",
+   "claim": "The group has a member named \"Nonlinear structure-property mapping\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "false",
+   "claim": "The group has a member named \"deep tensor neural network\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "cross",
+   "claim": "The group contains models predicting energy for atoms.",
+   "verdict": "supported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "cross",
+   "claim": "The group contains models predicting energy for atoms.",
+   "verdict": "supported",
+   "line": "Phonax (E(3)-equivariant graph neural network framework for phonon and Hessian prediction) uses component Phonax framework, Extended periodic graph construction, Hessian-based training augmentation, Symmetry-aware E(3)-equivariant GNN energy model, Irreducible-representation analysis for IR/Raman activity, Hessian eigenvalue spectrum loss, Generalized energy model with electric-field coupling, Modified NequIP architecture for field dependence",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "cross",
+   "claim": "The group contains models predicting energy for atoms.",
+   "verdict": "supported",
+   "line": "Molecular dynamics simulations, potential energy prediction, Dipole moment prediction, Polarizability prediction, atomic force prediction, Virial tensor prediction, water property prediction (addressed by DeePMD-kit v2, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.14",
+   "kind": "sibling",
+   "claim": "The group contains E(3)-equivariant graph neural networks.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "label",
+   "claim": "The group contains models using E(3)-equivariant representations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "label",
+   "claim": "The group contains models using E(3)-equivariant representations for materials simulation.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "true",
+   "claim": "The group has a member named \"Force locality test\".",
+   "verdict": "supported",
+   "line": "Force locality test [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "true",
+   "claim": "The group has a member named \"Linear combination of kernel functions\".",
+   "verdict": "supported",
+   "line": "Linear combination of kernel functions [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "true",
+   "claim": "The group has a member named \"Random atomic displacement\".",
+   "verdict": "supported",
+   "line": "Random atomic displacement [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "false",
+   "claim": "The group has a member named \"capturing tetrahedral motifs\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "false",
+   "claim": "The group has a member named \"DimeNet\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "false",
+   "claim": "The group has a member named \"Automatic k-point convergence\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "cross",
+   "claim": "The group contains models using E(3)-equivariant representations.",
+   "verdict": "supported",
+   "line": "Phonon dispersion and density-of-states calculation, Molecular vibrational mode and IR/Raman activity prediction, High-throughput screening of materials for phononic properties, Phonon band structure prediction, Energy and force prediction under external electric fields, Born effective charge and dielectric constant prediction, Fine-tuning of interatomic potentials using vibrational spectra, physics (addressed by Phonax (E(3)-equivariant graph neural network framework for phonon and Hessian prediction), which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "cross",
+   "claim": "The group contains models using E(3)-equivariant representations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "cross",
+   "claim": "The group contains models using E(3)-equivariant representations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.15",
+   "kind": "sibling",
+   "claim": "The group contains models for predicting diffusion coefficients in materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "label",
+   "claim": "The group contains graph neural network models.",
+   "verdict": "supported",
+   "line": "Graph Neural Network for atomic property prediction in defective crystalline solids [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "label",
+   "claim": "The group contains models like PNA.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "label",
+   "claim": "The group contains models for atomic property prediction in defective solids.",
+   "verdict": "supported",
+   "line": "Graph Neural Network for atomic property prediction in defective crystalline solids uses component Spatial-coordinate node features, Cutoff-based edge connectivity, End-to-end GNN predictor, Boundary-condition encoding, Genetic-algorithm-driven inverse design, GNN predictor, GA optimizer, Stress-concentration objective",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "true",
+   "claim": "The group has a member named \"Accelerated property evaluation\".",
+   "verdict": "supported",
+   "line": "Accelerated property evaluation [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "true",
+   "claim": "The group has a member named \"NEMD ground-truth evaluator\".",
+   "verdict": "supported",
+   "line": "NEMD ground-truth evaluator [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "true",
+   "claim": "The group has a member named \"Graph Neural Network for atomic property prediction in defective crystalline solids\".",
+   "verdict": "supported",
+   "line": "Graph Neural Network for atomic property prediction in defective crystalline solids [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "false",
+   "claim": "The group has a member named \"materials informatics\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "false",
+   "claim": "The group has a member named \"Spherical harmonics expansion\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "false",
+   "claim": "The group has a member named \"Full phonon band structure prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "cross",
+   "claim": "The group contains graph neural network models.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "cross",
+   "claim": "The group contains graph neural network models.",
+   "verdict": "supported",
+   "line": "Weighted message passing, Smooth radial basis functions, Fourier feature expansion, Latent-space regularization with magnetic moments, Charge-state constraint via magmom projection, Three-body angle graph construction, Principal component analysis (PCA) of latent features, SmoothRBF distance expansion (used as techniques by Crystal Hamiltonian Graph neural Network, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "cross",
+   "claim": "The group contains graph neural network models.",
+   "verdict": "supported",
+   "line": "MACE-MP-0 extends SphereNet, E(n)-equivariant graph neural network, NequIP, Equivariant Transformers, SEGNN, BOTNet, Allegro, HIP-NN",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.16",
+   "kind": "sibling",
+   "claim": "The group contains models predicting phonon-related properties.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "label",
+   "claim": "The group contains interatomic potentials for atomistic simulations.",
+   "verdict": "supported",
+   "line": "Neural Equivariant Interatomic Potentials is evaluated on MD-17 Aspirin, MD-17 Azobenzene, MD-17 Benzene, MD-17 Ethanol, MD-17 Malonaldehyde, MD-17 Naphthalene, MD-17 Paracetamol, MD-17 Salicylic acid",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "label",
+   "claim": "The group contains interatomic potentials for property prediction.",
+   "verdict": "supported",
+   "line": "Neural Equivariant Interatomic Potentials is evaluated on MD-17 Aspirin, MD-17 Azobenzene, MD-17 Benzene, MD-17 Ethanol, MD-17 Malonaldehyde, MD-17 Naphthalene, MD-17 Paracetamol, MD-17 Salicylic acid",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "label",
+   "claim": "The group contains Gaussian Approximation Potentials.",
+   "verdict": "supported",
+   "line": "Gaussian Approximation Potential (GAP) for silicon uses component Repulsive pair potential, Many-body kernel term, Sparse set of representative atoms, Uncertainty quantification, SOAP descriptor, Kernel normalization and exponentiation, Representative environment selection, Regularized least-squares solution for expansion coefficients",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "true",
+   "claim": "The group has a member named \"Moment Tensor Potentials\".",
+   "verdict": "supported",
+   "line": "Moment Tensor Potentials [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "true",
+   "claim": "The group has a member named \"Accurate data-driven interatomic potentials\".",
+   "verdict": "supported",
+   "line": "Accurate data-driven interatomic potentials [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "true",
+   "claim": "The group has a member named \"3b descriptor\".",
+   "verdict": "supported",
+   "line": "3b descriptor [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "false",
+   "claim": "The group has a member named \"condensed matter physics\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "false",
+   "claim": "The group has a member named \"AIMD transferability test\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "false",
+   "claim": "The group has a member named \"Nucleation rate estimation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "cross",
+   "claim": "The group contains interatomic potentials for atomistic simulations.",
+   "verdict": "supported",
+   "line": "machine learning potentials [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "cross",
+   "claim": "The group contains interatomic potentials for atomistic simulations.",
+   "verdict": "supported",
+   "line": "graph neural networks with three-body interactions solves Universal interatomic potential, Accurate, fast energy/force/stress prediction, Scalable materials discovery, Continuity of physical quantities, high-cost DFT geometry optimization, large-scale ionic conductivity screening, accurate prediction of phonon spectra and elastic properties, force-field generation for small molecules",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "cross",
+   "claim": "The group contains interatomic potentials for atomistic simulations.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.2",
+   "kind": "sibling",
+   "claim": "The group contains models using equivariant convolutions.",
+   "verdict": "supported",
+   "line": "MACE-MP-0 extends SphereNet, E(n)-equivariant graph neural network, NequIP, Equivariant Transformers, SEGNN, BOTNet, Allegro, HIP-NN",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "label",
+   "claim": "The group contains models for atomic property prediction.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "label",
+   "claim": "The group contains models for crystal property prediction.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "true",
+   "claim": "The group has a member named \"Active learning with iterative retraining\".",
+   "verdict": "supported",
+   "line": "Active learning with iterative retraining [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "true",
+   "claim": "The group has a member named \"Basis expansion layer\".",
+   "verdict": "supported",
+   "line": "Basis expansion layer [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "true",
+   "claim": "The group has a member named \"Automated ML pipeline for materials\".",
+   "verdict": "supported",
+   "line": "Automated ML pipeline for materials [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "false",
+   "claim": "The group has a member named \"Bond distance expansion\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "false",
+   "claim": "The group has a member named \"Efficient prediction of dynamic brittle fracture paths\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "false",
+   "claim": "The group has a member named \"Random atomic displacement\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "cross",
+   "claim": "The group contains models for atomic property prediction.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "cross",
+   "claim": "The group contains models for atomic property prediction.",
+   "verdict": "supported",
+   "line": "Atomic Cluster Expansion [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "cross",
+   "claim": "The group contains models for atomic property prediction.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.3",
+   "kind": "sibling",
+   "claim": "The group contains models for crystal structure prediction.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "label",
+   "claim": "The group contains models using SO(2) equivariance for materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "label",
+   "claim": "The group contains models using SO(3) equivariance for materials.",
+   "verdict": "supported",
+   "line": "graph networks for materials exploration extends Graph neural networks, Message-passing neural networks, Materials Project, ab initio random structure searching, Deep ensembles, Equivariant interatomic potentials, Materials 3-body Graph Network, E(3)-equivariant graph neural networks",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "label",
+   "claim": "The group contains equivariant graph neural network models.",
+   "verdict": "supported",
+   "line": "graph networks for materials exploration extends Graph neural networks, Message-passing neural networks, Materials Project, ab initio random structure searching, Deep ensembles, Equivariant interatomic potentials, Materials 3-body Graph Network, E(3)-equivariant graph neural networks",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "true",
+   "claim": "The group has a member named \"Cormorant\".",
+   "verdict": "supported",
+   "line": "Cormorant [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "true",
+   "claim": "The group has a member named \"Molecular dynamics simulation\".",
+   "verdict": "supported",
+   "line": "Molecular dynamics simulation [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "true",
+   "claim": "The group has a member named \"PBE functional\".",
+   "verdict": "supported",
+   "line": "PBE functional [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "false",
+   "claim": "The group has a member named \"Band structure and density-of-states calculation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "false",
+   "claim": "The group has a member named \"Fracture-toughness regression head\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "false",
+   "claim": "The group has a member named \"Investigation of temperature, particle size, and charge-cycling effects\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "cross",
+   "claim": "The group contains models using SO(2) equivariance for materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "cross",
+   "claim": "The group contains models using SO(2) equivariance for materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "cross",
+   "claim": "The group contains models using SO(2) equivariance for materials.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.4",
+   "kind": "sibling",
+   "claim": "The group contains models for materials exploration.",
+   "verdict": "supported",
+   "line": "graph networks for materials exploration extends Graph neural networks, Message-passing neural networks, Materials Project, ab initio random structure searching, Deep ensembles, Equivariant interatomic potentials, Materials 3-body Graph Network, E(3)-equivariant graph neural networks",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "label",
+   "claim": "The group contains models like GNoME.",
+   "verdict": "supported",
+   "line": "GNoME dataset [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "label",
+   "claim": "The group contains models like MACE-MP-0 for material property prediction.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "true",
+   "claim": "The group has a member named \"Atomic Cluster Expansion\".",
+   "verdict": "supported",
+   "line": "Atomic Cluster Expansion [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "true",
+   "claim": "The group has a member named \"GNoME\".",
+   "verdict": "supported",
+   "line": "GNoME dataset [component]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "true",
+   "claim": "The group has a member named \"Loop tensor contraction\".",
+   "verdict": "supported",
+   "line": "Hierarchical Body-Order Expansion, Equivariant tensor product with Clebsch-Gordan coupling, Radial basis functions using Bessel kernels, Continuous element embedding, Loop tensor contraction (used as techniques by MACE-MP-0, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "false",
+   "claim": "The group has a member named \"Bridging computational and experimental data\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "false",
+   "claim": "The group has a member named \"Direct force-constant method\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "false",
+   "claim": "The group has a member named \"Data efficiency in 3D molecular modeling\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "cross",
+   "claim": "The group contains models like GNoME.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "cross",
+   "claim": "The group contains models like GNoME.",
+   "verdict": "supported",
+   "line": "623 unseen compositions, ref. 56 test set, GNoME (used to evaluate graph networks for materials exploration, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "cross",
+   "claim": "The group contains models like GNoME.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.5",
+   "kind": "sibling",
+   "claim": "The group contains models using equivariant convolutions.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "label",
+   "claim": "The group contains models for crystal structure prediction.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "true",
+   "claim": "The group has a member named \"potential energy prediction\".",
+   "verdict": "supported",
+   "line": "potential energy prediction [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "true",
+   "claim": "The group has a member named \"Frame dependence of quadrature-based energy averages\".",
+   "verdict": "supported",
+   "line": "Frame dependence of quadrature-based energy averages [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "true",
+   "claim": "The group has a member named \"Force prediction\".",
+   "verdict": "supported",
+   "line": "Force prediction [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "false",
+   "claim": "The group has a member named \"Neural Equivariant Interatomic Potentials\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "false",
+   "claim": "The group has a member named \"Accuracy-efficiency trade-off in large-scale DFT\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "false",
+   "claim": "The group has a member named \"Molecular property prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "cross",
+   "claim": "The group contains models for crystal structure prediction.",
+   "verdict": "supported",
+   "line": "AFLOW high-throughput materials discovery framework solves Scalable high-throughput DFT management, Robust handling of calculation failures, Standardized structure representation, Automated phonon and vibrational property extraction, Construction of complex surface slabs and nanoparticles, Identification of interstitial sites, phase stability determination, defect energetics and band-gap underestimation",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "cross",
+   "claim": "The group contains models for crystal structure prediction.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "cross",
+   "claim": "The group contains models for crystal structure prediction.",
+   "verdict": "supported",
+   "line": "graph networks for materials exploration extends Graph neural networks, Message-passing neural networks, Materials Project, ab initio random structure searching, Deep ensembles, Equivariant interatomic potentials, Materials 3-body Graph Network, E(3)-equivariant graph neural networks",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.6",
+   "kind": "sibling",
+   "claim": "The group contains graph neural network models.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "label",
+   "claim": "The group contains models using equivariant convolutions.",
+   "verdict": "supported",
+   "line": "Phonax (E(3)-equivariant graph neural network framework for phonon and Hessian prediction) uses component Phonax framework, Extended periodic graph construction, Hessian-based training augmentation, Symmetry-aware E(3)-equivariant GNN energy model, Irreducible-representation analysis for IR/Raman activity, Hessian eigenvalue spectrum loss, Generalized energy model with electric-field coupling, Modified NequIP architecture for field dependence",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "label",
+   "claim": "The group contains equivariant graph neural networks.",
+   "verdict": "supported",
+   "line": "Phonax (E(3)-equivariant graph neural network framework for phonon and Hessian prediction) uses component Phonax framework, Extended periodic graph construction, Hessian-based training augmentation, Symmetry-aware E(3)-equivariant GNN energy model, Irreducible-representation analysis for IR/Raman activity, Hessian eigenvalue spectrum loss, Generalized energy model with electric-field coupling, Modified NequIP architecture for field dependence",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "true",
+   "claim": "The group has a member named \"Atomic Simulation Environment\".",
+   "verdict": "supported",
+   "line": "Atomic Simulation Environment [method]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "true",
+   "claim": "The group has a member named \"Configuration complexity\".",
+   "verdict": "supported",
+   "line": "Configuration complexity [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "true",
+   "claim": "The group has a member named \"Gate nonlinearity\".",
+   "verdict": "supported",
+   "line": "Gate nonlinearity [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "false",
+   "claim": "The group has a member named \"Angular distribution function analysis\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "false",
+   "claim": "The group has a member named \"Energy prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "false",
+   "claim": "The group has a member named \"Brute-force screening module\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "cross",
+   "claim": "The group contains models using equivariant convolutions.",
+   "verdict": "supported",
+   "line": "MACE-MP-0 extends SphereNet, E(n)-equivariant graph neural network, NequIP, Equivariant Transformers, SEGNN, BOTNet, Allegro, HIP-NN",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "cross",
+   "claim": "The group contains models using equivariant convolutions.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "cross",
+   "claim": "The group contains models using equivariant convolutions.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.7",
+   "kind": "sibling",
+   "claim": "The group contains models for atomic property prediction.",
+   "verdict": "supported",
+   "line": "Validation against MD simulations, computational materials (addressed by Graph Neural Network for atomic property prediction in defective crystalline solids, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "label",
+   "claim": "Materials property prediction",
+   "verdict": "supported",
+   "line": "crystal graph convolutional neural networks solves Accurate prediction of material properties, Interpretability of deep models for materials, Variable-size crystal representation, High-throughput materials screening, Metal/semiconductor classification",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "label",
+   "claim": "Focuses on predicting properties like formation energy and band gap.",
+   "verdict": "supported",
+   "line": "Formation energy regression, machine learning for materials (addressed by Automatminer, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "true",
+   "claim": "The group has a member named \"Accelerated discovery of stable inorganic crystals\".",
+   "verdict": "supported",
+   "line": "Accelerated discovery of stable inorganic crystals [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "true",
+   "claim": "The group has a member named \"Accelerated materials discovery\".",
+   "verdict": "supported",
+   "line": "Accelerated materials discovery [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "true",
+   "claim": "The group has a member named \"crystal graph convolutional neural networks\".",
+   "verdict": "supported",
+   "line": "crystal graph convolutional neural networks [method] (also: CGCNN)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "false",
+   "claim": "The group has a member named \"Global mechanical property estimation\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "false",
+   "claim": "The group has a member named \"Gaussian approximation potentials\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "false",
+   "claim": "The group has a member named \"Polarizability (α) prediction\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "cross",
+   "claim": "Materials property prediction",
+   "verdict": "supported",
+   "line": "Crystal-Graph Attention Network addresses thermodynamic stability prediction, superconductor candidate identification, superhard materials discovery, gap deformation potential screening, Convex hull distance prediction, Crystal structure volume prediction, Ultra-hard material discovery, Superconducting material discovery",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "cross",
+   "claim": "Materials property prediction",
+   "verdict": "supported",
+   "line": "Materials property prediction, materials informatics (addressed by Automatminer, which is NOT in this group)",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "cross",
+   "claim": "Materials property prediction",
+   "verdict": "supported",
+   "line": "claim: Coupling the GNN with a genetic algorithm efficiently discovers optimal holey graphene designs (e.g., arrow-shaped hole patterns) that achieve significantly lower stress concentration than suboptimal designs, using only ~800 stress evaluations-an order of magnitude fewer than brute-force search-and reliably locates the global minimum in most of 1,000 random initializations.",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.8",
+   "kind": "sibling",
+   "claim": "The group contains E(3)-equivariant graph neural networks.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "label",
+   "claim": "The group contains models predicting phonon-related properties.",
+   "verdict": "supported",
+   "line": "Full phonon prediction [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "label",
+   "claim": "The group contains models predicting various phonon properties.",
+   "verdict": "supported",
+   "line": "Full phonon prediction [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "label",
+   "claim": "The group contains models predicting phonon properties in materials.",
+   "verdict": "supported",
+   "line": "Full phonon prediction [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "true",
+   "claim": "The group has a member named \"QM9 molecular property prediction\".",
+   "verdict": "supported",
+   "line": "QM9 molecular property prediction [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "true",
+   "claim": "The group has a member named \"Automatic error detection and correction\".",
+   "verdict": "supported",
+   "line": "Automatic error detection and correction [technique]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "true",
+   "claim": "The group has a member named \"Crystal stability assessment\".",
+   "verdict": "supported",
+   "line": "Crystal stability assessment [task]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "false",
+   "claim": "The group has a member named \"ALIGNN\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "false",
+   "claim": "The group has a member named \"Melt-quench protocol\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "false",
+   "claim": "The group has a member named \"Multi-temperature MD sampling\".",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "cross",
+   "claim": "The group contains models predicting phonon-related properties.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "cross",
+   "claim": "The group contains models predicting phonon-related properties.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "cross",
+   "claim": "The group contains models predicting phonon-related properties.",
+   "verdict": "supported",
+   "line": "Efficient phonon band-structure prediction [problem]",
+   "quote_ok": true,
+   "supported": true
+  },
+  {
+   "tree": "model",
+   "supernode": "2024:L0.9",
+   "kind": "sibling",
+   "claim": "The group contains equivariant graph neural network models.",
+   "verdict": "unsupported",
+   "line": null,
+   "quote_ok": false,
+   "supported": false
+  }
+ ]
+}
