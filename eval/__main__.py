@@ -39,6 +39,11 @@ def main(argv=None):
     p = sub.add_parser("labels")
     p.add_argument("--run", type=Path, required=True)
     p.add_argument("--rigor", choices=sorted(RIGOR), default="standard")
+    p.add_argument("--cutoffs", type=int, nargs="*", help="override the rigor's snapshots")
+    p.add_argument("--levels", type=int, nargs="*", help="override the rigor's levels")
+    p.add_argument("--no-nulls", action="store_true", help="judge the run only (prompt iteration)")
+    p.add_argument("--relabel", action="store_true", help="relabel the run's tree with the current labeller prompt")
+    p.add_argument("--tag", help="write metrics and judgements to DIR/label_dev/<tag>.json instead (iteration log)")
     for name in ("gamma", "sweep"):
         p = add_config_args(sub.add_parser(name))
         p.add_argument("--param", nargs="*", help="override [method] parameters of the base configuration")
@@ -54,7 +59,13 @@ def main(argv=None):
         if args.cmd == "p3":
             res, section = p3_check(cfg, params, args.run, args.R, args.R_labels, args.jobs), "coherence"
         elif args.cmd == "labels":
-            res, recs = label_check(cfg, params, args.run, args.rigor)
+            res, recs = label_check(cfg, params, args.run, args.rigor, args.cutoffs, args.levels, not args.no_nulls, args.relabel)
+            if args.tag:
+                d = args.run / "label_dev"
+                d.mkdir(exist_ok=True)
+                (d / f"{args.tag}.json").write_text(json.dumps({"metrics": res, "judgements": recs}, indent=1, ensure_ascii=False) + "\n")
+                print(f"labels -> {d / (args.tag + '.json')}")
+                return
             section = "labels"
             (args.run / "label_judgements.json").write_text(json.dumps(recs, indent=1, ensure_ascii=False) + "\n")
         else:

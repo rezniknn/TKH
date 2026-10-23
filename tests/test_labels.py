@@ -40,7 +40,7 @@ class StubLLM:
             return {"claims": [gloss]}
         claim = re.search(r"Claim: (.*)", prompt).group(1)
         lines = [ln[2:] for ln in prompt.split("\n") if ln.startswith("- ")]
-        target = claim.replace("The group includes ", "").rstrip(".")
+        target = re.sub(r'^The group has a member named "(.*)"\.$', r"\1", claim)
         hit = next((ln for ln in lines if target and ln.startswith(target)), None)
         if self.lie:
             return {"verdict": "supported", "quote": "a line that is not in the evidence"}
@@ -129,9 +129,9 @@ def test_controls_give_sensitivity_specificity_and_corrected_rate():
     summary, recs = judge_trees({"model": _tree()}, j, NoNames(), "standard")
     s = summary["model"]
     assert s["over_claim"]["value"] == 0.0 and s["claim_unsupported"] == 0.0     # each gloss is a held-out line
-    assert s["Sp"] == 1.0 and s["Se"]["sibling"] == 1.0 and s["J_sibling"] == 1.0 and s["valid"]
+    assert s["Sp"] == 1.0 and s["Se"] == 1.0 and s["J"] == 1.0 and s["valid"]
     assert s["corrected_over_claim"] == pytest.approx(0.0)
-    assert {r["kind"] for r in recs} == {"label", "sibling", "random", "true"}
+    assert {r["kind"] for r in recs} == {"label", "true", "false", "cross", "sibling"}
 
 
 def test_fixture_pipeline_with_llm_labeller_validates(tmp_path, monkeypatch):

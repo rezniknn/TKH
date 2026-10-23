@@ -34,10 +34,10 @@ from tkh.label import LABELLED_LEVELS, LLMLabeller, settings
 from tkh.llm import CachedLLM, render
 from tkh.null import label_permutation, null_tkh
 
-RIGOR = {
-    "quick": {"levels": [0], "model_cutoffs": "last", "null_cutoffs": "last", "R_config": 1, "R_labels": 1, "n_false": 1, "max_claims": 4},
-    "standard": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "last", "R_config": 3, "R_labels": 3, "n_false": 2, "max_claims": 5},
-    "full": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "all", "R_config": 5, "R_labels": 5, "n_false": 2, "max_claims": 5},
+RIGOR = {   # n_names: true and false member-name controls per label
+    "quick": {"levels": [0], "model_cutoffs": "last", "null_cutoffs": "last", "R_config": 1, "R_labels": 1, "n_names": 3, "max_claims": 4},
+    "standard": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "last", "R_config": 3, "R_labels": 3, "n_names": 2, "max_claims": 5},
+    "full": {"levels": [0, 1], "model_cutoffs": "all", "null_cutoffs": "all", "R_config": 5, "R_labels": 5, "n_names": 2, "max_claims": 5},
 }
 J_MIN = 0.4
 STOP = set("a an and are as at be by for from group groups has have in into is it its of on or that the their these "
@@ -200,8 +200,25 @@ def null_trees(cfg, params, run_dir, tkh, labeller, cutoffs, levels, R_config, R
 
 # ---------------------------------------------------------------- scoring
 
+MEMBER_CLAIM = 'The group has a member named "{}".'
+CONCEPT_LINE = re.compile(r"^(.*?) \[(method|task|problem|technique|component|dataset|metric)\]")
+
+
+def _names(lines):
+    return [m.group(1) for m in map(CONCEPT_LINE.match, lines) if m]
+
+
 def judge_trees(trees, judge, checker, rigor, seed=0):
-    """Decompose, entail and control every tree's labels; returns per-tree summaries and the judgement records."""
+    """Decompose, entail and control every tree's labels; returns per-tree summaries and the judgement records.
+
+    Known-answer controls (judged like label claims, against the same held-out lines):
+      true    MEMBER_CLAIM with a held-out member's name                       (should be supported)
+      false   MEMBER_CLAIM with a concept of another super-node of the level that appears nowhere in this super-node's
+              evidence                                                        (should be unsupported)
+      cross   the label's own first claim against ANOTHER super-node's held-out lines (should be unsupported: a
+              specific label does not fit other groups; guards against vague labels lowering the over-claim rate)
+      sibling a sibling's first claim (diagnostic only: siblings share a field, so it is not a reliable false)
+    Se = P(unsupported | false), Sp = P(supported | true), J = Se + Sp - 1 (gate J >= J_MIN)."""
     rng = random.Random(seed)
     r = RIGOR[rigor]
     allrows = [(t, row) for t, rows in trees.items() for row in rows]
@@ -215,18 +232,23 @@ def judge_trees(trees, judge, checker, rigor, seed=0):
         for cl in claims:
             jobs.append((c, cl, held)); meta.append((t, key, "label", cl))
         same = [x for x in trees[t] if x[0] == c and x[1] == k and x[2] != key]
-        sib = [x for x in same if x[3] == parent and parent is not None] or same
-        for kind, pool in (("sibling", sib), ("random", same))[:r["n_false"]]:
-            if pool:
-                other = rng.choice(pool)
-                jobs.append((c, claims_of[(t, other[2])][0][0], held)); meta.append((t, key, kind, None))
-        names = [x.split(" [")[0] for x in held if re.search(r" \[(method|task|problem|technique|component|dataset|metric)\]", x)]
-        if names:
-            jobs.append((c, f"The group includes {rng.choice(sorted(names))}.", held)); meta.append((t, key, "true", None))
+        text = " ".join(seen + held).lower()
+        own = set(_names(seen + held))
+        true = sorted(set(_names(held)))
+        false = sorted({n for x in same for n in _names(x[7] + x[8]) if n not in own and n.lower() not in text})
+        for n in rng.sample(true, min(r["n_names"], len(true))):
+            jobs.append((c, MEMBER_CLAIM.format(n), held)); meta.append((t, key, "true", None))
+        for n in rng.sample(false, min(r["n_names"], len(false))):
+            jobs.append((c, MEMBER_CLAIM.format(n), held)); meta.append((t, key, "false", None))
+        if same:
+            other = rng.choice(same)
+            if other[8]:
+                jobs.append((c, claims[0], other[8])); meta.append((t, key, "cross", None))
+            sib = [x for x in same if x[3] == parent and parent is not None] or same
+            jobs.append((c, claims_of[(t, rng.choice(sib)[2])][0][0], held)); meta.append((t, key, "sibling", None))
     verdicts = judge.entail_many(jobs)
     recs = [{"tree": t, "supernode": key, "kind": kind, "claim": cl or jobs[i][1], **v}
             for i, ((t, key, kind, cl), v) in enumerate(zip(meta, verdicts))]
-    rows_of = {t: {row[2]: row for row in rows} for t, rows in trees.items()}
     summary = {}
     for t in trees:
         R = [x for x in recs if x["tree"] == t]
@@ -237,23 +259,49 @@ def judge_trees(trees, judge, checker, rigor, seed=0):
         over = np.array([any(v) for v in per.values()], float)
         nclaims = np.array([len(v) for v in per.values()])
         u_obs = float(np.mean([u for v in per.values() for u in v])) if per else math.nan
-        se = {k: _rate([not x["supported"] for x in R if x["kind"] == k]) for k in ("sibling", "random")}
+        se = _rate([not x["supported"] for x in R if x["kind"] == "false"])
         sp = _rate([x["supported"] for x in R if x["kind"] == "true"])
-        J = se["sibling"] + sp - 1 if np.isfinite(se["sibling"]) and np.isfinite(sp) else math.nan
+        J = se + sp - 1 if np.isfinite(se) and np.isfinite(sp) else math.nan
         corrected = None
         if np.isfinite(J) and J >= J_MIN:
             u = min(1.0, max(0.0, (u_obs + sp - 1) / J))
             corrected = float(np.mean(1 - (1 - u) ** nclaims))
         det = [checker.checks(f"{row[5]} {row[6]}", row[4], row[0]) for row in trees[t]]
         summary[t] = {"labels": len(trees[t]), "judged": len(per), "over_claim": _ci(over), "claim_unsupported": u_obs,
-                      "Se": se, "Sp": sp, "J_sibling": J, "valid": bool(np.isfinite(J) and J >= J_MIN), "corrected_over_claim": corrected,
+                      "Se": se, "Sp": sp, "J": J, "valid": bool(np.isfinite(J) and J >= J_MIN), "corrected_over_claim": corrected,
+                      "cross_support": _rate([x["supported"] for x in R if x["kind"] == "cross"]),
+                      "sibling_support": _rate([x["supported"] for x in R if x["kind"] == "sibling"]),
                       "decomposition_ok": float(np.mean([claims_of[(t, row[2])][1] for row in trees[t]])),
                       "quote_rejected": int(sum(x["verdict"] == "supported" and not x["quote_ok"] for x in R)),
                       "no_held_out": sum(1 for row in trees[t] if not row[8]),
                       "deterministic": {k: int(sum(bool(d[k]) for d in det)) for k in ("year_after_cutoff", "named_non_member", "future_entity")},
                       "_over": {key: bool(any(v)) for key, v in per.items()}}
-    del rows_of
     return summary, recs
+
+
+def paired(recs_a, recs_b, tree="model", B=2000, seed=0):
+    """Paired bootstrap over super-nodes of b - a: over-claim rate, J (Se + Sp - 1) and cross-support rate."""
+    def per_node(recs):
+        out = {}
+        for x in recs:
+            if x["tree"] == tree:
+                out.setdefault(x["supernode"], []).append(x)
+        return out
+    A, Bn = per_node(recs_a), per_node(recs_b)
+    keys = sorted(set(A) & set(Bn))
+    def stats(d, ks):
+        R = [x for k in ks for x in d[k]]
+        over = np.mean([any(not x["supported"] for x in d[k] if x["kind"] == "label") for k in ks])
+        se = _rate([not x["supported"] for x in R if x["kind"] == "false"])
+        sp = _rate([x["supported"] for x in R if x["kind"] == "true"])
+        return np.array([over, se + sp - 1, _rate([x["supported"] for x in R if x["kind"] == "cross"])])
+    rng = np.random.default_rng(seed)
+    obs = stats(Bn, keys) - stats(A, keys)
+    boot = np.array([stats(Bn, s) - stats(A, s) for s in ([keys[i] for i in rng.integers(0, len(keys), len(keys))] for _ in range(B))])
+    names = ("over_claim", "J", "cross_support")
+    return {"n": len(keys), **{n: {"a": float(stats(A, keys)[i]), "b": float(stats(Bn, keys)[i]), "delta": float(obs[i]),
+                                    "ci95": [float(np.nanpercentile(boot[:, i], 2.5)), float(np.nanpercentile(boot[:, i], 97.5))]}
+                               for i, n in enumerate(names)}}
 
 
 def _rate(xs):
@@ -277,15 +325,22 @@ def _diff(a, b, B=2000, seed=0):
     return {"value": float(a.mean() - b.mean()), "ci95": [float(np.percentile(d, 2.5)), float(np.percentile(d, 97.5))]}
 
 
-def label_check(cfg, params, run_dir, rigor="standard"):
+def label_check(cfg, params, run_dir, rigor="standard", cutoffs=None, levels=None, nulls=True, relabel=False):
+    """cutoffs / levels override the rigor's model (and null) selection; relabel: label the run's tree again with the
+    current labeller prompt instead of reading the labels of hierarchy.json (for prompt iteration)."""
     r = RIGOR[rigor]
     tkh = load(cfg)
     cs = sorted(cfg.cutoffs)
-    pick = lambda w: cs if w == "all" else cs[-1:]  # noqa: E731
-    levels = [k for k in r["levels"] if k in LABELLED_LEVELS]
+    pick = lambda w: cutoffs or (cs if w == "all" else cs[-1:])  # noqa: E731
+    levels = [k for k in (levels or r["levels"]) if k in LABELLED_LEVELS]
     labeller, judge = LLMLabeller(tkh, cfg), Judge(cfg)
-    trees = {"model": _run_tree(run_dir, pick(r["model_cutoffs"]), levels)}
-    trees.update(null_trees(cfg, params, run_dir, tkh, labeller, pick(r["null_cutoffs"]), levels, r["R_config"], r["R_labels"]))
+    rows = _run_tree(run_dir, pick(r["model_cutoffs"]), levels)
+    if relabel:
+        labeller.llm.complete_many([labeller.prompt(x[0], labeller.view(x[0], x[4])[0]) for x in rows], labeller.s["workers"])
+        rows = [(*x[:5], *labeller(x[0], x[1], x[4]), *labeller.view(x[0], x[4])) for x in rows]
+    trees = {"model": rows}
+    if nulls:
+        trees.update(null_trees(cfg, params, run_dir, tkh, labeller, pick(r["null_cutoffs"]), levels, r["R_config"], r["R_labels"]))
     summary, recs = judge_trees(trees, judge, NameChecker(tkh), rigor)
     nc = set(pick(r["null_cutoffs"]))
     cut = {row[2]: row[0] for row in trees["model"]}
