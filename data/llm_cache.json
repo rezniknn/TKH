@@ -1,5 +1,6 @@
 {
  "models": {
+  "phi4": "ac896e5b8b34a1f4efa7b14d7520725140d5512484457fab45d2a4ea14c69dba",
   "qwen2.5:7b-instruct": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e"
  },
  "entries": {
@@ -35,6 +36,22 @@
    },
    "prompt_sha256": "3abc3ad2b9fc6e6ca6011b0442ceee5990779a70a16caebee12d0fb825d4429a"
   },
+  "0228f1f15387895f67c812143c7d07812ba80a51178692e46343e79e7270db25": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "E(3)-equivariant GNNs",
+    "gloss": "Models using E(3)-equivariant representations for materials."
+   },
+   "prompt_sha256": "d0e58d0c4c00dd70a97e1610b3c9c7393ce9ebf38d3c0352bc9d63f0c3468831"
+  },
+  "02cbe0906174d19b57b551180ca2a8be93a9c711fda3d00cde034cdeebaf2ab7": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "OMat24 dataset solves Material property prediction"
+   },
+   "prompt_sha256": "ce5ec3351838407c0eee009f13414bd431077db80542cda3f836943081b8321e"
+  },
   "0337420a24d057ff3ac4b5ff194c4fedbbbd791f06d62d22f6425fed824443e8": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -43,6 +60,26 @@
    },
    "prompt_sha256": "6d26b4f49d14e27df8c90fe887d48319d5357830e2537ab67e85ad48fd3ecb88"
   },
+  "039436287f7b8b2ec0ab725e3d9ca4a158a915ce0e4c610d42651b2a95806a64": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Equivariant GNNs are models.",
+     "Equivariant GNNs address computational complexity.",
+     "Equivariant GNNs address expressivity.",
+     "Equivariant GNNs are used in materials science."
+    ]
+   },
+   "prompt_sha256": "506a01b0fa931bb47f04012c2aa50a22e46e57108a19545d7316ea0c20b1dc8b"
+  },
+  "039e16f6bd85e6eb338c57ae7e186b5bb5c8e32b2092c751af971addebbd7b82": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "533a0723ef4ae3d68b0b3c4a8a73cc31913a65f60ff71cb028a6deee73c92c99"
+  },
   "03e8cb38b501bef37d9e92af2bc1a9bbb53c4a483674d9d2946501109feef357": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -50,6 +87,36 @@
     "gloss": "Models and techniques for predicting material stability."
    },
    "prompt_sha256": "1b3da43ae9a3d31dc80234600aa00715297ec53b66b1398f41ebbde949761db8"
+  },
+  "040c9b80fc900071ca626f45ea4d453804c1dbda2d67115276fa8ae10250ba82": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Interatomic Potentials are models.",
+     "Interatomic Potentials predict atomic interactions.",
+     "Interatomic Potentials are used in materials."
+    ]
+   },
+   "prompt_sha256": "2cb0f42404be8b840bd951fe20064e176706f855aa0d6e986d7331e548336afd"
+  },
+  "041254078daaff2c2438aee7ccb6f575f8f5b405e403d91d9d5abc8de8f401df": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph neural networks with three-body interactions extends Behler-Parrinello Neural Network Potential, AMBER force field, AtomSets"
+   },
+   "prompt_sha256": "c787feb2fa9c5b94e7380d897a3fd303ed2e7f0eff97b8de7bbdc9a5b9719bb9"
+  },
+  "042c8aa98d88cef6f175d85b9a3d62051c2e20bb6d07c0ce3dffa3491d7545dd": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for materials property prediction.",
+     "Graph Neural Networks are used for structure analysis."
+    ]
+   },
+   "prompt_sha256": "2bcd0cc08c394c0ccc81b87c8cf6bb1b490b153c59d4c3e0c474d5a19d2f496a"
   },
   "043574479777fc01500d342010b7713541fdedb004a3acb8b785ca72d7d06b6a": {
    "model": "qwen2.5:7b-instruct",
@@ -74,6 +141,21 @@
     "gloss": "Models using symmetry-preserving techniques for materials science."
    },
    "prompt_sha256": "cd3fbb6e54ca51d37c59718d12213339f471721bff39ef669b34c05570038f3f"
+  },
+  "046f9af3c0812c5c34a6815cc172116fc2aed9b0eb1ef79367dde776e1cb76c6": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Graph Neural Networks for Defects'.",
+     "The gloss is 'Models predicting atomic properties in defective crystalline solids'.",
+     "The label involves Graph Neural Networks.",
+     "The label involves Defects.",
+     "The gloss involves Models.",
+     "The gloss involves predicting atomic properties.",
+     "The gloss involves defective crystalline solids."
+    ]
+   },
+   "prompt_sha256": "887d08a17944bbe68f1434bcc9c212593e9b8b97628548673f208334451a227c"
   },
   "04e81729216feac84d0fb3c6f3d8733dfbd6abd9c88e1dd05907be3a52614fd9": {
    "model": "qwen2.5:7b-instruct",
@@ -115,6 +197,14 @@
    },
    "prompt_sha256": "e223232ba959343c8a31a61726ebe64552e60e4dfce2f9a6e69f28fc2c36d0a4"
   },
+  "06671d4b1a96504a97fec5052d1011c5fe00883d8f439618b7f45b04cff95e42": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Graph Neural Network for atomic property prediction in defective crystalline solids uses component Spatial-coordinate node features, Cutoff-based edge connectivity, End-to-end GNN predictor, Boundary-condition encoding, GA optimizer, PNA-based GNN predictor"
+   },
+   "prompt_sha256": "41398f0f2206e256110968c5aaa74adbd00ca9e689a5f3f72f011707c039c953"
+  },
   "072dfc961d5cca07ba14f2638f14c7ca9710236d7932d0610838e09551d0881e": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -138,6 +228,22 @@
     "gloss": "Challenges and tasks in graph neural network simulations for materials."
    },
    "prompt_sha256": "f45efd00273a20fb3ccf100206171b01bc5bc85d521c64537898fefbf942ebd7"
+  },
+  "07e1b4d02c29e7e6a074c11ae96913953986b63f255322818e17700c9544141b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "b2e3f1613c43fb78d7227a155fef379f27223ab9c6198a85d768efae15cffd02"
+  },
+  "07f2e758ea75a6aee8085675e889a67a3b32a4f8748b8d1d81dae8b296162a3f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "9c1cddb01e90276cd96eb0d45d076e5a0a55e664badcc5fa575d0d6652c068f2"
   },
   "092b96dc29306cefc95101e17e6fb1b4614dfab339ec99ddaf6ec316ef14711b": {
    "model": "qwen2.5:7b-instruct",
@@ -163,6 +269,19 @@
    },
    "prompt_sha256": "aa745a93340cce532eacbe5be7d9181805460752fe01834f191502eaf159d3ac"
   },
+  "0aab7b705eea953d7317791630dcaa45ecacc72c21796aea1e45f185b98b9ebe": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Phonon Property Prediction'.",
+     "The gloss describes models predicting phonon properties in materials.",
+     "The gloss mentions models.",
+     "The gloss mentions phonon properties.",
+     "The gloss mentions materials."
+    ]
+   },
+   "prompt_sha256": "6db867807e3e82071b4c2cfe81b6b8a36cb60e28ae3d4dbaabb8150e7adfc4ec"
+  },
   "0afb69a8cc8d876835c37d7a985e872b907d7b8971ae91486e2326f109b641ad": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -178,6 +297,14 @@
     "gloss": "Models for predicting phonon properties in materials."
    },
    "prompt_sha256": "47e116d2e5dd91ee7003545f94c0fcd01160b617984f427853417bebd108d54f"
+  },
+  "0ed75562b5a53f76e5cde348448cee475743d4600a85102d2b4853d302d3478c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Orb-v3 addresses Geometry optimization, thermal conductivity prediction, thermodynamic stability prediction, vibrational property prediction, mechanical property prediction, Force prediction, Stress prediction, Energy prediction"
+   },
+   "prompt_sha256": "c81bc341e32dafdab4ac6e64fcfb5c46119a3b3f438f391534b294c4ecbd8ddb"
   },
   "11d66ae0f625625beb9760378444bfaca907c06752ee85356966f2dc410067d4": {
    "model": "qwen2.5:7b-instruct",
@@ -195,6 +322,22 @@
    },
    "prompt_sha256": "e92fdeeccdf5dc3297205091417ad8107f234a50c6f69035c96c6aeb333c4efd"
   },
+  "127a701d56e309723651921870e2dfc8bbc601d88b7f4ae15fe6e1a3b13f41bb": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeePMD-kit v2 addresses Molecular dynamics simulations, Multi-task molecular dynamics training, Multi-device MD simulations, phase diagram determination, computational physics"
+   },
+   "prompt_sha256": "2ee47a7a8587f21d91f0e1baf49766a3dd23890f213dc9dc466c4bb337830a82"
+  },
+  "12c7d982588f75e91c93c7171b8ec7c4def0fea2a4a90558adfe78955b32b81b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "a0fe76964ea082574cd792bf2c90c080d4f7b0d883a8b61fa83ec78b41c07877"
+  },
   "12ff0695974804133f3115c3c9ca19a9b0316bc03c06a62da826482c49c11364": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -211,6 +354,22 @@
    },
    "prompt_sha256": "71cc9249836a5fe9089cf1d5f6eeb60b79d3352eabd1aea0115a5313e3d39a16"
   },
+  "1466f0ace48c38f5e8e00eed4aecab9bb73fc464caf1e58686a9e7d877ae9a29": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Interatomic Potential Models",
+    "gloss": "Models for predicting atomic interactions in materials."
+   },
+   "prompt_sha256": "b31ecb2b8e6b426db80e098f55d5ebfb8e6d326170c944f596e5ebbed062f05e"
+  },
+  "148bbd1113827f38c95a522ba22f7b44198b362f0ade3c637348032dcfe5a728": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal-Graph Attention Network uses component Multi-head attention, Global context vector, Edge update mechanism, Prototype-based structure sampler"
+   },
+   "prompt_sha256": "f37ff024d0ef4b4505e3ebbb16cfff83c6dbe3f7e2058a76e706c52439f06d56"
+  },
   "1507eaac314058a6caf27c52c6ac65067231318b08fa9fb224a5db49883079ba": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -219,6 +378,36 @@
    },
    "prompt_sha256": "3762ddc4864b0f75126b63790b8010adff3498d2b3113bdaee9c4e9edfb1a81b"
   },
+  "154af2e1c45118a9fcbd54dcbe9a0f9d2515d73ccf57a5e565fb2ac371ac7629": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for materials tasks.",
+     "Graph Neural Networks are used for chemistry tasks."
+    ]
+   },
+   "prompt_sha256": "5eec8b8318e1fa71324c3b79c88ccdf891c655a11c4efe5348e375b6fec4aa8b"
+  },
+  "15aff053fe770b535ede48a2f297fea0b5c8d579a2117cbcbd6793d08ebda73a": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for materials exploration.",
+     "Graph Neural Networks are used for simulation."
+    ]
+   },
+   "prompt_sha256": "7edf9901ed1aec37943bc6151c709b45b56bc5d6bd41c7c9fc609bb6a2c8e026"
+  },
+  "1610b9822a4470ec0a23de0210278ef1c46992a40f81defaf721af3aca878d8f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph Neural Network for atomic property prediction in defective crystalline solids is evaluated on Crystalline test set (metric energy_RMS_eV, value 0.002, task model validation, split test)"
+   },
+   "prompt_sha256": "cef984b72e5d7961815eadf29f4f71304541c63e0c5df7fb34b6d53bb46f747e"
+  },
   "1662ec1e519e1856483709b82dac2579370bba433cb44738ea48fac3bc26eb26": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -226,6 +415,14 @@
     "gloss": "Models using graph convolution for materials properties."
    },
    "prompt_sha256": "c35d19954b541c598e4331a99718b4fac00cd7f3c9a0fb58355509f07518cafb"
+  },
+  "17009b48bd03e14f5dcdbecc5fdde2209bf84e87dd26b77da942220f7bb809e9": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Scalable EquiVariance-Enabled Neural NETwork addresses Interatomic potential prediction, atomic force prediction, stress computation, interatomic potentials, amorphous materials, computational chemistry"
+   },
+   "prompt_sha256": "d20c08e950e46e35626c3da0f1eb7ee32bae143577457f96dca3d95a34641be5"
   },
   "17981b433d4c05c3853d00f95c9374e180bb4ae683f93eb13188180bc9efc9e7": {
    "model": "qwen2.5:7b-instruct",
@@ -283,6 +480,14 @@
    },
    "prompt_sha256": "37ee314829e9e5b19e757c0920186849a8d886f25278abb106a9a78c343f61ff"
   },
+  "18aff49cfe1307877e4d17bce4ed0159f86c1ad80637fd615a3237bde739dd6a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "f730332e801ecdc6567b1bf6687606f755efa32881cb948627e6ea341b64eb3d"
+  },
   "18ce390a3573c42ac7c4fd4ab06ec3d524b8e868c415c060e3942b228ce78ee4": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -291,6 +496,48 @@
    },
    "prompt_sha256": "73635d62c776b4a262515de039b6d578e33092856c6ac680d76e08eae36963d9"
   },
+  "1932a3ea3327f4930c6829206b282020028f75a864dba9871546cfdb2a9b3fb4": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeepH-E3 uses technique Wigner-Eckart theorem, Clebsch-Gordan coefficients, Gaussian radial basis expansion, Spherical-harmonic directional encoding, Equivariant message passing, Equivariant normalization, Gate-based equivariant nonlinearity, Change-of-basis using unitary P matrix"
+   },
+   "prompt_sha256": "543903abc38b122390ef9e52db5a763cd9d223642ae4dcc073309af2595639b8"
+  },
+  "19ae2a183134244a7feaec75dea773f980179175974722589a29bbf35ed078cb": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Equivariant Neural Networks are models.",
+     "Equivariant Neural Networks preserve symmetry.",
+     "Equivariant Neural Networks are related to materials.",
+     "Equivariant Neural Networks are related to molecules."
+    ]
+   },
+   "prompt_sha256": "dee68b50f777a622b85c7db6d718313afd707037de1e026d45467978a2f05677"
+  },
+  "1ad167d31f43bbaee45476a599de5e4a9f77a4e18f2274a0fb8c1cc5df570f52": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Materials Simulation Techniques'.",
+     "The gloss is 'Techniques for simulating materials properties and behaviors.'",
+     "The label refers to techniques.",
+     "The gloss refers to simulating materials.",
+     "The gloss refers to materials properties.",
+     "The gloss refers to materials behaviors."
+    ]
+   },
+   "prompt_sha256": "4d850517a77b5108148c3e7e97614211be27faeefa4a104208709c8c8ba2b426"
+  },
+  "1af0c4ca09949258cba2cf271bde1077abfa33814f6a22c0074e080cb9137605": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph networks for materials exploration extends Graph neural networks, Materials 3-body Graph Network, E(3)-equivariant graph neural networks, XtalFinder, r2SCAN functional"
+   },
+   "prompt_sha256": "975e9aa75f69dc528f4d803eef87da311e803c9c1105a5c416f3cd77f6ec3d84"
+  },
   "1b319df6facdac68262531ab7c9bce3d2e9dd3d2a5c54022b61cfc568c4bc3c3": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -298,6 +545,22 @@
     "gloss": "Models predicting molecular and atomic energies."
    },
    "prompt_sha256": "36f382b406c0819f5663615b0d736d887e76e52b6ed0fcde7c964b417bcc2e43"
+  },
+  "1d973f924c3e4da1008ecbfc4e16f2b5e558d1cf57bf8c2076d824eca4d0da3d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- graph networks for materials exploration solves Ineffective ML estimation of material stability, Limited transferability of MLIPs, DFT computational scaling, Limited diversity in crystal structure discovery, Inefficient enumeration of reduced formulas, Label leakage prevention"
+   },
+   "prompt_sha256": "29f20e85e1d28969f5ccadc63fa566b8b259bf6106cd89b7ed79b1764d677773"
+  },
+  "1f6820d1dc213509a642be9bd1527f5579724915c4ace5bd39eac96350f4f9d4": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "51d5f31b0b4a946bd2695acdf8ebcdd76fae3265a90a7fd861cc10e82002e6d0"
   },
   "1fb82997902b29200e43eac51fb2233ceba2223107423ead1cd049975649025d": {
    "model": "qwen2.5:7b-instruct",
@@ -323,6 +586,30 @@
    },
    "prompt_sha256": "41d0e68fe19767391e61d2009d5461d925b6f8e293446a13037608f0e93f9732"
   },
+  "20f98b71bfd6e8fd106747154f14289eb542e2def7d821f60cfa16f818bb3472": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Phonax (E(3)-equivariant graph neural network framework for phonon and Hessian prediction) uses component Phonax framework, Extended periodic graph construction, Hessian-based training augmentation, Symmetry-aware E(3)-equivariant GNN energy model, Irreducible-representation analysis for IR/Raman activity, Hessian eigenvalue spectrum loss, Generalized energy model with electric-field coupling, Modified NequIP architecture for field dependence"
+   },
+   "prompt_sha256": "19e5ba4203ebc4e5efe5d9d422de26fd6577063092c251a549977344d7650985"
+  },
+  "21846d9425fe24df9611e04eec78d0bb7126c342d8a7751348608f4543658373": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "3a69a9612dd5984ea7e3ba6f6937fb1d64577f28d7ce2a8b4bc0e51457e6d0ea"
+  },
+  "2194386102aaf613caca893555d54013e5c05f49858b65cb477612532667b537": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "two-step supervised-unsupervised melting temperature prediction with symbolic regression addresses Elastic moduli computation, materials clustering by bonding character, Melting temperature prediction for inorganic solids"
+   },
+   "prompt_sha256": "e8b8a6b2c9f20e58ac034e860236fd1ed3260d26e604ddd32c874e543d503b20"
+  },
   "220b9e2327ae8c27ab271d1c24533cafd3fb7a469afe591e6a37dcca6450f13b": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -331,6 +618,49 @@
    },
    "prompt_sha256": "a64d6db614ded81e5dbbeb81793ba39f680dbd3f54e9c277bd83e6ddcac12fd9"
   },
+  "223af85538e5d7c8ade5a62c15b4a277819673b352002332755596f50c76bdf5": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials property prediction",
+    "gloss": "Tasks and techniques for predicting various material properties using machine learning."
+   },
+   "prompt_sha256": "62ac6cb572e0d4de0a2a2f254c6f1c2dcd3bfc36f1a4f29baaf93ceb44e742ca"
+  },
+  "22a44d46e811b84aac03cccdfc942194f997d207f35e6b21615523fc848e95bb": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for phonon prediction.",
+     "Graph Neural Networks are used for molecular dynamics."
+    ]
+   },
+   "prompt_sha256": "276591c481fdfe9a6dfca1f9b688b6b7457af9c7bc502aea580bdc982d37fa79"
+  },
+  "23392ad477d49ff0190aa23e5cfbcd3898614dc923ef28970d4d1080897d9fbd": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph Neural Network for atomic property prediction in defective crystalline solids uses component Genetic-algorithm-driven inverse design, GNN predictor, Genetic Algorithm design optimizer, Stress-field surrogate objective"
+   },
+   "prompt_sha256": "e6117104d58b8d43922698440a8b40c2538ea84bab18fb7a4991c8add5946b00"
+  },
+  "239edf6cbd2ddde16cd231d715e322370a624fb0a4b81e779cbce6bf8ec7370d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "E(3)-equivariant Graph Neural Network for phase-space integration solves Discontinuities in free-energy landscapes caused by quadrature cut-off artifacts"
+   },
+   "prompt_sha256": "5cd40ee268788afb7d816cceb69f7efaac3e675b535090ea57f516f4c587c7b3"
+  },
+  "23b0f97097db634ac19a64729f0b816eaff79a5009192249faf1e152ef882d97": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "f84b4eee868f8b620bdaa9139d151e92df859f79488b02742b605041684df546"
+  },
   "2411537d180ce26b76ab9627ed179ba6741b4b48d7a73947bee082cdfb1bb7b7": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -338,6 +668,30 @@
     "gloss": "Expands properties using basis functions and techniques for materials."
    },
    "prompt_sha256": "3e47ccf4f213a1e874ec39411e5717df0c4b1cfa4f6d24daa923c70d6ec4a892"
+  },
+  "2507ab127a76cff0b49f17c15dcf83339a98085d4ce6c777ea59780a6a3ba0ed": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Efficient Evaluation of Forces and Torques"
+   },
+   "prompt_sha256": "ea8f1f3b4237adb2a0739e1fcc09c528182417b064005db01347043d15e99cbf"
+  },
+  "2512d0eb873c11a92271988db473aaa9c402aa7b46cbaaaba4ebd5506541d7a7": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph networks for materials exploration extends Graph neural networks, Materials 3-body Graph Network, E(3)-equivariant graph neural networks, XtalFinder, r2SCAN functional"
+   },
+   "prompt_sha256": "b26e33585daed860ffdd13692ba72f39d9968422e202dbbec61b87babbfbb166"
+  },
+  "2573f3ad0a342fd3b2ae8d900d50962f8e2da4d1be3be5807d20f27b79db1f11": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "7d54a075923a75a0ba5757152f73890674e5c51d1932576275090dd3368fb70b"
   },
   "2648a6ebf2e2303a9ccee6298a230c492037d94fd26eeb45d6bc697352d76309": {
    "model": "qwen2.5:7b-instruct",
@@ -355,6 +709,22 @@
    },
    "prompt_sha256": "42576c45ff768c722ad14ff627026bd82703b0560dcdd47053ae6f61beb11812"
   },
+  "26fa85c2c370edaf01b1c8cf1fa432bcfeef4e151784268399843eba5562d0cd": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph neural networks with three-body interactions extends Behler-Parrinello Neural Network Potential, AMBER force field, AtomSets"
+   },
+   "prompt_sha256": "6ad642f224895d22ff64cd89d4aa5623d3bda0929662ecb1402813c3dddbd896"
+  },
+  "2789cbd4946cfe3818fef80491d777e9244a33da1c5d8ed2c2693c5a6b08fef8": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- DeePMD-kit v2 uses technique GPU-accelerated custom operators, Data-parallel distributed training, MPI implementation, On-chip parameter storage, thermodynamic integration, single precision training, fitting network architecture"
+   },
+   "prompt_sha256": "8124fb87a6e7be9c27c149031ed8a0b55d094af0d7efc5b551e286937ed511c4"
+  },
   "278aebcf80eff55c9c1a85482652225ee8cf34d0e1e11149101b5f22473842bb": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -370,6 +740,49 @@
     "gloss": "Models using SOAP kernel for materials properties."
    },
    "prompt_sha256": "5b4abadc10ef042ce221f830a6dc821409dc9cf3b4739b31b7bed6a23966cb5e"
+  },
+  "290ed524c9905a3904fe3a794dd96214b1bf64a7a6d10d2c1fc61261c31fb09b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeePMD-kit v2 uses component Deep Potential - Range Correction, Three-body embedding DeepPot-SE descriptor, Fitting network F2, DP-empirical potential interpolation module, Tabulated inference engine, DP operators library, two-body embedding radial descriptor, plugin system"
+   },
+   "prompt_sha256": "559303ec1bc3ff9b17d97a954e3ad5cf96fda572fdc261a915e0f0b7371897d6"
+  },
+  "2a92f2164c187a03866d25b063e57c14b4c18d70844db03f28a20415b39f5d41": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Materials 3-body Graph Network [method] (also: M3GNet)"
+   },
+   "prompt_sha256": "e7a90248803a76d12bb6b081e305937dcf75d220d958ea66ee7c2a21109e36d0"
+  },
+  "2ad694a5d26262e459585c82789b2a8f5ca465660e52d1819cb093304efb148a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "c6d545d9aad9c401fdcdd0977a469c6008d01d93dfd76ae449523253f3250bb5"
+  },
+  "2b19bdd90a5d1b8c71e04abea9c484b7dca881cb6ca86e9d58098b486bfea54d": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Atomic Energy Prediction'.",
+     "The gloss describes models predicting atomic energy.",
+     "The gloss relates to molecular properties."
+    ]
+   },
+   "prompt_sha256": "8b310560614d690262786fba02241994a6f05f36e2b758053f9017d8e942152d"
+  },
+  "2b8487a488fa16a7c77f7fe8a1c0166f086a66903ea55ab516820705ddf67a6b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Scalable EquiVariance-Enabled Neural NETwork uses technique E(3)-equivariant representations, Tensor products for many-body interactions, TorchScript JIT compilation, Weak-scaling evaluation"
+   },
+   "prompt_sha256": "866c56319e3dd4fc988eb31dbc4ec59660a4114230bf7b27d4afa7b492ff799a"
   },
   "2bd8d1a37ccd5563590f527c86104a7c9c53d82e3f8686237feee7461ff3e5b1": {
    "model": "qwen2.5:7b-instruct",
@@ -411,6 +824,14 @@
    },
    "prompt_sha256": "659e93ca0ec4a67ce0052c1f0b390ddd1b446ba83df087825acd1596ea8365b9"
   },
+  "2e22ffbd45a737416def1a9f9ac06b117f5da1ce15b6aba1889b4dbcd36b5051": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph networks for materials exploration addresses Stable crystal discovery, Phase-separation energy prediction"
+   },
+   "prompt_sha256": "1cdd978d51d4555f2f07458c9fece8bc9be01d90ef4e3f35342ff735bfe4c146"
+  },
   "2f48dfbdf64fd3d86528e4b9ece47a21d92359662a50a8d3cde37f00a6af6c8e": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -443,6 +864,14 @@
    },
    "prompt_sha256": "7e555e8030f2b5b76356aa19b32fb9ca824d1cbbc0afcc06edab29b8b2199cc6"
   },
+  "30c10c86290f422e2330637254c842be62e13ceaa5ec1afa72c819b554380a96": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Neural Equivariant Interatomic Potentials extends SchNet, GemNet, Gaussian approximation potentials"
+   },
+   "prompt_sha256": "32529e2e1ad4d5edb755789873940d1f10ec7b649ce275d5a28be0189a13237e"
+  },
   "311be607b459c93b79f2b1978d7eca857a49ce8ab07d33706e7244b864d3dde4": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -466,6 +895,38 @@
     "gloss": "Models for learning high-dimensional free-energy density and chemical potential functions."
    },
    "prompt_sha256": "03e55316b8bacd228b5ab6a2371c88fcf754a5223af0aee23c82eeb2fec1b308"
+  },
+  "335f2534d1ab977df33f9aa69ecbef27ba22aeb82f22eb7a4d437112cd8356be": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "materials science, computational materials science"
+   },
+   "prompt_sha256": "6e58931fbc9e875a97ec22f3de7bab4ffb8c1e636701225a47132a902ded865c"
+  },
+  "33a12717fda9dbda4d8c57feb86735ee41efaa0407614f860c11f5c3af1a68b4": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "cfbb26568b6f16a424cf419ffb728794cf88edab915d007d2118fb851fa00ce3"
+  },
+  "33c3cd83d71efe1465ca0caac73e9a9003207f9f064ba3efe3410ea0290ac447": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "7399933bd42bf31754cb08ce582c65dfa7b0375e3f12aca8ca79e470289fa465"
+  },
+  "3415db17a6081d38315d0edffef3b2b50b62d93c7a6ee7be3f60ebf94790bed3": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "ML for Interatomic Potentials",
+    "gloss": "Models predicting atomic interactions in materials."
+   },
+   "prompt_sha256": "06dfb0c905dcc5f03f3b99e382288c2fe033b822c35a86ac855d84dfeb23a9ea"
   },
   "346b4c13d2e7c0137076d953e0f8172d749f16b17d11c612c53a7230f4c6edc2": {
    "model": "qwen2.5:7b-instruct",
@@ -491,6 +952,23 @@
    },
    "prompt_sha256": "0d63aeeca410d2d450c3b667033c3c4941b2e37c6b05f38cd042cbf92448087e"
   },
+  "37a6d003f117ae3c55234b6d3165bcf551cbbd98bd3d1a025028be2ee13cb3f6": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Unconstrained MLIP Evaluation'.",
+     "The gloss is 'Frameworks for evaluating machine learning potentials without constraints.'",
+     "The label refers to an evaluation process.",
+     "The gloss describes a framework.",
+     "The evaluation is for machine learning potentials.",
+     "The evaluation is unconstrained.",
+     "The framework is used for evaluation.",
+     "The framework evaluates machine learning potentials.",
+     "The evaluation does not have constraints."
+    ]
+   },
+   "prompt_sha256": "a326696ce80e2aaaf9b3e59f118640dfda0ab8d9cb6ad415afc9f965431c1f38"
+  },
   "37e798ebe3d8c348acb3daefee63e58aa1be6eabebaa476b465f9074bd138b19": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -498,6 +976,14 @@
     "gloss": "Challenges and solutions for long-range interactions in machine learning interatomic potentials."
    },
    "prompt_sha256": "629765fdd2738aef691c4be7b12dfc76db3107dff32a1e2111575b2b22a4d224"
+  },
+  "37f80ca7c374a3e86f7e63cef364990563a30e688aaa9bd2ff7764972f7e478b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal-Graph Attention Network uses component CGCNN model for elastic properties, Volume prediction network, Convex hull distance predictor"
+   },
+   "prompt_sha256": "717ead3c8b40a4aac68f88ce0d4298ed1679d9dc29babe5ba39c5f9771e7b27e"
   },
   "3886e5e8ed2465c22b3a9efd2b3b70dfffb4c13474ba55bb174f260082ca1375": {
    "model": "qwen2.5:7b-instruct",
@@ -523,6 +1009,14 @@
    },
    "prompt_sha256": "20e4a96ecca41bf036606be8c0a52a5a8f504788502fd9d9cf6fa036289cf8bd"
   },
+  "3990b81a0b1182bb1de8149f8e10904122850ed5943a08874ac6e9257480e55c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Phase diagram construction and stability assessment [task]"
+   },
+   "prompt_sha256": "59608d1e3dd2306c2a0871bf81a51290d46382084852173384b279ec8a01c6a8"
+  },
   "39a30acafb7c6fa2f5310ac989c245a7866dddff839f38d7a673304fa049e01f": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -530,6 +1024,14 @@
     "gloss": "Models using spatiotemporal learning for crack prediction."
    },
    "prompt_sha256": "5042e3555a09c48859901cae0e05836675051d673b81db84a5e1835414b32614"
+  },
+  "3a233f1b09cf9bbfae7a1f1c010c88ea027c8cd040959e4d269e3ad5745f79e0": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph neural networks with three-body interactions extends Behler-Parrinello Neural Network Potential, AMBER force field, AtomSets"
+   },
+   "prompt_sha256": "dab17358d7d5ca9cff09292d60ef082d95c8e5426df2d99d7d3e245c008bd7ea"
   },
   "3b1b18c53b4d5280854ac18f6adfd391acc7766a3b1301c46ea9f2897276c91a": {
    "model": "qwen2.5:7b-instruct",
@@ -546,6 +1048,14 @@
     "gloss": "Models for simulating materials properties using machine learning."
    },
    "prompt_sha256": "d131cd313146e12183bb9ec9c1172e9ab271dfe687c45142165e6d1c12761eba"
+  },
+  "3c43eede77e08e5829e6a4e012ec926fbe049e904dc5c3fc929e50ccd44eb751": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "f79fb3987ee0fa1fcfb35af99f7646a04aa689b05b14059a0efd8d4383db311b"
   },
   "3c9b127866024fec206b134e62434cef80197101d4b85d729feac49ea35dc2f7": {
    "model": "qwen2.5:7b-instruct",
@@ -579,6 +1089,30 @@
    },
    "prompt_sha256": "82652145834a8197da05bb16e6723cc50e9fe20b38ca66cca0b0ecd3a61adb78"
   },
+  "3eb44d6d13940c690b992d32bf6ecda5299590b375d952187284e86f1595e3fa": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "E(3)-equivariant Models",
+    "gloss": "Models ensuring rotational invariance for materials science."
+   },
+   "prompt_sha256": "95d3ddf44b309dbf7dff26967236161843a0b78220b55aa343403705a9105d2b"
+  },
+  "3f74eca82b983c4b6aa869fb0b0f3256e3918d384b202bae7e7bfcc25eb8c3ab": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "dc072351560a273d98d85b2a95b85c8959829eddd1d318f462d234efc03c1ee5"
+  },
+  "41322bbcdfb05d38ef8d9dc0062a8cad81224a2a43b83902e9660700c2cee641": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeePMD-kit v2 addresses Atomic force calculation, drug discovery, high-entropy alloy simulation"
+   },
+   "prompt_sha256": "efc2833699137a3338e50724bf40c1b25d4837b825194e6fde4cb98d09716584"
+  },
   "4157cd0780d6decedd6f38d62c3d4141e93dacfe59609ecc20a3d8d9b6cf9c91": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -586,6 +1120,14 @@
     "gloss": "Models preserving symmetry in materials and molecules"
    },
    "prompt_sha256": "98575d6d23db6737e28f3729024f98fb08e9680759eb01574459058f120d77e0"
+  },
+  "417e8b95ca0e59697dc3c8bcc4dd97c8b217d1b54c5f92ad145edc18b77f493a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- GA optimizer [component]"
+   },
+   "prompt_sha256": "c0b1e0de7c80e843f6ee86c4d1eff0244193495f1ed96ae50752cb3c3940d7a6"
   },
   "428cac43d4bdce08ffb3aad136ba5f12b4b120aa2e2c9f4c66205ff52ef6f6dd": {
    "model": "qwen2.5:7b-instruct",
@@ -611,6 +1153,14 @@
    },
    "prompt_sha256": "9aaf8e5b41702fb695a179d7c83a434e97d7fd45b730e886bb8d1a0f96eb22e9"
   },
+  "431ac516b045236c0eb2eb276297da14d387eb9a6b2f7dbf23cb61d86603c6b2": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeePMD training protocol for diffusion coefficient computation is evaluated on LGPS, activation_energy (metric activation_energy, value 0.16, task neural network potential training)"
+   },
+   "prompt_sha256": "a2c9e876464b5395624cc0d72de99093f851730b797a8a24e894034adb4b99b1"
+  },
   "434ba2b1b158ef15c8c358d8247d419b68ccc29efb703c89f2d2b51aae592d3e": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -626,6 +1176,25 @@
     "gloss": "Models addressing computational chemistry problems and tasks."
    },
    "prompt_sha256": "5af7e8e09b99036345b19455b8833c477ed02925cbff853aa3bf25333722929d"
+  },
+  "43bab9e8923a671170dc5e971d9113c52166666873e83b8d279e5e363e9b696b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph Neural Network for atomic property prediction in defective crystalline solids uses component Genetic-algorithm-driven inverse design, GNN predictor, Genetic Algorithm design optimizer, Stress-field surrogate objective"
+   },
+   "prompt_sha256": "136d3427a45dca11a63d9f6e4efa82af05cdafe9acd9637792920a7d39f48ea8"
+  },
+  "44831fa129315fd2a43c32a9094cb8a67900d1a48e2962258a137d0356cb43ee": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Interatomic Potential Models are models.",
+     "Interatomic Potential Models are for predicting atomic interactions.",
+     "Interatomic Potential Models are related to materials."
+    ]
+   },
+   "prompt_sha256": "d41b925ccedc7c059f702d66b5167a56628ef98e2c6039b1d9a518384cbf7895"
   },
   "44b5bf8d83c2a02f5058710e88f4ea5cb25baefe8cb27e74e10ffe034d50e79c": {
    "model": "qwen2.5:7b-instruct",
@@ -650,6 +1219,30 @@
     "gloss": "Models for predicting vibrational free energies and phase transitions."
    },
    "prompt_sha256": "a3f3dc408a860949f2b0ec8156819f480ae86d3b9214f58611a084b10d6c2351"
+  },
+  "45a3fe47030bace89a13232e147f4b25a586dfd1b4a5da75d0b324248e411734": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Orb-v3 addresses Thermal conductivity calculations, phonon prediction, crystal nucleation and growth prediction, machine learning interatomic potentials"
+   },
+   "prompt_sha256": "6985b55b605faa37c0f8d10dd96950f1b7ebfd4aa058fb1ddf4fa5915df1313d"
+  },
+  "45d380628c91fc6e80e8ce76d6eb328f3a55062722123d3ae9e988d05f20250c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Molecular Dynamics Simulations",
+    "gloss": "Techniques for MD simulations in materials science."
+   },
+   "prompt_sha256": "80d9113cf509a06c023769e5f6e20ace7b549cb8d17a2d0e1790c1247fe782c0"
+  },
+  "464c563d218831925587a98c132b28578012e9393b5fb590f76c0977b63bfc8a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "ec4aced6a087da47be73eed6664cdd85bb58098918fc763c9e4fb67b64774ba7"
   },
   "46790a87635f9f76579eb6691b4e9cfeb83fc6014dd7a0c99197ad233c271898": {
    "model": "qwen2.5:7b-instruct",
@@ -683,6 +1276,14 @@
    },
    "prompt_sha256": "cd9053a86faa611bfd20b6ac22569c9ee2531a732e787c3aaf4d3f4b0d16e4ef"
   },
+  "49807695efbdc81ba40a5914104c6ddaa60a1ec890eec0c553106a3d90aa7a19": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Node feature and gradient exchange [technique]"
+   },
+   "prompt_sha256": "b93142d7754c7ee1b9aa9fd42ae54e6b2331d1a2f941b44a71750fa67252bdee"
+  },
   "49a5929be821746dfe938362e7a085f3806d907c41420cecdfddcb3e40c7d1d7": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -690,6 +1291,14 @@
     "gloss": "Techniques for atomistic simulation in materials science."
    },
    "prompt_sha256": "ff766bc7eaf70b43d68aa10e2eec2fe490c5dab7f4ae8e652c1dc751ba09d63a"
+  },
+  "4a4a1c8330c191469596634e12bf18f3cfa2cbea704216070dbb8fa571f60779": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for materials property prediction and exploration"
+   },
+   "prompt_sha256": "5ca351cf7b89558afe29262342087ebe49d459bb63db8c1f25b07eef8be0a622"
   },
   "4a6415f82659d15cc4d11420f4bc531048b324f42011ddecc73f8f8dce7f948e": {
    "model": "qwen2.5:7b-instruct",
@@ -707,6 +1316,14 @@
    },
    "prompt_sha256": "3816a23b5c077ec7b3fffd5e7df0524067df2364f8ced18862758f9dc07425bb"
   },
+  "4b3f041a2cd00bdcc744d17b37a014583488ca8cd002782e8ec7fbed4241adec": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Universal Models for Atoms uses component Energy-conservative model design, Message passing architecture, Task-specific output heads"
+   },
+   "prompt_sha256": "64f957e903360ec564e345a9de9c4aa527d24b619532854a15ffbadc7386e0a2"
+  },
   "4b5599fac5134b1715800bd739b845631b9a9ca986694f259ec4c53e676ebaef": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -722,6 +1339,30 @@
     "gloss": "Techniques and components for automated DFT calculations in materials science."
    },
    "prompt_sha256": "d4728ccdadc772de836151e60d2de42c72e1f8b491bde78108d115f599f8839a"
+  },
+  "4c2bf48a4b65307d68bd38d6535f014fdeeb878fa85ee93c9b765878ec037c1f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "LiFlow uses technique Linear interpolation flow, Conditional flow matching, Euler integration of learned flows"
+   },
+   "prompt_sha256": "748593d37c65166840192b2e1ffee4b929e52e1b3fe6a9775b3a473bc6bed63a"
+  },
+  "4c58ff11a68622a253a19eacf4d0b95cdd4406ce37ae99f9928b290dc42b6354": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph networks for materials exploration uses technique Zero-shot transfer, Power law scaling, Zero-shot evaluation, Fine-tuning from pretrained checkpoint, High-throughput screening with MLIPs, Message passing with normalized sums, Topological sort, Model-based filtration with energy threshold"
+   },
+   "prompt_sha256": "2f92f5c5602b93bb7435d9498f97cbf6add196a03d1910bdfa828d2d6ac8b3e7"
+  },
+  "4ca2344c2b83c6a026b549a1ee4842f2d123316699a39bb3f0bf5ba3db95f771": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal-Graph Attention Network addresses Elastic constant calculation"
+   },
+   "prompt_sha256": "b1fc618f08a93a8340b0164d771ee9c84332ffaf7c18855950da88b5a05926db"
   },
   "4cd8e87e7101f702dc48f389dcfce924d76ca39299af28f2ce5e2962ca7944ab": {
    "model": "qwen2.5:7b-instruct",
@@ -739,6 +1380,25 @@
    },
    "prompt_sha256": "78bf00e8bb31371f9afc674146ae18e463def8e98b0ba38dea8565849fd8cae3"
   },
+  "4db157eac15ba80f137fafe9ac0e7b6d0e71a2983120b1d12c5edb42a8a38e98": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "MLIP Frameworks are models.",
+     "MLIP Frameworks are for interatomic potentials.",
+     "MLIP Frameworks are in materials science."
+    ]
+   },
+   "prompt_sha256": "c6f4022183f4fa9dfaef5af8ab6b55299503767d8fc9d09f0b0a5a7b868bbd02"
+  },
+  "4e11b67d4adebe235020756c1a60851c0ea9e81abb2e5b5b19ac63ef5fe7dcdd": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "AFLOW high-throughput DFT calculation protocol extends Vienna Ab-initio simulation package, GW@LDA+U, Local Density Approximation, PW91 functional, PBE functional"
+   },
+   "prompt_sha256": "c046bd00ec72d433b599980b9e5fc39b02383f9de4c9aeeedd4118351fabffef"
+  },
   "4e83c62f915511e91ea1938d270649a5fff3e8c2a32e42a9ef15f49cc392329e": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -755,6 +1415,22 @@
    },
    "prompt_sha256": "5addb3964eb9364c96c7bb4e327e902ddd7ad04240f74d737d381e3ee9bae362"
   },
+  "4f4b2859f18fec4735b0a2dec34ae18253ea5060dbceafd3e94377213cbcc908": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- AFLOW high-throughput DFT calculation protocol extends DFT+U, GGA+U, Davidson Block Subspace, Conjugate Gradients, Ultra-soft pseudopotentials, projector-augmented wave"
+   },
+   "prompt_sha256": "4e9ab6ce0ec93854e747809170ea1fbbf017604b7e5c63b237d536baf4cb91cc"
+  },
+  "4f7f0417aba80d4e143b78d72d4b872ca0813f8b5536e25f6e201d89df651f61": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "affee70d750e89a138c0c6a8e6b5a85b482d1430b683e0075b1a32cd80b71a5e"
+  },
   "50917212fcc14c93b21de934ecafb34850f7205ae62351913471478bfebe2474": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -762,6 +1438,14 @@
     "gloss": "Components used in Gaussian approximation potentials for materials simulation."
    },
    "prompt_sha256": "16ac9bd94a972aab4965d3f3ef2d07fdb9dc8e01786ea43619a7ff7aaefdfcb7"
+  },
+  "50dc8e2ce8fc9f053439c18226e5099f15f39a00f227a7c8c90a1c80410d5bb1": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Coupling the GNN with a genetic algorithm efficiently discovers optimal holey graphene designs (e.g., arrow-shaped hole patterns) that achieve significantly lower stress concentration than suboptimal designs, using only ~800 stress evaluations-an order of magnitude fewer than brute-force search-and reliably locates the global minimum in most of 1,000 random initializations."
+   },
+   "prompt_sha256": "b0b1e2b78954c8ea49447b23a17c9a443009c8fab199b840b55551f8f86d6a73"
   },
   "5172a5b44668ea3e58acefafe58211f086cd0156eaecf62067afe75e6ed7a34f": {
    "model": "qwen2.5:7b-instruct",
@@ -795,6 +1479,22 @@
    },
    "prompt_sha256": "71aaf79218d63bf0b6eded6d07dbf492ac0e1ec358130b0b6994c0354e52d725"
   },
+  "527f22be7d76d8de2ea9fc931dac8ff9086a94f2c6660111f3b9b240bd25ffed": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Deep learning for materials'.",
+     "The gloss is 'Models using deep neural networks for materials simulation and discovery'.",
+     "The label involves deep learning.",
+     "The label involves materials.",
+     "The gloss mentions models.",
+     "The gloss mentions deep neural networks.",
+     "The gloss involves materials simulation.",
+     "The gloss involves materials discovery."
+    ]
+   },
+   "prompt_sha256": "a19323f14a909c9d04536a864380791775002a73b4760cb5c8524a3f4f2a861f"
+  },
   "52f3b182eae28e67f9af58432ce61819b5a2e92d252b53c4428683140b5241e2": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -803,6 +1503,22 @@
    },
    "prompt_sha256": "9ef770028f7c2bf93ecc52ca20a36b8cb74297a959649eab2c301c7dab8ab802"
   },
+  "5399d71e22256d0310458d185805f98e4341546c4d13d241b8cf1cc12a7f04ad": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph networks for materials exploration addresses Materials discovery and screening, Phase diagram analysis"
+   },
+   "prompt_sha256": "8f9707ef9317b5fc00348e34f00fdbb814a227c9d75a95c778d38e42c0eecd3f"
+  },
+  "53a4302eb2466fd4ac1022ed332b1ec680b2366171f9655cb73a1b4c4f4510f8": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- DeePMD-kit v2 uses technique Distance-based neighbor sorting, Self-attention mechanism, Residual layer normalization, Fourier space electrostatic calculation, Softmin distance calculation, Relative force loss normalization, Multi-task training with shared descriptor, double precision training\n- Deep Potential Molecular Dynamics uses component Local atomic reference frame, Sorted neighbor list, Input representation D_ij, C++ gradient module for descriptor derivatives, Integration with i-PI for NPT simulations\n- Gaussian Approximation Potential (GAP) for silicon uses component Many-body kernel term, SOAP descriptor, Kernel normalization and exponentiation, Regularized least-squares solution for expansion coefficients, Bayesian uncertainty estimation\n- Transformer-based Inter-Atomic Potentials solves Symmetry compliance without architectural constraints, Data augmentation inefficiency, learning equivariant features without explicit constraints, Performance scaling for molecular force fields\n- Neural Equivariant Interatomic Potentials uses component Atomic embedding layer, Equivariant SiLU-based gate"
+   },
+   "prompt_sha256": "763a894f9ad3ef02612b2ee4fe799d9a2df537e49a50db2057003ba37220081c"
+  },
   "53f2ec7d48b8a2bb915c57a988abcbbeccdd6f7970d7957c23cd634606704f78": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -810,6 +1526,75 @@
     "gloss": "Models tested on various carbon states for energy accuracy."
    },
    "prompt_sha256": "7e032f34dd76ce55ebd0f01ad9b5bb6a7b24a984c7811f2febf777e0e7ba69c0"
+  },
+  "5485449c204a45f2f5b1f279e7c38e206a33a14743fbc016c5c51ea3ac40d36d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "611982918755c5c9921cf610dec98c2276a19c8d290cd9b531441e58335b9bd4"
+  },
+  "54b8013d22a7ffc8ec2ff6cfb0deb36c4950f5794759baa9022c5ec4a9e075e3": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "4a95adddec22a85956bc36763c95f74080972d83545017ae64397239dbb8e32b"
+  },
+  "55008eb9d96cdca595d26dbb1a45c95ed8781924cea68f9f92abe3b399891c9d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Scalable EquiVariance-Enabled Neural NETwork uses technique E(3)-equivariant representations, Tensor products for many-body interactions, TorchScript JIT compilation, Weak-scaling evaluation"
+   },
+   "prompt_sha256": "76cba78392dab66719ed000bed48da3c3d9315a3a103990fdc4ded23b7c38b65"
+  },
+  "5632dee8bee47e866ff8fdffd9dd034b65371bd67fd716065b9e5595744b83e3": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "E(3)-equivariant Graph Neural Networks",
+    "gloss": "Models for materials with rotational and translational symmetries."
+   },
+   "prompt_sha256": "b12cfa46ec9d586dc33bb51b149cd51f47cbb11457723991e1ab23a3d3bdff13"
+  },
+  "569bdfa585883394851e9c72441d284a4d8e23fd0f18509998586b61914dc5ea": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Orb-v3 solves accurate modeling of higher-order PES derivatives in non-conservative models, PES smoothness for higher-order derivatives, performance-speed-memory tradeoff in MLIPs"
+   },
+   "prompt_sha256": "088614d232d59a2d69918f9d90fe80e921df0fefd15b9a4cb1e85157f8ad9644"
+  },
+  "56f38657fdbfc18f8a8e8e6f8fa0a995c4e1c26ea688394adb1424ef3007b739": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Model Evaluation Metrics are used to evaluate model performance.",
+     "Model Evaluation Metrics are used in materials science."
+    ]
+   },
+   "prompt_sha256": "dccafe3e91f30487aad0c7888d73143ed3830b207a215775c81fbc97c6d3c3e8"
+  },
+  "56f3d9fb13bf381989b306bf9305ff1b75e7e1c996f51241372787199fb2ce7f": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for atomic property prediction.",
+     "Graph Neural Networks are used for crystal property prediction."
+    ]
+   },
+   "prompt_sha256": "2b4307fcef71b5eeac50e210a546f004ddf73f98c319a54314c3fac77c4564c4"
+  },
+  "5721784656a5531c6ddaa0ee50d9e362a21ed7babf351bae96cdc70f2283aa29": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Neural Equivariant Interatomic Potentials is evaluated on MD-17 Ethanol, MD-17 Naphthalene, MD-17 Toluene, MD-17 Uracil, CCSD(T) Molecular Set - Malonaldehyde, Water, Aspirin, Liquid water"
+   },
+   "prompt_sha256": "f232e81ff676c039b03fc4186573db3df05e5e9dcfa98a9194ac22497cf668cf"
   },
   "57a335b0771a318ff3c398130c8140fb1806b0c14d072b3ffbbf988d02d3fd79": {
    "model": "qwen2.5:7b-instruct",
@@ -826,6 +1611,20 @@
     "gloss": "Models for atomistic systems with spatial symmetries"
    },
    "prompt_sha256": "40ab69d28d194a66ba859c3267432f569c85d3b0b05a02ae181a8d39ed9605b8"
+  },
+  "58b0093602d3222dce6792e929f856617fef68058ddea91b2a2f1ec612b91c88": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Phase Diagram Construction involves tasks.",
+     "Phase Diagram Construction involves techniques.",
+     "Tasks are for phase diagram generation.",
+     "Techniques are for phase diagram generation.",
+     "Tasks are for stability assessment.",
+     "Techniques are for stability assessment."
+    ]
+   },
+   "prompt_sha256": "f4153be73484bb893d821e0555f75472a5c1437b0cf577e67113141628603bc4"
   },
   "58ffb38371a0f0fe2004eda812ea52bb9b1a7ba925909758985060a5b196aad9": {
    "model": "qwen2.5:7b-instruct",
@@ -859,6 +1658,25 @@
    },
    "prompt_sha256": "f087694f7d604190162ffa409906e378e0d31b6ed68aa6ce88ce65a5a0e7abba"
   },
+  "5a9371b017fcf81d539789cb5d81bf26af5441e803f20deda901dbf874e378d6": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for materials exploration.",
+     "Graph Neural Networks are used for feature extraction."
+    ]
+   },
+   "prompt_sha256": "3a303aa899d58b41aef6ee7be006a3ed16482b3a48e5fecca2a35c1c23c7b868"
+  },
+  "5a9463576882ccc20db9fd261333b5cdf66258d040383934077a908cd46f823d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Gaussian approximation potentials solves Accuracy-efficiency gap in atomistic simulations,"
+   },
+   "prompt_sha256": "11961ffefee275282f70c92d7da75625365cd12dd304f7037b8724d3d446ad38"
+  },
   "5aeaecf2fa326e69fb3fe3acbee0fd005ce0d285a3cd2e58adbb2d651527eb72": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -866,6 +1684,30 @@
     "gloss": "Models for predicting interaction energies in materials."
    },
    "prompt_sha256": "3c03ca94ef5f44512fe6597c5624c6c80a5b3e9c49e1569147c02cf98dcb340f"
+  },
+  "5b5833ec280eff6adebe7c0b46428ff76cda2e5f6228eb1c4baf3e7a2231f837": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for materials exploration and simulation"
+   },
+   "prompt_sha256": "c0151000693fd50e37cb1d793644855c48dbdbda4821c344d5d2a5f19e9fb979"
+  },
+  "5b5c459cbf7632f85ed81d4e0d373b69068781766bdec032a468c15dd54a81a2": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Generation of phase diagrams and voltage profiles [task]"
+   },
+   "prompt_sha256": "6c41a65b3f83ec524226d347a57ef102a598b56ccbe0e51fe6237fa52ed177ba"
+  },
+  "5b66a87f3b0aff3a96b4b203f2510fa8a4465f03c7c191935735c625f1089290": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph networks for materials exploration extends Open Quantum Mechanical Database, Inorganic Crystal Structures Database, Graph Neural Network interatomic potentials"
+   },
+   "prompt_sha256": "1c6e052f6592d2506ea45ce80a88b6f2fc65e48b3c6e363cf3b8fb926fc53dc2"
   },
   "5bfd22ce7a1a3757adf2e5d84caf91a2901d055b2066ac1abfc506cc6975756c": {
    "model": "qwen2.5:7b-instruct",
@@ -890,6 +1732,14 @@
     "gloss": "Models and techniques for predicting diffusion coefficients in materials."
    },
    "prompt_sha256": "fae54f09605cc3fe9da5d5ec5e2733e6de1a5b6476a81e4105356e465c86fd74"
+  },
+  "5c71a3ed11859bd3616de1dfddd5c10ef7950ea80bad441cd4ebd0d401a1b4ba": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Universal Models for Atoms solves Generalization across chemical domains, Computational expense of DFT calculations, Rotational equivariance in MoE architectures, Memory constraints in large MoE training, Scaling molecular dynamics to large system sizes, Cross-domain generalization, Inference efficiency for long simulations, Memory constraints for large MoLE models"
+   },
+   "prompt_sha256": "2606f9c407d044bd630475e2f3259582284f0782c85327d6f38cb89c2647097f"
   },
   "5cbcbcdff923ebe55ae41308914b69516357bceb63675f40072276f29123df1b": {
    "model": "qwen2.5:7b-instruct",
@@ -923,6 +1773,14 @@
    },
    "prompt_sha256": "bb49da0782a7f549ed4c33c43619a3d87f8a6d2fb162301d997e42e61a2a4711"
   },
+  "5d880d7a3416b63a1deba2d7186d023bc443b0fcdba7ce3633cf12b3dfa791da": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal Hamiltonian Graph neural Network uses component Basis expansion layer, Magmom regularization layer, Smooth radial Bessel function, Fine-tuning module"
+   },
+   "prompt_sha256": "3ac67c26a3c148db78b3fd4e841fe1308551b639e6588cdcff24615c2733cf82"
+  },
   "5db59c69da8441e0bb584dd8162f4561f20b6a9f3bf4487597e199c7b02eef89": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -930,6 +1788,30 @@
     "gloss": "Models for material property prediction and design"
    },
    "prompt_sha256": "6285ae7c21a77b9650515a19c0e355a43de555a00e3ba09c75b10ed535707747"
+  },
+  "5de0a1044ecda5bcee66d28b6443e0f76668f2753e67d6ade02acfe2462fe123": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "264f1ac56b80e04503dd5f03c99ba71855086d358f976e8188969638426edaec"
+  },
+  "5eb9fbc98488bf169229891d760a7a601f95228b2fca937aec0622ebe9435cf2": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "AFLOW high-throughput DFT calculation protocol uses technique high-throughput calculations, pseudo-hybrid Hubbard density functional, local-orbital basis, l-quantum number scaling"
+   },
+   "prompt_sha256": "75d207992b6e237a26f4cbe242af8a85ca81bca412d3d6b2fc274eb2c159de57"
+  },
+  "5edfb8dc55e5ae1389b6da3f20722c915598f7e0e44e2890de693ac7f7fec5db": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Scalable EquiVariance-Enabled Neural NETwork addresses Interatomic potential prediction, Amorphous Si3N4 generation, SiO2 benchmark tests, Pre-training on Materials Project dataset, Large-scale amorphous Si3N4 melt-quench simulation, Multi-GPU molecular dynamics benchmarking, Weak-scaling benchmark, Strong-scaling benchmark"
+   },
+   "prompt_sha256": "1dcd5e35d5e69a03ccc373f65fe7bb2aa8c3fc6e6d86f0b5ec2703e42c602072"
   },
   "5f13715e924da5fea362ef6f4faaa7f50a3c7c64d9f6b417d94c501a94fdf4a3": {
    "model": "qwen2.5:7b-instruct",
@@ -939,6 +1821,30 @@
    },
    "prompt_sha256": "971b04863973a25f0b2ae46f8e2043bb170379c63f0947ea99df5b8784d31d86"
   },
+  "5f15954562d4ef4bb50cdc57860a08f69377f6f161d20a2f1507a13ed6f71374": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal Hamiltonian Graph neural Network uses technique Three-body angle graph construction, Principal component analysis (PCA) of latent features, Cosine annealing learning-rate schedule, FIRE optimizer for structure relaxation"
+   },
+   "prompt_sha256": "e9a63210d9077e7a3db0e63be0728191b0a4931e5f7956ba5331664787fea7e3"
+  },
+  "5f179e3b0a695e2ac1175cae95f422fb24676e69f788cb8fdcc164c880c7903b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Universal Models for Atoms addresses Structure relaxations, Adsorption energy calculations, DFT surrogate modeling, Force prediction, Materials property prediction, MOF property prediction, Ligand strain prediction, Lattice energy prediction"
+   },
+   "prompt_sha256": "3d9f90dbe5eed9a764e20306c44cfd32fac49b403496895893fc7e9bcf361879"
+  },
+  "5fcfd09e189945386f18eb84998b0211d07e6a2417355e4205d822ea75c35bef": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Unconstrained MLIP Evaluation",
+    "gloss": "Frameworks for evaluating machine learning potentials without constraints."
+   },
+   "prompt_sha256": "ebd03895688cd479094ee65e6429b1593a572166d4a2134dd59ba88353cdabc9"
+  },
   "60ac346dc72af2300d655ccd98539af20c99d17c663466bf165f44203dee5964": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -947,6 +1853,26 @@
    },
    "prompt_sha256": "b649a8e9d6dd1ef453e27d0450b498945d9025df0ade273ba8415f2499a54725"
   },
+  "611a9a950adf4e2423a5be56abf93895bf3000e81828a6a3588eded8c71f0f3a": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "High-throughput DFT calculations involve techniques.",
+     "High-throughput DFT calculations involve protocols.",
+     "High-throughput DFT calculations are for efficient DFT calculations.",
+     "High-throughput DFT calculations are related to DFT calculations."
+    ]
+   },
+   "prompt_sha256": "0a5275e1cfb3ebf668135e5a0147e412013327640ee24f7fde6b5159b449b07a"
+  },
+  "626549f88f4ff354f823e7906cdc8cb5e5ee34b139de5199ff3a186c0fd771c5": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "AFLOW high-throughput materials discovery framework uses component Alien-mode task executor"
+   },
+   "prompt_sha256": "cffd42aa3c6fff724447941e118df334d067441843a6c744397adedfb75e28ab"
+  },
   "6303575c3ac5d48c53cb98d07abdc928fd8f7449848ddce88d36252af6cba7dc": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -954,6 +1880,14 @@
     "gloss": "Tasks involving prediction of various material properties using machine learning."
    },
    "prompt_sha256": "1071ea7eaaa482e5ff1feb4e77ecfd8e31e57f3584239c2b1515ba77daadfbd4"
+  },
+  "64c466dddc54fa7aefa9cc8ca5ffb7120b62469d244cb581493d62cc9c797f08": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "55e4cd92c757e0db4421f2b625c3164d220ff665ac598ae7ab75d7a88ed716cb"
   },
   "6587944aef5f4266bc1b7476e29d3810393032281d844fc86722a6c6ebcdeac8": {
    "model": "qwen2.5:7b-instruct",
@@ -970,6 +1904,14 @@
     "gloss": "Models for predicting properties in materials science and computational physics."
    },
    "prompt_sha256": "7c1f6b0dc3bc080157144130cf530e36ea4567ae630a803cc6a19f784d815c7b"
+  },
+  "65b144c13d40c7a596a7edfc9633f966897f81f82dd0479ba4357ae58925a6da": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "83c8a12920aaaab2d2e5520153380f5490c155d0b8c9d8db024098811463f27b"
   },
   "65f169bf8c220c75e7828dff35ff7c1cba40db4287d3d60fbc1e3c0c5e12aeef": {
    "model": "qwen2.5:7b-instruct",
@@ -1003,6 +1945,22 @@
    },
    "prompt_sha256": "3a95d38f000f4f9f7316182cfa5600d95dacb3d599b446135060dfdbaec33143"
   },
+  "66dc15dff7d2cdb114ef3a9115122c5de6779d67b4c05a53e5f778dce8fd2f9f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Gaussian approximation potentials addresses Atomistic simulations of liquid carbon, Atomistic simulations of amorphous carbon, Surface energy estimation, High-temperature surface reconstruction simulations, Nanoscale amorphous carbon structure simulations, Amorphous carbon (a-C) structure modeling, Carbon dimer potential energy curve computation, High-density amorphous phase modeling"
+   },
+   "prompt_sha256": "f29048bc9fba453904e0882ee9154ff5bca4c6e1fd6e59d4c94f39ffd6c2632c"
+  },
+  "6732447a623cb311e95c1c744272d34fc4f44f370da0c43d2b671d7fb2c323c6": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Universal Models for Atoms addresses Structure relaxations, Adsorption energy calculations, DFT surrogate modeling, Force prediction, Materials property prediction, MOF property prediction, Ligand strain prediction, Lattice energy prediction"
+   },
+   "prompt_sha256": "a40b3b3fc5dd8c4e503b2cf83c611167143617e124cd5d279b36fa67dd195b21"
+  },
   "676f50fe2d555a55f474fd812fef2494c6a21e31eedc0f9b638d24048274ee9f": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1019,6 +1977,39 @@
    },
    "prompt_sha256": "35b0339b1038120548de6ee3c7d7cb1a7e52877a61b09b4a0f0f912f62d7f760"
   },
+  "685801f129e487852cf64557cb511e74684f190e1c188ab961ec71dce6f89a8c": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Inter-atomic Potentials are models.",
+     "Inter-atomic Potentials predict atomic energies.",
+     "Inter-atomic Potentials predict atomic forces."
+    ]
+   },
+   "prompt_sha256": "d7d01332df65be6fb716ec571edde0da9ddc40969fbbcfd6d0831234125d86b3"
+  },
+  "68816b065b15ff5cac3e745bf01cb7e15c8b957bc904e5a33344fe3e94e8b133": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "93a811712963caba876745f0d6dd456f768d2f065fc7bf9e7a437c200424fcd5"
+  },
+  "699b0c0479b515f587f77d7f57a82a74c0f118c674083942f2805b23e5a5fce8": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Universal Models for Atoms'.",
+     "The gloss is 'Models predicting atomic properties across various materials.'",
+     "The models are universal.",
+     "The models pertain to atoms.",
+     "The models predict atomic properties.",
+     "The models apply to various materials."
+    ]
+   },
+   "prompt_sha256": "38ca0a428daf15a8fde34a01b4e19eea3caad9d3e09b48584ecf30f4ea69cd62"
+  },
   "69b0cacc4431234a16e004c77cc1c984444d98f5602050a7600fc46cfd2d2195": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1026,6 +2017,26 @@
     "gloss": "Models for predicting crystal properties using graph networks."
    },
    "prompt_sha256": "4dfca3cfacde2ff914121fa056ae3e232223119e0a025a423baa410bcd76dd58"
+  },
+  "6a32dbb26b09e52cbb13e08a22c756525e5aa840d5a7634bb7acfdc22a478605": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Materials Project high-throughput computational workflow and open data platform solves Slow, trial-and-error materials discovery, Fragmented dissemination of computational results"
+   },
+   "prompt_sha256": "855fc8fb6dfaeaba4e748f5bcc15a65fec5b982ce97a780439f57f784ddf96bb"
+  },
+  "6b00003784fad6b4e23b2604d03424cc974a92c84e1f62c64412065ed5b6d4a4": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "MLIPs are related to models for atomic properties and materials discovery.",
+     "GNNs are related to models for atomic properties and materials discovery.",
+     "MLIPs and GNNs are associated with materials discovery.",
+     "MLIPs and GNNs are associated with atomic properties."
+    ]
+   },
+   "prompt_sha256": "2ea9ad195328512a4be35146dfd728bfb674fcc14fee7a7f16603f1e593c3a6a"
   },
   "6b2dcfaff6ad7cbdd0343f22477b806d5404fe339a51d982d0fec5b9de7e84ee": {
    "model": "qwen2.5:7b-instruct",
@@ -1043,6 +2054,14 @@
    },
    "prompt_sha256": "c4f939aa1e9b96f9ea34cd8b633e6ac0413f0c46757875b5a9db02fa268c6014"
   },
+  "6bac79e556b740f59afea265cd68f267bf37feef23f42c284e99d35e4af82474": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Virtual Node Graph Neural Network solves Variable-length output prediction, Reciprocal space property prediction, High computational cost of phonon calculations, Phonon dispersion prediction for crystals with varying atom counts, Γ-phonon spectrum prediction from crystal structure, Full phonon band structure prediction, Γ-phonon frequency prediction, Generalization to unseen materials"
+   },
+   "prompt_sha256": "0ee473d2daefe3d97f42659e5cbb8c0e4166b07bce0e38a1835a340e12a10b5b"
+  },
   "6d552661232abab3260254d91389ad266548911b6722ab232260f1e7c4bb876b": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1051,6 +2070,14 @@
    },
    "prompt_sha256": "e021c5f5fd0338614f7fa0d160af82c3707d4c1b3bca715d009692e60e57b723"
   },
+  "6d80c0b2716d3028ca77b2b918a33794bda47d9a3a1f6d20de665e1a44a646f7": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "E(3)-equivariant Graph Neural Network for phase-space integration addresses Martensitic phase transition modeling of iron, Grain-boundary energy calculation, Phase-space integration of interatomic potentials"
+   },
+   "prompt_sha256": "f8cde7fdfde0e2873adc74811546b4e26ebe1adef904fb2626a39e03942b356e"
+  },
   "6efc885503c01ce9cf576ddf92d0f7fc519be664b5f2983fb80c865f3cfdfef9": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1058,6 +2085,14 @@
     "gloss": "Models using continuous-filter convolutions for molecular predictions."
    },
    "prompt_sha256": "29d083bd4c37d19dfdf06d498972578790f6a6cf4202179619f2e96cc4663b36"
+  },
+  "6f3f0a3294956f5e92f03af34fa6edd939f6a1a67541cb4f2d2ad4d6a5b80dc3": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph neural networks with three-body interactions uses component Three-body angular module, Graph convolution block, Readout module, Non-linear activation g, Relaxation engine"
+   },
+   "prompt_sha256": "9abf38007478d65614bde4790e26815266227ac628e1cac1c9dffa09010bb3e4"
   },
   "6f458277a0ce1b2ef5e4bcd9dd37a1cc262e30ef9e2bcac170a0b7a2810b0aa2": {
    "model": "qwen2.5:7b-instruct",
@@ -1083,6 +2118,25 @@
    },
    "prompt_sha256": "49104fd6af8433f257441cda43e975035726640cab849bb722e017f8928651c1"
   },
+  "72a02c1a6dcd7cadaaf001d19e834e3403e634710e55a2e776ff1578113272b8": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks use graph structures.",
+     "Graph Neural Networks are used for materials tasks.",
+     "Graph Neural Networks are used for chemistry tasks."
+    ]
+   },
+   "prompt_sha256": "77c0122577a65193cb823e52e18cc0aac71b7ab460a8debfa640dedee5b8de64"
+  },
+  "72d3117a50eb55d49c494da126e60c47a98cb35fc16a4715aabda560200ea1ae": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Scalable EquiVariance-Enabled Neural NETwork addresses Interatomic potential prediction, Amorphous Si3N4 generation, SiO2 benchmark tests, Pre-training on Materials Project dataset, Large-scale amorphous Si3N4 melt-quench simulation, Multi-GPU molecular dynamics benchmarking, Weak-scaling benchmark, Strong-scaling benchmark"
+   },
+   "prompt_sha256": "6c584acfb87c9ef6c8fae2c0d15c1c162821d3c1dfcf3546b2ebeda54865e02b"
+  },
   "73ad5573112432c514aca955a6eebff571f3f0647ea839a82b24eec7748250b2": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1090,6 +2144,14 @@
     "gloss": "Models for predicting atomic interactions in materials."
    },
    "prompt_sha256": "72c1628ea280a384b604f450690b2a0fe3b949a295608ec002e7aedb83abfe78"
+  },
+  "73ea9ea320bddc5642a69eed8bd5b8bbc1bbdb116750adf7d82ff4ae483c43a6": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "MLIP Frameworks",
+    "gloss": "Models for interatomic potentials in materials science"
+   },
+   "prompt_sha256": "c6aff77f777c65a07247b78d67d6147334519ff4f7cb8e5f79c2228620f74490"
   },
   "75bd3651585f1f6146aedb970a72ff90999947b588127b5b399919c2f9329256": {
    "model": "qwen2.5:7b-instruct",
@@ -1114,6 +2176,22 @@
     "gloss": "Problems hindering automated materials property prediction and model selection."
    },
    "prompt_sha256": "90fa4e6553e24080d6dbe51ab4000d3b0eaf85fe40f58bf37f5ff4e50bfeb83c"
+  },
+  "774131b56219cba578aa3f110d768a381e8e39c28099cf50d98e4a78fae35472": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "AFLOW high-throughput DFT calculation protocol uses component RELAX1, RELAX2, STATIC, BANDS, NKPPRA parameter, Error correction system, DBS electronic minimizer, RMM-DIIS electronic minimizer"
+   },
+   "prompt_sha256": "a060db6ed05d3438319dc5b4dc9a7d8e43c16bc8123b3283b0360f391375335a"
+  },
+  "77f2014dcb6496267c32c994bf1f852fad47b2952823adfbe21030e1379669a6": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "21c260500a3b8e1ec6102ec69225291825356022e16dccd81c4b81557df2510b"
   },
   "781c1bb88e6de0fb6de9cbd8c9ba056302eca7d16059286efbf2a18ea59a7da5": {
    "model": "qwen2.5:7b-instruct",
@@ -1155,6 +2233,14 @@
    },
    "prompt_sha256": "e8d5ea321b13b816bd7d5cec84e0dd331bf38dcf9123585fbe44bc0ca009e686"
   },
+  "7a33126d3bcbe5f314d2fb7664cfcdb388b12e21b7fef2f5123c7e34260f0d7d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for phonon prediction and molecular dynamics"
+   },
+   "prompt_sha256": "e792f8888922d9d9928c485efe8bd89d04eb06bfafd884782fdefb0d08acc80c"
+  },
   "7a6241f7d976bae3d4e2bf38341f18d04e05ff136b105626efbd7cdf68472857": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1163,6 +2249,14 @@
    },
    "prompt_sha256": "c4a47bc2ef9fd6b35defdf2d947f25e49ce0c901767e1fdfde47060eeda2acfb"
   },
+  "7a771068fe711fe1bce35ddca134f3debfded7a09326896285ed2503b83869b0": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Models predicting properties like energy, melting temperature for materials."
+   },
+   "prompt_sha256": "773dd6729ac41043decd7136c09bcc2b5e1151f75ce2da7f414521a9601690c7"
+  },
   "7b1e85449d3ac351667d3f5be9bf5b53523ae23831eb5bfbf32385bea895bd47": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1170,6 +2264,25 @@
     "gloss": "Models using E(3)-equivariant representations for materials science."
    },
    "prompt_sha256": "877b9ab36b7718e400ec9ba7c94ac97f6628b3727c84e7a5f72a661977dc5c93"
+  },
+  "7b2d66496165f655c3629b16306d22a84a5051d4f946ebe56b3117ac5c7e1b8e": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "crystal graph convolutional neural networks [method] (also: CGCNN)"
+   },
+   "prompt_sha256": "52ee8d7bf44785955f2674133f2cfb4d3c8c322a7e3c538ea8a84b1097148bcd"
+  },
+  "7b3a303d93b732fc42a0801af7880c9a19ada8a16b56b871bb27067a490ba072": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "E(3)-equivariant models are models.",
+     "E(3)-equivariant models preserve 3D rotational symmetry.",
+     "E(3)-equivariant models are used for materials simulation."
+    ]
+   },
+   "prompt_sha256": "97a09fd87713495cbb93f59b0a358e5797445707c6a4bc1904e59dfb61705f5c"
   },
   "7b660466817cbde5a5ae77e2e80b287fde5ff04b07514614519204a09762dd79": {
    "model": "qwen2.5:7b-instruct",
@@ -1202,6 +2315,14 @@
     "gloss": "Techniques for rapid material property prediction and screening."
    },
    "prompt_sha256": "7641d0fc980b05323c9c76d2c4a07426fdd726dc69b993a05f73185d31954d9d"
+  },
+  "7c8d260b1616a1d13f50b9537ef99d84e282392d756971b2ab25035fd95bb26f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "two-step supervised-unsupervised melting temperature prediction with symbolic regression addresses melting temperature prediction for binary ionic solids, material classification by bonding type, Materials clustering, SHAP feature importance analysis, materials clustering by bonding character, cluster 1 prediction, cluster 2 prediction, Bonding-based material classification"
+   },
+   "prompt_sha256": "a08319b06e3fba3070899c7473688361e24c3f5db0e0dd445f09c63bda632acf"
   },
   "7cb98b0693ae503d6362f0125290ed4f813b38c260704e70007c4aa1751795d5": {
    "model": "qwen2.5:7b-instruct",
@@ -1267,6 +2388,17 @@
    },
    "prompt_sha256": "d979a1399773a00fd709ddf5b6877ec65af7a0c939659e3a13ce0aefe15900bd"
   },
+  "80a781730c993d5592b41eaf7bcf4a2473033cddd82243b264846022aea7e4c7": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The models are E(3)-equivariant.",
+     "The models use E(3)-equivariant representations.",
+     "The models are used for materials science."
+    ]
+   },
+   "prompt_sha256": "c9c71d73c2c2edc42e01bd42ab660d619938b702528d1d82eb7c917092bf038b"
+  },
   "80ae537068e64f45f246fda4d88576e669df78c7629885c352172455c5bff226": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1283,6 +2415,62 @@
    },
    "prompt_sha256": "c02cc46d7f93eae171db60094b6394dce4954f1abc859b20a73bc07d4e40110c"
   },
+  "8135643226a08ac42190397392f3e860bdac3e15172d4b55d450c1cd71261d62": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- graph networks for materials exploration uses technique Uncertainty quantification through deep ensembles, Data flywheel, Median prediction aggregation, Gamma-centred kpoint generation"
+   },
+   "prompt_sha256": "9a3e9ba96063d91b5590a87eb626428a50c8593ae4ccf077541410661bf88f44"
+  },
+  "81a48d4296b3b42732d75f05b807f57c31e9d547aaed615cadef8aabce5db57f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "b554c814b5961825ca821d1924d82557a570bb3163a5b37325a191fd1ec92e59"
+  },
+  "81cc0e3b34c187aff5262f44a306b7247c15f1f6bf4b5d11c8e1185eb908f6f1": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Message Passing Neural Network [method]"
+   },
+   "prompt_sha256": "4aceb64d6e7a5d3371801599318eb1c3f8c07c1d984e20275ef2e5c12ebf925b"
+  },
+  "82361c92ce695ee76aa6ddf999c230353514641ad14330bb686fde6f3c32fb7b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "b8e77af1808a37718243d10d48e7fe472c827be0130447df1e405318eaab950f"
+  },
+  "8350329f6eac374bf42e8e52fc198a5ee8b31d98173a2d9dc266b5aa0f7ce2e5": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal-Graph Attention Network uses technique iterative retraining cycle, Γ-centered k-point grids, Hubbard U corrections, Top-N property screening, Space group filtering, Convex hull distance filtering"
+   },
+   "prompt_sha256": "49f5ba5deed77996dec5730ad64d87372b028461618f4ce48509db3c2a922fe7"
+  },
+  "84ef6379f450add98f13aadbb1477c559ef6d6800faf33ddca2bba0058063ceb": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "MatPES dataset generation workflow addresses Structure relaxation, materials science"
+   },
+   "prompt_sha256": "79336ea0f225069d7342a2dcbaf441cb73fa5ef026c6ae4a759d28cafd4a03b0"
+  },
+  "85c02195e0a7e2e6dc1a1d72426d7d3645962627b250cde0133f1aac7ad2046d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "MLIP_framework_analysis uses component Neural network PES representation, Graph neural network featurization, Explicit atomic position featurization, Embedding vectors for local atomic environment, Node and edge embeddings, E(3) equivariant tensor representations, Message passing structure, High body order local features"
+   },
+   "prompt_sha256": "d90a87d10e4cb23b604901a348f142417756537100d738c03eff18d9a5440c55"
+  },
   "8625666f47bc6c8aa168da64423be06c4943bab3ee917f9e29c478f8235a097a": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1290,6 +2478,14 @@
     "gloss": "Methods for generating and reducing material features."
    },
    "prompt_sha256": "b84ee0c4c6df315af411ebdfeb514fc593c94b06bc8f07071299884b76efee3b"
+  },
+  "878a514488815bfd4b1c1f6c6c10dd3e8a290daa308fd173ad8018aa9aed0a5f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Energy and force prediction [task]"
+   },
+   "prompt_sha256": "6b325b6231fb00e9b1e63e43e7b2e27f6d9a3694883383a92bcb97dac9c2c2b3"
   },
   "88c63b45284061c88da8723449a4cddec8834e4912006e8733eae28ed2c5530e": {
    "model": "qwen2.5:7b-instruct",
@@ -1299,6 +2495,19 @@
    },
    "prompt_sha256": "9e337dabbc6ba15985291b86b6bd197b503cdd74efbbdabab8c7e5af15bb15f5"
   },
+  "89fed1e2078a14801d12988178766c9478a4dcd631793985fef5138bcf1e7dae": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Force Prediction Models'.",
+     "The gloss is 'Models addressing atomic and ionic force predictions'.",
+     "The models address force predictions.",
+     "The models address atomic force predictions.",
+     "The models address ionic force predictions."
+    ]
+   },
+   "prompt_sha256": "0bc29bb1d70f2ce2ca1738538b4577b53bb3fff85ea286d7040bf0fa4ae666a5"
+  },
   "8b05cabcd1e72899a8c61342538839987f7aadd6bceffade951cad0e841749ad": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1306,6 +2515,22 @@
     "gloss": "Models using IDNN for free-energy representation and phase behavior prediction."
    },
    "prompt_sha256": "3dcdafa10f873a358b870a48151aee41e311d04f0fdc7dfa5bc8e183f7880a1e"
+  },
+  "8b869e6d8bd85df19e411c9f50b2c111586008a2590a2ef737523696c6a0ccd1": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- MLIP_framework_analysis addresses Geometry optimization, Chemical reaction prediction, Metal alloy design, Atomic energy and force prediction, phonon property prediction, Structure optimization, Formation energy prediction, thermal conductivity prediction"
+   },
+   "prompt_sha256": "ae8a94a403de395c8cbd948cddc636cf95827f3147e739b6c323327d3f31f7a1"
+  },
+  "8ba37127012cf9e3644b0490e597cf2fccb0828d37f1b39fdf56fa65e2433c50": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "30a7ae31c0b360075b282ed951333a2fcf5822bbf8f1a366514dd38b1a64c840"
   },
   "8c8a7e6e31627c43bb506714d50b542fbc193e416fdb9d92d1a0a13070f919b4": {
    "model": "qwen2.5:7b-instruct",
@@ -1339,6 +2564,22 @@
    },
    "prompt_sha256": "7bfeb1d73ec4d55262e52887e1aa57b8a2a02b2b3de939416c5ec9fd7b1bccab"
   },
+  "8dc1f539c21bc602c6f8f417a52486a2efe479308cf4253bff3dc35ab7539b5d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal-Graph Attention Network uses component DCGAT-2, CGAT, Hypernetwork, Global context vector, Residual neural network, Edge update mechanism, CGCNN model for elastic properties, Vicker's hardness estimation model"
+   },
+   "prompt_sha256": "982b1aa6605f3d22a4534ee078841e160a3385c48ec0754b3d60f0ee9d06ddec"
+  },
+  "8df796ac791f09936a920637f7c57930eb92259f68e1bf75e184381f87f80616": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph Neural Network for atomic property prediction in defective crystalline solids uses technique Supervised GNN training, Dropout regularization"
+   },
+   "prompt_sha256": "cc639f74be724626d99a72f243154f59e04f1f1fabec866a79a547fc64b9f0c8"
+  },
   "8e0f390fffa13441fbe6fc4b486f48f897bb72c4b8f57cd21eb42b94eb478996": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1346,6 +2587,14 @@
     "gloss": "Predicting various material properties using machine learning."
    },
    "prompt_sha256": "9861db0f2d937040c6d671201a46d5d5a2510ade83660e4a15037b2fd2f9a951"
+  },
+  "8e317fab12768c72cb9ed09201013d235e1a97059cacee9361b195c6a2bbc3ce": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal Hamiltonian Graph neural Network uses technique Three-body angle graph construction, Principal component analysis (PCA) of latent features, Cosine annealing learning-rate schedule, FIRE optimizer for structure relaxation"
+   },
+   "prompt_sha256": "4c5936104a8d9ac7cdd53067d90abdf062bfa4950e933fe99cff9cedc5e2b55a"
   },
   "8e56bc81ab23478752119f7eae2830726f4fe06e2f7b69d017fc415ad796781c": {
    "model": "qwen2.5:7b-instruct",
@@ -1371,6 +2620,22 @@
    },
    "prompt_sha256": "83978c5f3d411a8ffcc92b0c09facc4428b8b9ed43a762121c17f98a25deff99"
   },
+  "8f964f641b9ecf5bcada2d9b0a8b3774295b22f5b4098436ba2a17fd85f77255": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "a17b0712f0e495bf62051742f01efe692bed73ccf8d2554c64a98644256da7fc"
+  },
+  "8fcff4f0c1a3af70849f86459a545f18b37deaba90c8cd537feb2ca4b823367d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Force Prediction Models",
+    "gloss": "Models addressing atomic and ionic force predictions."
+   },
+   "prompt_sha256": "0c095f96154fafdb82d92462a0a1f5b7a89f3b6d76097d0f2d3facec5eac8637"
+  },
   "900fc09a3768228eece73e646b39ec56b44477898e2b17fbc446a33921a6ae1e": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1395,6 +2660,22 @@
    },
    "prompt_sha256": "13865e48f4038ce10f5d8cccac7ccf690d4df4a2876a52bbdf53e1575f9b558a"
   },
+  "91c6edfd225ee52e7b0fdc21dfd662bad8de6de9bcad658b6d8a790d8c8a0dfb": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Multiple-tower decomposition [technique]"
+   },
+   "prompt_sha256": "02ed6fbf1c097440e398240154f2a3c36d048bb4a91c712549c9465057a22bb6"
+  },
+  "928d58fa4361220ef3944bf2365c9639cce60a1dcc57bc6039e177e12950587c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Automatminer is evaluated on Matbench test suite v0.1, MAE/ROC-AUC (metric MAE/ROC-AUC, task Materials Property Prediction, split 5-fold NCV)"
+   },
+   "prompt_sha256": "6094c2e80543adf66d2793d7f5937b81046c9b452261aa17407bffe60a2894d1"
+  },
   "92b8b0e4c2ab1b21d458e278abf53436e3c138ad68d45ebc151258f694c4fde8": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1402,6 +2683,38 @@
     "gloss": "Tasks related to predicting stable crystal and material stability."
    },
    "prompt_sha256": "efab70938f8aa6fb423d4a6e0d0a7f9b27d09f6472a2fedf75d713f182ba91d6"
+  },
+  "947f8da1e1c707a30bdbe0273fb56cf513fef164222f2e167c8b1aceea6076f7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models using message passing and graph structures for materials."
+   },
+   "prompt_sha256": "5e650baa00e14d378936b751f13f98863736d6dd8118390c5170aa05c4502b55"
+  },
+  "94852a8dce3e88b8337fcb9e01b6e4e474a62b557e50c59769c7a20edc09834e": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Property Prediction",
+    "gloss": "Models predicting various material properties such as spectra, energies, and elastic constants."
+   },
+   "prompt_sha256": "7ad65ef16e559ba399a1702afbc76db1970841ec7f84b61a1c43e7103a05d287"
+  },
+  "948719df03ef98f202238e6e484f13374386a430dc9073403cb0b142843f8d75": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Scalable EquiVariance-Enabled Neural NETwork uses technique Melt-quench MD simulation, Weak scaling benchmark, Strong scaling benchmark, forward communication of node features, reverse communication of partial forces, Huber loss function, Atomic energy normalization, Strong-scaling evaluation\n- unconstrained MLIP evaluation framework uses technique Direct force evaluation, Large-scale dataset training, Inference-time rotation averaging, combination with conservative models for finite-temperature applications, Symmetric edge weighting, Huber loss"
+   },
+   "prompt_sha256": "e91501c2195cbca80bbef0542b9eb0febcda189f91267d61d75c117d97c30675"
+  },
+  "9589c921c038b9e2107764a256a8a3922baca30ac882f4672344b19ce03f0614": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models using graph structures for materials exploration."
+   },
+   "prompt_sha256": "2d22de3c7b2d26f6e42dc7f6cea743b691c4469a3c02b9052eafd4389a435fc8"
   },
   "95d527f15b4141526de02825000a1880d004a0fe37ae3475dc06a4ddb35729b7": {
    "model": "qwen2.5:7b-instruct",
@@ -1419,6 +2732,14 @@
    },
    "prompt_sha256": "6f13205ed0f2b5d8c3995024a866204b3754202a733ea29786e1ce32b13def18"
   },
+  "9697a3c353c0d13880cda76ba603ff4e3903768bdbdc2831e6d81a721c4c803a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Graph Neural Network for atomic property prediction in defective crystalline solids uses component Spatial-coordinate node features, Cutoff-based edge connectivity, End-to-end GNN predictor, Boundary-condition encoding, GA optimizer, PNA-based GNN predictor"
+   },
+   "prompt_sha256": "4fb3467bcac823dc402c3f2e3856982a791591c4037d9f22335b15964e6c19f6"
+  },
   "97c6d3c6d7fed3acb281011be2951e5dcab77aa2345ef7be72b3ab0adb4d5f4f": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1426,6 +2747,14 @@
     "gloss": "Components defining Gaussian Approximation Potentials"
    },
    "prompt_sha256": "11d951b2431d59dba2afb44d2e7c13c7584ed4fb83d1f2561b2bcc0f58d9fc40"
+  },
+  "9816da81c5ca8a973fdd4f8705feb60888cdd2e4a137a2a9b9c64d341bf49d7f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Crystal graph representation [component]"
+   },
+   "prompt_sha256": "8ef6339fd910f12b5683b19cae11f7c856d872941650de972dfa2e4b3d3eabc4"
   },
   "98cf989cddabeaaa15a8730db91c830dccbf02ffe1c16f3eb57ea6beb5c57463": {
    "model": "qwen2.5:7b-instruct",
@@ -1443,6 +2772,22 @@
    },
    "prompt_sha256": "68d1d01b59fcbe55d21365407da137894131e92ae87c7be251682b7c75a996e5"
   },
+  "99af8160c3c78592b4ad2f9a4c74a6a03d52119284177c8e3353b407c3b4c5f7": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Transformer-based Inter-Atomic Potentials solves Symmetry compliance without architectural constraints, Computational efficiency of MLIPs, Limited flexibility of equivariant architectures, Data augmentation inefficiency, Molecular representation learning with quantum mechanics accuracy, Atomic force prediction, Molecular energy prediction, SE(3) equivariant property prediction"
+   },
+   "prompt_sha256": "6415db30a8db5d7773b86d4e94d36a67f4608263ec32ae49c5f6917a1722d1f6"
+  },
+  "9aee540f52dbf862c9e8761dd3b30f474670c01d7e2f91497fe068bef71f7116": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Bayesian optimizer + surrogate energy model [component]"
+   },
+   "prompt_sha256": "dec5658254b3cdf8cc7787d4cadd424bb005949d44ccc5d7500155069d7ccba4"
+  },
   "9afb65e86c82e8f32fdd88f21c831920008e851e02e55ba5aba8ae3eb19c4245": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1459,6 +2804,64 @@
    },
    "prompt_sha256": "f5d35a4e114eb8157d8027d62b0769fc81b0f505ab720a79c4c62a63c7a9e3ad"
   },
+  "9d6b33a514372b5d485fb76ad5c43c1a7c252e7d0a0e608aec6b08d8ecf829c4": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Graph Neural Network for atomic property prediction in defective crystalline solids uses component Spatial-coordinate node features, Cutoff-based edge connectivity, End-to-end GNN predictor, Boundary-condition encoding, GA optimizer, PNA-based GNN predictor"
+   },
+   "prompt_sha256": "3f6008b62d7e385d858a340ca3c7b30bc1313e76161ce57da585ab266fd471b6"
+  },
+  "9d80b01ec4bfbdad0ae1fa4b39ad98c09e0434b3fcce1969c2dc3c7ec1664811": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Materials property prediction involves tasks and techniques.",
+     "Tasks and techniques are used for predicting material properties.",
+     "Machine learning is used for predicting various material properties.",
+     "Various material properties can be predicted using machine learning."
+    ]
+   },
+   "prompt_sha256": "30489adac3b99b213356e2eba6f188b40ee1fea7c6209457dee55ceec49ec441"
+  },
+  "9ed74864e56f7094f4e63b38d15b6866ecdf6ebfbf8aa7e4fe8f5cddc81ddef0": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for materials property prediction.",
+     "Graph Neural Networks are used for exploration."
+    ]
+   },
+   "prompt_sha256": "8e0e32cf64dc51e86705f18e97a79276c2d4a4dcfc85126c00546d94237ec7c2"
+  },
+  "9ee93be1bbcef3263e192a11dd71e05121c567475399d9d3d78a67cae8468ceb": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for materials property prediction and structure analysis"
+   },
+   "prompt_sha256": "1d9bd8344dde5647ca1c7449a6bcc9e9d118cacaebfbb5dacb72d0d25b92c00f"
+  },
+  "a00991aeec013e758fc026a8c1b8a8c6d8aff6ad0a7f0ae98f6be060e8204adc": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "50bf28f3250fe72e9683e60530a914651d657662e29c124d559616175405aa17"
+  },
+  "a029c0968fbae6a8dac0990a3a361d1f380ec96204fd3f859e8f19cfcc2b62dc": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks use graph structures.",
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for materials exploration."
+    ]
+   },
+   "prompt_sha256": "be7f6f627a0f36843bba0a9ee83e986eac04bf3e8a619b4e02a7fbe456beb769"
+  },
   "a0411deda03f8646c168ba3b5ec81587bd8da40dd7e8830d09ac98e37fb03bca": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1466,6 +2869,14 @@
     "gloss": "Techniques for predicting material properties using machine learning."
    },
    "prompt_sha256": "5f28755cf89d16d5bbff65bd21b2fdbf6eb5cf13f1dc03164c22e4046af64601"
+  },
+  "a1357edab26789c240194a518d052b08f0749856df1eee05a494c6424b17248f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "0c09595d2ca403d2dca34a1c488df31517fd5f8751946571015e1cf69eb2d68a"
   },
   "a13f40af01de9bd46cb4cb9e89db510711a0c82a3cb093d2306b98139ea8f3d7": {
    "model": "qwen2.5:7b-instruct",
@@ -1482,6 +2893,30 @@
     "gloss": "Techniques used in AFLOW for materials discovery."
    },
    "prompt_sha256": "4d56f969765a38f72c81ac47d356a900fb8a6620a4a4d88aed732981a8a6bcda"
+  },
+  "a170ef834a74ffeab711ad1d520aafb014f66e52788e799a67f7b6d8e24c7c3b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- graph networks for materials exploration solves Ineffective ML estimation of material stability, Limited transferability of MLIPs, DFT computational scaling, Limited diversity in crystal structure discovery, Inefficient enumeration of reduced formulas, Label leakage prevention"
+   },
+   "prompt_sha256": "6c80aa16a01723440c31b52e9e1272fd76e66dcae047605efe7f8d67fda773fe"
+  },
+  "a1e069843055c1b57ae1edca9f34e560a0a5aecff390df6557eaab903241845a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "399220b387dac8cac06f52ee86191e8d147e8d1c7139be42921f760a1f94dac9"
+  },
+  "a1f9b2b41581f491f2382f9d86ccd40e354bb90f2243dca3d1d7abcc602cb13a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph Neural Network for atomic property prediction in defective crystalline solids addresses Atomic von Mises stress prediction, Atomic tensile stress prediction, Validation against MD simulations, Atomic stress field prediction, Benchmarking GNN architectures"
+   },
+   "prompt_sha256": "1d14ecfd4b9478d8f8a108d4bfa51cc32efa301e98afa25760735187b795f665"
   },
   "a27d5109a2961e89482d93ca031f52d9b2ced2d16d25fdaa3c7f94f8032c101f": {
    "model": "qwen2.5:7b-instruct",
@@ -1507,6 +2942,68 @@
    },
    "prompt_sha256": "4035d9d58794236109c0e4d463f988643b56a6ee701f933f6c05d8718407e9cb"
   },
+  "a3cb24ca793bcc73481cdd1802410432663dae5eabc5a5075c82e09b69620ddf": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- MLIP_framework_analysis addresses Molecular dynamics simulations, Materials property calculation, Multi-element system modeling, Molten salt modeling, Molecular and macromolecular structure modeling, Heusler alloy simulation, Heterogeneous catalysis modeling, Metal-organic frameworks dynamics"
+   },
+   "prompt_sha256": "dfc6d4a0d9e4c97af911091af79cb4e7e6e588a8a43dc2e2fae0849aa5f16fcf"
+  },
+  "a43f4f337baef21303961a7471389f4b262ebee3fdfcf47d06a89cd09109a5e3": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "c709f07e5d3d3ece4b1e201849f29925867e79a6796e9bca48ffe0cd9597c67e"
+  },
+  "a52ddcc254c0418fddace680fdf02031df7af872625b7054d9f1c898c8f964b8": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "E(3)-equivariant models are models.",
+     "E(3)-equivariant models ensure rotational invariance.",
+     "E(3)-equivariant models are used for materials science."
+    ]
+   },
+   "prompt_sha256": "28d56331c994d26ccb0be0d0dd00881617e0adf3517f5822af5d6cae6ce6dc12"
+  },
+  "a56dcf26d16d66976ec111e0a90f32ebb7c2504959d1e05d6a96bd048c9c2d96": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "e00cd6fc7449a062c676412451042491e815e970838baa88116457f8f845a1c2"
+  },
+  "a5a615b969091a6761303dc1508ff825da8b90967b6f984c1d6959ccf791b564": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for atomic property prediction.",
+     "Graph Neural Networks are used for structural property prediction."
+    ]
+   },
+   "prompt_sha256": "d23b16f26d4c214ef387e4c287cf3782baa4b7537b56fa8f322220bad26bd8f0"
+  },
+  "a615f017a6f3b5b8a184b4f3c1f4a53a522def21b2fbb3cb96e8a76751132634": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Automatminer addresses Formation energy regression, Materials property prediction from electronic bandstructure, Composition-only property prediction"
+   },
+   "prompt_sha256": "3ed5091082e685eb34e7d2fe336350306c46c82a255dbf543105b0ec2cefb02d"
+  },
+  "a65373b56dc6ec43933439ef0270e5abad9e8deb571b0172a11ca90bde0aa18a": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Inter-atomic Potentials",
+    "gloss": "Models for predicting atomic energies and forces."
+   },
+   "prompt_sha256": "237aeb217a087b202516e83a83c9910f79391129cc9e0e78c277f757070de095"
+  },
   "a6c680658312b672ea8fdfcc4920e95037de95cd6002c8a71f943cb79649d3f1": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1514,6 +3011,42 @@
     "gloss": "Concerns data-driven methods for materials discovery and analysis."
    },
    "prompt_sha256": "7bbc26ef83cdcab0c81617b215ec7ec0eddc576fe38a172e4505c7de325c1d11"
+  },
+  "a74a009f9ecc9a535531128fc760c610f90e4a7609239e17ba9cbf593618ed33": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Fracture Prediction Models are models.",
+     "Fracture Prediction Models predict crack patterns.",
+     "Fracture Prediction Models predict fracture toughness.",
+     "Fracture Prediction Models are used in crystalline solids."
+    ]
+   },
+   "prompt_sha256": "43c486b4c2f930492f31bab3a7a17daa184b978722237c4f9028591e6eed6b3d"
+  },
+  "a811ec398a76e8ae938617c71732c4ff3c2b515ff740b01b1c80895b60b861c2": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal Hamiltonian Graph neural Network uses component Basis expansion layer, Weighted message-passing convolution, Pretraining on Materials Project Trajectory dataset"
+   },
+   "prompt_sha256": "4ede33f7d6ef9d39c24ea8733f755b463ffbd5f2553e7a264e4a2225d81ab9d1"
+  },
+  "a84a4871dc9d28d002dbfb35263ee20b94de27e97b1e2446e3a4a971eef47df6": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph neural networks with three-body interactions uses component Element embedding layer, Bond distance expansion, Readout module, Auto-differentiation layer, Relaxation engine, Pre-relaxation pipeline, Arrhenius analysis module"
+   },
+   "prompt_sha256": "324f7842cb3b238a5485403a8441d6e19435523ef0e1cd76313c495f7b9c508f"
+  },
+  "a9026004f237c86c9e5f973d4a9eecbc5c8b6b9beadcc7e83934b34337872008": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- JARVIS integrated materials design infrastructure extends generalized gradient approximation, van der Waals functional OptB88, Tran-Blaha modified Becke-Johnson (TBmBJ) meta-GGA, Hybrid functional PBE0, G0W0 many-body perturbation theory, Dynamical Mean Field Theory, Wannier90, Gradient Boosting Decision Tree\n- MLIP_framework_analysis addresses Molecular dynamics simulations, Materials property calculation, Multi-element system modeling, Molten salt modeling, Molecular and macromolecular structure modeling, Heusler alloy simulation, Heterogeneous catalysis modeling, Metal-organic frameworks dynamics\n- Universal Models for Atoms addresses Molecular dynamics simulations, Structure relaxations, Ligand-strain energy calculations, DFT surrogate modeling, Materials property prediction, Catalysis modeling, AdsorbML benchmark, Multi-adsorbate interaction modeling\n- unconstrained MLIP evaluation framework addresses Lattice dynamics calculations, Molecular dynamics simulations, Monte Carlo simulations, finite-temperature applications, OC20-NEB task, molecular modeling, molecular dynamics"
+   },
+   "prompt_sha256": "497216868f5b96cf69bc3a8a66aafc0b2af02382ab6d2834d6a326eb2064bead"
   },
   "a936d226c281a9335cb16acbf0cdb60df41b414d8efeb7cfab414aa43a40fd7c": {
    "model": "qwen2.5:7b-instruct",
@@ -1531,6 +3064,14 @@
    },
    "prompt_sha256": "c9b41ed9a2ce346722bdb9f0524a8df4e8cae240caf4c015a512848ea280ae21"
   },
+  "aa174ac2b2055d879a91e5183ccbe336df0a4b0bd921df9d1af09048bd0ea612": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "43e8ea7585a5a4b2ae7f96da865303d393bc8f4caeccbba50c6898231ae9c44e"
+  },
   "aaf178729bf474fab1ec64864516fe972095a10da1da6e9bf101a32de13aed9f": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1538,6 +3079,14 @@
     "gloss": "Models predicting various material properties using graph neural networks."
    },
    "prompt_sha256": "0a334273cdbd7d177ce8cea2ffa56bfb906e821888c2348f57836ee78f62c2bb"
+  },
+  "ab9e60dadfc61c7bccf20c6b4a58e55d9240f001384462c2c8b3aa478f8f39fb": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "c872667a49215cb35dcc5b8cc0566fda40a37b1042d2d8c7b95c52b9917f120c"
   },
   "aba34be9ad1db958fd9e0d14680d2b274fbdb3eb9a25cf3d818aae516b4a76ad": {
    "model": "qwen2.5:7b-instruct",
@@ -1547,6 +3096,46 @@
    },
    "prompt_sha256": "10a69795b2304da14f53be6eeddf45afe0f396b147632533fa0d085fa313398d"
   },
+  "ac208f7a4a7f5c1c74fc1f34cf7b0da36b09d09c41c21549929777ad3552d732": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "c2933d9b5ee285da571e86d92facc092defd1ac631b1061ddc9b6c091de6fb92"
+  },
+  "acd69c440b614790fd9896dcc99d1a0a5a66d4970a7414ddb8192f2613be0202": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Phonax (E(3)-equivariant graph neural network framework for phonon and Hessian prediction) solves Connecting ML potentials to experimental observables, Lack of experimental data usage in ML energy models, Insufficient force accuracy with limited training samples"
+   },
+   "prompt_sha256": "152e68b84fbef5c2f06b6422ad0660d8e9ce61efded070093949d078905d05d8"
+  },
+  "adcc36c12a40ffbf21178140baae7db7b207304ab7343ab0fb1bb045d69a4b74": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "9e05b32987926be440750eec693b7ee4723af329734528474f1a436e1c4d1244"
+  },
+  "ade32a18162d56be741db0cc1ab973cc897d50ed337c8664bd819949cd30edd3": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- EquiformerV2 addresses atomic energy prediction, AdsorbML integration, AdsorbML adsorption energy calculation, Material property prediction, Structure relaxation, Radius of gyration (R2) prediction, Zero-point vibrational energy (ZPVE) prediction, equivariant deep learning"
+   },
+   "prompt_sha256": "b56918e932767b50f5756dc48b0eea07ebc00e58b4465d03bd8f51e3d4c7f327"
+  },
+  "aeb29fecc4384946c413bfad021ae2f6ccb798491830278de95888d84fe84c93": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "E(3)-equivariant Graph Neural Network for phase-space integration solves Discontinuities in free-energy landscapes caused by quadrature cut-off artifacts"
+   },
+   "prompt_sha256": "92aeba48083e7e40ed0e33052621db9b00ccc59a70c87265dd69e0e4e91a448c"
+  },
   "aeb664f94926b4554b06a9f339dfb707e33e928992ace6eb73f4eacddeaa841d": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1554,6 +3143,14 @@
     "gloss": "Models predicting surface energies and lattice parameters."
    },
    "prompt_sha256": "84981cc518f69c45a38f0db13629d3ee8e3563bf410f08a1bc344f848ba69559"
+  },
+  "aed2b025f185fec0ec554a61cc23721ca824127a40625ee21bf6e3e5d7e9afdf": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal-Graph Attention Network solves polymorph differentiation, Inconsistent prediction error, False negative rate, Limited convex hull coverage, Efficient hard material discovery, Thermodynamic stability prediction"
+   },
+   "prompt_sha256": "902c6e3cc95611621c7dab912c35ce809b4c4b068085b9bee02f370669ed175a"
   },
   "af843ac15d3e2e62d4740282805e0c9a13ced78bacf4b0416537dfb538378629": {
    "model": "qwen2.5:7b-instruct",
@@ -1571,6 +3168,30 @@
    },
    "prompt_sha256": "9672d609ee17051855d9e3a410773a9b8aa9f0cccf42d9fb52bebe119cd699fd"
   },
+  "afc2650a97a509361a07f08fe52a6bbaa8126e30dd33b5c573777311b908225a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- EquiformerV2 addresses molecular property prediction on QM9, Atomic interaction modeling, Initial Structure to Relaxed Structure, OOD generalization evaluation, Dipole moment (μ) prediction, Heat capacity (Cν) prediction, Molecular property prediction, molecular machine learning\n- graph networks for materials exploration addresses Stable material discovery, Molecular dynamics simulations, Li-ion conductor discovery, Composition space exploration, Crystal structure prediction and discovery, Superionic conductivity classification, machine learning for materials\n- DeePMD-kit v2 addresses Molecular dynamics simulations, Multi-task molecular dynamics training, Multi-device MD simulations, phase diagram determination, computational physics\n- DeePMD training protocol for diffusion coefficient computation uses technique Self-consistent training, NVT ensemble sampling, Temperature ramp simulation"
+   },
+   "prompt_sha256": "6ba052d001cfb1a98e5bf80772e75bf01525833eeb62254296b74202031921e9"
+  },
+  "b004f90bd5e67b644f0983c6d85ad7782cdd6ac47830a7c527a792ac326904c4": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- DeepH-E3 extends deep-learning DFT Hamiltonian, Message Passing Neural Network, TensorField Networks, Equivariant Neural Networks, E(3)-equivariant graph neural network, Equivariant message passing"
+   },
+   "prompt_sha256": "94f497ac400725fb7c0d8caf15e1a7990d36364a3063a47d6ffcb736bda62b7e"
+  },
+  "b038bd09ec5888fccbdc5aa79471936fe0e66d5f5c65c0dc759d85b9ac7a374b": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- ConvLSTM-based fracture prediction model uses component Image-based geometric matrix, ConvLSTM network architecture, Fracture-toughness regression head, Mode-I and Mode-II training pipelines, Bicrystal and gradient-orientation extrapolation workflow, Image-based data-processing pipeline, Geometric matrix X, Crack matrix y"
+   },
+   "prompt_sha256": "77578aca132f4db987aa2791ea81b16ca06af7a8597aaf8cb506b79687da3568"
+  },
   "b05099031165e67bbb077c201255419027014d0a0df1d929ece037681203f909": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1578,6 +3199,22 @@
     "gloss": "Models for predicting phonon properties using graph neural networks."
    },
    "prompt_sha256": "9b96bea02d63f9e9ddc626fc9e6bf72f634421119f296aa50d43cb179daba625"
+  },
+  "b0b0a91efaf0a6fcd154b90f8e8cbe225cd202af3ba2cb926545da50f936dc94": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeepH-E3 solves E(3) equivariance with spin-orbit coupling"
+   },
+   "prompt_sha256": "16983d1b1d45ecf85161a4393d1cc7ef924c1ca1b2f833adfa6c7962250173a8"
+  },
+  "b0d8ea2961ca1d96244cd1ccc8cffbe1cb93d8c3f6176fa01773950674a1dc26": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph Neural Network for atomic property prediction in defective crystalline solids uses component End-to-end GNN predictor, GNN predictor"
+   },
+   "prompt_sha256": "909a41ded0ee0bef3561527639bbdea7b6497b9b6ccca05aab6d8a74c67adb62"
   },
   "b1181648b59a574617311894cff5962b57710fc23ddbbab063c3be1c44e27942": {
    "model": "qwen2.5:7b-instruct",
@@ -1587,6 +3224,30 @@
    },
    "prompt_sha256": "e7f5e3a0b7ac80ac5e7a8ed3ad146772bc0d4b59ab76fc360a177f99badebdbc"
   },
+  "b12778eaa6269fa27229710d53a1117d2fbdc9edf15d648e11d3da1e60918bae": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Universal Models for Atoms solves Computational cost vs model size tradeoff, Energy surface discontinuities, Adsorption energy prediction accuracy, Domain generalization in MLIPs, Task specialization requirement, Inconsistent DFT theory levels, Pseudopotential inconsistency, Unphysical diatomic curve behavior"
+   },
+   "prompt_sha256": "3d32f8b07df732d19af6f2688617e97658711cffc02adf27bf2260c51bc1adfa"
+  },
+  "b130669d5917f578db12de790d2629e846935d72f36d609eb104b8db9bc49a52": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "cb11bff8ad0f3ea45fe044c57657f98ae07fbcef0e92674ac61f0e2e98ca2366"
+  },
+  "b19719da321933bb96f3a14c21a394ef8d753c8c5a270527b953863b9b124207": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "e0b7d0b0e3867f3c79636a2e45c296f2a977140a6ed445a7c84c5f33a8094277"
+  },
   "b21c705badbf2909dfd2f0056c868d89cedf9260822d9edc8db021f6a016edaf": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1595,6 +3256,14 @@
    },
    "prompt_sha256": "002028cd1a3ef2c0f64fb611eb13300fc6433cc6e76a763fa438e87990b6512f"
   },
+  "b2292b672983e176ee0ae94441a2b25f65e0f74b3b895de5a0c81f5f33d22e55": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph networks for materials exploration is evaluated on OQMD, discovery rate (metric discovery rate, value 3.0, split test)"
+   },
+   "prompt_sha256": "8dad18398a54caa20c92a3bf02aabcec927ecc6d99b369f8c3df56e5fc9fba97"
+  },
   "b262dc0045600c2b43842897572ab7134faf76b7f922331509bc94cef742a7fb": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1602,6 +3271,38 @@
     "gloss": "Issues with force accuracy and efficient phonon band-structure prediction."
    },
    "prompt_sha256": "3075ca8ae2c563dba415eef5268b7197fe7b3103f447df85838d21bc5affb23b"
+  },
+  "b287382ff16426b5e0c9f0e4572665a9af12fbb5b7d1c9fc648461a53f77747f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Graph Neural Network for atomic property prediction in defective crystalline solids [method]"
+   },
+   "prompt_sha256": "7d34fcb07f76e6849e3609f9e5cb494cf55c8a241dfcd63210103a6229cfedb1"
+  },
+  "b313a0e4dc7302a2eaae75f32859eb283e7d8967858534c11eea52203525bf1a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Transformer-based Inter-Atomic Potentials addresses Inter-atomic potential learning, Molecular energy prediction, Total energy prediction, Metal complex property prediction, molecular force prediction, Interatomic potential modeling, molecular simulations, machine learning for molecular systems"
+   },
+   "prompt_sha256": "f1d058ffaeae3a511bb62e732e986e0b79c135798c3e8cd29f8373a4b59e239f"
+  },
+  "b335acc48806f538eee92ed452397c38782acf129b4b794a4527eb951bc673b2": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal Hamiltonian Graph neural Network uses technique Three-body angle graph construction, Principal component analysis (PCA) of latent features, Cosine annealing learning-rate schedule, FIRE optimizer for structure relaxation"
+   },
+   "prompt_sha256": "c8a4b34ebbad422647344f5da0dd2eb8ded082f0cf3bd425e61d15df9fb8ec0d"
+  },
+  "b4050b397ccab8b20d43f0802c987fea0efa1a838f6b8709842d76cbcd7fc50a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal structure prediction [task]"
+   },
+   "prompt_sha256": "9f682aff28f752f11043629d6d5fea89a3940b226102e456212b426001070b5e"
   },
   "b4efa52cf55941c394dd87d5999f9758d6194d98c7e6301ce27fce8c6fa68a72": {
    "model": "qwen2.5:7b-instruct",
@@ -1627,6 +3328,14 @@
    },
    "prompt_sha256": "39373a08055cc3a37a02fcb2472e0fd8400731fea6518fadbaafe80302373989"
   },
+  "b6650fdfd35654be2f39ca5eaa6e0f2279a56207763af1861cbf2f246050ee54": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph neural networks with three-body interactions addresses Crystal structural relaxation, High-throughput materials screening, Energy, force, and stress prediction for arbitrary crystals, force-field benchmarking on MD17 datasets"
+   },
+   "prompt_sha256": "526fa57797fe411c1beaf277c6b610ff4bbac5998b436574a3cd139701e28068"
+  },
   "b6d27ed4dc4632bf04c6ef51a3f0a712e7cacaf0c9edfc9f9002381ff2d7efcd": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1642,6 +3351,30 @@
     "gloss": "Techniques for constructing machine learning models of interatomic potentials."
    },
    "prompt_sha256": "d08a710145fa7b5539fdcb767ae3aa69d4287be71e3a5a8559909b37fbe02e46"
+  },
+  "b6ec2090c868cf9cf76d6946c041f61091a9a6931ec64a5085a8ac7f556c9ca7": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Universal Models for Atoms",
+    "gloss": "Models predicting atomic properties across various materials."
+   },
+   "prompt_sha256": "a7148b043c5f7fcc7ffe201b5ee19e8161b7beb916877235c28d4e9d0c476b9c"
+  },
+  "b72c1b4e94e7d5c355ff9796d1d50deb5eb8df7aff340b6abe07e88a025cb077": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "1ef9a2caae2ea6e980e9d2f4ed9a43998a2cf88f91d02cd9b0156aa12e1456d4"
+  },
+  "b76cb72d6668555b49550bca93cc235370a2d5963773ad3a6f88e30524581920": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Deep Potential Molecular Dynamics solves DFT-level accuracy with linear scaling, Symmetry preservation without handcrafted descriptors, Maintaining permutational symmetry across chemical species"
+   },
+   "prompt_sha256": "535547cc531018e4c273eb51de57031ebf4a21377718452bcd71313f0edfd4ca"
   },
   "b76e2312433350e54af5b6bb6b9f3df921f04b24476092108740bb1d893cc693": {
    "model": "qwen2.5:7b-instruct",
@@ -1675,6 +3408,30 @@
    },
    "prompt_sha256": "58a53e219fa9bc958cd034caebed9464d3c73b922361d698427b93f53bd7bb8d"
   },
+  "b8d766305ce43e2ed0bd39224bebf09d4f5b1b8059709c4e5fc7da9b9261e19c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- OMat24 dataset addresses Force prediction, thermal conductivity prediction, Phonon frequency prediction, Matbench Discovery leaderboard evaluation, PBE MDR phonon dataset evaluation"
+   },
+   "prompt_sha256": "669302e3996cbdb77813f7c734882b4f4cc16a3254fb39f66f101bfab827e367"
+  },
+  "b98ee52ba755136d046a2fcce162d97b24a3d5cb44a35630637e18142f85b961": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- AFLOW high-throughput DFT calculation protocol uses component RELAX1, RELAX2, STATIC, BANDS, NKPPRA parameter, Error correction system, DBS electronic minimizer, RMM-DIIS electronic minimizer"
+   },
+   "prompt_sha256": "a520256a29033d6bb6963dc583634cd09d22630b58974f4f9b0e2543a4ee4d8d"
+  },
+  "bb47591b0a59081c73fc07f0f639a192a130dbe2709c88bfa0f2a103274e5129": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for atomic and crystal property prediction."
+   },
+   "prompt_sha256": "2cd53808cf68b433cb7bcef040e2d5333abec46c8288cdfb05fae46d5fbcd37e"
+  },
   "bc6325111d0eba068c3c9e81686b4cf04c12d47fce523c545ae2be7c71718dfb": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1683,6 +3440,14 @@
    },
    "prompt_sha256": "ded97bff9d7fe37b0c6188aa982734cffde5fd5033152b79500a20bb39f95113"
   },
+  "bc8e420dfc3e6a79c2942770ae44406ad45c4cf5112692f201d31b24ecf64cba": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Universal Models for Atoms addresses Vibrational analysis, Molecule property prediction, Surface catalysis modeling, Molecular crystal prediction, Geometry optimization, molecular dynamics"
+   },
+   "prompt_sha256": "bac3f2a3b718afefb8c5058d5096a2748c439fc484f68df2db625a78c5df8c55"
+  },
   "bcbe8b3164bb11e77f732b4ec053717997f18c732b348bb59842551c172e2250": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1690,6 +3455,14 @@
     "gloss": "Automatminer and related methods for materials property prediction."
    },
    "prompt_sha256": "baa92fb9c912e97c257fcfc1a5173ca5037062366d2d4861f7d0f8650770a86e"
+  },
+  "bcf69e796bb94552b7e6b6d5c0076845ee3b229703b80063e3af39c0e9cb45a1": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Deep Potential Molecular Dynamics addresses Molecular dynamics simulation, Energy, force, and virial prediction, Large-scale material modeling, Molecular dynamics simulation of liquid water and ice, MD simulation of organic molecules, Prediction of potential energy, atomic forces, and virial tensor, molecular dynamics"
+   },
+   "prompt_sha256": "cdfe6cb9c12eaa8defee9bb86fc63ecf6b400674922a597dc692184109bab813"
   },
   "bdcf7663b59e664e347e90770189d7508058dfa935ab1ef61d5ed016336aed88": {
    "model": "qwen2.5:7b-instruct",
@@ -1707,6 +3480,14 @@
    },
    "prompt_sha256": "ac98991ad0102e3a446c3773229d653ce1904e0c08494cbe35ff65c5354ac1d7"
   },
+  "be4a7d38ff6ceaf8d907e3e044cf647bc2277040fbc4dc4e9b942f7527344e6c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "d62464eb968f97f783f74f7867d22bc3359bbd3a4774538e26096bfab20db596"
+  },
   "bebe4a2002d960e22046d81dffe2fef2ae243a523345f444d00eeda8353f2970": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1722,6 +3503,22 @@
     "gloss": "Models ensuring rotational symmetry in materials science."
    },
    "prompt_sha256": "fe56d62de2be0e3921628a9f4d8521ac755d5d5ba22ce77eec8e0d5f8e2f8341"
+  },
+  "bf5b130ebf0c7cc00049135dcc8bfa8eaf401e7643cf05f1082829fd67351e4c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for materials and chemistry tasks."
+   },
+   "prompt_sha256": "45bb11e07702b8964a54569ac5b9d565dca5795ba5413119defbfa4c69a2927e"
+  },
+  "c06311c3c23579a7817093b42938c4f4a18c7c5259952bfbfc4c0aab9fd16814": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Neural Equivariant Interatomic Potentials is evaluated on MD-17 Aspirin, MD-17 Azobenzene, MD-17 Benzene, MD-17 Malonaldehyde, MD-17 Salicylic acid, CCSD(T) Molecular Set - Toluene, Li4P2O7, Ice Ih"
+   },
+   "prompt_sha256": "42854ae65675e43991a0249fbb2e16281fceb9a31b7819c4e5ecfd5266152367"
   },
   "c0d24861adcccd16904ee9f37cfc5ef4608757a32c514a5ca96bc91a60d937e9": {
    "model": "qwen2.5:7b-instruct",
@@ -1739,6 +3536,34 @@
    },
    "prompt_sha256": "07d1422c0944d3a8c24dd2de87931a7dab64fe92dd45017a1ab80843d4c09aa6"
   },
+  "c1706f0935c6e71d03843d023a62cddda6571449503dafa6ce2e8eae7ea58a77": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Crystal Hamiltonian Graph neural Network uses technique Three-body angle graph construction, SmoothRBF distance expansion, Auto-differentiation for forces/stress"
+   },
+   "prompt_sha256": "9ec710547d50481b1dff8f1f4645f4400a52ac5c5c8c06453e0b29c0b976dc80"
+  },
+  "c1a3f171001fba70763e550bbd79be2539800694a0f1be6a5e21405e8cc65f78": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "MLIP_framework_analysis extends Physics-based potentials, Atomic Cluster Expansion, ACE with message passing, Neural Equivariant Interatomic Potentials, Elemental Spatial Density Neural Network Force Field, ALIGNN, Accurate NeurAl networK engINe for Molecular Energies, Universal Force Field"
+   },
+   "prompt_sha256": "89245bfe59e92ab2737d8ce3605b3530f5082371a74f70b4e71e56214140a58f"
+  },
+  "c1e6b36bd3199020e134e1be24e85a3d5abd3c0dfc524022708aa0c21ac6eaae": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "E(3)-equivariant Graph Neural Networks are models.",
+     "E(3)-equivariant Graph Neural Networks are for materials.",
+     "Materials have rotational symmetries.",
+     "Materials have translational symmetries."
+    ]
+   },
+   "prompt_sha256": "0ed3c786257a723f6a6e3449e77cdaecca82f60f269e86ffc1739ac1f8dbf7f1"
+  },
   "c1f5ebb7af7c43f94194df0de785c25f1782ce315091935f94584dce437b2450": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1746,6 +3571,14 @@
     "gloss": "Models predicting DFT Hamiltonian for various materials."
    },
    "prompt_sha256": "511e5086edebf028eaf39d7f48a0c356bb4f633804bf0255707ae64c2f326e4e"
+  },
+  "c20d945bc7ad6c25a75028eb4f1ecf7e824c18d63538c371467efb6b0526f104": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Pretrained MLIP checkpoint"
+   },
+   "prompt_sha256": "b84d68e9b1e8d20656174b3f57ea4e2266ac564c3824e2cd1d1fbfdd9e271500"
   },
   "c2c84fbbb8e538bb955dd1856cb2539e93a707a11f3bc1152008d44a9018fc8f": {
    "model": "qwen2.5:7b-instruct",
@@ -1755,6 +3588,22 @@
    },
    "prompt_sha256": "1219b8b90683d0010c57a075d933be2b738437143cb8507e35d71687f45f713c"
   },
+  "c2da7719c7cbd41156a4b38d76e1f21de6c30f5b5107e823a149dbad06cf4cfa": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "c38ffc4391d5882d377f52b6bf81c3a4cd6f068802594c1681e352e06ec8c631"
+  },
+  "c300a0c1f6264ac2f2ecb7c09e2f1060b6c1b09d5f6c46187fc74265b0701f77": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Automatminer uses technique Early stopping, Unknown value imputation, Nonlinear transformations"
+   },
+   "prompt_sha256": "3d92be67aae7168df9e4e13650647ef95dd783813de3f272afb3e39c128efa76"
+  },
   "c31062e02bb09a9d1f61aaac1703fae8efa647cb6e3a5ea82d730f9604053e5c": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1762,6 +3611,20 @@
     "gloss": "Includes techniques and components for efficient materials discovery."
    },
    "prompt_sha256": "0c0fa4f3115310b10996cc4a74c7284bb21194011c3364e0e34cca6d39af15ce"
+  },
+  "c32c23278e58122013bd3adb9f99bef9ca6206c119432771cc787758a336e357": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'Melting Temperature Prediction'.",
+     "The gloss describes 'Techniques and components for predicting melting temperatures of materials.'",
+     "The gloss mentions 'Techniques'.",
+     "The gloss mentions 'components'.",
+     "The gloss mentions 'predicting melting temperatures'.",
+     "The gloss mentions 'materials'."
+    ]
+   },
+   "prompt_sha256": "49b799a4e73a3f6a71c33d5095980950b9baf63625373b5b7806b33ecc230cf1"
   },
   "c35f08bed83c76d6e5eadcd28f35452e8a60fe151f6acf8905515bdcfb2eb5e6": {
    "model": "qwen2.5:7b-instruct",
@@ -1803,6 +3666,14 @@
    },
    "prompt_sha256": "d02f8466557c25eee48aa3a0543a833507dd861a7756e4ac5280d8b41fb46be0"
   },
+  "c4f0d116dd5350dc24d497c298086d00fdc18d870653e6630969d678a6dbb4d4": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph networks for materials exploration extends Graph neural networks, Materials 3-body Graph Network, E(3)-equivariant graph neural networks, XtalFinder, r2SCAN functional"
+   },
+   "prompt_sha256": "eb909dd9dbac4fc9b46dbeb1a08e7aacdddc02bad3bc163f2f40e1f3f8c48d9f"
+  },
   "c59acc86e43aaa58850a143d14a37014f273eed7f9d600dcf9840bed436f96eb": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1811,6 +3682,14 @@
    },
    "prompt_sha256": "cfb833c1ccbb6592db77b7096bc49d4af8b5a25ce7eb7682f22e5fa3b773c6b3"
   },
+  "c61cd7c33ff24d37bcf8ed6f170724648975e0554bb428e05f3e4b0a693bd586": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- MLIP_framework_analysis uses component Neural network PES representation, 3-body interactions, Dispersion correction model, Gradient predictions, Multi-property training head"
+   },
+   "prompt_sha256": "5ee73e463ef22a120bd3f8ce47d60158684365d41276d15920402e617beefd53"
+  },
   "c65c05c5b5806fc97b0de553269b886c0ec21e7c6cdcfef02683d6f7ea6d5091": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1818,6 +3697,58 @@
     "gloss": "Models using deep neural networks for materials simulation and discovery."
    },
    "prompt_sha256": "6e5f7ce548b31a35bc48fb48a46b94970a845df5981bcb023f720cf3258603a0"
+  },
+  "c6612e3bb96e72885882b649c99f6c382efad6bd62d36e2a75c23c5c8d26defd": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- graph networks for materials exploration solves Ineffective ML estimation of material stability, Limited transferability of MLIPs, DFT computational scaling, Limited diversity in crystal structure discovery, Inefficient enumeration of reduced formulas, Label leakage prevention"
+   },
+   "prompt_sha256": "84254c4872a1849eeb9c638b1690811fb68a4d11ffcbd8c8daf20678e23a7ddb"
+  },
+  "c6a386ac5d2a7e33911e9ecfb02f333fdc42d62eb08feeaffa279ae3e8869305": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "745e9859de4e06c23ffd54f423e4d16577d18950d57c2a34a683f58b988bcb23"
+  },
+  "c72eaf3ce3608db9b3704f8f15254ebf58c3ff9082fc7cfd13f299fcb4cdeb46": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Graph Neural Network for atomic property prediction in defective crystalline solids uses component Spatial-coordinate node features, Cutoff-based edge connectivity, End-to-end GNN predictor, Boundary-condition encoding, GA optimizer, PNA-based GNN predictor"
+   },
+   "prompt_sha256": "30fcb82aeeeae1eb817ecaf66a029d57af9945f964cb1f55085dde1ac3b93193"
+  },
+  "c81f705a559ee534dc77f044cb6050fd4b01fe3b2d3b2238e508ac94b74d2cb7": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is Diffusion Coefficient Computation.",
+     "The gloss describes models predicting ionic diffusion.",
+     "The gloss describes models predicting Li diffusion.",
+     "The models are for solid electrolytes."
+    ]
+   },
+   "prompt_sha256": "24c25731007f90ee1ffc0819274d0666a35305c31fdaec1a08ca829449654c9a"
+  },
+  "c844759070b719ad7e8e8f0794102d50af2192df0230931354116bf1b6c4aba7": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Gaussian Approximation Potential (GAP) for silicon uses component Many-body kernel term, SOAP descriptor, Kernel normalization and exponentiation, Regularized least-squares solution for expansion coefficients, Bayesian uncertainty estimation"
+   },
+   "prompt_sha256": "60040bb2c9e6c2cac9ff8babffcec944183e0de746b06fcad359bdfdaee230ac"
+  },
+  "c8cf7f76f2e6b82a6937152f0c28c7e2735337ee99a9175c438b34b1ee39d835": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "ee9de2bb5fd1a321a10c2e72bd674e3028478f0a020016782a4d844d5a55adaf"
   },
   "c8e9b6d2f2e5826386d186100278d69e4f4a8737510b9e919d4d66d6703ce55d": {
    "model": "qwen2.5:7b-instruct",
@@ -1834,6 +3765,14 @@
     "gloss": "Techniques used in AFLOW for materials discovery."
    },
    "prompt_sha256": "15251e3c35ef743f94d8a1c74c61c41eb7bcacc873074bd1a808d09aa6db4a60"
+  },
+  "c9a48cf64ebeebc20f0429adb16c4245ad3ba390e3e5a5acba5bee3e7f21b07c": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "4bd604e59857d51423cb768e95eb2351196f60382cf2f2f169e9cd3c0a7d4c70"
   },
   "ca04df38f4e75f7969251e846fb431775069e9ab1951d1411d9880d427872875": {
    "model": "qwen2.5:7b-instruct",
@@ -1859,6 +3798,14 @@
    },
    "prompt_sha256": "f2ab95b82dc4928363789c2fd06c4c32446f338813ddba55855dbc89b698f522"
   },
+  "ca455fbc26489aff8edab420b860d7be81aef388cad6f130d5fb3ca7d802ab8d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "deep equivariant neural network method extends SE(3)-equivariant network, Graph neural network for DFT Hamiltonian, Equivariant representations for atomistic dynamics, Directional message passing neural network"
+   },
+   "prompt_sha256": "32fd2bae1658ca31b5cb940109bab1f0769cf719a18c6044bc5d706fa8578ed2"
+  },
   "ca4748eccf97914d674b31e5abefa64a9ba02b6c1dfb036de29d5e3c0d616e9f": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1866,6 +3813,46 @@
     "gloss": "Tasks involving atomistic, molecular, and interface simulations."
    },
    "prompt_sha256": "8c6c4e347e408a3718a71f8b6b6f0cd042351b22bb78b909585aca34a22d5be4"
+  },
+  "cb8d24c87d45cb8cff58c9206e0bb4984a2151f87d17961e4db34f017f5f5989": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Transformer-based Inter-Atomic Potentials solves Symmetry compliance without architectural constraints, Computational efficiency of MLIPs, Limited flexibility of equivariant architectures, Data augmentation inefficiency, Molecular representation learning with quantum mechanics accuracy, Atomic force prediction, Molecular energy prediction, SE(3) equivariant property prediction"
+   },
+   "prompt_sha256": "a5e9065f81d53b7118ec2359ed7eb02d3dbe02493fbeb1e772c2a53ad32f80df"
+  },
+  "cbd7ce4f6c5447e8497c83f2992557a97a12cd1db17c1095999186ac9cca386d": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph Neural Network for atomic property prediction in defective crystalline solids uses technique Graph representation of atomic structures"
+   },
+   "prompt_sha256": "0635a81b5aa58a06af48370d1c04034870f72a21efa5b91efcf0f5beefd01ae8"
+  },
+  "cd24033f666a930f856b3588cf7ed75db1d938df96987d44af2f0f4912ad40a4": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "8ea6d48203d144076fcc70187c191b8ffe7028e351f3eaa360d6a9b335bd116b"
+  },
+  "cda1cde89806dd83069b1db2988b0f4da7052bb4b066d824a5532d9712f42adc": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Delta learning [technique]"
+   },
+   "prompt_sha256": "1ed66d4eb358e839592709ef6740530774922d8329ba310825e3c92a05f6a085"
+  },
+  "ce24e29942901c4913703dc3c5f1d459f3a10ca567311809c2fb37cb9a10ff65": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "26faa42413fc8a2daba6b9105b15e135832f7fc1e88a49b3b473da330264973a"
   },
   "cf1f7b5b14206fe2e93fee30907dc0dc9a73188f9e185670187ee73c9fed2dd5": {
    "model": "qwen2.5:7b-instruct",
@@ -1875,6 +3862,14 @@
    },
    "prompt_sha256": "a6c88c7045fd7535c84d5009faa80d264bd9ad3e25d000bf7d1a764111bbeb9d"
   },
+  "cf7e5017d05839ce4a966fb3f23a68072f4e4c0b1a11826b0701af3535f4ac86": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Scalable EquiVariance-Enabled Neural NETwork addresses Interatomic potential prediction, atomic force prediction, stress computation, interatomic potentials, amorphous materials, computational chemistry"
+   },
+   "prompt_sha256": "c079dd0293d12276c0d3863084b503d9182aa8e046b54e70b5b0f4c1f944c452"
+  },
   "cf90a789c6c50b934136750f8bd8bbaf63a5bcec57f10e975b0b86598bfb8958": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1882,6 +3877,22 @@
     "gloss": "Techniques for training machine learning models in materials science."
    },
    "prompt_sha256": "dd0e06a7fbeb04f768cc02dceb36af8d9fd98c4dcf16de5a2cb7563f9a969030"
+  },
+  "d01bd12f95021ff10c6eb34e1de6a90b6e5d8666977ddb1c72b454dccf06e63f": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeePMD training protocol for diffusion coefficient computation uses technique Active learning, Nosé-Hoover thermostat, Interquartile range outlier filtering, Minimum ion-ion distance cutoff, Maximum bond variation check, Batch size adjustment, Self-consistent training, FPMD simulations"
+   },
+   "prompt_sha256": "b195e8b15cc44dbdaa36a4a8f3e404325d608bfd6a578aa4790e613625ec45fb"
+  },
+  "d052cd4df54ee344eb27bbc1acaa831d797e0e3dd6fc03905e309524cca032c2": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Graph Neural Network for atomic property prediction in defective crystalline solids uses component Genetic-algorithm-driven inverse design, GNN predictor, Genetic Algorithm design optimizer, Stress-field surrogate objective"
+   },
+   "prompt_sha256": "77c7af6adb6653c3834f67ca9d0152177c3add8c12c624b04bced0d77492fb3b"
   },
   "d0bc99689b9aa45f1b634929e687f62939d4690766dfdedec7b12c86ea85dd41": {
    "model": "qwen2.5:7b-instruct",
@@ -1891,6 +3902,14 @@
    },
    "prompt_sha256": "b44a9791f5948c6d265406da2f30c48544ea0d7683c6f3696569fd26cbef92bd"
   },
+  "d161061e811339ddd665a5ed96fc571cc7fb495c6e0a4756d7116cc4f18a98cb": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "ML for Interatomic Potentials",
+    "gloss": "Models predicting atomic interactions in materials."
+   },
+   "prompt_sha256": "e971043bc3efb11540a9ce7c59bbb2783aab05a0516e908e090088816171fe11"
+  },
   "d1b737581796e676bac79bbcac555d93dbc4b94e0176983570591f8b12508359": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1899,6 +3918,22 @@
    },
    "prompt_sha256": "167bb58d169ea3500bac79db52e945dc20414b56ef755a29b6e8505bc9b03ee4"
   },
+  "d1bd45636026740acb746bfcdce4ad5bf0c8516871b8ab6468144bdc0a9cfa10": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "b676b6fe6c807d6202d2fd1b61889cc9df6e771bd10e469792e608007dbcec28"
+  },
+  "d36d39263e23b3999a27ff91bb1091bd21ffab7df3739f06e4eb3cda1d9b48b2": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph networks for materials exploration extends Message-passing neural networks, ab initio random structure searching, Deep ensembles, Equivariant interatomic potentials, Materials 3-body Graph Network, E(3)-equivariant graph neural networks, XtalFinder, Open Quantum Mechanical Database"
+   },
+   "prompt_sha256": "a2f43fde7f3730f902b7acf94957ff80511a3b4c4dfbf2c53ca25e50dd1189ce"
+  },
   "d3f1f3c893b81cae4ce2549168173269766b06b59976b951efae45c764b5bbcd": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1906,6 +3941,19 @@
     "gloss": "Techniques and methods for predicting material properties using machine learning."
    },
    "prompt_sha256": "53a1fef73e7aa68374d4faf750a050b0cfd92f0a39266894236f4ca8de51777e"
+  },
+  "d45bd24c57a997acb015d20a36b26d5884518d6290ae8cbbddaf41627b088062": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is Materials Property Prediction.",
+     "The gloss describes models predicting properties.",
+     "The gloss mentions energy as a property.",
+     "The gloss mentions melting temperature as a property.",
+     "The gloss specifies the context is for materials."
+    ]
+   },
+   "prompt_sha256": "ba321f564a67c572f83f1210fef00cdd59ca4fe8021735b2f272010037a47c30"
   },
   "d462d8b04b7f1338f2e0ea222b48b8319ad3e55c6af28f04fb6937313c51f74a": {
    "model": "qwen2.5:7b-instruct",
@@ -1930,6 +3978,14 @@
     "gloss": "Tasks and techniques for rapid material property prediction and discovery."
    },
    "prompt_sha256": "98d8baa061ae2a6b78ebde6b5ccab05016e2c8b991910e709edf2230d5e82f8a"
+  },
+  "d69ed75a1854176c4d33a92b377ceccfb34d4061a6bc2c6a99fc5124d658fca0": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "unconstrained MLIP evaluation framework uses technique Direct force evaluation, Large-scale dataset training, Inference-time symmetry recovery, Inference-time rotation averaging, Inference-time inversion averaging, Lebedev grid summation, Random rotation/inversion at each MD timestep, Multiple time-stepping algorithm"
+   },
+   "prompt_sha256": "0e562cbb6378eb3e00bad39e4571a13c4f445a0da982b9c7c11758fa3546c12f"
   },
   "d71948b6fa26fe1629e7ebc84ea6fe5bc4ed6d7e8ccd634b4e8712ef429a7115": {
    "model": "qwen2.5:7b-instruct",
@@ -1963,6 +4019,14 @@
    },
    "prompt_sha256": "8d475b47636f3ebf8ddebecbb99a1519345cca55cbf09c70da5e67231af42185"
   },
+  "d774af0c3f1cf290f1a54431051a82abb57c5cac27f539650fc6bd5859967485": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "unconstrained MLIP evaluation framework uses component Direct force prediction head, Inference-time symmetry corrections, Root mean square layer normalization, SwiGLU activation function, rotationally unconstrained architecture, PET-OAM, Unconstrained architecture, Conservative force head"
+   },
+   "prompt_sha256": "cb05d92e5705a60b89b3f5d14ca0bf8b5388cb7d49c59f8e027b470c995c44a4"
+  },
   "d8651c896120422a4cda5e207b1948eba41da6da267ccbe963c7efa3b99b1c13": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -1987,6 +4051,22 @@
    },
    "prompt_sha256": "a05165578186116f80a53e93f2b0b1b6f0e34d71a2709f6f607c7a6607a6f69e"
   },
+  "da5d6cbf85bbcd7969ded971520a057639eaf76ccc2932bcc328446efd1cf0f6": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Element-wise phonon energy prediction [task]"
+   },
+   "prompt_sha256": "408fab60eaf545a390d72c827d844032db89de41cfd9aa3f29e14a2e6fa63a19"
+  },
+  "dae93cecdb9a7029c1fe5a59754e74fb648c6729c7f9e9a4ca50886740be7460": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "SchNet extends Gradient-domain machine learning, deep tensor neural network, Edge-conditioned neural network, Dynamic filter networks, ResNets"
+   },
+   "prompt_sha256": "33f547c8fef0092eacdd9cc3e19aec79c4b213325c0e5d5855d41167e292359a"
+  },
   "db5f244be9bfdf24201348e663ee2a016919db302f21c8731f3f8f1a6233166e": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2003,6 +4083,14 @@
    },
    "prompt_sha256": "cdf9e44208d81fe68c52232dfa3de55fb164f06e87d19e468ee95835161484d3"
   },
+  "dc73acea62f858c7b3d01bc6ae47a24415a00e0fd55b35f5e585bdd42e507613": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Materials Simulation Techniques",
+    "gloss": "Techniques for simulating materials properties and behaviors."
+   },
+   "prompt_sha256": "7463501e56fac351489ce1c73954a4a884bd5a35c37745ebcb8a32f271192737"
+  },
   "dcea73ef353fcd5df2c7aaf8b67547e7e4c57247fd2974888259f4cb6926532e": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2010,6 +4098,14 @@
     "gloss": "Models providing quick predictions compared to DFT."
    },
    "prompt_sha256": "0ab8ea3f59756ca54556a310f307f37bd45beaafe24473777f7dac0ce175758d"
+  },
+  "de32d8430c83c351d3ce8d5802b400f3bf7be6a67b5f37a23c7cb7fc7c0a44ac": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Molecular dynamics simulations [task]"
+   },
+   "prompt_sha256": "674319fd6a19a6c794015e6da58653d13aaa043e6d1422f883950322959009be"
   },
   "df4cfeb24522b6f9859cee9cd06778d1ca3e52247b8ce02c132fd97a5db88aaa": {
    "model": "qwen2.5:7b-instruct",
@@ -2043,6 +4139,22 @@
    },
    "prompt_sha256": "bc6fea9a815b551a2b38491d083adfcd6a061dab602f8c661541b1b72151d19d"
   },
+  "e0481a140bd162c71fff110e0d8060de738c97fcc3c5431c75cb930d6cb820f8": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Transformer-based Inter-Atomic Potentials uses technique Contrastive latent equivariance loss, Random SO(3) rotation sampling, Masked self-attention, Coordinate centering, Energy-conservative force prediction, Learned equivariance training, RBF attention bias injection, Multi-task loss weighting"
+   },
+   "prompt_sha256": "732679c86097e8807bea592f4c541b7e819fcad11373dcb1cb04f4bf27d4d5a8"
+  },
+  "e1105e5cabed319ded528fbf4cd1a432c7d22bc238fec4f8e10c16506e03b1ec": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "5819924b566664adfcdbcbf48eb782fef0d0137ee5161f1b19fa3940fa8709f4"
+  },
   "e15d0778b4f8cca5ce580473a674ee144c4402f81fb0efe53b968c38d13afad1": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2059,6 +4171,14 @@
    },
    "prompt_sha256": "a624cfd4fadab9220d7616c72fad9b3632b8cc3b2e69e6620ca4cdf896b22e8c"
   },
+  "e387efe3283ed7e0b28874c4e722c1cc96a07321ed5d21203845e579c2429dd7": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "af0bf79455dcb86dcbae73ef1f1dfd7e40accc6ae897aeacc962e71f2003b7a7"
+  },
   "e3c87b1148544aa3499c4b86854ca8b64efb64c044ea89f746efabae725e4dda": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2066,6 +4186,33 @@
     "gloss": "Models ensuring accuracy and symmetry in force prediction."
    },
    "prompt_sha256": "163b283b789e0632aee4bd0acdac8ee5584124f8be59885cbeff5c81753fd2ec"
+  },
+  "e3d7f831c7c5f195e1b1defbbc44f45efd004d417f15bc2dc88d32c67b16eeca": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for atomic and structural property prediction."
+   },
+   "prompt_sha256": "46a2ed95d31d1d9b366de522376ceb9df120e5f6400ddb6bb2d4a4017851231c"
+  },
+  "e41f3d0d5ca52e072860b650c70b2716e030bb23f59bceab87a1f3bf299795ed": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- MLIP_framework_analysis addresses Geometry optimization, Chemical reaction prediction, Metal alloy design, Atomic energy and force prediction, phonon property prediction, Structure optimization, Formation energy prediction, thermal conductivity prediction"
+   },
+   "prompt_sha256": "b1375517a631f79eb86631c83560895b338da806a52bcf56173307b2f9ca2a66"
+  },
+  "e4ade885cba76655961b945f97b105f698348e8ce69689a5cff31df3e2c3c3b0": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "High-throughput DFT techniques involve techniques.",
+     "High-throughput DFT techniques involve DFT calculations.",
+     "High-throughput DFT techniques involve protocols."
+    ]
+   },
+   "prompt_sha256": "f3e0a9dfd4df0274a88ba4e37e01a97b6ea39d94eabb7dc700390e46862f12de"
   },
   "e4e46ca825fb83d03c5a1ece6d118a3e90b1c56905062f304a2cb659a30f53d2": {
    "model": "qwen2.5:7b-instruct",
@@ -2075,6 +4222,22 @@
    },
    "prompt_sha256": "22120a4724af971f77705dc2976abcc5a27b40f3fbdb5ff561626fba86aaa4fc"
   },
+  "e61a290886320ad1bf59bd7024aaef917d07a72a4547d21d012ec2af3e79cdf3": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeePMD-kit v2 uses component Deep Potential - Range Correction, Three-body embedding DeepPot-SE descriptor, Fitting network F2, DP-empirical potential interpolation module, Tabulated inference engine, DP operators library, two-body embedding radial descriptor, plugin system"
+   },
+   "prompt_sha256": "af7608588972457334a30ed91d88fa1362e9219409cf96b9921c083389c39438"
+  },
+  "e65dbca186d168a9fa3f04c5815d0f200542a1f400b8f857646e8bf1c669def3": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Light Gradient-Boosting Machine [method]"
+   },
+   "prompt_sha256": "9807e10bb88cde1837b2af5063fabfe759e73334178b98658728c0e6cc0243cf"
+  },
   "e7d7ba53306091ba09e5d1d15b8e6efc3061b988b9ef651743428bd6d07b68ac": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2082,6 +4245,30 @@
     "gloss": "Components used in graph neural networks for materials science."
    },
    "prompt_sha256": "07861e5d821d1c01253b33daf2cff4938c870ee6978d5d48a68ac150e129f8ff"
+  },
+  "e840d0d497371d0ecd249b9d62fe24e3c21a697bae75e07b11863025c2cca9f6": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "MLIPs and GNNs",
+    "gloss": "Models for atomic properties and materials discovery"
+   },
+   "prompt_sha256": "c085e5a0036324e562e8bb5d78889ec4fa4a27dc0068522e1cfb4279a78fda49"
+  },
+  "e84d6208e260e03704cb037684215f98e14c9661f74c6bef4499fd261e2e3c5e": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Universal Models for Atoms addresses Molecular dynamics simulations, Structure relaxations, Ligand-strain energy calculations, DFT surrogate modeling, Materials property prediction, Catalysis modeling, AdsorbML benchmark, Multi-adsorbate interaction modeling"
+   },
+   "prompt_sha256": "1626a038dbbdd2cb6b7208b96b814ed54f41c86278930c9d643f5a522a8faddd"
+  },
+  "e8cb1a5a67a270f170c7da3803d77f0f57bbc765d85a63146280cf73ffe1e255": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- machine learning potentials [task]"
+   },
+   "prompt_sha256": "1bbe1c1b98dcb768edd6024f8d25d16c00cfdf37592e4e24767dea8b9c86a813"
   },
   "e947c6b59cbbcee7ac47ec98a63a00deb9f5b73a501607faf2fe4a52edecfb45": {
    "model": "qwen2.5:7b-instruct",
@@ -2107,6 +4294,22 @@
    },
    "prompt_sha256": "e5f34e29d7f4055def3241cc29d3f077c4001fde25ba1e76dfad0da6b23c3c34"
   },
+  "eb46accfe52039bafb81f1e773fabc81194f8c70546d2330a340b4dcd6cb2c8a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "graph neural networks with three-body interactions uses component Phonon and elastic property predictor"
+   },
+   "prompt_sha256": "e85e6e090ded537648b1c141bb7b67a26fdf02eb42ea8518ab974dfcb7aa3da0"
+  },
+  "ec79d6f638b294e5455d915a5ae5da6154e723133816f6a034ca0822c1aa3896": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "two-step supervised-unsupervised melting temperature prediction with symbolic regression addresses melting temperature prediction for binary ionic solids, material classification by bonding type, Materials clustering, SHAP feature importance analysis, materials clustering by bonding character, cluster 1 prediction, cluster 2 prediction, Bonding-based material classification"
+   },
+   "prompt_sha256": "8fb9d3378ff2288daf4917c380b7888a12285bf9d5572769d762d9c26120ea0f"
+  },
   "ecc3c807f1158b82178ab779e018937f8d94356a6feaf15e1be234fd55ee49ff": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2114,6 +4317,22 @@
     "gloss": "Machine learning techniques for DFT calculations in materials science."
    },
    "prompt_sha256": "7d5952c74b28def73995acaddf7e1ca02b44e4450583ada2b9700adb885315f3"
+  },
+  "ecfb3c53bf959c2955bfee6939c729261f0f8292879076455ed655d75dfe5319": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Scalable EquiVariance-Enabled Neural NETwork extends LAMMPS, PhysNet, PaiNN, DimeNet, Crystal Hamiltonian Graph Network, SE(3)-Transformers, GemNet"
+   },
+   "prompt_sha256": "d50e9fe1f60552a2639e9ec4e9e73e28300d8a920715711731a4c9c78b375cfe"
+  },
+  "ed03da81d37f25ff980b6a4fa0c8bc1cf779638f8c1b582c1da9583fd8d608c8": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Phonon Property Prediction",
+    "gloss": "Models predicting phonon properties in materials."
+   },
+   "prompt_sha256": "937251057b366ef6e1b267af5beaa0ac03f83d5e31c41a65201ed55552b32101"
   },
   "ed1ba940119bf96f1d510dc1334a51eb430ff92cef8a72a99ef62eca31cf45f0": {
    "model": "qwen2.5:7b-instruct",
@@ -2147,6 +4366,42 @@
    },
    "prompt_sha256": "04f137ce7f05f66b88cde613f2632fe0839e777e9dfa9f14456e1c960dc39324"
   },
+  "ef72ebc7b5c35a10cbeef95ae96a1f6c5e1a97e07d85995433e92c69dceb715c": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "High-throughput DFT techniques",
+    "gloss": "Techniques for high-throughput DFT calculations and protocols."
+   },
+   "prompt_sha256": "e2efb6edfbbbf5269a0c221e6251ffc06193a9ff8271023d56fae0cb6a3ec14e"
+  },
+  "f0887b1d495cbe79da7614a0e37472e10ed053388e5637ee5398f8115d4d403b": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is E(3)-equivariant GNNs.",
+     "The gloss describes models.",
+     "The models use E(3)-equivariant representations.",
+     "The representations are for materials."
+    ]
+   },
+   "prompt_sha256": "265a441bc0e4b615f9e55aef2e7439c7dff4db1b6d29fe23a39e44b2c4f48af8"
+  },
+  "f155afb41286862e8776b789884c35ac2ad234e68f9bfa7e7a9e73b472c3e29e": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "bfa84ea681441407377c29472ff31f422759db5290d86c5ea248b01a2b036a7f"
+  },
+  "f1c242afdff0643fdf13d35716780e8b1c931d2930322612fa2130e669e74a76": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "ConvLSTM-based fracture prediction model uses component Image-based geometric matrix, ConvLSTM network architecture, Fracture-toughness regression head, Mode-I and Mode-II training pipelines, Bicrystal and gradient-orientation extrapolation workflow, Image-based data-processing pipeline, Geometric matrix X, Crack matrix y"
+   },
+   "prompt_sha256": "f77304309af1bd87508ea4b0aede8dee0772e8179732964a2de1831fab57014d"
+  },
   "f22dba7ef6c94524258157eda5c623d9a029dced4e23344b81d34252a4bf1d14": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2154,6 +4409,31 @@
     "gloss": "Metrics and tasks for D4FT model"
    },
    "prompt_sha256": "86e77f3124bd0ea9b30865fde274564fe24b0607cd06f424084518e718cb43f5"
+  },
+  "f25cba2b52fd1fed9f0dc02f0bd84e7dcc2ed3570bafd698681b4df7461b39f2": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for materials exploration.",
+     "Graph Neural Networks are used for property prediction."
+    ]
+   },
+   "prompt_sha256": "1c5fb8e1a8e36478bcc3a7371e38831892f44cab2f17e07699f55c444546d90e"
+  },
+  "f2a8df6d1dc5507f2df1920a87e90eec24b40bd93b9b67bb4e692378142a7d56": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is Materials Property Prediction.",
+     "The gloss describes models.",
+     "The models predict material properties.",
+     "The material properties include spectra.",
+     "The material properties include energies.",
+     "The material properties include elastic constants."
+    ]
+   },
+   "prompt_sha256": "e1030d0165f1809fcd083adf7f18761520437aa42d0532dbcb47c9174908f6cb"
   },
   "f34ddb0b16ad4e8842dd9929c9e0a0434cb7809b4110d890a182cc8e4c8bd738": {
    "model": "qwen2.5:7b-instruct",
@@ -2171,6 +4451,14 @@
    },
    "prompt_sha256": "1ea1ec2b751fe34d22cd5ebf2477e3f1486179357ce3a0362fb12b2d70737be9"
   },
+  "f4480f0a5db074d595cd27d3840075aa8f95a22e7e8ab891dabcb93212b29c6a": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "4031aeaeac95f5031209828f55f78c75217de7bf220f13f35f51349f6386a108"
+  },
   "f4f5e38be698379733ff049b2e4b8c15b7aa08d4ccfdcd908de34f1dfa23c5b2": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2178,6 +4466,30 @@
     "gloss": "Models for materials property prediction and high-throughput screening."
    },
    "prompt_sha256": "468afa5e65d27c350b645ebbff467d814d14990b3383537cfe1e7515663df30f"
+  },
+  "f57495bc5fb6be3439309e69babb984c9de037376b6dd9d30396a71cff4f5160": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "be8506fcdf81d42c234075e09f0704fe0852a4411f27ab7ad416c448a40c809f"
+  },
+  "f5f875daff9297c28415ef140487c245034c1827d4c5fb4d736dda70bc330343": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "d866c2bdf0bcf3348199d11398db5f1cdf0234b51238ae7bf3c727855749b622"
+  },
+  "f65e04c54c4c5377f4c2face6da5f8dc61b4801b4b553e5ee3b8e1e2f90ba874": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- DeePMD training protocol for diffusion coefficient computation uses technique Nosé-Hoover thermostat, Maximum bond variation check, iterative configuration addition"
+   },
+   "prompt_sha256": "d63c7d2fd6d0763326ca16aa91e2a6792ee609a6fd292390eae2300a39e5ad6f"
   },
   "f6f3367022ab243a8d988956019f02fc5b8a044c12f3d236804696bcfb08f8ec": {
    "model": "qwen2.5:7b-instruct",
@@ -2195,6 +4507,38 @@
    },
    "prompt_sha256": "4dfc0f66963ababb1697fd8a3162986437175c82a1c42ac9e57f398d2c6d0670"
   },
+  "f739c7788558ec3eb0c7d0b80d4edb898f5d2b1d4066327dbe9b27ae039e88ec": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Materials Project [dataset]"
+   },
+   "prompt_sha256": "2d7be31924d2824f48d6709d60791f6fc152c753f71161a3b2a2f5f368fd6e95"
+  },
+  "f86be87d7dcc1c434ae9a0f7a624c9464e8f7566a9f8615a8f7d47a0c083b1d3": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "ConvLSTM-based fracture prediction model uses component Image-based geometric matrix, ConvLSTM network architecture, Fracture-toughness regression head, Mode-I and Mode-II training pipelines, Bicrystal and gradient-orientation extrapolation workflow, Image-based data-processing pipeline, Geometric matrix X, Crack matrix y"
+   },
+   "prompt_sha256": "f9992d30d797a409763adbc07bb595ef19955d6d04077f133ff5033ac980f0ad"
+  },
+  "f8897da4af83339774ee1d844044a171dd71bafeae8b2a00f11c6e0f6e81d597": {
+   "model": "phi4",
+   "response": {
+    "verdict": "unsupported",
+    "quote": ""
+   },
+   "prompt_sha256": "25d047ab163fc2c6dd5f3b1ebf4f4eb2c77d1c5a86d25fb3c283b87b73278519"
+  },
+  "f94261bbb7a653110b915ff56b01a646474c1ca3a9b703c98f2c91c76c243334": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Loss function modification [technique]"
+   },
+   "prompt_sha256": "fe855e56a47f7010a0f4db59b9a04290071f1d666122d9ca512468d4bce4abf3"
+  },
   "f9a829702ebf39bce04c80f939ce0f1702c37c991c33d18f0e28311b09f44ba4": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2202,6 +4546,14 @@
     "gloss": "Techniques used in AFLOW for materials discovery."
    },
    "prompt_sha256": "c1d6b0071c2f93c9270ce0425c0c53ece4d857b29ea6e88898bedb9ecf4b6a93"
+  },
+  "f9fbea698f705ba2c53eac4386a4249b8ba570e3eeb28a5cfe8891056606a684": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models using graph structures for materials and chemistry tasks."
+   },
+   "prompt_sha256": "8b25352dc1dac8497d8a0b793708aaf3ca6cd43c38b8b567f7011490284f1f61"
   },
   "fa3b3504b54b55cecc563b81a58b7feaaba167974d194c16058943ca07ed1b1b": {
    "model": "qwen2.5:7b-instruct",
@@ -2218,6 +4570,25 @@
     "gloss": "Models for predicting ionic diffusion coefficients in solid electrolytes."
    },
    "prompt_sha256": "104803bdc89d87d7ee34f4d12f5628339e7832951d88d27fc49d3c52647dbbe3"
+  },
+  "fa68795ebf68ecdef172358b13c93c253ac68e4ec9b80079ec1cea39af39f7e5": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Molecular Dynamics Simulations are techniques.",
+     "Molecular Dynamics Simulations are used in materials science.",
+     "Molecular Dynamics Simulations involve simulations."
+    ]
+   },
+   "prompt_sha256": "7a916735427a9ab44767dc4dbec53f9c50e11b440de6bc84d2a134828ac8984c"
+  },
+  "fb0cdd674a8793e4d732c1b6f8c66c4abb3e361c39f3daf377e07e6dbcce012d": {
+   "model": "qwen2.5:7b-instruct",
+   "response": {
+    "label": "Graph Neural Networks",
+    "gloss": "Models for materials exploration and feature extraction."
+   },
+   "prompt_sha256": "3fb8884594e9e8ea7b3a056efb409e9e494e90e98f4993e70823f730606c20fb"
   },
   "fbf8949c8f5f7cc87eb1fcda714ed36fa44aed4e9a34c05c0acdc6f8c4c4afdd": {
    "model": "qwen2.5:7b-instruct",
@@ -2243,6 +4614,49 @@
    },
    "prompt_sha256": "184b80b41729ca594f1a73e12ab986af8c5b8ce2332ad0f15616243612f9f7a9"
   },
+  "fc15b39698c7215000b065440174dc07ceefef4aa9e595f190ee1c82e372a973": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "- Automatminer is evaluated on Matbench test suite v0.1, MAE/ROC-AUC (metric MAE/ROC-AUC, task Materials Property Prediction, split 5-fold NCV)"
+   },
+   "prompt_sha256": "e392880c2b9812192b87d5738e1b6420da39f64abd4b3a379a972111cec376c4"
+  },
+  "fc2d519148d4ae13568cfa017e0687bf1c85dbe3f6de0c05cfa78a498424b3db": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "DeepH-E3 extends deep-learning DFT Hamiltonian, Message Passing Neural Network, TensorField Networks, Equivariant Neural Networks, E(3)-equivariant graph neural network, Equivariant message passing"
+   },
+   "prompt_sha256": "8b3ac30df513fc0a21ca43ba65566c1ebd4d5fb0d2d2e47c3dc89b74dadd2ea5"
+  },
+  "fc40b459d4dc7f61e4b3da18f153c76c0904a4b9d3fad1447204dd3ad14dc226": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "Graph Neural Networks use message passing.",
+     "Graph Neural Networks use graph structures.",
+     "Graph Neural Networks are models.",
+     "Graph Neural Networks are used for materials."
+    ]
+   },
+   "prompt_sha256": "3556568cb1d97c98d7aa846294c954b1a44fa25db5f30de1f44fd78fd936bbd5"
+  },
+  "fc42add52579316ac2ee9b6c6a7e5604b01c0071a33392a7d279701101a30963": {
+   "model": "phi4",
+   "response": {
+    "claims": [
+     "The label is 'ML for Interatomic Potentials'.",
+     "The gloss is 'Models predicting atomic interactions in materials'.",
+     "The label involves machine learning (ML).",
+     "The label pertains to interatomic potentials.",
+     "The gloss describes models.",
+     "The gloss involves predicting atomic interactions.",
+     "The gloss is related to materials."
+    ]
+   },
+   "prompt_sha256": "0157e0637b9c43420bafe266a6e2a8188653e8952848cad8efd66a1d607fa266"
+  },
   "fce85ffb25b387c4e4505b54504176735039bd7487068d1784e8ea9368ee4245": {
    "model": "qwen2.5:7b-instruct",
    "response": {
@@ -2266,6 +4680,14 @@
     "gloss": "Models for interatomic potentials using Gaussian processes."
    },
    "prompt_sha256": "8615f34c1d02490841c212fa6d3b2dde7c1943c0da8c9cde789ba68120cdcbec"
+  },
+  "fe2712fbdd2fdb57a4a357a41c6eeff83e056652250bc9205fd6238dbbff34e9": {
+   "model": "phi4",
+   "response": {
+    "verdict": "supported",
+    "quote": "Equivariant message rotation [technique]"
+   },
+   "prompt_sha256": "9210b8ee0157916a3cf6a31c7902ab7c442c87063331a2f39ec32049a206e648"
   },
   "ff5a1122ec0b41c7f09babf3a5fb3d7f56fe462d4dbf07f8641dbd0f7c091567": {
    "model": "qwen2.5:7b-instruct",

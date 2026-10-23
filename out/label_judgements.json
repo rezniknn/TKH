@@ -1,0 +1,1874 @@
+[
+ {
+  "tree": "model",
+  "supernode": "L0.1",
+  "kind": "label",
+  "claim": "Equivariant Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.1",
+  "kind": "label",
+  "claim": "Equivariant Neural Networks preserve symmetry.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.1",
+  "kind": "label",
+  "claim": "Equivariant Neural Networks are related to materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.1",
+  "kind": "label",
+  "claim": "Equivariant Neural Networks are related to molecules.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.1",
+  "kind": "sibling",
+  "claim": "Atomic Energy Prediction",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.1",
+  "kind": "true",
+  "claim": "The group includes Gradient-domain machine learning.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.10",
+  "kind": "label",
+  "claim": "High-throughput DFT calculations",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.10",
+  "kind": "label",
+  "claim": "Techniques and protocols for efficient DFT calculations.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.10",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.10",
+  "kind": "true",
+  "claim": "The group includes Structure relaxation.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.11",
+  "kind": "label",
+  "claim": "Diffusion Coefficient Computation",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.11",
+  "kind": "label",
+  "claim": "Models predicting ionic and Li diffusion in solid electrolytes.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.11",
+  "kind": "sibling",
+  "claim": "Equivariant Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.11",
+  "kind": "true",
+  "claim": "The group includes F1.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.14",
+  "kind": "label",
+  "claim": "Phase Diagram Construction involves tasks.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.14",
+  "kind": "label",
+  "claim": "Phase Diagram Construction involves techniques.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.14",
+  "kind": "label",
+  "claim": "Tasks are for phase diagram generation.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.14",
+  "kind": "label",
+  "claim": "Techniques are for phase diagram generation.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.14",
+  "kind": "sibling",
+  "claim": "Interatomic Potentials",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.14",
+  "kind": "true",
+  "claim": "The group includes Loss function modification.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.15",
+  "kind": "label",
+  "claim": "E(3)-equivariant ML models",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.15",
+  "kind": "label",
+  "claim": "Models using E(3)-equivariant representations for materials science.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.15",
+  "kind": "sibling",
+  "claim": "E(3)-equivariant models are models.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.15",
+  "kind": "true",
+  "claim": "The group includes Node feature and gradient exchange.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.16",
+  "kind": "label",
+  "claim": "Graph Neural Networks for Defects",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.16",
+  "kind": "label",
+  "claim": "Models predicting atomic properties in defective crystalline solids.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.16",
+  "kind": "sibling",
+  "claim": "Model Evaluation Metrics are used to evaluate model performance.",
+  "verdict": "supported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.16",
+  "kind": "true",
+  "claim": "The group includes GA optimizer.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.17",
+  "kind": "label",
+  "claim": "Melting Temperature Prediction",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.17",
+  "kind": "label",
+  "claim": "Techniques and components for predicting melting temperatures of materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.17",
+  "kind": "sibling",
+  "claim": "Equivariant GNNs",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.17",
+  "kind": "true",
+  "claim": "The group includes Delta learning.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.2",
+  "kind": "label",
+  "claim": "E(3)-equivariant models are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.2",
+  "kind": "label",
+  "claim": "E(3)-equivariant models preserve 3D rotational symmetry.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.2",
+  "kind": "label",
+  "claim": "E(3)-equivariant models are used for materials simulation.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.2",
+  "kind": "sibling",
+  "claim": "Interatomic Potentials",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.2",
+  "kind": "true",
+  "claim": "The group includes Energy surface discontinuities.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.3",
+  "kind": "label",
+  "claim": "Model Evaluation Metrics are used to evaluate model performance.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.3",
+  "kind": "label",
+  "claim": "Model Evaluation Metrics are used in materials science.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.3",
+  "kind": "sibling",
+  "claim": "E(3)-equivariant ML models",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.3",
+  "kind": "true",
+  "claim": "The group includes GemNet-OC.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.4",
+  "kind": "label",
+  "claim": "Interatomic Potentials",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.4",
+  "kind": "label",
+  "claim": "Models for predicting atomic interactions in materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.4",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.4",
+  "kind": "true",
+  "claim": "The group includes Aspirin.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.5",
+  "kind": "label",
+  "claim": "Equivariant GNNs",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.5",
+  "kind": "label",
+  "claim": "Models addressing computational complexity and expressivity in materials science.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.5",
+  "kind": "sibling",
+  "claim": "Interatomic Potentials",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.5",
+  "kind": "true",
+  "claim": "The group includes Efficient Evaluation of Forces and Torques.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.6",
+  "kind": "label",
+  "claim": "Fracture Prediction Models are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.6",
+  "kind": "label",
+  "claim": "Fracture Prediction Models predict crack patterns.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.6",
+  "kind": "label",
+  "claim": "Fracture Prediction Models predict fracture toughness.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.6",
+  "kind": "label",
+  "claim": "Fracture Prediction Models are used in crystalline solids.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.6",
+  "kind": "sibling",
+  "claim": "Model Evaluation Metrics are used to evaluate model performance.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.6",
+  "kind": "true",
+  "claim": "The group includes thermodynamic stability prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.7",
+  "kind": "label",
+  "claim": "Deep learning for materials",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.7",
+  "kind": "label",
+  "claim": "Models using deep neural networks for materials simulation and discovery.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.7",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.7",
+  "kind": "true",
+  "claim": "The group includes machine learning potentials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.8",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.8",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for materials exploration.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.8",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for property prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.8",
+  "kind": "sibling",
+  "claim": "Diffusion Coefficient Computation",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.8",
+  "kind": "true",
+  "claim": "The group includes Crystal graph representation.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.9",
+  "kind": "label",
+  "claim": "Atomic Energy Prediction",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.9",
+  "kind": "label",
+  "claim": "Models predicting atomic energy for molecular properties.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.9",
+  "kind": "sibling",
+  "claim": "High-throughput DFT calculations",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "model",
+  "supernode": "L0.9",
+  "kind": "true",
+  "claim": "The group includes Element-wise phonon energy prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:0",
+  "kind": "label",
+  "claim": "Inter-atomic Potentials are models.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:0",
+  "kind": "label",
+  "claim": "Inter-atomic Potentials predict atomic energies.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:0",
+  "kind": "label",
+  "claim": "Inter-atomic Potentials predict atomic forces.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:0",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:0",
+  "kind": "true",
+  "claim": "The group includes Light Gradient-Boosting Machine.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:1",
+  "kind": "label",
+  "claim": "Materials Property Prediction",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:1",
+  "kind": "label",
+  "claim": "Models predicting properties like energy, melting temperature for materials.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:1",
+  "kind": "sibling",
+  "claim": "Force Prediction Models",
+  "verdict": "supported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:1",
+  "kind": "true",
+  "claim": "The group includes force MAE.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:10",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:10",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for materials exploration.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:10",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for simulation.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:10",
+  "kind": "sibling",
+  "claim": "Materials Property Prediction",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:10",
+  "kind": "true",
+  "claim": "The group includes Bayesian optimizer + surrogate energy model.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:11",
+  "kind": "label",
+  "claim": "E(3)-equivariant models are models.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:11",
+  "kind": "label",
+  "claim": "E(3)-equivariant models ensure rotational invariance.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:11",
+  "kind": "label",
+  "claim": "E(3)-equivariant models are used for materials science.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:11",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:11",
+  "kind": "true",
+  "claim": "The group includes Dropout regularization.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:12",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:12",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for materials exploration.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:12",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for feature extraction.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:12",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks use graph structures.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:12",
+  "kind": "true",
+  "claim": "The group includes Accuracy-efficiency gap in atomistic simulations.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:13",
+  "kind": "label",
+  "claim": "Phonon Property Prediction",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:13",
+  "kind": "label",
+  "claim": "Models predicting phonon properties in materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:13",
+  "kind": "sibling",
+  "claim": "Molecular Dynamics Simulations",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:13",
+  "kind": "true",
+  "claim": "The group includes computational materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:14",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:14",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for atomic property prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:14",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for structural property prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:14",
+  "kind": "sibling",
+  "claim": "Force Prediction Models",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:14",
+  "kind": "true",
+  "claim": "The group includes Data-parallel distributed training.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:2",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:2",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for materials property prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:2",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for exploration.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:2",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:2",
+  "kind": "true",
+  "claim": "The group includes Alien-mode task executor.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:3",
+  "kind": "label",
+  "claim": "Force Prediction Models",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:3",
+  "kind": "label",
+  "claim": "Models addressing atomic and ionic force predictions.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:3",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks use message passing.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:3",
+  "kind": "true",
+  "claim": "The group includes High-throughput materials screening.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:4",
+  "kind": "label",
+  "claim": "Molecular Dynamics Simulations",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:4",
+  "kind": "label",
+  "claim": "Techniques for MD simulations in materials science.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:4",
+  "kind": "sibling",
+  "claim": "Materials Property Prediction",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:4",
+  "kind": "true",
+  "claim": "The group includes Scalable EquiVariance-Enabled Neural NETwork.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:5",
+  "kind": "label",
+  "claim": "Graph Neural Networks use graph structures.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:5",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for materials tasks.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:5",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for chemistry tasks.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:5",
+  "kind": "sibling",
+  "claim": "Unconstrained MLIP Evaluation",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:5",
+  "kind": "true",
+  "claim": "The group includes E(3) equivariance.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:6",
+  "kind": "label",
+  "claim": "MLIP Frameworks are models.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:6",
+  "kind": "label",
+  "claim": "MLIP Frameworks are for interatomic potentials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:6",
+  "kind": "label",
+  "claim": "MLIP Frameworks are in materials science.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:6",
+  "kind": "sibling",
+  "claim": "Materials Property Prediction",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:6",
+  "kind": "true",
+  "claim": "The group includes SOAP descriptor.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:7",
+  "kind": "label",
+  "claim": "Materials Property Prediction",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:7",
+  "kind": "label",
+  "claim": "Models predicting various material properties such as spectra, energies, and elastic constants.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:7",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks use graph structures.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:7",
+  "kind": "true",
+  "claim": "The group includes Active learning loop.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:8",
+  "kind": "label",
+  "claim": "Graph Neural Networks use message passing.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:8",
+  "kind": "label",
+  "claim": "Graph Neural Networks use graph structures.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:8",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:8",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:8",
+  "kind": "sibling",
+  "claim": "Molecular Dynamics Simulations",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:8",
+  "kind": "true",
+  "claim": "The group includes Multiple-tower decomposition.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:9",
+  "kind": "label",
+  "claim": "Unconstrained MLIP Evaluation",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:9",
+  "kind": "label",
+  "claim": "Frameworks for evaluating machine learning potentials without constraints.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:9",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks use message passing.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "configuration_null_0",
+  "supernode": "cfg0:9",
+  "kind": "true",
+  "claim": "The group includes Materials 3-body Graph Network.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.1",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.1",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for materials property prediction.",
+  "verdict": "supported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.1",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for structure analysis.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.1",
+  "kind": "sibling",
+  "claim": "High-throughput DFT techniques",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.1",
+  "kind": "true",
+  "claim": "The group includes Random Forest.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.10",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.10",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for atomic property prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.10",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for crystal property prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.10",
+  "kind": "sibling",
+  "claim": "MLIPs are related to models for atomic properties and materials discovery.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.10",
+  "kind": "true",
+  "claim": "The group includes Crystal structure prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.11",
+  "kind": "label",
+  "claim": "Graph Neural Networks use graph structures.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.11",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.11",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for materials exploration.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.11",
+  "kind": "sibling",
+  "claim": "High-throughput DFT techniques",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.11",
+  "kind": "true",
+  "claim": "The group includes Huber loss.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.14",
+  "kind": "label",
+  "claim": "Materials Simulation Techniques",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.14",
+  "kind": "label",
+  "claim": "Techniques for simulating materials properties and behaviors.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.14",
+  "kind": "sibling",
+  "claim": "High-throughput DFT techniques",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.14",
+  "kind": "true",
+  "claim": "The group includes materials clustering by bonding character.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.15",
+  "kind": "label",
+  "claim": "High-throughput DFT techniques",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.15",
+  "kind": "label",
+  "claim": "Techniques for high-throughput DFT calculations and protocols.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.15",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks use graph structures.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.15",
+  "kind": "true",
+  "claim": "The group includes Maximum bond variation check.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.16",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.16",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for materials tasks.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.16",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for chemistry tasks.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.16",
+  "kind": "sibling",
+  "claim": "Interatomic Potential Models are models.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.16",
+  "kind": "true",
+  "claim": "The group includes Boundary-condition encoding.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.17",
+  "kind": "label",
+  "claim": "E(3)-equivariant GNNs",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.17",
+  "kind": "label",
+  "claim": "Models using E(3)-equivariant representations for materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.17",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.17",
+  "kind": "true",
+  "claim": "The group includes Conditional flow matching.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.2",
+  "kind": "label",
+  "claim": "ML for Interatomic Potentials",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.2",
+  "kind": "label",
+  "claim": "Models predicting atomic interactions in materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.2",
+  "kind": "sibling",
+  "claim": "Universal Models for Atoms",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.2",
+  "kind": "true",
+  "claim": "The group includes Molecule property prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.3",
+  "kind": "label",
+  "claim": "Interatomic Potential Models are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.3",
+  "kind": "label",
+  "claim": "Interatomic Potential Models are for predicting atomic interactions.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.3",
+  "kind": "label",
+  "claim": "Interatomic Potential Models are related to materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.3",
+  "kind": "sibling",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.3",
+  "kind": "true",
+  "claim": "The group includes PBE functional.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.4",
+  "kind": "label",
+  "claim": "Universal Models for Atoms",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.4",
+  "kind": "label",
+  "claim": "Models predicting atomic properties across various materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.4",
+  "kind": "sibling",
+  "claim": "Interatomic Potential Models are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.4",
+  "kind": "true",
+  "claim": "The group includes Materials Project.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.5",
+  "kind": "label",
+  "claim": "E(3)-equivariant Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.5",
+  "kind": "label",
+  "claim": "E(3)-equivariant Graph Neural Networks are for materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.5",
+  "kind": "label",
+  "claim": "Materials have rotational symmetries.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.5",
+  "kind": "label",
+  "claim": "Materials have translational symmetries.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.5",
+  "kind": "sibling",
+  "claim": "MLIPs are related to models for atomic properties and materials discovery.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.5",
+  "kind": "true",
+  "claim": "The group includes Atomic force calculation.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.6",
+  "kind": "label",
+  "claim": "Materials property prediction",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.6",
+  "kind": "label",
+  "claim": "Tasks and techniques for predicting various material properties using machine learning.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.6",
+  "kind": "sibling",
+  "claim": "Interatomic Potential Models are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.6",
+  "kind": "true",
+  "claim": "The group includes Phonon frequency prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.7",
+  "kind": "label",
+  "claim": "MLIPs are related to models for atomic properties and materials discovery.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.7",
+  "kind": "label",
+  "claim": "GNNs are related to models for atomic properties and materials discovery.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.7",
+  "kind": "label",
+  "claim": "MLIPs and GNNs are associated with materials discovery.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.7",
+  "kind": "label",
+  "claim": "MLIPs and GNNs are associated with atomic properties.",
+  "verdict": "unsupported",
+  "quote_ok": false,
+  "supported": false
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.7",
+  "kind": "sibling",
+  "claim": "ML for Interatomic Potentials",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.7",
+  "kind": "true",
+  "claim": "The group includes Orb-v3.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.8",
+  "kind": "label",
+  "claim": "Graph Neural Networks are models.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.8",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for phonon prediction.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.8",
+  "kind": "label",
+  "claim": "Graph Neural Networks are used for molecular dynamics.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.8",
+  "kind": "sibling",
+  "claim": "Materials Simulation Techniques",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.8",
+  "kind": "true",
+  "claim": "The group includes Molecular dynamics simulations.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.9",
+  "kind": "label",
+  "claim": "ML for Interatomic Potentials",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.9",
+  "kind": "label",
+  "claim": "Models predicting atomic interactions in materials.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.9",
+  "kind": "sibling",
+  "claim": "ML for Interatomic Potentials",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ },
+ {
+  "tree": "random_labels_0",
+  "supernode": "rl0:L0.9",
+  "kind": "true",
+  "claim": "The group includes 3-body interactions.",
+  "verdict": "supported",
+  "quote_ok": true,
+  "supported": true
+ }
+]

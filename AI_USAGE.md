@@ -1081,6 +1081,41 @@ accepted or changed, and what was checked.
   - `out/gamma/gamma.json`, `out/sweep.json` and the formal statement §§3, 8–10, 12 still hold pre-fix numbers.
   - The documentation fixes from the verification are still open.
 
+### 29. T5 LLM labeller and T6 label-faithfulness evaluator (Claude Code)
+
+- **Task/module:** T5, T6 label faithfulness, P6; `tkh/llm.py`, `tkh/label.py`, `tkh/pipeline.py`,
+  `tkh/config.py`, `eval/labels.py`, `eval/__main__.py`, `configs/prompts/`, `configs/default.toml [labels]`,
+  `tests/test_labels.py`, Makefile
+- **Prompt (abridged):** "Your objective is to implement supernode labeling using an open source LLM. The
+  labeler should take all relevant semantic information encoded in nodes that become members of a super node
+  and edges with an endpoint in that super node [...] a label faithfulness evaluator must be implemented using
+  a different family of open source LLM models that performns an independent NLI/entailment check [...] To
+  break label circularity, the labeler must rely on seeded 50% of evidence with the other 50% of evidence
+  reserved for label faithfullness evaluation [...] offline cache [...] Prompts [...] saved in config/prompts
+  [...] execution time mindful and allow running evalution with different levels of rigor [...]"
+- **What the assistant did:**
+  - **Evidence.** Each super-node's evidence lines: member concepts, incident relation facts, `evaluated_on`
+    results, claims, future work and paper titles. Cited works are excluded (they are the P3 ruler).
+  - **Split.** A seeded 50/50 split, stratified by kind. The labeller (qwen2.5:7b-instruct) sees one half;
+    the judge (phi4) sees the other half only.
+  - **Judge.** Claim decomposition, quote-checked entailment, known-answer controls (sibling, random, true),
+    the Youden gate and the Rogan–Gladen correction, deterministic name and year checks.
+  - **Nulls.** Labelled configuration-null rebuilds and random-label trees.
+  - **Rigor levels** quick, standard and full; the cached Ollama client was reused from history, with a
+    thread pool added.
+- **Runs** (live, consented as part of the plan):
+  - `out/` rebuilt with LLM labels: 300 labels, none failed, partitions unchanged, `validate.py` OK.
+  - `eval labels --rigor quick`.
+- **Quick-rigor result** (≤2026, level 0, 15 labels per tree):
+  - The **judge fails its validity gate**: J on sibling controls is 0.20 (Se 0.47, Sp 0.73), below 0.4. The
+    over-claim rate (0.53 [0.27, 0.80]) is therefore not interpretable, and is not compared with the nulls
+    (configuration null 0.60, random labels 0.27).
+  - Only 40% of decompositions passed the content-word check.
+- **Not verified / limits:**
+  - The time estimates in the plan were wrong. The quick run took 26 min, about 5.6 s per call with
+    4 parallel slots, so standard would take about 8 h and full about 40 h.
+  - The standard and full runs await consent.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
