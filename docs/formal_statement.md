@@ -10,7 +10,7 @@ semantics.
 | Clustering hypergraph and T4 collapse | `tkh/coarsen.py` |
 | Run | `tkh/pipeline.py`, `python -m tkh build` |
 | Null models | `tkh/null.py` |
-| Held-out P3 check | `tkh/p3.py`, `tkh/experiments.py` |
+| Held-out P3 check and experiments (evaluation, outside the method package) | `eval/p3.py`, `eval/experiments.py`, `python -m eval p3`, `python -m eval sweep` |
 
 Parameters are in `[method]` of `configs/default.toml`. Every result in §§3, 8 and 9 comes from
 `out/run_info.json`, `out/metrics.json`, `out/sweep.json` or `out/<t>/coarse_hyperedges.json`, produced by
@@ -218,7 +218,7 @@ would need a sparse candidate set.
 - **Companion:** random labels, i.e. concept-node ids permuted within (type, entry interval) over
   the evaluated tree, which keeps the laminar structure and every size.
 
-**Held-out ruler** (`tkh/p3.py`). P3 asks for closeness in meaning. The proxy is bibliographic
+**Held-out ruler** (`eval/p3.py`). P3 asks for closeness in meaning. The proxy is bibliographic
 coupling, a signal that no clustering input contains. It is fixed by the evaluator and computed
 once on the real export, identically for every configuration and null:
 - **Coupling c_pq:** the IDF-weighted Salton cosine of two papers' cited-work sets.

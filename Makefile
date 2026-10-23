@@ -24,7 +24,7 @@ null:            ## one configuration-null export and run -> out_null/$(SEED)/, 
 	$(PYTHON) validate.py out_null/$(SEED) --config out_null/$(SEED)/run_config.toml
 
 p3:              ## held-out P3 check of $(OUT)/ against 99 configuration-null rebuilds and 999 random labels
-	$(PYTHON) -m tkh p3 --run $(OUT)
+	$(PYTHON) -m eval p3 --run $(OUT)
 
 sweep:           ## configuration grid, one-SE selection on cited-work halves -> $(OUT)/sweep.json (~6 min on 8 cores)
-	$(PYTHON) -m tkh sweep --out $(OUT)/sweep.json
+	$(PYTHON) -m eval sweep --out $(OUT)/sweep.json

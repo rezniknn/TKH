@@ -243,7 +243,7 @@ def citation_coupling(tkh, snap=None, works=None):
     Each citing paper's cited works, minus those whose normalised name equals a concept-node name of that paper
     (the residual filter), optionally restricted to `works`; coupling = IDF-weighted Salton cosine. Returns
     (papers, coupling matrix, removed citation incidences). Exploratory (notebook 03): the method's held-out
-    check (tkh/p3.py) uses its own fixed ruler, with aliases and a no-overlap pair set."""
+    check (eval/p3.py) uses its own fixed ruler, with aliases and a no-overlap pair set."""
     papers = node_papers(tkh, snap)
     ntype = tkh.nodes["type"].to_dict()
     pk = defaultdict(set)

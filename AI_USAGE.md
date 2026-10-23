@@ -937,6 +937,26 @@ accepted or changed, and what was checked.
     everywhere.
   - Citation coupling as a proxy for meaning is assumption A3.
 
+### 24. Evaluation code moved out of the method package to eval/ (Claude Code)
+
+- **Task/module:** `eval/p3.py`, `eval/experiments.py`, `eval/__main__.py`, `tkh/__main__.py`, `tkh/config.py`
+- **Prompt:** "Move p3 coherence metric implementation and the source code supporting experiment runs to
+  repo/eval folder"
+- **What the assistant did:**
+  - **Moved with `git mv`:** `tkh/p3.py` (the held-out ruler) and `tkh/experiments.py` (the per-snapshot
+    check and the sweep), into a new `eval/` package.
+  - **CLI split:** `python -m eval p3|sweep` is the evaluation; `python -m tkh build|null` stays the
+    method. The `--param` parser moved to `tkh.config.parse_overrides`, so both CLIs share it.
+  - **Dependency direction:** `tkh/` does not import `eval/`; `eval/` uses `tkh`.
+  - **Kept in `tkh/`:** `tkh/null.py`, the null model that is part of the method deliverable and is used by
+    `python -m tkh null`.
+  - **Updated:** the Makefile, README, formal statement and test imports.
+- **Verified:**
+  - 431 tests pass.
+  - `python -m eval p3` runs end to end; the committed `metrics.json` was restored unchanged.
+  - A small sweep runs through the process pool.
+  - No module in `tkh/` imports `eval`.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

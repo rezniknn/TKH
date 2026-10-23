@@ -104,7 +104,7 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
   edges are used only to anchor claim and cited-work nodes afterwards.
 - **Null models** (`tkh/null.py`): the type- and period-preserving hypergraph
   configuration model, run through the same pipeline, and random labels.
-- **Held-out P3 check** (`tkh/p3.py`): bibliographic coupling of papers whose concepts a
+- **Held-out P3 check** (`eval/p3.py`, run by `python -m eval p3`): bibliographic coupling of papers whose concepts a
   level groups together, on paper pairs that share no concept node, adjusted for publication
   period (papers of one period cite the same work); every snapshot and level, against both nulls.
 

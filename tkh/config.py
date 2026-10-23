@@ -13,6 +13,7 @@ values on the command line via add_config_args() / config_from_args().
 from dataclasses import dataclass, field, replace
 from pathlib import Path
 import argparse
+import json
 import os
 import tomllib
 
@@ -95,6 +96,18 @@ def config_from_args(args):
     cfg = replace(cfg, **over)
     check_inputs(cfg)
     return cfg
+
+
+def parse_overrides(pairs):
+    """['alpha=0.25', 'rho="inf"', ...] -> {key: JSON-decoded value, or the raw string}."""
+    out = {}
+    for p in pairs or []:
+        k, v = p.split("=", 1)
+        try:
+            out[k] = json.loads(v)
+        except json.JSONDecodeError:
+            out[k] = v
+    return out
 
 
 def to_toml(cfg, method, where):
