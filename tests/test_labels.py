@@ -97,7 +97,8 @@ def test_evidence_uses_only_the_snapshot(real):
     assert all(v in snapshot(tkh, 2020).node_ids for v in members)
 
 
-def test_offline_cache_miss_raises(tmp_path):
+def test_offline_cache_miss_raises(tmp_path, monkeypatch):
+    monkeypatch.delenv("TKH_LLM_MODE", raising=False)   # the env var overrides mode=
     with pytest.raises(CacheMiss):
         CachedLLM("phi4", tmp_path / "none.json", mode="offline")
     (tmp_path / "c.json").write_text(json.dumps({"models": {"phi4": "d"}, "entries": {}}))
