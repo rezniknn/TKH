@@ -4350,150 +4350,261 @@
   }
  },
  "labels": {
-  "rigor": "quick",
+  "rigor": "standard",
   "protocol": {
    "levels": [
-    0
+    0,
+    1
    ],
-   "model_cutoffs": "last",
+   "model_cutoffs": "all",
    "null_cutoffs": "last",
-   "R_config": 1,
-   "R_labels": 1,
-   "n_false": 1,
-   "max_claims": 4
+   "R_config": 3,
+   "R_labels": 3,
+   "n_names": 2,
+   "n_cross": 2,
+   "max_claims": 3
   },
   "labeller_model": "qwen2.5:7b-instruct",
   "judge_model": "phi4",
   "j_min": 0.4,
   "trees": {
    "model": {
-    "labels": 15,
-    "judged": 15,
+    "labels": 300,
+    "judged": 296,
     "over_claim": {
-     "value": 0.5333333333333333,
+     "value": 0.581081081081081,
      "ci95": [
-      0.26666666666666666,
-      0.8
+      0.5236486486486487,
+      0.6351351351351351
      ],
-     "n": 15
+     "n": 296
     },
-    "claim_unsupported": 0.2894736842105263,
-    "Se": {
-     "sibling": 0.4666666666666667,
-     "random": null
-    },
-    "Sp": 0.7333333333333333,
-    "J_sibling": 0.19999999999999996,
-    "valid": false,
-    "corrected_over_claim": null,
-    "decomposition_ok": 0.4,
-    "quote_rejected": 1,
-    "no_held_out": 0,
+    "claim_unsupported": 0.45178335535006603,
+    "Se": 0.9966216216216216,
+    "Sp": 0.9773123909249564,
+    "J": 0.9739340125465779,
+    "valid": true,
+    "corrected_over_claim": 0.7576712968441772,
+    "cross_support": 0.17294520547945205,
+    "sibling_support": 0.23310810810810811,
+    "decomposition_ok": 0.61,
+    "quote_rejected": 33,
+    "no_held_out": 4,
     "deterministic": {
      "year_after_cutoff": 0,
-     "named_non_member": 1,
-     "future_entity": 0
+     "named_non_member": 33,
+     "future_entity": 4
     }
    },
    "configuration_null_0": {
-    "labels": 15,
-    "judged": 15,
+    "labels": 75,
+    "judged": 60,
     "over_claim": {
-     "value": 0.6,
+     "value": 0.8,
      "ci95": [
-      0.3333333333333333,
-      0.8
+      0.7,
+      0.9
      ],
-     "n": 15
+     "n": 60
     },
-    "claim_unsupported": 0.4,
-    "Se": {
-     "sibling": 0.5333333333333333,
-     "random": null
-    },
-    "Sp": 0.8666666666666667,
-    "J_sibling": 0.3999999999999999,
-    "valid": false,
-    "corrected_over_claim": null,
-    "decomposition_ok": 0.6,
-    "quote_rejected": 1,
+    "claim_unsupported": 0.5838150289017341,
+    "Se": 0.9933333333333333,
+    "Sp": 0.9866666666666667,
+    "J": 0.98,
+    "valid": true,
+    "corrected_over_claim": 0.8760253839940382,
+    "cross_support": 0.37333333333333335,
+    "sibling_support": 0.3466666666666667,
+    "decomposition_ok": 0.38666666666666666,
+    "quote_rejected": 13,
     "no_held_out": 0,
     "deterministic": {
      "year_after_cutoff": 0,
-     "named_non_member": 0,
+     "named_non_member": 4,
+     "future_entity": 0
+    }
+   },
+   "configuration_null_1": {
+    "labels": 75,
+    "judged": 60,
+    "over_claim": {
+     "value": 0.7833333333333333,
+     "ci95": [
+      0.6666666666666666,
+      0.8833333333333333
+     ],
+     "n": 60
+    },
+    "claim_unsupported": 0.5051546391752577,
+    "Se": 0.9866666666666667,
+    "Sp": 0.9866666666666667,
+    "J": 0.9733333333333334,
+    "valid": true,
+    "corrected_over_claim": 0.8568473770384488,
+    "cross_support": 0.28,
+    "sibling_support": 0.3333333333333333,
+    "decomposition_ok": 0.6533333333333333,
+    "quote_rejected": 14,
+    "no_held_out": 0,
+    "deterministic": {
+     "year_after_cutoff": 0,
+     "named_non_member": 5,
+     "future_entity": 0
+    }
+   },
+   "configuration_null_2": {
+    "labels": 75,
+    "judged": 60,
+    "over_claim": {
+     "value": 0.75,
+     "ci95": [
+      0.6333333333333333,
+      0.85
+     ],
+     "n": 60
+    },
+    "claim_unsupported": 0.5208333333333334,
+    "Se": 0.9933333333333333,
+    "Sp": 0.96,
+    "J": 0.9533333333333331,
+    "valid": true,
+    "corrected_over_claim": 0.8502265153312611,
+    "cross_support": 0.30666666666666664,
+    "sibling_support": 0.3466666666666667,
+    "decomposition_ok": 0.6133333333333333,
+    "quote_rejected": 13,
+    "no_held_out": 0,
+    "deterministic": {
+     "year_after_cutoff": 0,
+     "named_non_member": 10,
      "future_entity": 0
     }
    },
    "random_labels_0": {
-    "labels": 15,
-    "judged": 15,
+    "labels": 75,
+    "judged": 75,
     "over_claim": {
-     "value": 0.26666666666666666,
+     "value": 0.6533333333333333,
      "ci95": [
-      0.06666666666666667,
-      0.4666666666666667
+      0.5466666666666666,
+      0.76
      ],
-     "n": 15
+     "n": 75
     },
-    "claim_unsupported": 0.15,
-    "Se": {
-     "sibling": 0.26666666666666666,
-     "random": null
-    },
-    "Sp": 0.9333333333333333,
-    "J_sibling": 0.19999999999999996,
-    "valid": false,
-    "corrected_over_claim": null,
-    "decomposition_ok": 0.5333333333333333,
-    "quote_rejected": 2,
+    "claim_unsupported": 0.5026455026455027,
+    "Se": 1.0,
+    "Sp": 0.9932885906040269,
+    "J": 0.9932885906040267,
+    "valid": true,
+    "corrected_over_claim": 0.8093844652601364,
+    "cross_support": 0.36666666666666664,
+    "sibling_support": 0.4,
+    "decomposition_ok": 0.56,
+    "quote_rejected": 12,
     "no_held_out": 0,
     "deterministic": {
      "year_after_cutoff": 0,
-     "named_non_member": 1,
+     "named_non_member": 5,
+     "future_entity": 0
+    }
+   },
+   "random_labels_1": {
+    "labels": 75,
+    "judged": 75,
+    "over_claim": {
+     "value": 0.6666666666666666,
+     "ci95": [
+      0.56,
+      0.7733333333333333
+     ],
+     "n": 75
+    },
+    "claim_unsupported": 0.5161290322580645,
+    "Se": 1.0,
+    "Sp": 0.9865771812080537,
+    "J": 0.9865771812080537,
+    "valid": true,
+    "corrected_over_claim": 0.8081004896576872,
+    "cross_support": 0.34,
+    "sibling_support": 0.36,
+    "decomposition_ok": 0.56,
+    "quote_rejected": 14,
+    "no_held_out": 0,
+    "deterministic": {
+     "year_after_cutoff": 0,
+     "named_non_member": 8,
+     "future_entity": 0
+    }
+   },
+   "random_labels_2": {
+    "labels": 75,
+    "judged": 75,
+    "over_claim": {
+     "value": 0.6,
+     "ci95": [
+      0.48,
+      0.7066666666666667
+     ],
+     "n": 75
+    },
+    "claim_unsupported": 0.5079365079365079,
+    "Se": 0.9933333333333333,
+    "Sp": 1.0,
+    "J": 0.9933333333333332,
+    "valid": true,
+    "corrected_over_claim": 0.8178947087597235,
+    "cross_support": 0.36,
+    "sibling_support": 0.44,
+    "decomposition_ok": 0.5733333333333334,
+    "quote_rejected": 11,
+    "no_held_out": 0,
+    "deterministic": {
+     "year_after_cutoff": 0,
+     "named_non_member": 4,
      "future_entity": 0
     }
    }
   },
   "model_on_null_cutoffs": {
-   "value": 0.5333333333333333,
+   "value": 0.49333333333333335,
    "ci95": [
-    0.26666666666666666,
-    0.8
+    0.38666666666666666,
+    0.6
    ],
-   "n": 15
+   "n": 75
   },
   "nulls": {
    "configuration_null": {
     "over_claim": {
-     "value": 0.6,
+     "value": 0.7777777777777778,
      "ci95": [
-      0.3333333333333333,
-      0.8
+      0.7166666666666667,
+      0.8333333333333334
      ],
-     "n": 15
+     "n": 180
     },
     "model_minus_null": {
-     "value": -0.06666666666666665,
+     "value": -0.28444444444444444,
      "ci95": [
-      -0.4,
-      0.33333333333333326
+      -0.4144722222222222,
+      -0.15994444444444467
      ]
     }
    },
    "random_labels": {
     "over_claim": {
-     "value": 0.26666666666666666,
+     "value": 0.64,
      "ci95": [
-      0.06666666666666667,
-      0.4666666666666667
+      0.5777777777777777,
+      0.7022222222222222
      ],
-     "n": 15
+     "n": 225
     },
     "model_minus_null": {
-     "value": 0.26666666666666666,
+     "value": -0.14666666666666667,
      "ci95": [
-      -0.06666666666666671,
-      0.6
+      -0.27555555555555555,
+      -0.022222222222222254
      ]
     }
    }

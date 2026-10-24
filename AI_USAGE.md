@@ -1176,6 +1176,38 @@ accepted or changed, and what was checked.
     Earlier entries of this log are left as written.
 - **Verified:** 450 tests pass; `make -n coherence` and `python -m eval coherence --help` work.
 
+### 32. Evaluation report of the standard-rigor run (Claude Code)
+
+- **Task/module:** `docs/evaluation_report.md`, `eval/figures.py` (`make figures`), `docs/figures/`, `eval/labels.py`,
+  `tests/test_labels.py`
+- **Prompt:** "Create an extensive report of the model's performance based on the latest evaluation run and the
+  results in out/metrics.json"
+- **What the assistant did:**
+  - Established provenance first:
+    - the `coherence` and `stability` sections are byte-identical to the committed rebuild with the verification fixes;
+    - the user's later rebuild with the contrastive labeller changed only the labels; partitions are identical
+      at all four snapshots;
+    - `labels` comes from the user's standard-rigor run.
+  - A multi-agent workflow:
+    - section analysts for coherence, stability and labels, plus a figure script;
+    - a synthesis pass;
+    - five adversarial reviewers: three re-derived every number from the JSON by script, one checked the
+      methodological claims, one checked completeness;
+    - a fix pass, in which 52 findings were checked and applied (51 in full, 1 in part).
+  - The report covers the run and protocol, coherence (exact and fuzzy, five period schemes), stability, label
+    faithfulness with breakdowns and null comparisons, an assessment against the brief, limitations, stale outputs
+    and open items.
+- **Case where the AI was wrong:** a figure-script analyst found a key collision that I had introduced in
+  `eval/labels.py` (entry 29).
+  - Configuration-null super-nodes were keyed `cfg<s>:<cutoff>:<group id>`. Group ids restart per level, so the
+    level-0 and level-1 records of 15 groups per tree merged.
+  - This inflated the configuration-null over-claim (0.78 reported, 0.70 recomputed per label) and the model's
+    advantage over it (−0.28 reported, −0.20 [−0.33, −0.08] recomputed).
+  - Fixed: the level is now part of the key, with a regression test. `out/metrics.json` predates the fix;
+    rescoring needs some live judge calls for the changed sibling controls, so it awaits consent.
+- **Verified:** 451 tests pass. Every number in the report was re-derived by script from `out/` by an independent
+  reviewer. `make figures` regenerates the figures from `out/` alone.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

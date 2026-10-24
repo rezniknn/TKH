@@ -84,7 +84,7 @@
    "DeepH-E3 [method]",
    "Dynamic filter networks [method]"
   ],
-  "prompt_sha256": "fe56d62de2be0e3921628a9f4d8521ac755d5d5ba22ce77eec8e0d5f8e2f8341"
+  "prompt_sha256": "661e770b125a6fd79b0f0625ee13acbdf52704790c45f61c530982ec7a669e0a"
  },
  "L0.10": {
   "seen": [
@@ -171,7 +171,7 @@
    "DOS filtering [technique]",
    "Density-functional perturbation theory [technique]"
   ],
-  "prompt_sha256": "468afa5e65d27c350b645ebbff467d814d14990b3383537cfe1e7515663df30f"
+  "prompt_sha256": "56b3633edde4f7bca1737e061fd3e326fc620a8ab7013c56c028395ef74d20b0"
  },
  "L0.11": {
   "seen": [
@@ -258,7 +258,7 @@
    "Self-consistent training [technique]",
    "Set2Set [method]"
   ],
-  "prompt_sha256": "fae54f09605cc3fe9da5d5ec5e2733e6de1a5b6476a81e4105356e465c86fd74"
+  "prompt_sha256": "fa1027722d17b147dbc66f382eb6ee8306b0376bc8af8010540724742b9c85d0"
  },
  "L0.12": {
   "seen": [
@@ -294,7 +294,7 @@
    "preventing sp chain overprediction [problem]",
    "surface energy prediction for amorphous materials [problem]"
   ],
-  "prompt_sha256": "44b0e5ea6c6e54f8859086633af0d687cfc337cadc5c848331477458b2e14524"
+  "prompt_sha256": "e67fec0ffe37bc0d9e1bcdf9f8cff1227dff31ab62c792d99b6481e5a9455c6c"
  },
  "L0.14": {
   "seen": [
@@ -308,7 +308,7 @@
    "Kernel normalisation and integer power [technique]",
    "SOAP descriptor construction [technique]"
   ],
-  "prompt_sha256": "b685516e94d07886fc3cfe1c1e3a1e1f080b91254b9f1103340b8d3e979eeb87"
+  "prompt_sha256": "efca144b1d557a80fd988c66d09050cb7dcdc431676926a9f58ae99c9721947e"
  },
  "L0.15": {
   "seen": [
@@ -358,7 +358,7 @@
    "sp2/sp3 atom counting [technique]",
    "sp3 atom counting [technique]"
   ],
-  "prompt_sha256": "ff766bc7eaf70b43d68aa10e2eec2fe490c5dab7f4ae8e652c1dc751ba09d63a"
+  "prompt_sha256": "1be60aa46a4c683c9f9e97b775e0ac4f0853c8da80ef124dbc3fade7a362f3cb"
  },
  "L0.16": {
   "seen": [
@@ -432,7 +432,7 @@
    "claim: The GNN’s stress predictions are substantially more accurate than on-the-fly stress calculations from the force field, which exhibit higher errors.",
    "future work: Integration of multiscale modeling data (DFT, MD, FEM) to train GNNs for broader defect-property relationships"
   ],
-  "prompt_sha256": "35b0339b1038120548de6ee3c7d7cb1a7e52877a61b09b4a0f0f912f62d7f760"
+  "prompt_sha256": "d863d1e748705da23e4180364b8d020c618a1ffe3a8e05530801def970ebd0f1"
  },
  "L0.2": {
   "seen": [
@@ -519,7 +519,7 @@
    "Deep Potential Molecular Dynamics is evaluated on Ice Ih (b) (metric energy RMSE, value 0.7, task molecular dynamics)",
    "Deep Potential Molecular Dynamics is evaluated on Ice Ih (d) (metric energy RMSE, value 0.8, task molecular dynamics)"
   ],
-  "prompt_sha256": "0be9b9119855dceeb6ac117349e5bf162547cfa434f0f1a3ffe2a6edfc915aba"
+  "prompt_sha256": "69c0a3847f5be0db2bb5a9be39352078cda76a1cc7b81b40eaf641fa4a282afc"
  },
  "L0.3": {
   "seen": [
@@ -606,7 +606,7 @@
    "Extensible featurizer sets [component]",
    "Feature engineering automation [problem]"
   ],
-  "prompt_sha256": "49f2f87049cfd6866691a2324ad989d271deb8c3e458b8504622e185f48535fb"
+  "prompt_sha256": "499389265550f2d2ac87b14565f8bda41bb490fcf490d326e0a0e58eabfdead1"
  },
  "L0.4": {
   "seen": [
@@ -693,7 +693,7 @@
    "graphene [dataset]",
    "1/R weighting in input features [technique]"
   ],
-  "prompt_sha256": "ea0d4590f5d9e23ba562ef5016846bba5418a422b8aaba90cc34e4137b43daa3"
+  "prompt_sha256": "f86f48b40c70bc6cb335b899708b224b3b0e52dce697004632ffcf44bfd03daa"
  },
  "L0.5": {
   "seen": [
@@ -739,7 +739,7 @@
    "claim: Neglecting spin-orbit coupling forces all magnetic angular momenta to be zero, greatly reducing the number of ACE expansion coefficients, since the magnetic contribution to the cohesive energy is only about 10 % of the total.",
    "claim: The derived ACE formulas enable efficient evaluation of forces and magnetic torques."
   ],
-  "prompt_sha256": "593fbff616b9c1d4b2a58b2f579d182ed049f58c337ade61ecc9aca7f5c89471"
+  "prompt_sha256": "efed1dfea3fa5841e01fe848a82c8596f2fcd21d343f74e7951fa144b42dfac6"
  },
  "L0.6": {
   "seen": [
@@ -826,7 +826,7 @@
    "Matbench classification tasks [task]",
    "Materials property calculation [task]"
   ],
-  "prompt_sha256": "3dffba85f384a85fbb3ddc566f55365097b000d8423423e7cc5daf5a53223cac"
+  "prompt_sha256": "0013b08263b86dd0b3184de7cd8cb1bdd7de212bde05a9445de214cce5aab4a5"
  },
  "L0.7": {
   "seen": [
@@ -913,7 +913,7 @@
    "RESTful JSON API [technique]",
    "RMM-DIIS [method]"
   ],
-  "prompt_sha256": "b44a9791f5948c6d265406da2f30c48544ea0d7683c6f3696569fd26cbef92bd"
+  "prompt_sha256": "acf00072392d0027f072ffbd5f9fb98a5ae592532c252c67867ec2eea74b4dd6"
  },
  "L0.8": {
   "seen": [
@@ -1000,7 +1000,7 @@
    "JARVIS-DFT workflow [component]",
    "JARVIS-FF [component]"
   ],
-  "prompt_sha256": "3a177ffc4d586ead361392a3c0662abe7d0bf5d6271100659fb6550ff2415cb6"
+  "prompt_sha256": "6c3572734201856ad96fa36b04cfbc2b77d34ef17d2876a10c1c677dbb310bb8"
  },
  "L0.9": {
   "seen": [
@@ -1085,7 +1085,7 @@
    "zero-weight extra k-path for band structures [technique]",
    "α-tuning of hybrid functionals [technique]"
   ],
-  "prompt_sha256": "eff20c9683f1366b0f04c2b5827539c1b377041c061e4846cb55a189a1a5ab41"
+  "prompt_sha256": "4dc080c5debc3012fa228ea374f3487b95e4a550fda761f91175e82aec0792f2"
  },
  "L1.1": {
   "seen": [
@@ -1128,7 +1128,7 @@
    "Output layer [component]",
    "Sigmoid-gated neighbor aggregation [technique]"
   ],
-  "prompt_sha256": "4dfc0f66963ababb1697fd8a3162986437175c82a1c42ac9e57f398d2c6d0670"
+  "prompt_sha256": "fffb1d8bf5d794c46387254489556a88956a3427d56f4de73ab20f248354b9c4"
  },
  "L1.10": {
   "seen": [
@@ -1174,7 +1174,7 @@
    "claim: Neglecting spin-orbit coupling forces all magnetic angular momenta to be zero, greatly reducing the number of ACE expansion coefficients, since the magnetic contribution to the cohesive energy is only about 10 % of the total.",
    "claim: The derived ACE formulas enable efficient evaluation of forces and magnetic torques."
   ],
-  "prompt_sha256": "593fbff616b9c1d4b2a58b2f579d182ed049f58c337ade61ecc9aca7f5c89471"
+  "prompt_sha256": "efed1dfea3fa5841e01fe848a82c8596f2fcd21d343f74e7951fa144b42dfac6"
  },
  "L1.11": {
   "seen": [
@@ -1223,7 +1223,7 @@
    "claim: The ConvLSTM approach reduces computational cost dramatically compared with full molecular dynamics simulations, enabling rapid fracture predictions.",
    "claim: The ConvLSTM model accurately predicts fracture patterns, crack-length trends, and both mode-I (tensile) and mode-II (shear) loading responses across crystal orientations, closely matching atomistic molecular dynamics simulations, with only a minor discrepancy for the x100 orientation under mode-II shear."
   ],
-  "prompt_sha256": "184b80b41729ca594f1a73e12ab986af8c5b8ce2332ad0f15616243612f9f7a9"
+  "prompt_sha256": "e21f939a8c82315cc2759b31f450f85f17f5f3f43450a705854e5c33b57468c6"
  },
  "L1.12": {
   "seen": [
@@ -1275,7 +1275,7 @@
    "future work: Cost-effective, data-driven materials design",
    "pymatgen [component]"
   ],
-  "prompt_sha256": "7bbc26ef83cdcab0c81617b215ec7ec0eddc576fe38a172e4505c7de325c1d11"
+  "prompt_sha256": "4379df589df648da3dae9080a28435ed96ed134a29a9d67d1fe244960def11a1"
  },
  "L1.13": {
   "seen": [
@@ -1308,7 +1308,7 @@
    "SLME screening module [component]",
    "VaspJob / LammpsJob / Wannier90Win classes [component]"
   ],
-  "prompt_sha256": "0a3f740efa7668d309ff1f0bff278fba6ec99cc3ec12890068a9ba6543dc3271"
+  "prompt_sha256": "c5b4d4f1c3ea0af6d49e64e4e7d127088adaf646d08d77c8f1ac774980cb0299"
  },
  "L1.14": {
   "seen": [
@@ -1371,7 +1371,7 @@
    "computational materials design [task]",
    "future work: Training a machine-learning model to predict new stable ternary compounds"
   ],
-  "prompt_sha256": "1b3da43ae9a3d31dc80234600aa00715297ec53b66b1398f41ebbde949761db8"
+  "prompt_sha256": "8a090b7de7ad7b4971cfe3e8046482c81288ee5d428006ab57ed78eb7e186f11"
  },
  "L1.15": {
   "seen": [
@@ -1434,7 +1434,7 @@
    "high-throughput workflow automation [problem]",
    "screened exchange [technique]"
   ],
-  "prompt_sha256": "c4a47bc2ef9fd6b35defdf2d947f25e49ce0c901767e1fdfde47060eeda2acfb"
+  "prompt_sha256": "f679cb1c9af9486b3f910ea4f05f9c325c89fcae37cff71e46f876e8f9563521"
  },
  "L1.16": {
   "seen": [
@@ -1472,7 +1472,7 @@
    "TMetalFraction featurizer [component]",
    "TPOT evolutionary optimizer [component]"
   ],
-  "prompt_sha256": "8b352b47e5495f738a44c54cb3aaa7d2d4fe44f7cf190dfdfe0e2c4a2d9c5424"
+  "prompt_sha256": "b079f1682dc4fc7fd17a6ef7194b01f815ca920497449c0a1021fd081a7eb80e"
  },
  "L1.17": {
   "seen": [
@@ -1495,7 +1495,7 @@
    "U and J parameters for f-block elements [component]",
    "Ueff parameters for d-block elements [component]"
   ],
-  "prompt_sha256": "785fee7ab870f2510eea7d2233ccaa8be085c0c69f1f8c8dbf13d636e45bc928"
+  "prompt_sha256": "f0be59531ed757cff695a233b7b5254bdd6b3cd75b948bc75e92be7589d45513"
  },
  "L1.18": {
   "seen": [
@@ -1582,7 +1582,7 @@
    "high-cost DFT geometry optimization [problem]",
    "pseudo-hybrid Hubbard density functional [technique]"
   ],
-  "prompt_sha256": "5d6abaec668feb183eb36b5827f8c8e0c0e4dfd6913d4f5d61b57e543030f4ab"
+  "prompt_sha256": "f9a8d28b0ec04e16d1066e7842fed41457c6575b95be4612fc8ec80e0a526758"
  },
  "L1.19": {
   "seen": [
@@ -1607,7 +1607,7 @@
    "Set2Set [method]",
    "Training set cleaning procedure [component]"
   ],
-  "prompt_sha256": "2a0cc9b12dc3c33692fabd187a3bd2656b509dcb3709982427cc43954affe505"
+  "prompt_sha256": "2397f979b9b780a3873659d95ceadda054cae31eed4827e03fc73c339c499948"
  },
  "L1.2": {
   "seen": [
@@ -1694,7 +1694,7 @@
    "future work: High-temperature surface reconstructions of amorphous carbon",
    "future work: Improved uncertainty quantification methods for interatomic potentials"
   ],
-  "prompt_sha256": "c18f2c820559844a5494c8f68a7dd57a21a89d9ba4880ed0f4f940f0de272fd5"
+  "prompt_sha256": "edb94d9b9fcabf061f83ba9d25fc19b595fc8e9793ba8de40e6f4b6f6d645d81"
  },
  "L1.20": {
   "seen": [
@@ -1777,7 +1777,7 @@
    "solid-state electrolytes [task]",
    "virial in loss function [component]"
   ],
-  "prompt_sha256": "104803bdc89d87d7ee34f4d12f5628339e7832951d88d27fc49d3c52647dbbe3"
+  "prompt_sha256": "24b2d94477b0eb71faad375103dd3cb1ef40b8442578c0fd0021a7a24687372a"
  },
  "L1.22": {
   "seen": [
@@ -1796,7 +1796,7 @@
    "crystal graph convolutional neural networks is evaluated on Bulk moduli (metric MAE, value 0.054, task Regression (property prediction), split test)",
    "energetic and structural properties [metric]"
   ],
-  "prompt_sha256": "a54e7a036b2e6c6965252d28df227b34c81eaf518dfad3ddb42950ca35e307c2"
+  "prompt_sha256": "31c34365c59871c503c0826eb66d7fc55711832aabe0c3888345ad151497006a"
  },
  "L1.23": {
   "seen": [
@@ -1818,7 +1818,7 @@
    "force_std_dev [metric]",
    "ta-C [dataset]"
   ],
-  "prompt_sha256": "5addb3964eb9364c96c7bb4e327e902ddd7ad04240f74d737d381e3ee9bae362"
+  "prompt_sha256": "3339639d8fd786859e6d514a3b3f1a71802d12b34484a5fc9ef31d36d0f67204"
  },
  "L1.24": {
   "seen": [
@@ -1877,7 +1877,7 @@
    "energy RMSE (10^-3 eV/atom) [metric]",
    "energy_RMS_eV [metric]"
   ],
-  "prompt_sha256": "ef7f203ab86575f348fa21146cbff5f74a7b43de773097cddecf60fa172b1925"
+  "prompt_sha256": "0b856bcf97e0df125ec51bf9f824f02bd4973a114270c3833ea22487d72bbf1e"
  },
  "L1.25": {
   "seen": [
@@ -1910,7 +1910,7 @@
    "Neural Equivariant Interatomic Potentials is evaluated on Ice Ih (c) (metric RMSE Energy, value 0.7, task energy and force prediction, split test)",
    "lattice parameter [metric]"
   ],
-  "prompt_sha256": "1ea1ec2b751fe34d22cd5ebf2477e3f1486179357ce3a0362fb12b2d70737be9"
+  "prompt_sha256": "15d5aaf37f90784e6a5423476c21df94a4f3325de92b9cbc554d03b87b0bac56"
  },
  "L1.26": {
   "seen": [
@@ -1970,7 +1970,7 @@
    "Radial basis functions [technique]",
    "Spherical harmonic expansion of orientation [technique]"
   ],
-  "prompt_sha256": "72c1628ea280a384b604f450690b2a0fe3b949a295608ec002e7aedb83abfe78"
+  "prompt_sha256": "1ec15797a3e97989f2c4d99e5ee2d671462b41020f511fa4cef4bde77a09b076"
  },
  "L1.27": {
   "seen": [
@@ -2053,7 +2053,7 @@
    "iterative retraining cycle [technique]",
    "structural prototype bias [problem]"
   ],
-  "prompt_sha256": "2469e3ca03dde7798fbe76883cca7d090b304ea72cb53ad9eccab55a63128120"
+  "prompt_sha256": "a199b6da88f46f569f6712b5bde3912a89b6c80a8d2184fb851a733012b9a8a5"
  },
  "L1.28": {
   "seen": [
@@ -2063,7 +2063,7 @@
   "held_out": [
    "Batch Normalization [method]"
   ],
-  "prompt_sha256": "d131cd313146e12183bb9ec9c1172e9ab271dfe687c45142165e6d1c12761eba"
+  "prompt_sha256": "53f29bd73de3ede6fc9105620cb5a0b1c0221c616276fc3321246d4a0868aed6"
  },
  "L1.29": {
   "seen": [
@@ -2077,7 +2077,7 @@
    "JARVIS integrated materials design infrastructure extends density functional theory",
    "Materials Project high-throughput computational workflow and open data platform extends density functional theory"
   ],
-  "prompt_sha256": "f2ab95b82dc4928363789c2fd06c4c32446f338813ddba55855dbc89b698f522"
+  "prompt_sha256": "07dba04f9d9132955f335b0d5616f651fa46cbf779cd23926efb2d599561df75"
  },
  "L1.3": {
   "seen": [
@@ -2164,7 +2164,7 @@
    "crystal graph convolutional neural networks is evaluated on MAE (metric MAE, value 0.363, task Regression (property prediction), split test)",
    "deep neural network approach to represent DFT Hamiltonian is evaluated on MAE (metric MAE, split test)"
   ],
-  "prompt_sha256": "e021c5f5fd0338614f7fa0d160af82c3707d4c1b3bca715d009692e60e57b723"
+  "prompt_sha256": "a561b00429c657150e4f38f97107acb448425827263d19a25ddd47aa825b5900"
  },
  "L1.31": {
   "seen": [
@@ -2172,7 +2172,7 @@
    "SOAP kernel [method]"
   ],
   "held_out": [],
-  "prompt_sha256": "5b4abadc10ef042ce221f830a6dc821409dc9cf3b4739b31b7bed6a23966cb5e"
+  "prompt_sha256": "8d98f89c75d5428470d04e7f6d5219f51a9e5b0ce85a1b0f059ae06648571101"
  },
  "L1.32": {
   "seen": [
@@ -2237,7 +2237,7 @@
    "claim: The integrated JARVIS workflow (DFT → FF → ML) enables rapid screening of materials for high solar-cell efficiency (SLME) with predictions validated against experimental data.",
    "future work: Continuous expansion of JARVIS datasets and tools"
   ],
-  "prompt_sha256": "b8bf61a10f0baaf2c8e420ed2dbdcb17260a28349c55a6d0880125e13ce88c11"
+  "prompt_sha256": "7ff9b8d9e70626a6dd7ba8fd356e1ef991fc2ca43495f1e01c63834c70c31a2f"
  },
  "L1.33": {
   "seen": [
@@ -2245,7 +2245,7 @@
    "interaction energy [metric]"
   ],
   "held_out": [],
-  "prompt_sha256": "167bb58d169ea3500bac79db52e945dc20414b56ef755a29b6e8505bc9b03ee4"
+  "prompt_sha256": "130ce52ded771d1e17b91821bd1663f0d7cab5e5cfd2e5075b7bf1a742398452"
  },
  "L1.35": {
   "seen": [
@@ -2290,7 +2290,7 @@
    "future work: Extension of CGCNN to predict dynamic or temperature-dependent properties",
    "future work: Use of CGCNN-derived empirical rules for high-throughput materials screening"
   ],
-  "prompt_sha256": "ecc189ad94aac03c54071fc1850b5b571fe0d92edff96f48d3b90870787b23ff"
+  "prompt_sha256": "a68bd26da97d2bf098bf411efe84cd7c790124ff4b4da39459b49d2d357cf21d"
  },
  "L1.36": {
   "seen": [
@@ -2304,7 +2304,7 @@
    "DFT-level accuracy with linear scaling [problem]",
    "Efficient force and virial prediction [problem]"
   ],
-  "prompt_sha256": "971b04863973a25f0b2ae46f8e2043bb170379c63f0947ea99df5b8784d31d86"
+  "prompt_sha256": "9a757c14306fb5f83957fce92fd24f80728e5ba3dbfa577e7373463f9878058e"
  },
  "L1.37": {
   "seen": [
@@ -2315,7 +2315,7 @@
   "held_out": [
    "Robust handling of calculation failures [problem]"
   ],
-  "prompt_sha256": "b9cf194f997374887964ea2356cdcb0d49919c300d798c1c678aca838f957bfb"
+  "prompt_sha256": "e7facba754646e96b671d215aee126742d18684a051db167046fdb50b5ba7f42"
  },
  "L1.38": {
   "seen": [
@@ -2344,7 +2344,7 @@
    "Pipeline reproducibility [problem]",
    "Researcher intervention requirement [problem]"
   ],
-  "prompt_sha256": "8af7469d6262bc33205128aba3e5fa1f435b2db5545097cbb09deff13327268f"
+  "prompt_sha256": "60b05f9da715d7c890a0040bc218023f6fa0b6081ea5bec4bd27ce6d3cf6d30c"
  },
  "L1.39": {
   "seen": [
@@ -2383,7 +2383,7 @@
    "electronic structure [task]",
    "electronic structure of correlated systems [problem]"
   ],
-  "prompt_sha256": "9aaf8e5b41702fb695a179d7c83a434e97d7fd45b730e886bb8d1a0f96eb22e9"
+  "prompt_sha256": "982529ee84e878576468be36162097f109d2d506ac2383baeabd2abdf89ae0ff"
  },
  "L1.4": {
   "seen": [
@@ -2470,7 +2470,7 @@
    "paper: Deep-Learning Density Functional Theory Hamiltonian for Efficient ab initio Electronic-Structure Calculation",
    "twisted bilayer bismuthene [dataset]"
   ],
-  "prompt_sha256": "511e5086edebf028eaf39d7f48a0c356bb4f633804bf0255707ae64c2f326e4e"
+  "prompt_sha256": "fc79ed239b09c908b8ba2a79971e5a29483b39394310b8c358206d3aaa23b251"
  },
  "L1.40": {
   "seen": [
@@ -2488,7 +2488,7 @@
    "Non-physical trajectory generation in early training [problem]",
    "efficient training set construction [problem]"
   ],
-  "prompt_sha256": "8d475b47636f3ebf8ddebecbb99a1519345cca55cbf09c70da5e67231af42185"
+  "prompt_sha256": "b3b01f62ccd72b35320cb4f753cfd1d579b1ef60cbfb96d4c5be3dc835af1928"
  },
  "L1.41": {
   "seen": [
@@ -2524,7 +2524,7 @@
    "preventing sp chain overprediction [problem]",
    "surface energy prediction for amorphous materials [problem]"
   ],
-  "prompt_sha256": "44b0e5ea6c6e54f8859086633af0d687cfc337cadc5c848331477458b2e14524"
+  "prompt_sha256": "e67fec0ffe37bc0d9e1bcdf9f8cff1227dff31ab62c792d99b6481e5a9455c6c"
  },
  "L1.46": {
   "seen": [
@@ -2565,7 +2565,7 @@
    "liquid carbon simulation [task]",
    "sp2/sp3 concentration monitoring [task]"
   ],
-  "prompt_sha256": "8033b203daa4639eda55a3001ff5197965d6c22b4b34998d81e7bd078b82a21c"
+  "prompt_sha256": "f981fbfb16cbb41b58c3aac43ace441be620aa091499c287d6ee7a954acabbc4"
  },
  "L1.47": {
   "seen": [
@@ -2610,7 +2610,7 @@
    "graph neural networks with three-body interactions uses component Phonon and elastic property predictor",
    "surface energy calculation [task]"
   ],
-  "prompt_sha256": "71cc9249836a5fe9089cf1d5f6eeb60b79d3352eabd1aea0115a5313e3d39a16"
+  "prompt_sha256": "1bebdf544d98dfe0fa24bb321338e251c04b8f5f2c028a7f6e6c43d5cd1ae093"
  },
  "L1.48": {
   "seen": [
@@ -2666,7 +2666,7 @@
    "phonon band structure calculation [task]",
    "property prediction on MatBench benchmarks [task]"
   ],
-  "prompt_sha256": "e7f5e3a0b7ac80ac5e7a8ed3ad146772bc0d4b59ab76fc360a177f99badebdbc"
+  "prompt_sha256": "b941965ce020c985a0b4080603769844e0242c23cb73a8cf863ff1069b4654cc"
  },
  "L1.49": {
   "seen": [
@@ -2680,7 +2680,7 @@
    "Kernel normalisation and integer power [technique]",
    "SOAP descriptor construction [technique]"
   ],
-  "prompt_sha256": "b685516e94d07886fc3cfe1c1e3a1e1f080b91254b9f1103340b8d3e979eeb87"
+  "prompt_sha256": "efca144b1d557a80fd988c66d09050cb7dcdc431676926a9f58ae99c9721947e"
  },
  "L1.5": {
   "seen": [
@@ -2759,7 +2759,7 @@
    "future work: more challenging benchmark with chemical and structural variations",
    "output block [component]"
   ],
-  "prompt_sha256": "37ee314829e9e5b19e757c0920186849a8d886f25278abb106a9a78c343f61ff"
+  "prompt_sha256": "b6d4fe164639201554b03829b628f678b02fcec82c80f4d52e8b2fa9d8affc50"
  },
  "L1.50": {
   "seen": [
@@ -2778,7 +2778,7 @@
    "hybrid functional band-structure calculation [task]",
    "interstitial cage detection in L13 structure [task]"
   ],
-  "prompt_sha256": "d7ff0306ddad693471c653cb6cc2ec01020122fee6a58b1edeb335d57ada4b70"
+  "prompt_sha256": "acf34229d8792af5e70a66ca88831d340ae2cd31952ec821674e2599d98d1086"
  },
  "L1.51": {
   "seen": [
@@ -2819,7 +2819,7 @@
    "electronic structure calculations [task]",
    "thermoelectric property assessment [task]"
   ],
-  "prompt_sha256": "a539fdd2854b80e58225e0c8a269f820cb3dc3da46c096f8f2b3a33ea03d15ec"
+  "prompt_sha256": "919e626d0f0de5fadde77c7fed327e2f8f3450e71498e2e23d24a3ce63935f54"
  },
  "L1.52": {
   "seen": [
@@ -2847,7 +2847,7 @@
    "TPOT genetic algorithm [technique]",
    "Transfer learning from graph networks [technique]"
   ],
-  "prompt_sha256": "0262fb82921dc00b43a1a62337a1667e8c31b92715dbfb21720dacc2224eec64"
+  "prompt_sha256": "40d73def65b86493b255f12dcf15ef94d931eb947c41bbf7359550705853a370"
  },
  "L1.53": {
   "seen": [
@@ -2894,7 +2894,7 @@
    "Transfer learning for new loading conditions [technique]",
    "Unknown value imputation [technique]"
   ],
-  "prompt_sha256": "a1baa1e718188853d9106df2ae647487ff0c88c721bc4229c9bd680282993c0d"
+  "prompt_sha256": "b56daed365ae167cf3f6e49017146009f216a8c2473d3816fa16779d3ba0b3e4"
  },
  "L1.54": {
   "seen": [
@@ -2917,7 +2917,7 @@
    "VarianceThreshold and StandardScaler preprocessing [technique]",
    "k-fold cross-validation and learning-curve analysis [technique]"
   ],
-  "prompt_sha256": "7641d0fc980b05323c9c76d2c4a07426fdd726dc69b993a05f73185d31954d9d"
+  "prompt_sha256": "830f5448353b840b3cc0fc8b7e5556df7f0291327680b0cbc58abb5d0b43816d"
  },
  "L1.55": {
   "seen": [
@@ -2944,7 +2944,7 @@
    "Spatiotemporal learning with ConvLSTM [technique]",
    "Switching function for neighbor contributions [technique]"
   ],
-  "prompt_sha256": "198a45c8f8245d309ff34c944495ab2180732b7e0836846d1c50408f97d297af"
+  "prompt_sha256": "faf588f125fad55f3334a746e8ad2fe7b8e7a98bc021bd4e55502b29e4ab0d95"
  },
  "L1.56": {
   "seen": [
@@ -2966,7 +2966,7 @@
    "Nosé-Hoover thermostat [technique]",
    "Self-consistent training [technique]"
   ],
-  "prompt_sha256": "90aa8ff971d27fcaaf3645e7935604df35b221123d6936e947f3fd6aa7cde2f1"
+  "prompt_sha256": "782981e664fb6775839f32cdbce2e153a069cfae7f7a26d9f12d19dbecfaaccd"
  },
  "L1.57": {
   "seen": [
@@ -2981,7 +2981,7 @@
    "Iterative database extension [technique]",
    "surface cleavage [technique]"
   ],
-  "prompt_sha256": "4035d9d58794236109c0e4d463f988643b56a6ee701f933f6c05d8718407e9cb"
+  "prompt_sha256": "4ef7611e9b4982a9c3ed660b8a730d521dd4175212e15e7278c6721f7dc2fe34"
  },
  "L1.58": {
   "seen": [
@@ -3024,7 +3024,7 @@
    "snapshot extraction at multiple time points [technique]",
    "sp2/sp3 atom counting [technique]"
   ],
-  "prompt_sha256": "ea7ea3384f442b43f8dbc5e2d62764996fd010e70b354ec603369d2be284295d"
+  "prompt_sha256": "925de0f4af90ab4e4fd9d373cd664c0c817560d138eab800b394728fe48a8fdc"
  },
  "L1.59": {
   "seen": [
@@ -3078,7 +3078,7 @@
    "matrix eigenvector methods [technique]",
    "Γ-centered k-point grids [technique]"
   ],
-  "prompt_sha256": "5f28755cf89d16d5bbff65bd21b2fdbf6eb5cf13f1dc03164c22e4046af64601"
+  "prompt_sha256": "b5793b09a988b2668013d43acaec47c31ba0ed9a785f0afed0f372d1a2d8108f"
  },
  "L1.6": {
   "seen": [
@@ -3094,7 +3094,7 @@
    "compliance matrix [component]",
    "surface slab models [component]"
   ],
-  "prompt_sha256": "a05165578186116f80a53e93f2b0b1b6f0e34d71a2709f6f607c7a6607a6f69e"
+  "prompt_sha256": "98834278212a01d994e28b228000dc85c03f0e755091a83d81da69543c3b6c94"
  },
  "L1.60": {
   "seen": [
@@ -3109,7 +3109,7 @@
    "grid-based interstitial search [technique]",
    "symmetry reduction of cages [technique]"
   ],
-  "prompt_sha256": "4d56f969765a38f72c81ac47d356a900fb8a6620a4a4d88aed732981a8a6bcda"
+  "prompt_sha256": "5001cf6d838ac41d4431a0af03165d817e787f9839fb3c401cd1f9c33e279b1b"
  },
  "L1.61": {
   "seen": [
@@ -3165,7 +3165,7 @@
    "embedded-atom-method [method]",
    "equivariant message passing neural networks [method] (also: MPNNs)"
   ],
-  "prompt_sha256": "983488b20cbfd896f04ba5ce765ad426ea2fdc72fd7920b858b0d5519cff4c6c"
+  "prompt_sha256": "00d5f1b7a2dddaefacc6858fb6aec89ced647fb2db3454bcd1937f6bc07c4139"
  },
  "L1.62": {
   "seen": [
@@ -3252,7 +3252,7 @@
    "Neural Equivariant Interatomic Potentials is evaluated on RMSE Energy (metric RMSE Energy, value 0.8, task energy and force prediction, split test)",
    "Neural Equivariant Interatomic Potentials is evaluated on RMSE Energy (metric RMSE Energy, value 1.0, split test)"
   ],
-  "prompt_sha256": "9e337dabbc6ba15985291b86b6bd197b503cdd74efbbdabab8c7e5af15bb15f5"
+  "prompt_sha256": "c732dc07c45826badd685a6e34999ccc50a37b19f2f229fb979168a1982e1858"
  },
  "L1.63": {
   "seen": [
@@ -3281,7 +3281,7 @@
    "Transfer learning of elemental embeddings [technique]",
    "Vertex embedding of atomic numbers [component]"
   ],
-  "prompt_sha256": "613fa87162101c7daff2678bca6620aaa3188eb9a0be661abb60f9fcdcd4ef61"
+  "prompt_sha256": "c2e767ff38c5c24f097ce7f8734b75487dc673e98a6f1050810e0632ec3d23ed"
  },
  "L1.64": {
   "seen": [
@@ -3355,7 +3355,7 @@
    "claim: The GNN’s stress predictions are substantially more accurate than on-the-fly stress calculations from the force field, which exhibit higher errors.",
    "future work: Integration of multiscale modeling data (DFT, MD, FEM) to train GNNs for broader defect-property relationships"
   ],
-  "prompt_sha256": "35b0339b1038120548de6ee3c7d7cb1a7e52877a61b09b4a0f0f912f62d7f760"
+  "prompt_sha256": "d863d1e748705da23e4180364b8d020c618a1ffe3a8e05530801def970ebd0f1"
  },
  "L1.65": {
   "seen": [
@@ -3388,7 +3388,7 @@
    "Optical response computation [task]",
    "polymorph differentiation [problem]"
   ],
-  "prompt_sha256": "761ea19aa98972f093b8c36127e1d9fc7b1d3f9b5bdb593990db2722ff1eb4df"
+  "prompt_sha256": "4a99eb42250b145e069c3c0754a7952f0f674dcc9b4ad9d4e472270ba7b77589"
  },
  "L1.66": {
   "seen": [
@@ -3457,7 +3457,7 @@
    "graph neural networks with three-body interactions [method] (also: M3GNet)",
    "pre-relaxation using a learned interatomic potential [technique]"
   ],
-  "prompt_sha256": "4b376839cc61adec61b36ccb07f84b2d2b503c03933ff11952699ff4a433f7e0"
+  "prompt_sha256": "54e4fa2efc2256fcd17cf5304ef384a81b693ac5008954ebc4f34fea49bfb16b"
  },
  "L1.67": {
   "seen": [
@@ -3522,7 +3522,7 @@
    "claim: The model generalizes to arbitrarily twisted bilayer structures; the mean absolute error of Hamiltonian predictions decreases as the Moiré supercell size grows (or twist angle decreases).",
    "future work: Optimization of local coordinate selection to reduce computational load in equivariant models"
   ],
-  "prompt_sha256": "e777a8e864d2475ca1f7c1c8f0ce98e6a50aa0ee9d131eb36aa856527fc6f4fb"
+  "prompt_sha256": "c3ef21b00e834dbc024d9934425991d102f979dcfb96b53450c8ffed293bc85a"
  },
  "L1.7": {
   "seen": [
@@ -3566,7 +3566,7 @@
    "Smooth Overlap of Atomic Positions [method]",
    "angle descriptor [component]"
   ],
-  "prompt_sha256": "11d951b2431d59dba2afb44d2e7c13c7584ed4fb83d1f2561b2bcc0f58d9fc40"
+  "prompt_sha256": "d16d959410af6c0440f4e5a931ef197d1c544aef646b8ac06bec7f7aff9ae95d"
  },
  "L1.8": {
   "seen": [
@@ -3630,7 +3630,7 @@
    "claim: Discontinuities in forces caused by the sharp cutoff radius and neighbor-list sorting are much smaller than thermal fluctuations and do not impair canonical sampling.",
    "coarse-grained message passing networks [method]"
   ],
-  "prompt_sha256": "19ca8b36c59010b1dedbb7a43230e550a346186089b6843457ccf02bc27c8ba3"
+  "prompt_sha256": "230f48917d0c67b4268a10008d6c8e5036d4069a519a2b3593d6910e3857ef89"
  },
  "L1.9": {
   "seen": [
@@ -3671,6 +3671,6 @@
    "future work: Extension of graph-network models to additional state-dependent material properties",
    "future work: Unified free-energy MEGNet model incorporating temperature, pressure, and entropy as global state inputs"
   ],
-  "prompt_sha256": "4dfca3cfacde2ff914121fa056ae3e232223119e0a025a423baa410bcd76dd58"
+  "prompt_sha256": "10938167575d49a26e70727c0617902393a5fd27f58d31e74954f9df0dc7a94c"
  }
 }

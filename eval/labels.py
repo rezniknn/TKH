@@ -184,7 +184,8 @@ def _labelled(labeller, c, full, levels, tag):
     for k, g, m in todo:
         lab, gloss = labeller(c, k, m)
         seen, held = labeller.view(c, m)
-        rows.append((c, k, f"{tag}:{c}:{g}", None if par[k][g] is None else f"{tag}:{c}:{par[k][g]}", m, lab, gloss, seen, held))
+        rows.append((c, k, f"{tag}:{c}:L{k}.{g}", None if par[k][g] is None else f"{tag}:{c}:L{k - 1}.{par[k][g]}",
+                     m, lab, gloss, seen, held))   # group ids restart per level: the level is part of the key
     return rows
 
 

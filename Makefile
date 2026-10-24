@@ -4,7 +4,7 @@ PYTHON ?= .venv/bin/python
 OUT ?= out
 SEED ?= 0
 
-.PHONY: all test fixtures build validate null coherence stability labels gamma sweep
+.PHONY: all test fixtures build validate null coherence stability labels figures gamma sweep
 
 all: build validate coherence stability labels test
 
@@ -32,6 +32,9 @@ stability:       ## perturbation (10% of hyper-edges, 5 seeds) and cross-snapsho
 
 labels:          ## label faithfulness: held-out NLI judge with controls and nulls (RIGOR=quick|standard|full)
 	$(PYTHON) -m eval labels --run $(OUT) --rigor $(or $(RIGOR),standard)
+
+figures:         ## static PNGs of $(OUT)/metrics.json and $(OUT)/label_judgements.json -> docs/figures/ (no recomputation)
+	$(PYTHON) -m eval.figures --run $(OUT) --out docs/figures
 
 gamma:           ## temporal-prior variants gamma = 0..1: stability and coherence, paired vs gamma = 0 -> $(OUT)/gamma/gamma.json
 	$(PYTHON) -m eval gamma --out $(OUT)/gamma

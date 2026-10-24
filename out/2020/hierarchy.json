@@ -246,7 +246,7 @@
     "tech_00305"
    ],
    "label": "Message Passing Neural Networks",
-   "gloss": "Models using message passing for material and molecular property prediction."
+   "gloss": "Models for molecular and crystal property prediction."
   },
   {
    "id": "L0.10",
@@ -390,8 +390,8 @@
     "tech_00653",
     "tech_00654"
    ],
-   "label": "High-throughput DFT Calculations",
-   "gloss": "Tasks and techniques for efficient materials property prediction."
+   "label": "DFT Calculation Workflow",
+   "gloss": "Tasks and techniques for high-throughput DFT calculations and database construction."
   },
   {
    "id": "L0.11",
@@ -490,8 +490,8 @@
     "tech_00703",
     "tech_00704"
    ],
-   "label": "Diffusion coefficient computation",
-   "gloss": "Models and techniques for computing diffusion coefficients in materials."
+   "label": "DeePMD training protocols",
+   "gloss": "Protocols for training DeePMD models on diffusion coefficients."
   },
   {
    "id": "L0.12",
@@ -527,8 +527,8 @@
     "prob_00614",
     "prob_00615"
    ],
-   "label": "Challenges in ML Potentials",
-   "gloss": "Problems with accuracy, efficiency, and transferability of machine learning interatomic potentials."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for accurate atomistic simulations of materials properties."
   },
   {
    "id": "L0.13",
@@ -537,8 +537,8 @@
    "member_ids": [
     "task_00001"
    ],
-   "label": "Fracture Prediction Models",
-   "gloss": "Models focused on predicting material fractures using machine learning."
+   "label": "Fracture prediction models",
+   "gloss": "Models predicting crack path and matrix in crystalline solids."
   },
   {
    "id": "L0.14",
@@ -551,8 +551,8 @@
     "tech_00261",
     "tech_00264"
    ],
-   "label": "Phase diagram construction",
-   "gloss": "Tasks related to phase diagram creation and material stability assessment."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for accurate interatomic interactions in materials."
   },
   {
    "id": "L0.15",
@@ -600,8 +600,8 @@
     "tech_00929",
     "tech_00930"
    ],
-   "label": "Kernel-based Techniques",
-   "gloss": "Techniques using kernel methods for materials science."
+   "label": "DFT-based potential interpolation",
+   "gloss": "Techniques for machine-learning DFT potential-energy surfaces."
   },
   {
    "id": "L0.2",
@@ -805,7 +805,7 @@
     "tech_00263"
    ],
    "label": "Gaussian Approximation Potentials",
-   "gloss": "Models for interatomic potentials in materials science"
+   "gloss": "Interatomic potentials for silicon and carbon structures."
   },
   {
    "id": "L0.3",
@@ -972,8 +972,8 @@
     "tech_00502",
     "tech_00503"
    ],
-   "label": "Automated ML for Materials",
-   "gloss": "Tools and techniques for automating machine learning in materials science."
+   "label": "Automated feature generation",
+   "gloss": "Techniques and methods for automatically creating material descriptors."
   },
   {
    "id": "L0.4",
@@ -1089,8 +1089,8 @@
     "tech_00318",
     "tech_00319"
    ],
-   "label": "Deep Potential Models",
-   "gloss": "Models for molecular dynamics and interatomic potentials"
+   "label": "Deep Potential MD models",
+   "gloss": "Models for molecular dynamics using deep neural networks"
   },
   {
    "id": "L0.5",
@@ -1135,7 +1135,7 @@
     "tech_00310"
    ],
    "label": "Atomic Cluster Expansion",
-   "gloss": "Expands properties using basis functions and techniques for materials."
+   "gloss": "Models for multi-component materials properties and forces."
   },
   {
    "id": "L0.6",
@@ -1237,7 +1237,7 @@
     "tech_00317",
     "tech_00320"
    ],
-   "label": "Fracture Prediction Models",
+   "label": "Fracture prediction models",
    "gloss": "Models for predicting crack patterns and fracture toughness in materials."
   },
   {
@@ -1328,8 +1328,8 @@
     "tech_00325",
     "tech_00326"
    ],
-   "label": "High-Throughput DFT Methods",
-   "gloss": "Includes protocols and techniques for high-throughput DFT calculations in materials science."
+   "label": "Fracture prediction models",
+   "gloss": "Models for predicting material fracture behavior using machine learning."
   },
   {
    "id": "L0.8",
@@ -1521,8 +1521,8 @@
     "tech_00386",
     "tech_00387"
    ],
-   "label": "Materials Property Prediction",
-   "gloss": "Models for predicting material properties using machine learning."
+   "label": "Crystal Graph ConvNets",
+   "gloss": "Accurate prediction of material properties using graph convolutional networks."
   },
   {
    "id": "L0.9",
@@ -1614,8 +1614,8 @@
     "tech_00409",
     "tech_00410"
    ],
-   "label": "High-Throughput Materials Discovery",
-   "gloss": "Tasks and techniques for automated material property calculation and structure generation."
+   "label": "High-throughput DFT workflows",
+   "gloss": "AFLOW framework and related techniques for automated DFT calculations."
   },
   {
    "id": "L1.1",
@@ -1668,8 +1668,8 @@
     "tech_00292",
     "tech_00293"
    ],
-   "label": "Crystal Graph CNNs",
-   "gloss": "Models for material property prediction and design"
+   "label": "CGCNN for material properties",
+   "gloss": "Crystal graph convolutional neural networks applied to predict material properties like bulk moduli and Fermi energy."
   },
   {
    "id": "L1.10",
@@ -1714,7 +1714,7 @@
     "tech_00310"
    ],
    "label": "Atomic Cluster Expansion",
-   "gloss": "Expands properties using basis functions and techniques for materials."
+   "gloss": "Models for multi-component materials properties and forces."
   },
   {
    "id": "L1.11",
@@ -1827,8 +1827,8 @@
     "tech_00325",
     "tech_00326"
    ],
-   "label": "High-Throughput Computation",
-   "gloss": "Tasks and techniques for rapid material property screening."
+   "label": "High-throughput computation workflows",
+   "gloss": "Involves computational tools and techniques for rapid material screening."
   },
   {
    "id": "L1.13",
@@ -1861,8 +1861,8 @@
     "comp_00358",
     "comp_00359"
    ],
-   "label": "Materials Science Databases",
-   "gloss": "Contains various databases and tools for materials science."
+   "label": "Materials Property Prediction",
+   "gloss": "Models for predicting properties like band alignment and formation energy."
   },
   {
    "id": "L1.14",
@@ -1921,8 +1921,8 @@
     "tech_00386",
     "tech_00387"
    ],
-   "label": "High-Throughput Screening",
-   "gloss": "Tasks involving rapid material property prediction and evaluation."
+   "label": "High-throughput DFT screening",
+   "gloss": "Includes DFT calculations, database screening, and stability analysis for materials."
   },
   {
    "id": "L1.15",
@@ -1992,8 +1992,8 @@
     "tech_00409",
     "tech_00410"
    ],
-   "label": "High-Throughput DFT Management",
-   "gloss": "Techniques and components for automated DFT calculations in materials science."
+   "label": "High-throughput DFT workflow",
+   "gloss": "Automated DFT calculations for materials discovery and property prediction."
   },
   {
    "id": "L1.16",
@@ -2031,8 +2031,8 @@
     "comp_00469",
     "comp_00473"
    ],
-   "label": "Materials Featurization Techniques",
-   "gloss": "Methods for converting material properties into numerical features."
+   "label": "Automated Feature Selection",
+   "gloss": "Preset configurations for feature selection in materials science."
   },
   {
    "id": "L1.17",
@@ -2055,8 +2055,8 @@
     "comp_00586",
     "comp_00587"
    ],
-   "label": "DFT Calculation Components",
-   "gloss": "Components used in high-throughput DFT calculations for materials science."
+   "label": "High-throughput DFT calculations",
+   "gloss": "Protocols and components for efficient density functional theory computations."
   },
   {
    "id": "L1.18",
@@ -2143,8 +2143,8 @@
     "tech_00651",
     "tech_00653"
    ],
-   "label": "High-Throughput DFT Calculations",
-   "gloss": "Tasks and techniques for efficient materials database construction."
+   "label": "High-throughput DFT calculations",
+   "gloss": "AFLOW protocol for efficient materials database construction and property prediction"
   },
   {
    "id": "L1.19",
@@ -2161,8 +2161,8 @@
     "comp_00633",
     "comp_00636"
    ],
-   "label": "Training Protocols for DeePMD",
-   "gloss": "Protocols for training Deep Potential Models in materials science."
+   "label": "Diffusion coefficient computation",
+   "gloss": "Models for predicting diffusion coefficients in materials."
   },
   {
    "id": "L1.2",
@@ -2264,7 +2264,7 @@
     "tech_00263"
    ],
    "label": "Gaussian Approximation Potentials",
-   "gloss": "Models for interatomic potentials in materials science."
+   "gloss": "Models for silicon interatomic potential prediction and evaluation."
   },
   {
    "id": "L1.20",
@@ -2330,8 +2330,8 @@
     "tech_00696",
     "tech_00702"
    ],
-   "label": "Diffusion Coefficient Computation",
-   "gloss": "Models and techniques for predicting ionic diffusion in solid-state electrolytes."
+   "label": "DeePMD for diffusion",
+   "gloss": "Uses DeePMD for diffusion coefficient and activation energy computation."
   },
   {
    "id": "L1.21",
@@ -2340,8 +2340,8 @@
    "member_ids": [
     "data_00064"
    ],
-   "label": "Band gap prediction",
-   "gloss": "Models predicting energy gaps in materials."
+   "label": "Crystal Property Prediction",
+   "gloss": "Models predicting properties of crystalline materials."
   },
   {
    "id": "L1.22",
@@ -2353,8 +2353,8 @@
     "metr_00082",
     "metr_00088"
    ],
-   "label": "Materials Property Prediction",
-   "gloss": "Models predicting amorphous carbon's Young's modulus and energetic/structural properties."
+   "label": "Gaussian approximation potentials",
+   "gloss": "Models for interatomic potentials in amorphous carbon."
   },
   {
    "id": "L1.23",
@@ -2370,8 +2370,8 @@
     "metr_00083",
     "metr_00084"
    ],
-   "label": "Materials Property Prediction",
-   "gloss": "Models predict surface energies and forces on amorphous and diamond-like carbon."
+   "label": "Gaussian approximation potentials",
+   "gloss": "Interatomic potentials for amorphous carbon properties."
   },
   {
    "id": "L1.24",
@@ -2386,8 +2386,8 @@
     "metr_00085",
     "metr_00089"
    ],
-   "label": "Interatomic Potentials Evaluation",
-   "gloss": "Models tested on various carbon states for energy accuracy."
+   "label": "Interatomic Potential Training",
+   "gloss": "Models for predicting atomic interactions in materials."
   },
   {
    "id": "L1.25",
@@ -2397,8 +2397,8 @@
     "data_00210",
     "metr_00086"
    ],
-   "label": "Gaussian Approximation Potentials",
-   "gloss": "Models for predicting material properties."
+   "label": "Interatomic Potentials",
+   "gloss": "Models for accurate atomistic simulations of materials properties."
   },
   {
    "id": "L1.26",
@@ -2433,8 +2433,8 @@
     "meth_00367",
     "meth_00370"
    ],
-   "label": "High-Throughput DFT Calculations",
-   "gloss": "Methods and protocols for efficient materials screening."
+   "label": "High-throughput DFT calculations",
+   "gloss": "Methods for rapid density functional theory computations in materials science."
   },
   {
    "id": "L1.27",
@@ -2464,8 +2464,8 @@
     "meth_00219",
     "meth_00220"
    ],
-   "label": "Molecular Dynamics Extensions",
-   "gloss": "Models enhancing traditional molecular dynamics simulations."
+   "label": "Molecular Graph Neural Networks",
+   "gloss": "Models for molecular structure and interaction prediction."
   },
   {
    "id": "L1.28",
@@ -2475,8 +2475,8 @@
     "meth_00014",
     "meth_00015"
    ],
-   "label": "Materials Simulation Models",
-   "gloss": "Models for simulating materials properties using machine learning."
+   "label": "Deep Potential Models",
+   "gloss": "Models for molecular dynamics and energy prediction."
   },
   {
    "id": "L1.29",
@@ -2485,8 +2485,8 @@
    "member_ids": [
     "meth_00074"
    ],
-   "label": "DFT-based ML",
-   "gloss": "Models extending density functional theory for materials science"
+   "label": "DFT-based ML models",
+   "gloss": "Models extending density functional theory for materials science."
   },
   {
    "id": "L1.3",
@@ -2564,7 +2564,7 @@
     "task_00357"
    ],
    "label": "Automated ML for Materials",
-   "gloss": "Automatminer and related methods for materials property prediction."
+   "gloss": "Automated machine learning pipelines and presets for materials property prediction."
   },
   {
    "id": "L1.30",
@@ -2602,8 +2602,8 @@
     "meth_00386",
     "meth_00387"
    ],
-   "label": "DFT-based ML Methods",
-   "gloss": "Machine learning techniques for DFT calculations in materials science."
+   "label": "Diffusion coefficient computation",
+   "gloss": "Models for predicting diffusion coefficients in materials."
   },
   {
    "id": "L1.31",
@@ -2612,8 +2612,8 @@
    "member_ids": [
     "meth_00197"
    ],
-   "label": "Kernel Methods",
-   "gloss": "Models using SOAP kernel for materials properties."
+   "label": "Interatomic Potentials",
+   "gloss": "Models for silicon's atomic interactions."
   },
   {
    "id": "L1.32",
@@ -2699,8 +2699,8 @@
     "tech_00374",
     "tech_00377"
    ],
-   "label": "Materials Design Infrastructure",
-   "gloss": "Techniques and tasks for automated materials design and property prediction."
+   "label": "Force-field quality assessment",
+   "gloss": "Evaluates classical force fields using DFT comparisons."
   },
   {
    "id": "L1.33",
@@ -2709,8 +2709,8 @@
    "member_ids": [
     "metr_00090"
    ],
-   "label": "Interatomic Potentials",
-   "gloss": "Models for predicting interaction energies in materials."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for training accurate interatomic potentials in materials science."
   },
   {
    "id": "L1.34",
@@ -2720,8 +2720,8 @@
     "prob_00017",
     "prob_00019"
    ],
-   "label": "Efficient Inference Methods",
-   "gloss": "Models providing quick predictions compared to DFT."
+   "label": "Graph Neural Networks",
+   "gloss": "Models for crystal property prediction and molecular representation."
   },
   {
    "id": "L1.35",
@@ -2745,8 +2745,8 @@
     "prob_00206",
     "prob_00207"
    ],
-   "label": "Materials Property Prediction",
-   "gloss": "Models for predicting material properties and screening."
+   "label": "Crystal Graph Convolutional Networks",
+   "gloss": "Models for material property prediction and crystal representation."
   },
   {
    "id": "L1.36",
@@ -2760,8 +2760,8 @@
     "prob_00133",
     "prob_00134"
    ],
-   "label": "Interatomic Potential Models",
-   "gloss": "Models ensuring accuracy and symmetry in force predictions."
+   "label": "Interatomic Potential Learning",
+   "gloss": "Models for force and virial prediction in molecular dynamics."
   },
   {
    "id": "L1.37",
@@ -2772,8 +2772,8 @@
     "prob_00220",
     "prob_00221"
    ],
-   "label": "Materials Property Prediction",
-   "gloss": "Predicting phase stability and interstitial sites for materials discovery."
+   "label": "Interstitial Site Identification",
+   "gloss": "Methods for finding interstitial sites in materials."
   },
   {
    "id": "L1.38",
@@ -2802,8 +2802,8 @@
     "prob_00283",
     "prob_00284"
    ],
-   "label": "Challenges in ML for materials",
-   "gloss": "Problems hindering automated materials property prediction and model selection."
+   "label": "Automated descriptor selection",
+   "gloss": "Concerns bias and standardization in descriptor/model choice for materials."
   },
   {
    "id": "L1.39",
@@ -2815,8 +2815,8 @@
     "prob_00380",
     "task_00253"
    ],
-   "label": "DFT-based Calculations",
-   "gloss": "Concerns electronic structure and band structure prediction for correlated systems."
+   "label": "Formation-energy prediction models",
+   "gloss": "Models predicting formation energies for materials compounds."
   },
   {
    "id": "L1.4",
@@ -2904,7 +2904,7 @@
     "tech_00305"
    ],
    "label": "Message Passing Neural Networks",
-   "gloss": "Models using message passing for chemical property prediction"
+   "gloss": "Models for predicting quantum-chemical properties using message-passing mechanisms."
   },
   {
    "id": "L1.40",
@@ -2922,8 +2922,8 @@
     "prob_00420",
     "prob_00421"
    ],
-   "label": "ML for Materials Properties",
-   "gloss": "Challenges in using machine learning for material properties prediction and simulation."
+   "label": "Diffusion coefficient prediction",
+   "gloss": "Models for predicting solid-state electrolyte diffusion."
   },
   {
    "id": "L1.41",
@@ -2959,8 +2959,8 @@
     "prob_00614",
     "prob_00615"
    ],
-   "label": "Challenges in ML Potentials",
-   "gloss": "Problems with accuracy, efficiency, and transferability of machine learning interatomic potentials."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for accurate atomistic simulations of materials properties."
   },
   {
    "id": "L1.42",
@@ -2969,8 +2969,8 @@
    "member_ids": [
     "task_00001"
    ],
-   "label": "Fracture Prediction Models",
-   "gloss": "Models focused on predicting material fractures using machine learning."
+   "label": "Fracture prediction models",
+   "gloss": "Models predicting crack path and matrix in crystalline solids."
   },
   {
    "id": "L1.43",
@@ -2981,8 +2981,8 @@
     "task_00012",
     "task_00033"
    ],
-   "label": "Materials Science Models",
-   "gloss": "Models for predicting properties in materials science and computational physics."
+   "label": "Deep Potential MD",
+   "gloss": "Deep potential models for molecular dynamics simulations."
   },
   {
    "id": "L1.44",
@@ -3002,8 +3002,8 @@
     "task_00713",
     "task_00716"
    ],
-   "label": "Carbon Interatomic Potentials",
-   "gloss": "Tasks related to developing and testing potentials for carbon."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for carbon interatomic potentials and related tasks."
   },
   {
    "id": "L1.45",
@@ -3021,8 +3021,8 @@
     "task_00703",
     "task_00707"
    ],
-   "label": "Materials Property Prediction",
-   "gloss": "Models predicting various material properties like energy, forces, and elastic constants."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for predicting atomic interactions in materials."
   },
   {
    "id": "L1.46",
@@ -3059,8 +3059,8 @@
     "task_00714",
     "task_00715"
    ],
-   "label": "Silicon and Carbon Simulations",
-   "gloss": "Tasks involving atomistic simulations of silicon and carbon phases."
+   "label": "Gaussian Approximation Potentials",
+   "gloss": "Interatomic potentials for silicon simulations and characterizations."
   },
   {
    "id": "L1.47",
@@ -3077,8 +3077,8 @@
     "task_00240",
     "task_00242"
    ],
-   "label": "Property Prediction",
-   "gloss": "Tasks involving predicting material properties using machine learning."
+   "label": "GAP for silicon",
+   "gloss": "Interatomic potentials for property prediction in silicon."
   },
   {
    "id": "L1.48",
@@ -3115,8 +3115,8 @@
     "task_00353",
     "task_00354"
    ],
-   "label": "Materials Property Prediction",
-   "gloss": "Predicting various material properties using machine learning."
+   "label": "Materials property prediction",
+   "gloss": "Predicting various material properties using machine learning models."
   },
   {
    "id": "L1.49",
@@ -3129,8 +3129,8 @@
     "tech_00261",
     "tech_00264"
    ],
-   "label": "Phase diagram construction",
-   "gloss": "Tasks related to phase diagram creation and material stability assessment."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for accurate interatomic interactions in materials."
   },
   {
    "id": "L1.5",
@@ -3182,8 +3182,8 @@
     "tech_00073",
     "tech_00074"
    ],
-   "label": "SchNet Models",
-   "gloss": "Models using continuous-filter convolutions for molecular predictions."
+   "label": "SchNet-based models",
+   "gloss": "Models using SchNet for molecular and materials property prediction."
   },
   {
    "id": "L1.50",
@@ -3202,8 +3202,8 @@
     "task_00273",
     "task_00274"
    ],
-   "label": "High-throughput Calculation Tasks",
-   "gloss": "Tasks involving high-throughput calculation of material properties."
+   "label": "High-throughput structure prediction",
+   "gloss": "Includes tasks like crystal structure properties and interstitial site discovery."
   },
   {
    "id": "L1.51",
@@ -3228,8 +3228,8 @@
     "task_00488",
     "task_00489"
    ],
-   "label": "Materials Property Calculations",
-   "gloss": "Tasks related to calculating various material properties."
+   "label": "Thermoelectric Property Prediction",
+   "gloss": "Focuses on calculating thermoelectric properties using ML models."
   },
   {
    "id": "L1.52",
@@ -3257,8 +3257,8 @@
     "tech_00502",
     "tech_00503"
    ],
-   "label": "Automated Feature Generation",
-   "gloss": "Techniques for automatically creating and selecting features in materials science."
+   "label": "Automated feature generation",
+   "gloss": "Techniques for automatically creating and selecting material features."
   },
   {
    "id": "L1.53",
@@ -3285,8 +3285,8 @@
     "tech_00497",
     "tech_00499"
    ],
-   "label": "Data Preprocessing Techniques",
-   "gloss": "Techniques for preparing data before machine learning."
+   "label": "Automated feature engineering",
+   "gloss": "Techniques for data preprocessing and model selection in materials science."
   },
   {
    "id": "L1.54",
@@ -3308,8 +3308,8 @@
     "tech_00382",
     "tech_00385"
    ],
-   "label": "High-throughput techniques",
-   "gloss": "Techniques for rapid material property prediction and screening."
+   "label": "Formation energy prediction",
+   "gloss": "Predicting the energy of materials based on their composition."
   },
   {
    "id": "L1.55",
@@ -3335,8 +3335,8 @@
     "tech_00318",
     "tech_00319"
    ],
-   "label": "Fracture Prediction Models",
-   "gloss": "Models using spatiotemporal learning for crack prediction."
+   "label": "Fracture prediction models",
+   "gloss": "Models for predicting crack behavior in materials using spatiotemporal learning."
   },
   {
    "id": "L1.56",
@@ -3358,8 +3358,8 @@
     "tech_00703",
     "tech_00704"
    ],
-   "label": "DeePMD Training Protocols",
-   "gloss": "Techniques for training DeePMD models on materials properties."
+   "label": "Diffusion coefficient computation",
+   "gloss": "Techniques for training DeePMD models to predict diffusion coefficients."
   },
   {
    "id": "L1.57",
@@ -3374,8 +3374,8 @@
     "tech_00924",
     "tech_00930"
    ],
-   "label": "Gaussian Approximation Potentials",
-   "gloss": "Techniques for machine-learning DFT potentials in materials science."
+   "label": "Interatomic Potential Methods",
+   "gloss": "Models for accurate interatomic potential energy surfaces."
   },
   {
    "id": "L1.58",
@@ -3416,8 +3416,8 @@
     "tech_00928",
     "tech_00929"
    ],
-   "label": "Gaussian Approximation Potentials",
-   "gloss": "Techniques for constructing machine learning models of interatomic potentials."
+   "label": "Interatomic Potential Learning",
+   "gloss": "Models for learning accurate interatomic potentials from data."
   },
   {
    "id": "L1.59",
@@ -3446,8 +3446,8 @@
     "tech_00652",
     "tech_00654"
    ],
-   "label": "DFT Calculation Techniques",
-   "gloss": "Methods for first-principles calculations in materials science."
+   "label": "High-throughput DFT calculations",
+   "gloss": "Techniques for efficient density functional theory calculations."
   },
   {
    "id": "L1.6",
@@ -3463,8 +3463,8 @@
     "comp_00824",
     "comp_00825"
    ],
-   "label": "Materials Simulation Components",
-   "gloss": "Components used in Gaussian approximation potentials for materials simulation."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for accurate interatomic potentials in materials science."
   },
   {
    "id": "L1.60",
@@ -3479,8 +3479,8 @@
     "tech_00404",
     "tech_00408"
    ],
-   "label": "AFLOW techniques",
-   "gloss": "Techniques used in AFLOW for materials discovery."
+   "label": "High-throughput enthalpy calculation",
+   "gloss": "Techniques for rapid formation enthalpy determination in materials science."
   },
   {
    "id": "L1.7",
@@ -3519,8 +3519,8 @@
     "meth_00433",
     "meth_00434"
    ],
-   "label": "Gaussian Approximation Potentials",
-   "gloss": "Models using descriptors and kernels for materials properties."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for accurate data-driven interatomic potentials in materials science."
   },
   {
    "id": "L1.8",
@@ -3581,7 +3581,7 @@
     "task_00176"
    ],
    "label": "Deep Potential Models",
-   "gloss": "Models for molecular dynamics simulations and energy predictions."
+   "gloss": "Models for molecular dynamics and energy prediction in materials science."
   },
   {
    "id": "L1.9",
@@ -3630,7 +3630,7 @@
     "task_00197"
    ],
    "label": "Materials Graph Networks",
-   "gloss": "Models for predicting crystal and molecular properties using graph networks."
+   "gloss": "Models for predicting crystal and molecular properties using graph representations."
   },
   {
    "id": "L2.1",

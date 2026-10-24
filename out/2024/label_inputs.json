@@ -84,7 +84,7 @@
    "Atomic embedding layer [component]",
    "Automatic differentiation [technique]"
   ],
-  "prompt_sha256": "98575d6d23db6737e28f3729024f98fb08e9680759eb01574459058f120d77e0"
+  "prompt_sha256": "4b9ab1bcb972d3d77f5934d13ad0149d9f276e50ad2ad913d7d83eca467afcbe"
  },
  "L0.10": {
   "seen": [
@@ -171,7 +171,7 @@
    "CALculation of PHAse Diagram [method]",
    "CGCNN model for elastic properties [component]"
   ],
-  "prompt_sha256": "652c2d603f0d369520f2238e9e6b78c0335b522c133b0e120f5f2ba549a0740a"
+  "prompt_sha256": "e0e708de106044487f6c12fdf3bac0b06c440753fcbb184f8736c2a58a9e095d"
  },
  "L0.11": {
   "seen": [
@@ -258,7 +258,7 @@
    "Active learning with error-driven exploitation [technique]",
    "Active learning workflow with Billiard Walk sampling [component]"
   ],
-  "prompt_sha256": "3a95d38f000f4f9f7316182cfa5600d95dacb3d599b446135060dfdbaec33143"
+  "prompt_sha256": "401dc6b9b3a5cd2018e087e750765c6111094ceaa4d66e09e43976b5db8fccd7"
  },
  "L0.12": {
   "seen": [
@@ -315,7 +315,7 @@
    "accuracy-cost tradeoff in atomistic modeling [problem]",
    "surface reconstruction modeling [problem]"
   ],
-  "prompt_sha256": "604c04e17caed03c50a5314c5742bbe16a044878670868d314ca821ea169cd7b"
+  "prompt_sha256": "8d5286ad65ffb77e49fadf539bcc4b36f0a056d04d76e02a5e9ef8fe5820f9b6"
  },
  "L0.14": {
   "seen": [
@@ -353,7 +353,7 @@
    "Phase-field model preparation [task]",
    "SOAP descriptor construction [technique]"
   ],
-  "prompt_sha256": "2575f33b9c2db96da357da564af837769b1d537116dc11e638e9283cb32e5365"
+  "prompt_sha256": "af4192c64c909810d3b4b34a7fb5f92c5f8f81875a491a175c8619d343bc97c8"
  },
  "L0.15": {
   "seen": [
@@ -433,7 +433,7 @@
    "reverse communication of partial forces [technique]",
    "sp2/sp3 atom counting [technique]"
   ],
-  "prompt_sha256": "3f2734f65ff92a40ee99ba3886f68dd62d755d5df22c439a2abfae39eaf98cbf"
+  "prompt_sha256": "8981b4191c3d020323b3e6ab432dc5db3d9a6ae236b3fbed11f493ae997219ef"
  },
  "L0.16": {
   "seen": [
@@ -507,7 +507,7 @@
    "claim: The GNN’s stress predictions are substantially more accurate than on-the-fly stress calculations from the force field, which exhibit higher errors.",
    "future work: Integration of multiscale modeling data (DFT, MD, FEM) to train GNNs for broader defect-property relationships"
   ],
-  "prompt_sha256": "a466dee8cc051d7d6159ea3eb597beeef08c5882e2b36aef7682adb37c39fdfe"
+  "prompt_sha256": "67b9507e57e8b01d3f4bbbd19703db2dc1a94a5e29cf12ee16629748726e20d8"
  },
  "L0.2": {
   "seen": [
@@ -594,7 +594,7 @@
    "Accurate data-driven interatomic potentials [problem]",
    "Amorphous carbon (a-C) structure generation [task]"
   ],
-  "prompt_sha256": "659e93ca0ec4a67ce0052c1f0b390ddd1b446ba83df087825acd1596ea8365b9"
+  "prompt_sha256": "50b648e3cec87c12bc03bcb176928be90704cffb20390573c9f610ca89bb1789"
  },
  "L0.3": {
   "seen": [
@@ -681,7 +681,7 @@
    "Cleaning stage [component]",
    "Composition-based hash filtering [technique]"
   ],
-  "prompt_sha256": "53a1fef73e7aa68374d4faf750a050b0cfd92f0a39266894236f4ca8de51777e"
+  "prompt_sha256": "944e7a736f85b79fc13ce1a7452810ffff2169b8606b31e4d8d8d63aebd6e68f"
  },
  "L0.4": {
   "seen": [
@@ -768,7 +768,7 @@
    "Deep Potential Molecular Dynamics is evaluated on Ethanol, Energy MAE (metric energy MAE, value 2.4, task text-generation)",
    "Deep Potential Molecular Dynamics is evaluated on Naphthalene, Energy MAE (metric energy MAE, value 4.1, task graph-ml)"
   ],
-  "prompt_sha256": "c95e2965a2ab3551530f1d270dbf277c095e537ace1125dcc7d69576ce4637ac"
+  "prompt_sha256": "19cff2c5bd00a9bed1c4ef139321b04bdf9712a8af466c78d189014da082db18"
  },
  "L0.5": {
   "seen": [
@@ -855,7 +855,7 @@
    "Performance degradation when increasing model expressiveness [problem]",
    "Phonon band structure prediction [task]"
   ],
-  "prompt_sha256": "8dc351774f2103896495eb3c4eea892be4b1a1a4c2836b01bebab4d0907ec683"
+  "prompt_sha256": "ae695c5e61ceb6866ee21c54a50db8dc65bbccca33e5d42114ff3025e7978d19"
  },
  "L0.6": {
   "seen": [
@@ -942,7 +942,7 @@
    "Gradient-orientation fracture prediction [task]",
    "High-throughput materials screening [task]"
   ],
-  "prompt_sha256": "1335b331974232dc7be32d28364ab7949403651b439366b8e3d4a519b9d21703"
+  "prompt_sha256": "9e25774cc70a70641aeeb1b336f7b13ba8204be2c1c49019c0537382e8f8f978"
  },
  "L0.7": {
   "seen": [
@@ -1029,7 +1029,7 @@
    "Gate nonlinearity [technique]",
    "Gaussian distance expansion [technique]"
   ],
-  "prompt_sha256": "65563c9b8fa41883b006e09a675d41f123487fd64ea3c57ac66263b7d1605429"
+  "prompt_sha256": "939d05d535242a3b07ae2558f49594d3144d61cba60f7a04237b76151569e32e"
  },
  "L0.8": {
   "seen": [
@@ -1116,7 +1116,7 @@
    "Benchmarking beyond-DFT methods [problem]",
    "Binary classification [task]"
   ],
-  "prompt_sha256": "98d8baa061ae2a6b78ebde6b5ccab05016e2c8b991910e709edf2230d5e82f8a"
+  "prompt_sha256": "bdfabd03e97b1278bddab7ec8c65d6cbeafe116060e743770bc3113d04769cc0"
  },
  "L0.9": {
   "seen": [
@@ -1203,7 +1203,7 @@
    "Phonon spectra prediction [task]",
    "QM9 molecular property prediction [task]"
   ],
-  "prompt_sha256": "071c97a3feeed18ce4153a3a295732a738fa33bf31677505cf44784d85087fec"
+  "prompt_sha256": "dd68055637926dbe49ea614027da615c4b3d3ce8c4176fc8daff7183186d269b"
  },
  "L1.1": {
   "seen": [
@@ -1250,7 +1250,7 @@
    "Whitening transformations [technique]",
    "crystal graph convolutional neural networks is evaluated on Formation energy (metric MAE, value 0.039, split test)"
   ],
-  "prompt_sha256": "b48c4244caad4591e875a689473d345d0d54283bc87fdb74368d4a6afe4278be"
+  "prompt_sha256": "4c9e0dc0adfeade67fe7627f16de097eb448f887df4dd90472ce608b8e1993f9"
  },
  "L1.10": {
   "seen": [
@@ -1337,7 +1337,7 @@
    "Performance degradation when increasing model expressiveness [problem]",
    "Phonon band structure prediction [task]"
   ],
-  "prompt_sha256": "8dc351774f2103896495eb3c4eea892be4b1a1a4c2836b01bebab4d0907ec683"
+  "prompt_sha256": "ae695c5e61ceb6866ee21c54a50db8dc65bbccca33e5d42114ff3025e7978d19"
  },
  "L1.11": {
   "seen": [
@@ -1386,7 +1386,7 @@
    "claim: The ConvLSTM approach reduces computational cost dramatically compared with full molecular dynamics simulations, enabling rapid fracture predictions.",
    "claim: The ConvLSTM model accurately predicts fracture patterns, crack-length trends, and both mode-I (tensile) and mode-II (shear) loading responses across crystal orientations, closely matching atomistic molecular dynamics simulations, with only a minor discrepancy for the x100 orientation under mode-II shear."
   ],
-  "prompt_sha256": "ef51221bef7781f1bbbf74fea660351ad4b912d725265676a63234df0b2149f6"
+  "prompt_sha256": "8746d0e996bdc78f14f70533945c80f45a51ae86e867cfa7b6a366f01b2b46b0"
  },
  "L1.12": {
   "seen": [
@@ -1468,7 +1468,7 @@
    "machine learning interatomic potentials [task]",
    "pymatgen [component]"
   ],
-  "prompt_sha256": "0c0fa4f3115310b10996cc4a74c7284bb21194011c3364e0e34cca6d39af15ce"
+  "prompt_sha256": "c3868eadd39093fd85e76c1b0acf79d06766519db4c9a2fdf555eca68830d4cd"
  },
  "L1.14": {
   "seen": [
@@ -1555,7 +1555,7 @@
    "claim: DFT screening predicts forty-one previously unreported rare-earth-containing Mg-XL-XS ternary systems to be thermodynamically stable LPSO phases, providing new experimental targets.",
    "claim: The Open Quantum Materials Database (OQMD) contains over 200,000 DFT-calculated crystal structures, including experimental ICSD entries and theoretical prototype structures, and is freely accessible to the scientific community without usage restrictions."
   ],
-  "prompt_sha256": "58a53e219fa9bc958cd034caebed9464d3c73b922361d698427b93f53bd7bb8d"
+  "prompt_sha256": "59cc36b64e7738010a3d7b349d28841713637ac8766a31ad7cf7d2527f7a00bc"
  },
  "L1.15": {
   "seen": [
@@ -1627,7 +1627,7 @@
    "dynamic band-count adjustment [technique]",
    "high-throughput workflow automation [problem]"
   ],
-  "prompt_sha256": "b9779bb90b8af60cd32d35ed7c6a9423b366a5a93fe2d376f6c60f7ef4a37ad4"
+  "prompt_sha256": "55a71b572584d66e1ef2e752834c4b6d0f4aeda45f37059d2c0791edfc44dc2c"
  },
  "L1.16": {
   "seen": [
@@ -1682,7 +1682,7 @@
    "Symmetry-adapted order-parameter generation [component]",
    "atom-centered symmetry functions [method]"
   ],
-  "prompt_sha256": "ec18085582f362508073174310be2b1ad84597e1fbd8b18c84cf93919f1069ad"
+  "prompt_sha256": "20e345c75504aca318e51327de43f3b56301c7701665066efaf8628d138adcea"
  },
  "L1.18": {
   "seen": [
@@ -1769,7 +1769,7 @@
    "Top 1000 oxide materials [dataset]",
    "U and J parameters for f-block elements [component]"
   ],
-  "prompt_sha256": "6cfeb3e86f80c4471780da39776612f4bb109650d26debcb0fd025d43c967cb6"
+  "prompt_sha256": "3c8a557fadcee53a0f9d2e33beba59102d959376a96ab4fc5f80643a75fb9b8d"
  },
  "L1.2": {
   "seen": [
@@ -1856,7 +1856,7 @@
    "Representative environment selection [component]",
    "Repulsive pair potential [component]"
   ],
-  "prompt_sha256": "8615f34c1d02490841c212fa6d3b2dde7c1943c0da8c9cde789ba68120cdcbec"
+  "prompt_sha256": "36cf71574954abbe7392cfba6ce3a1fd9df92cbd1bbdc5ec2b03d60ede0c6618"
  },
  "L1.20": {
   "seen": [
@@ -1943,7 +1943,7 @@
    "NVE simulation cell [component]",
    "Na diffusion simulation in NASICON [task]"
   ],
-  "prompt_sha256": "e5f34e29d7f4055def3241cc29d3f077c4001fde25ba1e76dfad0da6b23c3c34"
+  "prompt_sha256": "543b4d016c90febfb62b58e3003ae940d5edf6175c1d7a60f567a2948d171da4"
  },
  "L1.22": {
   "seen": [
@@ -2030,7 +2030,7 @@
    "Hydrogen [dataset]",
    "Inorganic non-metallic compounds melting temperature dataset [dataset]"
   ],
-  "prompt_sha256": "5a621d1cf459c566f7680d38ee03b1486ba079482208eb77c213ffd33a891ec2"
+  "prompt_sha256": "5e07b3dcc7805ff1c99f3011c832863df9e32501fdb409692b2514dbe9d85c37"
  },
  "L1.23": {
   "seen": [
@@ -2073,7 +2073,7 @@
    "surface reconstruction simulation [task]",
    "ta-C [dataset]"
   ],
-  "prompt_sha256": "84981cc518f69c45a38f0db13629d3ee8e3563bf410f08a1bc344f848ba69559"
+  "prompt_sha256": "b9a5c1fd643d8af2b8035ed59df50c9d05e35b7f76ac8cbf5a90e2a3f80d7256"
  },
  "L1.25": {
   "seen": [
@@ -2160,7 +2160,7 @@
    "future work: Learning curve power-law behavior",
    "lattice parameter [metric]"
   ],
-  "prompt_sha256": "2c2f4e1a23dc52447349c5198ed08239d7705052d55daa9054f256bca3b49817"
+  "prompt_sha256": "0d1a1151fc7484ccab0d3fe6b89c53dcdb4742cc81974b9e4ff2a588b1e4655d"
  },
  "L1.26": {
   "seen": [
@@ -2247,7 +2247,7 @@
    "PyTorch-Geometric implementation [technique]",
    "Radial basis functions [technique]"
   ],
-  "prompt_sha256": "ac98991ad0102e3a446c3773229d653ce1904e0c08494cbe35ff65c5354ac1d7"
+  "prompt_sha256": "38b8db1168d3bb8f8a2a80a499529887baac3fc9fe997d477b6a929aae94cd4c"
  },
  "L1.27": {
   "seen": [
@@ -2334,7 +2334,7 @@
    "Phonon dispersion analysis [technique]",
    "Recurrent Neural Networks [method]"
   ],
-  "prompt_sha256": "f47e2e1e4c11d7095432038b0125daac4212ad2892f294bd53993ef02a9c0cc7"
+  "prompt_sha256": "09705d9cd6728fbc7e9bd4cead64c54632e18f32eb3de9bc82269e4780ac21c3"
  },
  "L1.28": {
   "seen": [
@@ -2390,7 +2390,7 @@
    "irreps features [technique]",
    "separable S2 activation [component]"
   ],
-  "prompt_sha256": "10a69795b2304da14f53be6eeddf45afe0f396b147632533fa0d085fa313398d"
+  "prompt_sha256": "4b451f25a52ebee71e9781c041d8c1a3fdcb867477129314f387a9ae599621b4"
  },
  "L1.3": {
   "seen": [
@@ -2477,7 +2477,7 @@
    "OC20 S2EF-All+MD [dataset]",
    "OC20 [dataset]"
   ],
-  "prompt_sha256": "0a334273cdbd7d177ce8cea2ffa56bfb906e821888c2348f57836ee78f62c2bb"
+  "prompt_sha256": "d016a3df31d117dd2a553d804b70d9826213187c3c864aa24963bc2565cc0d3b"
  },
  "L1.31": {
   "seen": [
@@ -2510,7 +2510,7 @@
    "tree ensemble methods [method]",
    "variable-selection assisted sure independence screening and sparsifying operator [method] (also: VS-SISSO)"
   ],
-  "prompt_sha256": "20e4a96ecca41bf036606be8c0a52a5a8f504788502fd9d9cf6fa036289cf8bd"
+  "prompt_sha256": "e325ac40ca2aa5d91f211d606cbe3962b581f4102b6ca980f5f86c827f1d34ef"
  },
  "L1.32": {
   "seen": [
@@ -2597,7 +2597,7 @@
    "claim: JARVIS-FF includes data for roughly 1,500 materials and about 110 classical force-fields.",
    "claim: JARVIS-Tools implements automatic k-point convergence protocols that improve the precision of DFT calculations."
   ],
-  "prompt_sha256": "6d26b4f49d14e27df8c90fe887d48319d5357830e2537ab67e85ad48fd3ecb88"
+  "prompt_sha256": "e7309ea06e2bee4471da9b237bcff69771e7bf0343dbfd5cec36269a3a7f2e95"
  },
  "L1.33": {
   "seen": [
@@ -2615,7 +2615,7 @@
    "Inaccuracy of low-order Gaussian quadrature for finite-temperature phase-space integration [problem]",
    "Insufficient accuracy of low-order Gaussian quadrature [problem]"
   ],
-  "prompt_sha256": "b3cfdd5511bf03f08557f280f15ba02234b38b6c34c1611b8e892f9e539e484c"
+  "prompt_sha256": "35e11b9ea33ed3acbea6e356bb21b0038b7cec7b40bf0f06e955caf8eb2a2b42"
  },
  "L1.35": {
   "seen": [
@@ -2695,7 +2695,7 @@
    "ml_multiscale_modeling_perspective uses technique Continuous convolution",
    "symbolic equation discovery [task]"
   ],
-  "prompt_sha256": "aa745a93340cce532eacbe5be7d9181805460752fe01834f191502eaf159d3ac"
+  "prompt_sha256": "9cfb270fc19a25d0e60dba87d61192f49ba4978f71da1354fa122cac140ef54a"
  },
  "L1.36": {
   "seen": [
@@ -2709,7 +2709,7 @@
    "DFT-level accuracy with linear scaling [problem]",
    "Efficient force and virial prediction [problem]"
   ],
-  "prompt_sha256": "b04a9a113bc99f55cf5ab99f8474d7ab560fc34c6b44f6bdc1283885b78d4243"
+  "prompt_sha256": "ee515b670d5a17bca3243b854d6ad3afda82beeff7172fe54779008f47479f1c"
  },
  "L1.37": {
   "seen": [
@@ -2720,7 +2720,7 @@
   "held_out": [
    "Robust handling of calculation failures [problem]"
   ],
-  "prompt_sha256": "56513cb9e21cca63138b73ecc666de0493504d685067bb72b865ba96c131e7a6"
+  "prompt_sha256": "a4b8216c8a77cba09f178090b268e5a1f1d71bd6d632f6ec9792d460d9f91b98"
  },
  "L1.38": {
   "seen": [
@@ -2749,7 +2749,7 @@
    "Pipeline reproducibility [problem]",
    "Researcher intervention requirement [problem]"
   ],
-  "prompt_sha256": "90fa4e6553e24080d6dbe51ab4000d3b0eaf85fe40f58bf37f5ff4e50bfeb83c"
+  "prompt_sha256": "b3782c9c14ed3c67bbbd8b81bd7b45b7586eefe532b6b11cfbb70054110e77de"
  },
  "L1.39": {
   "seen": [
@@ -2815,7 +2815,7 @@
    "future work: Gauge-covariant neural network architectures",
    "future work: Twisted van der Waals materials"
   ],
-  "prompt_sha256": "e223232ba959343c8a31a61726ebe64552e60e4dfce2f9a6e69f28fc2c36d0a4"
+  "prompt_sha256": "da9ce87ff0aafbfab0c0f7be19df687cf3eac03a9ca6b4bccdf0ed72ef95c9fe"
  },
  "L1.4": {
   "seen": [
@@ -2885,7 +2885,7 @@
    "future work: automate challenging chemical search problems in drug discovery",
    "future work: datasets with larger molecules"
   ],
-  "prompt_sha256": "5aa0f9a8922c7f8fb778cf795dffb4002fc7cfbb7e67bdbbcbad093270071a04"
+  "prompt_sha256": "7ab68bed16d28823348c6f54cc5f315dffc9884cee021fc94bf5aa8016f64200"
  },
  "L1.40": {
   "seen": [
@@ -2972,7 +2972,7 @@
    "Training set cleaning procedure [component]",
    "Umbrella-sampling bias potential scheme [component]"
   ],
-  "prompt_sha256": "3dcdafa10f873a358b870a48151aee41e311d04f0fdc7dfa5bc8e183f7880a1e"
+  "prompt_sha256": "04c45cdfbaa702dd7a1dd5c0cca7f2040148157a28603583aec28335675a7d68"
  },
  "L1.41": {
   "seen": [
@@ -3029,7 +3029,7 @@
    "accuracy-cost tradeoff in atomistic modeling [problem]",
    "surface reconstruction modeling [problem]"
   ],
-  "prompt_sha256": "604c04e17caed03c50a5314c5742bbe16a044878670868d314ca821ea169cd7b"
+  "prompt_sha256": "8d5286ad65ffb77e49fadf539bcc4b36f0a056d04d76e02a5e9ef8fe5820f9b6"
  },
  "L1.46": {
   "seen": [
@@ -3106,7 +3106,7 @@
    "liquid carbon simulation [task]",
    "parallel efficiency benchmark [dataset]"
   ],
-  "prompt_sha256": "7eb4878c358ac8427f7c383c27f1a6b52aa03ed0ff8f295dbe044e36fc9d691e"
+  "prompt_sha256": "2f43e1c4b6cdc568d4be20ba4caa04ebe4234ed389bda105db0ed022586de5a4"
  },
  "L1.48": {
   "seen": [
@@ -3167,7 +3167,7 @@
    "molecular dynamics simulation of ionic diffusion [task]",
    "water property prediction [task]"
   ],
-  "prompt_sha256": "9861db0f2d937040c6d671201a46d5d5a2510ade83660e4a15037b2fd2f9a951"
+  "prompt_sha256": "8f9688c97d03b1ca3e368dd89193ba872edd4c1150b95bfd9d0da8876a28ba6f"
  },
  "L1.49": {
   "seen": [
@@ -3205,7 +3205,7 @@
    "Phase-field model preparation [task]",
    "SOAP descriptor construction [technique]"
   ],
-  "prompt_sha256": "2575f33b9c2db96da357da564af837769b1d537116dc11e638e9283cb32e5365"
+  "prompt_sha256": "af4192c64c909810d3b4b34a7fb5f92c5f8f81875a491a175c8619d343bc97c8"
  },
  "L1.5": {
   "seen": [
@@ -3292,7 +3292,7 @@
    "Shifted softplus activation [component]",
    "Shifted softplus non-linearity [technique]"
   ],
-  "prompt_sha256": "40ab69d28d194a66ba859c3267432f569c85d3b0b05a02ae181a8d39ed9605b8"
+  "prompt_sha256": "367a801988c6443309bed631e9f193e33738d4efe696bebb0a5d4286e656b894"
  },
  "L1.50": {
   "seen": [
@@ -3360,7 +3360,7 @@
    "Γ-phonon spectra prediction [task]",
    "Γ-point phonon prediction [task]"
   ],
-  "prompt_sha256": "1071ea7eaaa482e5ff1feb4e77ecfd8e31e57f3584239c2b1515ba77daadfbd4"
+  "prompt_sha256": "d466052755ece47d17393f3a7256e7571d09b18cc3d4cf1ff30038015f088511"
  },
  "L1.51": {
   "seen": [
@@ -3447,7 +3447,7 @@
    "symbolic equation discovery [technique]",
    "thermoelectric property assessment [task]"
   ],
-  "prompt_sha256": "57783e99d712ce5d50382f4fbe6db6594486d8e814d7be1e8e6268551ac70d71"
+  "prompt_sha256": "ef6e6c097a65c7d23e10f26ff0a705f86fd95433d2fbd8f6f3e6b1f7936804ca"
  },
  "L1.52": {
   "seen": [
@@ -3517,7 +3517,7 @@
    "multi-GPU training [technique]",
    "scalable parallel algorithm [technique]"
   ],
-  "prompt_sha256": "b84ee0c4c6df315af411ebdfeb514fc593c94b06bc8f07071299884b76efee3b"
+  "prompt_sha256": "2ef3c31369302056ca242a3bb8fd72b690edf2f23ca9b493440981ebe6eafca0"
  },
  "L1.53": {
   "seen": [
@@ -3587,7 +3587,7 @@
    "r2SCAN quaternary validation [dataset]",
    "thermodynamic integration [technique]"
   ],
-  "prompt_sha256": "a64d6db614ded81e5dbbeb81793ba39f680dbd3f54e9c277bd83e6ddcac12fd9"
+  "prompt_sha256": "5e94bbc37e07cb956711aee89a0b582c95cf561806d4ed052d47c3aba3bbe666"
  },
  "L1.54": {
   "seen": [
@@ -3610,7 +3610,7 @@
    "VarianceThreshold and StandardScaler preprocessing [technique]",
    "k-fold cross-validation and learning-curve analysis [technique]"
   ],
-  "prompt_sha256": "1219b8b90683d0010c57a075d933be2b738437143cb8507e35d71687f45f713c"
+  "prompt_sha256": "94a7161bac1afbd5e4e7dbf1222e76c3440658c6b2aa5744fe16ce62996a871e"
  },
  "L1.55": {
   "seen": [
@@ -3638,7 +3638,7 @@
    "Spatiotemporal learning with ConvLSTM [technique]",
    "Switching function for neighbor contributions [technique]"
   ],
-  "prompt_sha256": "5042e3555a09c48859901cae0e05836675051d673b81db84a5e1835414b32614"
+  "prompt_sha256": "2b0f1910df086e9104fc37a4113e9405491cc6c5931ac92a281670f976a7f2a0"
  },
  "L1.56": {
   "seen": [
@@ -3660,7 +3660,7 @@
    "Nosé-Hoover thermostat [technique]",
    "Self-consistent training [technique]"
   ],
-  "prompt_sha256": "1a3eb5f212d85f90eaccb2c538c91455ab5e290d0463c855650cae4a49377a3c"
+  "prompt_sha256": "4ee6a7333f3a67e82929e1e3bfd6471d532663695ef2f989f6a09b2336e3f92f"
  },
  "L1.57": {
   "seen": [
@@ -3675,7 +3675,7 @@
    "Iterative database extension [technique]",
    "surface cleavage [technique]"
   ],
-  "prompt_sha256": "4b4d79fade1bfaf36e1a66e9f4ebe036335095d682776f9bf5bfdc435f00bba8"
+  "prompt_sha256": "f70a9332097c81bf56ef547fc4fac3b452816c24d77c153f4f1ee09ed5b2b101"
  },
  "L1.58": {
   "seen": [
@@ -3748,7 +3748,7 @@
    "sparse point selection [technique]",
    "spatial decomposition [technique]"
   ],
-  "prompt_sha256": "92d5bf730d0fb515a68389909826516e4610b279533b42ff96542343558fad2a"
+  "prompt_sha256": "1e794efc3e777bee68315d2be43601c97cdd9ef022676ce0edeb91103d19e3b6"
  },
  "L1.59": {
   "seen": [
@@ -3828,7 +3828,7 @@
    "matrix eigenvector methods [technique]",
    "optB88 vdW-DF functional [technique]"
   ],
-  "prompt_sha256": "03e55316b8bacd228b5ab6a2371c88fcf754a5223af0aee23c82eeb2fec1b308"
+  "prompt_sha256": "c7c4c238295a440b553eac1df5e7019876a19d918b7494b37cd77bbc7e556400"
  },
  "L1.6": {
   "seen": [
@@ -3844,7 +3844,7 @@
    "compliance matrix [component]",
    "surface slab models [component]"
   ],
-  "prompt_sha256": "16ac9bd94a972aab4965d3f3ef2d07fdb9dc8e01786ea43619a7ff7aaefdfcb7"
+  "prompt_sha256": "a2761eeaa0130745453dce73f155573d05efc6b61b51daf04f51d938a0e4d49f"
  },
  "L1.60": {
   "seen": [
@@ -3859,7 +3859,7 @@
    "grid-based interstitial search [technique]",
    "symmetry reduction of cages [technique]"
   ],
-  "prompt_sha256": "c1d6b0071c2f93c9270ce0425c0c53ece4d857b29ea6e88898bedb9ecf4b6a93"
+  "prompt_sha256": "1be741461629a35c529780bde42f3e1e4e6155d7803f3d04eebae86b3c3f9b77"
  },
  "L1.61": {
   "seen": [
@@ -3934,7 +3934,7 @@
    "graph neural networks with three-body interactions extends graph neural network",
    "two-step supervised-unsupervised melting temperature prediction with symbolic regression extends graph neural network"
   ],
-  "prompt_sha256": "cdf9e44208d81fe68c52232dfa3de55fb164f06e87d19e468ee95835161484d3"
+  "prompt_sha256": "c275beb71656471ea47e280d59954713a4e522b75f8f9d1967abad21c8d2b77b"
  },
  "L1.62": {
   "seen": [
@@ -4021,7 +4021,7 @@
    "MD-17 Benzene (revised) [dataset]",
    "MD-17 Malonaldehyde (revised) [dataset]"
   ],
-  "prompt_sha256": "c02cc46d7f93eae171db60094b6394dce4954f1abc859b20a73bc07d4e40110c"
+  "prompt_sha256": "e5411894b6cbeda373ee827a19485104e4bd7b2dccb5547eff32ca7cb232acc0"
  },
  "L1.64": {
   "seen": [
@@ -4095,7 +4095,7 @@
    "claim: The GNN’s stress predictions are substantially more accurate than on-the-fly stress calculations from the force field, which exhibit higher errors.",
    "future work: Integration of multiscale modeling data (DFT, MD, FEM) to train GNNs for broader defect-property relationships"
   ],
-  "prompt_sha256": "a466dee8cc051d7d6159ea3eb597beeef08c5882e2b36aef7682adb37c39fdfe"
+  "prompt_sha256": "67b9507e57e8b01d3f4bbbd19703db2dc1a94a5e29cf12ee16629748726e20d8"
  },
  "L1.65": {
   "seen": [
@@ -4149,7 +4149,7 @@
    "free energy calculation [problem]",
    "property prediction for complex systems [problem]"
   ],
-  "prompt_sha256": "8a385faf9f4c567bdd10f8383df61824686a776e5126a23966a4647c533e044a"
+  "prompt_sha256": "b06f503b82b5f466fb30ff7d8f06890bb6aa8e9d78f5798a1f7ad66b9abfb218"
  },
  "L1.66": {
   "seen": [
@@ -4236,7 +4236,7 @@
    "graph neural networks with three-body interactions is evaluated on DFT relaxation time with M3GNet pre-relaxation",
    "mean-squared displacement (MSD) analysis [technique]"
   ],
-  "prompt_sha256": "7bfeb1d73ec4d55262e52887e1aa57b8a2a02b2b3de939416c5ec9fd7b1bccab"
+  "prompt_sha256": "ca687e7325e96d6cdfec076b970e0350ad59f35acfd09eb7343225618e5bddc0"
  },
  "L1.67": {
   "seen": [
@@ -4323,7 +4323,7 @@
    "Wigner-D matrices [technique]",
    "claim: DeepH-E3 enables accurate electronic-structure calculations for supercells larger than 104 atoms, reducing computational cost by several orders of magnitude and allowing calculations in minutes on a single GPU versus months on thousands of CPU cores."
   ],
-  "prompt_sha256": "cd3fbb6e54ca51d37c59718d12213339f471721bff39ef669b34c05570038f3f"
+  "prompt_sha256": "b85a5a5730570819281206afb76eff0054646224279ed6b1ba20667daaf9c4a2"
  },
  "L1.68": {
   "seen": [
@@ -4381,7 +4381,7 @@
    "twisted bilayer graphene (TBG) [dataset]",
    "twisted bilayer graphene [dataset]"
   ],
-  "prompt_sha256": "3816a23b5c077ec7b3fffd5e7df0524067df2364f8ced18862758f9dc07425bb"
+  "prompt_sha256": "d1816891fa934f2d7cb41de5f4c3c4c1eba746106e9740cc9270b8aa67aa7c07"
  },
  "L1.69": {
   "seen": [
@@ -4468,7 +4468,7 @@
    "Self-attention (QKV) blocks [technique]",
    "Solid-electrolyte candidate screening [task]"
   ],
-  "prompt_sha256": "efd1c5cfa1a58ac0f6d07e11a6e54c040227aa528184521d78e77a1fe8ce0662"
+  "prompt_sha256": "0e463bf0ffd74c70f739bd7c5a74564256a8912db7af24f9de766fba2fb25b57"
  },
  "L1.7": {
   "seen": [
@@ -4540,7 +4540,7 @@
    "two-body embedding full-information descriptor [component]",
    "two-body embedding radial descriptor [component]"
   ],
-  "prompt_sha256": "3d7bdafd309abbbb9299f552f357c7a02e6ba72f87813d54f502e937b5fbda4f"
+  "prompt_sha256": "4dd5533382ef78ed185c41dee04e32cf17ce758bc144165d3c6a38eafa786871"
  },
  "L1.70": {
   "seen": [
@@ -4574,7 +4574,7 @@
    "Thermoelectric performance prediction [task]",
    "Transfer-learning for small-data properties [task]"
   ],
-  "prompt_sha256": "0eab90126e991e84eb466a23640889a20bde153fb023c0c689ee528f98041a97"
+  "prompt_sha256": "9e8cb018d48a1a2b24c7aa2656f2c5d30f9f7c39be38f9a52ab7d6c2d9796f36"
  },
  "L1.71": {
   "seen": [
@@ -4627,7 +4627,7 @@
    "message-passing layers [component]",
    "reverse communication routines [component]"
   ],
-  "prompt_sha256": "07861e5d821d1c01253b33daf2cff4938c870ee6978d5d48a68ac150e129f8ff"
+  "prompt_sha256": "407e697a43d5fc7c728984e1d938c4a5b259c9f929845a8634e92c6eb476656b"
  },
  "L1.72": {
   "seen": [
@@ -4714,7 +4714,7 @@
    "Vector Virtual Node [component]",
    "Vector Virtual Nodes [component]"
   ],
-  "prompt_sha256": "8c17f8c36bcc78d0c1400340fb9d9c87839af838644c22007a09e4a53f1ef656"
+  "prompt_sha256": "3da03c6f2eab1a38b9641effd47f4dc377170349dbace97ed42f96c061949ac0"
  },
  "L1.73": {
   "seen": [
@@ -4801,7 +4801,7 @@
    "Tabulated inference engine [component]",
    "Tensorial property fitting [technique]"
   ],
-  "prompt_sha256": "66eb0f7c59813f7281c7ec1a66bba58b1757dd607ff3039d28112459476a2ee5"
+  "prompt_sha256": "599a8136383833a32b1e401c7b9469002dfcd0ae4a97e76a2d5eccf9def0bb76"
  },
  "L1.74": {
   "seen": [
@@ -4860,7 +4860,7 @@
    "phase diagram determination [task]",
    "scalable parallel computation for molecular dynamics [problem]"
   ],
-  "prompt_sha256": "8c6c4e347e408a3718a71f8b6b6f0cd042351b22bb78b909585aca34a22d5be4"
+  "prompt_sha256": "8b3fb847651b875be27a5d9105cba6397d9bf561b4617ea2a5ad201475529cc7"
  },
  "L1.8": {
   "seen": [
@@ -4947,7 +4947,7 @@
    "Matbench [method]",
    "Materials 3-body Graph Network [method] (also: M3GNet)"
   ],
-  "prompt_sha256": "dabaa1db6ec83ae4ef272f4a3d6cadd76251c8f82552b9f8de30497315e2cc40"
+  "prompt_sha256": "4114ff764e36320f494bb02f665e8d77070f8744eac2b8edd2ffe057cb7b7914"
  },
  "L1.9": {
   "seen": [
@@ -5007,6 +5007,6 @@
    "melting temperature prediction for inorganic compounds [problem]",
    "model interpretability in materials ML [problem]"
   ],
-  "prompt_sha256": "03d4b18f29bc750facecdfac3d5bee3dac46ee13c6850844cf046716cd50fc34"
+  "prompt_sha256": "6802f0dfca4b1d229a333e957ab144ea0a7a1719fcae232d3fa134bdf298aeb2"
  }
 }

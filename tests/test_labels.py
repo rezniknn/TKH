@@ -156,3 +156,15 @@ def test_name_checker_flags_non_members_and_future_entities(real):
     d = nc.checks(f"A label about {name} in 2027", [], 2020)
     assert d["year_after_cutoff"] and name in d["named_non_member"] and name in d["future_entity"]
     assert np.isfinite(len(nodes))
+
+
+def test_null_tree_keys_are_unique_across_levels(real):
+    cfg, tkh = real
+    from eval.labels import _labelled
+    levels = [{0: {"a", "b"}, 1: {"c"}}, {0: {"a"}, 1: {"b"}, 2: {"c"}}]   # ids restart per level
+    lab = LLMLabeller(tkh, cfg, llm=StubLLM())
+    lab.view = lambda c, m: (["seen"], ["held"])
+    rows = _labelled(lab, 2026, levels, [0, 1], "cfg0")
+    keys = [r[2] for r in rows]
+    assert len(set(keys)) == len(keys) == 5
+    assert {r[3] for r in rows if r[1] == 1} <= {r[2] for r in rows if r[1] == 0}   # parents point to level-0 keys

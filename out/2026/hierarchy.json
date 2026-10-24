@@ -695,8 +695,8 @@
     "tech_00627",
     "tech_00629"
    ],
-   "label": "Equivariant Neural Networks",
-   "gloss": "Models preserving symmetry in materials and molecules"
+   "label": "E(3)-equivariant methods",
+   "gloss": "Models ensuring rotational symmetry in materials science tasks."
   },
   {
    "id": "L0.10",
@@ -1156,8 +1156,8 @@
     "tech_00959",
     "tech_00962"
    ],
-   "label": "High-throughput DFT calculations",
-   "gloss": "Techniques and protocols for efficient DFT calculations."
+   "label": "Graph Neural Networks",
+   "gloss": "Models for materials property prediction and structural relaxation."
   },
   {
    "id": "L0.11",
@@ -1772,8 +1772,8 @@
     "tech_00960",
     "tech_00961"
    ],
-   "label": "Diffusion Coefficient Computation",
-   "gloss": "Models predicting ionic and Li diffusion in solid electrolytes."
+   "label": "Diffusion Coefficient Prediction",
+   "gloss": "Models for predicting ionic and atomic diffusion in materials."
   },
   {
    "id": "L0.14",
@@ -1837,8 +1837,8 @@
     "tech_00774",
     "tech_00775"
    ],
-   "label": "Phase Diagram Construction",
-   "gloss": "Tasks and techniques for phase diagram generation and stability assessment."
+   "label": "Phase-diagram prediction models",
+   "gloss": "Models for constructing and calculating phase diagrams in materials science."
   },
   {
    "id": "L0.15",
@@ -1921,8 +1921,8 @@
     "tech_00929",
     "tech_00930"
    ],
-   "label": "E(3)-equivariant ML models",
-   "gloss": "Models using E(3)-equivariant representations for materials science."
+   "label": "E(3)-equivariant potentials",
+   "gloss": "Models using E(3)-equivariant representations for interatomic potentials."
   },
   {
    "id": "L0.16",
@@ -1989,8 +1989,8 @@
     "task_00222",
     "task_00223"
    ],
-   "label": "Graph Neural Networks for Defects",
-   "gloss": "Models predicting atomic properties in defective crystalline solids."
+   "label": "Graph Neural Network Models",
+   "gloss": "Models for atomic property prediction and mechanical design in defective crystalline solids."
   },
   {
    "id": "L0.17",
@@ -2192,8 +2192,8 @@
     "tech_00891",
     "tech_00892"
    ],
-   "label": "Melting Temperature Prediction",
-   "gloss": "Techniques and components for predicting melting temperatures of materials."
+   "label": "Equivariant Graph Models",
+   "gloss": "Models using equivariant graph attention and SO(2) linear operations for materials."
   },
   {
    "id": "L0.2",
@@ -3056,7 +3056,7 @@
     "tech_00263"
    ],
    "label": "E(3)-equivariant models",
-   "gloss": "Models preserving 3D rotational symmetry for materials simulation."
+   "gloss": "Models preserving 3D rotations for materials simulation."
   },
   {
    "id": "L0.3",
@@ -3738,8 +3738,8 @@
     "tech_00803",
     "tech_00804"
    ],
-   "label": "Model Evaluation Metrics",
-   "gloss": "Metrics used to evaluate model performance in materials science."
+   "label": "Long-range interaction models",
+   "gloss": "Models addressing long-range electrostatics and van der Waals forces in materials."
   },
   {
    "id": "L0.4",
@@ -4375,8 +4375,8 @@
     "tech_00837",
     "tech_00838"
    ],
-   "label": "Interatomic Potentials",
-   "gloss": "Models for predicting atomic interactions in materials."
+   "label": "Deep Potential Models",
+   "gloss": "Models for molecular dynamics and interatomic potentials"
   },
   {
    "id": "L0.5",
@@ -4511,8 +4511,8 @@
     "tech_00309",
     "tech_00310"
    ],
-   "label": "Equivariant GNNs",
-   "gloss": "Models addressing computational complexity and expressivity in materials science."
+   "label": "Equivariant GNN Models",
+   "gloss": "Models addressing computational complexity and equivariance in materials science."
   },
   {
    "id": "L0.6",
@@ -4773,8 +4773,8 @@
     "tech_00317",
     "tech_00320"
    ],
-   "label": "Fracture Prediction Models",
-   "gloss": "Models for predicting crack patterns and fracture toughness in crystalline solids."
+   "label": "E(3)-equivariant models",
+   "gloss": "Models addressing crystal symmetries and phase-space integration."
   },
   {
    "id": "L0.7",
@@ -5019,8 +5019,8 @@
     "tech_00325",
     "tech_00326"
    ],
-   "label": "Deep learning for materials",
-   "gloss": "Models using deep neural networks for materials simulation and discovery."
+   "label": "Crystal Graph Networks",
+   "gloss": "Graph neural networks for crystal structures and simulations."
   },
   {
    "id": "L0.8",
@@ -5665,7 +5665,7 @@
     "tech_00734"
    ],
    "label": "Graph Neural Networks",
-   "gloss": "Models for materials exploration and property prediction"
+   "gloss": "Models for materials exploration and property prediction."
   },
   {
    "id": "L0.9",
@@ -5937,8 +5937,8 @@
     "tech_00410",
     "tech_00677"
    ],
-   "label": "Atomic Energy Prediction",
-   "gloss": "Models predicting atomic energy for molecular properties."
+   "label": "High-throughput DFT methods",
+   "gloss": "AFLOW framework for rapid material property prediction and structure generation."
   },
   {
    "id": "L1.1",
@@ -5976,7 +5976,7 @@
     "tech_00301"
    ],
    "label": "Crystal Graph Models",
-   "gloss": "Models using graph convolution for materials properties."
+   "gloss": "Models using crystal graphs for materials property prediction."
   },
   {
    "id": "L1.10",
@@ -6111,8 +6111,8 @@
     "tech_00309",
     "tech_00310"
    ],
-   "label": "Equivariant GNNs",
-   "gloss": "Models addressing computational complexity and expressivity in materials science."
+   "label": "Equivariant GNN Models",
+   "gloss": "Models addressing computational complexity and equivariance in materials science."
   },
   {
    "id": "L1.11",
@@ -6192,8 +6192,8 @@
     "tech_00317",
     "tech_00320"
    ],
-   "label": "Fracture Prediction Models",
-   "gloss": "Models predicting fracture patterns in crystalline solids."
+   "label": "Fracture prediction models",
+   "gloss": "Models predicting fracture patterns and toughness in crystalline solids."
   },
   {
    "id": "L1.12",
@@ -6293,8 +6293,8 @@
     "tech_00325",
     "tech_00326"
    ],
-   "label": "Automated Validation Checks",
-   "gloss": "Techniques for verifying material properties calculations."
+   "label": "Machine learning potentials training",
+   "gloss": "Focuses on training protocols for machine learning potentials in materials science."
   },
   {
    "id": "L1.14",
@@ -6467,8 +6467,8 @@
     "tech_00386",
     "tech_00387"
    ],
-   "label": "Benchmarking workflows",
-   "gloss": "Workflow components and evaluations for machine learning in materials science."
+   "label": "Machine Learning for Force Fields",
+   "gloss": "Models and techniques for predicting atomic forces in materials."
   },
   {
    "id": "L1.15",
@@ -6584,8 +6584,8 @@
     "tech_00409",
     "tech_00410"
    ],
-   "label": "AFLOW Workflow Components",
-   "gloss": "Components of the AFLOW high-throughput materials discovery framework."
+   "label": "E(3)-equivariant GNNs",
+   "gloss": "Models for phase-space integration and crystal symmetry."
   },
   {
    "id": "L1.16",
@@ -6734,8 +6734,8 @@
     "tech_00227",
     "tech_00228"
    ],
-   "label": "Materials Featurization Techniques",
-   "gloss": "Methods for converting material properties into numerical features."
+   "label": "Symmetry-adapted order parameters",
+   "gloss": "Models using symmetry-adapted order parameters for materials properties."
   },
   {
    "id": "L1.18",
@@ -6857,8 +6857,8 @@
     "tech_00651",
     "tech_00653"
    ],
-   "label": "Graph Neural Networks",
-   "gloss": "Models for materials property prediction and optimization."
+   "label": "Graph neural networks for materials",
+   "gloss": "Models using graph neural networks for materials property prediction."
   },
   {
    "id": "L1.2",
@@ -7158,8 +7158,8 @@
     "tech_00262",
     "tech_00263"
    ],
-   "label": "Equivariant Graph Neural Networks",
-   "gloss": "Models for predicting molecular properties with rotational invariance."
+   "label": "E(3)-equivariant GNNs",
+   "gloss": "Models for molecular property prediction with rotational equivariance."
   },
   {
    "id": "L1.20",
@@ -7323,7 +7323,7 @@
     "tech_00702"
    ],
    "label": "Diffusion Modeling Methods",
-   "gloss": "Models for predicting ionic and Li-ion diffusion in materials."
+   "gloss": "Models for predicting ionic and lithium diffusion in solid electrolytes."
   },
   {
    "id": "L1.22",
@@ -7413,8 +7413,8 @@
     "task_00731",
     "task_00732"
    ],
-   "label": "Two-step ML for melting temp",
-   "gloss": "Combines clustering and regression for binary ionic solids."
+   "label": "Two-step clustering for melting temp",
+   "gloss": "Combining unsupervised clustering with supervised regression for melting temperature prediction."
   },
   {
    "id": "L1.23",
@@ -7543,8 +7543,8 @@
     "task_00714",
     "task_00715"
    ],
-   "label": "Gaussian Approximation Potentials",
-   "gloss": "Models for surface energy and reconstruction simulations"
+   "label": "MLIPs for force prediction",
+   "gloss": "Models focusing on accurate force prediction for materials simulations."
   },
   {
    "id": "L1.25",
@@ -7642,7 +7642,7 @@
     "prob_00621"
    ],
    "label": "Equivariant Graph Neural Networks",
-   "gloss": "Models for materials and chemistry tasks with symmetry constraints."
+   "gloss": "Models for chemical and materials property prediction."
   },
   {
    "id": "L1.26",
@@ -7757,8 +7757,8 @@
     "tech_00289",
     "tech_00290"
    ],
-   "label": "Graph Neural Networks",
-   "gloss": "Models for predicting material properties using graph representations."
+   "label": "Phonon Prediction Models",
+   "gloss": "Models for predicting phonon dispersion and Hessian matrices in materials."
   },
   {
    "id": "L1.27",
@@ -7968,8 +7968,8 @@
     "tech_00627",
     "tech_00629"
    ],
-   "label": "Crystal-Graph Models",
-   "gloss": "Models for material structure analysis and prediction."
+   "label": "Crystal-Graph Attention Networks",
+   "gloss": "Models for material structure analysis and property prediction."
   },
   {
    "id": "L1.28",
@@ -8089,8 +8089,8 @@
     "tech_00891",
     "tech_00892"
    ],
-   "label": "Model Training Techniques",
-   "gloss": "Techniques for training machine learning models in materials science."
+   "label": "Atomistic Property Prediction",
+   "gloss": "Models predicting properties of individual atoms in materials."
   },
   {
    "id": "L1.3",
@@ -8315,7 +8315,7 @@
     "task_00357"
    ],
    "label": "Phonon Property Prediction",
-   "gloss": "Models for predicting phonon properties using graph neural networks."
+   "gloss": "Models for predicting phonon properties like DOS and MAE."
   },
   {
    "id": "L1.31",
@@ -8346,7 +8346,7 @@
     "metr_00051"
    ],
    "label": "Melting Temperature Prediction",
-   "gloss": "Models for predicting melting temperatures using various machine learning techniques."
+   "gloss": "Models for predicting melting temperatures of materials."
   },
   {
    "id": "L1.32",
@@ -8631,8 +8631,8 @@
     "tech_00733",
     "tech_00734"
    ],
-   "label": "Materials Design Infrastructure",
-   "gloss": "Components and techniques for integrated materials design."
+   "label": "Materials property prediction",
+   "gloss": "Involves MLIP, JARVIS, LiFlow models for predicting properties like efficiency, band structure."
   },
   {
    "id": "L1.33",
@@ -8686,7 +8686,7 @@
     "tech_00165",
     "tech_00166"
    ],
-   "label": "Free-energy prediction",
+   "label": "Free-energy prediction models",
    "gloss": "Models for predicting vibrational free energies and phase transitions."
   },
   {
@@ -8758,7 +8758,7 @@
     "tech_00628"
    ],
    "label": "Crystal Graph Models",
-   "gloss": "Models using graph representations for materials properties prediction."
+   "gloss": "Models using crystal graph representations for material property prediction."
   },
   {
    "id": "L1.36",
@@ -8773,7 +8773,7 @@
     "prob_00134"
    ],
    "label": "Interatomic Potential Models",
-   "gloss": "Models ensuring accuracy and symmetry in force prediction."
+   "gloss": "Models for efficient force and virial prediction in materials simulation."
   },
   {
    "id": "L1.37",
@@ -8784,8 +8784,8 @@
     "prob_00220",
     "prob_00221"
    ],
-   "label": "Materials Property Prediction",
-   "gloss": "Predicting phase stability and interstitial sites for materials discovery."
+   "label": "Graph Neural Networks for Materials",
+   "gloss": "Models like E(3)-equivariant GNNs for phonon predictions and atomic interactions."
   },
   {
    "id": "L1.38",
@@ -8877,7 +8877,7 @@
     "task_00636"
    ],
    "label": "Long-range MLIP generalization",
-   "gloss": "Challenges and solutions for long-range interactions in machine learning interatomic potentials."
+   "gloss": "Models addressing out-of-distribution generalization in machine learning interatomic potentials."
   },
   {
    "id": "L1.39",
@@ -8945,7 +8945,7 @@
     "task_00185",
     "task_00253"
    ],
-   "label": "Deep Learning for Hamiltonian Prediction",
+   "label": "Deep Hamiltonian Models",
    "gloss": "Models predicting DFT Hamiltonians for electronic properties."
   },
   {
@@ -9053,7 +9053,7 @@
     "tech_00305"
    ],
    "label": "Message Passing Neural Networks",
-   "gloss": "Models using message passing for chemical graph processing."
+   "gloss": "Models for graph-based materials science tasks."
   },
   {
    "id": "L1.40",
@@ -9182,8 +9182,8 @@
     "tech_00195",
     "tech_00196"
    ],
-   "label": "IDNN for Free-Energy",
-   "gloss": "Models for high-dimensional free-energy representation and sampling."
+   "label": "Free-energy modeling techniques",
+   "gloss": "Techniques for efficient sampling and accurate representation of free-energy landscapes."
   },
   {
    "id": "L1.41",
@@ -9236,8 +9236,8 @@
     "prob_00614",
     "prob_00615"
    ],
-   "label": "Phonon Prediction Challenges",
-   "gloss": "Issues with force accuracy and efficient phonon band-structure prediction."
+   "label": "Phonon prediction challenges",
+   "gloss": "Includes issues like force accuracy and incomplete sampling for phonon band-structure prediction."
   },
   {
    "id": "L1.46",
@@ -9371,8 +9371,8 @@
     "task_00713",
     "task_00716"
    ],
-   "label": "Amorphous Carbon Simulations",
-   "gloss": "Models for simulating amorphous carbon structures and properties."
+   "label": "Interatomic Potentials Models",
+   "gloss": "Models for predicting atomic interactions in materials."
   },
   {
    "id": "L1.48",
@@ -9499,8 +9499,8 @@
     "task_00684",
     "task_00685"
    ],
-   "label": "Material Property Prediction",
-   "gloss": "Predicting various material properties using machine learning."
+   "label": "Force prediction methods",
+   "gloss": "Models predicting atomic forces in materials."
   },
   {
    "id": "L1.49",
@@ -9564,8 +9564,8 @@
     "tech_00774",
     "tech_00775"
    ],
-   "label": "Phase Diagram Construction",
-   "gloss": "Tasks and techniques for phase diagram generation and stability assessment."
+   "label": "Phase-diagram prediction models",
+   "gloss": "Models for constructing and calculating phase diagrams in materials science."
   },
   {
    "id": "L1.5",
@@ -9769,7 +9769,7 @@
     "tech_00269"
    ],
    "label": "Crystal structure prediction",
-   "gloss": "Models for predicting crystal structures and properties in materials science."
+   "gloss": "Models for predicting crystal structures in materials science."
   },
   {
    "id": "L1.50",
@@ -9885,8 +9885,8 @@
     "task_00635",
     "tech_00677"
    ],
-   "label": "Phonon Prediction Tasks",
-   "gloss": "Tasks related to predicting phonon properties in materials."
+   "label": "Phonon prediction frameworks",
+   "gloss": "Includes models for phonon dispersion and spectra prediction."
   },
   {
    "id": "L1.51",
@@ -9976,8 +9976,8 @@
     "tech_00959",
     "tech_00962"
    ],
-   "label": "Phase-space Integration",
-   "gloss": "Tasks involving phase-space integration of atomistic ensembles."
+   "label": "Phase-space integration methods",
+   "gloss": "Techniques for integrating atomistic ensembles across phase space."
   },
   {
    "id": "L1.52",
@@ -10069,7 +10069,7 @@
     "tech_00803",
     "tech_00804"
    ],
-   "label": "E(3) Equivariant Models",
+   "label": "E(3) equivariant models",
    "gloss": "Models using E(3) equivariant tensor representations for atomic environments."
   },
   {
@@ -10160,8 +10160,8 @@
     "tech_00593",
     "tech_00594"
    ],
-   "label": "Benchmarking Techniques",
-   "gloss": "Evaluation methods for machine learning models in materials science."
+   "label": "Graph Neural Networks",
+   "gloss": "Models for atomic structure prediction and property inference."
   },
   {
    "id": "L1.54",
@@ -10191,8 +10191,8 @@
     "tech_00382",
     "tech_00385"
    ],
-   "label": "High-throughput Calculation Techniques",
-   "gloss": "Includes methods for efficient materials screening and property prediction."
+   "label": "Uncertainty Quantification Techniques",
+   "gloss": "Methods for estimating uncertainty in materials science predictions."
   },
   {
    "id": "L1.55",
@@ -10252,8 +10252,8 @@
     "tech_00834",
     "tech_00838"
    ],
-   "label": "ML Techniques for Materials Dynamics",
-   "gloss": "Techniques for force evaluation and molecular dynamics simulations."
+   "label": "MLIP evaluation frameworks",
+   "gloss": "Techniques for evaluating machine learned interatomic potentials."
   },
   {
    "id": "L1.56",
@@ -10292,8 +10292,8 @@
     "tech_00748",
     "tech_00749"
    ],
-   "label": "Training Techniques for Materials",
-   "gloss": "Techniques used in training machine learning models for materials science."
+   "label": "Diffusion coefficient computation",
+   "gloss": "Techniques for training models to predict diffusion coefficients."
   },
   {
    "id": "L1.57",
@@ -10308,8 +10308,8 @@
     "tech_00924",
     "tech_00930"
    ],
-   "label": "Gaussian Approximation Potentials",
-   "gloss": "Techniques for machine-learning DFT potentials in materials science."
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for DFT-derived interatomic potentials using machine learning."
   },
   {
    "id": "L1.58",
@@ -10385,8 +10385,8 @@
     "tech_00928",
     "tech_00929"
    ],
-   "label": "MD Simulation Acceleration",
-   "gloss": "Techniques to speed up molecular dynamics simulations in materials science."
+   "label": "Kernel-based interatomic potentials",
+   "gloss": "Models using kernel functions for interatomic potential approximation"
   },
   {
    "id": "L1.59",
@@ -10485,8 +10485,8 @@
     "tech_00863",
     "tech_00864"
    ],
-   "label": "DFT+U Techniques",
-   "gloss": "Techniques for DFT+U calculations in materials science."
+   "label": "Density functional techniques",
+   "gloss": "Kohn-Sham density functional theory methods for electronic structure calculations."
   },
   {
    "id": "L1.62",
@@ -10651,8 +10651,8 @@
     "tech_00392",
     "tech_00395"
    ],
-   "label": "Energy Prediction Models",
-   "gloss": "Models predicting molecular and atomic energies."
+   "label": "Inter-atomic potential models",
+   "gloss": "Models predicting atomic interactions for materials science tasks."
   },
   {
    "id": "L1.64",
@@ -10719,8 +10719,8 @@
     "task_00222",
     "task_00223"
    ],
-   "label": "Graph Neural Networks for Defects",
-   "gloss": "Models predicting atomic properties in defective crystalline solids."
+   "label": "Graph Neural Network Models",
+   "gloss": "Models for atomic property prediction and mechanical design in defective crystalline solids."
   },
   {
    "id": "L1.65",
@@ -10766,8 +10766,8 @@
     "task_00228",
     "task_00229"
    ],
-   "label": "Computational Chemistry Models",
-   "gloss": "Models addressing computational chemistry problems and tasks."
+   "label": "Graph Neural Networks",
+   "gloss": "Models like Crystal Hamiltonian GNN and EquiformerV2 for materials chemistry."
   },
   {
    "id": "L1.66",
@@ -10881,7 +10881,7 @@
     "tech_00255"
    ],
    "label": "Phonon Prediction Models",
-   "gloss": "Models for predicting phonon properties in materials."
+   "gloss": "Models for predicting phonon properties in crystals and alloys."
   },
   {
    "id": "L1.67",
@@ -10991,8 +10991,8 @@
     "tech_00466",
     "tech_00468"
    ],
-   "label": "E(3)×{I,T} Equivariant Networks",
-   "gloss": "Models using E(3)×{I,T} equivariance for materials science."
+   "label": "E(3)×{I,T} equivariant models",
+   "gloss": "Models using E(3)×{I,T} equivariance for materials science tasks."
   },
   {
    "id": "L1.68",
@@ -11057,8 +11057,8 @@
     "meth_00238",
     "metr_00057"
    ],
-   "label": "Deep Potential Methods",
-   "gloss": "Models for molecular dynamics and adsorption energy prediction"
+   "label": "Interatomic Potentials Models",
+   "gloss": "Models for predicting atomic interactions in materials."
   },
   {
    "id": "L1.69",
@@ -11176,8 +11176,8 @@
     "tech_00216",
     "tech_00217"
    ],
-   "label": "Materials Stability Prediction",
-   "gloss": "Tasks related to predicting stable crystal and material stability."
+   "label": "Convex Hull Stability Analysis",
+   "gloss": "Tasks related to material stability assessment."
   },
   {
    "id": "L1.7",
@@ -11321,8 +11321,8 @@
     "meth_00434",
     "prob_00058"
    ],
-   "label": "Descriptors for potentials",
-   "gloss": "Components defining Gaussian Approximation Potentials"
+   "label": "Gaussian Approximation Potentials",
+   "gloss": "Models using Gaussian descriptors for potential energy surfaces."
   },
   {
    "id": "L1.70",
@@ -11346,8 +11346,8 @@
     "task_00242",
     "task_00243"
    ],
-   "label": "Property Prediction",
-   "gloss": "Tasks involving predicting various material properties using machine learning."
+   "label": "Graph Neural Networks",
+   "gloss": "Models for molecular and crystal property prediction."
   },
   {
    "id": "L1.71",
@@ -11423,8 +11423,8 @@
     "meth_00180",
     "meth_00245"
    ],
-   "label": "Graph Neural Networks",
-   "gloss": "Models using graph structures for materials and chemistry tasks."
+   "label": "Charge-informed Models",
+   "gloss": "Models incorporating magnetic moment labels for atomistic simulations and charge prediction."
   },
   {
    "id": "L1.72",
@@ -11549,8 +11549,8 @@
     "tech_00960",
     "tech_00961"
    ],
-   "label": "Virtual Node Graph Models",
-   "gloss": "Models using virtual nodes for materials property prediction."
+   "label": "Virtual Node GNN Techniques",
+   "gloss": "Techniques and components specific to Virtual Node Graph Neural Networks."
   },
   {
    "id": "L1.73",
@@ -11741,8 +11741,8 @@
     "tech_00591",
     "tech_00592"
    ],
-   "label": "Materials Property Prediction",
-   "gloss": "Models predicting energy, force, and stability of materials."
+   "label": "Deep Potential models",
+   "gloss": "Models using Deep Potential for energy and force prediction."
   },
   {
    "id": "L1.74",
@@ -11797,8 +11797,8 @@
     "task_00436",
     "task_00437"
    ],
-   "label": "GNN-based Simulations",
-   "gloss": "Challenges and tasks in graph neural network simulations for materials."
+   "label": "Amorphous Structure Generation",
+   "gloss": "Models for creating and simulating amorphous materials."
   },
   {
    "id": "L1.75",
@@ -11827,8 +11827,8 @@
     "prob_00236",
     "prob_00237"
    ],
-   "label": "Interatomic Potentials",
-   "gloss": "Problems and datasets for ML interatomic potentials"
+   "label": "Interatomic Potential Models",
+   "gloss": "Models for predicting material properties and stability."
   },
   {
    "id": "L1.76",
@@ -12012,8 +12012,8 @@
     "tech_00836",
     "tech_00837"
    ],
-   "label": "D4FT Evaluations",
-   "gloss": "Metrics and tasks for D4FT model"
+   "label": "Differentiable Energy Models",
+   "gloss": "Models using differentiable energy functions for material property prediction."
   },
   {
    "id": "L1.77",
@@ -12039,7 +12039,7 @@
     "tech_00164",
     "tech_00288"
    ],
-   "label": "DFT Hamiltonian Prediction",
+   "label": "DFT Hamiltonian prediction",
    "gloss": "Models predicting DFT Hamiltonian for materials."
   },
   {
@@ -12275,8 +12275,8 @@
     "prob_00634",
     "tech_00084"
    ],
-   "label": "Melting Temperature Prediction",
-   "gloss": "Models for predicting melting temperatures of materials."
+   "label": "Materials Graph Networks",
+   "gloss": "Models for materials property prediction using graph convolutional techniques."
   },
   {
    "id": "L2.1",

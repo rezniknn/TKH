@@ -27,3 +27,4 @@ mode = "offline"
 seed = 0
 max_items = 40
 workers = 4
+contrast = 10
