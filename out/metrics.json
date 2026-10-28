@@ -4613,13 +4613,17 @@
  "retrieval": {
   "config": {
    "beam": [
-    3,
-    4,
-    5
+    10,
+    20,
+    40
    ],
+   "rel": null,
+   "min_keep": 1,
+   "node_info": "blend",
+   "leaf_info": "full+claims",
+   "scorer": "overlap",
+   "query": "stripped",
    "k": 10,
-   "encoder": "word TF-IDF on snapshot leaf texts",
-   "label_weight": 0.5,
    "bootstrap": 2000,
    "seed": 0,
    "questions": "/Users/alexeyr/Personal/TKH/repo/data/questions.csv",
@@ -4645,92 +4649,96 @@
    "Q17": 2026,
    "Q18": 2026
   },
+  "objective_H": {
+   "hier": 0.47661800005550004,
+   "flat": 0.41418000402375404
+  },
   "summary": {
    "A": {
     "n_questions": 14,
     "methods": {
      "hier": {
-      "mean": 0.05565268065268065,
+      "mean": 0.2832167832167832,
       "ci95": [
-       0.0,
-       0.14539627039627037
+       0.06624417249417251,
+       0.5256410256410257
       ],
       "n": 12
      },
      "flat": {
-      "mean": 0.05565268065268065,
+      "mean": 0.29512154512154515,
       "ci95": [
-       0.0,
-       0.1453962703962704
+       0.09016192141192142,
+       0.5375457875457875
       ],
       "n": 12
      },
      "hier_minus_flat": {
-      "mean": 0.0,
+      "mean": -0.011904761904761904,
       "ci95": [
-       -0.125,
-       0.125
+       -0.03571428571428571,
+       0.0
       ],
       "n": 12
      }
     },
     "citations": {
      "hier": {
-      "mean": 0.12443310657596371,
+      "mean": 0.6567460317460317,
       "ci95": [
-       0.04846938775510203,
-       0.2145975056689341
+       0.43735827664399096,
+       0.8469387755102041
       ],
       "n": 14
      },
      "flat": {
-      "mean": 0.31108276643990923,
+      "mean": 0.5778061224489796,
       "ci95": [
-       0.15447137188208618,
-       0.49319727891156456
+       0.36224489795918363,
+       0.7857142857142857
       ],
       "n": 14
      },
      "hier_minus_flat": {
-      "mean": -0.18664965986394558,
+      "mean": 0.07893990929705216,
       "ci95": [
-       -0.40307185374149673,
-       0.008099489795918255
+       -0.048472930839002254,
+       0.24944727891156454
       ],
       "n": 14
      }
     },
     "steps": {
      "hier": {
-      "mean": 1700.8333333333333,
+      "mean": 605.3333333333334,
       "ci95": [
-       1082.3333333333333,
-       2319.1666666666665
+       196.40208333333334,
+       1165.1374999999996
       ],
       "n": 12
      },
      "flat": {
-      "mean": 339.5833333333333,
+      "mean": 224.5,
       "ci95": [
-       62.587500000000006,
-       640.7520833333333
+       12.75,
+       534.2604166666666
       ],
       "n": 12
      },
      "hier_minus_flat": {
-      "mean": 1361.25,
+      "mean": 380.8333333333333,
       "ci95": [
-       762.89375,
-       1956.3458333333333
+       -21.610416666666666,
+       847.7833333333332
       ],
       "n": 12
      },
      "median": {
-      "hier": 2525.0,
-      "flat": 53.5
+      "hier": 175.5,
+      "flat": 10.5
      },
      "reached": {
-      "hier": 4,
+      "hier": 10,
       "flat": 12
      }
     }
@@ -4739,87 +4747,87 @@
     "n_questions": 4,
     "claims": {
      "hier": {
-      "mean": 0.1875,
+      "mean": 0.5396825396825397,
       "ci95": [
-       0.0,
-       0.375
+       0.17857142857142858,
+       0.8611111111111112
       ],
       "n": 4
      },
      "flat": {
-      "mean": 0.44146825396825395,
+      "mean": 0.34325396825396826,
       "ci95": [
-       0.3125,
-       0.5396825396825397
+       0.1111111111111111,
+       0.48214285714285715
       ],
       "n": 4
      },
      "hier_minus_flat": {
-      "mean": -0.25396825396825395,
+      "mean": 0.19642857142857145,
       "ci95": [
-       -0.5079365079365079,
-       0.0
+       0.0,
+       0.3928571428571429
       ],
       "n": 4
      }
     },
     "citations": {
      "hier": {
-      "mean": 0.20833333333333331,
+      "mean": 0.375,
       "ci95": [
-       0.0,
-       0.41666666666666663
+       0.125,
+       0.625
       ],
       "n": 4
      },
      "flat": {
-      "mean": 0.3958333333333333,
+      "mean": 0.3125,
       "ci95": [
-       0.29166666666666663,
+       0.125,
        0.5
       ],
       "n": 4
      },
      "hier_minus_flat": {
-      "mean": -0.1875,
+      "mean": 0.0625,
       "ci95": [
-       -0.375,
-       0.0
+       0.0,
+       0.1875
       ],
       "n": 4
      }
     },
     "steps": {
      "hier": {
-      "mean": 371.75,
+      "mean": 147.0,
       "ci95": [
-       52.5,
-       691.0
+       142.75,
+       151.75
       ],
       "n": 4
      },
      "flat": {
-      "mean": 3.0,
+      "mean": 5.0,
       "ci95": [
-       1.5,
-       5.0
+       2.0,
+       10.25
       ],
       "n": 4
      },
      "hier_minus_flat": {
-      "mean": 368.75,
+      "mean": 142.0,
       "ci95": [
-       51.0,
-       686.5
+       136.75,
+       148.75
       ],
       "n": 4
      },
      "median": {
-      "hier": 373.0,
+      "hier": 146.5,
       "flat": 2.5
      },
      "reached": {
-      "hier": 2,
+      "hier": 4,
       "flat": 4
      }
     }
@@ -4832,8 +4840,8 @@
     "snapshot_source": "stated",
     "n_targets": 15,
     "n_flat_candidates": 2524,
-    "pool": 43,
-    "n_supernodes_scored": 42,
+    "pool": 333,
+    "n_supernodes_scored": 152,
     "ceiling": {
      "methods": {
       "attainable": 7,
@@ -4855,24 +4863,24 @@
       "attainable": 7,
       "rate": 0.14285714285714285
      },
-     "n_articles": 4,
-     "steps": 2525,
-     "reached": false,
-     "lost_at_level": 2
+     "n_articles": 12,
+     "steps": 304,
+     "reached": true,
+     "lost_at_level": null
     },
     "flat": {
      "methods": {
-      "hits": 0,
-      "attainable": 7,
-      "rate": 0.0
-     },
-     "citations": {
       "hits": 1,
       "attainable": 7,
       "rate": 0.14285714285714285
      },
-     "n_articles": 8,
-     "steps": 109,
+     "citations": {
+      "hits": 3,
+      "attainable": 7,
+      "rate": 0.42857142857142855
+     },
+     "n_articles": 15,
+     "steps": 7,
      "reached": true
     }
    },
@@ -4882,8 +4890,8 @@
     "snapshot_source": "stated",
     "n_targets": 3,
     "n_flat_candidates": 2524,
-    "pool": 36,
-    "n_supernodes_scored": 49,
+    "pool": 376,
+    "n_supernodes_scored": 150,
     "ceiling": {
      "methods": {
       "attainable": 2,
@@ -4896,33 +4904,33 @@
     },
     "hier": {
      "methods": {
-      "hits": 1,
+      "hits": 2,
       "attainable": 2,
-      "rate": 0.5
+      "rate": 1.0
      },
      "citations": {
-      "hits": 0,
+      "hits": 5,
       "attainable": 7,
-      "rate": 0.0
+      "rate": 0.7142857142857143
      },
-     "n_articles": 3,
-     "steps": 51,
+     "n_articles": 10,
+     "steps": 151,
      "reached": true,
      "lost_at_level": null
     },
     "flat": {
      "methods": {
-      "hits": 0,
+      "hits": 2,
       "attainable": 2,
-      "rate": 0.0
+      "rate": 1.0
      },
      "citations": {
-      "hits": 3,
+      "hits": 5,
       "attainable": 7,
-      "rate": 0.42857142857142855
+      "rate": 0.7142857142857143
      },
-     "n_articles": 6,
-     "steps": 26,
+     "n_articles": 13,
+     "steps": 1,
      "reached": true
     }
    },
@@ -4932,8 +4940,8 @@
     "snapshot_source": "stated",
     "n_targets": 2,
     "n_flat_candidates": 2524,
-    "pool": 35,
-    "n_supernodes_scored": 48,
+    "pool": 461,
+    "n_supernodes_scored": 143,
     "ceiling": {
      "methods": {
       "attainable": 2,
@@ -4946,33 +4954,33 @@
     },
     "hier": {
      "methods": {
-      "hits": 0,
+      "hits": 2,
       "attainable": 2,
-      "rate": 0.0
-     },
-     "citations": {
-      "hits": 0,
-      "attainable": 2,
-      "rate": 0.0
-     },
-     "n_articles": 3,
-     "steps": 2525,
-     "reached": false,
-     "lost_at_level": 0
-    },
-    "flat": {
-     "methods": {
-      "hits": 1,
-      "attainable": 2,
-      "rate": 0.5
+      "rate": 1.0
      },
      "citations": {
       "hits": 2,
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 6,
-     "steps": 8,
+     "n_articles": 8,
+     "steps": 145,
+     "reached": true,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": {
+      "hits": 2,
+      "attainable": 2,
+      "rate": 1.0
+     },
+     "citations": {
+      "hits": 2,
+      "attainable": 2,
+      "rate": 1.0
+     },
+     "n_articles": 7,
+     "steps": 2,
      "reached": true
     }
    },
@@ -4982,8 +4990,8 @@
     "snapshot_source": "stated",
     "n_targets": 2,
     "n_flat_candidates": 2524,
-    "pool": 6,
-    "n_supernodes_scored": 41,
+    "pool": 314,
+    "n_supernodes_scored": 133,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5001,14 +5009,14 @@
       "rate": 0.0
      },
      "citations": {
-      "hits": 1,
+      "hits": 3,
       "attainable": 3,
-      "rate": 0.3333333333333333
+      "rate": 1.0
      },
-     "n_articles": 3,
+     "n_articles": 20,
      "steps": 2525,
      "reached": false,
-     "lost_at_level": 0
+     "lost_at_level": 1
     },
     "flat": {
      "methods": {
@@ -5021,8 +5029,8 @@
       "attainable": 3,
       "rate": 0.0
      },
-     "n_articles": 5,
-     "steps": 108,
+     "n_articles": 10,
+     "steps": 42,
      "reached": true
     }
    },
@@ -5032,8 +5040,8 @@
     "snapshot_source": "stated",
     "n_targets": 0,
     "n_flat_candidates": 2524,
-    "pool": 29,
-    "n_supernodes_scored": 41,
+    "pool": 417,
+    "n_supernodes_scored": 142,
     "ceiling": {
      "methods": {
       "attainable": 0,
@@ -5055,7 +5063,7 @@
       "attainable": 1,
       "rate": 0.0
      },
-     "n_articles": 4,
+     "n_articles": 17,
      "steps": null,
      "reached": false
     },
@@ -5070,7 +5078,7 @@
       "attainable": 1,
       "rate": 0.0
      },
-     "n_articles": 7,
+     "n_articles": 19,
      "steps": null,
      "reached": false
     }
@@ -5081,8 +5089,8 @@
     "snapshot_source": "stated",
     "n_targets": 1,
     "n_flat_candidates": 2524,
-    "pool": 67,
-    "n_supernodes_scored": 45,
+    "pool": 446,
+    "n_supernodes_scored": 148,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5095,33 +5103,33 @@
     },
     "hier": {
      "methods": {
-      "hits": 0,
+      "hits": 1,
       "attainable": 1,
-      "rate": 0.0
+      "rate": 1.0
      },
      "citations": {
-      "hits": 1,
+      "hits": 3,
       "attainable": 3,
-      "rate": 0.3333333333333333
+      "rate": 1.0
      },
-     "n_articles": 5,
-     "steps": 2525,
-     "reached": false,
-     "lost_at_level": 0
+     "n_articles": 11,
+     "steps": 149,
+     "reached": true,
+     "lost_at_level": null
     },
     "flat": {
      "methods": {
-      "hits": 0,
+      "hits": 1,
       "attainable": 1,
-      "rate": 0.0
+      "rate": 1.0
      },
      "citations": {
-      "hits": 1,
+      "hits": 3,
       "attainable": 3,
-      "rate": 0.3333333333333333
+      "rate": 1.0
      },
-     "n_articles": 8,
-     "steps": 30,
+     "n_articles": 11,
+     "steps": 1,
      "reached": true
     }
    },
@@ -5131,8 +5139,8 @@
     "snapshot_source": "stated",
     "n_targets": 1,
     "n_flat_candidates": 2524,
-    "pool": 38,
-    "n_supernodes_scored": 41,
+    "pool": 391,
+    "n_supernodes_scored": 141,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5150,14 +5158,14 @@
       "rate": 0.0
      },
      "citations": {
-      "hits": 0,
+      "hits": 2,
       "attainable": 2,
-      "rate": 0.0
+      "rate": 1.0
      },
-     "n_articles": 2,
-     "steps": 2525,
-     "reached": false,
-     "lost_at_level": 0
+     "n_articles": 11,
+     "steps": 354,
+     "reached": true,
+     "lost_at_level": null
     },
     "flat": {
      "methods": {
@@ -5170,8 +5178,8 @@
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 8,
-     "steps": 1254,
+     "n_articles": 11,
+     "steps": 1266,
      "reached": true
     }
    },
@@ -5181,8 +5189,8 @@
     "snapshot_source": "stated",
     "n_targets": 1,
     "n_flat_candidates": 2524,
-    "pool": 20,
-    "n_supernodes_scored": 44,
+    "pool": 455,
+    "n_supernodes_scored": 148,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5200,12 +5208,12 @@
       "rate": 0.0
      },
      "citations": {
-      "hits": 1,
+      "hits": 2,
       "attainable": 2,
-      "rate": 0.5
+      "rate": 1.0
      },
-     "n_articles": 1,
-     "steps": 55,
+     "n_articles": 18,
+     "steps": 190,
      "reached": true,
      "lost_at_level": null
     },
@@ -5216,12 +5224,12 @@
       "rate": 0.0
      },
      "citations": {
-      "hits": 1,
+      "hits": 2,
       "attainable": 2,
-      "rate": 0.5
+      "rate": 1.0
      },
-     "n_articles": 3,
-     "steps": 19,
+     "n_articles": 19,
+     "steps": 78,
      "reached": true
     }
    },
@@ -5231,8 +5239,8 @@
     "snapshot_source": "stated",
     "n_targets": 2,
     "n_flat_candidates": 2524,
-    "pool": 62,
-    "n_supernodes_scored": 51,
+    "pool": 435,
+    "n_supernodes_scored": 162,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5250,14 +5258,14 @@
       "rate": 0.0
      },
      "citations": {
-      "hits": 0,
+      "hits": 2,
       "attainable": 2,
-      "rate": 0.0
+      "rate": 1.0
      },
-     "n_articles": 4,
-     "steps": 2525,
-     "reached": false,
-     "lost_at_level": 0
+     "n_articles": 17,
+     "steps": 472,
+     "reached": true,
+     "lost_at_level": null
     },
     "flat": {
      "methods": {
@@ -5266,12 +5274,12 @@
       "rate": 0.0
      },
      "citations": {
-      "hits": 1,
+      "hits": 2,
       "attainable": 2,
-      "rate": 0.5
+      "rate": 1.0
      },
-     "n_articles": 6,
-     "steps": 1191,
+     "n_articles": 17,
+     "steps": 22,
      "reached": true
     }
    },
@@ -5281,8 +5289,8 @@
     "snapshot_source": "stated",
     "n_targets": 1,
     "n_flat_candidates": 2524,
-    "pool": 23,
-    "n_supernodes_scored": 42,
+    "pool": 488,
+    "n_supernodes_scored": 161,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5304,10 +5312,10 @@
       "attainable": 4,
       "rate": 0.25
      },
-     "n_articles": 6,
+     "n_articles": 15,
      "steps": 2525,
      "reached": false,
-     "lost_at_level": 2
+     "lost_at_level": 1
     },
     "flat": {
      "methods": {
@@ -5316,12 +5324,12 @@
       "rate": 0.0
      },
      "citations": {
-      "hits": 0,
+      "hits": 1,
       "attainable": 4,
-      "rate": 0.0
+      "rate": 0.25
      },
-     "n_articles": 8,
-     "steps": 1239,
+     "n_articles": 15,
+     "steps": 1252,
      "reached": true
     }
    },
@@ -5331,8 +5339,8 @@
     "snapshot_source": "stated",
     "n_targets": 0,
     "n_flat_candidates": 2524,
-    "pool": 71,
-    "n_supernodes_scored": 41,
+    "pool": 447,
+    "n_supernodes_scored": 137,
     "ceiling": {
      "methods": {
       "attainable": 0,
@@ -5350,11 +5358,11 @@
       "rate": null
      },
      "citations": {
-      "hits": 0,
+      "hits": 1,
       "attainable": 1,
-      "rate": 0.0
+      "rate": 1.0
      },
-     "n_articles": 1,
+     "n_articles": 9,
      "steps": null,
      "reached": false
     },
@@ -5365,11 +5373,11 @@
       "rate": null
      },
      "citations": {
-      "hits": 0,
+      "hits": 1,
       "attainable": 1,
-      "rate": 0.0
+      "rate": 1.0
      },
-     "n_articles": 6,
+     "n_articles": 17,
      "steps": null,
      "reached": false
     }
@@ -5380,8 +5388,8 @@
     "snapshot_source": "stated",
     "n_targets": 32,
     "n_flat_candidates": 2524,
-    "pool": 6,
-    "n_supernodes_scored": 45,
+    "pool": 418,
+    "n_supernodes_scored": 134,
     "ceiling": {
      "methods": {
       "attainable": 13,
@@ -5394,33 +5402,33 @@
     },
     "hier": {
      "methods": {
-      "hits": 1,
+      "hits": 4,
       "attainable": 13,
-      "rate": 0.07692307692307693
+      "rate": 0.3076923076923077
      },
      "citations": {
-      "hits": 1,
+      "hits": 9,
       "attainable": 14,
-      "rate": 0.07142857142857142
+      "rate": 0.6428571428571429
      },
-     "n_articles": 4,
-     "steps": 46,
+     "n_articles": 17,
+     "steps": 136,
      "reached": true,
      "lost_at_level": null
     },
     "flat": {
      "methods": {
-      "hits": 1,
+      "hits": 4,
       "attainable": 13,
-      "rate": 0.07692307692307693
+      "rate": 0.3076923076923077
      },
      "citations": {
-      "hits": 3,
+      "hits": 8,
       "attainable": 14,
-      "rate": 0.21428571428571427
+      "rate": 0.5714285714285714
      },
-     "n_articles": 6,
-     "steps": 9,
+     "n_articles": 16,
+     "steps": 2,
      "reached": true
     }
    },
@@ -5430,8 +5438,8 @@
     "snapshot_source": "stated",
     "n_targets": 18,
     "n_flat_candidates": 2524,
-    "pool": 27,
-    "n_supernodes_scored": 42,
+    "pool": 337,
+    "n_supernodes_scored": 147,
     "ceiling": {
      "methods": {
       "attainable": 8,
@@ -5453,10 +5461,10 @@
       "attainable": 8,
       "rate": 0.0
      },
-     "n_articles": 1,
-     "steps": 2525,
-     "reached": false,
-     "lost_at_level": 2
+     "n_articles": 7,
+     "steps": 161,
+     "reached": true,
+     "lost_at_level": null
     },
     "flat": {
      "methods": {
@@ -5469,8 +5477,8 @@
       "attainable": 8,
       "rate": 0.125
      },
-     "n_articles": 4,
-     "steps": 77,
+     "n_articles": 13,
+     "steps": 11,
      "reached": true
     }
    },
@@ -5480,8 +5488,8 @@
     "snapshot_source": "stated",
     "n_targets": 24,
     "n_flat_candidates": 2524,
-    "pool": 23,
-    "n_supernodes_scored": 51,
+    "pool": 299,
+    "n_supernodes_scored": 148,
     "ceiling": {
      "methods": {
       "attainable": 11,
@@ -5499,12 +5507,12 @@
       "rate": 0.09090909090909091
      },
      "citations": {
-      "hits": 1,
+      "hits": 4,
       "attainable": 9,
-      "rate": 0.1111111111111111
+      "rate": 0.4444444444444444
      },
-     "n_articles": 8,
-     "steps": 58,
+     "n_articles": 10,
+     "steps": 152,
      "reached": true,
      "lost_at_level": null
     },
@@ -5515,12 +5523,12 @@
       "rate": 0.09090909090909091
      },
      "citations": {
-      "hits": 1,
+      "hits": 0,
       "attainable": 9,
-      "rate": 0.1111111111111111
+      "rate": 0.0
      },
-     "n_articles": 7,
-     "steps": 5,
+     "n_articles": 11,
+     "steps": 10,
      "reached": true
     }
    },
@@ -5530,8 +5538,8 @@
     "snapshot_source": "stated",
     "n_targets": 25,
     "n_flat_candidates": 690,
-    "pool": 21,
-    "n_supernodes_scored": 48,
+    "pool": 203,
+    "n_supernodes_scored": 145,
     "ceiling": {
      "claims": {
       "attainable": 6,
@@ -5544,17 +5552,17 @@
     },
     "hier": {
      "claims": {
-      "hits": 3,
+      "hits": 6,
       "attainable": 6,
-      "rate": 0.5
+      "rate": 1.0
      },
      "citations": {
       "hits": 1,
       "attainable": 2,
       "rate": 0.5
      },
-     "n_articles": 2,
-     "steps": 50,
+     "n_articles": 3,
+     "steps": 154,
      "reached": true,
      "lost_at_level": null
     },
@@ -5569,7 +5577,7 @@
       "attainable": 2,
       "rate": 0.5
      },
-     "n_articles": 3,
+     "n_articles": 2,
      "steps": 2,
      "reached": true
     }
@@ -5580,8 +5588,8 @@
     "snapshot_source": "default_latest",
     "n_targets": 48,
     "n_flat_candidates": 690,
-    "pool": 41,
-    "n_supernodes_scored": 45,
+    "pool": 181,
+    "n_supernodes_scored": 140,
     "ceiling": {
      "claims": {
       "attainable": 9,
@@ -5594,19 +5602,19 @@
     },
     "hier": {
      "claims": {
-      "hits": 0,
+      "hits": 4,
       "attainable": 9,
-      "rate": 0.0
+      "rate": 0.4444444444444444
      },
      "citations": {
-      "hits": 0,
+      "hits": 1,
       "attainable": 4,
-      "rate": 0.0
+      "rate": 0.25
      },
      "n_articles": 2,
-     "steps": 691,
-     "reached": false,
-     "lost_at_level": 1
+     "steps": 141,
+     "reached": true,
+     "lost_at_level": null
     },
     "flat": {
      "claims": {
@@ -5619,8 +5627,8 @@
       "attainable": 4,
       "rate": 0.25
      },
-     "n_articles": 7,
-     "steps": 3,
+     "n_articles": 4,
+     "steps": 2,
      "reached": true
     }
    },
@@ -5630,8 +5638,8 @@
     "snapshot_source": "stated",
     "n_targets": 65,
     "n_flat_candidates": 690,
-    "pool": 22,
-    "n_supernodes_scored": 42,
+    "pool": 250,
+    "n_supernodes_scored": 142,
     "ceiling": {
      "claims": {
       "attainable": 7,
@@ -5644,33 +5652,33 @@
     },
     "hier": {
      "claims": {
-      "hits": 0,
+      "hits": 5,
       "attainable": 7,
-      "rate": 0.0
+      "rate": 0.7142857142857143
      },
      "citations": {
-      "hits": 0,
+      "hits": 3,
       "attainable": 4,
-      "rate": 0.0
+      "rate": 0.75
      },
-     "n_articles": 2,
-     "steps": 691,
-     "reached": false,
-     "lost_at_level": 0
+     "n_articles": 6,
+     "steps": 145,
+     "reached": true,
+     "lost_at_level": null
     },
     "flat": {
      "claims": {
-      "hits": 4,
+      "hits": 3,
       "attainable": 7,
-      "rate": 0.5714285714285714
+      "rate": 0.42857142857142855
      },
      "citations": {
       "hits": 2,
       "attainable": 4,
       "rate": 0.5
      },
-     "n_articles": 7,
-     "steps": 6,
+     "n_articles": 5,
+     "steps": 3,
      "reached": true
     }
    },
@@ -5680,8 +5688,8 @@
     "snapshot_source": "stated",
     "n_targets": 41,
     "n_flat_candidates": 690,
-    "pool": 68,
-    "n_supernodes_scored": 54,
+    "pool": 284,
+    "n_supernodes_scored": 135,
     "ceiling": {
      "claims": {
       "attainable": 4,
@@ -5694,33 +5702,33 @@
     },
     "hier": {
      "claims": {
-      "hits": 1,
+      "hits": 0,
       "attainable": 4,
-      "rate": 0.25
+      "rate": 0.0
      },
      "citations": {
-      "hits": 1,
+      "hits": 0,
       "attainable": 3,
-      "rate": 0.3333333333333333
+      "rate": 0.0
      },
-     "n_articles": 4,
-     "steps": 55,
+     "n_articles": 5,
+     "steps": 148,
      "reached": true,
      "lost_at_level": null
     },
     "flat": {
      "claims": {
-      "hits": 1,
+      "hits": 0,
       "attainable": 4,
-      "rate": 0.25
+      "rate": 0.0
      },
      "citations": {
-      "hits": 1,
+      "hits": 0,
       "attainable": 3,
-      "rate": 0.3333333333333333
+      "rate": 0.0
      },
-     "n_articles": 7,
-     "steps": 1,
+     "n_articles": 5,
+     "steps": 13,
      "reached": true
     }
    }

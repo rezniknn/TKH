@@ -4,7 +4,7 @@ PYTHON ?= .venv/bin/python
 OUT ?= out
 SEED ?= 0
 
-.PHONY: all test fixtures build validate null coherence stability labels retrieval figures gamma sweep
+.PHONY: all test fixtures build validate null coherence stability labels retrieval retrieval-sweep figures gamma sweep
 
 all: build validate coherence stability labels retrieval test
 
@@ -35,6 +35,9 @@ labels:          ## label faithfulness: held-out NLI judge with controls and nul
 
 retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate and steps-to-target (offline, seconds)
 	$(PYTHON) -m eval retrieval --run $(OUT)
+
+retrieval-sweep: ## retrieval experiments over the agent's settings -> $(OUT)/retrieval_experiments.json (not in all)
+	$(PYTHON) -m eval retrieval-sweep --run $(OUT)
 
 figures:         ## static PNGs of $(OUT)/metrics.json and $(OUT)/label_judgements.json -> docs/figures/ (no recomputation)
 	$(PYTHON) -m eval.figures --run $(OUT) --out docs/figures

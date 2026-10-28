@@ -1,4 +1,4 @@
-"""Command line of the evaluation: python -m eval {coherence,stability,labels,retrieval,gamma,sweep}.
+"""Command line of the evaluation: python -m eval {coherence,stability,labels,retrieval,retrieval-sweep,gamma,sweep}.
 
   coherence  --run DIR [--R 99] [--R-labels 999]   held-out coherence per snapshot and level, unadjusted and
                                                    period-adjusted, against both nulls -> DIR/metrics.json "coherence"
@@ -9,6 +9,8 @@
   retrieval  --run DIR [--beam 3 4 5] [--k 10]     T6 extrinsic utility: drill-down retrieval agent vs flat search on
                                                    data/questions.csv, scored with data/ground_truth.json (hit-rate,
                                                    steps-to-target) -> "retrieval"; answers -> DIR/retrieval_answers.json
+  retrieval-sweep --run DIR                       staged experiments over the agent's settings -> DIR/retrieval_experiments.json
+                                                   and docs/figures/retrieval_pareto.png (the hierarchy is not changed)
   gamma      [--out DIR] [--param k=v ...]         temporal-prior variants gamma = 0 ... 1: stability and coherence
                                                    per variant, paired differences to gamma = 0 -> DIR/gamma.json
   sweep      --out FILE [--param k=v ...]          configuration grid and one-SE selection on cited-work halves
@@ -24,6 +26,7 @@ import json
 from eval.experiments import coherence_check, sweep
 from eval.labels import RIGOR, label_check
 from eval.retrieval import retrieval_check
+from eval.retrieval_experiments import pareto_figure, sweep as retrieval_sweep
 from eval.stability import gamma_tradeoff, stability_check
 from tkh.config import REPO_ROOT, add_config_args, config_from_args, load_config, parse_overrides
 from tkh.io import load
@@ -65,6 +68,9 @@ def main(argv=None):
     p.add_argument("--scorer", choices=SCORERS, default=d.scorer)
     p.add_argument("--query", choices=QUERY, default=d.query)
     p.add_argument("--k", type=int, default=d.k, help="answer length (methods or claims)")
+    p = sub.add_parser("retrieval-sweep")
+    p.add_argument("--run", type=Path, required=True)
+    p.add_argument("--figure", type=Path, default=REPO_ROOT / "docs" / "figures" / "retrieval_pareto.png")
     for name in ("gamma", "sweep"):
         p = add_config_args(sub.add_parser(name))
         p.add_argument("--param", nargs="*", help="override [method] parameters of the base configuration")
@@ -72,6 +78,14 @@ def main(argv=None):
         p.add_argument("--jobs", type=int, default=8)
     args = ap.parse_args(argv)
 
+    if args.cmd == "retrieval-sweep":
+        cfg = load_config(args.run / "run_config.toml")
+        res = retrieval_sweep(load(cfg), args.run, cfg.cutoffs)
+        out = args.run / "retrieval_experiments.json"
+        out.write_text(json.dumps(res, indent=1, allow_nan=False) + "\n")
+        pareto_figure(res, args.figure)
+        print(f"retrieval-sweep -> {out}, {args.figure}; best: {res['best']}")
+        return
     if args.cmd in ("coherence", "stability", "labels", "retrieval"):   # the run's own resolved config, so the check uses exactly its inputs
         if "null" in json.loads((args.run / "run_info.json").read_text()):
             raise SystemExit(f"{args.run} is a null-model run: the checks evaluate real runs")

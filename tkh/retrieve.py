@@ -6,13 +6,14 @@ Agent(tkh, run_dir, cutoffs).answer(question, qtype, mode="hier" | "flat") -> an
                with no date gets the latest cutoff. Only that snapshot's nodes, edges and hierarchy are used (P6).
   2. content   each leaf's text is its name and aliases, the names of its relation neighbours and its evaluated_on
                attributes (metric, task), all from edges <= cutoff, plus the title of the article that presents it
-               (methods, once) or makes it (claims). Encoded with word TF-IDF fitted on the snapshot's leaf texts: a signal
-               distinct from the char-n-gram LSA of names that drove clustering, so the hierarchy is not searched with
-               the ruler that built it.
-  3. descent   L0 and L1 super-nodes score 0.5 cos(q, label + gloss) + 0.5 cos(q, member centroid); L2 (unlabelled)
-               scores the centroid. Beam search keeps the best `beam[k]` super-nodes per level among the children of
-               the previous level's kept nodes. The leaves of the kept L2 nodes of the answer kinds form the pool,
-               ranked by cos(q, leaf). The trace records every super-node scored and which were kept.
+               (methods, once) or makes it (claims), and for a presented method its paper's claims (`Settings`
+               leaf_info). Scored by keyword overlap: the share of the question's keywords present in the text
+               (`Settings` scorer; tfidf and bm25 are the alternatives). Every vocabulary and statistic is fitted on the
+               snapshot's own leaf texts.
+  3. descent   L0 and L1 super-nodes score 0.5 s(q, label + gloss) + 0.5 s(q, member centroid); L2 (unlabelled)
+               scores the centroid. Beam search keeps the best `beam[k]` super-nodes per level (10 / 20 / 40) among the
+               children of the previous level's kept nodes. The leaves of the kept L2 nodes of the answer kinds form
+               the pool, ranked by s(q, leaf). The trace records every super-node scored and which were kept.
   4. flat      the same scorer and answer kinds over every leaf of the snapshot.
   5. answer    type A (methods): the top-k distinct method names, and as citations the articles they come from;
                type B (claims): the top-k claims, their source articles and citation keys.
@@ -84,12 +85,12 @@ class Settings:
     query      stripped (template words removed), full, task (the phrase after 'for' / before 'when'), condition
                (the clause after 'when'); task and condition fall back to stripped
     """
-    beam: tuple = (3, 4, 5)
+    beam: tuple = (10, 20, 40)          # selected by eval/retrieval_experiments.py (docs/retrieval_report.md §9)
     rel: float = None
     min_keep: int = 1
     node_info: str = "blend"
-    leaf_info: str = "full"
-    scorer: str = "tfidf"
+    leaf_info: str = "full+claims"
+    scorer: str = "overlap"
     query: str = "stripped"
     k: int = 10
 

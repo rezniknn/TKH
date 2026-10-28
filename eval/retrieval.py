@@ -35,8 +35,11 @@ import re
 import numpy as np
 
 from tkh import semantic as sm
+from tkh.config import REPO_ROOT
 from tkh.retrieve import KINDS, Agent, Settings, fold, surname
 
+Q_DEFAULT = REPO_ROOT / "data" / "questions.csv"
+GT_DEFAULT = REPO_ROOT / "data" / "ground_truth.json"
 YEAR = re.compile(r"\b((?:19|20)\d\d)\b")
 
 

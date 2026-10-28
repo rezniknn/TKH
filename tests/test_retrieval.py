@@ -13,7 +13,9 @@ sys.path.insert(0, str(ROOT))
 from eval.retrieval import parse_citation, read_questions, resolve_citation, resolve_method, retrieval_check, score  # noqa: E402
 from tkh.config import load_config  # noqa: E402
 from tkh.io import load, snapshot  # noqa: E402
-from tkh.retrieve import KINDS, Index, choose_snapshot, descend, flat, leaf_texts  # noqa: E402
+from eval.retrieval import objective  # noqa: E402
+from eval.retrieval_experiments import BASELINE  # noqa: E402
+from tkh.retrieve import KINDS, LEAF_INFO, Index, Space, _keep, choose_snapshot, descend, flat, leaf_texts  # noqa: E402
 from tkh import semantic as sm  # noqa: E402
 
 CUTOFFS = (2020, 2022, 2024, 2026)
@@ -38,10 +40,11 @@ def test_snapshot_choice():
     assert choose_snapshot("Which methods by 2010?", CUTOFFS) == (2020, "before_first_cutoff")
 
 
-def test_leaf_text_uses_only_snapshot_edges(real):
+@pytest.mark.parametrize("info", [x for x in LEAF_INFO if x != "name"])
+def test_leaf_text_uses_only_snapshot_edges(real, info):
     cfg, tkh, _ = real
     early, late = snapshot(tkh, 2020), snapshot(tkh, 2026)
-    t20, t26 = leaf_texts(tkh, early), leaf_texts(tkh, late)
+    t20, t26 = leaf_texts(tkh, early, info), leaf_texts(tkh, late, info)
     name = sm.names(tkh)
     new = late.edges[(late.edges["article_year"] > 2020) & (late.edges["relation_type"] == "extends")]
     pairs = [(t, m[0]) for m in new["members"] for t in m[1:] if t in early.node_ids and name[m[0]] not in t20[t]]
@@ -128,3 +131,29 @@ def test_agent_does_not_see_ground_truth(real, run, tmp_path):
     (tmp_path / "gt.json").write_text(json.dumps(gt))
     _, other = retrieval_check(tkh, ROOT / "out", cfg.cutoffs, QUESTIONS, tmp_path / "gt.json", B=200)
     assert all(other[q][s] == run[1][q][s] for q in other for s in ("hier", "flat"))
+
+
+def test_keyword_scorers_rank_by_matching_terms():
+    docs = ["graph neural network potential", "graph kernel", "phonon spectra of crystals", "neural network"]
+    for scorer in ("bm25", "overlap", "tfidf"):
+        sp_ = Space(docs, scorer)
+        q = sp_.query("graph neural potential")
+        s = sp_.X @ q
+        assert int(np.argmax(s)) == 0 and s[2] == 0                       # no shared keyword -> 0
+    ov = Space(docs, "overlap")
+    assert np.allclose(ov.X @ ov.query("graph neural potential"), [1, 1 / 3, 0, 1 / 3])
+
+
+def test_relative_threshold_keeps_within_bounds():
+    scored = [(1.0, "a"), (0.8, "b"), (0.5, "c"), (0.1, "d")]
+    assert _keep(scored, 10, 0.7, 1) == ["a", "b"]
+    assert _keep(scored, 1, 0.7, 1) == ["a"]                               # capped by the beam
+    assert _keep(scored, 10, 0.95, 3) == ["a", "b", "c"]                   # at least min_keep
+    assert _keep(scored, 2, None, 1) == ["a", "b"]
+
+
+def test_baseline_settings_reproduce_the_first_run(real):
+    cfg, tkh, _ = real
+    m, _ = retrieval_check(tkh, ROOT / "out", cfg.cutoffs, QUESTIONS, GT, BASELINE, B=200)
+    assert m["summary"]["A"]["citations"]["hier"]["mean"] == pytest.approx(0.124433, abs=1e-5)
+    assert objective(m["per_question"])[0] == pytest.approx(0.124788, abs=1e-5)
