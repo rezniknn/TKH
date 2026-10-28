@@ -1361,6 +1361,33 @@ accepted or changed, and what was checked.
 - **Verified:** `jupyter nbconvert --execute` exits 0 (about 6 s); 459 tests pass. Nothing under `out/` changed. The
   §9 numbers match the executed outputs.
 
+### 39. Retrieval design notebook: selected configuration applied (Claude Code)
+
+- **Task/module:** `notebooks/04_retrieval_design.ipynb`, `figures/t6_steps_ecdf.png`
+- **Prompt:** "Apply learning from the previous fine tuning of retrieval agent and apply the configuration that lead to
+  the best results in terms of retrieval quality and reducing steps to target to the notebook's implemenation"
+- **What the assistant did:**
+  - Took the selected configuration from the experiment series (commits 241edca–30c4b6b): keyword overlap, beam
+    (10, 20, 40), label + centroid blend, leaf text with the presenting paper's claims, and the stripped question.
+    The last three were already in the notebook, so only the scorer and the beam changed.
+  - D5 and D6 now describe how the configuration was selected (search space, objective, tie-break) and say plainly
+    that the selection is in-sample. Held-out validation is listed as future work.
+  - Rewrote the §9 findings. Added diagnostics: the level at which a missed question's targets were dropped, the
+    selection objective under §7's scoring, and articles cited per answer.
+- **Result (drill-down vs flat):**
+  - hit-rates: A methods 0.275 vs 0.295, A citations 0.657 vs 0.578, B claims 0.740 vs 0.543;
+  - reach: 14/16 vs 16/16;
+  - median steps to the first item: A 206.5 vs 10.5.
+- **Case where the AI was wrong:** the independent review confirmed that the port reproduces the selected
+  implementation exactly (identical rankings on all 18 questions, both modes). It also found stale or overstated text,
+  all fixed:
+  - a future-work item described the old beam;
+  - the dispersion note implied that the beam had not been fitted to these questions;
+  - the tie-break relied on the censored mean, which §7 rejects;
+  - the P6 vocabulary assertion was tautological; it now tests the built index's query encoding;
+  - flat search's cost was overstated, although Q7 and Q10 need more than 1,250 ranks.
+- **Verified:** `jupyter nbconvert --execute` exits 0; 459 tests pass. Nothing under `out/` changed.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
