@@ -10,7 +10,7 @@ Evidence of a super-node (`evidence`) is a list of text lines, all from its snap
 Cited works and citations are left out (they are the coherence ruler); authors carry no meaning.
 
 The evidence is split 50/50 (`split_evidence`): seeded by the super-node's members, stratified by kind. The labeller
-sees only the seen half; the held-out half is reserved for the faithfulness judge (eval/labels.py), which breaks the
+sees only the seen half; the held-out half is reserved for the faithfulness judge (eval/faithfulness.py), which breaks the
 circularity of judging a label on its own input. Each half is capped at max_items lines, ranked by how many snapshot
 papers mention the node (or how many super-node members an edge holds). The exact input is recorded per super-node
 (label_inputs.json, written by tkh/pipeline.py).

@@ -9,7 +9,7 @@ The three-level hierarchy (budgets 15 / 60 / 240) was evaluated at four snapshot
 - **Coherence.** At ≤2024 and ≤2026 the finer levels group concepts of citation-coupled, concept-disjoint papers more than both nulls do. At ≤2022 this holds only under fuzzy matching (L1) or only under the `year1` scheme (exact). Under the strict criterion (exact matching, all five period schemes), three cells are robust: ≤2026 L1 and L2, and ≤2024 L2. L0 shows no coherence at any snapshot. Under exact matching, every lift rests on 5–58 coupled pairs (fuzzy: 4–51), and every paper-bootstrap CI includes 1, so this is evidence for the corpus at hand, not a population estimate.
 - **Stability.** Cross-snapshot persistence is high (HARI 0.80–0.89). It is about as high when new papers attach at random (new-paper null), so it is not due to the real attachment pattern; it comes from what the null keeps (the real ≤t−1 graph, the real t−1 hierarchy and the γ = 0.5 prior), and which of these is responsible is not separated. Per node, touched nodes are reassigned 2.4–7.0× as often as untouched ones (all CI lower bounds ≥ 2.0), but 78–89% of total reassignment falls on untouched nodes. Robustness to a 10% edge perturbation is low at the coarse levels of late snapshots (≤2026 L0 ARI 0.12). There is no γ = 0 control on the current build (§4, §8.2).
 - **Retrieval (T6).** On 18 questions (n per metric 4–14), the drill-down is higher than flat search on citations (A 0.657 vs 0.578, B 0.438 vs 0.375) and type-B claims (0.740 vs 0.543), and slightly lower on type-A methods (0.275 vs 0.295) and method claims (0.250 vs 0.306). It costs far more steps: median 206.5 vs 10.5 to the first item (A), because it scores 133–162 super-nodes before any leaf. It misses 2 questions at L1. The evidence is descriptive: there are no CIs or nulls, and the settings were chosen with these questions in view (§6).
-- **Labels.** The judge passes its validity gate by a wide margin, but only on name-lookup controls. Model labels over-claim in 0.58 of cases. At 2026 they do better than both nulls. The configuration-null comparison in `metrics.json` is biased in the model's favour by a key-collision bug (§5.6).
+- **Labels.** Model labels over-claim in 0.58 of cases: most assert at least one claim that the held-out half of the evidence does not support (0.37 at L0, 0.64 at L1). The judge itself is not validated and there is no chance baseline, so this is a descriptive rate (§5, §8.3).
 
 | Property | Test | Result | Verdict |
 |---|---|---|---|
@@ -19,10 +19,8 @@ The three-level hierarchy (budgets 15 / 60 / 240) was evaluated at four snapshot
 | P5 persistence | Cross-snapshot ARI/HARI vs new-paper null, R = 99 (§4.3) | HARI 0.86 / 0.80 / 0.89; all 12 values above the null mean by 0.005–0.055; 1 of 12 outside the null band | High, but no higher than under random attachment; not evidence that the corpus' own evolution is stable |
 | P5 localisation | Reassignment of touched vs untouched old nodes (§4.4) | Ratio 2.4–7.0, all CI lower bounds ≥ 2.0; 78–89% of reassignment on untouched nodes | Per node, change concentrated on touched nodes; most total change on untouched nodes; untouched regions held, not frozen |
 | Robustness | 10% edge perturbation, 5 seeds (§4.2) | ≤2026 ARI L0 0.12 [0.11, 0.13], L2 0.63 [0.61, 0.65]; HARI 0.17 [0.16, 0.18] | L2 the most robust level (ARI 0.63–0.90), only moderately robust late; L0–L1 at late snapshots are not (0.12–0.30) |
-| P6 judge validity | Known-answer member-name controls, gate J ≥ 0.4 (§5.2) | Model J 0.974; all trees ≥ 0.95 | Gate passes; does not cover topical claims (cross-support 0.17) |
-| P6 faithfulness | Over-claim against held-out evidence (§5.3) | 0.58 [0.52, 0.64], n = 296; never-tuned cells 0.64 [0.58, 0.71] | Most labels assert at least one unsupported claim |
-| P6 vs nulls (2026) | Model minus null over-claim (§5.6) | Random labels −0.15 [−0.28, −0.02]; configuration null −0.28 reported, −0.20 [−0.33, −0.08] after fixing the key collision *(derived)* | Model better than both nulls at 2026; significant at L1 (n = 60; −0.19 [−0.33, −0.04], −0.14 [−0.29, −0.01]); at L0 (n = 15) the point differences are similar (−0.27, −0.16) but the CIs include 0 *(derived)* |
-| P6 temporal honesty | Deterministic checks (§5.4) | 0 years after the cutoff; 4 `future_entity` flags, all surface-form collisions | No leak found |
+| P6 faithfulness | Over-claim against held-out evidence (§5.2) | 0.58 [0.52, 0.64], n = 296; L0 0.37, L1 0.64; never-tuned cells 0.64 [0.58, 0.71] *(derived)* | Most labels assert at least one unsupported claim (judge not validated; no null baseline) |
+| P6 temporal honesty | Deterministic checks (§5.3) | 0 years after the cutoff; 4 `future_entity` flags, all surface-form collisions | No leak found |
 | T6 extrinsic utility | Drill-down agent vs flat search on 18 questions, hit-rate and steps-to-target (§6) | Hit-rate A methods 0.275 vs 0.295, A citations 0.657 vs 0.578, B claims 0.740 vs 0.543; median steps to first item A 206.5 vs 10.5, B 143 vs 2; reach 14/16 vs 16/16 | Mixed accuracy at a much higher step cost; descriptive (no CIs, no nulls) |
 
 ## 2. Run and protocol
@@ -55,16 +53,16 @@ Max sizes and caps count concept nodes only. ≤2020 has no temporal prior (no e
 |---|---|---|---|
 | Coherence (§3) | Concept co-assignment per level; bibliographic coupling of citing papers, which the clustering never sees | 99 configuration-null rebuilds; 999 random-label permutations | `eval/coherence.py`, `eval/experiments.py` (`coherence_check`); formal statement §8 |
 | Stability (§4) | Concept-node partitions of the run, of 5 perturbed rebuilds per snapshot, and of 99 new-paper-null rebuilds per transition; `out/temporal_events.json` | Unperturbed run; new-paper (attachment) null | `eval/stability.py`, `tkh/null.py`, `tkh/temporal.py`; formal statement §9 |
-| Labels (§5) | Labels and glosses at L0–L1, all snapshots; seen/held-out evidence in `out/<t>/label_inputs.json` | Known-answer controls; 3 configuration-null and 3 random-label trees at 2026 | `eval/labels.py`, `tkh/label.py`, `configs/prompts/` |
+| Labels (§5) | Labels and glosses at L0–L1, all snapshots; seen/held-out evidence in `out/<t>/label_inputs.json` | None (no known-answer controls, no nulls) | `eval/faithfulness.py`, `tkh/label.py`, `configs/prompts/` |
 | Retrieval (§6) | `out/<t>/hierarchy.json` and the snapshot's graph; `data/questions.csv`; `data/ground_truth.json` (evaluator only) | Flat search with the same scorer | `tkh/retrieve.py`, `eval/retrieval.py`; design in `notebooks/04_retrieval_design.ipynb` |
 
 ### 2.3 Provenance
 
 - **Coherence and stability.** `coherence` and `stability` in `out/metrics.json` are byte-identical to the committed results at HEAD (87ba2ce), from the rebuild with the verification fixes (γ = 0.5).
 - **Partitions unchanged.** The later rebuild with the contrastive labeller changed only labels. `out/<t>/hierarchy.json` differs from HEAD only in `label` and `gloss` fields; `levels` and super-node membership are identical at all four cutoffs. The coherence and stability results therefore describe the current tree.
-- **Labels.** `labels` comes from a new standard-rigor run (`labels.rigor` = "standard"), run 2026-10-24 ~03:47, on labels from the current contrastive labeller (`contrast` = 10). Per-judgement records are in `out/label_judgements.json` (7072 records).
+- **Labels.** `faithfulness` in `out/metrics.json` and `out/faithfulness_judgements.json` (757 records) come from `make faithfulness` (2026-10-28), an offline replay of the cached judge answers on the labels of the current contrastive labeller (`contrast` = 10). It replaces the earlier `labels` section (standard-rigor run with known-answer controls and nulls). The over-claim, claim-level, decomposition, deterministic and breakdown values are identical to that run's model tree; `quote_rejected` now counts label claims only (9; previously 33 including controls).
 - **Retrieval.** `retrieval` in `out/metrics.json` and `out/retrieval_answers.json` come from `make retrieval` (2026-10-28) on the current tree. The step is offline (no LLM calls) and leaves the other sections of `metrics.json` unchanged.
-- **Committed with this report:** the label rebuild (`out/<t>/hierarchy.json`, `out/<t>/label_inputs.json`, `out/run_config.toml`, `out/run_info.json`), the labels run (`out/metrics.json`, `out/label_judgements.json`), `data/llm_cache.json`, `eval/figures.py` (`make figures`) and `docs/figures/`.
+- **Committed with this report:** the label rebuild (`out/<t>/hierarchy.json`, `out/<t>/label_inputs.json`, `out/run_config.toml`, `out/run_info.json`), the faithfulness run (`out/metrics.json`, `out/faithfulness_judgements.json`), `data/llm_cache.json`, `eval/figures.py` (`make figures`) and `docs/figures/`.
 
 ### 2.4 Reproduction
 
@@ -73,13 +71,13 @@ make build        # SHAC hierarchy for every snapshot -> out/
 make validate     # validate.py against out/run_config.toml
 make coherence    # 99 configuration-null rebuilds, 999 random labels
 make stability    # perturbation (10%, 5 seeds), cross-snapshot vs new-paper null
-make labels       # RIGOR=standard by default
+make faithfulness # held-out judge on every L0–L1 label (offline cache replay)
 make retrieval    # T6: drill-down agent vs flat search (offline, seconds)
-make figures      # docs/figures/*.png from out/metrics.json and out/label_judgements.json
+make figures      # docs/figures/*.png from out/metrics.json
 make test
 ```
 
-`make all` runs build → validate → coherence → stability → labels → retrieval → test. All LLM calls replay from the response cache `data/llm_cache.json` when `TKH_LLM_MODE` is unset (offline, the default). If `TKH_LLM_MODE=live` is exported, `make build` and `make labels` call a local Ollama server instead; run `unset TKH_LLM_MODE` first. The cache that matches this run is the uncommitted working copy of `data/llm_cache.json`. Only `make retrieval` was run for §6; no other step was re-run for this report.
+`make all` runs build → validate → coherence → stability → faithfulness → retrieval → test. All LLM calls replay from the response cache `data/llm_cache.json` when `TKH_LLM_MODE` is unset (offline, the default). If `TKH_LLM_MODE=live` is exported, `make build` and `make faithfulness` call a local Ollama server instead; run `unset TKH_LLM_MODE` first. Only `make retrieval` (§6) and `make faithfulness` (§5) were run; no other step was re-run for this report.
 
 ## 3. Coherence: held-out bibliographic coupling (P3)
 
@@ -231,7 +229,7 @@ Under the strict criterion (exact matching, all five schemes), three cells are r
 
 Under exact matching, at every snapshot and under every scheme, the L0 lift is below 1 and below the lower edge of both null bands (p = 1.0). At ≤2026 (interval) it is 0.879, against null 2.5% quantiles of 0.950 and 0.964. Conditional on the snapshot's papers, coupled concept-disjoint papers are placed in the same coarse super-node *less* often than under either null. Under fuzzy matching, L0 is never significant but not always below the bands: ≤2026 interval 0.972 lies inside both (configuration-null q2.5 0.959, random-label q2.5 0.971; p = 0.92 / 0.971), and ≤2024 `year2` and `year3` are 1.03 and 1.04 (p = 0.51 / 0.43 and 0.40 / 0.374), so there L0 is at chance rather than below it.
 
-- **Coarse groups are very large.** At ≤2026 the 15 L0 super-nodes have a median of 264 member ids (min 56, max 854; 5798 in total). The median is 90 at L1 and 19 at L2 (`out/2026/hierarchy.json`). With so few, so large groups, we expect a_pq to vary little across pairs and the ratio Σa·c / Σa·e to be driven by a handful of groups. This is a hypothesis, not measured: neither quantity is in `metrics.json` (a per-super-node breakdown would test it, §9.3 item 5).
+- **Coarse groups are very large.** At ≤2026 the 15 L0 super-nodes have a median of 264 member ids (min 56, max 854; 5798 in total). The median is 90 at L1 and 19 at L2 (`out/2026/hierarchy.json`). With so few, so large groups, we expect a_pq to vary little across pairs and the ratio Σa·c / Σa·e to be driven by a handful of groups. This is a hypothesis, not measured: neither quantity is in `metrics.json` (a per-super-node breakdown would test it, §9.3 item 4).
 - **The sub-chance values are not explained by these files.** They suggest that the coarse cut divides along an axis that cuts across citation lineages. Candidates are task or dataset families rather than method lineages, or the γ = 0.5 prior holding coarse groups to their earlier shape. Neither is tested.
 - **Not shown by this run.** The formal statement attributes L0's loss to the temporal prior on the basis of a γ = 0 comparison (`out/gamma/gamma.json`), which predates the verification fixes and is stale (§9).
 
@@ -342,7 +340,7 @@ A missing key is shown as 0. Totals count events, not super-nodes (a merge or sp
 
 ## 5. Label faithfulness (P6)
 
-The question is whether the L0 and L1 labels assert things about their super-nodes that evidence the labeller never saw can confirm. Values come from `out/metrics.json → labels` and `out/label_judgements.json`.
+The question is whether the L0 and L1 labels assert things about their super-nodes that evidence the labeller never saw can confirm. Values come from `out/metrics.json → faithfulness` and `out/faithfulness_judgements.json` (`eval/faithfulness.py`, `make faithfulness`).
 
 ### 5.1 Protocol
 
@@ -351,157 +349,77 @@ The question is whether the L0 and L1 labels assert things about their super-nod
 | Labeller | `qwen2.5:7b-instruct`, prompt `configs/prompts/labeller.txt`. Writes a label of at most 6 words and a one-sentence gloss of at most 30 words, using only the **seen** half of the super-node's evidence. It also sees a contrast list: the 10 same-level groups sharing the most clustering edges with this one, each shown as up to 4 concept names from that neighbour's seen half. The prompt forbids years, outside knowledge and names not in the evidence. |
 | Evidence and split | Evidence lines are member concepts (`name [type]`), facts from incident clustering edges (with `evaluated_on` results), claims, future-work topics and paper titles, all within the snapshot; cited works and authors are excluded. `split_evidence` makes a 50/50 split, seeded by the sorted member ids and stratified by kind; each half is capped at 40 lines, ranked by paper count. The seen and held-out lists are stored in `out/<t>/label_inputs.json`. |
 | Judge | `phi4`, a different model family. (1) **Decompose** (`claims_split.txt`): exactly 3 claims "The group contains …". A claim is kept only if ≥ 80% of its content words come from the label and gloss and it keeps at least one non-generic word (`_content_ok`); if none survive, the claims fall back to `[label, gloss]`. (2) **Entail** (`claim_entail.txt`): the numbered **held-out** lines, answer `{"line", "verdict"}`. A claim is *supported* only if the verdict is "supported" **and** the cited line exists. A fact whose head method lies outside the group is shown to the judge with "…, which is NOT in this group" (`Evidence.judge_view`). |
-| Over-claim | Share of judged labels with at least one unsupported claim; bootstrap 95% CI over labels (B = 2000). `claim_unsupported` is the pooled share of unsupported claims. |
-| Known-answer controls | Judged against the same held-out lines. **True**: `The group has a member named "<X>"`, X a held-out member (2 per label). **False**: same template with a concept from another same-level super-node that appears nowhere in this group's evidence (2 per label). In the code's naming the positive class is *unsupported*: **Se = P(judged unsupported \| false control)**, **Sp = P(judged supported \| true control)**, J = Se + Sp − 1. Validity gate J ≥ 0.4 (`labels.j_min`). |
-| Correction | If the gate passes, Rogan–Gladen on the claim rate: u = clip((u_obs + Sp − 1)/J, 0, 1); then `corrected_over_claim` = mean over labels of 1 − (1 − u)^n_claims. |
-| Cross / sibling | **Cross-support**: the label's first claim judged against the held-out lines of 2 random other same-level super-nodes; it should be unsupported, and a high rate flags generic labels or a lenient judge. **Sibling support**: a sibling's first claim judged against this group's held-out lines; diagnostic only, as siblings share a field. At L0, which has no parent, the code falls back to a random other L0 super-node (`eval/labels.py:265`), so L0 sibling support is effectively a third cross-support trial. |
+| Over-claim | Share of judged labels with at least one unsupported claim; bootstrap 95% CI over labels (B = 2000). `claim_unsupported` is the pooled share of unsupported claims. Both overall and by cutoff, level and cutoff × level. |
 | Deterministic checks | No LLM. On label + gloss: (a) a year after the cutoff; (b) `named_non_member`: a proper-name-like method or dataset name (≥ 2 capitals, or letters plus digits, whole-word) whose nodes are all outside the group; (c) `future_entity`: such a name whose nodes all enter after the cutoff. |
-| Nulls (2026 only) | Same labeller and judge on 3 configuration-null rebuilds and 3 random-label trees (concept ids permuted within (type, entry interval)). `model_minus_null` = model over-claim at 2026 minus pooled null over-claim, with an independent bootstrap CI that resamples the pooled null labels as iid (`_ci`, `_diff`), so it ignores between-tree variance (§8.3). |
 
-The design assumes that a label written from half of a coherent group's evidence should carry over to the other half, and that a label of an incoherent group should not. All LLM answers are served from `data/llm_cache.json`, so the run replays offline.
+The design assumes that a label written from half of a coherent group's evidence should carry over to the other half. The judge is not validated here (no known-answer controls), and there is no chance baseline (no null trees); §8.3. All LLM answers are served from `data/llm_cache.json`, so the run replays offline.
 
-![Label faithfulness: over-claim and controls per tree](figures/labels.png)
+![Label faithfulness: over-claim by cutoff and level](figures/faithfulness.png)
 
-*Figure 5 (`docs/figures/labels.png`). (a) Over-claim with 95% CI for the model tree (all cutoffs and 2026), each null tree and the pooled nulls; open markers show the recomputed configuration-null rates (§5.6). (b) Youden J per tree against the J ≥ 0.4 gate. (c) Model-tree over-claim by cutoff and level, recomputed from `out/label_judgements.json`.*
+*Figure 5 (`docs/figures/faithfulness.png`). (a) Over-claim with 95% CI by cutoff and level. (b) Overall and per level.*
 
-### 5.2 Judge validity
-
-| Tree | Labels / judged | Se | Sp | J | Gate |
-|---|---|---|---|---|---|
-| model (all cutoffs) | 300 / 296 | 0.997 | 0.977 | 0.974 | pass |
-| configuration_null_0 / 1 / 2 | 75 / 60 each | 0.993 / 0.987 / 0.993 | 0.987 / 0.987 / 0.960 | 0.980 / 0.973 / 0.953 | pass |
-| random_labels_0 / 1 / 2 | 75 / 75 each | 1.000 / 1.000 / 0.993 | 0.993 / 0.987 / 1.000 | 0.993 / 0.987 / 0.993 | pass |
-
-(The configuration-null `judged` count of 60 is a symptom of the key collision in §5.6; Se, Sp and J are per record and unaffected.)
-
-J is at least 0.95 in every tree and in every cutoff × level cell of the model tree (lowest cell 0.964, *derived*). These controls test only member-name lookup, a near string match. They do not test whether a topical claim such as "contains models for structural relaxation" is entailed. High J shows that the judge reads and cites lines reliably, not that it is accurate on label claims (see cross-support, §5.3).
-
-### 5.3 Model over-claim
+### 5.2 Over-claim
 
 | Metric | Value |
 |---|---|
-| Over-claim (labels with ≥ 1 unsupported claim) | **0.58** [0.52, 0.64], n = 296 |
+| Over-claim (labels with ≥ 1 unsupported claim) | **0.58 [0.52, 0.64]**, n = 296 |
 | Claim-level unsupported rate | 0.45 (757 claims) |
-| Rogan–Gladen corrected claim rate u | 0.44 *(derived; reproduces the code's intermediate value)* |
-| `corrected_over_claim` | 0.76 (not a valid estimate; see below) |
-| Cross-support | 0.17 |
-| Sibling support | 0.23 |
 | `decomposition_ok` | 0.61 |
-| `quote_rejected` | 33 judgements (9 label claims, 13 cross, 11 sibling; *derived*) |
+| `quote_rejected` | 9 label claims |
 | `no_held_out` | 4 labels not judged (2020 L1.31, L1.33; 2022 L1.31, L1.33) |
 
-**Why `corrected_over_claim` (0.76) exceeds the raw rate (0.58).** The correction itself barely matters: with Se ≈ 1 and Sp = 0.977 it lowers the claim rate from 0.452 to 0.441. The increase comes from the second step, 1 − (1 − u)^n, which assumes that a label's claims fail independently. They do not: among the 182 labels with 3 claims, 55 have all 3 unsupported and 68 have none, against about 18 and about 28 expected under independence at these labels' own unsupported rate of 0.46 *(derived)*; the pooled rate of 0.452 gives about 17 and 30. Plugging the *uncorrected* 0.452 into the same formula already gives 0.77 *(derived)*. The 0.76 is an artefact of the independence assumption. The raw 0.58 together with the corrected claim rate of 0.44 is the better summary.
+**Decomposition and the quote check.** For 39% of the 300 labels (1 − `faithfulness.decomposition_ok`; the 4 labels without held-out evidence included), at least one decomposed claim was dropped by `_content_ok` (the 80% content-word reuse test or the non-generic-word test), or decomposition returned no claims; those labels were judged on the surviving claims, or on `[label, gloss]` (17 labels have 1 claim and 97 have 2; *derived*). Decomposition can drop part of a label: 2024:L1.33 "E(3)-equivariant GNNs" was judged only on "contains models for phase-space integration". The cited-line check overturns few verdicts (9 of 757 label claims).
 
-**Decomposition and the quote check.** For 39% of the 300 labels (1 − `trees.model.decomposition_ok`; the 4 labels without held-out evidence included), at least one decomposed claim was dropped by `_content_ok` (the 80% content-word reuse test or the non-generic-word test), or decomposition returned no claims; those labels were judged on the surviving claims, or on `[label, gloss]` (17 labels have 1 claim and 97 have 2; *derived*). Decomposition can drop part of a label: 2024:L1.33 "E(3)-equivariant GNNs" was judged only on "contains models for phase-space integration". The cited-line check overturns few label verdicts (9 of 757); it mainly converts lenient "supported" verdicts on cross and sibling controls into unsupported.
+### 5.3 Deterministic checks
 
-**Cross-support as a leniency check.** In 17% of cases a label's first claim is judged *supported* by a random **other** group's held-out evidence, whereas false name controls are accepted 0.3% of the time (1 − Se). So on topical claims the judge is more lenient, or some labels are generic, or both. Either way, the name-control Se and Sp overstate the judge's accuracy on label claims.
+Names behind the flags were listed by running `eval.faithfulness.NameChecker` offline on the stored labels (deterministic, no LLM).
 
-### 5.4 Deterministic checks
-
-Names behind the flags were listed by running `eval.labels.NameChecker` offline on the stored labels (deterministic, no LLM).
-
-| Check | Model labels flagged (of 300) | Meaning in this run |
+| Check | Labels flagged (of 300) | Meaning in this run |
 |---|---|---|
 | `year_after_cutoff` | 0 | No label mentions a year after its snapshot. |
 | `named_non_member` | 33 | 36 name hits: "DFT" 22, "GNN" 6, "DeePMD" 3, "Deep Potential MD" 2, "DFT+U" 2, "EquiformerV2" 1. Most are generic acronyms that happen to be method-node surface forms, so the count overstates real naming of non-members. |
 | `future_entity` | 4 | "Deep Potential MD" in two 2020 labels (its only node enters in 2021) and "GNN" in two 2024 labels (node enters in 2025). Surface-form collisions, not leaked future items; labels use export-wide names (assumption A4 in the formal statement). |
 
-### 5.5 Breakdowns (model tree)
+### 5.4 Breakdowns
 
-*Derived* from `out/label_judgements.json`. `metrics.json` has no per-cutoff breakdown; the overall totals and the 2026 row match it (`trees.model.over_claim`, `model_on_null_cutoffs`).
+From `faithfulness.by_cutoff`, `by_level` and `by_cutoff_level`.
 
-| Cutoff | Judged | Over-claim [95% CI] | Claim-unsupported | Cross-support | Sibling support |
-|---|---|---|---|---|---|
-| 2020 | 73 | 0.62 [0.51, 0.73] | 0.51 | 0.09 | 0.16 |
-| 2022 | 73 | 0.62 [0.51, 0.73] | 0.47 | 0.11 | 0.22 |
-| 2024 | 75 | 0.60 [0.49, 0.71] | 0.47 | 0.21 | 0.25 |
-| 2026 | 75 | 0.49 [0.39, 0.60] | 0.37 | 0.27 | 0.29 |
+| Cutoff | Judged | Over-claim [95% CI] | Claim-unsupported |
+|---|---|---|---|
+| 2020 | 73 | 0.62 [0.51, 0.73] | 0.51 |
+| 2022 | 73 | 0.62 [0.51, 0.73] | 0.47 |
+| 2024 | 75 | 0.60 [0.49, 0.71] | 0.47 |
+| 2026 | 75 | 0.49 [0.39, 0.60] | 0.37 |
 
-Sibling support rises with the cutoff and peaks at 0.60 in 2026 L0 (n = 15), next to that cell's cross-support of 0.57.
+| Level | Judged | Over-claim [95% CI] | Claim-unsupported |
+|---|---|---|---|
+| L0 | 60 | 0.37 [0.25, 0.48] | 0.27 |
+| L1 | 236 | 0.64 [0.57, 0.69] | 0.50 |
 
-| Level | Judged | Over-claim [95% CI] | Claim-unsupported | Cross-support | Sibling support |
-|---|---|---|---|---|---|
-| L0 (15 groups) | 60 | 0.37 [0.25, 0.48] | 0.27 | 0.28 | 0.37 |
-| L1 (60 groups) | 236 | 0.64 [0.57, 0.70] | 0.50 | 0.14 | 0.20 |
-
-L0 has no parent, so its "sibling" is a random other L0 group (§5.1); the L0 sibling support of 0.37 measures the same thing as cross-support.
-
-| Cutoff | L0 over-claim (n = 15) | L1 over-claim |
+| Cutoff | L0 over-claim [95% CI] (n) | L1 over-claim [95% CI] (n) |
 |---|---|---|
-| 2020 | 0.40 | 0.67 (n = 58) |
-| 2022 | 0.33 | 0.69 (n = 58) |
-| 2024 | 0.47 | 0.63 (n = 60) |
-| 2026 | 0.27 [0.07, 0.53] | 0.55 [0.42, 0.67] (n = 60) |
+| 2020 | 0.40 [0.20, 0.67] (15) | 0.67 [0.55, 0.79] (58) |
+| 2022 | 0.33 [0.13, 0.60] (15) | 0.69 [0.55, 0.79] (58) |
+| 2024 | 0.47 [0.20, 0.73] (15) | 0.63 [0.52, 0.75] (60) |
+| 2026 | 0.27 [0.07, 0.53] (15) | 0.55 [0.42, 0.67] (60) |
 
-The two 2026 cells together reproduce `model_on_null_cutoffs` (0.493, n = 75).
-
-**By held-out evidence size** *(derived; line counts from `out/<t>/label_inputs.json`)*:
+**By held-out evidence size** *(derived from `out/faithfulness_judgements.json`; line counts from `out/<t>/label_inputs.json`)*:
 
 | Held-out lines | Labels | Over-claim | Claim-unsupported |
 |---|---|---|---|
-| 1–5 | 40 | 0.90 | 0.82 |
+| 1–5 | 40 | 0.90 | 0.81 |
 | 6–10 | 29 | 0.86 | 0.61 |
-| 11–20 | 52 | 0.64 | 0.52 |
+| 11–20 | 52 | 0.63 | 0.52 |
 | 21–39 | 75 | 0.49 | 0.34 |
 | 40 (cap) | 100 | 0.41 | 0.30 |
 
-Over-claim falls steeply with the number of held-out lines (0.90 for 1–5 lines, n = 40, to 0.41 at the 40-line cap, n = 100). This gradient is confounded with level and cutoff (41 of the 60 L0 groups sit at the cap, against 59 of the 240 L1 groups; *derived*), and no analysis here adjusts for them. In a small group the defining member often lands in the seen half, and the held-out half cannot support the label: 2020:L1.47 "GAP for silicon" has 5 held-out lines, none mentioning silicon or GAP, while the seen half has one; 2020:L1.42 "Fracture prediction models" has 2 held-out lines. L0 does better on over-claim, but its claims are broader: cross-support is 0.28 at L0 against 0.14 at L1, and 0.57 at 2026 L0 *(derived)*. Because L0 and 2026 groups have larger evidence pools and higher cross-support, their lower over-claim may reflect evidence size and label genericity; this run does not separate these factors from level or cutoff.
+Over-claim falls steeply with the number of held-out lines (0.90 for 1–5 lines, n = 40, to 0.41 at the 40-line cap, n = 100). This gradient is confounded with level and cutoff (41 of the 60 L0 groups sit at the cap, against 59 of the 240 L1 groups; *derived*), and no analysis here adjusts for them. In a small group the defining member often lands in the seen half, and the held-out half cannot support the label: 2020:L1.47 "GAP for silicon" has 5 held-out lines, none mentioning silicon or GAP, while the seen half has one; 2020:L1.42 "Fracture prediction models" has 2 held-out lines. L0 and 2026 groups have larger evidence pools, so their lower over-claim may partly reflect evidence size; this run does not separate evidence size from level or cutoff.
 
 **Examples** (claim, verdict, cited held-out line):
-- *Supported*: 2020:L1.5 "SchNet-based models", claim "contains models using SchNet for molecular property prediction", line "SchNet uses component Continuous-filter convolution (cfconv) layer, …". Both cross controls were unsupported, so the label is specific.
+- *Supported*: 2020:L1.5 "SchNet-based models", claim "contains models using SchNet for molecular property prediction", line "SchNet uses component Continuous-filter convolution (cfconv) layer, …".
 - *Supported*: 2022:L1.20 "Diffusion Modeling Techniques", claim "…predicting ionic diffusion coefficients in solid electrolytes", line "DeePMD training protocol for diffusion coefficient computation is evaluated on Li10GeP2S12, …".
 - *Unsupported, evidence missing*: 2024:L1.6 "Gaussian Approximation Potentials", claim "contains Gaussian Approximation Potentials"; the 4 held-out lines (elastic-constant and slab components) contain neither "Gaussian" nor "GAP".
 - *Unsupported, probably a judge miss*: 2024:L0.5 "Graph Neural Networks", claim "contains graph neural networks"; the held-out half includes "Phonax (E(3)-equivariant graph neural network framework …)".
-- *Lenient cross-support*: 2026:L0.10 "Graph Neural Networks", claim "contains models for structural relaxation", accepted on another group's line "Gaussian approximation potentials addresses Atomistic simulations of liquid carbon, …".
-
-### 5.6 Null comparison (cutoff 2026)
-
-| Tree | Over-claim [95% CI] | n | Cross-support |
-|---|---|---|---|
-| Model at 2026 (`model_on_null_cutoffs`) | 0.49 [0.39, 0.60] | 75 | 0.27 *(derived)* |
-| Random labels, pooled | 0.64 [0.58, 0.70] | 225 | 0.34–0.37 per tree |
-| random_labels_0 / 1 / 2 | 0.65 [0.55, 0.76] / 0.67 [0.56, 0.77] / 0.60 [0.48, 0.71] | 75 each | 0.37 / 0.34 / 0.36 |
-| Configuration null, pooled, as reported | 0.78 [0.72, 0.83] | 180 | 0.28–0.37 per tree |
-| Configuration null, pooled, recomputed per label *(derived)* | **0.70** [0.64, 0.76] | 225 | — |
-
-| Configuration-null tree | Reported (n = 60) | Recomputed per label (n = 75) *(derived)* |
-|---|---|---|
-| configuration_null_0 | 0.80 | 0.73 [0.63, 0.83] |
-| configuration_null_1 | 0.78 | 0.69 [0.59, 0.79] |
-| configuration_null_2 | 0.75 | 0.67 [0.55, 0.77] |
-
-| Model minus null | As reported | Recomputed *(derived)* |
-|---|---|---|
-| vs random labels | −0.15 [−0.28, −0.02] | −0.15 [−0.28, −0.02] (identical) |
-| vs configuration null | −0.28 [−0.41, −0.16] | **−0.20 [−0.33, −0.08]** |
-
-**Null-tree diagnostics** (`labels.trees.<tree>`; each tree has 75 labels). Fields marked † are affected by the key collision described below.
-
-| Tree | Claim-unsupported | Sibling support † (cfg) | `decomposition_ok` † (cfg) | `quote_rejected` | `corrected_over_claim` † (cfg) | `named_non_member` |
-|---|---|---|---|---|---|---|
-| configuration_null_0 / 1 / 2 | 0.58 / 0.51 / 0.52 | 0.35 / 0.33 / 0.35 | 0.39 / 0.65 / 0.61 | 13 / 14 / 13 | 0.88 / 0.86 / 0.85 | 4 / 5 / 10 |
-| random_labels_0 / 1 / 2 | 0.50 / 0.52 / 0.51 | 0.40 / 0.36 / 0.44 | 0.56 / 0.56 / 0.57 | 12 / 14 / 11 | 0.81 / 0.81 / 0.82 | 5 / 8 / 4 |
-| model at 2026 *(derived)* | 0.37 | 0.29 | – | – | – | – |
-
-`year_after_cutoff` and `future_entity` are 0 in every null tree. The claim-level unsupported rate pools all label claims and is not affected by the collision, so it is a comparison with the configuration null that the defect does not touch: 0.51–0.58 for both kinds of null against 0.37 for the model at 2026. Sibling support of the null trees (0.33–0.44) is higher than the model's (0.23 overall, 0.29 at 2026), consistent with vaguer null labels.
-
-**Defect in the configuration-null scoring.** `_labelled` / `null_trees` in `eval/labels.py` key configuration-null super-nodes as `cfg<s>:<cutoff>:<group id>`. The rebuild numbers groups from 0 on each level, so the 15 L0 keys collide with L1 keys. `judge_trees` then merges the two labels' records into one entry: `judged` is 60 instead of 75, and each collided key pools up to 6 claims from two labels, which inflates over-claim (`_over`) and makes `model_minus_null` too favourable to the model. Three other fields are also affected. `corrected_over_claim` is affected through the key-pooled per-label claim lists (`nclaims` up to 6; `eval/labels.py:276–286`). `decomposition_ok` reads `claims_of` by key (line 292), and because L1 rows come after L0 rows, the L0 rows take the colliding L1 row's flag. The sibling control of L0 rows reads `claims_of[...][0][0]` (line 266): the choice of sibling row is unaffected, but its claim text is the first claim of the colliding L1 label, so configuration-null `sibling_support` is also invalid (in all 3 trees, all 15 L0 sibling claims equal an L1 label's first claim; *derived* from the record blocks). Se, Sp, J, cross-support, `claim_unsupported` (pooled over all label-claim records) and the deterministic counts are per record and correct. Model and random-label keys use hierarchy ids such as `L0.1` and do not collide.
-
-The per-label values were recovered by splitting the ordered records into per-row blocks (label claims followed by their controls). The split reproduces the four trees without colliding keys exactly (model 0.581, random-label pooled 0.640, `model_minus_null` −0.147), which validates it. The level is now part of the key in `eval/labels.py` (`_labelled`), with the regression test `test_null_tree_keys_are_unique_across_levels`. `metrics.json` predates the fix; rescoring is open (§9.3).
-
-**Interpretation.** At 2026, model labels carry over to held-out evidence better than labels of random-label groups (−0.15, CI excludes 0) and of configuration-null groups (−0.20 after the fix, CI excludes 0). The null labels also have higher cross-support, so their over-claim is already helped by vaguer labels, which makes the gap conservative on that count. By level at 2026 *(derived)*, the gap holds at L1 (vs configuration null −0.19 [−0.33, −0.04]; vs random labels −0.14 [−0.29, −0.01]); at L0 (n = 15 against 45) the CIs include 0. Three caveats:
-1. The nulls exist only at 2026, the model's best cutoff; over all cutoffs the model's rate is 0.58.
-2. Evidence size, strongly associated with over-claim in §5.5, is not recorded for null groups, so part of the gap may be a size effect rather than a coherence effect.
-3. The prompts were iterated on 2026 L0 (the dev set); 2026 L1 was the test set of that development and has been looked at (§5.7).
-
-### 5.7 Development history (context only, not results of this run)
-
-The judge and labeller prompts were developed on quick runs (`AI_USAGE.md` entry 30; logs in `out/label_dev/*.json`), with a dev set (2026 L0, 15 labels), a confirmation set (2022 and 2024 L0, 30 labels) and a test set (2026 L1, 60 labels). The changes were numbered judge evidence with a cited-line check, the "The group contains" decomposition with a generic-claim filter, the out-of-group head flag and the contrastive labeller. Baseline → iteration 10, paired bootstrap over super-nodes (recomputed with `eval.labels.paired` from `it0x3_dev.json` (dev baseline with 3 cross trials), `base_confirm.json` and `base_test.json` against `it10_*.json`; values match the entry):
-- J improved with CIs excluding 0 on dev (+0.09 [0.02, 0.18]) and confirmation (+0.13 [0.06, 0.24]); on test it rose from 0.95 to 0.97, +0.02 [−0.02, 0.07], not significant.
-- Over-claim did not improve with a CI excluding 0 on any set: dev −0.20 [−0.53, 0.13], confirmation +0.07 [−0.17, 0.27], test +0.05 [−0.10, 0.20]. Entry 30 calls the dev gain a selection effect.
-- The aim of showing an improvement in both metrics was not met.
-
-The development sets overlap with this run: 2026 L0, 2026 L1, 2022 L0 and 2024 L0 (the 2026 L1 rate here, 0.55, equals it10's test value). The cells never used in development (2020 L0 and L1, and L1 at 2022 and 2024) have over-claim **0.64 [0.58, 0.71]**, n = 191 *(derived)*, the least selection-biased estimate in this run.
 
 ## 6. Extrinsic utility: retrieval (T6)
 
@@ -578,7 +496,7 @@ and Q14).
   misses Q10 (censored at 2525).
 - On average, both systems cite about as many articles per answer (A 13.0 vs 13.2 over the 12 type-A questions with
   step items, B 4.0 vs 4.0), so the mean citation difference is not explained by average breadth. Breadth is not
-  controlled per question (Q4: 20 vs 10 articles; §9.3 item 6).
+  controlled per question (Q4: 20 vs 10 articles; §9.3 item 5).
 
 ### 6.4 Reading
 
@@ -604,7 +522,7 @@ Statuses follow the formal statement's §6 property table, updated with this run
 | P3 semantic coherence | Empirical, partly supported | Robust at L1–L2 for ≤2026 and at L2 for ≤2024 (also L1 under fuzzy matching); not at L0 anywhere; ≤2022 fragile; ≤2020 not evidence (§3.7). The proxy is citation coupling on few pairs, and the evidence is conditional on the corpus. The structure–semantics trade-off itself (α) was not re-evaluated in this run. |
 | P4 hyper-edge fidelity | By construction; not tested here | No evaluation in this run speaks to it. |
 | P5 temporal stability | By construction (prior, persistent ids, event log); size of effect empirical | Persistence high (HARI 0.80–0.89) but at the level of a null that shares the mechanism; per node, change concentrated on touched nodes (ratio 2.4–7.0), although 78–89% of total reassignment falls on untouched nodes; identity log with birth / continue / growth / change / merge / split; deaths impossible by construction. Attribution to the prior is untested (no γ = 0 control). Robustness to perturbation is low at coarse late levels. |
-| P6 interpretable, faithful labels | Empirical, not satisfied | Labels exist for every L0–L1 super-node, but 0.58 of judged labels assert at least one claim the held-out evidence does not support (0.64 on cells never used in development). Better than both nulls at 2026. Temporal honesty: no post-cutoff years and no real future-entity leaks found. L2 labels were not evaluated. |
+| P6 interpretable, faithful labels | Empirical, not satisfied | Labels exist for every L0–L1 super-node, but 0.58 of judged labels assert at least one claim the held-out evidence does not support (0.64 on cells never used in development). The judge is not validated and there is no null baseline. Temporal honesty: no post-cutoff years and no real future-entity leaks found. L2 labels were not evaluated. |
 | Extrinsic utility (brief T6) | Empirical, mixed | Drill-down vs flat search on 18 questions (§6). Hit-rates are mixed: higher on citations and type-B claims, slightly lower on type-A methods. The step cost is far higher (median 206.5 vs 10.5 to the first item, A), and 2 questions are missed at L1. Descriptive only: no CIs, no nulls, settings chosen with these questions in view. |
 | Variant comparison (brief T6) | Not done on the current build | The brief asks to compare method variants and say which to ship. The only γ and parameter comparisons are the stale `out/gamma/` and `out/sweep.json` (§9.1). |
 | Label circularity (brief T6) | Controlled by design, partly | The judge checks claims against the held-out half of a seeded 50/50 evidence split (`tkh/label.py`, `split_evidence`) that the labeller never sees. The held-out half uses the same kinds of text as the seen half, including concept surface forms that also drive clustering, so the split controls for the labeller's input, not for shared vocabulary. |
@@ -630,15 +548,13 @@ In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supp
 - **Definitions differ from the method's.** The evaluator's touched set (any relation, hubs included, hub-churn removals not excluded) is not U_t, so the localisation ratio is not a direct check of U_t. Events use full memberships (anchored and new nodes); ARI and reassignment use common concept nodes.
 
 ### 8.3 Labels
-- **One judge (phi4) and one labeller.** No human or second-judge agreement; judge error on topical claims is unmeasured. Name controls do not transfer to topical claims; cross-support (0.17) and the examples show the judge is lenient in some cases and strict in others.
-- **Configuration-null key collision.** `metrics.json` over-states the configuration-null over-claim (0.78 vs 0.70 recomputed) and the model's advantage over it (−0.28 vs −0.20) (§5.6).
-- **`corrected_over_claim` is not usable.** It assumes independent claims; the Rogan–Gladen step relies on Se and Sp from name controls.
-- **The held-out half is one sample.** Capped at 40 lines and split by one seed, so "unsupported" often means "not in this half". The strong size gradient shows the metric partly measures evidence size. No repeated split.
-- **Small nulls at one cutoff.** 3 + 3 trees at 2026 only; null evidence sizes not recorded. The null CIs resample labels pooled over the 3 trees (`labels.protocol.R_config` = `R_labels` = 3) as iid and ignore between-tree variance, so they are conditional on those trees. The per-tree rates span 0.60–0.67 (random labels) and 0.67–0.73 (configuration null, recomputed).
-- **Selection.** Prompts were tuned on cells that overlap this run (2026 L0/L1, 2022 L0, 2024 L0); the never-tuned estimate is 0.64.
+- **The judge is not validated.** One judge (phi4) and one labeller; no known-answer controls, no human or second-judge agreement. Judge error is unmeasured, and the examples (§5.4) show it is lenient in some cases and strict in others.
+- **No chance baseline.** No null trees (configuration-null rebuilds or random labels) are judged, so the over-claim rate is not compared with that of incoherent groups.
+- **The held-out half is one sample.** Capped at 40 lines and split by one seed, so "unsupported" often means "not in this half". The strong size gradient (§5.4) shows the metric partly measures evidence size. No repeated split.
+- **Selection.** Prompts were tuned on cells that overlap this run (2026 L0/L1, 2022 L0, 2024 L0); the never-tuned cells (2020 L0–L1, 2022 L1, 2024 L1) have over-claim 0.64 [0.58, 0.71], n = 191 *(derived)*.
 - **Decomposition.** The content-word filter changes what is judged for 39% of labels and can drop label content.
 - **Nondeterminism.** Controlled by the response cache: results replay exactly, but they are one sample of each model's output. A prompt edit invalidates the cache and gives different labels and verdicts.
-- **L2 labels are not evaluated** (standard rigor covers levels 0–1).
+- **L2 labels are not evaluated** (only levels 0–1 are labelled).
 
 ### 8.4 Retrieval
 - **Few questions, one snapshot.** n = 18 (12 + 4 with attainable targets), all answered from ≤2026; retrieval on earlier snapshots is untested beyond the ≤2020 leaf-text check in `notebooks/04_retrieval_design.ipynb` §6.
@@ -649,13 +565,12 @@ In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supp
 
 ### 8.5 General
 - **One corpus, one configuration.** All results are for the shipped parameters on this export; no parameter sensitivity is reported here (the sweep is stale, §9).
-- **Uncommitted state.** The labels results, the updated hierarchy labels and the matching LLM cache are uncommitted (§2.3).
 
 ## 9. Stale or excluded outputs, and open items
 
 ### 9.1 Excluded from this report
 - **`out/gamma/` (including `gamma.json`) and `out/sweep.json`.** Produced before the verification fixes; not used. They contain the only γ = 0 comparison and parameter sweep in the repo.
-- **`out/label_dev/*.json` and `AI_USAGE.md` entry 30.** Quick development runs of the judge and labeller; cited only as development context (§5.7).
+- **`out/label_dev/*.json` and `AI_USAGE.md` entry 30.** Quick development runs of the judge and labeller, made with the earlier label check; not used.
 
 ### 9.2 Stale documentation
 - `docs/formal_statement.md` §6 property table: the P3 entry claims robustness at ≤2022 L1–L2 (not supported, §3.7); the P5 entry gives cross-snapshot HARI 0.83–0.95 (now 0.80–0.89); the P6 entry says labels are placeholders and faithfulness is not evaluated.
@@ -672,16 +587,14 @@ In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supp
   Its statement that fuzzy ≤2024 L0 is robust also does not hold (0/5 schemes).
 - `docs/formal_statement.md` §9: cross-snapshot HARI given as 0.95, 0.88, 0.83 (now 0.86, 0.80, 0.89), and the null described as a restricted configuration model with 19 seeds (the code uses a degree-weighted attachment null with R = 99). The attribution of L0's coherence loss to the prior relies on the stale γ comparison. The §9 perturbation table (e.g. ≤2026 L0 0.12 [0.08, 0.16], now [0.11, 0.13]; L2 0.66, now 0.63), the localisation table (2020→2022 ratios 8.7 / 5.5 / 24.4, now 3.1 / 3.8 / 6.8; `stability.localisation`), the events table and the U_t counts (983 / 1382 / 2723, now `n_stable` 876 / 1169 / 2629 in `out/run_info.json → snapshots.<t>.n_stable`) are pre-fix. §9 describes the perturbation as stratified by period only; the code stratifies by period × relation (`eval/stability.py`, `remove_edges`).
 - `docs/formal_statement.md` lines 15, 264–268 and 314 (and the A4 note at line 311) still describe placeholder labels.
-- The `eval/labels.py` module docstring describes sibling-based false controls; the code uses member-name false controls.
-- `configs/prompts/README.md` lists the entailment output field as `quote`; the prompt asks for `line`.
+
 
 ### 9.3 Open items
-1. Rescore the labels with `make labels`. The configuration-null key is fixed in `eval/labels.py` (the level is part of the key), but `metrics.json` was produced before the fix. Rescoring is not a pure cache replay: the label, true, false and cross prompts are unchanged and replay from the cache, but the sibling controls of the 45 configuration-null L0 rows (15 per tree; `eval/labels.py:244` and `:266`) get new claim text, because today they use the colliding L1 label's first claim (in each tree only 1–2 of these 15 claims also occur among the L0 first claims, so about 40 of the 45 prompts change; *derived*). Those entailment prompts are not in `data/llm_cache.json`, and offline mode raises `CacheMiss` on an uncached prompt (`tkh/llm.py:81–82`). They need `TKH_LLM_MODE=live`, or the sibling records must be excluded or held fixed.
-2. Regenerate formal statement §6, §8 and §9 from `out/metrics.json`, and update its label description, the `eval/labels.py` docstring and `configs/prompts/README.md`.
-3. Run a γ = 0 control (perturbation, cross-snapshot and localisation) on the current build, and re-run `make gamma` / `make sweep` if those analyses are to be reported.
-4. Labels: record held-out evidence size for null groups, run nulls at more than one cutoff, repeat the evidence split, add a second judge or human agreement on topical claims, and drop or replace `corrected_over_claim`.
-5. Coherence: add a per-super-node breakdown of coupled pairs to diagnose L0.
-6. Retrieval: paired bootstrap CIs, a random-tree null and a label ablation; held-out validation of the settings; a content judge for claims; a per-question citation-breadth control; questions on earlier snapshots (`notebooks/04_retrieval_design.ipynb` §9).
+1. Regenerate formal statement §6, §8 and §9 from `out/metrics.json`, and update its label description.
+2. Run a γ = 0 control (perturbation, cross-snapshot and localisation) on the current build, and re-run `make gamma` / `make sweep` if those analyses are to be reported.
+3. Labels: validate the judge (known-answer controls, a second judge or human agreement on topical claims), add a chance baseline (null trees), and repeat the evidence split.
+4. Coherence: add a per-super-node breakdown of coupled pairs to diagnose L0.
+5. Retrieval: paired bootstrap CIs, a random-tree null and a label ablation; held-out validation of the settings; a content judge for claims; a per-question citation-breadth control; questions on earlier snapshots (`notebooks/04_retrieval_design.ipynb` §9).
 
 ## Appendix A. Metric definitions
 
@@ -698,12 +611,6 @@ In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supp
 | Localisation ratio | Mean reassignment of touched / untouched old concept nodes |
 | Over-claim | Share of judged labels with ≥ 1 unsupported claim against held-out evidence |
 | Claim-unsupported | Pooled share of unsupported claims |
-| Se / Sp (code naming) | Se = P(judged unsupported \| false member-name control); Sp = P(judged supported \| true member-name control) |
-| J | Se + Sp − 1; validity gate J ≥ 0.4 |
-| Rogan–Gladen u | clip((u_obs + Sp − 1)/J, 0, 1) |
-| Cross-support | Share of labels' first claims judged supported by another same-level group's held-out evidence |
-| Sibling support | Share of siblings' first claims judged supported by this group's held-out evidence (diagnostic) |
-| model_minus_null | Model over-claim at 2026 minus pooled null over-claim, independent bootstrap CI |
 | Hit-rate (M1) | Share of a question's attainable GT items (methods, method claims, claims, citations) found in the k = 10 answer |
 | Error rate (M2) | Share of the k answers that resolve to a `wrong_domain` or `outdated_as_main` name |
 | Steps-to-target (M3) | Nodes inspected until the first (or 50% of the) GT items: super-nodes scored + rank in the pool (drill-down), rank among all leaves (flat); a miss is censored at N + 1; medians |
@@ -726,13 +633,12 @@ All paths are in `out/metrics.json` unless stated otherwise. `<t>` is a cutoff (
 | Cross-snapshot | `stability.cross_snapshot.<tr>.{common_nodes, ari[k], hari}.{value, ci95, new_paper_null.{R, mean, q2.5, q97.5, z, p}}` |
 | Localisation | `stability.localisation.<tr>[k].{touched, untouched, reassign_touched, reassign_untouched, ratio, ratio_ci95}` |
 | Events | `stability.events.<tr>.<k>.<type>`; source `out/temporal_events.json` |
-| Label protocol | `labels.{rigor, protocol, labeller_model, judge_model, j_min}` |
-| Label trees | `labels.trees.<model\|configuration_null_{0,1,2}\|random_labels_{0,1,2}>.{labels, judged, over_claim, claim_unsupported, Se, Sp, J, valid, corrected_over_claim, cross_support, sibling_support, decomposition_ok, quote_rejected, no_held_out, deterministic}` |
-| Label nulls | `labels.model_on_null_cutoffs`; `labels.nulls.<configuration_null\|random_labels>.{over_claim, model_minus_null}` |
-| Per-judgement records (derived breakdowns, recomputed configuration null) | `out/label_judgements.json` (7072 records; model keys `<t>:L<k>.*`) |
+| Label faithfulness | `faithfulness.{protocol.{cutoffs, levels, max_claims}, labeller_model, judge_model, labels, judged, over_claim.{value, ci95, n}, claim_unsupported, decomposition_ok, quote_rejected, no_held_out, deterministic}` |
+| Label breakdowns | `faithfulness.{by_cutoff.<t>, by_level.L<k>, by_cutoff_level.<t>:L<k>}.{over_claim, claim_unsupported}` |
+| Per-judgement records (derived breakdowns) | `out/faithfulness_judgements.json` (757 records: `supernode` `<t>:L<k>.<i>`, `cutoff`, `level`, `claim`, `verdict`, `line`, `quote_ok`, `supported`) |
 | Label evidence (held-out line counts) | `out/<t>/label_inputs.json` |
 | Development logs (context only) | `out/label_dev/*.json`; `AI_USAGE.md` entry 30 |
 | Retrieval summary | `retrieval.summary.<A\|B>.<metric>.{n, stat, hier, flat, hier_minus_flat}`; `retrieval.summary.<A\|B>.ceilings` |
 | Retrieval per question and diagnostics | `retrieval.per_question.<qid>.{snapshot, ceiling, hier, flat}`; `retrieval.diagnostics`; `retrieval.config` |
 | Retrieval answers and resolved gold | `out/retrieval_answers.json → <qid>.{hier, flat, gold}` |
-| Figures | `docs/figures/{coherence_lift, coherence_period_sensitivity, stability, localisation, labels}.png`, produced by `eval/figures.py` (`make figures`) |
+| Figures | `docs/figures/{coherence_lift, coherence_period_sensitivity, stability, localisation, faithfulness}.png`, produced by `eval/figures.py` (`make figures`) |

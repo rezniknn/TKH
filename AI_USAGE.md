@@ -1430,6 +1430,39 @@ accepted or changed, and what was checked.
   `metrics.json["retrieval"]` (entry 40) are gone with them.
 - **Verified:** `make test` runs 65 validator tests, all passing; the notebook executes end-to-end.
 
+### 42. Label faithfulness simplified: eval/labels.py → eval/faithfulness.py (Claude Code)
+
+- **Task/module:** `eval/faithfulness.py`, `eval/__main__.py`, `eval/figures.py`, Makefile, `out/metrics.json`
+  (`faithfulness`), `out/faithfulness_judgements.json`, `docs/figures/faithfulness.png`, `docs/evaluation_report.md` §5,
+  READMEs, configs
+- **Prompt:** "Update eval/labels.py to simplify label faithfullness evaluation. Rename labels.py to faithfullness.py.
+  Remove null models labelling and RIGOR levels and judge self-evaluation"
+- **What the assistant did (after an approved plan):**
+  - Kept decomposition, held-out entailment with the cited-line check, the over-claim rates and the deterministic
+    checks.
+  - Removed:
+    - the null trees;
+    - the RIGOR levels;
+    - the known-answer, cross and sibling controls, with Se/Sp/J, the gate and the Rogan–Gladen correction;
+    - `paired` and `--tag`.
+  - Added breakdowns by cutoff, by level and by cutoff × level.
+  - Renamed the CLI command, the make target, the metrics section, the records file and the figure. Iteration runs
+    (`--relabel`, `--prompts`, `--cutoffs`, `--levels`) now write `DIR/faithfulness_dev.json` instead of overwriting the
+    main results.
+  - Ran `make faithfulness` (offline cache replay, no misses) and `make figures`. Rewrote report §5 and updated §1, §2,
+    §7, §8.3, §9 and the appendices.
+- **Result:** identical to the old model tree: over-claim 0.58 [0.52, 0.64] (n = 296), claim-level 0.45, deterministic
+  checks 0 / 33 / 4. `quote_rejected` is 9 because the control claims are gone.
+- **Case where the AI was wrong:** the independent review confirmed 6 low/medium findings, all fixed:
+  - the report claimed every model-tree value was identical, which is wrong for `quote_rejected`;
+  - iteration options silently overwrote the main results;
+  - `configs/prompts/README.md` still described a `quote` output field;
+  - the report still had an "uncommitted state" contradiction;
+  - smaller items: docstring alignment and a missing axis label.
+  While rewriting the derived evidence-size table, two earlier rounding errors were corrected (0.81 and 0.63).
+- **Verified:** `make test` passes (65); `git grep` finds no reference to `eval/labels.py`, RIGOR or
+  `label_judgements` outside the history.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

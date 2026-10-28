@@ -128,6 +128,10 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
 - **Stability check** (`eval/stability.py`): rebuild after removing 10% of hyper-edges (5 seeds)
   and real cross-snapshot ARI and HARI with intervals, against a null where only the new papers'
   edges are rewired; change localisation; event counts. `make gamma` compares gamma = 0 ... 1.
+- **Label faithfulness check** (`eval/faithfulness.py`, run by `make faithfulness`): a judge from a different model
+  family splits each L0–L1 label and gloss into claims and checks them against the held-out half of the evidence
+  -> over-claim rate in `metrics.json["faithfulness"]`, records in `out/faithfulness_judgements.json`; LLM answers
+  replay from the cache.
 - **Retrieval check, T6** (`tkh/retrieve.py` agent, `eval/retrieval.py` evaluator, run by `make retrieval`): a
   drill-down agent (L0 → L2 beam search) against flat search on `data/questions.csv`, scored with
   `data/ground_truth.json` (hit-rate, error rate, steps-to-target) -> `metrics.json["retrieval"]` and
@@ -135,7 +139,7 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
   `docs/evaluation_report.md` §6.
 
 ```bash
-make all                                     # build -> validate -> coherence -> stability -> labels -> retrieval -> test (build to stability: about 15 min on 8 cores; retrieval adds seconds)
+make all                                     # build -> validate -> coherence -> stability -> faithfulness -> retrieval -> test (build to stability: about 15 min on 8 cores; retrieval adds seconds)
 make retrieval                               # T6 retrieval check only (reads out/, seconds)
 make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
 .venv/bin/python -m tkh build --out /tmp/alt --budgets 10 40 160 640 --param rho=4

@@ -19,7 +19,7 @@ edge_weight = "relation_balanced"                # "inverse_size" (1/(|e|-1)) or
 hub_frac = 0.2                                   # hubs: concept nodes in more than this share of the snapshot's papers (1.0 = no hubs)
 lsa_dim = 100                                    # LSA dimensions of the char 3-5-gram TF-IDF of names + aliases, fitted per snapshot
 
-[labels]                                         # T5 labeller and T6 faithfulness judge (tkh/label.py, eval/labels.py)
+[labels]                                         # T5 labeller and T6 faithfulness judge (tkh/label.py, eval/faithfulness.py)
 labeller = "llm"                                 # "llm" or "placeholder"
 labeller_model = "qwen2.5:7b-instruct"           # Alibaba family
 judge_model = "phi4"                             # Microsoft family: different from the labeller

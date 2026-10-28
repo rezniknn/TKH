@@ -1,12 +1,12 @@
-# Pipeline: 'make all' = build -> validate -> coherence -> stability -> labels -> retrieval -> test; checks write $(OUT)/metrics.json.
+# Pipeline: 'make all' = build -> validate -> coherence -> stability -> faithfulness -> retrieval -> test; checks write $(OUT)/metrics.json.
 # LLM calls replay from data/llm_cache.json (TKH_LLM_MODE=offline, the default); live/refresh need a local Ollama server.
 PYTHON ?= .venv/bin/python
 OUT ?= out
 SEED ?= 0
 
-.PHONY: all test fixtures build validate null coherence stability labels retrieval figures gamma sweep
+.PHONY: all test fixtures build validate null coherence stability faithfulness retrieval figures gamma sweep
 
-all: build validate coherence stability labels retrieval test
+all: build validate coherence stability faithfulness retrieval test
 
 test:            ## the validator's tests: valid and broken fixtures (6a.2)
 	$(PYTHON) -m pytest tests/ -q -p no:cacheprovider
@@ -30,13 +30,13 @@ coherence:       ## held-out coherence check of $(OUT)/ against 99 configuration
 stability:       ## perturbation (10% of hyper-edges, 5 seeds) and cross-snapshot stability vs a new-paper null
 	$(PYTHON) -m eval stability --run $(OUT)
 
-labels:          ## label faithfulness: held-out NLI judge with controls and nulls (RIGOR=quick|standard|full)
-	$(PYTHON) -m eval labels --run $(OUT) --rigor $(or $(RIGOR),standard)
+faithfulness:    ## label faithfulness: held-out NLI judge on every L0-L1 label (LLM answers replay from the cache)
+	$(PYTHON) -m eval faithfulness --run $(OUT)
 
 retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate, error rate, steps-to-target (offline, seconds)
 	$(PYTHON) -m eval retrieval --run $(OUT)
 
-figures:         ## static PNGs of $(OUT)/metrics.json and $(OUT)/label_judgements.json -> docs/figures/ (no recomputation)
+figures:         ## static PNGs of $(OUT)/metrics.json -> docs/figures/ (no recomputation)
 	$(PYTHON) -m eval.figures --run $(OUT) --out docs/figures
 
 gamma:           ## temporal-prior variants gamma = 0..1: stability and coherence, paired vs gamma = 0 -> $(OUT)/gamma/gamma.json

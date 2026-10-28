@@ -1,5 +1,5 @@
-"""Static figures of an evaluated run, read from DIR/metrics.json and DIR/label_judgements.json (no recomputation of
-any check; nothing calls the pipeline or an LLM): python -m eval.figures --run out --out docs/figures.
+"""Static figures of an evaluated run, read from DIR/metrics.json (no recomputation of any check; nothing calls the
+pipeline or an LLM): python -m eval.figures --run out --out docs/figures.
 
   coherence_lift.png                primary lift (period scheme "interval", exact matching) with its 95% bootstrap
                                     interval per snapshot and level, next to the 95% bands of the configuration null
@@ -9,17 +9,8 @@ any check; nothing calls the pipeline or an LLM): python -m eval.figures --run o
                                     cross-snapshot ARI per level and HARI vs the 95% band of the new-paper null
   localisation.png                  reassignment rate of old concept nodes touched vs untouched by new papers, and
                                     their ratio with its node-bootstrap interval, per transition and level
-  labels.png                        over-claim rate (share of labels with >= 1 unsupported claim) with its bootstrap
-                                    interval per tree and pooled per null kind; Youden J of the known-answer controls
-                                    (J = Se + Sp - 1 with eval/labels.py's Se = P(unsupported | false member claim),
-                                    Sp = P(supported | true member claim)); over-claim by cutoff and level of the model
-                                    tree, recomputed from the judgement records
-
-Configuration-null label trees: eval/labels.py keys their super-nodes "cfg<s>:<cutoff>:<group id>", and the group ids
-restart at 0 on every level, so level-0 and level-1 groups with the same id share a key and their claims are pooled
-(metrics.json reports judged = 60 of 75 labels). labels.png therefore also shows the per-label rate recomputed from the
-records, which come in label order (one run of label claims followed by its controls per label); the same split
-reproduces metrics.json exactly on the model and random-label trees, where the keys are unique.
+  faithfulness.png                  over-claim rate (share of labels with >= 1 claim unsupported by held-out
+                                    evidence) with its bootstrap interval by cutoff and level, and overall
 """
 
 from pathlib import Path
@@ -28,11 +19,10 @@ import json
 
 import matplotlib
 matplotlib.use("Agg")
-from matplotlib.lines import Line2D  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
-# Okabe-Ito (colour-blind safe); one colour per level throughout, black for HARI and the model tree
+# Okabe-Ito (colour-blind safe); one colour per level throughout, black for HARI and overall rates
 LEVEL = ["#0072B2", "#E69F00", "#009E73"]
 CFG, RL, MODEL = "#7F7F7F", "#CC79A7", "#000000"
 PERIODS = ["unadjusted", "interval", "year1", "year2", "year3", "gap"]
@@ -52,14 +42,6 @@ def _err(ax, x, v, lo, hi, **kw):
 def _band(ax, x, lo, hi, color, w=0.16, label=None):
     """A null's 95% band as a translucent bar centred at x."""
     ax.bar([x], [hi - lo], bottom=[lo], width=w, color=color, alpha=0.35, edgecolor=color, lw=0.8, label=label)
-
-
-def _boot(x, B=2000, seed=0):
-    """Mean and percentile interval of a 0/1 array, as eval/labels.py _ci."""
-    x = np.asarray(x, float)
-    rng = np.random.default_rng(seed)
-    b = [x[rng.integers(0, len(x), len(x))].mean() for _ in range(B)]
-    return float(x.mean()), float(np.percentile(b, 2.5)), float(np.percentile(b, 97.5))
 
 
 # ---------------------------------------------------------------- coherence
@@ -212,108 +194,39 @@ def localisation(st, out):
     plt.close(fig)
 
 
-# ---------------------------------------------------------------- labels
+# ---------------------------------------------------------------- label faithfulness
 
-def _label_rows(recs, tree):
-    """Per label: list of its records, split by record order (a new label starts at a label claim after controls)."""
-    rows, prev = [], None
-    for r in recs:
-        if r["tree"] != tree:
-            continue
-        if not rows or r["supernode"] != rows[-1][0]["supernode"] or (r["kind"] == "label" and prev != "label"):
-            rows.append([])
-        rows[-1].append(r)
-        prev = r["kind"]
-    return [[r for r in row if r["kind"] == "label"] for row in rows if any(r["kind"] == "label" for r in row)]
-
-
-def _over(rows):
-    return [any(not r["supported"] for r in row) for row in rows]
-
-
-def labels(lab, recs, out):
-    trees = lab["trees"]
-    cfgs = sorted(t for t in trees if t.startswith("configuration_null"))
-    rls = sorted(t for t in trees if t.startswith("random_labels"))
-    last = max(int(r["supernode"].split(":")[0]) for r in recs if r["tree"] == "model")
-    # recomputed per label row, to show the configuration-null key collision (module docstring)
-    split = {t: _over(_label_rows(recs, t)) for t in trees}
-    for t in ["model", *rls]:
-        assert abs(np.mean(split[t]) - trees[t]["over_claim"]["value"]) < 1e-12 and len(split[t]) == trees[t]["judged"], t
-    entries = [("model\n(all cutoffs)", trees["model"]["over_claim"], MODEL, None),
-               (f"model\n({last})", lab["model_on_null_cutoffs"], MODEL, None)]
-    entries += [(f"config.\nnull {t[-1]}", trees[t]["over_claim"], CFG, _boot(split[t])) for t in cfgs]
-    entries += [("config.\npooled", lab["nulls"]["configuration_null"]["over_claim"], CFG, _boot([o for t in cfgs for o in split[t]]))]
-    entries += [(f"random\nlabels {t[-1]}", trees[t]["over_claim"], RL, None) for t in rls]
-    entries += [("random\npooled", lab["nulls"]["random_labels"]["over_claim"], RL, None)]
-
-    fig = plt.figure(figsize=(10, 6.4))
-    gs = fig.add_gridspec(2, 2, height_ratios=[1.15, 1], width_ratios=[1.35, 1], hspace=0.55, wspace=0.25)
-    a, b, c = fig.add_subplot(gs[0, :]), fig.add_subplot(gs[1, 0]), fig.add_subplot(gs[1, 1])
-    x = np.arange(len(entries))
-    for i, (name, o, col, re) in enumerate(entries):
-        pooled = "pooled" in name
-        _err(a, x[i], o["value"], *o["ci95"], color=col, fmt="D" if pooled else "o", ms=6 if pooled else 5,
-             label=None)
-        a.text(x[i], 0.05, f"n={o['n']}", ha="center", fontsize=7, color="0.35")
-        if re is not None:
-            _err(a, x[i] + 0.25, re[0], re[1], re[2], color=col, fmt="o", mfc="white", ms=5, alpha=0.9)
-    a.axhline(lab["model_on_null_cutoffs"]["value"], color=MODEL, lw=0.7, ls=":", zorder=0)
-    a.axvline(1.5, color="0.8", lw=0.8)
-    a.set_xticks(x, [e[0] for e in entries], fontsize=7.5)
-    a.set_xlim(-0.5, len(entries) - 0.3)
-    a.set_ylim(0, 1)
-    a.set_ylabel("over-claim rate, 95% CI")
-    a.set_title(f"(a) share of labels with >= 1 claim unsupported by held-out evidence; nulls at cutoff {last}, levels "
-                f"{', '.join(map(str, lab['protocol']['levels']))}", pad=16)
-    mm = lab["nulls"]
-    txt = "model - null (at {}):  configuration {:+.2f} [{:+.2f}, {:+.2f}];  random labels {:+.2f} [{:+.2f}, {:+.2f}]".format(
-        last, mm["configuration_null"]["model_minus_null"]["value"], *mm["configuration_null"]["model_minus_null"]["ci95"],
-        mm["random_labels"]["model_minus_null"]["value"], *mm["random_labels"]["model_minus_null"]["ci95"])
-    a.text(0.5, 1.01, txt + "  (dotted: model at the nulls' cutoff)", transform=a.transAxes, fontsize=7.5, va="bottom", ha="center", color="0.25")
-    a.legend([Line2D([], [], marker="o", color="0.3", ls=""), Line2D([], [], marker="D", color="0.3", ls=""),
-              Line2D([], [], marker="o", mfc="white", color=CFG, ls="")],
-             ["per tree (metrics.json)", "pooled over null trees (metrics.json)",
-              "config. null recomputed per label (L0/L1 key collision removed)"],
-             frameon=False, fontsize=7, loc="lower right", ncol=3, bbox_to_anchor=(1.0, 0.08))
-
-    names = ["model", *cfgs, *rls]
-    cols = [MODEL] + [CFG] * len(cfgs) + [RL] * len(rls)
-    J = [trees[t]["J"] for t in names]
-    b.bar(range(len(names)), J, color=cols, alpha=0.8, width=0.6)
-    for i, t in enumerate(names):
-        b.text(i, J[i] + 0.015, f"{J[i]:.2f}", ha="center", fontsize=7)
-    b.axhline(lab["j_min"], color="#D55E00", lw=1, ls="--")
-    b.set_xticks(range(len(names)), ["model"] + [f"cfg {t[-1]}" for t in cfgs] + [f"rl {t[-1]}" for t in rls], fontsize=7.5)
-    b.set_ylim(0, 1.1)
-    b.set_ylabel("Youden J = Se + Sp - 1")
-    b.set_title("(b) known-answer controls: Se = P(unsupp. | false member),\n"
-                f"Sp = P(supp. | true member); dashed: validity gate J >= {lab['j_min']}", fontsize=8.5)
-
-    by = {}
-    for row in _label_rows(recs, "model"):
-        cut, lv = row[0]["supernode"].split(":")
-        by.setdefault((int(cut), int(lv[1:].split(".")[0])), []).append(any(not r["supported"] for r in row))
-    cuts = sorted({k[0] for k in by})
-    lvls = sorted({k[1] for k in by})
+def faithfulness(f, out):
+    lvls = f["protocol"]["levels"]
+    cuts = f["protocol"]["cutoffs"]
+    fig, (a, b) = plt.subplots(1, 2, figsize=(9, 3.4), width_ratios=[1.6, 1])
     for j, k in enumerate(lvls):
         for i, cu in enumerate(cuts):
-            v, lo, hi = _boot(by[(cu, k)])
-            _err(c, i + (j - 0.5) * 0.2, v, lo, hi, color=LEVEL[k], label=f"level {k}" if i == 0 else None)
+            o = f["by_cutoff_level"][f"{cu}:L{k}"]["over_claim"]
+            _err(a, i + (j - 0.5) * 0.2, o["value"], *o["ci95"], color=LEVEL[k], label=f"level {k}" if i == 0 else None)
     for i, cu in enumerate(cuts):
-        c.text(i, 0.9, "n = " + " / ".join(str(len(by[(cu, k)])) for k in lvls), ha="center", fontsize=7, color="0.35")
-    c.set_xticks(range(len(cuts)), cuts)
-    c.set_xlim(-0.6, len(cuts) - 0.4)
-    c.set_ylim(0, 1.12)
-    c.set_yticks(np.linspace(0, 1, 6))
-    c.set_xlabel("snapshot cutoff")
-    c.set_ylabel("over-claim rate, 95% CI")
-    c.set_title("(c) model tree by cutoff and level\n(from label_judgements.json; n = labels judged, level 0 / 1)", fontsize=8.5)
-    c.legend(frameon=False, loc="upper center", ncol=2)
-    fig.savefig(out / "labels.png")
+        a.text(i, 0.93, "n = " + " / ".join(str(f["by_cutoff_level"][f"{cu}:L{k}"]["over_claim"]["n"]) for k in lvls),
+               ha="center", fontsize=7, color="0.35")
+    a.set_xticks(range(len(cuts)), cuts)
+    a.set_xlim(-0.6, len(cuts) - 0.4)
+    a.set_ylim(0, 1.05)
+    a.set_xlabel("snapshot cutoff")
+    a.set_ylabel("over-claim rate, 95% CI")
+    a.set_title("(a) by cutoff and level (n = labels judged, " + " / ".join(f"L{k}" for k in lvls) + ")")
+    a.legend(frameon=False, loc="lower left", ncol=2)
+    entries = [("all", f["over_claim"], MODEL)] + [(f"L{k}", f["by_level"][f"L{k}"]["over_claim"], LEVEL[k]) for k in lvls]
+    for i, (name, o, col) in enumerate(entries):
+        _err(b, i, o["value"], *o["ci95"], color=col)
+        b.text(i, 0.05, f"n={o['n']}", ha="center", fontsize=7, color="0.35")
+    b.set_xticks(range(len(entries)), [e[0] for e in entries])
+    b.set_xlim(-0.6, len(entries) - 0.4)
+    b.set_ylim(0, 1.05)
+    b.set_ylabel("over-claim rate, 95% CI")
+    b.set_title(f"(b) all cutoffs; claim-level unsupported {f['claim_unsupported']:.2f}")
+    fig.suptitle("Share of labels with >= 1 claim unsupported by held-out evidence", fontsize=9.5)
+    fig.tight_layout()
+    fig.savefig(out / "faithfulness.png")
     plt.close(fig)
-    return {"model_by_cutoff_level": {f"{cu}:L{k}": dict(zip(("value", "lo", "hi"), _boot(v)), n=len(v)) for (cu, k), v in sorted(by.items())},
-            "configuration_null_recomputed": {t: dict(zip(("value", "lo", "hi"), _boot(split[t])), n=len(split[t])) for t in cfgs}}
 
 
 def main(argv=None):
@@ -327,8 +240,7 @@ def main(argv=None):
     coherence_periods(m["coherence"], a.out)
     stability(m["stability"], a.out)
     localisation(m["stability"], a.out)
-    derived = labels(m["labels"], json.loads((a.run / "label_judgements.json").read_text()), a.out)
-    print(json.dumps(derived, indent=1))
+    faithfulness(m["faithfulness"], a.out)
     print("figures ->", a.out)
 
 
