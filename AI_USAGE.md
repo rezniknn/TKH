@@ -1304,6 +1304,37 @@ accepted or changed, and what was checked.
   `claims` edge. This was fixed in cd71e13, which is now reverted.
 - **Verified:** `git diff bff6364` lists only AI_USAGE.md; the tests pass.
 
+### 37. Retrieval design notebook (Claude Code)
+
+- **Task/module:** `notebooks/04_retrieval_design.ipynb`, `figures/t6_*.png`, README
+- **Prompt:** "Create a new notebook in /notebook folder called 04_retrieval_design.ipynb. The goal of the notebook is
+  to thoroughly investigate the format of the input data provided in TKH/repo/data/questions.csv (questions) and
+  TKH/repo/data/ground_truth.json (ground truth answers), propose a POC implementation of a simple retrieval task
+  based on the graph hierarchies produced by the implemented coarsening algorithm and to propose a design of hit rate
+  and steps to target evaluation metrics … All design choices, metric choices and trade offs must be documented …
+  The notebook must run end-to-end without errors"
+- **What the assistant did:**
+  - Built the notebook from a generator script. It has a requirements trace against the brief, and a schema
+    inventory and field-role table for every ground-truth field.
+  - It also covers: attainability ceilings, target dispersion, a self-contained POC agent with a flat baseline, and
+    metric definitions M1–M9 with rejected alternatives.
+  - It runs on all 18 questions, with paired bootstrap CIs, a random-tree null, a label-free ablation and a beam
+    trade-off.
+  - It reads `out/` only.
+- **Case where the AI was wrong:**
+  - My first version joined method claims to their evidence via `required_citations`. The GT writes those strings
+    differently on 7 of 14 questions (hints dropped, `;`-joined, non-paper sources).
+  - The independent review then found more defects, all fixed:
+    - method-claim attainability did not check that the graph holds such a claim, so the ceilings were overstated;
+    - the leakage guard could not fail, and it left the shared GT dicts mutated;
+    - temporal compliance was graded against the agent's own `as_of`;
+    - censored mean steps were the headline;
+    - "labels steer routing away" was not supported (same reach, CI includes zero).
+  - I also first described the misses as caused by target dispersion. The dispersion table showed that the five
+    unreached type-A questions have their targets in a single L0 node, so the misses are routing errors.
+- **Verified:** `jupyter nbconvert --execute` exits 0 (about 7 s); the tests pass. Nothing under `out/` changed. Every
+  number in §9 was checked against the executed outputs.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

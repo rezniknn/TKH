@@ -53,6 +53,20 @@ TKH_ONLINE=1 .venv/bin/jupyter nbconvert --to notebook --execute --inplace noteb
 
 The snapshot rule is in `tkh/io.py` and the statistics in `tkh/describe.py`.
 
+`notebooks/04_retrieval_design.ipynb` is the design study and proof of concept for the T6 extrinsic evaluation. It
+covers:
+- the format of `data/questions.csv` and `data/ground_truth.json`, with a role for every field;
+- what the export can answer (ceilings);
+- the hierarchy as a search index;
+- a POC drill-down agent with a flat baseline;
+- the hit-rate and steps-to-target metric design, with nulls and paired CIs.
+
+It reads `out/` (never rebuilds), makes no LLM calls, and runs in seconds:
+
+```bash
+.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/04_retrieval_design.ipynb
+```
+
 ## Output validator (§6a)
 
 ```bash
