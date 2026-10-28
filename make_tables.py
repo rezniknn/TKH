@@ -82,10 +82,10 @@ def t_properties(r):
     rows = [["P1 laminarity, P2 budgets", "by construction (merge-only levels; budget lemma)", "`validate.py` on every run"],
             ["P4 hyper-edge fidelity", "by construction (score on the collapsed incidence; multi-way edges kept whole)", "§4"],
             ["No future information (structure, membership)", "by construction (snapshot-only edges, hubs, LSA, anchors)", "`validate.py` member cutoffs"],
-            ["P3 semantic coherence", "empirical", "Tables 6–7, Fig. 1"],
-            ["P5 temporal stability", "by construction (prior, persistent ids); size empirical", "Tables 8–10, Figs. 2–3"],
-            ["P6 faithful labels", "empirical", "Table 11"],
-            ["T6 extrinsic utility", "empirical", "Table 12"]]
+            ["P3 semantic coherence", "empirical", "Tables 4–5, Fig. 1"],
+            ["P5 temporal stability", "by construction (prior, persistent ids); size empirical", "Tables 6–8, Figs. 2–3"],
+            ["P6 faithful labels", "empirical", "Table 9"],
+            ["T6 extrinsic utility", "empirical", "Table 10"]]
     return md(["Property", "Status", "Evidence"], rows)
 
 
@@ -281,7 +281,7 @@ def t_retrieval(r):
 
 
 def t_findings(r):
-    """Headline verdicts, computed with the same rules as Tables 7-12."""
+    """Headline verdicts, computed with the same rules as Tables 5-10."""
     c = r.m["coherence"]["snapshots"]
     def cells(pred, m="exact"):
         return [f"≤{t} L{k}" for t in r.cutoffs for k, lv in enumerate(c[t]["levels"]) if pred(lv[m], c[t]["coverage"][m]["period_strata"])]
@@ -303,12 +303,12 @@ def t_findings(r):
     else:
         oc_q = "majority of labels" if oc["ci95"][0] > 0.5 else ("minority of labels" if oc["ci95"][1] < 0.5 else "not distinguishable from one half")
     if len(lv) < 2:
-        lv_row = ["P6 over-claim by level", "one level only", "", "Table 11"]
+        lv_row = ["P6 over-claim by level", "one level only", "", "Table 9"]
     else:
         a, b = lv[0]["over_claim"]["ci95"], lv[-1]["over_claim"]["ci95"]
         sep = "not evaluable" if not (_ok(a) and _ok(b)) else ("CIs do not overlap" if a[1] < b[0] or b[1] < a[0] else "CIs overlap")
         lv_row = [f"P6 {lv_names[0]} vs {lv_names[-1]} over-claim",
-                  f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table 11"]
+                  f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table 9"]
     fav = {"drill-down": 0, "flat": 0, "tie": 0}
     for s in r.m["retrieval"]["summary"].values():
         for k in RETRIEVAL_NAMES:
@@ -316,18 +316,18 @@ def t_findings(r):
                 fav[fv] += 1
     steps = [(t, s["steps_first"]) for t, s in r.m["retrieval"]["summary"].items() if "steps_first" in s]
     rows = [["P3 coherence beyond both nulls (robust: all schemes, exact filter)", ", ".join(rob) or "none",
-             f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table 7"],
+             f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table 5"],
             ["P3 cells below both nulls in every scheme (exact filter)", ", ".join(below) or "none",
-             f"fuzzy filter: {', '.join(below_f) or 'none'}", "Table 7"],
-            ["P5 cross-snapshot indices above the new-paper null", f"{above} of {len(idx)}", f"p ≤ {ALPHA}, uncorrected", "Table 9"],
-            ["P5 perturbation HARI, first → last snapshot", f"{f(pt[r.cutoffs[0]]['hari']['mean'])} → {f(pt[r.last]['hari']['mean'])}", "", "Table 8"],
+             f"fuzzy filter: {', '.join(below_f) or 'none'}", "Table 5"],
+            ["P5 cross-snapshot indices above the new-paper null", f"{above} of {len(idx)}", f"p ≤ {ALPHA}, uncorrected", "Table 7"],
+            ["P5 perturbation HARI, first → last snapshot", f"{f(pt[r.cutoffs[0]]['hari']['mean'])} → {f(pt[r.last]['hari']['mean'])}", "", "Table 6"],
             ["P5 localised level × transition cells (ratio CI > 1)", f"{nloc} of {len(loc)}",
-             "untouched share of reassignment " + _range_pct([_untouched_share(x) for x in loc]), "Table 10"],
-            ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table 11"],
+             "untouched share of reassignment " + _range_pct([_untouched_share(x) for x in loc]), "Table 8"],
+            ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table 9"],
             lv_row,
             ["T6 retrieval measures favouring drill-down / flat / tie", f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
-             "point estimates, no CIs", "Table 12"],
-            ["T6 median steps to first item, drill-down vs flat", "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)}" for t, x in steps) or "—", "", "Table 12"]]
+             "point estimates, no CIs", "Table 10"],
+            ["T6 median steps to first item, drill-down vs flat", "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)}" for t, x in steps) or "—", "", "Table 10"]]
     return md(["Finding", "Result", "Qualifier", "Source"], rows)
 
 

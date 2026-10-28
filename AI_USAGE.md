@@ -1560,6 +1560,39 @@ accepted or changed, and what was checked.
 - **Verified:** `make_tables.py --check` passes on the current `out/`; `make test` passes; `make -n all` lists the
   tables step.
 
+### 47. Report revision from reader questions (Claude Code)
+
+- **Task/module:** `docs/report.md`, `make_tables.py` (table numbers in generated cells)
+- **Prompt:** nine review points phrased as reader questions:
+  - why three levels and these budgets;
+  - a confusing sentence about which table lists what;
+  - undefined terms (concept nodes, anchored nodes, hubs);
+  - remove Tables 1–2 from the problem definition;
+  - no references to removed work (the configuration sweep);
+  - no short run-in sentences ("Why this rule", "Losses");
+  - a confusing "own ruler" sentence;
+  - §5 as metric definition → results table, per metric;
+  - assumptions as elaborated bullets in Future work.
+- **What the assistant did:**
+  - Defined every term not in the brief at first use (what it is, why it was introduced, how it is defined): concept
+    nodes, clustering hypergraph, hubs, LSA, items, collapsed incidence, mid-rank calibration, the size cap,
+    anchoring, the stable/touched sets, the connectivity objective, and every evaluation term (coupling, name filter,
+    no-overlap pairs, lift, period schemes, nulls, verdicts, HARI, new-paper null, reassignment, evidence halves,
+    contrast, atomic claims, content check, beam, attainable items, hit-rate, error rate, steps, reach).
+  - Stated that the brief fixes only N_0 ≈ 10–15, and that the level count and the finer budgets are untested
+    arbitrary defaults (listed in future work).
+  - Moved the snapshot and parameter tables to Appendix A (Tables A1–A2) and renumbered the rest (1–11). The table
+    references inside generated cells were updated in `make_tables.py`.
+  - Removed the sweep and `make gamma` references.
+  - Turned run-in heads into prose and split §5 into one definition and table per metric (stability into three).
+  - Rewrote the future-work assumptions as seven elaborated bullets.
+- **Verified:**
+  - every new definition was checked against the code: `tkh/hierarchy.py` (hubs, anchors, stable set),
+    `tkh/coarsen.py`, `eval/coherence.py` (schemes, p-values), `eval/stability.py`, `tkh/label.py`,
+    `eval/faithfulness.py`, `tkh/retrieve.py` and `eval/retrieval.py`;
+  - `make_tables.py --check` passes.
+  - Prose grew from about 3.2k to 5.9k words.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
