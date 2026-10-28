@@ -1,12 +1,16 @@
-# Pipeline: 'make all' = build -> validate -> coherence -> stability -> faithfulness -> retrieval -> test; checks write $(OUT)/metrics.json.
+# Pipeline: 'make all' = build -> validate -> metrics -> test, where 'make metrics' = coherence -> stability -> faithfulness ->
+# retrieval; each check writes its own section of $(OUT)/metrics.json and can also be run on its own.
 # LLM calls replay from data/llm_cache.json (TKH_LLM_MODE=offline, the default); live/refresh need a local Ollama server.
 PYTHON ?= .venv/bin/python
 OUT ?= out
 SEED ?= 0
 
-.PHONY: all test fixtures build validate null coherence stability faithfulness retrieval figures gamma sweep
+.PHONY: all test fixtures build validate null metrics coherence stability faithfulness retrieval figures gamma sweep
+.NOTPARALLEL:     # the checks read-modify-write the same metrics.json, so never run them concurrently (make -j)
 
-all: build validate coherence stability faithfulness retrieval test
+all: build validate metrics test
+
+metrics: coherence stability faithfulness retrieval   ## every evaluation check on $(OUT)/ -> $(OUT)/metrics.json
 
 test:            ## the validator's tests: valid and broken fixtures (6a.2)
 	$(PYTHON) -m pytest tests/ -q -p no:cacheprovider

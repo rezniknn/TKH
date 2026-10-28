@@ -139,7 +139,8 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
   `docs/evaluation_report.md` §6.
 
 ```bash
-make all                                     # build -> validate -> coherence -> stability -> faithfulness -> retrieval -> test (build to stability: about 15 min on 8 cores; retrieval adds seconds)
+make all                                     # build -> validate -> metrics -> test (build to stability: about 15 min on 8 cores; retrieval adds seconds)
+make metrics                                 # every check on out/: coherence -> stability -> faithfulness -> retrieval
 make retrieval                               # T6 retrieval check only (reads out/, seconds)
 make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
 .venv/bin/python -m tkh build --out /tmp/alt --budgets 10 40 160 640 --param rho=4

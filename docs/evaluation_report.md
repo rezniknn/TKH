@@ -77,7 +77,7 @@ make figures      # docs/figures/*.png from out/metrics.json
 make test
 ```
 
-`make all` runs build → validate → coherence → stability → faithfulness → retrieval → test. All LLM calls replay from the response cache `data/llm_cache.json` when `TKH_LLM_MODE` is unset (offline, the default). If `TKH_LLM_MODE=live` is exported, `make build` and `make faithfulness` call a local Ollama server instead; run `unset TKH_LLM_MODE` first. Only `make retrieval` (§6) and `make faithfulness` (§5) were run; no other step was re-run for this report.
+`make all` runs build → validate → metrics → test, where `make metrics` runs coherence → stability → faithfulness → retrieval; each check also has its own target. All LLM calls replay from the response cache `data/llm_cache.json` when `TKH_LLM_MODE` is unset (offline, the default). If `TKH_LLM_MODE=live` is exported, `make build` and `make faithfulness` call a local Ollama server instead; run `unset TKH_LLM_MODE` first. Only `make retrieval` (§6) and `make faithfulness` (§5) were run; no other step was re-run for this report.
 
 ## 3. Coherence: held-out bibliographic coupling (P3)
 

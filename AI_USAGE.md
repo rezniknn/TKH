@@ -1463,6 +1463,17 @@ accepted or changed, and what was checked.
 - **Verified:** `make test` passes (65); `git grep` finds no reference to `eval/labels.py`, RIGOR or
   `label_judgements` outside the history.
 
+### 43. `make metrics` groups the evaluation checks (Claude Code)
+
+- **Task/module:** Makefile, README, `docs/evaluation_report.md` §2.4
+- **Prompt:** "Update make all command, group all evaluation steps into one metrics step (coherence, stability,
+  faithfullness, retrieval) but keep separate commands for each step too"
+- **What the assistant did:**
+  - Added `metrics: coherence stability faithfulness retrieval`, so `all` is now `build validate metrics test`.
+  - Every check keeps its own target.
+  - Added `.NOTPARALLEL`, because all four checks read and rewrite the same `metrics.json`, and `make -j` would race.
+- **Verified:** `make -n all` and `make -n metrics` list the same commands in the same order as before; nothing was run.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
