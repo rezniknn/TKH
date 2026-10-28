@@ -8,7 +8,7 @@ SEED ?= 0
 
 all: build validate coherence stability labels retrieval test
 
-test:            ## unit tests and the validator's broken fixtures (6a.2)
+test:            ## the validator's tests: valid and broken fixtures (6a.2)
 	$(PYTHON) -m pytest tests/ -q -p no:cacheprovider
 
 fixtures:        ## regenerate tests/fixtures/ from tests/make_fixtures.py

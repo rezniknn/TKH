@@ -641,7 +641,7 @@ In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supp
 - **L2 labels are not evaluated** (standard rigor covers levels 0–1).
 
 ### 8.4 Retrieval
-- **Few questions, one snapshot.** n = 18 (12 + 4 with attainable targets), all answered from ≤2026; retrieval on earlier snapshots is untested beyond the leaf-text check in `tests/test_retrieval.py`.
+- **Few questions, one snapshot.** n = 18 (12 + 4 with attainable targets), all answered from ≤2026; retrieval on earlier snapshots is untested beyond the ≤2020 leaf-text check in `notebooks/04_retrieval_design.ipynb` §6.
 - **No CIs and no nulls.** Differences are paired point estimates; no random-tree null or label ablation was run, so the result is not shown to beat chance.
 - **In-sample settings.** Scorer, beam and node content were chosen with these questions in view; the levels are optimistic.
 - **Matching.** Claims are matched by source article, not by content; method claims are scored per method; method names match on exact name or acronym only (versioned names such as "Orb" → "Orb-v2" are unattainable); author order is missing from the export.

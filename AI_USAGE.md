@@ -1416,6 +1416,20 @@ accepted or changed, and what was checked.
 - **Verified:** `make retrieval` reproduces the notebook's numbers exactly, and a new test pins `metrics.json`. 465
   tests pass, and the notebook executes end-to-end.
 
+### 41. Unit tests reduced to the validator's (Claude Code)
+
+- **Task/module:** `tests/`, Makefile, `docs/evaluation_report.md` §8.4, `notebooks/04_retrieval_design.ipynb` §7, §9
+- **Prompt:** "Remove all unit tests from the repository except for those testing validate.py"
+- **What the assistant did:**
+  - Deleted ten test modules: `test_abstracts`, `test_hierarchy`, `test_labels`, `test_notebook_compat`, `test_null`,
+    `test_retrieval`, `test_semantic`, `test_stability`, `test_structure` and `test_temporal`.
+  - Kept `tests/test_validate.py` and what it needs: `make_fixtures.py`, `mock_output.py` and `fixtures/`.
+  - Updated the `make test` description, and the report and notebook references to `tests/test_retrieval.py`. The
+    retrieval checks remain as assertions inside the notebook.
+- **Note:** the matplotlib keyword guard of entry 19 (`test_notebook_compat.py`) and the regression test pinning
+  `metrics.json["retrieval"]` (entry 40) are gone with them.
+- **Verified:** `make test` runs 65 validator tests, all passing; the notebook executes end-to-end.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
