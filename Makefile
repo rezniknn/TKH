@@ -1,12 +1,12 @@
-# Pipeline: 'make all' = build -> validate -> coherence -> stability -> labels -> test; checks write $(OUT)/metrics.json.
+# Pipeline: 'make all' = build -> validate -> coherence -> stability -> labels -> retrieval -> test; checks write $(OUT)/metrics.json.
 # LLM calls replay from data/llm_cache.json (TKH_LLM_MODE=offline, the default); live/refresh need a local Ollama server.
 PYTHON ?= .venv/bin/python
 OUT ?= out
 SEED ?= 0
 
-.PHONY: all test fixtures build validate null coherence stability labels figures gamma sweep
+.PHONY: all test fixtures build validate null coherence stability labels retrieval figures gamma sweep
 
-all: build validate coherence stability labels test
+all: build validate coherence stability labels retrieval test
 
 test:            ## unit tests and the validator's broken fixtures (6a.2)
 	$(PYTHON) -m pytest tests/ -q -p no:cacheprovider
@@ -32,6 +32,9 @@ stability:       ## perturbation (10% of hyper-edges, 5 seeds) and cross-snapsho
 
 labels:          ## label faithfulness: held-out NLI judge with controls and nulls (RIGOR=quick|standard|full)
 	$(PYTHON) -m eval labels --run $(OUT) --rigor $(or $(RIGOR),standard)
+
+retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate and steps-to-target (offline, seconds)
+	$(PYTHON) -m eval retrieval --run $(OUT)
 
 figures:         ## static PNGs of $(OUT)/metrics.json and $(OUT)/label_judgements.json -> docs/figures/ (no recomputation)
 	$(PYTHON) -m eval.figures --run $(OUT) --out docs/figures

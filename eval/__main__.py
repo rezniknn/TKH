@@ -1,4 +1,4 @@
-"""Command line of the evaluation: python -m eval {coherence,stability,labels,gamma,sweep}.
+"""Command line of the evaluation: python -m eval {coherence,stability,labels,retrieval,gamma,sweep}.
 
   coherence  --run DIR [--R 99] [--R-labels 999]   held-out coherence per snapshot and level, unadjusted and
                                                    period-adjusted, against both nulls -> DIR/metrics.json "coherence"
@@ -6,10 +6,13 @@
                                                    new-paper null), change localisation, events -> "stability"
   labels     --run DIR [--rigor standard]          label faithfulness: held-out NLI judge, controls, nulls -> "labels"
                                                    (rigor: quick | standard | full; judgements -> DIR/label_judgements.json)
+  retrieval  --run DIR [--beam 3 4 5] [--k 10]     T6 extrinsic utility: drill-down retrieval agent vs flat search on
+                                                   data/questions.csv, scored with data/ground_truth.json (hit-rate,
+                                                   steps-to-target) -> "retrieval"; answers -> DIR/retrieval_answers.json
   gamma      [--out DIR] [--param k=v ...]         temporal-prior variants gamma = 0 ... 1: stability and coherence
                                                    per variant, paired differences to gamma = 0 -> DIR/gamma.json
   sweep      --out FILE [--param k=v ...]          configuration grid and one-SE selection on cited-work halves
-coherence, stability and labels use the run's own run_config.toml and refuse null-model runs; each updates its own section of
+coherence, stability, labels and retrieval use the run's own run_config.toml and refuse null-model runs; each updates its own section of
 metrics.json.
 """
 
@@ -20,8 +23,10 @@ import json
 
 from eval.experiments import coherence_check, sweep
 from eval.labels import RIGOR, label_check
+from eval.retrieval import retrieval_check
 from eval.stability import gamma_tradeoff, stability_check
-from tkh.config import add_config_args, config_from_args, load_config, parse_overrides
+from tkh.config import REPO_ROOT, add_config_args, config_from_args, load_config, parse_overrides
+from tkh.io import load
 from tkh.hierarchy import Params
 
 
@@ -46,6 +51,12 @@ def main(argv=None):
     p.add_argument("--relabel", action="store_true", help="relabel the run's tree with the current labeller prompt")
     p.add_argument("--prompts", type=Path, help="prompt directory to use instead of the configured one (comparisons)")
     p.add_argument("--tag", help="write metrics and judgements to DIR/label_dev/<tag>.json instead (iteration log)")
+    p = sub.add_parser("retrieval")
+    p.add_argument("--run", type=Path, required=True)
+    p.add_argument("--questions", type=Path, default=REPO_ROOT / "data" / "questions.csv")
+    p.add_argument("--gt", type=Path, default=REPO_ROOT / "data" / "ground_truth.json")
+    p.add_argument("--beam", type=int, nargs="+", default=[3, 4, 5], help="super-nodes kept per level, L0 first")
+    p.add_argument("--k", type=int, default=10, help="answer length (methods or claims)")
     for name in ("gamma", "sweep"):
         p = add_config_args(sub.add_parser(name))
         p.add_argument("--param", nargs="*", help="override [method] parameters of the base configuration")
@@ -53,7 +64,7 @@ def main(argv=None):
         p.add_argument("--jobs", type=int, default=8)
     args = ap.parse_args(argv)
 
-    if args.cmd in ("coherence", "stability", "labels"):   # the run's own resolved config, so the check uses exactly its inputs
+    if args.cmd in ("coherence", "stability", "labels", "retrieval"):   # the run's own resolved config, so the check uses exactly its inputs
         if "null" in json.loads((args.run / "run_info.json").read_text()):
             raise SystemExit(f"{args.run} is a null-model run: the checks evaluate real runs")
         cfg = load_config(args.run / "run_config.toml")
@@ -74,6 +85,10 @@ def main(argv=None):
                 return
             section = "labels"
             (args.run / "label_judgements.json").write_text(json.dumps(recs, indent=1, ensure_ascii=False) + "\n")
+        elif args.cmd == "retrieval":
+            res, answers = retrieval_check(load(cfg), args.run, cfg.cutoffs, args.questions, args.gt, args.beam, args.k)
+            section = "retrieval"
+            (args.run / "retrieval_answers.json").write_text(json.dumps(answers, indent=1, ensure_ascii=False) + "\n")
         else:
             res, section = stability_check(cfg, params, args.run, range(args.seeds), R=args.R, n_jobs=args.jobs), "stability"
         path = args.run / "metrics.json"
