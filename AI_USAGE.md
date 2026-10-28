@@ -1501,6 +1501,37 @@ accepted or changed, and what was checked.
 - **Note:** `out/` was rebuilt and every check re-run on 2026-10-28 outside this session. The documents cite that run.
   Its values are identical to the previous commit, and its runtime is 34.7 s.
 
+### 45. Final report docs/report.md replaces the formal statement and evaluation report (Claude Code)
+
+- **Task/module:** `docs/report.md` (new); `docs/formal_statement.md`, `docs/evaluation_report.md` and the root
+  placeholder `report.md` deleted; references updated in the README, `figures/README.md`, `tkh/hierarchy.py` and
+  notebook 04
+- **Prompt:** the report brief in `prompts/Report.md`: a 3–5 page academic report with six sections:
+  - problem definition;
+  - formal statement (T2);
+  - method and literature positioning (T3);
+  - coarsening decision (T4);
+  - evaluation of the four T6 metrics, with extra focus on the coherence circularity hazard;
+  - future work.
+  Its results come from `metrics.json`, and the two older documents are to cease to exist.
+- **What the assistant did:**
+  - A workflow ran in stages. Four research agents covered the brief and style, the formal content checked against
+    the code, the literature, and the evaluation. A writer, reviewers and a fixer followed.
+  - Subagents were not allowed to write the report file. The fixer's verified draft was saved by hand, and an
+    abstract and author line were added.
+  - A second adversarial review ran four lenses: numbers, formal content, brief compliance and style. It confirmed
+    29 findings with exact replacement text, all applied or merged. One residual inconsistency, the fuzzy-filter
+    verdict at ≤2022, was rechecked against `metrics.json` and fixed.
+- **Case where the AI was wrong:** the drafts stated the T4 rule as three classes internal / partial / multi-way.
+  The code's exclusive classes are internal / partial / uncollapsed, and multi-way is an overlapping flag, so the
+  table rows appeared not to add up.
+  - The abstract overstated coherence: it did not say that three of four cells are robust, that the tests are
+    uncorrected, or that every paper-bootstrap CI includes 1. It also overstated persistence ("no higher than the
+    null").
+  - The draft attributed the perturbation stratification to the brief.
+  - The retrieval table left out the one sub-metric where drill-down loses (method claims).
+- **Verified:** every number traces to `out/`; the figure paths resolve; notebook 04 executes; `make test` passes.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

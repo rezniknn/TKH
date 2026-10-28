@@ -102,8 +102,8 @@ mutations of that mock.
 
 ## Method: SHAC (T2, T4)
 
-The formal statement (objective, trade-offs, complexity, guarantees, rejected
-alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
+The report, [docs/report.md](docs/report.md), gives the formal statement (greedy score, guarantees, complexity,
+rejected alternatives), the T4 coarsening rule, temporal coupling, literature positioning and the evaluation.
 
 - **Procedure.** A budget-constrained greedy agglomeration over the concept nodes, run
   from the finest level to the coarsest, so that every level is a cut of one merge tree
@@ -136,7 +136,7 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
   drill-down agent (L0 → L2 beam search) against flat search on `data/questions.csv`, scored with
   `data/ground_truth.json` (hit-rate, error rate, steps-to-target) -> `metrics.json["retrieval"]` and
   `out/retrieval_answers.json`; offline, seconds. Design: `notebooks/04_retrieval_design.ipynb`; results:
-  `docs/evaluation_report.md` §6.
+  `docs/report.md` §5.
 
 ```bash
 make all                                     # build -> validate -> metrics -> test (build to stability: about 15 min on 8 cores; retrieval adds seconds)

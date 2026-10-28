@@ -1,6 +1,6 @@
 """T2: SHAC, the laminar multi-level hierarchy P_0..P_K per snapshot; P1 by construction, P2 budgets as hard limits.
 
-Semantic-Hypergraph Agglomerative Coarsening; the formal statement is docs/formal_statement.md.
+Semantic-Hypergraph Agglomerative Coarsening; the formal statement is docs/report.md §2.
 Per snapshot and level k (finest first), starting from the concept nodes as singletons and then
 from the level-(k+1) super-nodes:
 
