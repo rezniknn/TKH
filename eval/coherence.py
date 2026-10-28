@@ -27,7 +27,6 @@ Uncertainty: paper-cluster bootstrap (resampling papers, pairs within the resamp
 from collections import Counter, defaultdict
 import bisect
 import math
-import random
 
 import numpy as np
 from scipy.sparse import csr_matrix
@@ -150,23 +149,6 @@ def _named_like(k, keys, fuzzy):
     if k in keys:
         return True
     return fuzzy and len(k) >= 4 and any(len(x) >= 4 and (k in x or x in k) for x in keys)
-
-
-def split_works(tkh, snap, seed):
-    """Seeded half split of the cited works, stratified by how many papers cite them: (A, B)."""
-    rng = random.Random(seed)
-    df = Counter(w for m, r in zip(snap.edges["members"], snap.edges["relation_type"]) if r == "cites" for w in set(m[1:]))
-    by_df = defaultdict(list)
-    for w, n in df.items():
-        by_df[n].append(w)
-    A, B = set(), set()
-    for n in sorted(by_df):
-        ws = sorted(by_df[n])
-        rng.shuffle(ws)
-        first, second = (A, B) if rng.random() < 0.5 else (B, A)   # an odd stratum's extra work goes to either half
-        first.update(ws[0::2])
-        second.update(ws[1::2])
-    return A, B
 
 
 def null_summary(obs, null):

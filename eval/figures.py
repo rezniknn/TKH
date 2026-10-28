@@ -1,5 +1,6 @@
 """Static figures of an evaluated run, read from DIR/metrics.json (no recomputation of any check; nothing calls the
-pipeline or an LLM): python -m eval.figures --run out --out docs/figures.
+pipeline or an LLM): python -m eval.figures --run out --out docs/figures; with --sweep DIR (eval/sweep.py) only the
+alpha-sweep figure, read from DIR/<alpha>/metrics.json.
 
   coherence_lift.png                primary lift (period scheme "interval", exact matching) with its 95% bootstrap
                                     interval per snapshot and level, next to the 95% bands of the configuration null
@@ -11,6 +12,9 @@ pipeline or an LLM): python -m eval.figures --run out --out docs/figures.
                                     their ratio with its node-bootstrap interval, per transition and level
   faithfulness.png                  over-claim rate (share of labels with >= 1 claim unsupported by held-out
                                     evidence) with its bootstrap interval by cutoff and level, and overall
+  alpha_sweep.png                   per alpha: (a) last-snapshot lift per level (exact, interval scheme) with its
+                                    bootstrap CI; (b) perturbation HARI per snapshot (t-interval); (c) over-claim rate,
+                                    overall and per level (bootstrap CI); (d) retrieval hit-rates, drill-down minus flat
 """
 
 from pathlib import Path
@@ -229,11 +233,65 @@ def faithfulness(f, out):
     plt.close(fig)
 
 
+# ---------------------------------------------------------------- alpha sweep
+
+def alpha_sweep(sweep_dir, out):
+    sw = json.loads((sweep_dir / "sweep.json").read_text())
+    al = sw["alphas"]
+    m = {a: json.loads((sweep_dir / sw["variants"][f"{a:g}"]["run"] / "metrics.json").read_text()) for a in al}
+    last = str(max(sw["cutoffs"]))
+    x = np.arange(len(al))
+    fig, ax = plt.subplots(1, 4, figsize=(14, 3.4))
+    a, b, c, d = ax
+    for k in range(3):
+        for i, al_ in enumerate(al):
+            iv = m[al_]["coherence"]["snapshots"][last]["levels"][k]["exact"]["interval"]
+            _err(a, i + (k - 1) * 0.15, iv["lift"], *iv["ci95"], color=LEVEL[k], label=f"L{k}" if i == 0 else None)
+    a.axhline(1, color="0.5", lw=0.8, ls=":")
+    a.set_title(f"(a) held-out lift ≤{last} (1 = chance)")
+    a.set_ylabel("lift, 95% CI")
+    for j, cu in enumerate(sw["cutoffs"]):
+        h = [m[al_]["stability"]["perturbation"][str(cu)]["hari"] for al_ in al]
+        col = plt.cm.Greys(0.35 + 0.65 * j / max(1, len(sw["cutoffs"]) - 1))
+        for i, v in enumerate(h):
+            _err(b, i + (j - 1.5) * 0.12, v["mean"], v["lo"], v["hi"], color=col, label=f"≤{cu}" if i == 0 else None)
+    b.set_title("(b) perturbation HARI per snapshot")
+    b.set_ylabel("HARI, t-interval")
+    for j, (name, col) in enumerate([("all", MODEL), ("L0", LEVEL[0]), ("L1", LEVEL[1])]):
+        for i, al_ in enumerate(al):
+            f = m[al_]["faithfulness"]
+            o = f["over_claim"] if name == "all" else f["by_level"][name]["over_claim"]
+            _err(c, i + (j - 1) * 0.15, o["value"], *o["ci95"], color=col, label=name if i == 0 else None)
+    c.set_ylim(0, 1)
+    c.set_title("(c) label over-claim rate (lower is better)")
+    c.set_ylabel("over-claim, 95% CI")
+    meas = [("A", "methods"), ("A", "method_claims"), ("A", "citations"), ("B", "claims"), ("B", "citations")]
+    for j, (t, k) in enumerate(meas):
+        y = [m[al_]["retrieval"]["summary"][t][k]["hier_minus_flat"] for al_ in al]
+        d.plot(x, y, marker="o", ms=4, lw=1, color=plt.cm.tab10(j), label=f"{t}: {k.replace('_', ' ')}")
+    d.axhline(0, color="0.5", lw=0.8, ls=":")
+    d.set_title("(d) retrieval hit-rate, drill-down − flat")
+    d.set_ylabel("paired difference (point estimate)")
+    for axis in ax:
+        axis.set_xticks(x, [f"{v:g}" for v in al])
+        axis.set_xlabel("α (0 = structure only, 1 = semantics only)")
+        axis.legend(frameon=False, fontsize=7)
+    fig.tight_layout()
+    fig.savefig(out / "alpha_sweep.png")
+    plt.close(fig)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="python -m eval.figures", description=__doc__.split("\n")[0])
     ap.add_argument("--run", type=Path, default=Path("out"))
     ap.add_argument("--out", type=Path, default=Path("docs/figures"))
+    ap.add_argument("--sweep", type=Path, help="an alpha sweep directory: draw alpha_sweep.png only")
     a = ap.parse_args(argv)
+    if a.sweep:
+        a.out.mkdir(parents=True, exist_ok=True)
+        alpha_sweep(a.sweep, a.out)
+        print("figures ->", a.out)
+        return
     m = json.loads((a.run / "metrics.json").read_text())
     a.out.mkdir(parents=True, exist_ok=True)
     coherence_lift(m["coherence"], a.out)

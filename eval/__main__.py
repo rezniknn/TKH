@@ -13,7 +13,10 @@
                                                    gold -> DIR/retrieval_answers.json
   gamma      [--out DIR] [--param k=v ...]         temporal-prior variants gamma = 0 ... 1: stability and coherence
                                                    per variant, paired differences to gamma = 0 -> DIR/gamma.json
-  sweep      --out FILE [--param k=v ...]          configuration grid and one-SE selection on cited-work halves
+  sweep      [--out DIR] [--alphas ...] [--summarise-only]
+                                                   alpha sweep, every other parameter at its default: a full run and the
+                                                   four checks per alpha -> DIR/<alpha>/metrics.json; paired comparisons
+                                                   with the default alpha -> DIR/sweep.json (eval/sweep.py)
 coherence, stability, faithfulness and retrieval use the run's own run_config.toml and refuse null-model runs; each updates its own section of
 metrics.json.
 """
@@ -23,10 +26,11 @@ import argparse
 from dataclasses import replace
 import json
 
-from eval.experiments import coherence_check, sweep
+from eval.experiments import coherence_check
 from eval.faithfulness import faithfulness_check
 from eval.retrieval import retrieval_check
 from eval.stability import gamma_tradeoff, stability_check
+from eval.sweep import ALPHAS, summarise, sweep
 from tkh.config import REPO_ROOT, add_config_args, config_from_args, load_config, parse_overrides
 from tkh.io import load
 from tkh.retrieve import BEAM, K
@@ -62,6 +66,9 @@ def main(argv=None):
         p.add_argument("--param", nargs="*", help="override [method] parameters of the base configuration")
         p.add_argument("--out", type=Path)
         p.add_argument("--jobs", type=int, default=8)
+        if name == "sweep":
+            p.add_argument("--alphas", type=float, nargs="+", default=list(ALPHAS))
+            p.add_argument("--summarise-only", action="store_true", help="only recompute DIR/sweep.json from the runs")
     args = ap.parse_args(argv)
 
     if args.cmd in ("coherence", "stability", "faithfulness", "retrieval"):   # the run's own resolved config, so the check uses exactly its inputs
@@ -104,8 +111,13 @@ def main(argv=None):
         res = gamma_tradeoff(cfg, base, out_dir=args.out, n_jobs=args.jobs)
         out = (args.out or cfg.out_dir / "gamma") / "gamma.json"
     else:
-        res = sweep(cfg, base, n_jobs=args.jobs)
-        out = args.out or cfg.out_dir / "sweep.json"
+        d = args.out or cfg.out_dir / "sweep"
+        if args.summarise_only:
+            summarise(cfg, d, args.alphas, base.alpha)
+        else:
+            sweep(cfg, base, args.alphas, d, n_jobs=args.jobs)
+        print(f"sweep -> {d / 'sweep.json'}")
+        return
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(res, indent=1, allow_nan=False) + "\n")
     print(f"{args.cmd} -> {out}")

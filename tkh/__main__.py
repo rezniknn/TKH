@@ -6,7 +6,7 @@
 
 [method] parameters come from the config (tkh/hierarchy.py Params); --param overrides single values.
 Budgets, cutoffs and inputs can be overridden with --budgets, --cutoffs, --graph, --articles.
-Evaluation (coherence, stability and label checks, configuration sweep) lives in eval/: python -m eval {coherence,stability,labels,sweep}.
+Evaluation (coherence, stability, faithfulness and retrieval checks, alpha sweep) lives in eval/: python -m eval {coherence,stability,faithfulness,retrieval,gamma,sweep}.
 """
 
 from pathlib import Path
