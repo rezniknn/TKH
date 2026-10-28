@@ -53,14 +53,14 @@ TKH_ONLINE=1 .venv/bin/jupyter nbconvert --to notebook --execute --inplace noteb
 
 The snapshot rule is in `tkh/io.py` and the statistics in `tkh/describe.py`.
 
-`notebooks/04_retrieval_design.ipynb` is the design study and proof of concept for the T6 extrinsic evaluation. It
-covers:
+`notebooks/04_retrieval_design.ipynb` is the design document for the T6 extrinsic evaluation; it calls the
+implementation in `tkh/retrieve.py` and `eval/retrieval.py`. It covers:
 - the format of `data/questions.csv` and `data/ground_truth.json`, with a role for every field;
 - what the export can answer (ceilings);
 - the hierarchy as a search index;
-- a POC drill-down agent with a flat baseline;
+- the drill-down agent and its flat baseline;
 - the metric design (hit-rate, error rate, steps-to-target) for methods, claims and citations;
-- implementation guidelines, assumptions and future work.
+- the implementation, assumptions and future work.
 
 It reads `out/` (never rebuilds), makes no LLM calls, and runs in seconds:
 
@@ -128,9 +128,15 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
 - **Stability check** (`eval/stability.py`): rebuild after removing 10% of hyper-edges (5 seeds)
   and real cross-snapshot ARI and HARI with intervals, against a null where only the new papers'
   edges are rewired; change localisation; event counts. `make gamma` compares gamma = 0 ... 1.
+- **Retrieval check, T6** (`tkh/retrieve.py` agent, `eval/retrieval.py` evaluator, run by `make retrieval`): a
+  drill-down agent (L0 → L2 beam search) against flat search on `data/questions.csv`, scored with
+  `data/ground_truth.json` (hit-rate, error rate, steps-to-target) -> `metrics.json["retrieval"]` and
+  `out/retrieval_answers.json`; offline, seconds. Design: `notebooks/04_retrieval_design.ipynb`; results:
+  `docs/evaluation_report.md` §6.
 
 ```bash
-make all                                     # build -> validate -> coherence -> stability -> test (about 15 min on 8 cores)
+make all                                     # build -> validate -> coherence -> stability -> labels -> retrieval -> test (build to stability: about 15 min on 8 cores; retrieval adds seconds)
+make retrieval                               # T6 retrieval check only (reads out/, seconds)
 make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
 .venv/bin/python -m tkh build --out /tmp/alt --budgets 10 40 160 640 --param rho=4
 make null SEED=3                             # one null-model run, validated against its own graph

@@ -4,15 +4,16 @@ All numbers in this report are read from files in `out/` (mainly `out/metrics.js
 
 ## 1. Summary
 
-The three-level hierarchy (budgets 15 / 60 / 240) was evaluated at four snapshots (cutoffs 2020–2026) on three properties: held-out semantic coherence (P3), temporal stability (P5) and label faithfulness (P6). The main findings are as follows.
+The three-level hierarchy (budgets 15 / 60 / 240) was evaluated at four snapshots (cutoffs 2020–2026) on three properties: held-out semantic coherence (P3), temporal stability (P5) and label faithfulness (P6). Its extrinsic utility was tested with a drill-down retrieval agent against flat search (brief T6). The main findings are as follows.
 
 - **Coherence.** At ≤2024 and ≤2026 the finer levels group concepts of citation-coupled, concept-disjoint papers more than both nulls do. At ≤2022 this holds only under fuzzy matching (L1) or only under the `year1` scheme (exact). Under the strict criterion (exact matching, all five period schemes), three cells are robust: ≤2026 L1 and L2, and ≤2024 L2. L0 shows no coherence at any snapshot. Under exact matching, every lift rests on 5–58 coupled pairs (fuzzy: 4–51), and every paper-bootstrap CI includes 1, so this is evidence for the corpus at hand, not a population estimate.
-- **Stability.** Cross-snapshot persistence is high (HARI 0.80–0.89). It is about as high when new papers attach at random (new-paper null), so it is not due to the real attachment pattern; it comes from what the null keeps (the real ≤t−1 graph, the real t−1 hierarchy and the γ = 0.5 prior), and which of these is responsible is not separated. Per node, touched nodes are reassigned 2.4–7.0× as often as untouched ones (all CI lower bounds ≥ 2.0), but 78–89% of total reassignment falls on untouched nodes. Robustness to a 10% edge perturbation is low at the coarse levels of late snapshots (≤2026 L0 ARI 0.12). There is no γ = 0 control on the current build (§4, §7.2).
+- **Stability.** Cross-snapshot persistence is high (HARI 0.80–0.89). It is about as high when new papers attach at random (new-paper null), so it is not due to the real attachment pattern; it comes from what the null keeps (the real ≤t−1 graph, the real t−1 hierarchy and the γ = 0.5 prior), and which of these is responsible is not separated. Per node, touched nodes are reassigned 2.4–7.0× as often as untouched ones (all CI lower bounds ≥ 2.0), but 78–89% of total reassignment falls on untouched nodes. Robustness to a 10% edge perturbation is low at the coarse levels of late snapshots (≤2026 L0 ARI 0.12). There is no γ = 0 control on the current build (§4, §8.2).
+- **Retrieval (T6).** On 18 questions (n per metric 4–14), the drill-down is higher than flat search on citations (A 0.657 vs 0.578, B 0.438 vs 0.375) and type-B claims (0.740 vs 0.543), and slightly lower on type-A methods (0.275 vs 0.295) and method claims (0.250 vs 0.306). It costs far more steps: median 206.5 vs 10.5 to the first item (A), because it scores 133–162 super-nodes before any leaf. It misses 2 questions at L1. The evidence is descriptive: there are no CIs or nulls, and the settings were chosen with these questions in view (§6).
 - **Labels.** The judge passes its validity gate by a wide margin, but only on name-lookup controls. Model labels over-claim in 0.58 of cases. At 2026 they do better than both nulls. The configuration-null comparison in `metrics.json` is biased in the model's favour by a key-collision bug (§5.6).
 
 | Property | Test | Result | Verdict |
 |---|---|---|---|
-| P1 laminarity, P2 budgets | Read-only check of `out/<t>/hierarchy.json` (§6) | 15 / 60 / 240 super-nodes at every snapshot; each member in exactly one super-node per level; every child a subset of its parent | Holds (by construction; re-checked) |
+| P1 laminarity, P2 budgets | Read-only check of `out/<t>/hierarchy.json` (§7) | 15 / 60 / 240 super-nodes at every snapshot; each member in exactly one super-node per level; every child a subset of its parent | Holds (by construction; re-checked) |
 | P3 coherence | Held-out coupling lift, interval scheme, exact matching, vs 99 configuration-null rebuilds and 999 random-label permutations (§3) | ≤2026 L1 1.31 [0.541, 2.00], L2 1.57 [0.426, 2.63]; ≤2024 L2 1.86 [0.348, 3.17]; p at the floors 0.01 / 0.001 | Robust (exact, 5/5 schemes) at ≤2026 L1–L2 and ≤2024 L2; ≤2024 L1 robust under fuzzy only (exact fails `gap`: lift 1.10, p = 0.10 / 0.152); not at L0; ≤2022 depends on scheme and matching; ≤2020 not evidence (L2 undefined) |
 | P3, L0 | Same test | 0.879 (≤2026), 0.825 (≤2024), 0.550 (≤2022); p = 1.0 | No coherence |
 | P5 persistence | Cross-snapshot ARI/HARI vs new-paper null, R = 99 (§4.3) | HARI 0.86 / 0.80 / 0.89; all 12 values above the null mean by 0.005–0.055; 1 of 12 outside the null band | High, but no higher than under random attachment; not evidence that the corpus' own evolution is stable |
@@ -22,6 +23,7 @@ The three-level hierarchy (budgets 15 / 60 / 240) was evaluated at four snapshot
 | P6 faithfulness | Over-claim against held-out evidence (§5.3) | 0.58 [0.52, 0.64], n = 296; never-tuned cells 0.64 [0.58, 0.71] | Most labels assert at least one unsupported claim |
 | P6 vs nulls (2026) | Model minus null over-claim (§5.6) | Random labels −0.15 [−0.28, −0.02]; configuration null −0.28 reported, −0.20 [−0.33, −0.08] after fixing the key collision *(derived)* | Model better than both nulls at 2026; significant at L1 (n = 60; −0.19 [−0.33, −0.04], −0.14 [−0.29, −0.01]); at L0 (n = 15) the point differences are similar (−0.27, −0.16) but the CIs include 0 *(derived)* |
 | P6 temporal honesty | Deterministic checks (§5.4) | 0 years after the cutoff; 4 `future_entity` flags, all surface-form collisions | No leak found |
+| T6 extrinsic utility | Drill-down agent vs flat search on 18 questions, hit-rate and steps-to-target (§6) | Hit-rate A methods 0.275 vs 0.295, A citations 0.657 vs 0.578, B claims 0.740 vs 0.543; median steps to first item A 206.5 vs 10.5, B 143 vs 2; reach 14/16 vs 16/16 | Mixed accuracy at a much higher step cost; descriptive (no CIs, no nulls) |
 
 ## 2. Run and protocol
 
@@ -54,12 +56,14 @@ Max sizes and caps count concept nodes only. ≤2020 has no temporal prior (no e
 | Coherence (§3) | Concept co-assignment per level; bibliographic coupling of citing papers, which the clustering never sees | 99 configuration-null rebuilds; 999 random-label permutations | `eval/coherence.py`, `eval/experiments.py` (`coherence_check`); formal statement §8 |
 | Stability (§4) | Concept-node partitions of the run, of 5 perturbed rebuilds per snapshot, and of 99 new-paper-null rebuilds per transition; `out/temporal_events.json` | Unperturbed run; new-paper (attachment) null | `eval/stability.py`, `tkh/null.py`, `tkh/temporal.py`; formal statement §9 |
 | Labels (§5) | Labels and glosses at L0–L1, all snapshots; seen/held-out evidence in `out/<t>/label_inputs.json` | Known-answer controls; 3 configuration-null and 3 random-label trees at 2026 | `eval/labels.py`, `tkh/label.py`, `configs/prompts/` |
+| Retrieval (§6) | `out/<t>/hierarchy.json` and the snapshot's graph; `data/questions.csv`; `data/ground_truth.json` (evaluator only) | Flat search with the same scorer | `tkh/retrieve.py`, `eval/retrieval.py`; design in `notebooks/04_retrieval_design.ipynb` |
 
 ### 2.3 Provenance
 
 - **Coherence and stability.** `coherence` and `stability` in `out/metrics.json` are byte-identical to the committed results at HEAD (87ba2ce), from the rebuild with the verification fixes (γ = 0.5).
 - **Partitions unchanged.** The later rebuild with the contrastive labeller changed only labels. `out/<t>/hierarchy.json` differs from HEAD only in `label` and `gloss` fields; `levels` and super-node membership are identical at all four cutoffs. The coherence and stability results therefore describe the current tree.
 - **Labels.** `labels` comes from a new standard-rigor run (`labels.rigor` = "standard"), run 2026-10-24 ~03:47, on labels from the current contrastive labeller (`contrast` = 10). Per-judgement records are in `out/label_judgements.json` (7072 records).
+- **Retrieval.** `retrieval` in `out/metrics.json` and `out/retrieval_answers.json` come from `make retrieval` (2026-10-28) on the current tree. The step is offline (no LLM calls) and leaves the other sections of `metrics.json` unchanged.
 - **Committed with this report:** the label rebuild (`out/<t>/hierarchy.json`, `out/<t>/label_inputs.json`, `out/run_config.toml`, `out/run_info.json`), the labels run (`out/metrics.json`, `out/label_judgements.json`), `data/llm_cache.json`, `eval/figures.py` (`make figures`) and `docs/figures/`.
 
 ### 2.4 Reproduction
@@ -70,11 +74,12 @@ make validate     # validate.py against out/run_config.toml
 make coherence    # 99 configuration-null rebuilds, 999 random labels
 make stability    # perturbation (10%, 5 seeds), cross-snapshot vs new-paper null
 make labels       # RIGOR=standard by default
+make retrieval    # T6: drill-down agent vs flat search (offline, seconds)
 make figures      # docs/figures/*.png from out/metrics.json and out/label_judgements.json
 make test
 ```
 
-`make all` runs build → validate → coherence → stability → labels → test. All LLM calls replay from the response cache `data/llm_cache.json` when `TKH_LLM_MODE` is unset (offline, the default). If `TKH_LLM_MODE=live` is exported, `make build` and `make labels` call a local Ollama server instead; run `unset TKH_LLM_MODE` first. The cache that matches this run is the uncommitted working copy of `data/llm_cache.json`. No step was re-run for this report.
+`make all` runs build → validate → coherence → stability → labels → retrieval → test. All LLM calls replay from the response cache `data/llm_cache.json` when `TKH_LLM_MODE` is unset (offline, the default). If `TKH_LLM_MODE=live` is exported, `make build` and `make labels` call a local Ollama server instead; run `unset TKH_LLM_MODE` first. The cache that matches this run is the uncommitted working copy of `data/llm_cache.json`. Only `make retrieval` was run for §6; no other step was re-run for this report.
 
 ## 3. Coherence: held-out bibliographic coupling (P3)
 
@@ -209,7 +214,7 @@ Lifts per scheme. **Bold** marks a lift that beats both nulls at p ≤ 0.05. The
 - At ≤2026, L1 and L2 pass under all five schemes with both matchings, and the lift varies little (exact: 1.17–1.31 at L1, 1.55–1.65 at L2).
 - At ≤2024, L2 passes everywhere. Exact L1 fails only under `gap` (1.10; p = 0.10 / 0.152), and its unadjusted lift (1.18) also fails the random-label null (p = 0.101).
 - At ≤2022 the conclusion depends on the scheme under exact matching: only `year1` passes, at both L1 and L2. Under fuzzy matching, L1 passes everywhere and L2 only under `interval`.
-- At ≤2020, the year-binned L1 lifts (2.5–4.3) come from a 9-paper snapshot in which only 114 of 200 bootstrap draws are defined under the year-bin schemes. They are not evidence (§7.1).
+- At ≤2020, the year-binned L1 lifts (2.5–4.3) come from a 9-paper snapshot in which only 114 of 200 bootstrap draws are defined under the year-bin schemes. They are not evidence (§8.1).
 
 ### 3.7 Verdict per snapshot and level
 
@@ -226,9 +231,9 @@ Under the strict criterion (exact matching, all five schemes), three cells are r
 
 Under exact matching, at every snapshot and under every scheme, the L0 lift is below 1 and below the lower edge of both null bands (p = 1.0). At ≤2026 (interval) it is 0.879, against null 2.5% quantiles of 0.950 and 0.964. Conditional on the snapshot's papers, coupled concept-disjoint papers are placed in the same coarse super-node *less* often than under either null. Under fuzzy matching, L0 is never significant but not always below the bands: ≤2026 interval 0.972 lies inside both (configuration-null q2.5 0.959, random-label q2.5 0.971; p = 0.92 / 0.971), and ≤2024 `year2` and `year3` are 1.03 and 1.04 (p = 0.51 / 0.43 and 0.40 / 0.374), so there L0 is at chance rather than below it.
 
-- **Coarse groups are very large.** At ≤2026 the 15 L0 super-nodes have a median of 264 member ids (min 56, max 854; 5798 in total). The median is 90 at L1 and 19 at L2 (`out/2026/hierarchy.json`). With so few, so large groups, we expect a_pq to vary little across pairs and the ratio Σa·c / Σa·e to be driven by a handful of groups. This is a hypothesis, not measured: neither quantity is in `metrics.json` (a per-super-node breakdown would test it, §8.3 item 6).
+- **Coarse groups are very large.** At ≤2026 the 15 L0 super-nodes have a median of 264 member ids (min 56, max 854; 5798 in total). The median is 90 at L1 and 19 at L2 (`out/2026/hierarchy.json`). With so few, so large groups, we expect a_pq to vary little across pairs and the ratio Σa·c / Σa·e to be driven by a handful of groups. This is a hypothesis, not measured: neither quantity is in `metrics.json` (a per-super-node breakdown would test it, §9.3 item 5).
 - **The sub-chance values are not explained by these files.** They suggest that the coarse cut divides along an axis that cuts across citation lineages. Candidates are task or dataset families rather than method lineages, or the γ = 0.5 prior holding coarse groups to their earlier shape. Neither is tested.
-- **Not shown by this run.** The formal statement attributes L0's loss to the temporal prior on the basis of a γ = 0 comparison (`out/gamma/gamma.json`), which predates the verification fixes and is stale (§8).
+- **Not shown by this run.** The formal statement attributes L0's loss to the temporal prior on the basis of a γ = 0 comparison (`out/gamma/gamma.json`), which predates the verification fixes and is stale (§9).
 
 A direct diagnostic would be a per-super-node breakdown of the coupled pairs, which is not in `metrics.json`. In practice, L0 is a coarse overview whose groupings the citation signal does not support; claims of semantic closeness should be made at L1–L2.
 
@@ -288,7 +293,7 @@ R = 99 for every row.
 
 - **Persistence is high.** ARI is 0.79–0.92 at every level and transition, HARI 0.80–0.89. 2022→2024 is the least stable transition at all levels.
 - **The null is almost as stable.** All 12 observed values lie above the null mean, by +0.005 to +0.055 *(derived from the same fields)*. Only 2024→2026 L2 leaves the null's 2.5–97.5% band (0.916 against an upper edge of 0.910; z = 2.49; p = 0.01, the floor, meaning no replicate reached the observed value). The 12 tests are not independent (HARI pools the levels, and all tests at a transition share one real tree), and no multiplicity correction is applied. A Bonferroni threshold of 0.05/12 ≈ 0.004 lies below the p floor at R = 99, so this exceedance cannot be called significant under that correction; it is suggestive at most. The consistent positive sign is not a valid sign test, for the same reason.
-- **What not beating the null means.** The null keeps the real old graph, the real t−1 hierarchy and the prior, and randomises only *which* old nodes new papers attach to. Persistence is about as high when new papers attach at random, so it is not due to the real attachment pattern. It comes from what the null keeps: the real ≤t−1 graph, the real t−1 hierarchy and the γ = 0.5 prior. Which of these is responsible is not separated without a γ = 0 control on the current build (§7.2). This is consistent with the by-construction behaviour intended for P5; it is **not** evidence that the corpus' own evolution is stable.
+- **What not beating the null means.** The null keeps the real old graph, the real t−1 hierarchy and the prior, and randomises only *which* old nodes new papers attach to. Persistence is about as high when new papers attach at random, so it is not due to the real attachment pattern. It comes from what the null keeps: the real ≤t−1 graph, the real t−1 hierarchy and the γ = 0.5 prior. Which of these is responsible is not separated without a γ = 0 control on the current build (§8.2). This is consistent with the by-construction behaviour intended for P5; it is **not** evidence that the corpus' own evolution is stable.
 - **Persistence is not robustness.** L0 ARI is 0.89 across 2024→2026 but 0.12 under perturbation at ≤2026. The run is consistent with its own past, not converging to a partition determined by the data.
 
 ### 4.4 Change localisation
@@ -351,7 +356,7 @@ The question is whether the L0 and L1 labels assert things about their super-nod
 | Correction | If the gate passes, Rogan–Gladen on the claim rate: u = clip((u_obs + Sp − 1)/J, 0, 1); then `corrected_over_claim` = mean over labels of 1 − (1 − u)^n_claims. |
 | Cross / sibling | **Cross-support**: the label's first claim judged against the held-out lines of 2 random other same-level super-nodes; it should be unsupported, and a high rate flags generic labels or a lenient judge. **Sibling support**: a sibling's first claim judged against this group's held-out lines; diagnostic only, as siblings share a field. At L0, which has no parent, the code falls back to a random other L0 super-node (`eval/labels.py:265`), so L0 sibling support is effectively a third cross-support trial. |
 | Deterministic checks | No LLM. On label + gloss: (a) a year after the cutoff; (b) `named_non_member`: a proper-name-like method or dataset name (≥ 2 capitals, or letters plus digits, whole-word) whose nodes are all outside the group; (c) `future_entity`: such a name whose nodes all enter after the cutoff. |
-| Nulls (2026 only) | Same labeller and judge on 3 configuration-null rebuilds and 3 random-label trees (concept ids permuted within (type, entry interval)). `model_minus_null` = model over-claim at 2026 minus pooled null over-claim, with an independent bootstrap CI that resamples the pooled null labels as iid (`_ci`, `_diff`), so it ignores between-tree variance (§7.3). |
+| Nulls (2026 only) | Same labeller and judge on 3 configuration-null rebuilds and 3 random-label trees (concept ids permuted within (type, entry interval)). `model_minus_null` = model over-claim at 2026 minus pooled null over-claim, with an independent bootstrap CI that resamples the pooled null labels as iid (`_ci`, `_diff`), so it ignores between-tree variance (§8.3). |
 
 The design assumes that a label written from half of a coherent group's evidence should carry over to the other half, and that a label of an incoherent group should not. All LLM answers are served from `data/llm_cache.json`, so the run replays offline.
 
@@ -482,7 +487,7 @@ Over-claim falls steeply with the number of held-out lines (0.90 for 1–5 lines
 
 **Defect in the configuration-null scoring.** `_labelled` / `null_trees` in `eval/labels.py` key configuration-null super-nodes as `cfg<s>:<cutoff>:<group id>`. The rebuild numbers groups from 0 on each level, so the 15 L0 keys collide with L1 keys. `judge_trees` then merges the two labels' records into one entry: `judged` is 60 instead of 75, and each collided key pools up to 6 claims from two labels, which inflates over-claim (`_over`) and makes `model_minus_null` too favourable to the model. Three other fields are also affected. `corrected_over_claim` is affected through the key-pooled per-label claim lists (`nclaims` up to 6; `eval/labels.py:276–286`). `decomposition_ok` reads `claims_of` by key (line 292), and because L1 rows come after L0 rows, the L0 rows take the colliding L1 row's flag. The sibling control of L0 rows reads `claims_of[...][0][0]` (line 266): the choice of sibling row is unaffected, but its claim text is the first claim of the colliding L1 label, so configuration-null `sibling_support` is also invalid (in all 3 trees, all 15 L0 sibling claims equal an L1 label's first claim; *derived* from the record blocks). Se, Sp, J, cross-support, `claim_unsupported` (pooled over all label-claim records) and the deterministic counts are per record and correct. Model and random-label keys use hierarchy ids such as `L0.1` and do not collide.
 
-The per-label values were recovered by splitting the ordered records into per-row blocks (label claims followed by their controls). The split reproduces the four trees without colliding keys exactly (model 0.581, random-label pooled 0.640, `model_minus_null` −0.147), which validates it. The level is now part of the key in `eval/labels.py` (`_labelled`), with the regression test `test_null_tree_keys_are_unique_across_levels`. `metrics.json` predates the fix; rescoring is open (§8.3).
+The per-label values were recovered by splitting the ordered records into per-row blocks (label claims followed by their controls). The split reproduces the four trees without colliding keys exactly (model 0.581, random-label pooled 0.640, `model_minus_null` −0.147), which validates it. The level is now part of the key in `eval/labels.py` (`_labelled`), with the regression test `test_null_tree_keys_are_unique_across_levels`. `metrics.json` predates the fix; rescoring is open (§9.3).
 
 **Interpretation.** At 2026, model labels carry over to held-out evidence better than labels of random-label groups (−0.15, CI excludes 0) and of configuration-null groups (−0.20 after the fix, CI excludes 0). The null labels also have higher cross-support, so their over-claim is already helped by vaguer labels, which makes the gap conservative on that count. By level at 2026 *(derived)*, the gap holds at L1 (vs configuration null −0.19 [−0.33, −0.04]; vs random labels −0.14 [−0.29, −0.01]); at L0 (n = 15 against 45) the CIs include 0. Three caveats:
 1. The nulls exist only at 2026, the model's best cutoff; over all cutoffs the model's rate is 0.58.
@@ -498,7 +503,97 @@ The judge and labeller prompts were developed on quick runs (`AI_USAGE.md` entry
 
 The development sets overlap with this run: 2026 L0, 2026 L1, 2022 L0 and 2024 L0 (the 2026 L1 rate here, 0.55, equals it10's test value). The cells never used in development (2020 L0 and L1, and L1 at 2022 and 2024) have over-claim **0.64 [0.58, 0.71]**, n = 191 *(derived)*, the least selection-biased estimate in this run.
 
-## 6. Overall assessment against the brief
+## 6. Extrinsic utility: retrieval (T6)
+
+The brief's extrinsic test: an agent that starts at the coarsest level and drills down to the target nodes, compared
+with a flat baseline and scored on hit-rate and steps-to-target. Design, data study and rationale:
+`notebooks/04_retrieval_design.ipynb`.
+
+### 6.1 Task and protocol
+
+- **Questions.** The 18 questions of `data/questions.csv`: 14 type A (specific search; the answer is methods and
+  citations) and 4 type B (synthesis; the answer is claims and citations). The question type is given as metadata.
+  The ground truth, `data/ground_truth.json`, is read only by the evaluator.
+- **Snapshot.** The latest cutoff not after the stated year; no date → the latest cutoff. All 18 questions are
+  answered from ≤2026. The agent's snapshot equals the one the evaluator derives independently (the GT `as_of` for
+  type B, the year written in the question for type A) for every question.
+- **Agent** (`tkh/retrieve.py`).
+  - Node text comes from the snapshot's own edges only.
+  - Scoring is keyword overlap: the share of the question's keywords a text contains.
+  - Super-nodes score 0.5 · s(label + gloss) + 0.5 · s(member centroid) at L0–L1, and s(member centroid) at L2.
+  - A beam keeps 10 / 20 / 40 super-nodes at
+    L0 / L1 / L2, and the answer has k = 10 items.
+  - The **flat baseline** ranks every leaf with the same scorer and texts.
+- **Gold resolution** (`eval/retrieval.py`).
+  - GT method names match nodes by exact name/alias or acronym.
+  - Citations match by author set and year (±1).
+  - Type-B sources match by DOI, then title.
+  - A method claim is attainable when the graph holds a claim from the method's evidence article on the method.
+  - Unattainable items are excluded from hit-rates and reported as ceilings.
+- **Metrics.**
+  - M1 hit-rate @k over attainable items.
+  - M2 error rate: the share of answers that are listed `wrong_domain` / `outdated_as_main` methods.
+  - M3 steps-to-target: one step = one node inspected, so the drill-down pays for every super-node it scores.
+    There is one target per attainable GT item, a miss is censored at N + 1, and steps are summarised by medians.
+  - Differences are paired per question (mean; steps: median). There are no CIs (§8.4).
+
+### 6.2 Ceilings
+
+| Item | Attainable / total |
+|---|---|
+| A methods | 45 / 63 (0.71) |
+| A method claims | 54 / 188 (0.29) |
+| A citations | 65 / 71 (0.92) |
+| B claims | 32 / 36 (0.89) |
+| B citations | 14 / 19 (0.74) |
+
+Q5 and Q11 have no attainable method, so methods, steps and reach are over 12 type-A and 4 type-B questions. The
+other metrics have their own n (table below): citations over 14 type-A questions, method claims over the 9 with an
+attainable method claim, and M2 over the 12 whose GT lists `wrong_domain` / `outdated_as_main` methods (all but Q13
+and Q14).
+
+### 6.3 Results (drill-down vs flat)
+
+| Type | Metric | n | Drill-down | Flat | Paired difference |
+|---|---|---|---|---|---|
+| A | M1 methods | 12 | 0.275 | 0.295 | -0.020 |
+| A | M1 method claims | 9 | 0.250 | 0.306 | -0.056 |
+| A | M1 citations | 14 | 0.657 | 0.578 | +0.079 |
+| A | M2 error rate | 12 | 0.042 | 0.033 | +0.008 |
+| A | reach (share of questions) | 12 | 0.833 | 1.000 | -0.167 |
+| A | M3 steps to first item (median) | 12 | 206.5 | 10.5 | +150.0 |
+| A | M3 steps to 50% of items (median) | 12 | 413.0 | 28.5 | +359.0 |
+| B | M1 claims | 4 | 0.740 | 0.543 | +0.196 |
+| B | M1 citations | 4 | 0.438 | 0.375 | +0.062 |
+| B | reach (share of questions) | 4 | 1.000 | 1.000 | +0.000 |
+| B | M3 steps to first item (median) | 4 | 143.0 | 2.0 | +140.5 |
+| B | M3 steps to 50% of items (median) | 4 | 152.5 | 6.5 | +146.0 |
+
+**Diagnostics** (`retrieval.diagnostics`):
+- Kept / frontier is 0.67 at L0, 0.47 at L1 and 0.46 at L2. The drill-down scores 133–162 super-nodes per question
+  before its first leaf.
+- The drill-down never reaches Q4 and Q10. In both, the targets lie inside one L0 super-node that the beam keeps;
+  they are lost at L1.
+- Flat search needs more than 1,000 ranks on Q7 (1266) and Q10 (1252). The drill-down needs 354 steps on Q7 and
+  misses Q10 (censored at 2525).
+- On average, both systems cite about as many articles per answer (A 13.0 vs 13.2 over the 12 type-A questions with
+  step items, B 4.0 vs 4.0), so the mean citation difference is not explained by average breadth. Breadth is not
+  controlled per question (Q4: 20 vs 10 articles; §9.3 item 6).
+
+### 6.4 Reading
+
+- **Accuracy is mixed.** The drill-down is higher on type-A citations and on type-B claims and citations, and
+  slightly lower on type-A methods and method claims. It reaches an item on 10 of 12 type-A and 4 of 4 type-B
+  questions; flat search reaches all 16.
+- **Cost favours flat search.** Its median rank to the first item is 10.5 (A) and 2 (B); the drill-down's routing
+  overhead alone is 133–162 steps. The only exception is Q7 (354 vs 1266 steps); on Q10 flat search needs 1252 ranks
+  and the drill-down misses.
+- **The misses are routing errors at L1,** not dispersion: the right L0 node is kept, the right L1 node is not.
+- On this corpus the hierarchy acts as a filter that can sharpen the answer list, not as a shortcut to the first
+  target. The settings were chosen with these questions in view, and there are no CIs or nulls, so this is
+  descriptive evidence on 16 questions (§8.4).
+
+## 7. Overall assessment against the brief
 
 Statuses follow the formal statement's §6 property table, updated with this run's evidence. Properties not tested by this run are marked as such.
 
@@ -510,15 +605,15 @@ Statuses follow the formal statement's §6 property table, updated with this run
 | P4 hyper-edge fidelity | By construction; not tested here | No evaluation in this run speaks to it. |
 | P5 temporal stability | By construction (prior, persistent ids, event log); size of effect empirical | Persistence high (HARI 0.80–0.89) but at the level of a null that shares the mechanism; per node, change concentrated on touched nodes (ratio 2.4–7.0), although 78–89% of total reassignment falls on untouched nodes; identity log with birth / continue / growth / change / merge / split; deaths impossible by construction. Attribution to the prior is untested (no γ = 0 control). Robustness to perturbation is low at coarse late levels. |
 | P6 interpretable, faithful labels | Empirical, not satisfied | Labels exist for every L0–L1 super-node, but 0.58 of judged labels assert at least one claim the held-out evidence does not support (0.64 on cells never used in development). Better than both nulls at 2026. Temporal honesty: no post-cutoff years and no real future-entity leaks found. L2 labels were not evaluated. |
-| Extrinsic utility (brief T6) | Not evaluated in this run | No extrinsic, task-grounded result in `out/metrics.json` (sections `coherence`, `stability`, `labels` only) and no such evaluation in `eval/`. The brief states that intrinsic metrics alone are not enough. |
-| Variant comparison (brief T6) | Not done on the current build | The brief asks to compare method variants and say which to ship. The only γ and parameter comparisons are the stale `out/gamma/` and `out/sweep.json` (§8.1). |
+| Extrinsic utility (brief T6) | Empirical, mixed | Drill-down vs flat search on 18 questions (§6). Hit-rates are mixed: higher on citations and type-B claims, slightly lower on type-A methods. The step cost is far higher (median 206.5 vs 10.5 to the first item, A), and 2 questions are missed at L1. Descriptive only: no CIs, no nulls, settings chosen with these questions in view. |
+| Variant comparison (brief T6) | Not done on the current build | The brief asks to compare method variants and say which to ship. The only γ and parameter comparisons are the stale `out/gamma/` and `out/sweep.json` (§9.1). |
 | Label circularity (brief T6) | Controlled by design, partly | The judge checks claims against the held-out half of a seeded 50/50 evidence split (`tkh/label.py`, `split_evidence`) that the labeller never sees. The held-out half uses the same kinds of text as the seen half, including concept surface forms that also drive clustering, so the split controls for the labeller's input, not for shared vocabulary. |
 
-In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supported at the finer levels only; P5's localisation is observed but its cause is not isolated; P6's faithfulness target ("nothing the members do not support") is not met by the current labeller, as measured by this judge. The brief's extrinsic evaluation and variant comparison are not part of this run.
+In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supported at the finer levels only; P5's localisation is observed but its cause is not isolated; P6's faithfulness target ("nothing the members do not support") is not met by the current labeller, as measured by this judge. In the extrinsic test, the hierarchy acts as a filter that can sharpen a retrieval answer, not as a shortcut to the first target. The variant comparison is not part of this run.
 
-## 7. Limitations and threats to validity
+## 8. Limitations and threats to validity
 
-### 7.1 Coherence
+### 8.1 Coherence
 - **Few coupled pairs.** Lifts rest on 5, 11, 21 and 58 coupled no-overlap pairs (exact) at ≤2020–≤2026. The ≤2022 and ≤2024 verdicts can turn on a few pairs, which explains their sensitivity to scheme and matching.
 - **Wide bootstrap CIs against tight null bands.** The null tests are conditional on the snapshot's papers (fixed ruler, varying partition), with narrow bands (about ±0.05–0.15 at ≤2026). The paper bootstrap asks how the lift would vary over other paper samples; its CI includes 1 in **every** cell. The evidence is "better than chance for this corpus", not a population estimate.
 - **≤2020 is not evaluable.** 9 citing papers, 18 no-overlap pairs, 1 interval stratum; L2 lift undefined; 165 and 129 of 200 draws defined at L0–L1 (114 under the year-bin schemes at L1). Its year-bin passes are small-sample artefacts.
@@ -527,14 +622,14 @@ In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supp
 - **Name-based residual filter.** Leakage through paraphrased or unnormalised names is not excluded; the stricter fuzzy filter strengthens rather than weakens the L1–L2 result.
 - **Coupling is a proxy.** Papers can cite the same works for unrelated reasons (a shared benchmark or survey), and related work in a sparse citation network may share no citations.
 
-### 7.2 Stability
+### 8.2 Stability
 - **No γ = 0 control on the current build.** That the prior produces persistence and localisation, and that it costs perturbation robustness, is argued by design, not measured on this run. The perturbation decline over snapshots is confounded with graph growth under fixed budgets.
 - **Weak null evidence.** p floor 0.01 at R = 99; 12 dependent, uncorrected tests; the null shares the prior and the real t−1 hierarchy, so it tests only the attachment pattern.
 - **Interval semantics.** Cross-snapshot intervals come from half-subsamples of nodes on fixed trees (node sampling only, and wider than full-size resampling). Perturbation intervals are t-intervals with n = 5. Localisation CIs treat nodes as independent, although co-members are not.
 - **HARI is dominated by L0.**
 - **Definitions differ from the method's.** The evaluator's touched set (any relation, hubs included, hub-churn removals not excluded) is not U_t, so the localisation ratio is not a direct check of U_t. Events use full memberships (anchored and new nodes); ARI and reassignment use common concept nodes.
 
-### 7.3 Labels
+### 8.3 Labels
 - **One judge (phi4) and one labeller.** No human or second-judge agreement; judge error on topical claims is unmeasured. Name controls do not transfer to topical claims; cross-support (0.17) and the examples show the judge is lenient in some cases and strict in others.
 - **Configuration-null key collision.** `metrics.json` over-states the configuration-null over-claim (0.78 vs 0.70 recomputed) and the model's advantage over it (−0.28 vs −0.20) (§5.6).
 - **`corrected_over_claim` is not usable.** It assumes independent claims; the Rogan–Gladen step relies on Se and Sp from name controls.
@@ -545,17 +640,24 @@ In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supp
 - **Nondeterminism.** Controlled by the response cache: results replay exactly, but they are one sample of each model's output. A prompt edit invalidates the cache and gives different labels and verdicts.
 - **L2 labels are not evaluated** (standard rigor covers levels 0–1).
 
-### 7.4 General
-- **One corpus, one configuration.** All results are for the shipped parameters on this export; no parameter sensitivity is reported here (the sweep is stale, §8).
+### 8.4 Retrieval
+- **Few questions, one snapshot.** n = 18 (12 + 4 with attainable targets), all answered from ≤2026; retrieval on earlier snapshots is untested beyond the leaf-text check in `tests/test_retrieval.py`.
+- **No CIs and no nulls.** Differences are paired point estimates; no random-tree null or label ablation was run, so the result is not shown to beat chance.
+- **In-sample settings.** Scorer, beam and node content were chosen with these questions in view; the levels are optimistic.
+- **Matching.** Claims are matched by source article, not by content; method claims are scored per method; method names match on exact name or acronym only (versioned names such as "Orb" → "Orb-v2" are unattainable); author order is missing from the export.
+- **Lexical scorer.** Keyword overlap is weak on paraphrase and partly shares the names used for clustering.
+
+### 8.5 General
+- **One corpus, one configuration.** All results are for the shipped parameters on this export; no parameter sensitivity is reported here (the sweep is stale, §9).
 - **Uncommitted state.** The labels results, the updated hierarchy labels and the matching LLM cache are uncommitted (§2.3).
 
-## 8. Stale or excluded outputs, and open items
+## 9. Stale or excluded outputs, and open items
 
-### 8.1 Excluded from this report
+### 9.1 Excluded from this report
 - **`out/gamma/` (including `gamma.json`) and `out/sweep.json`.** Produced before the verification fixes; not used. They contain the only γ = 0 comparison and parameter sweep in the repo.
 - **`out/label_dev/*.json` and `AI_USAGE.md` entry 30.** Quick development runs of the judge and labeller; cited only as development context (§5.7).
 
-### 8.2 Stale documentation
+### 9.2 Stale documentation
 - `docs/formal_statement.md` §6 property table: the P3 entry claims robustness at ≤2022 L1–L2 (not supported, §3.7); the P5 entry gives cross-snapshot HARI 0.83–0.95 (now 0.80–0.89); the P6 entry says labels are placeholders and faithfulness is not evaluated.
 - `docs/formal_statement.md` §8 table is pre-fix (commit c8e09c8: "formal statement numbers still pre-fix"):
 
@@ -573,12 +675,13 @@ In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supp
 - The `eval/labels.py` module docstring describes sibling-based false controls; the code uses member-name false controls.
 - `configs/prompts/README.md` lists the entailment output field as `quote`; the prompt asks for `line`.
 
-### 8.3 Open items
+### 9.3 Open items
 1. Rescore the labels with `make labels`. The configuration-null key is fixed in `eval/labels.py` (the level is part of the key), but `metrics.json` was produced before the fix. Rescoring is not a pure cache replay: the label, true, false and cross prompts are unchanged and replay from the cache, but the sibling controls of the 45 configuration-null L0 rows (15 per tree; `eval/labels.py:244` and `:266`) get new claim text, because today they use the colliding L1 label's first claim (in each tree only 1–2 of these 15 claims also occur among the L0 first claims, so about 40 of the 45 prompts change; *derived*). Those entailment prompts are not in `data/llm_cache.json`, and offline mode raises `CacheMiss` on an uncached prompt (`tkh/llm.py:81–82`). They need `TKH_LLM_MODE=live`, or the sibling records must be excluded or held fixed.
 2. Regenerate formal statement §6, §8 and §9 from `out/metrics.json`, and update its label description, the `eval/labels.py` docstring and `configs/prompts/README.md`.
 3. Run a γ = 0 control (perturbation, cross-snapshot and localisation) on the current build, and re-run `make gamma` / `make sweep` if those analyses are to be reported.
 4. Labels: record held-out evidence size for null groups, run nulls at more than one cutoff, repeat the evidence split, add a second judge or human agreement on topical claims, and drop or replace `corrected_over_claim`.
 5. Coherence: add a per-super-node breakdown of coupled pairs to diagnose L0.
+6. Retrieval: paired bootstrap CIs, a random-tree null and a label ablation; held-out validation of the settings; a content judge for claims; a per-question citation-breadth control; questions on earlier snapshots (`notebooks/04_retrieval_design.ipynb` §9).
 
 ## Appendix A. Metric definitions
 
@@ -601,6 +704,10 @@ In short: P1, P2 and the structural parts of P5 hold by construction; P3 is supp
 | Cross-support | Share of labels' first claims judged supported by another same-level group's held-out evidence |
 | Sibling support | Share of siblings' first claims judged supported by this group's held-out evidence (diagnostic) |
 | model_minus_null | Model over-claim at 2026 minus pooled null over-claim, independent bootstrap CI |
+| Hit-rate (M1) | Share of a question's attainable GT items (methods, method claims, claims, citations) found in the k = 10 answer |
+| Error rate (M2) | Share of the k answers that resolve to a `wrong_domain` or `outdated_as_main` name |
+| Steps-to-target (M3) | Nodes inspected until the first (or 50% of the) GT items: super-nodes scored + rank in the pool (drill-down), rank among all leaves (flat); a miss is censored at N + 1; medians |
+| Reach | Share of questions on which a system finds at least one GT item |
 
 ## Appendix B. Result paths
 
@@ -625,4 +732,7 @@ All paths are in `out/metrics.json` unless stated otherwise. `<t>` is a cutoff (
 | Per-judgement records (derived breakdowns, recomputed configuration null) | `out/label_judgements.json` (7072 records; model keys `<t>:L<k>.*`) |
 | Label evidence (held-out line counts) | `out/<t>/label_inputs.json` |
 | Development logs (context only) | `out/label_dev/*.json`; `AI_USAGE.md` entry 30 |
+| Retrieval summary | `retrieval.summary.<A\|B>.<metric>.{n, stat, hier, flat, hier_minus_flat}`; `retrieval.summary.<A\|B>.ceilings` |
+| Retrieval per question and diagnostics | `retrieval.per_question.<qid>.{snapshot, ceiling, hier, flat}`; `retrieval.diagnostics`; `retrieval.config` |
+| Retrieval answers and resolved gold | `out/retrieval_answers.json → <qid>.{hier, flat, gold}` |
 | Figures | `docs/figures/{coherence_lift, coherence_period_sensitivity, stability, localisation, labels}.png`, produced by `eval/figures.py` (`make figures`) |

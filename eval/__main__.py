@@ -6,9 +6,10 @@
                                                    new-paper null), change localisation, events -> "stability"
   labels     --run DIR [--rigor standard]          label faithfulness: held-out NLI judge, controls, nulls -> "labels"
                                                    (rigor: quick | standard | full; judgements -> DIR/label_judgements.json)
-  retrieval  --run DIR [--beam 3 4 5] [--k 10]     T6 extrinsic utility: drill-down retrieval agent vs flat search on
+  retrieval  --run DIR [--beam 10 20 40] [--k 10]  T6 extrinsic utility: drill-down retrieval agent vs flat search on
                                                    data/questions.csv, scored with data/ground_truth.json (hit-rate,
-                                                   steps-to-target) -> "retrieval"; answers -> DIR/retrieval_answers.json
+                                                   error rate, steps-to-target) -> "retrieval"; answers and resolved
+                                                   gold -> DIR/retrieval_answers.json
   gamma      [--out DIR] [--param k=v ...]         temporal-prior variants gamma = 0 ... 1: stability and coherence
                                                    per variant, paired differences to gamma = 0 -> DIR/gamma.json
   sweep      --out FILE [--param k=v ...]          configuration grid and one-SE selection on cited-work halves
@@ -27,6 +28,7 @@ from eval.retrieval import retrieval_check
 from eval.stability import gamma_tradeoff, stability_check
 from tkh.config import REPO_ROOT, add_config_args, config_from_args, load_config, parse_overrides
 from tkh.io import load
+from tkh.retrieve import BEAM, K
 from tkh.hierarchy import Params
 
 
@@ -55,8 +57,8 @@ def main(argv=None):
     p.add_argument("--run", type=Path, required=True)
     p.add_argument("--questions", type=Path, default=REPO_ROOT / "data" / "questions.csv")
     p.add_argument("--gt", type=Path, default=REPO_ROOT / "data" / "ground_truth.json")
-    p.add_argument("--beam", type=int, nargs="+", default=[3, 4, 5], help="super-nodes kept per level, L0 first")
-    p.add_argument("--k", type=int, default=10, help="answer length (methods or claims)")
+    p.add_argument("--beam", type=int, nargs="+", default=list(BEAM), help="super-nodes kept per level, L0 first")
+    p.add_argument("--k", type=int, default=K, help="answer length (methods or claims)")
     for name in ("gamma", "sweep"):
         p = add_config_args(sub.add_parser(name))
         p.add_argument("--param", nargs="*", help="override [method] parameters of the base configuration")

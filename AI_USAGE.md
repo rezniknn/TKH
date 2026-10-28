@@ -1388,6 +1388,34 @@ accepted or changed, and what was checked.
   - flat search's cost was overstated, although Q7 and Q10 need more than 1,250 ranks.
 - **Verified:** `jupyter nbconvert --execute` exits 0; 459 tests pass. Nothing under `out/` changed.
 
+### 40. Retrieval agent and evaluator moved into tkh/ and eval/ (Claude Code)
+
+- **Task/module:** `tkh/retrieve.py`, `eval/retrieval.py`, `eval/__main__.py`, `Makefile`, `tests/test_retrieval.py`,
+  `out/metrics.json` (`retrieval`), `out/retrieval_answers.json`, `docs/evaluation_report.md` §6,
+  `notebooks/04_retrieval_design.ipynb`, README
+- **Prompt:** "Move the implementation of retrieval agent and the evaluator of retrieval agent over to /tkh and /eval
+  integrating with the rest of the repository (make commands, eval results written to metrics.json and to
+  evaluation_report.md), update the notebook to call implemented methods from /tkh and /eval"
+- **What the assistant did:**
+  - Replaced the bff6364 modules with the notebook's agent (`Facts`, `leaf_texts`, `Index`, `descend`, `flat`,
+    `extract`, `Agent`) and evaluator (gold resolution, M1–M3, summary, diagnostics, `retrieval_check`).
+  - Defaults are now beam (10, 20, 40) and k = 10. `make retrieval`, already part of `make all`, writes
+    `metrics.json["retrieval"]` and `out/retrieval_answers.json`. Only that step was run; the other sections are
+    unchanged.
+  - Added §6 "Extrinsic utility: retrieval (T6)" to the evaluation report and renumbered §6–§8 to §7–§9. Updated the
+    summary, the T6 row of the brief assessment, the limitations, the open items and the appendices.
+  - The notebook now imports the modules and runs `retrieval_check`. Its numbers are unchanged.
+- **Case where the AI was wrong:** the independent review confirmed 18 findings, all fixed. Among them:
+  - `snapshot_ok` compared the agent's `choose_snapshot` with itself. The evaluator now derives the snapshot
+    independently: the GT `as_of` for type B, the first year in the question for type A.
+  - The notebook's leakage text still described the old namespace check. It now reruns the evaluation on a truncated
+    ground truth.
+  - The title-once test only checked an upper bound. A beam of the wrong length ran silently. `metrics.json`
+    recorded absolute home-directory paths.
+  - In the report, Q10 was called an exception to "cost favours flat search", and the breadth claim was overstated.
+- **Verified:** `make retrieval` reproduces the notebook's numbers exactly, and a new test pins `metrics.json`. 465
+  tests pass, and the notebook executes end-to-end.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

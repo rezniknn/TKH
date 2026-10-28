@@ -33,7 +33,7 @@ stability:       ## perturbation (10% of hyper-edges, 5 seeds) and cross-snapsho
 labels:          ## label faithfulness: held-out NLI judge with controls and nulls (RIGOR=quick|standard|full)
 	$(PYTHON) -m eval labels --run $(OUT) --rigor $(or $(RIGOR),standard)
 
-retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate and steps-to-target (offline, seconds)
+retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate, error rate, steps-to-target (offline, seconds)
 	$(PYTHON) -m eval retrieval --run $(OUT)
 
 figures:         ## static PNGs of $(OUT)/metrics.json and $(OUT)/label_judgements.json -> docs/figures/ (no recomputation)

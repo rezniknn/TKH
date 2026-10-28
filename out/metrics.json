@@ -4609,5 +4609,938 @@
     }
    }
   }
+ },
+ "retrieval": {
+  "config": {
+   "beam": [
+    10,
+    20,
+    40
+   ],
+   "k": 10,
+   "scorer": "keyword overlap on snapshot leaf texts",
+   "label_weight": 0.5,
+   "method_rules": [
+    "exact",
+    "acronym"
+   ],
+   "questions": "data/questions.csv",
+   "ground_truth": "data/ground_truth.json"
+  },
+  "summary": {
+   "A": {
+    "n_questions": 14,
+    "methods": {
+     "n": 12,
+     "stat": "mean",
+     "hier": 0.27499999999999997,
+     "flat": 0.29523809523809524,
+     "hier_minus_flat": -0.02023809523809524
+    },
+    "method_claims": {
+     "n": 9,
+     "stat": "mean",
+     "hier": 0.25,
+     "flat": 0.3055555555555556,
+     "hier_minus_flat": -0.05555555555555555
+    },
+    "citations": {
+     "n": 14,
+     "stat": "mean",
+     "hier": 0.6567460317460317,
+     "flat": 0.5778061224489796,
+     "hier_minus_flat": 0.07893990929705216
+    },
+    "error_rate": {
+     "n": 12,
+     "stat": "mean",
+     "hier": 0.041666666666666664,
+     "flat": 0.03333333333333333,
+     "hier_minus_flat": 0.008333333333333333
+    },
+    "reached": {
+     "n": 12,
+     "stat": "mean",
+     "hier": 0.8333333333333334,
+     "flat": 1.0,
+     "hier_minus_flat": -0.16666666666666666
+    },
+    "steps_first": {
+     "n": 12,
+     "stat": "median",
+     "hier": 206.5,
+     "flat": 10.5,
+     "hier_minus_flat": 150.0
+    },
+    "steps_half": {
+     "n": 12,
+     "stat": "median",
+     "hier": 413.0,
+     "flat": 28.5,
+     "hier_minus_flat": 359.0
+    },
+    "ceilings": {
+     "methods": {
+      "attainable": 45,
+      "total": 63
+     },
+     "method_claims": {
+      "attainable": 54,
+      "total": 188
+     },
+     "citations": {
+      "attainable": 65,
+      "total": 71
+     }
+    }
+   },
+   "B": {
+    "n_questions": 4,
+    "claims": {
+     "n": 4,
+     "stat": "mean",
+     "hier": 0.7396825396825397,
+     "flat": 0.5432539682539683,
+     "hier_minus_flat": 0.19642857142857145
+    },
+    "citations": {
+     "n": 4,
+     "stat": "mean",
+     "hier": 0.4375,
+     "flat": 0.375,
+     "hier_minus_flat": 0.0625
+    },
+    "reached": {
+     "n": 4,
+     "stat": "mean",
+     "hier": 1.0,
+     "flat": 1.0,
+     "hier_minus_flat": 0.0
+    },
+    "steps_first": {
+     "n": 4,
+     "stat": "median",
+     "hier": 143.0,
+     "flat": 2.0,
+     "hier_minus_flat": 140.5
+    },
+    "steps_half": {
+     "n": 4,
+     "stat": "median",
+     "hier": 152.5,
+     "flat": 6.5,
+     "hier_minus_flat": 146.0
+    },
+    "ceilings": {
+     "claims": {
+      "attainable": 32,
+      "total": 36
+     },
+     "citations": {
+      "attainable": 14,
+      "total": 19
+     }
+    }
+   }
+  },
+  "diagnostics": {
+   "kept_over_frontier": {
+    "L0": {
+     "mean": 0.6666666666666665,
+     "min": 0.6666666666666666,
+     "max": 0.6666666666666666
+    },
+    "L1": {
+     "mean": 0.473858987727825,
+     "min": 0.40816326530612246,
+     "max": 0.5555555555555556
+    },
+    "L2": {
+     "mean": 0.46117728945710074,
+     "min": 0.4,
+     "max": 0.5633802816901409
+    }
+   },
+   "supernodes_scored": {
+    "min": 133,
+    "max": 162
+   },
+   "never_reached": {
+    "Q4": 1,
+    "Q10": 1
+   },
+   "articles_cited": {
+    "A": {
+     "hier": 13.0,
+     "flat": 13.166666666666666
+    },
+    "B": {
+     "hier": 4.0,
+     "flat": 4.0
+    }
+   }
+  },
+  "per_question": {
+   "Q1": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 7,
+    "n_targets": 15,
+    "pool": 333,
+    "n_supernodes_scored": 152,
+    "ceiling": {
+     "methods": {
+      "attainable": 7,
+      "total": 7
+     },
+     "method_claims": {
+      "attainable": 12,
+      "total": 21
+     },
+     "citations": {
+      "attainable": 7,
+      "total": 7
+     }
+    },
+    "hier": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "error_rate": 0.1,
+     "citations": 0.14285714285714285,
+     "n_articles_cited": 12,
+     "reached": true,
+     "steps_first": 304,
+     "steps_half": 2525,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 0.14285714285714285,
+     "method_claims": 0.25,
+     "error_rate": 0.0,
+     "citations": 0.42857142857142855,
+     "n_articles_cited": 15,
+     "reached": true,
+     "steps_first": 7,
+     "steps_half": 15
+    }
+   },
+   "Q2": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 2,
+    "n_targets": 3,
+    "pool": 376,
+    "n_supernodes_scored": 150,
+    "ceiling": {
+     "methods": {
+      "attainable": 2,
+      "total": 3
+     },
+     "method_claims": {
+      "attainable": 3,
+      "total": 10
+     },
+     "citations": {
+      "attainable": 7,
+      "total": 7
+     }
+    },
+    "hier": {
+     "methods": 1.0,
+     "method_claims": 1.0,
+     "error_rate": 0.0,
+     "citations": 0.7142857142857143,
+     "n_articles_cited": 10,
+     "reached": true,
+     "steps_first": 151,
+     "steps_half": 151,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 1.0,
+     "method_claims": 1.0,
+     "error_rate": 0.0,
+     "citations": 0.7142857142857143,
+     "n_articles_cited": 13,
+     "reached": true,
+     "steps_first": 1,
+     "steps_half": 1
+    }
+   },
+   "Q3": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 2,
+    "n_targets": 2,
+    "pool": 461,
+    "n_supernodes_scored": 143,
+    "ceiling": {
+     "methods": {
+      "attainable": 2,
+      "total": 2
+     },
+     "method_claims": {
+      "attainable": 0,
+      "total": 6
+     },
+     "citations": {
+      "attainable": 2,
+      "total": 2
+     }
+    },
+    "hier": {
+     "methods": 1.0,
+     "method_claims": null,
+     "error_rate": 0.1,
+     "citations": 1.0,
+     "n_articles_cited": 8,
+     "reached": true,
+     "steps_first": 145,
+     "steps_half": 145,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 1.0,
+     "method_claims": null,
+     "error_rate": 0.1,
+     "citations": 1.0,
+     "n_articles_cited": 7,
+     "reached": true,
+     "steps_first": 2,
+     "steps_half": 2
+    }
+   },
+   "Q4": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 1,
+    "n_targets": 2,
+    "pool": 314,
+    "n_supernodes_scored": 133,
+    "ceiling": {
+     "methods": {
+      "attainable": 1,
+      "total": 3
+     },
+     "method_claims": {
+      "attainable": 3,
+      "total": 9
+     },
+     "citations": {
+      "attainable": 3,
+      "total": 3
+     }
+    },
+    "hier": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "error_rate": 0.0,
+     "citations": 1.0,
+     "n_articles_cited": 20,
+     "reached": false,
+     "steps_first": 2525,
+     "steps_half": 2525,
+     "lost_at_level": 1
+    },
+    "flat": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "error_rate": 0.0,
+     "citations": 0.0,
+     "n_articles_cited": 10,
+     "reached": true,
+     "steps_first": 42,
+     "steps_half": 42
+    }
+   },
+   "Q5": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 0,
+    "n_targets": 0,
+    "pool": 417,
+    "n_supernodes_scored": 142,
+    "ceiling": {
+     "methods": {
+      "attainable": 0,
+      "total": 2
+     },
+     "method_claims": {
+      "attainable": 0,
+      "total": 6
+     },
+     "citations": {
+      "attainable": 1,
+      "total": 2
+     }
+    },
+    "hier": {
+     "methods": null,
+     "method_claims": null,
+     "error_rate": 0.1,
+     "citations": 0.0,
+     "n_articles_cited": 17
+    },
+    "flat": {
+     "methods": null,
+     "method_claims": null,
+     "error_rate": 0.1,
+     "citations": 0.0,
+     "n_articles_cited": 19
+    }
+   },
+   "Q6": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 1,
+    "n_targets": 1,
+    "pool": 446,
+    "n_supernodes_scored": 148,
+    "ceiling": {
+     "methods": {
+      "attainable": 1,
+      "total": 3
+     },
+     "method_claims": {
+      "attainable": 3,
+      "total": 9
+     },
+     "citations": {
+      "attainable": 3,
+      "total": 3
+     }
+    },
+    "hier": {
+     "methods": 1.0,
+     "method_claims": 1.0,
+     "error_rate": 0.0,
+     "citations": 1.0,
+     "n_articles_cited": 11,
+     "reached": true,
+     "steps_first": 149,
+     "steps_half": 149,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 1.0,
+     "method_claims": 1.0,
+     "error_rate": 0.0,
+     "citations": 1.0,
+     "n_articles_cited": 11,
+     "reached": true,
+     "steps_first": 1,
+     "steps_half": 1
+    }
+   },
+   "Q7": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 1,
+    "n_targets": 1,
+    "pool": 391,
+    "n_supernodes_scored": 141,
+    "ceiling": {
+     "methods": {
+      "attainable": 1,
+      "total": 2
+     },
+     "method_claims": {
+      "attainable": 0,
+      "total": 6
+     },
+     "citations": {
+      "attainable": 2,
+      "total": 2
+     }
+    },
+    "hier": {
+     "methods": 0.0,
+     "method_claims": null,
+     "error_rate": 0.1,
+     "citations": 1.0,
+     "n_articles_cited": 11,
+     "reached": true,
+     "steps_first": 354,
+     "steps_half": 354,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 0.0,
+     "method_claims": null,
+     "error_rate": 0.1,
+     "citations": 1.0,
+     "n_articles_cited": 11,
+     "reached": true,
+     "steps_first": 1266,
+     "steps_half": 1266
+    }
+   },
+   "Q8": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 1,
+    "n_targets": 1,
+    "pool": 455,
+    "n_supernodes_scored": 148,
+    "ceiling": {
+     "methods": {
+      "attainable": 1,
+      "total": 2
+     },
+     "method_claims": {
+      "attainable": 0,
+      "total": 6
+     },
+     "citations": {
+      "attainable": 2,
+      "total": 2
+     }
+    },
+    "hier": {
+     "methods": 0.0,
+     "method_claims": null,
+     "error_rate": 0.1,
+     "citations": 1.0,
+     "n_articles_cited": 18,
+     "reached": true,
+     "steps_first": 190,
+     "steps_half": 190,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 0.0,
+     "method_claims": null,
+     "error_rate": 0.1,
+     "citations": 1.0,
+     "n_articles_cited": 19,
+     "reached": true,
+     "steps_first": 78,
+     "steps_half": 78
+    }
+   },
+   "Q9": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 1,
+    "n_targets": 2,
+    "pool": 435,
+    "n_supernodes_scored": 162,
+    "ceiling": {
+     "methods": {
+      "attainable": 1,
+      "total": 3
+     },
+     "method_claims": {
+      "attainable": 3,
+      "total": 9
+     },
+     "citations": {
+      "attainable": 2,
+      "total": 2
+     }
+    },
+    "hier": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "error_rate": 0.0,
+     "citations": 1.0,
+     "n_articles_cited": 17,
+     "reached": true,
+     "steps_first": 472,
+     "steps_half": 472,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "error_rate": 0.0,
+     "citations": 1.0,
+     "n_articles_cited": 17,
+     "reached": true,
+     "steps_first": 22,
+     "steps_half": 22
+    }
+   },
+   "Q10": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 1,
+    "n_targets": 1,
+    "pool": 488,
+    "n_supernodes_scored": 161,
+    "ceiling": {
+     "methods": {
+      "attainable": 1,
+      "total": 2
+     },
+     "method_claims": {
+      "attainable": 3,
+      "total": 6
+     },
+     "citations": {
+      "attainable": 4,
+      "total": 4
+     }
+    },
+    "hier": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "error_rate": 0.0,
+     "citations": 0.25,
+     "n_articles_cited": 15,
+     "reached": false,
+     "steps_first": 2525,
+     "steps_half": 2525,
+     "lost_at_level": 1
+    },
+    "flat": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "error_rate": 0.0,
+     "citations": 0.25,
+     "n_articles_cited": 15,
+     "reached": true,
+     "steps_first": 1252,
+     "steps_half": 1252
+    }
+   },
+   "Q11": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 0,
+    "n_targets": 0,
+    "pool": 447,
+    "n_supernodes_scored": 137,
+    "ceiling": {
+     "methods": {
+      "attainable": 0,
+      "total": 2
+     },
+     "method_claims": {
+      "attainable": 0,
+      "total": 4
+     },
+     "citations": {
+      "attainable": 1,
+      "total": 3
+     }
+    },
+    "hier": {
+     "methods": null,
+     "method_claims": null,
+     "error_rate": 0.0,
+     "citations": 1.0,
+     "n_articles_cited": 9
+    },
+    "flat": {
+     "methods": null,
+     "method_claims": null,
+     "error_rate": 0.0,
+     "citations": 1.0,
+     "n_articles_cited": 17
+    }
+   },
+   "Q12": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 10,
+    "n_targets": 20,
+    "pool": 418,
+    "n_supernodes_scored": 134,
+    "ceiling": {
+     "methods": {
+      "attainable": 10,
+      "total": 13
+     },
+     "method_claims": {
+      "attainable": 12,
+      "total": 39
+     },
+     "citations": {
+      "attainable": 14,
+      "total": 15
+     }
+    },
+    "hier": {
+     "methods": 0.3,
+     "method_claims": 0.25,
+     "error_rate": 0.0,
+     "citations": 0.6428571428571429,
+     "n_articles_cited": 17,
+     "reached": true,
+     "steps_first": 136,
+     "steps_half": 280,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 0.3,
+     "method_claims": 0.5,
+     "error_rate": 0.0,
+     "citations": 0.5714285714285714,
+     "n_articles_cited": 16,
+     "reached": true,
+     "steps_first": 2,
+     "steps_half": 12
+    }
+   },
+   "Q13": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 8,
+    "n_targets": 18,
+    "pool": 337,
+    "n_supernodes_scored": 147,
+    "ceiling": {
+     "methods": {
+      "attainable": 8,
+      "total": 8
+     },
+     "method_claims": {
+      "attainable": 12,
+      "total": 24
+     },
+     "citations": {
+      "attainable": 8,
+      "total": 8
+     }
+    },
+    "hier": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "citations": 0.0,
+     "n_articles_cited": 7,
+     "reached": true,
+     "steps_first": 161,
+     "steps_half": 2525,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "citations": 0.125,
+     "n_articles_cited": 13,
+     "reached": true,
+     "steps_first": 11,
+     "steps_half": 35
+    }
+   },
+   "Q14": {
+    "type": "A",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 10,
+    "n_targets": 21,
+    "pool": 299,
+    "n_supernodes_scored": 148,
+    "ceiling": {
+     "methods": {
+      "attainable": 10,
+      "total": 11
+     },
+     "method_claims": {
+      "attainable": 3,
+      "total": 33
+     },
+     "citations": {
+      "attainable": 9,
+      "total": 11
+     }
+    },
+    "hier": {
+     "methods": 0.0,
+     "method_claims": 0.0,
+     "citations": 0.4444444444444444,
+     "n_articles_cited": 10,
+     "reached": true,
+     "steps_first": 223,
+     "steps_half": 2525,
+     "lost_at_level": null
+    },
+    "flat": {
+     "methods": 0.1,
+     "method_claims": 0.0,
+     "citations": 0.0,
+     "n_articles_cited": 11,
+     "reached": true,
+     "steps_first": 10,
+     "steps_half": 312
+    }
+   },
+   "Q15": {
+    "type": "B",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 6,
+    "n_targets": 25,
+    "pool": 203,
+    "n_supernodes_scored": 145,
+    "ceiling": {
+     "claims": {
+      "attainable": 6,
+      "total": 10
+     },
+     "citations": {
+      "attainable": 2,
+      "total": 5
+     }
+    },
+    "hier": {
+     "claims": 1.0,
+     "citations": 0.5,
+     "n_articles_cited": 3,
+     "reached": true,
+     "steps_first": 154,
+     "steps_half": 154,
+     "lost_at_level": null
+    },
+    "flat": {
+     "claims": 0.5,
+     "citations": 0.5,
+     "n_articles_cited": 2,
+     "reached": true,
+     "steps_first": 2,
+     "steps_half": 2
+    }
+   },
+   "Q16": {
+    "type": "B",
+    "snapshot": 2026,
+    "snapshot_source": "default_latest",
+    "snapshot_ok": true,
+    "n_step_items": 9,
+    "n_targets": 48,
+    "pool": 181,
+    "n_supernodes_scored": 140,
+    "ceiling": {
+     "claims": {
+      "attainable": 9,
+      "total": 9
+     },
+     "citations": {
+      "attainable": 4,
+      "total": 4
+     }
+    },
+    "hier": {
+     "claims": 0.4444444444444444,
+     "citations": 0.25,
+     "n_articles_cited": 2,
+     "reached": true,
+     "steps_first": 141,
+     "steps_half": 247,
+     "lost_at_level": null
+    },
+    "flat": {
+     "claims": 0.4444444444444444,
+     "citations": 0.25,
+     "n_articles_cited": 4,
+     "reached": true,
+     "steps_first": 2,
+     "steps_half": 22
+    }
+   },
+   "Q17": {
+    "type": "B",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 7,
+    "n_targets": 65,
+    "pool": 250,
+    "n_supernodes_scored": 142,
+    "ceiling": {
+     "claims": {
+      "attainable": 7,
+      "total": 7
+     },
+     "citations": {
+      "attainable": 4,
+      "total": 5
+     }
+    },
+    "hier": {
+     "claims": 0.7142857142857143,
+     "citations": 0.75,
+     "n_articles_cited": 6,
+     "reached": true,
+     "steps_first": 145,
+     "steps_half": 151,
+     "lost_at_level": null
+    },
+    "flat": {
+     "claims": 0.42857142857142855,
+     "citations": 0.5,
+     "n_articles_cited": 5,
+     "reached": true,
+     "steps_first": 3,
+     "steps_half": 11
+    }
+   },
+   "Q18": {
+    "type": "B",
+    "snapshot": 2026,
+    "snapshot_source": "stated",
+    "snapshot_ok": true,
+    "n_step_items": 10,
+    "n_targets": 101,
+    "pool": 284,
+    "n_supernodes_scored": 135,
+    "ceiling": {
+     "claims": {
+      "attainable": 10,
+      "total": 10
+     },
+     "citations": {
+      "attainable": 4,
+      "total": 5
+     }
+    },
+    "hier": {
+     "claims": 0.8,
+     "citations": 0.25,
+     "n_articles_cited": 5,
+     "reached": true,
+     "steps_first": 137,
+     "steps_half": 137,
+     "lost_at_level": null
+    },
+    "flat": {
+     "claims": 0.8,
+     "citations": 0.25,
+     "n_articles_cited": 5,
+     "reached": true,
+     "steps_first": 2,
+     "steps_half": 2
+    }
+   }
+  }
  }
 }
