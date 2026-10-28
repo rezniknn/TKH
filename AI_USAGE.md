@@ -1237,6 +1237,33 @@ accepted or changed, and what was checked.
 - **Verified:** 458 tests pass; `make retrieval` is byte-identical on rerun and leaves the other `metrics.json`
   sections unchanged; the report's numbers were checked against `out/metrics.json` by an independent agent.
 
+### 34. Retrieval experiments: nodes per level, information compared, keyword matching (Claude Code)
+
+- **Task/module:** `tkh/retrieve.py` (`Settings`, `Space`), `eval/retrieval_experiments.py` (`make retrieval-sweep`),
+  `eval/retrieval.py` (`evaluate`, `objective`), `tests/test_retrieval.py`, `docs/retrieval_report.md` §8
+- **Prompt:** "Design and run a series of experiments aiming at improving retrieval quality (hit rate) and reducing
+  steps to target of the retrieval agent. Do not change the graph's hierarchy. Keep strict temporal rule. Iterate on
+  the retrieval code only experimenting with different threasholds for number of nodes returned at each level, with
+  information subset used for similarity comparsion against the question, with using keyword matching instead of
+  TF-IDF vector similarity. Report the results of each experiment run, document and apply the best configuration…"
+- **What the assistant did:**
+  - Parameterised the agent. The defaults first reproduced the committed run exactly: same summary, per-question
+    scores and answers.
+  - Added BM25 and keyword-overlap scorers, fitted on snapshot texts only.
+  - Fixed the objective H and its tie rule before running.
+  - Ran a staged search (E0–E6, 55 configurations), with flat search rerun under each configuration's scorer.
+  - Applied the winner: beam 10/20/40, keyword overlap, leaf text with the paper's claims. H went from 0.125 to 0.477
+    (flat 0.414). The leave-one-question-out estimate of the selection is H 0.439.
+- **Case where the AI was wrong:**
+  - The first beam grid jumped from (7, 15, 30) to (15, 30, 60). The first-pass winner kept all 15 L0 nodes, so
+    L0 did no pruning at all. Three intermediate beams were added and the series was rerun; both passes are
+    disclosed in the report.
+  - The large citation gain was first read as better retrieval. A breadth check showed that answers cite 11.0 articles
+    on average instead of 3.3, and that citation precision moved only from 0.153 to 0.202. This is now reported as a
+    caveat.
+- **Verified:** 463 tests pass. `make retrieval` and `make retrieval-sweep` are deterministic. The experiment tables
+  are generated from `out/retrieval_experiments.json`, and an independent agent checked the report's numbers.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

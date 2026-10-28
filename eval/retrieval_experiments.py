@@ -49,7 +49,11 @@ class Runner:
                 H, h = objective(per_q, system)
                 steps = {q: p[system]["steps"] for q, p in per_q.items() if p[system]["steps"] is not None}
                 rec[system] = {"H": H, "h": h, "steps": steps, "mean_steps": float(np.mean(list(steps.values()))),
-                               "reached": sum(p[system]["reached"] for p in per_q.values() if p["n_targets"])}
+                               "reached": sum(p[system]["reached"] for p in per_q.values() if p["n_targets"]),
+                               # breadth diagnostics: citation hit-rate rises with the number of articles cited
+                               "mean_articles": float(np.mean([p[system]["n_articles"] for p in per_q.values()])),
+                               "citation_precision": (sum(p[system]["citations"]["hits"] for p in per_q.values()) /
+                                                      max(1, sum(p[system]["n_articles"] for p in per_q.values())))}
             rec["hier"]["supernodes_scored"] = float(np.mean([p["n_supernodes_scored"] for p in per_q.values()]))
             sm = summarise(per_q, B=2000, seed=0)
             rec["summary"] = {t: {m: {sy: (v[sy]["mean"] if v.get(sy) else None) for sy in ("hier", "flat")}
