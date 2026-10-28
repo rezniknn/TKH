@@ -1271,6 +1271,23 @@ accepted or changed, and what was checked.
   - "evaluator unchanged", which holds for the scoring rules only;
   - the disclosure that aliases are undated node attributes.
 
+### 35. Retrieval agent reduced to the selected configuration (Claude Code)
+
+- **Task/module:** `tkh/retrieve.py`, `eval/retrieval.py`, `eval/__main__.py`, Makefile, `tests/test_retrieval.py`,
+  `docs/retrieval_report.md`
+- **Prompt:** "Keep the winning configuration of the retrieval agent only, remove all code added to support
+  experimentation/variation of retrieval implementation"
+- **What the assistant did:**
+  - Removed `Settings`, the TF-IDF and BM25 scorers, the alternative leaf texts, super-node representations and
+    question variants, and the relative threshold.
+  - Removed `eval/retrieval_experiments.py`, the `retrieval-sweep` CLI command and Makefile target, the objective
+    and gold cache, the articles-cited diagnostic, the CLI retrieval flags, and the variant tests.
+  - The agent is now keyword overlap, leaf text with paper claims, a blended super-node score and `BEAM = (10, 20, 40)`.
+  - The experiment record (`out/retrieval_experiments.json`, the Pareto figure) is kept, and the report says how to
+    reproduce it from commit 0174795.
+- **Verified:** after the change, `make retrieval` gives the same summary, per-question scores (minus the removed
+  `n_articles` field) and answers as before; the tests pass.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

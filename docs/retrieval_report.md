@@ -7,7 +7,8 @@ the 18 questions in `data/questions.csv`, scored against `data/ground_truth.json
 
 **Sources of the numbers:**
 - the applied settings: `out/metrics.json["retrieval"]`;
-- the experiments: `out/retrieval_experiments.json`;
+- the experiments: `out/retrieval_experiments.json`, a record of the series run at commit 0174795. The experiment
+  code has since been removed (§8.1);
 - per-question answers, traces and gold resolution: `out/retrieval_answers.json`.
 
 **What the experiments changed.** The first run (E0: beam 3/4/5, TF-IDF cosine) reached a target on 6 of 16
@@ -54,13 +55,11 @@ selection gives H = 0.439 (§8.3), compared with 0.477 in-sample.
 - **Commands.**
   - `make retrieval` (`python -m eval retrieval --run out`) runs the applied settings. It is part of `make all` and
     writes `metrics.json["retrieval"]`.
-  - `make retrieval-sweep` runs the experiment series (§8).
-  - Both are offline: no LLM, no rebuild. They take about 2 s and 8 s, and a rerun gives identical output.
+  - It is offline (no LLM, no rebuild), takes about 2 s, and a rerun gives identical output.
 
 ## 2. The agent (`tkh/retrieve.py`)
 
-All knobs are fields of `Settings`. The defaults are the applied settings, and the first run is
-`eval/retrieval_experiments.BASELINE`.
+The agent implements only the selected configuration (§8). Its constants are `BEAM = (10, 20, 40)` and `K = 10`.
 
 1. **Question type** comes from the question's metadata (the CSV `type` column).
    - Type A answers with method, technique, component and dataset nodes. The GT field `expected_methods` also lists
@@ -116,8 +115,7 @@ All knobs are fields of `Settings`. The defaults are the applied settings, and t
 Only the evaluator reads ground truth. A test (`test_agent_does_not_see_ground_truth`) cuts every question's expected
 methods or required claims down to one item and checks that neither system's answers change.
 
-The experiments did not change the evaluator's scoring rules (gold resolution, hit-rate, steps, censoring). They only
-added the objective H (`objective`), a gold-resolution cache and an articles-cited count.
+The experiments did not change the evaluator's scoring rules (gold resolution, hit-rate, steps, censoring).
 
 ### Gold resolution
 
@@ -151,7 +149,7 @@ Each item is mapped to graph nodes of the question's snapshot, and the tier it m
   - **Flat:** the first target's rank among all leaves of the answer kinds (N = 2524 for A, 690 for B).
   - A target missing from the drill-down pool is censored at N + 1.
   - Targets are the resolved method nodes (A) or the claims of resolved source articles (B).
-- **Objective H** (`objective`), the experiments' selection criterion: the mean over the 16 questions with targets of
+- **Objective H**, the experiments' selection criterion (computed in the removed experiment code): the mean over the 16 questions with targets of
   the mean of their item and citation hit-rates.
 - **Summary:**
   - means per type and system;
@@ -190,7 +188,7 @@ Each item is mapped to graph nodes of the question's snapshot, and the tier it m
 
 - Type B (n = 4) is descriptive only.
 - Every drill-down step count includes 133–162 super-node scores before the first leaf.
-- H over all 16 questions with targets: drill-down 0.477, flat 0.414 (`objective_H`).
+- H over all 16 questions with targets: drill-down 0.477, flat 0.414 (`out/retrieval_experiments.json`, selected run).
 
 ### Per question
 
@@ -315,11 +313,16 @@ energy/force performance?"
 | 20 | Datasets among the type-A answer kinds | GT `expected_methods` lists datasets and benchmarks (Q14) | Methods, techniques and components only |
 | 21 | Ceilings reported; unattainable items excluded from hit-rates | Separates retrieval failure from graph coverage | Raw recall against all GT items |
 | 22 | Paired bootstrap CIs over questions | Both systems, and both configurations, answer the same questions; n is small | Unpaired CIs |
-| 23 | `retrieval` in `make all`; `retrieval-sweep` separate | The check is offline and fast; the sweep is for development and its result is applied as the default | Running the sweep in every build |
+| 23 | `retrieval` in `make all`; the experiment code removed after selection | The check is offline and fast; only the selected configuration is maintained, and the series stays reproducible from git | Keeping every variant in the agent |
 
-## 8. Experiments (`eval/retrieval_experiments.py`, `make retrieval-sweep`)
+## 8. Experiments
 
 ### 8.1 Protocol
+
+- **Code.** The series ran with `eval/retrieval_experiments.py` (`make retrieval-sweep`) and a parameterised
+  `tkh/retrieve.py`. Both were removed after the selected configuration was applied.
+  - To reproduce: `git checkout 0174795 && make retrieval-sweep`.
+  - The record of every run is `out/retrieval_experiments.json`, with `docs/figures/retrieval_pareto.png`.
 
 - **Fixed:** the hierarchy, the snapshot rule, the evaluator's scoring rules, the ground truth and k = 10.
 - **Objective:** fixed before the experiment series was run, after the first run (E0) had been reported. H is the mean over the 16 questions with targets of (item + citation
@@ -447,7 +450,7 @@ The runs are named `<beam or rel/min_keep> <node_info> <leaf_info> <scorer> <que
 
 ### 8.3 Selected settings vs the first run, and the selection estimate
 
-- **Selected:** `beam10-20-40 blend full+claims overlap stripped`, applied as the `Settings` default.
+- **Selected:** `beam10-20-40 blend full+claims overlap stripped`, now the agent's only configuration.
 - **Against E0** (paired over the 16 questions with targets):
   - H: +0.352 [0.195, 0.514];
   - mean steps: −877.8 [−1427.5, −344.7].
@@ -487,10 +490,8 @@ The runs are named `<beam or rel/min_keep> <node_info> <leaf_info> <scorer> <que
 
 ```
 make retrieval                       # applied settings -> out/metrics.json["retrieval"], out/retrieval_answers.json
-make retrieval-sweep                 # experiment series -> out/retrieval_experiments.json, docs/figures/retrieval_pareto.png
-.venv/bin/python -m eval retrieval --run out --beam 3 4 5 --leaf-info full --scorer tfidf   # the first run (E0)
 .venv/bin/python -m pytest tests/test_retrieval.py -q
+git checkout 0174795 && make retrieval-sweep   # the experiment series (§8), with the code as it was then
 ```
 
-Options of `eval retrieval`: `--beam`, `--rel`, `--min-keep`, `--node-info`, `--leaf-info`, `--scorer`, `--query`,
-`--k`, `--questions`, `--gt`.
+Options of `eval retrieval`: `--questions` and `--gt`.

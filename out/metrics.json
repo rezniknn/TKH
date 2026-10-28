@@ -4617,13 +4617,9 @@
     20,
     40
    ],
-   "rel": null,
-   "min_keep": 1,
-   "node_info": "blend",
-   "leaf_info": "full+claims",
-   "scorer": "overlap",
-   "query": "stripped",
    "k": 10,
+   "scorer": "keyword overlap on snapshot leaf texts",
+   "label_weight": 0.5,
    "bootstrap": 2000,
    "seed": 0,
    "questions": "/Users/alexeyr/Personal/TKH/repo/data/questions.csv",
@@ -4648,10 +4644,6 @@
    "Q16": 2026,
    "Q17": 2026,
    "Q18": 2026
-  },
-  "objective_H": {
-   "hier": 0.47661800005550004,
-   "flat": 0.41418000402375404
   },
   "summary": {
    "A": {
@@ -4863,7 +4855,6 @@
       "attainable": 7,
       "rate": 0.14285714285714285
      },
-     "n_articles": 12,
      "steps": 304,
      "reached": true,
      "lost_at_level": null
@@ -4879,7 +4870,6 @@
       "attainable": 7,
       "rate": 0.42857142857142855
      },
-     "n_articles": 15,
      "steps": 7,
      "reached": true
     }
@@ -4913,7 +4903,6 @@
       "attainable": 7,
       "rate": 0.7142857142857143
      },
-     "n_articles": 10,
      "steps": 151,
      "reached": true,
      "lost_at_level": null
@@ -4929,7 +4918,6 @@
       "attainable": 7,
       "rate": 0.7142857142857143
      },
-     "n_articles": 13,
      "steps": 1,
      "reached": true
     }
@@ -4963,7 +4951,6 @@
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 8,
      "steps": 145,
      "reached": true,
      "lost_at_level": null
@@ -4979,7 +4966,6 @@
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 7,
      "steps": 2,
      "reached": true
     }
@@ -5013,7 +4999,6 @@
       "attainable": 3,
       "rate": 1.0
      },
-     "n_articles": 20,
      "steps": 2525,
      "reached": false,
      "lost_at_level": 1
@@ -5029,7 +5014,6 @@
       "attainable": 3,
       "rate": 0.0
      },
-     "n_articles": 10,
      "steps": 42,
      "reached": true
     }
@@ -5063,7 +5047,6 @@
       "attainable": 1,
       "rate": 0.0
      },
-     "n_articles": 17,
      "steps": null,
      "reached": false
     },
@@ -5078,7 +5061,6 @@
       "attainable": 1,
       "rate": 0.0
      },
-     "n_articles": 19,
      "steps": null,
      "reached": false
     }
@@ -5112,7 +5094,6 @@
       "attainable": 3,
       "rate": 1.0
      },
-     "n_articles": 11,
      "steps": 149,
      "reached": true,
      "lost_at_level": null
@@ -5128,7 +5109,6 @@
       "attainable": 3,
       "rate": 1.0
      },
-     "n_articles": 11,
      "steps": 1,
      "reached": true
     }
@@ -5162,7 +5142,6 @@
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 11,
      "steps": 354,
      "reached": true,
      "lost_at_level": null
@@ -5178,7 +5157,6 @@
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 11,
      "steps": 1266,
      "reached": true
     }
@@ -5212,7 +5190,6 @@
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 18,
      "steps": 190,
      "reached": true,
      "lost_at_level": null
@@ -5228,7 +5205,6 @@
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 19,
      "steps": 78,
      "reached": true
     }
@@ -5262,7 +5238,6 @@
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 17,
      "steps": 472,
      "reached": true,
      "lost_at_level": null
@@ -5278,7 +5253,6 @@
       "attainable": 2,
       "rate": 1.0
      },
-     "n_articles": 17,
      "steps": 22,
      "reached": true
     }
@@ -5312,7 +5286,6 @@
       "attainable": 4,
       "rate": 0.25
      },
-     "n_articles": 15,
      "steps": 2525,
      "reached": false,
      "lost_at_level": 1
@@ -5328,7 +5301,6 @@
       "attainable": 4,
       "rate": 0.25
      },
-     "n_articles": 15,
      "steps": 1252,
      "reached": true
     }
@@ -5362,7 +5334,6 @@
       "attainable": 1,
       "rate": 1.0
      },
-     "n_articles": 9,
      "steps": null,
      "reached": false
     },
@@ -5377,7 +5348,6 @@
       "attainable": 1,
       "rate": 1.0
      },
-     "n_articles": 17,
      "steps": null,
      "reached": false
     }
@@ -5411,7 +5381,6 @@
       "attainable": 14,
       "rate": 0.6428571428571429
      },
-     "n_articles": 17,
      "steps": 136,
      "reached": true,
      "lost_at_level": null
@@ -5427,7 +5396,6 @@
       "attainable": 14,
       "rate": 0.5714285714285714
      },
-     "n_articles": 16,
      "steps": 2,
      "reached": true
     }
@@ -5461,7 +5429,6 @@
       "attainable": 8,
       "rate": 0.0
      },
-     "n_articles": 7,
      "steps": 161,
      "reached": true,
      "lost_at_level": null
@@ -5477,7 +5444,6 @@
       "attainable": 8,
       "rate": 0.125
      },
-     "n_articles": 13,
      "steps": 11,
      "reached": true
     }
@@ -5511,7 +5477,6 @@
       "attainable": 9,
       "rate": 0.4444444444444444
      },
-     "n_articles": 10,
      "steps": 152,
      "reached": true,
      "lost_at_level": null
@@ -5527,7 +5492,6 @@
       "attainable": 9,
       "rate": 0.0
      },
-     "n_articles": 11,
      "steps": 10,
      "reached": true
     }
@@ -5561,7 +5525,6 @@
       "attainable": 2,
       "rate": 0.5
      },
-     "n_articles": 3,
      "steps": 154,
      "reached": true,
      "lost_at_level": null
@@ -5577,7 +5540,6 @@
       "attainable": 2,
       "rate": 0.5
      },
-     "n_articles": 2,
      "steps": 2,
      "reached": true
     }
@@ -5611,7 +5573,6 @@
       "attainable": 4,
       "rate": 0.25
      },
-     "n_articles": 2,
      "steps": 141,
      "reached": true,
      "lost_at_level": null
@@ -5627,7 +5588,6 @@
       "attainable": 4,
       "rate": 0.25
      },
-     "n_articles": 4,
      "steps": 2,
      "reached": true
     }
@@ -5661,7 +5621,6 @@
       "attainable": 4,
       "rate": 0.75
      },
-     "n_articles": 6,
      "steps": 145,
      "reached": true,
      "lost_at_level": null
@@ -5677,7 +5636,6 @@
       "attainable": 4,
       "rate": 0.5
      },
-     "n_articles": 5,
      "steps": 3,
      "reached": true
     }
@@ -5711,7 +5669,6 @@
       "attainable": 3,
       "rate": 0.0
      },
-     "n_articles": 5,
      "steps": 148,
      "reached": true,
      "lost_at_level": null
@@ -5727,7 +5684,6 @@
       "attainable": 3,
       "rate": 0.0
      },
-     "n_articles": 5,
      "steps": 13,
      "reached": true
     }
