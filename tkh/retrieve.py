@@ -6,7 +6,7 @@ Agent(tkh, run_dir, cutoffs).answer(question, qtype, mode="hier" | "flat") -> an
                with no date gets the latest cutoff. Only that snapshot's nodes, edges and hierarchy are used (P6).
   2. content   each leaf's text is its name and aliases, the names of its relation neighbours and its evaluated_on
                attributes (metric, task), all from edges <= cutoff, plus the title of the article that presents it
-               (methods) or makes it (claims). Encoded with word TF-IDF fitted on the snapshot's leaf texts: a signal
+               (methods, once) or makes it (claims). Encoded with word TF-IDF fitted on the snapshot's leaf texts: a signal
                distinct from the char-n-gram LSA of names that drove clustering, so the hierarchy is not searched with
                the ruler that built it.
   3. descent   L0 and L1 super-nodes score 0.5 cos(q, label + gloss) + 0.5 cos(q, member centroid); L2 (unlabelled)
@@ -77,9 +77,12 @@ def leaf_texts(tkh, snap):
                 extra = " ".join(str(at[k]) for k in ("metric", "task") if at.get(k))
                 for v in m:
                     txt[v].append(extra)
-        elif r in ("presents", "claims") and isinstance(title.get(a), str):
+        elif r == "presents" and isinstance(title.get(a), str):   # the presented method: its paper's title, once
+            txt[m[1]].append(sm.clean(title[a]))
+        elif r == "claims" and isinstance(title.get(a), str):     # claim nodes only (methods on claims edges excluded)
             for v in m[1:]:
-                txt[v].append(sm.clean(title[a]))
+                if tkh.nodes.at[v, "type"] == "claim":
+                    txt[v].append(sm.clean(title[a]))
     return {v: " . ".join(x) for v, x in txt.items()}
 
 
@@ -215,8 +218,11 @@ class Agent:
         if qtype == "B":
             out = {"as_of": str(cutoff), **out}
         out["ranked"] = [v for v, _ in ranked]           # full ranking, for steps-to-target
+        out["top_leaves"] = [{"id": v, "name": ix.name[v], "score": round(sc, 4)} for v, sc in ranked[:self.k]]
         out["n_supernodes_scored"] = len(trace)
         out["closest"] = {lv: next((t["id"], t["label"], t["score"]) for t in trace if t["level"] == lv)
                           for lv in sorted({t["level"] for t in trace})}
+        if ranked:
+            out["closest"]["leaf"] = (ranked[0][0], ix.name[ranked[0][0]], round(ranked[0][1], 4))
         out["trace"] = trace
         return out

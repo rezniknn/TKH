@@ -116,7 +116,7 @@ def test_answers_have_ground_truth_format(run):
                ("as_of", "required_claims", "sources", "required_citations")
         for h in (a["hier"], a["flat"]):
             assert all(k in h for k in keys) and all(isinstance(c, str) for c in h["required_citations"])
-        assert set(a["hier"]["closest"]) == {0, 1, 2}                       # closest match at every level
+        assert set(a["hier"]["closest"]) == {0, 1, 2, "leaf"}               # closest match at every level
     assert set(metrics["summary"]) == {"A", "B"} and json.dumps(metrics, allow_nan=False)
 
 

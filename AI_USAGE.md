@@ -1208,6 +1208,35 @@ accepted or changed, and what was checked.
 - **Verified:** 451 tests pass. Every number in the report was re-derived by script from `out/` by an independent
   reviewer. `make figures` regenerates the figures from `out/` alone.
 
+### 33. T6 extrinsic utility: retrieval agent and evaluator (Claude Code)
+
+- **Task/module:** `tkh/retrieve.py`, `eval/retrieval.py`, `eval/__main__.py` (`retrieval`), Makefile (`retrieval` in
+  `all`), `tests/test_retrieval.py`, `docs/retrieval_report.md`
+- **Prompt:** "Implement a minimal retrieval agent based on the constructed graph hierarchy to satisfy goals outlined in
+  T6 Extrinsic Utility … Implement evaluation code of the retrieval agent provided the ground truth in the format
+  defined in data/questions.csv and data/ground_truth.json … comparing retrieval agent's performance against flat
+  baseline search scored on hit-rate and steps-to-target metrics … All design decisions … documented … in the
+  evaluation report"
+- **What the assistant did:**
+  - A planning workflow: three independent designs (minimal, evaluation rigor, retrieval quality) and a critic that
+    merged them. The critic found that `tkh.semantic.attached_text` reads all edges, so node text would leak later
+    facts into earlier snapshots; the agent builds its text from the snapshot's edges only.
+  - The plan was narrowed on review: the question type comes from the CSV, the scope is methods/claims + citations,
+    the metrics are hit-rate and steps-to-target only, and the check is part of `make all`.
+  - Implemented the agent (snapshot choice, word TF-IDF content, beam drill-down, GT-format answers), the flat
+    baseline and the evaluator (tiered gold resolution, ceilings, paired bootstrap), with tests including a
+    ground-truth leakage test.
+  - Beam (3, 4, 5) and k = 10 were fixed before the first run and not tuned. The negative result (the hierarchy
+    loses targets at L0) was checked by tracing where Q1's targets sit before it was reported.
+- **Case where the AI was wrong:** the fact-check agents found that the leaf text added an article's title once per
+  `claims` edge as well as from `presents`. A method's paper title was repeated up to 61 times, outweighing its name.
+  The design said "once, for the presented method". Fixed: titles are added once from `presents` and to claim nodes
+  only. The run was redone, and every report number was updated (the direction of every result was unchanged). The
+  checkers also corrected several overstatements: the CI summary, the "often" for small pools, the overlap of the
+  encoder with the clustering signals, and the GT-format scope.
+- **Verified:** 458 tests pass; `make retrieval` is byte-identical on rerun and leaves the other `metrics.json`
+  sections unchanged; the report's numbers were checked against `out/metrics.json` by an independent agent.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

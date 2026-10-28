@@ -133,6 +133,7 @@ def score(ans, gold, targets, ix, n_flat):
         out["claims"] = _rate([bool(set(g["articles"]) & arts) for g in gold["claims"] if g["nodes"]])
     cited = set(ans["citation_articles"])
     out["citations"] = _rate([bool(set(g["nodes"]) & cited) for g in gold["citations"] if g["nodes"]])
+    out["n_articles"] = len(cited)
     t = set(targets)
     rank = next((i + 1 for i, v in enumerate(ans["ranked"]) if v in t), None)
     out["steps"] = (None if not t else n_flat + 1 if rank is None else ans["n_supernodes_scored"] + rank)
