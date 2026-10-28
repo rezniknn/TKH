@@ -58,7 +58,7 @@ class Toy:
         self.children = {"L0.1": ["L1.1"], "L0.2": ["L1.2"], "L1.1": [], "L1.2": []}
         self.roots, self.type, self.leaves = ["L0.1", "L0.2"], dict.fromkeys("abcd", "method"), list("abcd")
 
-    def score(self, sid, q):
+    def score(self, sid, q, *_):
         return max(float(np.dot(self.vec[v], q)) for v in self.sn[sid]["member_ids"])
 
     def rank(self, ids, q):
