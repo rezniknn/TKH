@@ -12,26 +12,39 @@ semantics.
 | Name texts and concept types | `tkh/semantic.py` |
 | Temporal prior (§2, §9) | `tkh/hierarchy.py` (`stable_nodes`, `build_concept`) |
 | Persistent ids and temporal events | `tkh/temporal.py` |
-| Placeholder labels (levels 0–1) | `tkh/label.py` |
+| LLM labels and glosses (levels 0–1, T5, §4): evidence lines, seeded kind-stratified 50/50 split, contrast with neighbouring groups; LLM client and response cache | `tkh/label.py`, `tkh/llm.py`, `configs/prompts/labeller.txt` |
 | Output assembly | `tkh/export.py` |
 | Configuration | `tkh/config.py`, `configs/default.toml` |
 | Run | `tkh/pipeline.py`, `python -m tkh build` |
 | Null models | `tkh/null.py`, `python -m tkh null` |
 | Output checks (schema, P1, P2, cutoff, labels present, events) | `validate.py` |
-| Held-out coherence check and experiments (evaluation, outside the method package) | `eval/coherence.py`, `eval/experiments.py`, `python -m eval coherence`, `python -m eval sweep` |
-| Stability evaluation and the temporal-prior variants | `eval/stability.py`, `python -m eval stability`, `python -m eval gamma` |
+| Held-out coherence check (P3) and the selection sweep (evaluation, outside the method package; sweep output not current, §10) | `eval/coherence.py`, `eval/experiments.py`, `python -m eval coherence`, `python -m eval sweep` |
+| Stability evaluation (P5) and the temporal-prior variants (variant output not current, §9) | `eval/stability.py`, `python -m eval stability`, `python -m eval gamma` |
+| Label faithfulness (P6, T6): held-out NLI judge | `eval/faithfulness.py`, `configs/prompts/claims_split.txt`, `configs/prompts/claim_entail.txt`, `python -m eval faithfulness` |
+| Retrieval agent and its evaluation (T6 extrinsic utility) | `tkh/retrieve.py`, `eval/retrieval.py`, `python -m eval retrieval` |
+| Figures of `metrics.json` | `eval/figures.py`, `make figures` |
 
 **Configuration.**
 - The method parameters (`alpha`, `gamma`, `rho`, `edge_weight`, `hub_frac`, `lsa_dim`) are in `[method]` of
   `configs/default.toml`. Unknown keys are an error.
 - Budgets are in `[hierarchy]` and cutoffs in `[snapshots]`.
+- The labeller and judge settings are in `[labels]`: `labeller = "llm"` (or `"placeholder"`), `labeller_model`
+  qwen2.5:7b-instruct, `judge_model` phi4, `mode` offline (replay from `data/llm_cache.json`; `live` and `refresh`
+  need a local Ollama server), `seed` 0 of the 50/50 evidence split, `max_items` 40 lines per half, `contrast` 10,
+  `workers` 4.
 - `python -m tkh` overrides them with `--param k=v`, `--budgets` and `--cutoffs`.
-- Each run writes the resolved values to `<out>/run_config.toml`.
+- Each run writes the resolved values, including `[labels]`, to `<out>/run_config.toml`.
 
 **Where the numbers come from.**
-- Every result in §§3, 7, 8, 9 and 10 comes from `out/run_info.json`, `out/metrics.json`, `out/sweep.json`,
-  `out/gamma/gamma.json` or
-  `out/<t>/coarse_hyperedges.json`, produced by `make all` and `make sweep`.
+- Every run result in this document (§§1–3 and 5–12: counts, hubs, thresholds, caps and sizes as well as the
+  evaluation results) comes from `out/run_info.json`, `out/metrics.json` (sections `coherence`,
+  `stability`, `faithfulness`, `retrieval`), `out/faithfulness_judgements.json`, `out/retrieval_answers.json`,
+  `out/temporal_events.json` or `out/<t>/coarse_hyperedges.json`, produced by `make all` (build → validate →
+  metrics → test). Values recomputed from these files are marked *(derived)*.
+- The full results, with CIs and breakdowns, are in `docs/evaluation_report.md`; this document keeps only what
+  the statements need.
+- `out/sweep.json` (`make sweep`) and `out/gamma/` (`make gamma`) predate the verification fixes and are not
+  current results. No number here is taken from them.
 - Data facts cite notebooks 01–03.
 
 ## 1. Input and notation
@@ -83,8 +96,11 @@ semantics.
     39–57% over seeds.
 - **Never used in G_t or z_v:** titles, claims, future topics, edge attributes, cited works, citations,
   authors and abstracts.
-  - **Why** (notebook 03 §8): citations and claims are held-out evidence for the coherence ruler and for
-    label judging, and titles are shared by every node of a paper, so they would re-encode "same paper".
+  - **Why** (notebook 03 §8): citations are the held-out coherence ruler (§8), and titles are shared by every
+    node of a paper, so they would re-encode "same paper".
+  - Claim sentences, titles, future topics and evaluated_on attributes are label evidence (§4), split 50/50:
+    the labeller sees one half, the faithfulness judge only the other. Citations are excluded from label
+    evidence.
   - **Where `claims` and `cites` edges are used** outside the clustering:
     - in entry years and the paper counts for hubs;
     - to anchor claim and cited-work nodes (§5).
@@ -149,7 +165,8 @@ The temporal term Π and the stable set are defined in §9. With γ = 0 every sn
   - The build is deterministic.
 - **Diagnostics.** `run_info.json` records per snapshot and level: `budget`, `super_nodes`, `cap`,
   `max_size`, `singletons`, and the merge counters `merges`, `linked` (the two super-nodes share an edge)
-  and `multi_endpoint` (Prop. 2), plus `prior` (merges where Π applied); per snapshot also `n_stable`.
+  and `multi_endpoint` (Prop. 2), plus `prior` (merges where Π applied); per snapshot also `n_concept`,
+  `n_edges`, `hub_threshold_papers`, `hubs`, `n_stable` and `n_anchored`.
 
 **Why a joint score rather than two stages.** The two signals fail in different places.
 - **Names alone cannot relate proper-named methods across families.**
@@ -203,7 +220,8 @@ super-nodes". The flag is not a class: a multi-way edge is partial or uncollapse
 - Parallel coarse edges, i.e. fine edges over the same set of super-nodes, are not merged. They stay
   separate columns and records. Because H and d_A are sums over edges, the scores are the same as with one
   edge of summed weight.
-  - At ≤2026, the edges in such groups number 243 (level 0), 198 (level 1) and 180 (level 2).
+  - At ≤2026, edges with λ_e ≥ 2 that share their set of super-nodes with another edge number 255 (level 0),
+    205 (level 1) and 170 (level 2) *(derived)*.
 
 **What the rule loses:**
 - endpoint multiplicity in the score, which uses presence only;
@@ -223,13 +241,15 @@ super-nodes". The flag is not a class: a multi-way edge is partial or uncollapse
 
 | Level | Internal | Partial | Uncollapsed | Multi-way (partial + uncollapsed) |
 |---|---|---|---|---|
-| 0 | 202 | 319 | 33 | 120 (99 + 21) |
-| 1 | 118 | 386 | 50 | 158 (128 + 30) |
-| 2 | 63 | 384 | 107 | 257 (176 + 81) |
+| 0 | 194 | 325 | 35 | 111 (94 + 17) |
+| 1 | 115 | 382 | 57 | 153 (116 + 37) |
+| 2 | 68 | 386 | 100 | 249 (173 + 76) |
+
+The split of the multi-way edges by class is *(derived)* from `edges[].class`.
 
 **Proposition 1 (merge gain).** Let C = Σ_e w_e (λ_e − 1). Merging A and B reduces C by exactly
 Σ_{e: A∈e, B∈e} w_e. *Proof:* an edge with endpoints in both A and B loses one distinct super-node,
-and no other edge changes. ∎ This is tested on 50 random cases.
+and no other edge changes. ∎
 
 **Proposition 2 (where native and clique scores differ).**
 - **Numerators.** At singletons, the numerator Σ_{e∋a,b} w_e is the weighted clique-expansion weight of
@@ -239,15 +259,15 @@ and no other edge changes. ∎ This is tested on 50 random cases.
 - **Denominators.** The normaliser is the hyperdegree d_A (each incident edge once), not a clique-graph
   degree. So H is a cosine on the incidence matrix, and the two scores can differ even without shared
   multi-endpoint edges.
-- **How often.** At ≤2026, a shared edge with two or more endpoints on one side occurs in **38 of 45, 144
-  of 180 and 2166 of 3740 merges** (84%, 80%, 58%) at levels 0, 1 and 2 (`multi_endpoint`).
+- **How often.** At ≤2026, a shared edge with two or more endpoints on one side occurs in **40 of 45, 151
+  of 180 and 2177 of 3740 merges** (89%, 84%, 58% *(derived)*) at levels 0, 1 and 2 (`multi_endpoint`).
   - The two scores therefore differ for most chosen merges.
   - Whether clique linkage would have chosen differently is not measured: no pairwise projection is built.
 
 **Lemma (cap feasibility).** If ρ ≥ 2 and K > N_k items remain, a feasible pair exists. *Proof:*
 the two smallest items have total size ≤ 2n_t/K < 2n_t/N_k ≤ c_{t,k}. ∎
-- Every level therefore has exactly min(N_k, n_t) super-nodes, for any budget list (tested on five
-  lists, including N_k > n_t).
+- Every level therefore has exactly min(N_k, n_t) super-nodes, for any budget list. `validate.py` checks the
+  budgets of each run (P2).
 - ρ < 2 is rejected.
 - If no feasible pair remained, the level would stop with an error; the lemma rules this out.
 
@@ -261,11 +281,22 @@ For each t, the output is a set of partitions P_{t,0}, …, P_{t,K−1} of the w
 - **Ids and the event log** come from overlap matching (`tkh/temporal.py`) on top of the temporally coupled
   partitions (§9).
 
-**Labels** (`tkh/label.py`) are deterministic placeholders, prefixed "[placeholder]", at levels 0 and 1
-only. Level ≥ 2 labels are null.
-- **Label:** the most common concept type, followed by the two concept members that occur in the most
-  papers of snapshot t. Ties are broken by name, and each name is cut to 30 characters.
-- **Gloss:** the concept-node count and the mix of the three most common types.
+**Labels** (`tkh/label.py`, T5). A label and a one-sentence gloss per super-node at levels 0 and 1 are written
+by an open-source LLM (`labeller_model` qwen2.5:7b-instruct, replayed offline from `data/llm_cache.json`). Level
+≥ 2 labels are null.
+- **Evidence**, all from snapshot t: member concepts ("name [type]", with aliases); each clustering edge with
+  at least one tail member in the group, as a fact (edges that touch the group only through their head are left
+  out), with the result attributes of evaluated_on edges (metric, value, task, split); member claims;
+  future-work topics; paper titles. Cited works and authors are left out.
+- **Split.** The evidence is split 50/50, seeded by the members and stratified by kind. Each half is capped at
+  `max_items` = 40 lines, ranked by how many snapshot papers mention the node (or how many members an edge
+  holds). The labeller sees only the seen half; the held-out half is reserved for the faithfulness judge (§6).
+- **Contrast.** The labeller also sees the `contrast` = 10 same-level groups that share the most clustering
+  edges with this one, each as its top concept names from its own seen half. No held-out line of any group
+  enters the prompt.
+- The exact input of every label is recorded in `<t>/label_inputs.json`.
+- A failed generation is written as "[label generation failed]"; none occurs in the run. A deterministic
+  placeholder labeller remains as an option (`labeller = "placeholder"`), unused in the run.
 
 **Files**, per run directory:
 
@@ -274,8 +305,11 @@ only. Level ≥ 2 labels are null.
 | `<t>/hierarchy.json` | `{cutoff, levels, budgets, supernodes: [{id, level, parent_id, member_ids, label, gloss}]}` | yes, against `schema/hierarchy.schema.json` |
 | `<t>/coarse_hyperedges.json` | the T4 records (§3) | no |
 | `temporal_events.json` | `{events: [...]}` | yes, against `schema/temporal_events.schema.json` |
-| `run_config.toml` | the resolved inputs, cutoffs, budgets and `[method]`; paths relative to the run directory | used as the validator's config |
+| `<t>/label_inputs.json` | per labelled super-node: the seen and held-out evidence and the prompt SHA-256 | no |
+| `run_config.toml` | the resolved inputs, cutoffs, budgets, `[method]` and `[labels]`; paths relative to the run directory | used as the validator's config |
 | `run_info.json` | parameters, budgets, cutoffs, runtime, and diagnostics per snapshot and level | no |
+| `metrics.json` | evaluation results, one section per check: `coherence`, `stability`, `faithfulness`, `retrieval` | no |
+| `faithfulness_judgements.json`, `retrieval_answers.json` | per-claim judge verdicts; retrieval answers and resolved gold | no |
 
 ## 5. Anchoring of non-concept nodes
 
@@ -307,11 +341,31 @@ included.
 | P2 budgets | **by construction**: exactly min(N_k, n_t) per level (lemma, ρ ≥ 2); `validate.py` checks ≤ N_k and non-empty levels |
 | Hyper-edge fidelity (P4, T4) | **by construction**: H is computed on the collapsed incidence (Prop. 1), and multi-way edges stay whole |
 | Size bound | **by construction** for finite ρ: no super-node at level k has more than ⌊ρ·n_t/N_k⌋ concept nodes; anchored nodes are not counted; logged in `run_info.json`, not checked by `validate.py` |
-| Determinism | **by construction**: ARPACK with a fixed seed, rounding of S, H and scores, lowest-index ties, and sorted processing. Tested by building twice on the fixture and on the real ≤2020 snapshot. This shows repeatability in one numerical environment, not across machines or BLAS builds. |
-| No future information | **by construction** for structure and membership (edges, hub counts, LSA fit and anchoring use snapshot t only; `validate.py` checks member cutoffs). Labels count papers within t, but their text uses export-wide names, so labels and text features rely on A4. |
-| P3 semantic coherence | **empirical** (§8), controlling for publication period. Exact filter: levels 1 and 2 beat both nulls under every period scheme at ≤2022, ≤2024 and ≤2026; level 0 at no snapshot; ≤2020 is not evaluable. |
-| P5 temporal stability | **by construction** that untouched regions are held together by the prior (§9), with persistent ids and a validated event log; the size of the effect is **empirical** (§9): cross-snapshot HARI 0.83–0.95, change concentrated on touched nodes; the cost is lower robustness to perturbation |
-| P6 faithful labels | not addressed: deterministic placeholders at levels 0–1; `validate.py` checks only that they are non-empty; faithfulness is not evaluated |
+| Determinism | **by construction**: ARPACK with a fixed seed, rounding of S, H and scores, lowest-index ties, and sorted processing; LLM labels replay from the response cache. Not covered by a test (only the validator is tested); repeatability is expected within one numerical environment, not across machines or BLAS builds. |
+| No future information | **by construction** for structure and membership (edges, hub counts, LSA fit and anchoring use snapshot t only; `validate.py` checks member cutoffs). Label evidence is drawn from snapshot t only, but names and aliases are export-wide (A4) and the LLM's own knowledge is not restricted. The deterministic checks of the faithfulness evaluation find, over the 300 labels, 0 years after the cutoff, 4 future entities and 33 named non-members. |
+| P3 semantic coherence | **empirical** (§8), controlling for publication period. Exact filter, robust (p ≤ 0.05 against both nulls under all five schemes) at ≤2026 levels 1 and 2 and ≤2024 level 2; ≤2024 level 1 fails only `gap`; ≤2022 levels 1 and 2 are significant under `year1` only; level 0 at no snapshot; ≤2020 is not evidence (level 2 undefined). |
+| P5 temporal stability | **by construction** that untouched regions are held together by the prior (§9), with persistent ids and a validated event log; the size of the effect is **empirical** (§9): cross-snapshot HARI 0.86 / 0.80 / 0.89, change concentrated on touched nodes (ratios 2.4–7.0), but not distinguishable from a random-attachment null (HARI p = 0.33, 0.06, 0.12); perturbation HARI 0.17 at ≤2026. No γ = 0 control exists for the current build. |
+| P6 faithful labels | **empirical** (checks below): LLM labels from the seen half of the evidence; a judge of another family (`judge_model` phi4) checks each atomic claim against the held-out half and must cite an existing line. Over-claim rate 0.58 [0.52, 0.64] of 296 judged labels (300 labelled, 4 without held-out evidence); claim-level unsupported 0.45; level 0 0.37 [0.25, 0.48], level 1 0.64 [0.57, 0.69]. The judge is not validated (no known-answer controls, no nulls). `validate.py` checks non-empty labels and glosses at levels 0–1. |
+| T6 retrieval utility | **empirical**, descriptive (settings chosen in sample, no nulls or CIs): on 18 questions at ≤2026 (14 type A, 4 type B), drill-down vs flat search: methods hit-rate 0.28 vs 0.30, method claims 0.25 vs 0.31, citations 0.66 vs 0.58 (A); claims 0.74 vs 0.54 (B); reach 0.83 vs 1.00 (A); median steps to the first target 206.5 vs 10.5 (A), 143 vs 2 (B). |
+
+**Evaluation checks as implemented** (`make metrics` = coherence → stability → faithfulness → retrieval; each
+writes its own section of `out/metrics.json`; results in `docs/evaluation_report.md` §§3–6):
+- **Coherence** (`eval/coherence.py`, `eval/experiments.py`): the held-out coupling lift against the
+  configuration null and random labels (§8).
+- **Stability** (`eval/stability.py`): perturbation, cross-snapshot agreement against the random-attachment
+  null, change localisation and event counts (§9).
+- **Faithfulness** (`eval/faithfulness.py`): label + gloss are decomposed into at most 3 atomic claims
+  (`claims_split.txt`); each is judged against the held-out lines (`claim_entail.txt`) and counts as supported
+  only if the judge cites a numbered line that exists. Held-out facts whose head method is outside the group
+  are shown to the judge marked as such (`Evidence.judge_view`), and the cited-line check runs on this view. Reported: the over-claim rate (share of judged labels
+  with ≥ 1 unsupported claim, bootstrap CI over labels), the claim-level unsupported share, breakdowns by cutoff
+  and level, and deterministic checks without an LLM (years after the cutoff, named non-members, future
+  entities). There are no known-answer controls, no null trees and no rigor levels.
+- **Retrieval** (`tkh/retrieve.py`, `eval/retrieval.py`): an agent picks the snapshot the question names, scores
+  super-nodes by keyword overlap with label + gloss (levels 0–1) and the member centroid, keeps a beam of
+  10 / 20 / 40 super-nodes per level and ranks the leaves of the kept level-2 nodes; the flat baseline ranks
+  every leaf with the same scorer. It is scored against `data/ground_truth.json` (hit-rate, error rate,
+  steps to target); only the evaluator reads the ground truth.
 
 ## 7. Complexity
 
@@ -320,7 +374,6 @@ Per level, with n items at the start of the level, m fine reduced edges and d = 
 - **Each merge:** O(n(m + d)) to rescore the merged item.
   - A row whose best partner was one of the two merged items is rescanned at O(n). The number of such rows
     is unbounded, so the worst case is O(n²) per merge.
-  - Measured at γ = 0, ≤2026: 7870 rescans over 3965 merges, a mean of 2.0 per merge and at most 33.
 - **Merges per level:** n − min(N_k, n): 3740, 180 and 45 at ≤2026.
 - **m is the same at every level.** A coarser level's incidence has the same fine-edge columns.
 - **Text:** the TF-IDF and SVD run once per snapshot (12k–24k character n-gram features).
@@ -330,15 +383,17 @@ Per level, with n items at the start of the level, m fine reduced edges and d = 
   score matrix alone is 127 MB, and the measured peak resident memory of the ≤2026 build is about 2 GB. The incidence is O(nm), about
   18 MB dense.
 
-**Runtime.** The full build of four snapshots takes 31.0 s in one process (28.5 s with γ = 0) (`runtime_s`, measured after
-loading).
+**Runtime.** The full build of four snapshots takes 34.7 s in one process (`runtime_s`, measured after
+loading), including label assembly with the LLM answers replayed from the cache (offline mode). Cache misses
+add the LLM time.
 - The finest level of the largest snapshot dominates.
 - Per-snapshot time grows roughly with n_t².
 - Much larger graphs would need a sparse candidate set.
 
-The evaluation is separate: `make coherence` (§8) runs 99 null rebuilds per snapshot on 8 worker processes,
-`make stability` (§9) runs 5 perturbed rebuilds and 19 new-paper nulls per transition, and
-`make sweep` (§10) takes about 8 min on 8 cores.
+The evaluation is separate and runs as `make metrics`: `make coherence` (§8) runs 99 null rebuilds per
+snapshot on 8 worker processes; `make stability` (§9) runs 5 perturbed rebuilds and R = 99 random-attachment
+null rebuilds per transition; `make faithfulness` replays the judge from the cache; `make retrieval` runs
+offline in seconds. `make sweep` (§10) is annotated at about 6 min on 8 cores.
 
 ## 8. Null models and the held-out coherence check
 
@@ -353,8 +408,7 @@ The evaluation is separate: `make coherence` (§8) runs 99 null rebuilds per sna
 - **Preserved:** each node's degree per relation, interval and type; each edge's arity, type mix, head
   members[0] (never traded), paper and year.
   - Hence every snapshot keeps its node set, and all other relations are untouched.
-  - The node-set check runs in `python -m tkh null` and the tests. The rebuilds inside `eval/experiments.py`
-    skip it.
+  - The node-set check runs in `python -m tkh null`. The rebuilds inside `eval/experiments.py` skip it.
 - **Mixing:** 86% of the incidences move.
 - **Use.**
   - The null graph runs through the same pipeline with the same parameters and the real snapshot's hub
@@ -365,6 +419,12 @@ The evaluation is separate: `make coherence` (§8) runs 99 null rebuilds per sna
   given the semantics.
 - **Companion:** random labels, i.e. concept-node ids permuted within (type, entry interval) over the
   evaluated tree. This keeps the laminar structure and every size.
+- **Null for cross-snapshot stability** (`attachment_null`, §9): for a transition c0 → c1, every old
+  concept-node tail member (members[1:]) of a new paper's clustering edge is redrawn among the old concept nodes
+  of its type, with probability proportional to their tail degree on clustering edges up to c0, without
+  duplicates in the edge; nodes that never occur in a tail are never drawn. The graph ≤ c0,
+  the new nodes and each edge's arity, type mix and head are kept, so it randomises which old nodes the new papers
+  touch.
 
 **Held-out ruler** (`eval/coherence.py`). P3 asks for closeness in meaning, and the proxy is
 bibliographic coupling, a signal no clustering input contains. The evaluator fixes it, computes it on
@@ -390,13 +450,15 @@ the real export, and applies it identically to every configuration and null.
   - **Primary scheme:** the snapshot cutoff intervals, i.e. the strata within which random labels permute.
     After adjustment, both null means fall to about 1.0.
   - **Sensitivity:** bins of 1, 2 and 3 years, and the absolute year gap. A result is **robust** only if it
-    holds under every scheme.
+    holds (p ≤ 0.05 against both nulls) under every scheme.
 - **p-values:** one-sided, p = (1 + #null ≥ obs)/(R + 1). With R = 99 null rebuilds and R = 999
   random-label draws, the floors are 0.01 and 0.001.
 - **Every snapshot is evaluated on its own.** The ruler, the pairs and the random labels are rebuilt at
   each cutoff, and the null hierarchy is rebuilt at each cutoff from the seed's null graph.
 - **Command:** `make coherence`, i.e. `python -m eval coherence --run out`.
-  - It reads the run's own `run_config.toml`, refuses null runs, and writes `out/metrics.json`.
+  - It reads the run's own `run_config.toml`, refuses null runs, and writes the `coherence` section of
+    `out/metrics.json` (stability, faithfulness and retrieval write their own sections). It is part of
+    `make metrics`.
   - A new build into the same directory deletes `metrics.json`.
 
 **Coverage per snapshot (exact filter):**
@@ -408,41 +470,45 @@ the real export, and applies it identically to every configuration and null.
 | ≤2024 | 25 | 100 | 21 | 6 |
 | ≤2026 | 37 | 253 | 58 | 10 |
 
-**Period-adjusted coherence** (primary scheme, exact filter; `out/metrics.json`). Each cell gives the lift
-[95% paper-bootstrap CI], and for each null its mean and p.
+**Period-adjusted coherence** (primary scheme, exact filter; `out/metrics.json → coherence`; full tables in
+`docs/evaluation_report.md` §3). Each cell gives the lift [95% paper-bootstrap CI], and for each null its mean
+and p. A scheme counts as significant when p ≤ 0.05 against both nulls; ranges over the five schemes and the
+scheme counts are *(derived)*.
 
 | Snapshot | Level | Lift [95% CI] | Configuration null | Random labels | Robust across period schemes |
 |---|---|---|---|---|---|
-| ≤2026 | 0 (15) | 1.00 [0.51, 1.53] | 1.00, 0.51 | 1.00, 0.47 | no evidence under any scheme (0.90–1.05) |
-| ≤2026 | 1 (60) | 1.34 [0.60, 2.17] | 1.01, **0.01** | 1.00, **0.001** | **yes**: 1.26–1.55 under every scheme |
-| ≤2026 | 2 (240) | 1.59 [0.54, 2.68] | 1.02, **0.01** | 1.00, **0.001** | **yes**: 1.54–1.86 under every scheme |
-| ≤2024 | 0 (15) | 1.03 [0.63, 1.56] | 1.01, 0.30 | 1.02, 0.29 | no: significant under year1, year2, year3 only (0.92–1.27) |
-| ≤2024 | 1 (60) | 1.85 [0.36, 2.77] | 1.03, **0.01** | 1.02, **0.001** | **yes**: 1.79–2.46 under every scheme |
-| ≤2024 | 2 (240) | 2.64 [0.47, 4.25] | 1.05, **0.01** | 1.01, **0.001** | **yes**: 2.26–3.02 under every scheme |
-| ≤2022 | 0 (15) | 0.84 [0.04, 2.15] | 1.00, 1.00 | 1.00, 1.00 | no: significant under year1 only (0.84–1.08) |
-| ≤2022 | 1 (60) | 1.91 [0.16, 3.45] | 1.01, **0.01** | 0.99, **0.001** | **yes**: 1.91–2.39 under every scheme |
-| ≤2022 | 2 (240) | 2.31 [0.55, 3.68] | 1.09, **0.01** | 1.02, **0.001** | **yes**: 2.31–2.59 under every scheme |
+| ≤2026 | 0 (15) | 0.88 [0.53, 1.25] | 1.00, 1.00 | 1.01, 1.00 | no evidence under any scheme (0.82–0.89) |
+| ≤2026 | 1 (60) | 1.31 [0.54, 2.00] | 1.01, **0.01** | 1.01, **0.001** | **yes**: 1.17–1.31 under every scheme |
+| ≤2026 | 2 (240) | 1.57 [0.43, 2.63] | 1.01, **0.01** | 0.99, **0.001** | **yes**: 1.55–1.65 under every scheme |
+| ≤2024 | 0 (15) | 0.83 [0.35, 1.54] | 1.01, 1.00 | 1.02, 1.00 | no evidence under any scheme (0.73–0.90) |
+| ≤2024 | 1 (60) | 1.32 [0.38, 2.25] | 1.01, **0.01** | 1.00, **0.001** | no: significant under interval, year1, year2, year3, not gap (1.10–1.60; gap p = 0.10 / 0.152) |
+| ≤2024 | 2 (240) | 1.86 [0.35, 3.17] | 1.02, **0.01** | 0.99, **0.001** | **yes**: 1.47–1.86 under every scheme |
+| ≤2022 | 0 (15) | 0.55 [0.05, 2.18] | 0.99, 1.00 | 1.00, 1.00 | no evidence under any scheme (0.47–0.66) |
+| ≤2022 | 1 (60) | 1.06 [0.26, 3.20] | 1.00, 0.17 | 1.00, 0.139 | no: significant under year1 only (0.92–1.29) |
+| ≤2022 | 2 (240) | 0.99 [0.47, 2.67] | 1.08, 0.76 | 1.01, 0.60 | no: significant under year1 only (0.89–1.16) |
 | ≤2020 | 0 (15) | 0.03 [0.00, 4.93] | 0.96, 1.00 | 0.99, 1.00 | no evidence under any scheme (0.03–0.51) |
 | ≤2020 | 1 (60) | 0.16 [0.00, 6.98] | 0.96, 1.00 | 0.98, 1.00 | no: significant under year1, year2, year3 only (0.16–3.76) |
 | ≤2020 | 2 (240) | undefined | 1.03, – | 1.03, – | not evaluable (no no-overlap pair co-assigned) |
 
 These results are for the shipped run (γ = 0.5). The unadjusted lifts, the other period schemes and the
-fuzzy filter are all in `metrics.json`. Under the fuzzy filter, the same cells are robust, and level 0 at
-≤2024 as well. The γ = 0 results are in §9 and in `out/gamma/gamma.json`.
+fuzzy filter are all in `metrics.json`. Under the fuzzy filter, the robust cells are ≤2026 levels 1–2, ≤2024
+levels 1–2 and ≤2022 level 1; ≤2024 level 0 is significant under no scheme, and ≤2022 level 2 under `interval`
+only. No γ = 0 control exists for the current build.
 
 **Reading:**
-- **Robust evidence of P3: levels 1 and 2 at ≤2022, ≤2024 and ≤2026.** There, the hierarchy groups the
-  concepts of citation-coupled papers within the same period more than a degree-preserving null rebuild or
-  a random relabelling does, under every period scheme.
-- **Level 0 shows no coherence** at any snapshot (lift 0.84–1.03; ≤2020 0.03). Its 15 super-nodes are mixed over
-  many papers (median paper purity 0.23 at ≤2026), so co-assignment barely tells papers apart.
-- **The period control is essential.** Without it, at ≤2026, levels 1 and 2 still beat both nulls (1.30 and
-  1.61), but the nulls rise to 1.05–1.22 through same-period mixing. With it, the nulls fall to about 1.0.
-- **The temporal prior moves coherence between levels** (§9). Without it (γ = 0), ≤2026 level 0 was robust
-  (1.46) and level 2 was not (1.04). With γ = 0.5, level 0 loses and levels 1–2 gain, and the hierarchy is
-  less paper-bundled (level-2 median paper purity 0.85 against 1.00).
-- **The earlier snapshots are thin.** They have 5–21 coupled pairs, so their robust cells rest on few pairs.
-  ≤2020 is a single period stratum with 18 pairs and cannot be evaluated.
+- **Robust evidence of P3 (exact filter, all five schemes): ≤2026 levels 1 and 2, and ≤2024 level 2.** There,
+  the hierarchy groups the concepts of citation-coupled papers within the same period more than a
+  degree-preserving null rebuild or a random relabelling does, under every period scheme. ≤2024 level 1 fails
+  only `gap`. ≤2022 does not beat the nulls under the primary scheme (level 1 1.06, p = 0.17 / 0.139; level 2
+  0.99, p = 0.76 / 0.60).
+- **Level 0 shows no coherence** at any snapshot (lift 0.55–0.88; ≤2020 0.03), with p = 1.0 against both nulls
+  under exact matching.
+- **The period control is essential.** Without it, at ≤2026, levels 1 and 2 still beat both nulls (1.25 and
+  1.52; p = 0.01 / 0.001), but the null means rise to 1.05–1.21 through same-period mixing. With it, the nulls
+  fall to about 1.0.
+- **No attribution to the temporal prior.** Whether γ = 0.5 moves coherence between levels is not measured.
+- **The earlier snapshots are thin.** They have 5–21 coupled pairs; among them only ≤2024 level 2 (21 pairs) is
+  robust. ≤2020 is a single period stratum with 18 pairs and cannot be evaluated.
 - **Two kinds of uncertainty.**
   - The null tests are conditional on each snapshot's papers: the ruler is fixed and only the partition
     varies.
@@ -454,8 +520,10 @@ fuzzy filter are all in `metrics.json`. Under the fuzzy filter, the same cells a
 **Mechanism: a localised temporal prior.** This is the evolutionary-clustering term of the literature
 review: a merge score with "temporal similarity to previous clusters", plus identity matching.
 - **Stable old nodes.** For snapshot t, the stable set U_t holds the concept nodes of t−1 that
-  - are not a (non-hub) member of a clustering edge from a new paper (year in (t−1, t]), and
-  - did not change hub status.
+  - are not a (non-hub) member of a clustering edge from a new paper (year in (t−1, t]),
+  - did not change hub status, and
+  - are not a member of an old clustering edge that gains or loses a hub (an edge containing a node whose hub
+    status changed).
 - **The prior.** Π(A, B) = Σ_c M_A,c M_B,c / (u_A u_B).
   - M_A,c counts A's stable members in level-k super-node c of t−1, and u_A = |A ∩ U_t|. So Π is the share of
     A×B pairs of stable nodes that shared a super-node at the same level in t−1.
@@ -466,14 +534,15 @@ review: a merge score with "temporal similarity to previous clusters", plus iden
   - γ = 1 is the freeze-like extreme.
 - **Localisation by construction.** Touched nodes and new nodes are placed by structure and names alone, so
   change can happen exactly where the corpus changed (P5). Untouched regions are pulled to stay together.
-  U_t holds 983, 1382 and 2723 of the 1018, 1464 and 2829 old concept nodes.
+  U_t holds 876, 1169 and 2629 of the 1018, 1464 and 2829 old concept nodes (`n_stable`).
 - **Identity.** Persistent ids and the event log come from overlap matching (`tkh/temporal.py`), checked by
   `validate.py`. Births, growth, merges and splits occur, but deaths cannot: snapshots only grow, so every old
   super-node overlaps a new one.
 - **Cost.**
-  - Runtime: +2.5 s per full build.
-  - **Path dependence:** a decision made on a small early snapshot is carried forward. This shows up as lower
-    robustness to perturbation (below), and as a redistribution of coherence across levels (§8).
+  - Runtime: Π adds O(n²·K′) at initialisation and O(n·K′) per merge (§7).
+  - **Path dependence:** a decision made on a small early snapshot is carried forward. This is a design
+    argument: its effect on perturbation robustness and on coherence per level is not measured on the current
+    build (no γ = 0 control).
 
 **Stability evaluation** (`eval/stability.py`, `make stability`). Scores are on concept nodes only.
 - **ARI** is the adjusted Rand index per level.
@@ -481,28 +550,31 @@ review: a merge score with "temporal similarity to previous clusters", plus iden
   index I_k, expectation E_k and maximum M_k. It is 1 for identical trees and has expectation 0 under a node
   permutation applied at every level.
 
-**1. Perturbation** (the brief's protocol). Remove 10% of all hyper-edges, stratified by publication period,
-for seeds 0–4, and rebuild the whole chain. Values are the mean and t-interval over the seeds, against the
+**1. Perturbation** (the brief's protocol). Remove 10% of all hyper-edges, stratified by publication period ×
+relation (10% of each relation in every period), for seeds 0–4, and rebuild the whole chain. Values are the mean and t-interval over the seeds, against the
 unperturbed run.
 
 | Snapshot | ARI level 0 | ARI level 1 | ARI level 2 | HARI |
 |---|---|---|---|---|
-| ≤2020 | 0.56 [0.46, 0.65] | 0.71 [0.68, 0.74] | 0.90 [0.89, 0.92] | 0.60 [0.53, 0.68] |
-| ≤2022 | 0.36 [0.31, 0.42] | 0.50 [0.48, 0.53] | 0.80 [0.78, 0.82] | 0.41 [0.37, 0.45] |
-| ≤2024 | 0.17 [0.12, 0.22] | 0.31 [0.28, 0.35] | 0.70 [0.66, 0.75] | 0.22 [0.18, 0.27] |
-| ≤2026 | 0.12 [0.08, 0.16] | 0.27 [0.23, 0.32] | 0.66 [0.61, 0.72] | 0.17 [0.13, 0.22] |
+| ≤2020 | 0.53 [0.48, 0.57] | 0.71 [0.65, 0.76] | 0.90 [0.87, 0.92] | 0.58 [0.54, 0.62] |
+| ≤2022 | 0.30 [0.25, 0.35] | 0.50 [0.45, 0.55] | 0.79 [0.77, 0.82] | 0.36 [0.32, 0.40] |
+| ≤2024 | 0.15 [0.12, 0.18] | 0.30 [0.28, 0.33] | 0.67 [0.64, 0.69] | 0.20 [0.18, 0.23] |
+| ≤2026 | 0.12 [0.11, 0.13] | 0.26 [0.24, 0.27] | 0.63 [0.61, 0.65] | 0.17 [0.16, 0.18] |
 
 **2. Real cross-snapshot stability.** Agreement on the old concept nodes between consecutive snapshots,
 with 95% intervals over 200 half-subsamples of the nodes.
-- **New-paper null:** the graph ≤ t−1 stays real; only the edges of the new interval are rewired (the
-  configuration model restricted to it); snapshot t is rebuilt from the real t−1 hierarchy, for 19 seeds.
+- **New-paper null** (random attachment, `attachment_null`, §8): the graph ≤ t−1 stays real; every old
+  concept-node tail member (members[1:]) of a new paper's clustering edge is redrawn among the old concept nodes
+  of its type, with probability proportional to their tail degree on clustering edges up to t−1; the head is
+  kept; snapshot t is rebuilt from the real t−1 hierarchy,
+  with the stable set recomputed, for R = 99 seeds.
 - **p** is one-sided: (1 + #null ≥ obs) / (R + 1).
 
 | Transition | Old concept nodes | ARI level 0 | ARI level 1 | ARI level 2 | HARI [95% CI] | New-paper null HARI: mean [2.5–97.5%], p |
 |---|---|---|---|---|---|---|
-| 2020→2022 | 1018 | 0.96 | 0.92 | 0.98 | 0.95 [0.94, 0.97] | 0.93 [0.89, 0.96], 0.35 |
-| 2022→2024 | 1464 | 0.88 | 0.86 | 0.90 | 0.88 [0.86, 0.89] | 0.82 [0.76, 0.88], 0.10 |
-| 2024→2026 | 2829 | 0.80 | 0.91 | 0.95 | 0.83 [0.81, 0.84] | 0.87 [0.83, 0.93], 0.95 |
+| 2020→2022 | 1018 | 0.85 | 0.87 | 0.92 | 0.86 [0.83, 0.88] | 0.85 [0.79, 0.89], 0.33 |
+| 2022→2024 | 1464 | 0.80 | 0.79 | 0.79 | 0.80 [0.77, 0.82] | 0.75 [0.69, 0.81], 0.06 |
+| 2024→2026 | 2829 | 0.89 | 0.90 | 0.92 | 0.89 [0.87, 0.90] | 0.86 [0.81, 0.90], 0.12 |
 
 **3. Change localisation.**
 - **Touched:** old concept nodes that are members of any edge of a new paper, of any relation. This is the
@@ -512,52 +584,36 @@ with 95% intervals over 200 half-subsamples of the nodes.
 
 | Transition | Touched old nodes | Reassignment touched / untouched, level 0 | level 1 | level 2 | Ratio level 0 / 1 / 2 [95% CI] |
 |---|---|---|---|---|---|
-| 2020→2022 | 40 of 1018 | 0.37 / 0.04 | 0.51 / 0.09 | 0.59 / 0.02 | 8.7 [5.5, 12.4] / 5.5 [4.0, 7.1] / 24.4 [16.9, 34.8] |
-| 2022→2024 | 87 of 1464 | 0.38 / 0.14 | 0.41 / 0.15 | 0.45 / 0.09 | 2.7 [2.1, 3.4] / 2.7 [2.1, 3.4] / 5.0 [3.8, 6.2] |
-| 2024→2026 | 111 of 2829 | 0.54 / 0.22 | 0.52 / 0.11 | 0.62 / 0.06 | 2.5 [2.1, 2.8] / 4.7 [3.9, 5.5] / 9.9 [8.4, 11.5] |
+| 2020→2022 | 40 of 1018 | 0.46 / 0.15 | 0.60 / 0.16 | 0.68 / 0.10 | 3.1 [2.2, 4.1] / 3.8 [2.8, 4.7] / 6.8 [5.2, 8.5] |
+| 2022→2024 | 87 of 1464 | 0.50 / 0.20 | 0.57 / 0.23 | 0.61 / 0.17 | 2.5 [2.0, 2.9] / 2.4 [2.0, 2.9] / 3.6 [3.0, 4.2] |
+| 2024→2026 | 111 of 2829 | 0.59 / 0.14 | 0.62 / 0.12 | 0.64 / 0.09 | 4.3 [3.6, 4.9] / 5.3 [4.6, 6.1] / 7.0 [6.0, 8.0] |
 
 **4. Events** (`temporal_events.json`; no deaths, as explained above):
 
 | Transition | Level 0 | Level 1 | Level 2 |
 |---|---|---|---|
-| 2020→2022 | change 5, continue 3, growth 7 | birth 4, change 4, continue 25, growth 18, merge 5, split 2 | birth 8, change 10, continue 163, growth 51, merge 6, split 1 |
-| 2022→2024 | change 5, growth 7, merge 1, split 1 | birth 1, change 11, continue 9, growth 29, merge 4, split 3 | birth 14, change 21, continue 108, growth 85, merge 12 |
-| 2024→2026 | change 7, continue 3, growth 2, merge 1, split 1 | change 24, continue 13, growth 17, merge 2, split 2 | birth 7, change 38, continue 129, growth 54, merge 8, split 2 |
+| 2020→2022 | change 3, continue 3, growth 6, merge 1, split 1 | birth 7, change 6, continue 23, growth 17, merge 7 | birth 32, change 6, continue 144, growth 28, merge 24, split 3 |
+| 2022→2024 | change 9, continue 1, growth 5 | birth 2, change 11, continue 11, growth 21, merge 6, split 4 | birth 27, change 21, continue 104, growth 70, merge 18 |
+| 2024→2026 | change 9, continue 1, growth 2, merge 1, split 1 | birth 1, change 23, continue 8, growth 21, merge 3, split 2 | birth 11, change 39, continue 118, growth 52, merge 14, split 3 |
 
-**What the prior buys and what it costs** (`make gamma`, `out/gamma/gamma.json`). Each γ is a full run,
-scored on stability and on the period-adjusted coherence. The coherence check uses 19 null rebuilds and 199 random labels,
-so its p floor is 0.005. Differences to γ = 0 are paired: by seed for perturbation, and by node subsample for
-cross-snapshot.
+**What the prior buys and what it costs.** The temporal-prior variants (`make gamma`, `out/gamma/gamma.json`)
+predate the verification fixes and are not current results; no γ = 0 control exists for the current build
+(`docs/evaluation_report.md` §9). The comparison with γ = 0 is therefore not reported here.
 
-| γ | Cross-snapshot HARI (20→22 / 22→24 / 24→26) | Δ vs γ = 0, 24→26 [95%] | Perturbation HARI ≤2026 [95%] | Δ vs γ = 0 [95%] | Localisation ratio level 0, 24→26 | Coherence lift ≤2026, levels 0 / 1 / 2 (random-label p) |
-|---|---|---|---|---|---|---|
-| 0 | 0.58 / 0.47 / 0.34 | – | 0.33 [0.28, 0.38] | – | 1.1 | 1.46 (0.005) / 1.26 (0.005) / 1.04 (0.395) |
-| 0.25 | 0.91 / 0.75 / 0.73 | +0.39 [+0.36, +0.41] | 0.18 [0.15, 0.21] | -0.15 [-0.20, -0.10] | 1.6 | 1.38 (0.005) / 0.96 (0.895) / 1.24 (0.005) |
-| 0.5 | 0.95 / 0.88 / 0.83 | +0.48 [+0.46, +0.50] | 0.17 [0.13, 0.22] | -0.16 [-0.20, -0.11] | 2.5 | 1.00 (0.495) / 1.34 (0.005) / 1.59 (0.005) |
-| 0.75 | 0.95 / 0.85 / 0.81 | +0.47 [+0.45, +0.49] | 0.18 [0.14, 0.22] | -0.15 [-0.19, -0.12] | 2.6 | 1.01 (0.35) / 1.32 (0.005) / 1.57 (0.005) |
-| 1 | 0.91 / 0.83 / 0.83 | +0.48 [+0.46, +0.50] | 0.16 [0.11, 0.20] | -0.17 [-0.22, -0.12] | 2.5 | 1.18 (0.005) / 1.06 (0.03) / 1.68 (0.005) |
-
-**Reading:**
-- **The prior delivers P5's persistence.** Cross-snapshot HARI rises from 0.34–0.58 (γ = 0) to 0.83–0.95
-  (γ = 0.5): +0.48 [0.46, 0.50] at 2024→26.
-- **Change stays where the corpus changed.**
-  - Touched old nodes are reassigned 2.5–24 times more often than untouched ones (all CIs above 1).
-  - At γ = 0 the ratio is about 1 at level 0 (1.1 at 2024→26): there, change is everywhere.
-- **The persistence is the mechanism's, not the data's.** The new-paper null, where new papers attach at
-  random, is just as stable (p = 0.35, 0.10 and 0.95). So the prior holds untouched regions together
-  whatever the new papers do. That is the intended guarantee, but it is not evidence that the corpus' own
-  attachment pattern is stable.
-- **The cost is robustness to perturbation.** At ≤2026, HARI under 10% edge removal falls from 0.33 to 0.17
-  (−0.16 [−0.20, −0.11]), and similarly at ≤2022 and ≤2024. ≤2020 is unchanged: the first snapshot has no
-  prior.
-  - Removing edges changes the early snapshots, and the prior then carries those differences forward.
-  - The fine level stays robust: level-2 ARI is 0.66–0.90.
-- **Coherence moves between levels rather than being lost.** γ = 0.5 trades level-0 coherence for levels 1
-  and 2 (§8). The γ variants do not order coherence monotonically, which fits the ruler's noise (§10).
-- **Why γ = 0.5 is kept.**
-  - Stability saturates at γ ≥ 0.5, and γ = 1 is not more stable.
-  - The perturbation cost is about the same for every γ > 0.
-  - 0.5 was pre-stated, and the variants do not justify another choice by result.
+**Reading** (γ = 0.5; details in `docs/evaluation_report.md` §4):
+- **Persistence is high.** Cross-snapshot HARI is 0.86, 0.80 and 0.89.
+- **Change concentrates on touched nodes.** Touched old nodes are reassigned 2.4–7.0 times more often than
+  untouched ones (all CIs above 1, lowest bound 2.0). Untouched nodes still move (reassignment 0.09–0.23), so
+  untouched regions are held, not frozen.
+- **The persistence is not the data's.** The random-attachment null is nearly as stable (null HARI means 0.85,
+  0.75 and 0.86 against 0.86, 0.80 and 0.89; p = 0.33, 0.06 and 0.12). The observed HARI is above the null mean
+  at every transition, but not significantly; of the per-level ARIs only 2024→2026 level 2 has p = 0.01. So the
+  persistence comes from what the null keeps (the real ≤ t−1 graph, the real t−1 hierarchy and the prior), and is
+  not evidence that the corpus' own attachment pattern is stable.
+- **Robustness to perturbation is low at the coarse levels of late snapshots.** HARI under 10% edge removal is
+  0.58, 0.36, 0.20 and 0.17 at ≤2020–≤2026, and level-0 ARI is 0.12 at ≤2026. The fine level is the most robust:
+  level-2 ARI is 0.63–0.90. How much of the decline the prior causes is not measured (no γ = 0 control).
+- **Why γ = 0.5.** It was stated before any result. No current result justifies another value.
 
 ## 10. Parameters and selection
 
@@ -580,7 +636,10 @@ cross-snapshot.
 - **Run record and validation.**
   - Each build writes its resolved `run_config.toml`, with input paths relative to the run directory.
   - Validation is a separate step: `validate.py <out> --config <out>/run_config.toml`. It runs in
-    `make validate`, in `make all` (build → validate → coherence → test) and in `make null`.
+    `make validate`, in `make all` (build → validate → metrics → test, where `make metrics` = coherence →
+    stability → faithfulness → retrieval) and in `make null`.
+  - `make test` runs only `tests/test_validate.py` (the validator on valid and broken fixtures).
+  - `.NOTPARALLEL` keeps the checks sequential, because they share `metrics.json`.
 
 **Selection protocol** (`make sweep`, `out/sweep.json`; latest snapshot only).
 - **Grid:** α ∈ {0.25, 0.5, 0.75} × ρ ∈ {2, 4} × edge_weight ∈ {inverse_size, relation_balanced} ×
@@ -597,23 +656,11 @@ cross-snapshot.
      closest to the default. Closeness compares α, then ρ, then edge_weight, then hub_frac.
   3. Report that pick on half B.
 
-**Outcome: the ruler cannot rank the configurations.** These figures are for the sweep with the shipped
-γ = 0.5, which is held fixed in the grid.
-- The best configuration's SE is about 1.21 (median), on a criterion of about 2.2, while configurations
-  average 1.1.
-- Between 3 and 58 of the 60 configurations lie within one SE, depending on the split.
-- The ranking does not replicate: within a split, the half-A and half-B rankings correlate at a median
-  Spearman ρ of −0.03 (range −0.36 to 0.17).
-- So the rule mostly falls back to the default, which is picked in 13 of 20 splits. **The default is not
-  shown to be optimal; it is not distinguishable.**
-- Descriptively, on half B (mean over splits):
-  - the structure-only ablation α = 0 scores 1.52, 6th of 62;
-  - the default scores 1.31, 12th of the 60 grid configurations;
-  - α = 1 scores 1.13, 29th of 62.
-
-  This is consistent with structure carrying the cross-paper evidence, but it is within the noise.
-- Telling configurations apart needs a stronger independent signal than this citation ruler. That is for
-  the evaluation (T6).
+**Outcome: not current.** The sweep results (`out/sweep.json`) predate the verification fixes and are not
+used (`docs/evaluation_report.md` §9). The shipped `[method]` defaults are therefore not shown to be optimal,
+nor compared with the other configurations, on the current build. Telling configurations apart would need a
+stronger independent signal than this citation ruler; the T6 checks now implemented (label faithfulness and
+retrieval, §6) evaluate the shipped configuration only.
 
 ## 11. Assumptions
 
@@ -631,9 +678,10 @@ cross-snapshot.
 - **A6.** Coupling counts shared cited-work node ids. It assumes the export resolves a cited work to one id
   across the papers that cite it (122 of 580 cited works are cited by more than one paper).
 - **A7.** The sweep selects on the unadjusted lift. It assumes the period confound does not change how the
-  configurations rank.
+  configurations rank (the sweep has no current result, §10).
 - **A8.** Old structure that no new paper touches should keep its grouping (P5). The prior encodes this
-  premise, and it is not tested by the data: the new-paper null is as stable as the real run (§9).
+  premise, and it is not tested by the data: the random-attachment null is nearly as stable as the real run
+  (HARI p = 0.33, 0.06, 0.12; §9).
 
 ## 12. Trade-offs and rejected alternatives
 
@@ -653,8 +701,7 @@ cross-snapshot.
   - It splits every multi-member edge into pairs: 9.5 member pairs per incidence at ≤2026.
   - Multi-way coarse edges disappear.
   - Prop. 2 and the merge shares show where its scores would differ.
-- **Semantics only, rejected.** Proper-named methods find only their own family (notebook 02). The α = 1
-  ablation scores below the default and below α = 0 on the held-out ruler, within the noise (§10).
+- **Semantics only, rejected.** Proper-named methods find only their own family (notebook 02).
 - **Rank mixing vs raw mixing.**
   - Raw S and H live on incomparable scales, and H is 0 for 99% of singleton pairs.
   - Ranks make α an interpretable weight, and F_H(0) = 0 keeps the structural rank from being nearly
@@ -663,16 +710,16 @@ cross-snapshot.
 - **Temporal coupling.**
   - **Chosen: a localised merge prior** (§9). It has a smooth weight γ, keeps the budgets and the cap
     untouched, and lets change happen where new papers attach.
-  - **Rejected: matching only** (γ = 0). Identity is tracked, but level 0 reshuffles: cross-snapshot ARI is
-    0.29 at 2024→26.
+  - **Rejected: matching only** (γ = 0). Identity is tracked, but nothing keeps untouched regions together, so
+    each snapshot's greedy build can reshuffle them (a design argument; no γ = 0 control on the current build).
   - **Rejected: a dirty-region rebuild**, which re-agglomerates only touched groups (DynHAC-style). Fixed
     groups would use up budget slots and need extra rules, and it has no smooth knob.
-  - **Rejected: freeze**, where old nodes keep their groups. It cannot adapt; γ = 1 is close to it and is not
-    more stable than γ = 0.5.
+  - **Rejected: freeze**, where old nodes keep their groups. It cannot adapt to new evidence about old nodes;
+    γ = 1 is close to it.
 - **Size cap.**
   - It prevents the giant clusters that average linkage produces on sparse data: without a cap, 87% of the
     concept nodes fall into one level-0 super-node at ≤2026.
-  - The cost is that sizes are imposed. At ≤2026 the largest super-nodes hold 530, 128 and 33 concept nodes,
+  - The cost is that sizes are imposed. At ≤2026 the largest super-nodes hold 512, 120 and 33 concept nodes,
     against caps of 530.7, 132.7 and 33.2.
 - **Hub removal.**
   - It stops generic terms such as "materials science", "MAE" and "molecular dynamics" from fusing

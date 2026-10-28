@@ -1474,6 +1474,33 @@ accepted or changed, and what was checked.
   - Added `.NOTPARALLEL`, because all four checks read and rewrite the same `metrics.json`, and `make -j` would race.
 - **Verified:** `make -n all` and `make -n metrics` list the same commands in the same order as before; nothing was run.
 
+### 44. Evaluation report and formal statement brought up to date (Claude Code)
+
+- **Task/module:** `docs/formal_statement.md`, `docs/evaluation_report.md`; the 2026-10-28 run outputs
+  `out/metrics.json` and `out/run_info.json`
+- **Prompt:** "Update the evaluation report and the formal statement and make sure they reflect the latest state of
+  evaluation metrics implementation, model parameters and latest evaluation run results"
+- **What the assistant did:** a workflow audited both documents against the code, `out/run_config.toml`,
+  `out/run_info.json` and `out/metrics.json`, edited them, then verified each claim adversarially and fixed what the
+  check confirmed. No pipeline or evaluation step was run.
+  - **Formal statement:**
+    - placeholder labels replaced by the LLM labeller (evidence, 50/50 split, contrast, `label_inputs.json`);
+    - `[labels]` parameters added;
+    - §3 collapse and Prop. 2 counts, the §6 property table (P3, P5, P6, new T6 row) and the "checks as
+      implemented" description updated;
+    - §8 coherence table and §9 stability tables (HARI, perturbation, localisation, events, U_t) taken from the
+      current `metrics.json`;
+    - the random-attachment null described as coded (R = 99);
+    - γ-variant and sweep numbers removed as stale.
+  - **Report:**
+    - provenance and runtime set to the 2026-10-28 run (build then metrics; values identical to HEAD, section
+      order only);
+    - evidence description corrected, and the significance threshold aligned with the formal statement;
+    - stale-documentation list removed (all fixed) and open items renumbered;
+    - question count corrected (18).
+- **Note:** `out/` was rebuilt and every check re-run on 2026-10-28 outside this session. The documents cite that run.
+  Its values are identical to the previous commit, and its runtime is 34.7 s.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
