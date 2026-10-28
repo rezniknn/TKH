@@ -6,17 +6,16 @@ Agent(tkh, run_dir, cutoffs).answer(question, qtype, mode="hier" | "flat") -> an
                with no date gets the latest cutoff. Only that snapshot's nodes, edges and hierarchy are used (P6).
   2. content   each leaf's text is its name and aliases, the names of its relation neighbours and its evaluated_on
                attributes (metric, task), all from edges <= cutoff, plus the title of the article that presents it
-               (methods, once) or makes it (claims), and for a presented method its paper's claims.
-  3. score     keyword overlap: the share of the question's keywords (template words removed) present in a text; the
-               vocabulary is fitted on the snapshot's own leaf texts.
-  4. descent   L0 and L1 super-nodes score 0.5 s(q, label + gloss) + 0.5 s(q, member mean); L2 (unlabelled) scores the
-               member mean. Beam search keeps the best BEAM[k] super-nodes per level (10 / 20 / 40) among the children
-               of the previous level's kept nodes. The leaves of the kept L2 nodes of the answer kinds form the pool,
-               ranked by s(q, leaf). The trace records every super-node scored and which were kept.
-  5. flat      the same scorer and answer kinds over every leaf of the snapshot.
-  6. answer    type A (methods): the top-K distinct method names, and as citations the articles they come from;
-               type B (claims): the top-K claims, their source articles and citation keys.
-The configuration was selected by a series of retrieval experiments (docs/retrieval_report.md section 8).
+               (methods) or makes it (claims). Encoded with word TF-IDF fitted on the snapshot's leaf texts: a signal
+               distinct from the char-n-gram LSA of names that drove clustering, so the hierarchy is not searched with
+               the ruler that built it.
+  3. descent   L0 and L1 super-nodes score 0.5 cos(q, label + gloss) + 0.5 cos(q, member centroid); L2 (unlabelled)
+               scores the centroid. Beam search keeps the best `beam[k]` super-nodes per level among the children of
+               the previous level's kept nodes. The leaves of the kept L2 nodes of the answer kinds form the pool,
+               ranked by cos(q, leaf). The trace records every super-node scored and which were kept.
+  4. flat      the same scorer and answer kinds over every leaf of the snapshot.
+  5. answer    type A (methods): the top-k distinct method names, and as citations the articles they come from;
+               type B (claims): the top-k claims, their source articles and citation keys.
 The question type is given by the question's metadata (data/questions.csv); the agent never sees ground truth.
 """
 
@@ -27,8 +26,7 @@ import re
 import unicodedata
 
 import numpy as np
-import scipy.sparse as sp
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.preprocessing import normalize
 
 from tkh import semantic as sm
 from tkh.coarsen import CLUSTER_RELATIONS
@@ -62,19 +60,13 @@ def surname(full):
     return fold(sm.clean(full).split(" ")[-1])
 
 
-BEAM = (10, 20, 40)   # super-nodes kept per level, L0 first
-K = 10                # answer length (methods or claims)
-
-
 def leaf_texts(tkh, snap):
     """{node id: text} from the snapshot's own edges only (tkh.semantic.attached_text reads all edges)."""
     name = sm.names(tkh)
     title = tkh.articles["title"].to_dict()
-    ntype = tkh.nodes["type"].to_dict()
     txt = {v: [name[v]] for v in snap.node_ids}
     e = snap.edges
     attrs = e["attributes"] if "attributes" in e else [None] * len(e)
-    presented, claims_of = {}, defaultdict(list)
     for m, r, a, at in zip(e["members"], e["relation_type"], e["article_id"], attrs):
         if r in CLUSTER_RELATIONS:
             head, tails = m[0], m[1:]
@@ -85,39 +77,10 @@ def leaf_texts(tkh, snap):
                 extra = " ".join(str(at[k]) for k in ("metric", "task") if at.get(k))
                 for v in m:
                     txt[v].append(extra)
-        elif r == "presents" and isinstance(title.get(a), str):   # the presented method: its paper's title, once
-            txt[m[1]].append(sm.clean(title[a]))
-            presented[a] = m[1]
-        elif r == "claims" and isinstance(title.get(a), str):     # claim nodes only (methods on claims edges excluded)
+        elif r in ("presents", "claims") and isinstance(title.get(a), str):
             for v in m[1:]:
-                if ntype[v] == "claim":
-                    txt[v].append(sm.clean(title[a]))
-                    claims_of[a].append(name[v])
-    for a, v in presented.items():                                # a presented method: its paper's claims
-        txt[v] += claims_of[a]
+                txt[v].append(sm.clean(title[a]))
     return {v: " . ".join(x) for v, x in txt.items()}
-
-
-class Overlap:
-    """Keyword overlap as a dot product: binary document vectors . binary query / its keyword count."""
-
-    def __init__(self, texts):
-        self.vec = CountVectorizer(lowercase=True, stop_words="english", token_pattern=r"(?u)\b[\w][\w\-\+]*\b")
-        self.X = self._binary(self.vec.fit_transform(texts))
-
-    @staticmethod
-    def _binary(C):
-        C = sp.csr_matrix(C, dtype=float)
-        C.data[:] = 1.0
-        return C
-
-    def docs(self, texts):
-        """Vectors of texts outside the fitted corpus (labels and glosses)."""
-        return self._binary(self.vec.transform([sm.clean(t) for t in texts]))
-
-    def query(self, text):
-        q = (self.vec.transform([text]).toarray()[0] > 0).astype(float)
-        return q / max(1.0, q.sum())
 
 
 class Index:
@@ -135,17 +98,17 @@ class Index:
         self.depth = h["levels"]
         self.leaves = sorted({v for s in h["supernodes"] if s["level"] == self.depth - 1 for v in s["member_ids"]})
         texts = leaf_texts(tkh, snap)
-        self.space = Overlap([texts[v] for v in self.leaves])
-        self.X, self.row = self.space.X, {v: i for i, v in enumerate(self.leaves)}
+        X, self.vec = sm.vectorize([texts[v] for v in self.leaves], kind="word")
+        self.X, self.row = X, {v: i for i, v in enumerate(self.leaves)}
         self.type = tkh.nodes["type"].to_dict()
         self.name = {v: sm.clean(s) for v, s in tkh.nodes["surface_form"].items()}
         self.keys = sm.name_keys(tkh)
-        # super-nodes: label + gloss vector (L0-L1) and member mean
-        labelled = [sid for sid, s in self.sn.items() if s.get("label")]
-        lab = self.space.docs([f"{self.sn[i]['label']} . {self.sn[i].get('gloss') or ''}" for i in labelled])
-        self.labelvec = {sid: lab[j].toarray()[0] for j, sid in enumerate(labelled)}
-        self.centroid = {sid: np.asarray(self.X[[self.row[v] for v in s["member_ids"]]].mean(axis=0))[0]
-                         for sid, s in self.sn.items()}
+        self.centroid, self.labelvec = {}, {}
+        for sid, s in self.sn.items():
+            rows = [self.row[v] for v in s["member_ids"]]
+            self.centroid[sid] = normalize(np.asarray(X[rows].mean(axis=0)))[0]
+            if s.get("label"):
+                self.labelvec[sid] = self.encode(f"{s['label']} . {s.get('gloss') or ''}", strip=False)
         # citations: article -> year, title, author surnames; leaf -> its articles within the snapshot
         arts = tkh.articles
         self.art_year = {a: int(y) for a, y in arts["year"].items() if a in snap.articles}
@@ -161,10 +124,9 @@ class Index:
             if r == "presents":
                 self.presents[a] += m[1:]
 
-    def encode(self, question):
-        """The question with its date clause and template words removed."""
-        q = re.sub(r"\((?:by|as of)[^)]*\)", " ", question)
-        return self.space.query(sm.clean(TEMPLATE.sub(" ", q)))
+    def encode(self, text, strip=True):
+        text = TEMPLATE.sub(" ", text) if strip else text
+        return normalize(self.vec.transform([sm.clean(text)])).toarray()[0]
 
     def score(self, sid, q):
         c = float(self.centroid[sid] @ q)
@@ -183,7 +145,7 @@ class Index:
         return f"{who} {self.art_year[a]}"
 
 
-def descend(ix, q, kinds, beam=BEAM):
+def descend(ix, q, kinds, beam):
     """Beam search from L0 to the finest level -> (ranked pool, trace)."""
     frontier, trace = ix.roots, []
     for level, b in enumerate(beam):
@@ -232,8 +194,8 @@ def extract(ix, qtype, ranked, k):
 class Agent:
     """answer(question, qtype, mode) for mode 'hier' (drill-down) or 'flat' (baseline)."""
 
-    def __init__(self, tkh, run_dir, cutoffs):
-        self.tkh, self.run_dir, self.cutoffs = tkh, Path(run_dir), sorted(cutoffs)
+    def __init__(self, tkh, run_dir, cutoffs, beam=(3, 4, 5), k=10):
+        self.tkh, self.run_dir, self.cutoffs, self.beam, self.k = tkh, Path(run_dir), sorted(cutoffs), tuple(beam), k
         self._ix = {}
 
     def index(self, cutoff):
@@ -246,18 +208,15 @@ class Agent:
         ix = self.index(cutoff)
         q, kinds = ix.encode(question), KINDS[qtype]
         if mode == "hier":
-            ranked, trace = descend(ix, q, kinds, BEAM[:ix.depth])
+            ranked, trace = descend(ix, q, kinds, self.beam[:ix.depth])
         else:
             ranked, trace = flat(ix, q, kinds), []
-        out = {"type": qtype, "snapshot": cutoff, "snapshot_source": src, **extract(ix, qtype, ranked, K)}
+        out = {"type": qtype, "snapshot": cutoff, "snapshot_source": src, **extract(ix, qtype, ranked, self.k)}
         if qtype == "B":
             out = {"as_of": str(cutoff), **out}
         out["ranked"] = [v for v, _ in ranked]           # full ranking, for steps-to-target
-        out["top_leaves"] = [{"id": v, "name": ix.name[v], "score": round(sc, 4)} for v, sc in ranked[:K]]
         out["n_supernodes_scored"] = len(trace)
         out["closest"] = {lv: next((t["id"], t["label"], t["score"]) for t in trace if t["level"] == lv)
                           for lv in sorted({t["level"] for t in trace})}
-        if ranked:
-            out["closest"]["leaf"] = (ranked[0][0], ix.name[ranked[0][0]], round(ranked[0][1], 4))
         out["trace"] = trace
         return out

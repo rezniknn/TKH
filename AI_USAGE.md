@@ -1288,6 +1288,22 @@ accepted or changed, and what was checked.
 - **Verified:** after the change, `make retrieval` gives the same summary, per-question scores (minus the removed
   `n_articles` field) and answers as before; the tests pass.
 
+### 36. Retrieval work after bff6364 reverted (Claude Code)
+
+- **Task/module:** repository state
+- **Prompt:** "Revert the repo back to commit bff6364. Retrieval agent will be re-writen with a more detailed set of
+  instructions"
+- **What the assistant did:**
+  - Reverted the seven commits after bff6364 (cd71e13 … 30c4b6b) with `git revert --no-commit bff6364..HEAD` in one
+    revert commit. History was kept, not reset.
+  - Every file now equals bff6364 except this log. Entries 33–35 are kept because they record AI use that took place;
+    the work they describe has been reverted.
+  - Removed: `docs/retrieval_report.md`, `out/retrieval_answers.json`, `out/retrieval_experiments.json` and
+    `docs/figures/retrieval_pareto.png`. `out/metrics.json` no longer has a `retrieval` section.
+- **Note for the rewrite:** bff6364's `tkh/retrieve.py` still adds a paper's title to a method's text once per
+  `claims` edge. This was fixed in cd71e13, which is now reverted.
+- **Verified:** `git diff bff6364` lists only AI_USAGE.md; the tests pass.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

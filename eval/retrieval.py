@@ -32,7 +32,7 @@ import re
 import numpy as np
 
 from tkh import semantic as sm
-from tkh.retrieve import BEAM, K, KINDS, Agent, fold, surname
+from tkh.retrieve import KINDS, Agent, fold, surname
 
 YEAR = re.compile(r"\b((?:19|20)\d\d)\b")
 
@@ -177,11 +177,11 @@ def summarise(per_q, B=2000, seed=0):
     return out
 
 
-def retrieval_check(tkh, run_dir, cutoffs, questions_path, gt_path, B=2000, seed=0):
+def retrieval_check(tkh, run_dir, cutoffs, questions_path, gt_path, beam=(3, 4, 5), k=10, B=2000, seed=0):
     """(metrics section, per-question answers)."""
     questions = read_questions(questions_path)
     gt = json.loads(open(gt_path, encoding="utf-8").read())
-    agent = Agent(tkh, run_dir, cutoffs)
+    agent = Agent(tkh, run_dir, cutoffs, beam, k)
     per_q, answers = {}, {}
     for q in questions:
         hier, flt = (agent.answer(q["question"], q["type"], m) for m in ("hier", "flat"))
@@ -197,7 +197,7 @@ def retrieval_check(tkh, run_dir, cutoffs, questions_path, gt_path, B=2000, seed
         strip = lambda a: {x: y for x, y in a.items() if x != "ranked"}   # noqa: E731
         answers[q["id"]] = {"question": q["question"], "type": q["type"], "gold": gold,
                             "hier": strip(hier), "flat": strip(flt)}
-    metrics = {"config": {"beam": list(BEAM), "k": K, "scorer": "keyword overlap on snapshot leaf texts",
+    metrics = {"config": {"beam": list(beam), "k": k, "encoder": "word TF-IDF on snapshot leaf texts",
                           "label_weight": 0.5, "bootstrap": B, "seed": seed, "questions": str(questions_path),
                           "ground_truth": str(gt_path)},
                "snapshots": {qid: p["snapshot"] for qid, p in per_q.items()},

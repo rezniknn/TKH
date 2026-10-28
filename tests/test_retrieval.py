@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT))
 from eval.retrieval import parse_citation, read_questions, resolve_citation, resolve_method, retrieval_check, score  # noqa: E402
 from tkh.config import load_config  # noqa: E402
 from tkh.io import load, snapshot  # noqa: E402
-from tkh.retrieve import KINDS, Index, Overlap, choose_snapshot, descend, flat, leaf_texts  # noqa: E402
+from tkh.retrieve import KINDS, Index, choose_snapshot, descend, flat, leaf_texts  # noqa: E402
 from tkh import semantic as sm  # noqa: E402
 
 CUTOFFS = (2020, 2022, 2024, 2026)
@@ -58,7 +58,7 @@ class Toy:
         self.children = {"L0.1": ["L1.1"], "L0.2": ["L1.2"], "L1.1": [], "L1.2": []}
         self.roots, self.type, self.leaves = ["L0.1", "L0.2"], dict.fromkeys("abcd", "method"), list("abcd")
 
-    def score(self, sid, q, *_):
+    def score(self, sid, q):
         return max(float(np.dot(self.vec[v], q)) for v in self.sn[sid]["member_ids"])
 
     def rank(self, ids, q):
@@ -116,7 +116,7 @@ def test_answers_have_ground_truth_format(run):
                ("as_of", "required_claims", "sources", "required_citations")
         for h in (a["hier"], a["flat"]):
             assert all(k in h for k in keys) and all(isinstance(c, str) for c in h["required_citations"])
-        assert set(a["hier"]["closest"]) == {0, 1, 2, "leaf"}               # closest match at every level
+        assert set(a["hier"]["closest"]) == {0, 1, 2}                       # closest match at every level
     assert set(metrics["summary"]) == {"A", "B"} and json.dumps(metrics, allow_nan=False)
 
 
@@ -128,9 +128,3 @@ def test_agent_does_not_see_ground_truth(real, run, tmp_path):
     (tmp_path / "gt.json").write_text(json.dumps(gt))
     _, other = retrieval_check(tkh, ROOT / "out", cfg.cutoffs, QUESTIONS, tmp_path / "gt.json", B=200)
     assert all(other[q][s] == run[1][q][s] for q in other for s in ("hier", "flat"))
-
-
-def test_keyword_overlap_scores_share_of_question_keywords():
-    docs = ["graph neural network potential", "graph kernel", "phonon spectra of crystals", "neural network"]
-    ov = Overlap(docs)
-    assert np.allclose(ov.X @ ov.query("graph neural potential"), [1, 1 / 3, 0, 1 / 3])   # no shared keyword -> 0

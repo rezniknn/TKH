@@ -113,15 +113,9 @@ alternatives, results) is [docs/formal_statement.md](docs/formal_statement.md).
 - **Stability check** (`eval/stability.py`): rebuild after removing 10% of hyper-edges (5 seeds)
   and real cross-snapshot ARI and HARI with intervals, against a null where only the new papers'
   edges are rewired; change localisation; event counts. `make gamma` compares gamma = 0 ... 1.
-- **Extrinsic utility** (`tkh/retrieve.py`, `eval/retrieval.py`, run by `python -m eval retrieval`): a
-  retrieval agent picks the question's snapshot, drills down the hierarchy by beam search (keyword-overlap
-  similarity to labels and member centroids; settings chosen by the experiments in `docs/retrieval_report.md` §8) and returns methods + citations (type A) or claims + citations
-  (type B) in the ground-truth format of `data/ground_truth.json` (scored fields); scored against a flat search on hit-rate and
-  steps-to-target (`docs/retrieval_report.md`).
 
 ```bash
-make all                                     # build -> validate -> coherence -> stability -> labels -> retrieval -> test
-make retrieval                               # T6: drill-down retrieval agent vs flat search (offline, ~2 s; docs/retrieval_report.md)
+make all                                     # build -> validate -> coherence -> stability -> test (about 15 min on 8 cores)
 make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
 .venv/bin/python -m tkh build --out /tmp/alt --budgets 10 40 160 640 --param rho=4
 make null SEED=3                             # one null-model run, validated against its own graph

@@ -6,7 +6,7 @@
                                                    new-paper null), change localisation, events -> "stability"
   labels     --run DIR [--rigor standard]          label faithfulness: held-out NLI judge, controls, nulls -> "labels"
                                                    (rigor: quick | standard | full; judgements -> DIR/label_judgements.json)
-  retrieval  --run DIR                             T6 extrinsic utility: drill-down retrieval agent vs flat search on
+  retrieval  --run DIR [--beam 3 4 5] [--k 10]     T6 extrinsic utility: drill-down retrieval agent vs flat search on
                                                    data/questions.csv, scored with data/ground_truth.json (hit-rate,
                                                    steps-to-target) -> "retrieval"; answers -> DIR/retrieval_answers.json
   gamma      [--out DIR] [--param k=v ...]         temporal-prior variants gamma = 0 ... 1: stability and coherence
@@ -55,6 +55,8 @@ def main(argv=None):
     p.add_argument("--run", type=Path, required=True)
     p.add_argument("--questions", type=Path, default=REPO_ROOT / "data" / "questions.csv")
     p.add_argument("--gt", type=Path, default=REPO_ROOT / "data" / "ground_truth.json")
+    p.add_argument("--beam", type=int, nargs="+", default=[3, 4, 5], help="super-nodes kept per level, L0 first")
+    p.add_argument("--k", type=int, default=10, help="answer length (methods or claims)")
     for name in ("gamma", "sweep"):
         p = add_config_args(sub.add_parser(name))
         p.add_argument("--param", nargs="*", help="override [method] parameters of the base configuration")
@@ -84,7 +86,7 @@ def main(argv=None):
             section = "labels"
             (args.run / "label_judgements.json").write_text(json.dumps(recs, indent=1, ensure_ascii=False) + "\n")
         elif args.cmd == "retrieval":
-            res, answers = retrieval_check(load(cfg), args.run, cfg.cutoffs, args.questions, args.gt)
+            res, answers = retrieval_check(load(cfg), args.run, cfg.cutoffs, args.questions, args.gt, args.beam, args.k)
             section = "retrieval"
             (args.run / "retrieval_answers.json").write_text(json.dumps(answers, indent=1, ensure_ascii=False) + "\n")
         else:
