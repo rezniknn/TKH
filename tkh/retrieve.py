@@ -20,12 +20,15 @@ The question type is given by the question's metadata (data/questions.csv); the 
 """
 
 from collections import defaultdict
+from dataclasses import dataclass
 from pathlib import Path
 import json
 import re
 import unicodedata
 
 import numpy as np
+import scipy.sparse as sp
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import normalize
 
 from tkh import semantic as sm
@@ -60,13 +63,48 @@ def surname(full):
     return fold(sm.clean(full).split(" ")[-1])
 
 
-def leaf_texts(tkh, snap):
+LEAF_INFO = ("name", "rel", "full", "full+claims")
+NODE_INFO = ("blend", "label", "centroid", "kind_centroid", "doc")
+SCORERS = ("tfidf", "bm25", "overlap")
+QUERY = ("stripped", "full", "task", "condition")
+
+
+@dataclass(frozen=True)
+class Settings:
+    """Retrieval knobs (eval/retrieval_experiments.py sweeps them; the defaults are the applied configuration).
+    beam       super-nodes kept per level, L0 first; with rel set, the beam is the cap per level instead
+    rel        keep every scored child >= rel x the level's best score (at least min_keep)
+    node_info  super-node content compared with the question: blend (0.5 label + gloss, 0.5 member centroid; L2
+               centroid), label (label + gloss; L2 centroid), centroid (all members), kind_centroid (members of the
+               answer kinds), doc (label + gloss + names of the answer-kind members as one document)
+    leaf_info  leaf text: name (name + aliases), rel (+ relation neighbours, evaluated_on metric/task), full (+ title
+               of the presenting / claiming article), full+claims (+ for a presented method, its paper's claims)
+    scorer     tfidf (cosine of word TF-IDF), bm25 (keyword matching, k1 = 1.2, b = 0.75), overlap (share of the
+               question's keywords present in the node text)
+    query      stripped (template words removed), full, task (the phrase after 'for' / before 'when'), condition
+               (the clause after 'when'); task and condition fall back to stripped
+    """
+    beam: tuple = (3, 4, 5)
+    rel: float = None
+    min_keep: int = 1
+    node_info: str = "blend"
+    leaf_info: str = "full"
+    scorer: str = "tfidf"
+    query: str = "stripped"
+    k: int = 10
+
+
+def leaf_texts(tkh, snap, info="full"):
     """{node id: text} from the snapshot's own edges only (tkh.semantic.attached_text reads all edges)."""
     name = sm.names(tkh)
     title = tkh.articles["title"].to_dict()
+    ntype = tkh.nodes["type"].to_dict()
     txt = {v: [name[v]] for v in snap.node_ids}
+    if info == "name":
+        return {v: " . ".join(x) for v, x in txt.items()}
     e = snap.edges
     attrs = e["attributes"] if "attributes" in e else [None] * len(e)
+    presented, claims_of = {}, defaultdict(list)
     for m, r, a, at in zip(e["members"], e["relation_type"], e["article_id"], attrs):
         if r in CLUSTER_RELATIONS:
             head, tails = m[0], m[1:]
@@ -77,19 +115,81 @@ def leaf_texts(tkh, snap):
                 extra = " ".join(str(at[k]) for k in ("metric", "task") if at.get(k))
                 for v in m:
                     txt[v].append(extra)
+        elif info == "rel":
+            continue
         elif r == "presents" and isinstance(title.get(a), str):   # the presented method: its paper's title, once
             txt[m[1]].append(sm.clean(title[a]))
+            presented[a] = m[1]
         elif r == "claims" and isinstance(title.get(a), str):     # claim nodes only (methods on claims edges excluded)
             for v in m[1:]:
-                if tkh.nodes.at[v, "type"] == "claim":
+                if ntype[v] == "claim":
                     txt[v].append(sm.clean(title[a]))
+                    claims_of[a].append(name[v])
+    if info == "full+claims":
+        for a, v in presented.items():
+            txt[v] += claims_of[a]
     return {v: " . ".join(x) for v, x in txt.items()}
 
 
-class Index:
-    """One snapshot: its hierarchy, leaf and super-node vectors, and article metadata for citations."""
+class Space:
+    """Documents and queries as vectors whose dot product is the score: tfidf (L2-normalised TF-IDF, cosine),
+    bm25 (per-document BM25 term weights . binary query), overlap (binary document . query / its keyword count)."""
 
-    def __init__(self, tkh, run_dir, cutoff):
+    def __init__(self, texts, scorer):
+        self.scorer = scorer
+        if scorer == "tfidf":
+            self.X, self.vec = sm.vectorize(texts, kind="word")
+            return
+        self.vec = CountVectorizer(lowercase=True, stop_words="english", token_pattern=r"(?u)\b[\w][\w\-\+]*\b")
+        C = self.vec.fit_transform(texts)
+        n, df = C.shape[0], np.bincount(C.indices, minlength=C.shape[1])
+        self.idf = np.log((n - df + 0.5) / (df + 0.5) + 1.0)
+        self.avgdl = C.sum() / n
+        self.X = self._weights(C)
+
+    def _weights(self, C, k1=1.2, b=0.75):
+        C = sp.csr_matrix(C, dtype=float)
+        if self.scorer == "overlap":
+            C.data[:] = 1.0
+            return C
+        dl = np.asarray(C.sum(axis=1)).ravel()
+        rows = np.repeat(np.arange(C.shape[0]), np.diff(C.indptr))
+        tf = C.data
+        C.data = self.idf[C.indices] * tf * (k1 + 1) / (tf + k1 * (1 - b + b * dl[rows] / self.avgdl))
+        return C
+
+    def docs(self, texts):
+        """Vectors of texts outside the fitted corpus (labels, super-node documents)."""
+        texts = [sm.clean(t) for t in texts]
+        if self.scorer == "tfidf":
+            return normalize(self.vec.transform(texts))
+        return self._weights(self.vec.transform(texts))
+
+    def query(self, text):
+        if self.scorer == "tfidf":
+            return normalize(self.vec.transform([text])).toarray()[0]
+        q = (self.vec.transform([text]).toarray()[0] > 0).astype(float)
+        return q / max(1.0, q.sum()) if self.scorer == "overlap" else q
+
+
+def query_text(question, mode):
+    """The part of the question compared with node content."""
+    if mode == "full":
+        return sm.clean(question)
+    q = re.sub(r"\((?:by|as of)[^)]*\)", " ", question)
+    if mode == "task":
+        m = re.search(r"\bfor (.+?)(?:\bwhen\b|\?|$)", q, re.I)
+        q = m.group(1) if m else q
+    elif mode == "condition":
+        m = re.search(r"\bwhen (.+?)(?:\?|$)", q, re.I)
+        q = m.group(1) if m else q
+    return sm.clean(TEMPLATE.sub(" ", q))
+
+
+class Index:
+    """One snapshot under one leaf text and scorer: its hierarchy, leaf and super-node vectors, and article metadata."""
+
+    def __init__(self, tkh, run_dir, cutoff, leaf_info="full", scorer="tfidf"):
         snap = snapshot(tkh, cutoff)
         h = json.loads((Path(run_dir) / str(cutoff) / "hierarchy.json").read_text())
         self.cutoff, self.sn = cutoff, {s["id"]: s for s in h["supernodes"]}
@@ -100,18 +200,13 @@ class Index:
         self.roots = [s["id"] for s in h["supernodes"] if s["level"] == 0]
         self.depth = h["levels"]
         self.leaves = sorted({v for s in h["supernodes"] if s["level"] == self.depth - 1 for v in s["member_ids"]})
-        texts = leaf_texts(tkh, snap)
-        X, self.vec = sm.vectorize([texts[v] for v in self.leaves], kind="word")
-        self.X, self.row = X, {v: i for i, v in enumerate(self.leaves)}
+        texts = leaf_texts(tkh, snap, leaf_info)
+        self.space = Space([texts[v] for v in self.leaves], scorer)
+        self.X, self.row = self.space.X, {v: i for i, v in enumerate(self.leaves)}
         self.type = tkh.nodes["type"].to_dict()
         self.name = {v: sm.clean(s) for v, s in tkh.nodes["surface_form"].items()}
         self.keys = sm.name_keys(tkh)
-        self.centroid, self.labelvec = {}, {}
-        for sid, s in self.sn.items():
-            rows = [self.row[v] for v in s["member_ids"]]
-            self.centroid[sid] = normalize(np.asarray(X[rows].mean(axis=0)))[0]
-            if s.get("label"):
-                self.labelvec[sid] = self.encode(f"{s['label']} . {s.get('gloss') or ''}", strip=False)
+        self._rep = {}
         # citations: article -> year, title, author surnames; leaf -> its articles within the snapshot
         arts = tkh.articles
         self.art_year = {a: int(y) for a, y in arts["year"].items() if a in snap.articles}
@@ -127,13 +222,47 @@ class Index:
             if r == "presents":
                 self.presents[a] += m[1:]
 
-    def encode(self, text, strip=True):
-        text = TEMPLATE.sub(" ", text) if strip else text
-        return normalize(self.vec.transform([sm.clean(text)])).toarray()[0]
+    def encode(self, question, mode="stripped"):
+        return self.space.query(query_text(question, mode))
 
-    def score(self, sid, q):
-        c = float(self.centroid[sid] @ q)
-        return 0.5 * float(self.labelvec[sid] @ q) + 0.5 * c if sid in self.labelvec else c
+    def _centroid(self, members):
+        rows = [self.row[v] for v in members]
+        if not rows:
+            return np.zeros(self.X.shape[1])
+        c = np.asarray(self.X[rows].mean(axis=0))
+        return normalize(c)[0] if self.space.scorer == "tfidf" else c[0]
+
+    def reps(self, info, kinds):
+        """{super-node id: [(weight, vector)]} for one node_info and answer kinds (cached)."""
+        key = (info, kinds)
+        if key not in self._rep:
+            rep, labelled = {}, [sid for sid, s in self.sn.items() if s.get("label")]
+            lab = dict(zip(labelled, self.space.docs([f"{self.sn[i]['label']} . {self.sn[i].get('gloss') or ''}"
+                                                       for i in labelled]))) if labelled else {}
+            vec = lambda m: m.toarray()[0] if sp.issparse(m) else np.asarray(m).ravel()   # noqa: E731
+            if info == "doc":
+                ids = list(self.sn)
+                docs = self.space.docs([" . ".join([*(f"{self.sn[i]['label']} . {self.sn[i].get('gloss') or ''}"
+                                                       for _ in [0] if self.sn[i].get("label")),
+                                                     *(self.name[v] for v in self.sn[i]["member_ids"]
+                                                       if self.type[v] in kinds)]) for i in ids])
+                rep = {i: [(1.0, vec(docs[j]))] for j, i in enumerate(ids)}
+            for sid, s in self.sn.items():
+                if info == "doc":
+                    continue
+                members = [v for v in s["member_ids"] if info != "kind_centroid" or self.type[v] in kinds]
+                c = self._centroid(members)
+                if sid in lab and info == "blend":
+                    rep[sid] = [(0.5, vec(lab[sid])), (0.5, c)]
+                elif sid in lab and info == "label":
+                    rep[sid] = [(1.0, vec(lab[sid]))]
+                else:
+                    rep[sid] = [(1.0, c)]
+            self._rep[key] = rep
+        return self._rep[key]
+
+    def score(self, sid, q, info="blend", kinds=KINDS["A"]):
+        return sum(w * float(v @ q) for w, v in self.reps(info, kinds)[sid])
 
     def rank(self, ids, q):
         """[(leaf, score)] best first, ties by id."""
@@ -148,12 +277,21 @@ class Index:
         return f"{who} {self.art_year[a]}"
 
 
-def descend(ix, q, kinds, beam):
+def _keep(scored, b, rel, min_keep):
+    """Kept ids of one level's [(score, id)] (best first): the top b, or with rel every id >= rel x best (cap b)."""
+    if rel is None:
+        return [s for _, s in scored[:b]]
+    best = scored[0][0] if scored else 0.0
+    ok = [s for sc, s in scored if best > 0 and sc >= rel * best]
+    return ok[:b] if len(ok) >= min_keep else [s for _, s in scored[:min(b, min_keep)]]
+
+
+def descend(ix, q, kinds, beam, rel=None, min_keep=1, info="blend"):
     """Beam search from L0 to the finest level -> (ranked pool, trace)."""
     frontier, trace = ix.roots, []
     for level, b in enumerate(beam):
-        scored = sorted(((ix.score(s, q), s) for s in frontier), key=lambda t: (-t[0], t[1]))
-        keep = [s for _, s in scored[:b]]
+        scored = sorted(((ix.score(s, q, info, kinds), s) for s in frontier), key=lambda t: (-t[0], t[1]))
+        keep = _keep(scored, b, rel, min_keep)
         trace += [{"level": level, "id": s, "label": ix.sn[s].get("label"), "score": round(sc, 4), "kept": s in keep}
                   for sc, s in scored]
         frontier = [c for s in keep for c in ix.children[s]]
@@ -195,30 +333,33 @@ def extract(ix, qtype, ranked, k):
 
 
 class Agent:
-    """answer(question, qtype, mode) for mode 'hier' (drill-down) or 'flat' (baseline)."""
+    """answer(question, qtype, mode) for mode 'hier' (drill-down) or 'flat' (baseline), under one Settings.
+    `cache` ({(cutoff, leaf_info, scorer): Index}) may be shared between agents of different settings."""
 
-    def __init__(self, tkh, run_dir, cutoffs, beam=(3, 4, 5), k=10):
-        self.tkh, self.run_dir, self.cutoffs, self.beam, self.k = tkh, Path(run_dir), sorted(cutoffs), tuple(beam), k
-        self._ix = {}
+    def __init__(self, tkh, run_dir, cutoffs, settings=None, cache=None):
+        self.tkh, self.run_dir, self.cutoffs = tkh, Path(run_dir), sorted(cutoffs)
+        self.s = settings or Settings()
+        self._ix = {} if cache is None else cache
 
     def index(self, cutoff):
-        if cutoff not in self._ix:
-            self._ix[cutoff] = Index(self.tkh, self.run_dir, cutoff)
-        return self._ix[cutoff]
+        key = (cutoff, self.s.leaf_info, self.s.scorer)
+        if key not in self._ix:
+            self._ix[key] = Index(self.tkh, self.run_dir, cutoff, self.s.leaf_info, self.s.scorer)
+        return self._ix[key]
 
     def answer(self, question, qtype, mode="hier"):
         cutoff, src = choose_snapshot(question, self.cutoffs)
-        ix = self.index(cutoff)
-        q, kinds = ix.encode(question), KINDS[qtype]
+        ix, s = self.index(cutoff), self.s
+        q, kinds = ix.encode(question, s.query), KINDS[qtype]
         if mode == "hier":
-            ranked, trace = descend(ix, q, kinds, self.beam[:ix.depth])
+            ranked, trace = descend(ix, q, kinds, tuple(s.beam)[:ix.depth], s.rel, s.min_keep, s.node_info)
         else:
             ranked, trace = flat(ix, q, kinds), []
-        out = {"type": qtype, "snapshot": cutoff, "snapshot_source": src, **extract(ix, qtype, ranked, self.k)}
+        out = {"type": qtype, "snapshot": cutoff, "snapshot_source": src, **extract(ix, qtype, ranked, s.k)}
         if qtype == "B":
             out = {"as_of": str(cutoff), **out}
         out["ranked"] = [v for v, _ in ranked]           # full ranking, for steps-to-target
-        out["top_leaves"] = [{"id": v, "name": ix.name[v], "score": round(sc, 4)} for v, sc in ranked[:self.k]]
+        out["top_leaves"] = [{"id": v, "name": ix.name[v], "score": round(sc, 4)} for v, sc in ranked[:s.k]]
         out["n_supernodes_scored"] = len(trace)
         out["closest"] = {lv: next((t["id"], t["label"], t["score"]) for t in trace if t["level"] == lv)
                           for lv in sorted({t["level"] for t in trace})}

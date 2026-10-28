@@ -22,9 +22,12 @@ Metrics, per question and system (hier, flat):
                   Targets: the resolved method nodes (A) or the claims of resolved source articles (B).
   lost_at_level   (hier, diagnostic) the first level at which no kept super-node holds a target (None: reached).
 Summaries: means over questions per type, and the paired hier - flat difference with a bootstrap 95% CI over questions.
+Objective H (`objective`, the selection criterion of eval/retrieval_experiments.py): the mean over questions with
+targets of the mean of their item (methods / claims) and citation hit-rates.
 """
 
 from collections import defaultdict
+from dataclasses import asdict
 import csv
 import json
 import re
@@ -32,7 +35,7 @@ import re
 import numpy as np
 
 from tkh import semantic as sm
-from tkh.retrieve import KINDS, Agent, fold, surname
+from tkh.retrieve import KINDS, Agent, Settings, fold, surname
 
 YEAR = re.compile(r"\b((?:19|20)\d\d)\b")
 
@@ -178,16 +181,18 @@ def summarise(per_q, B=2000, seed=0):
     return out
 
 
-def retrieval_check(tkh, run_dir, cutoffs, questions_path, gt_path, beam=(3, 4, 5), k=10, B=2000, seed=0):
-    """(metrics section, per-question answers)."""
-    questions = read_questions(questions_path)
-    gt = json.loads(open(gt_path, encoding="utf-8").read())
-    agent = Agent(tkh, run_dir, cutoffs, beam, k)
+def evaluate(agent, questions, gt, golds=None):
+    """Both systems on every question -> (per-question scores, answers). `golds` ({qid: (gold, targets)}) caches the
+    gold resolution, which depends only on the snapshot, not on the retrieval settings."""
     per_q, answers = {}, {}
     for q in questions:
         hier, flt = (agent.answer(q["question"], q["type"], m) for m in ("hier", "flat"))
         ix = agent.index(hier["snapshot"])
-        gold, targets = resolve_gold(gt[q["id"]], ix)
+        if golds is None or q["id"] not in golds:
+            g = resolve_gold(gt[q["id"]], ix)
+            if golds is not None:
+                golds[q["id"]] = g
+        gold, targets = golds[q["id"]] if golds is not None else g
         n_flat = len(flt["ranked"])
         per_q[q["id"]] = {"type": q["type"], "snapshot": hier["snapshot"], "snapshot_source": hier["snapshot_source"],
                           "n_targets": len(targets), "n_flat_candidates": n_flat, "pool": len(hier["ranked"]),
@@ -198,9 +203,29 @@ def retrieval_check(tkh, run_dir, cutoffs, questions_path, gt_path, beam=(3, 4, 
         strip = lambda a: {x: y for x, y in a.items() if x != "ranked"}   # noqa: E731
         answers[q["id"]] = {"question": q["question"], "type": q["type"], "gold": gold,
                             "hier": strip(hier), "flat": strip(flt)}
-    metrics = {"config": {"beam": list(beam), "k": k, "encoder": "word TF-IDF on snapshot leaf texts",
-                          "label_weight": 0.5, "bootstrap": B, "seed": seed, "questions": str(questions_path),
-                          "ground_truth": str(gt_path)},
+    return per_q, answers
+
+
+def objective(per_q, system="hier"):
+    """H: mean over questions with targets of the mean of their item and citation hit-rates -> (H, {qid: h})."""
+    h = {}
+    for qid, p in per_q.items():
+        if not p["n_targets"]:
+            continue
+        rates = [r["rate"] for kind, r in p[system].items() if kind in ("methods", "claims", "citations")
+                 and isinstance(r, dict) and r["rate"] is not None]
+        h[qid] = float(np.mean(rates))
+    return (float(np.mean(list(h.values()))) if h else None), h
+
+
+def retrieval_check(tkh, run_dir, cutoffs, questions_path, gt_path, settings=None, B=2000, seed=0):
+    """(metrics section, per-question answers)."""
+    settings = settings or Settings()
+    gt = json.loads(open(gt_path, encoding="utf-8").read())
+    per_q, answers = evaluate(Agent(tkh, run_dir, cutoffs, settings), read_questions(questions_path), gt)
+    metrics = {"config": {**{k: (list(v) if isinstance(v, tuple) else v) for k, v in asdict(settings).items()},
+                          "bootstrap": B, "seed": seed, "questions": str(questions_path), "ground_truth": str(gt_path)},
                "snapshots": {qid: p["snapshot"] for qid, p in per_q.items()},
+               "objective_H": {s: objective(per_q, s)[0] for s in ("hier", "flat")},
                "summary": summarise(per_q, B, seed), "per_question": per_q}
     return metrics, answers

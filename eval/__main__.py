@@ -27,6 +27,7 @@ from eval.retrieval import retrieval_check
 from eval.stability import gamma_tradeoff, stability_check
 from tkh.config import REPO_ROOT, add_config_args, config_from_args, load_config, parse_overrides
 from tkh.io import load
+from tkh.retrieve import LEAF_INFO, NODE_INFO, QUERY, SCORERS, Settings
 from tkh.hierarchy import Params
 
 
@@ -55,8 +56,15 @@ def main(argv=None):
     p.add_argument("--run", type=Path, required=True)
     p.add_argument("--questions", type=Path, default=REPO_ROOT / "data" / "questions.csv")
     p.add_argument("--gt", type=Path, default=REPO_ROOT / "data" / "ground_truth.json")
-    p.add_argument("--beam", type=int, nargs="+", default=[3, 4, 5], help="super-nodes kept per level, L0 first")
-    p.add_argument("--k", type=int, default=10, help="answer length (methods or claims)")
+    d = Settings()
+    p.add_argument("--beam", type=int, nargs="+", default=list(d.beam), help="super-nodes kept (or cap) per level, L0 first")
+    p.add_argument("--rel", type=float, default=d.rel, help="keep children scoring >= rel x the level's best")
+    p.add_argument("--min-keep", type=int, default=d.min_keep)
+    p.add_argument("--node-info", choices=NODE_INFO, default=d.node_info)
+    p.add_argument("--leaf-info", choices=LEAF_INFO, default=d.leaf_info)
+    p.add_argument("--scorer", choices=SCORERS, default=d.scorer)
+    p.add_argument("--query", choices=QUERY, default=d.query)
+    p.add_argument("--k", type=int, default=d.k, help="answer length (methods or claims)")
     for name in ("gamma", "sweep"):
         p = add_config_args(sub.add_parser(name))
         p.add_argument("--param", nargs="*", help="override [method] parameters of the base configuration")
@@ -86,7 +94,9 @@ def main(argv=None):
             section = "labels"
             (args.run / "label_judgements.json").write_text(json.dumps(recs, indent=1, ensure_ascii=False) + "\n")
         elif args.cmd == "retrieval":
-            res, answers = retrieval_check(load(cfg), args.run, cfg.cutoffs, args.questions, args.gt, args.beam, args.k)
+            st = Settings(beam=tuple(args.beam), rel=args.rel, min_keep=args.min_keep, node_info=args.node_info,
+                          leaf_info=args.leaf_info, scorer=args.scorer, query=args.query, k=args.k)
+            res, answers = retrieval_check(load(cfg), args.run, cfg.cutoffs, args.questions, args.gt, st)
             section = "retrieval"
             (args.run / "retrieval_answers.json").write_text(json.dumps(answers, indent=1, ensure_ascii=False) + "\n")
         else:
