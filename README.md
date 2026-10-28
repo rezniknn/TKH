@@ -59,7 +59,8 @@ covers:
 - what the export can answer (ceilings);
 - the hierarchy as a search index;
 - a POC drill-down agent with a flat baseline;
-- the hit-rate and steps-to-target metric design, with nulls and paired CIs.
+- the metric design (hit-rate, error rate, steps-to-target) for methods, claims and citations;
+- implementation guidelines, assumptions and future work.
 
 It reads `out/` (never rebuilds), makes no LLM calls, and runs in seconds:
 

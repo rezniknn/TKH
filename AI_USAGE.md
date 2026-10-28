@@ -1335,6 +1335,32 @@ accepted or changed, and what was checked.
 - **Verified:** `jupyter nbconvert --execute` exits 0 (about 7 s); the tests pass. Nothing under `out/` changed. Every
   number in §9 was checked against the executed outputs.
 
+### 38. Retrieval design notebook: reduced scope (Claude Code)
+
+- **Task/module:** `notebooks/04_retrieval_design.ipynb`, `figures/t6_*.png`, README
+- **Prompt:** "Let's limit the scope of the retrieval agent implementation and evaluation to simply build and eval
+  work. Propose a simplification of the notebook and subsquent imlementation to use methods, claims and citations
+  (with exact + acronym matching) as retrieval targets. Drop M3, M4, M6, M7, M8 and M9 metrics from the evaluation
+  framework. … Update the notebook sections' individual outcomes, the final evaluation and the implemenation
+  guidelines. List assumptions and simplifications made at the end as directions for future work"
+- **What the assistant did:**
+  - Cut the targets to methods, claims and citations, with method names matched by exact name or acronym only. The
+    prefix tier, the lenient/strict tiers and the all-sources claim tier are gone.
+  - Removed breadth, temporal compliance, budget-matched recall, the random-tree null, the label ablation and the
+    bootstrap CIs. The remaining metrics are renumbered M1 hit-rate, M2 error rate and M3 steps-to-target.
+  - Rewrote the field-role table, the section outcomes, the §9 findings and guidelines, and a closing list of
+    assumptions and simplifications as future work. Deleted two obsolete figures.
+- **Case where the AI was wrong:** the independent review confirmed 17 findings, all fixed. Among them:
+  - the behavioural leakage check reused indexes built with ground truth in scope, and it tested only one mode;
+  - "full beam equals flat on hit-rates" was close to true by construction; it now checks leaf coverage and an
+    identical ranked list;
+  - the method-claim hit is per method, not per claim, and the text now says so;
+  - the brief's null-model and CI requirements were cited as T6 requirements, although the brief states them for
+    coherence and stability;
+  - a dispersion range was wrong (2–8 instead of 2–7), and so was a source-resolution count.
+- **Verified:** `jupyter nbconvert --execute` exits 0 (about 6 s); 459 tests pass. Nothing under `out/` changed. The
+  §9 numbers match the executed outputs.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
