@@ -1262,7 +1262,14 @@ accepted or changed, and what was checked.
     on average instead of 3.3, and that citation precision moved only from 0.153 to 0.202. This is now reported as a
     caveat.
 - **Verified:** 463 tests pass. `make retrieval` and `make retrieval-sweep` are deterministic. The experiment tables
-  are generated from `out/retrieval_experiments.json`, and an independent agent checked the report's numbers.
+  are generated from `out/retrieval_experiments.json`.
+- **Fact-check:** two rounds by independent agents found no data errors, but corrected several prose claims:
+  - the steps comparison: flat search wins on 14 of 16 questions, not 11;
+  - a beam-monotonicity claim that holds only in E6;
+  - the scorer ordering;
+  - the overlap denominator;
+  - "evaluator unchanged", which holds for the scoring rules only;
+  - the disclosure that aliases are undated node attributes.
 
 ## Case where the AI was wrong (§6a)
 

@@ -85,7 +85,7 @@ class Settings:
     query      stripped (template words removed), full, task (the phrase after 'for' / before 'when'), condition
                (the clause after 'when'); task and condition fall back to stripped
     """
-    beam: tuple = (10, 20, 40)          # selected by eval/retrieval_experiments.py (docs/retrieval_report.md §9)
+    beam: tuple = (10, 20, 40)          # selected by eval/retrieval_experiments.py (docs/retrieval_report.md §8)
     rel: float = None
     min_keep: int = 1
     node_info: str = "blend"

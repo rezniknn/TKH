@@ -12,7 +12,7 @@ the 18 questions in `data/questions.csv`, scored against `data/ground_truth.json
 
 **What the experiments changed.** The first run (E0: beam 3/4/5, TF-IDF cosine) reached a target on 6 of 16
 questions, and its objective H (§3) was 0.125. The experiments vary three things, and leave the hierarchy, the
-snapshot rule, the evaluator and k = 10 unchanged:
+snapshot rule, the evaluator's scoring rules and k = 10 unchanged:
 - nodes kept per level;
 - which information is compared with the question;
 - keyword matching instead of TF-IDF.
@@ -73,15 +73,20 @@ All knobs are fields of `Settings`. The defaults are the applied settings, and t
 
    After that, only the snapshot's nodes, edges and hierarchy are used. Every vocabulary, IDF and statistic is fitted
    on the snapshot's own leaf texts.
-3. **Leaf text** (`leaf_info = "full+claims"`), all from the snapshot's edges:
-   - name and aliases;
+3. **Leaf text** (`leaf_info = "full+claims"`):
+   - name and aliases. These are node attributes of the export with no date, so they cannot be filtered by cutoff.
+     This has no effect here, because every question uses the last snapshot.
+   - the rest comes from the snapshot's edges:
    - the names of relation neighbours (`addresses`, `solves`, `extends`, `uses_*`, `evaluated_on`);
    - the `evaluated_on` metric and task;
    - the title of the presenting article (for a method, added once) or of the claiming article (for a claim);
    - for a presented method, the claims of its paper.
 4. **Score** (`scorer = "overlap"`): the share of the question's keywords found in the node text.
-   - Keywords are lower-cased word tokens without English stop words.
-   - The question template ("which methods … best suited for", "(by Feb 2026)") is removed (`query = "stripped"`).
+   - Only in-vocabulary keywords count, i.e. those occurring in some snapshot leaf text.
+   - Tokens are lower-cased, may contain '-' or '+', and exclude English stop words.
+   - The question's template words are removed (`query = "stripped"`): the date parenthetical and a fixed word list
+     applied anywhere in the question (which, what, are, is, the, method(s), best, suited, leading, most, important,
+     commonly, used, give, evidence(s), when, for, of, by, feb, and any year).
 5. **Super-node score** (`node_info = "blend"`):
    - L0 and L1: 0.5·s(q, label + gloss) + 0.5·s(q, mean of its members' vectors);
    - L2, which has no labels: the member mean only.
@@ -94,23 +99,25 @@ All knobs are fields of `Settings`. The defaults are the applied settings, and t
 7. **Answer** (`extract`, k = 10), in the ground-truth format for the scored fields:
    - **Type A:**
      - `expected_methods`: the top 10 distinct names (by `name_key`);
-     - `required_citations`: "Surname et al. YYYY" for the articles those leaves come from, written "A & B YYYY" for
-       two authors and "Anon. YYYY" when the export has no author.
+     - `required_citations`: "Surname et al. YYYY" for the articles those leaves come from. The forms are
+       "Surname YYYY" for one author, "A & B YYYY" for two, and "Anon. YYYY" when the export has no author.
    - **Type B:**
      - `as_of`;
      - `required_claims`: the top 10 claims as `{id, text, node_id, sources}`;
      - `sources`: key → `{key, title, date, article_id}`;
      - `required_citations`: the keys.
 
-   The GT-only annotation fields are not produced: `method_claims`, `method_evidence`, `fp_categories`, `coverage`,
-   `locations`, `evidence`, `caveat`, `venue`, `doi` and `evidence_type`. Dates are years, and claim ids are R1…Rk.
+   The GT-only annotation fields are not produced. Examples: `method_claims`, `method_evidence`, `fp_categories`, `coverage`,
+   `locations`, `evidence`, `caveat`, `venue`, `doi`, `evidence_type`, `provenance_policy` and `contrast_sources`. Dates are years, and claim ids are R1…Rk.
    The node and article ids an answer was read from are included, so it can be scored without string matching.
 
 ## 3. The evaluator (`eval/retrieval.py`)
 
 Only the evaluator reads ground truth. A test (`test_agent_does_not_see_ground_truth`) cuts every question's expected
-methods or required claims down to one item and checks that neither system's answers change. The evaluator was not
-changed by the experiments.
+methods or required claims down to one item and checks that neither system's answers change.
+
+The experiments did not change the evaluator's scoring rules (gold resolution, hit-rate, steps, censoring). They only
+added the objective H (`objective`), a gold-resolution cache and an articles-cited count.
 
 ### Gold resolution
 
@@ -242,8 +249,12 @@ energy/force performance?"
 
 - **The coarse levels sort poorly by use case.**
   - With beam 3 at L0 (E0), targets were lost at L0 on 6 questions. Q1's 15 targets sit in 5 of the 15 L0 nodes.
-  - Every setting that keeps few L0 nodes stays poor (E1, E6: beams 1–5 at L0 reach H ≤ 0.27).
-  - The selected beam keeps 10 of 15 L0 nodes, so L0 prunes only a third of the tree.
+  - Under the selected scorer and leaf text (E6), every setting that keeps at most 5 L0 nodes is poor (H ≤ 0.183,
+    against 0.477).
+  - Under TF-IDF (E1), beam 5 / 8 / 12 had the stage's highest H (0.268), but it lost the steps tie-break (886.9 vs
+    302.2 for 15 / 30 / 60).
+  - The selected beam keeps 10 of 15 L0 nodes, which hold 60–85% of the leaves. L0 therefore prunes only about a
+    quarter of the tree.
   - This is consistent with the intrinsic finding that coherence is not supported at L0 (`docs/evaluation_report.md`
     §3).
 - **The labels do not route well on their own.**
@@ -260,7 +271,8 @@ energy/force performance?"
   - The method and claim hit-rates are not affected by this, because k is fixed.
 - **Steps.**
   - The drill-down scores 133–162 super-nodes before its first leaf. It therefore cannot beat flat search on steps
-    whenever flat ranks the first target in its top 13, which happens on 11 of 16 questions.
+    whenever flat ranks the first target within that question's super-node count + 1. That happens on 14 of 16
+    questions; the drill-down needs fewer steps only on Q7 (354 vs 1266).
   - Fewer steps would need tighter beams, and the tighter beams tested lose targets (§8).
 
 ## 6. Threats to validity
@@ -309,8 +321,8 @@ energy/force performance?"
 
 ### 8.1 Protocol
 
-- **Fixed:** the hierarchy, the snapshot rule, the evaluator, the ground truth and k = 10.
-- **Objective:** fixed before the first run. H is the mean over the 16 questions with targets of (item + citation
+- **Fixed:** the hierarchy, the snapshot rule, the evaluator's scoring rules, the ground truth and k = 10.
+- **Objective:** fixed before the experiment series was run, after the first run (E0) had been reported. H is the mean over the 16 questions with targets of (item + citation
   hit-rate) / 2, for the drill-down. When runs are within 0.01 of the best H, the lowest mean steps wins.
 - **Flat search** is rerun in every configuration with the same leaf text and scorer.
 - **Staged search.** Each stage starts from the previous stage's winner. There are 55 distinct configurations; some
@@ -454,16 +466,19 @@ The runs are named `<beam or rel/min_keep> <node_info> <leaf_info> <scorer> <que
 ### 8.4 What the series shows
 
 - **Nodes per level** (E1, E6):
-  - Wider beams raise H and cut mean steps, because fewer targets are censored.
+  - Under the selected scorer and leaf text (E6), wider beams raise H (0.030 at 1 / 1 / 1 to 0.477 at 10 / 20 / 40)
+    and mostly cut mean steps, because fewer targets are censored.
+  - Under TF-IDF (E1), H is not monotone in the beam: it peaks at 5 / 8 / 12, and wider beams mainly cut steps.
   - The gains stop at about 10 of 15 L0 nodes: (10, 20, 40) ≈ (15, 30, 60) in H, with fewer steps.
   - Relative thresholds keep too few nodes: their runs score 26–55 super-nodes, against 145 for the selected beam. None
     beat the wider fixed beams.
   - Keeping all 15 L0 nodes but few below (15, 8, 12) is poor, so pruning at L1 also loses targets.
 - **Super-node information** (E2, E4): `blend` has the best or tied-best H under every scorer. `label` and `doc` are
   the two worst under every scorer.
-- **Leaf information** (E3): adding the paper's claims is the only leaf change that helps (+0.071 H). Names alone or
-  relations alone are worse than the first run's text.
-- **Matching** (E4): keyword overlap > TF-IDF > BM25 on H. Overlap has no IDF and no length normalisation, so long
+- **Leaf information** (E3): adding the paper's claims is the only leaf change that helps (+0.071 H). Names alone, or
+  names plus relations (no titles), are worse than the first run's text.
+- **Matching** (E4): keyword overlap has the highest H under every super-node representation. TF-IDF beats BM25
+  except under `doc` (0.233 vs 0.272). Overlap has no IDF and no length normalisation, so long
   leaf texts (methods with their paper's claims) match many question words. That helps recall here.
 - **Question text** (E5): the template-stripped question is best. The use-case clause alone ("condition") gives the
   fewest steps (318.9) but lower H (0.398).

@@ -6,7 +6,7 @@
                                                    new-paper null), change localisation, events -> "stability"
   labels     --run DIR [--rigor standard]          label faithfulness: held-out NLI judge, controls, nulls -> "labels"
                                                    (rigor: quick | standard | full; judgements -> DIR/label_judgements.json)
-  retrieval  --run DIR [--beam 3 4 5] [--k 10]     T6 extrinsic utility: drill-down retrieval agent vs flat search on
+  retrieval  --run DIR [--beam 10 20 40] [--k 10]     T6 extrinsic utility: drill-down retrieval agent vs flat search on
                                                    data/questions.csv, scored with data/ground_truth.json (hit-rate,
                                                    steps-to-target) -> "retrieval"; answers -> DIR/retrieval_answers.json
   retrieval-sweep --run DIR                       staged experiments over the agent's settings -> DIR/retrieval_experiments.json
