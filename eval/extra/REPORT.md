@@ -80,7 +80,8 @@ papers, the mean within against the mean to other papers.*
 ## Conclusions
 
 - **Papers in the same L0 super-node are rated closer in topic than papers in different ones.** The difference of the
-  means lies above the whole permutation null, and its paper-bootstrap interval excludes zero (Table E2). The L0 level
+  means lies above the 97.5% quantile of the permutation null, with a small one-sided p, and its paper-bootstrap
+  interval excludes zero (Table E2). The L0 level
   therefore carries semantic signal that an independent reader of the abstracts recognises.
 - **The effect is modest.** Both means sit near the scale's middle anchor ("related problems or a shared kind of
   method"), because the corpus is narrow: every paper is about machine learning for materials or chemistry, so most
@@ -108,4 +109,5 @@ papers, the mean within against the mean to other papers.*
 - **One unvalidated rater on a coarse scale.** One model, one prompt and one order per pair (id order), so position
   effects are not averaged out; the scale anchors are the only calibration. The rater uses only a few score values,
   mostly the anchors (Table E1), so means move in coarse steps.
-- **Abstract versions.** Abstracts come from arXiv (first version) or OpenAlex and are verified by title only.
+- **Abstract versions.** Abstracts come from arXiv (the first version, except for a title-search hit, which returns
+  the latest version) or from OpenAlex, and are verified by title only (Table E1 lists the sources).
