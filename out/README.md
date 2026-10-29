@@ -1,5 +1,4 @@
 <!-- Generated deliverables, produced by 'make all': <snapshot>/hierarchy.json, <snapshot>/coarse_hyperedges.json and <snapshot>/label_inputs.json (seen and held-out evidence halves per labelled super-node) per snapshot, temporal_events.json, run_config.toml (resolved inputs and parameters), run_info.json (diagnostics), metrics.json (sections coherence, stability, faithfulness, retrieval, abstract_coherence from 'make abstract-coherence', and alpha_sweep from 'make sweep-summary' over the committed sweep/ runs), faithfulness_judgements.json (per-claim label faithfulness judgements), retrieval_answers.json (T6 retrieval answers, drill-down and flat, with the resolved gold per question); 'make sweep' rebuilds the variant runs in sweep/<alpha>/. -->
 
 The top-level run is built with the configured default α = 0.75, the variant recommended by the α sweep, and is
-identical to `sweep/0.75/`. `sweep/` holds all five α variants; `gamma/` predates the sweep and was built at α = 0.5
-(the report mentions it only as not repeated at the shipped α).
+identical to `sweep/0.75/`. `sweep/` holds all five α variants.

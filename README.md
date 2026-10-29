@@ -148,8 +148,7 @@ definitions and every per-metric table; [docs/alpha_sweep.md](docs/alpha_sweep.m
   period (papers of one period cite the same work); every snapshot and level, against both nulls.
 - **Stability check** (`eval/stability.py`): rebuild after removing 10% of hyper-edges (5 seeds)
   and real cross-snapshot ARI and HARI with intervals, against a null where only the new papers'
-  edges are rewired; change localisation; event counts. `make gamma` compares gamma = 0 ... 1 (last run at
-  the pre-sweep alpha = 0.5; not reported).
+  edges are rewired; change localisation; event counts.
 - **Labels (T5)** (`tkh/label.py`, `[labels]` of the config): an LLM labeller (qwen2.5) writes the L0–L1 label and
   gloss of each super-node from half of its evidence; answers replay from `data/llm_cache.json` (offline by default).
 - **Label faithfulness check** (`eval/faithfulness.py`, run by `make faithfulness`): a judge from a different model

@@ -1,4 +1,4 @@
-"""Command line of the evaluation: python -m eval {coherence,stability,faithfulness,retrieval,gamma,sweep}.
+"""Command line of the evaluation: python -m eval {coherence,stability,faithfulness,retrieval,sweep}.
 
   coherence  --run DIR [--R 99] [--R-labels 999]   held-out coherence per snapshot and level, unadjusted and
                                                    period-adjusted, against both nulls -> DIR/metrics.json "coherence"
@@ -11,8 +11,6 @@
                                                    data/questions.csv, scored with data/ground_truth.json (hit-rate,
                                                    error rate, items inspected, candidates scored) -> "retrieval";
                                                    answers and resolved gold -> DIR/retrieval_answers.json
-  gamma      [--out DIR] [--param k=v ...]         temporal-prior variants gamma = 0 ... 1: stability and coherence
-                                                   per variant, paired differences to gamma = 0 -> DIR/gamma.json
   sweep      [--out DIR] [--alphas ...] [--summarise-only]
                                                    alpha sweep, every other parameter at its default: a full run and the
                                                    four checks per alpha -> DIR/<alpha>/metrics.json; the comparison
@@ -30,7 +28,7 @@ import json
 from eval.experiments import coherence_check
 from eval.faithfulness import faithfulness_check
 from eval.retrieval import retrieval_check
-from eval.stability import gamma_tradeoff, stability_check
+from eval.stability import stability_check
 from eval.sweep import ALPHAS, summarise, sweep
 from tkh.config import REPO_ROOT, add_config_args, config_from_args, load_config, parse_overrides
 from tkh.io import load
@@ -62,14 +60,12 @@ def main(argv=None):
     p.add_argument("--gt", type=Path, default=REPO_ROOT / "data" / "ground_truth.json")
     p.add_argument("--beam", type=int, nargs="+", default=list(BEAM), help="super-nodes kept per level, L0 first")
     p.add_argument("--k", type=int, default=K, help="answer length (methods or claims)")
-    for name in ("gamma", "sweep"):
-        p = add_config_args(sub.add_parser(name))
-        p.add_argument("--param", nargs="*", help="override [method] parameters of the base configuration")
-        p.add_argument("--out", type=Path)
-        p.add_argument("--jobs", type=int, default=8)
-        if name == "sweep":
-            p.add_argument("--alphas", type=float, nargs="+", default=list(ALPHAS))
-            p.add_argument("--summarise-only", action="store_true", help="only recompute the alpha_sweep section from the runs")
+    p = add_config_args(sub.add_parser("sweep"))
+    p.add_argument("--param", nargs="*", help="override [method] parameters of the base configuration")
+    p.add_argument("--out", type=Path)
+    p.add_argument("--jobs", type=int, default=8)
+    p.add_argument("--alphas", type=float, nargs="+", default=list(ALPHAS))
+    p.add_argument("--summarise-only", action="store_true", help="only recompute the alpha_sweep section from the runs")
     args = ap.parse_args(argv)
 
     if args.cmd in ("coherence", "stability", "faithfulness", "retrieval"):   # the run's own resolved config, so the check uses exactly its inputs
@@ -106,20 +102,12 @@ def main(argv=None):
         return
     cfg = config_from_args(args)
     base = Params.from_config({**cfg.method, **parse_overrides(args.param)})
-    if args.cmd == "gamma":
-        res = gamma_tradeoff(cfg, base, out_dir=args.out, n_jobs=args.jobs)
-        out = (args.out or cfg.out_dir / "gamma") / "gamma.json"
+    d = args.out or cfg.out_dir / "sweep"
+    if args.summarise_only:
+        summarise(cfg, d, args.alphas)
     else:
-        d = args.out or cfg.out_dir / "sweep"
-        if args.summarise_only:
-            summarise(cfg, d, args.alphas)
-        else:
-            sweep(cfg, base, args.alphas, d, n_jobs=args.jobs)
-        print(f"sweep -> {cfg.out_dir / 'metrics.json'} (alpha_sweep)")
-        return
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(res, indent=1, allow_nan=False) + "\n")
-    print(f"{args.cmd} -> {out}")
+        sweep(cfg, base, args.alphas, d, n_jobs=args.jobs)
+    print(f"sweep -> {cfg.out_dir / 'metrics.json'} (alpha_sweep)")
 
 if __name__ == "__main__":
     main()
