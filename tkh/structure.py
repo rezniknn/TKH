@@ -24,7 +24,6 @@ key = name_key   # one normaliser for the package (tkh/semantic.py)
 # relations; notebook 03 section 1 checks both against the export's schema. Defined here, independently of
 # any coarsening code.
 CONCEPT_TYPES = ("method", "task", "problem", "technique", "component", "dataset", "metric")
-METADATA_TYPES = ("author", "cited_work", "claim", "future_topic", "article")
 CONCEPT_RELATIONS = ("addresses", "solves", "extends", "uses_component", "uses_technique", "evaluated_on")
 
 
@@ -488,7 +487,7 @@ def reference_partition(kind, items, k, tkh, seed=0, snap=None):
     return np.unique(lab, return_inverse=True)[1]
 
 
-def collapse_stats(labels, B, w=None, item_papers=None, n_papers=None, affinity_weights=None):
+def collapse_stats(labels, B, item_papers=None, n_papers=None, affinity_weights=None):
     """What a partition does to the hypergraph when every fine edge is collapsed onto the groups.
 
     For each edge, lambda = number of distinct groups it touches. Returns: share of edges that become internal
@@ -499,12 +498,12 @@ def collapse_stats(labels, B, w=None, item_papers=None, n_papers=None, affinity_
 
     The affinity between groups A, B is the weighted shared-edge mass normalised by the groups' weighted degrees,
     computed once from presence (0/1 per edge) and once from endpoint counts. `affinity_weights` maps a name to an
-    edge-weight vector ({"uniform": ones} by default; `w` is kept for backward compatibility and means {"w": w})."""
+    edge-weight vector ({"uniform": ones} by default)."""
     from scipy.stats import spearmanr
     labels = np.unique(np.asarray(labels), return_inverse=True)[1]   # no empty groups from label gaps
     K = labels.max() + 1
     if affinity_weights is None:
-        affinity_weights = {"uniform": np.ones(B.shape[1])} if w is None else {"w": w}
+        affinity_weights = {"uniform": np.ones(B.shape[1])}
     P = np.zeros((K, len(labels)))
     P[labels, np.arange(len(labels))] = 1
     cnt = P @ B
@@ -531,7 +530,7 @@ def collapse_stats(labels, B, w=None, item_papers=None, n_papers=None, affinity_
     return out
 
 
-__all__ = ["METADATA_TYPES", "CONCEPT_RELATIONS", "node_papers", "node_roles", "sharing_by_type", "pair_matrix",
+__all__ = ["CONCEPT_RELATIONS", "node_papers", "node_roles", "sharing_by_type", "pair_matrix",
            "link_summary", "typed_links", "lineage_pairs", "citation_name_pairs", "cited_work_name_overlap",
            "hub_sensitivity", "concept_components", "matrix_agreement", "relation_bridges", "relation_weight", "concept_incidence", "reference_partition",
-           "collapse_stats", "citation_coupling", "schema_check", "CONCEPT_TYPES", "Counter"]
+           "collapse_stats", "citation_coupling", "schema_check", "CONCEPT_TYPES"]

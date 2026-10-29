@@ -26,7 +26,7 @@ from tkh.temporal import match_and_name
 def run(cfg, params, out_dir, tkh=None, hubsets=None, info=None):
     """Build and write one run; `tkh` (e.g. a null model) defaults to the config's graph."""
     out_dir = Path(out_dir)
-    (out_dir / "metrics.json").unlink(missing_ok=True)   # a coherence result of an earlier build would be stale
+    (out_dir / "metrics.json").unlink(missing_ok=True)   # every section of an earlier build's metrics.json would be stale
     tkh = tkh if tkh is not None else load(cfg)
     t0 = time.perf_counter()
     parts, graphs, diag = build(tkh, cfg.cutoffs, cfg.budgets, params, hubsets)

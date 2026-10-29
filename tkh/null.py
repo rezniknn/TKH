@@ -16,7 +16,8 @@ redrawn among the old concept nodes of its type, with probability proportional t
 (preferential attachment). The graph <= c0 and the new nodes stay as they are; so does each edge's arity, type mix and
 head. It randomises WHICH old nodes the new papers touch, the null for cross-snapshot stability.
 
-random_labels: concept-node ids permuted within (type, entry interval) over a fixed tree, which keeps
+label_permutation (the random-label null, reported as "random_labels"): concept-node ids permuted within
+(type, entry interval) over a fixed tree, which keeps
 the laminar structure and every super-node's size: the chance baseline for a given size profile.
 """
 
@@ -132,9 +133,3 @@ def label_permutation(tkh, snap, cutoffs, seed):
         rng.shuffle(img)
         perm.update(zip(ids, img))
     return perm
-
-
-def random_labels(levels, tkh, snap, cutoffs, seed):
-    """Concept-node partitions [level 0 .. K-1] with node ids permuted within (type, entry interval)."""
-    perm = label_permutation(tkh, snap, cutoffs, seed)
-    return [{g: {perm.get(v, v) for v in mem} for g, mem in lv.items()} for lv in levels]

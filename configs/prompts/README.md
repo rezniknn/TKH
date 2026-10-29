@@ -4,11 +4,11 @@ Plain-text templates with `{placeholders}`; literal braces are written `{{ }}`. 
 
 | File | Used by | Model (`[labels]`) | Inputs | Output (JSON) |
 |---|---|---|---|---|
-| `labeller.txt` | `tkh/label.py`, `LLMLabeller` (T5) | `labeller_model` | `cutoff`, `evidence`: the **seen** half of the super-node's evidence lines | `{"label", "gloss"}` |
+| `labeller.txt` | `tkh/label.py`, `LLMLabeller` (T5) | `labeller_model` | `cutoff`, `evidence`: the **seen** half of the super-node's evidence lines, `contrast`: top concept names of the K same-level groups sharing the most clustering edges (`[labels] contrast = K`; 0 = off) | `{"label", "gloss"}` |
 | `claims_split.txt` | `eval/faithfulness.py`, step 1 (T6) | `judge_model` | `label`, `gloss` | `{"claims": [...]}` |
 | `claim_entail.txt` | `eval/faithfulness.py`, step 2 (T6) | `judge_model` | `cutoff`, `evidence`: the **held-out** half, `claim` | `{"line": <number>, "verdict": "supported" or "unsupported"}` |
 
-**Evidence lines.** These are built by `tkh.label.evidence`, and their sources all lie inside the snapshot:
+**Evidence lines.** These are built by `tkh.label.Evidence.items` (and split by `tkh.label.split_evidence`), and their sources all lie inside the snapshot:
 - member concepts, as `name [type]` with aliases;
 - the clustering relations of incident edges;
 - `evaluated_on` results;

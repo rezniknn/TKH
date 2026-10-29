@@ -25,7 +25,7 @@ import re
 import sys
 
 from eval import verdicts as V
-from eval.verdicts import ALPHA, LOWER_BETTER, RETRIEVAL_COST, RETRIEVAL_NAMES, SCHEMES
+from eval.verdicts import ALPHA, LOWER_BETTER, RETRIEVAL_COST, RETRIEVAL_NAMES
 
 BLOCK = re.compile(r"(<!-- table:(\w+) -->\n)(.*?)(<!-- /table:\2 -->)", re.S)
 CLAIM = re.compile(r"<!-- claim:(\w+) -->")
@@ -117,13 +117,6 @@ def _favour_counts(r):
 # ---------------------------------------------------------------- coherence
 
 
-
-
-
-
-
-
-
 def t_coherence_coverage(r):
     rows = []
     for c in r.cutoffs:
@@ -166,13 +159,11 @@ def t_cross(r):
     for tr, x in r.m["stability"]["cross_snapshot"].items():
         cells = [*x["ari"], x["hari"]]
         sig = [c["new_paper_null"]["p"] is not None and c["new_paper_null"]["p"] <= ALPHA for c in cells]
-        rows.append([tr.replace("-", "→"), x["common_nodes"]["value"] if isinstance(x["common_nodes"], dict) else x["common_nodes"],
+        rows.append([tr.replace("-", "→"), x["common_nodes"],
                      *(f"{f(c['value'])} vs {f(c['new_paper_null']['mean'])} (p {p(c['new_paper_null']['p'])})" for c in cells),
                      f"{sum(sig)}/{len(sig)}"])
     return md(["Transition", "Common nodes", "ARI L0: run vs null mean (p)", "ARI L1", "ARI L2", "HARI",
                f"Indices above the null (p ≤ {ALPHA}, uncorrected)"], rows)
-
-
 
 
 def _range_pct(xs):
@@ -214,11 +205,6 @@ def t_faithfulness(r):
     return md(["Group", "Labels judged", "Over-claim rate [95% CI]", "Claim-level unsupported"], rows) + tail
 
 
-
-
-
-
-
 def _nd(k):
     return 1 if k in LOWER_BETTER - {"error_rate"} else 3
 
@@ -246,18 +232,6 @@ def t_retrieval(r):
     return md(["Type", "Metric", "n", "Attainable / total items", "Drill-down", "Flat",
                "Paired difference (mean; medians: inspection, computation)", "End to end, drill-down / flat",
                "Favoured (point estimate)"], rows) + tail
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def _hari(x):

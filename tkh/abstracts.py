@@ -9,9 +9,9 @@ Routes, per article, from the identifiers the export carries:
 Every retrieved record is verified against the article's own title (similarity, tolerant
 of titles truncated in the export) before it counts as found.
 
-Only the standard library is used. Nothing is cached or written: this module answers the
-feasibility question; whether to use abstracts (and how to make that reproducible offline)
-is a separate design decision.
+Only the standard library is used. This module caches and writes nothing itself;
+eval/extra/abstract_coherence.py stores the retrieved abstracts in eval/extra/abstracts/ (one <article id>.txt per
+abstract plus manifest.json), so the extra coherence check runs offline.
 """
 
 from difflib import SequenceMatcher

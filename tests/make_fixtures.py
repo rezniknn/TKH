@@ -22,7 +22,6 @@ sys.path.insert(0, str(ROOT))
 from tkh.export import write_outputs  # noqa: E402
 
 FIXTURES = ROOT / "tests" / "fixtures"
-INPUT = FIXTURES / "_input"
 CUTOFFS, BUDGETS = (2020, 2022, 2024), (3, 5)
 
 # ---------------------------------------------------------------- synthetic input graph

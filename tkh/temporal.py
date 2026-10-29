@@ -1,7 +1,7 @@
 """T3: temporal coupling across snapshots: persistent super-node identity and the birth/growth/merge/split/death event log.
 
-match_and_name assigns persistent ids to independently built per-snapshot clusters by
-member overlap and emits an event log that satisfies validate.py's lineage rules (one
+match_and_name assigns persistent ids, by member overlap, to the per-snapshot clusters of the chained build (each
+snapshot is built with the localised temporal prior of tkh/hierarchy.py; independent only when gamma = 0), and emits an event log that satisfies validate.py's lineage rules (one
 fate per super-node per transition; ids global and never reused).
 
 Per level and transition, every old cluster A points to its successor succ(A), the new
@@ -14,8 +14,8 @@ Components of the bipartite graph formed by these pointers are resolved as:
     largest-overlap source); new clusters reached by none are births;
   - an old cluster with no overlap at all dies; a new one with no predecessor is born.
 Persisting events are continue / growth / change by membership. This is the simplest
-consistent matcher, not a temporally regularised method: it enforces identity
-bookkeeping, not stability.
+consistent matcher: it only does identity bookkeeping and adds no regularisation of its own; stability comes from
+the temporal prior in tkh/hierarchy.py.
 """
 
 from collections import defaultdict

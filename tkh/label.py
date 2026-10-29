@@ -1,6 +1,6 @@
 """T5: a label and one-sentence gloss per super-node at levels 0-1, written by an open-source LLM from half of its evidence.
 
-Evidence of a super-node (`evidence`) is a list of text lines, all from its snapshot (P6 cutoff):
+Evidence of a super-node (`Evidence.items`) is a list of text lines, all from its snapshot (P6 cutoff):
   concept   member concepts, "name [type]" (with aliases)
   fact      each incident clustering edge: "<method> <relation> <members in the super-node>"; evaluated_on edges
             add their result attributes (metric, value, task, split)

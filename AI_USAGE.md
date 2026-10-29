@@ -2,7 +2,7 @@
 
 This is a summary of how AI assistants were used for each part of the assignment. Supporting material:
 
-- **[prompts/](prompts/):** the major prompts per section, each with its own verification criteria.
+- **[prompts/](prompts/):** the major prompts per section, most with explicit completion or verification criteria.
 - **[notes/](notes/):** the research outputs used for the literature review and the formal statement.
 
 ## Tools
@@ -54,8 +54,8 @@ challenged by review agents:
 - **Validator.** `validate.py`, with 48 broken fixtures.
 - **Tables.** `make_tables.py` regenerates every table from `metrics.json`, and every hand-written result claim in
   the report carries a tag whose predicate is re-checked on each run.
-- **Report.** The report (`prompts/Report.md`) was cut from about 10,000 to about 2,500 words of prose, with
-  appendices, after Codex's evaluation.
+- **Report.** The report (`prompts/Report.md`) was cut from about 10,000 words to about 3,300 (about 2,600 of
+  prose), with appendices, after Codex's evaluation.
 
 **Independent evaluation by a second model.** Codex (GPT-6.1-Sol) evaluated the repository and the final report
 independently of Claude Code. Its feedback points were checked against the code and either addressed or explicitly

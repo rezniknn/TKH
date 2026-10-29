@@ -2,7 +2,7 @@
 
   coherence  --run DIR [--R 99] [--R-labels 999]   held-out coherence per snapshot and level, unadjusted and
                                                    period-adjusted, against both nulls -> DIR/metrics.json "coherence"
-  stability  --run DIR [--seeds 5] [--R 19]        perturbation and cross-snapshot stability (ARI, HARI, CIs,
+  stability  --run DIR [--seeds 5] [--R 99]        perturbation and cross-snapshot stability (ARI, HARI, CIs,
                                                    new-paper null), change localisation, events -> "stability"
   faithfulness --run DIR [--relabel] [--prompts D] label faithfulness: held-out NLI judge on every L0-L1 label ->
                                                    "faithfulness"; judgements -> DIR/faithfulness_judgements.json
@@ -101,8 +101,6 @@ def main(argv=None):
         path = args.run / "metrics.json"
         metrics = json.loads(path.read_text()) if path.exists() else {}
         metrics[section] = res
-        if section == "faithfulness":
-            metrics.pop("labels", None)   # the earlier label check (controls, nulls) it replaces
         path.write_text(json.dumps(metrics, indent=1, allow_nan=False) + "\n")
         print(f"{section} -> {path}")
         return

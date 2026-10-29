@@ -21,7 +21,7 @@ The default is [configs/default.toml](configs/default.toml), which points at `da
 To run on other inputs, copy it, edit the paths, and select it:
 
 ```bash
-export TKH_CONFIG=/path/to/my.toml     # used by the notebooks and scripts
+export TKH_CONFIG=configs/my.toml     # used by the notebooks and scripts
 ```
 
 Relative paths in a config are resolved against the config file's directory.
@@ -160,7 +160,7 @@ definitions and every per-metric table; [docs/alpha_sweep.md](docs/alpha_sweep.m
   drill-down agent (L0 → L2 beam search) against flat search on `data/questions.csv`, scored with
   `data/ground_truth.json` (hit-rate, error rate, items inspected, candidates scored) -> `metrics.json["retrieval"]` and
   `out/retrieval_answers.json`; offline, seconds. Design: `notebooks/05_retrieval_design.ipynb`; results:
-  `docs/report.md` §5.3 (Table 4) and `docs/appendix.md` (Table A7).
+  `docs/report.md` §5.3 (Table 3) and `docs/appendix.md` (Table A7).
 - **Abstract coherence (extra)** (`eval/extra/abstract_coherence.py`, run by `make abstract-coherence`): phi4 rates the
   topical closeness of paper pairs from their abstracts, within vs across L0 super-nodes -> `metrics.json
   ["abstract_coherence"]` and `eval/extra/REPORT.md`; offline from `eval/extra/llm_cache.json`; report §5.5.
@@ -171,7 +171,7 @@ make tables                                  # every table of the report and App
 make metrics                                 # every check on out/: coherence -> stability -> faithfulness -> retrieval
 make retrieval                               # T6 retrieval check only (reads out/, seconds)
 make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
-.venv/bin/python -m tkh build --out /tmp/alt --budgets 10 40 160 640 --param rho=4
+.venv/bin/python -m tkh build --out out_alt --budgets 10 40 160 640 --param rho=4
 make null SEED=3                             # one null-model run, validated against its own graph
 make sweep                                   # alpha = 0 ... 1, rest at defaults: full run + four checks each -> out/sweep/; comparison -> out/metrics.json "alpha_sweep"
 make abstract-coherence                      # extra: LLM-rated abstract closeness within vs across L0 super-nodes -> metrics.json, eval/extra/REPORT.md

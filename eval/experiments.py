@@ -28,15 +28,14 @@ def _init(cfg):
 
 
 def _levels(job):
-    """Concept partitions for (params dict, null seed or None, cutoffs or None = the last cutoff only), built as one
-    chain over all cutoffs (the temporal prior couples them) with the real snapshots' hub sets: a list of levels for
-    the last cutoff, or {cutoff: levels} when cutoffs are given."""
-    pdict, seed, cutoffs = (*job, None)[:3]
+    """Concept partitions {cutoff: levels} of one configuration-null rebuild (params dict, null seed, cutoffs), built as
+    one chain over all cutoffs (the temporal prior couples them) with the real snapshots' hub sets."""
+    pdict, seed, cutoffs = job
     cfg, real = _W["cfg"], _W["tkh"]
     params = Params.from_config(pdict)
-    tkh = real if seed is None else null_tkh(_W["raw"], cfg.articles, cfg.cutoffs, seed)[0]
+    tkh = null_tkh(_W["raw"], cfg.articles, cfg.cutoffs, seed)[0]
     built = build_concept(tkh, cfg.cutoffs, cfg.budgets, params, real_hubs(real, cfg, params))
-    return built[max(cfg.cutoffs)][0] if cutoffs is None else {c: built[c][0] for c in cutoffs}
+    return {c: built[c][0] for c in cutoffs}
 
 
 def real_hubs(tkh, cfg, params):

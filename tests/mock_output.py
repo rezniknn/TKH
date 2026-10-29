@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT))
 
 from tkh.config import add_config_args, config_from_args  # noqa: E402
 from tkh.export import write_outputs  # noqa: E402
-from tkh.io import load, make_snapshots  # noqa: E402
+from tkh.io import load  # noqa: E402
 
 
 def mock_outputs(tkh, cutoffs, budgets):

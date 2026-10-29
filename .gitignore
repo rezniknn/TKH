@@ -3,4 +3,8 @@
 __pycache__/
 .ipynb_checkpoints/
 out_null/
+out_alt/
 out/gamma/*/
+.pytest_cache/
+.DS_Store
+faithfulness_dev.json   # scratch output of python -m eval faithfulness --relabel/--prompts/--cutoffs/--levels

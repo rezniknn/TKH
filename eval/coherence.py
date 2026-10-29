@@ -39,7 +39,7 @@ PERIODS = ("interval", "year1", "year2", "year3", "gap")
 
 
 class Ruler:
-    def __init__(self, tkh, snap, works=None, fuzzy=False, cutoffs=None, period="interval"):
+    def __init__(self, tkh, snap, fuzzy=False, cutoffs=None, period="interval"):
         papers = node_papers(tkh, snap)
         concept = concept_nodes(tkh, snap)
         hubset = hubs(tkh, snap, EVAL_HUB_FRAC)
@@ -61,13 +61,12 @@ class Ruler:
                         cites[a].add(w)
         citing = [a for a in cites if cites[a]]
         df = Counter(w for a in citing for w in cites[a])               # IDF from all citations
-        self.papers = sorted((a for a in citing if works is None or cites[a] & works), key=str)
+        self.papers = sorted(citing, key=str)
         idx = {w: i for i, w in enumerate(sorted(df))}
         X = np.zeros((len(self.papers), len(idx)))
         for i, a in enumerate(self.papers):
             for w in cites[a]:
-                if works is None or w in works:
-                    X[i, idx[w]] = math.log(len(citing) / df[w])
+                X[i, idx[w]] = math.log(len(citing) / df[w])
         nrm = np.linalg.norm(X, axis=1)
         G, den = X @ X.T, np.outer(nrm, nrm)
         self.c = np.divide(G, den, out=np.zeros_like(G), where=den > 0)

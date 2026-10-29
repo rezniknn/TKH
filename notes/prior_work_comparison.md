@@ -1,6 +1,6 @@
 # SHAC-T against four prior methods
 
-This document positions SHAC-T (`docs/formal_statement.md`, `tkh/coarsen.py`, `tkh/hierarchy.py`) against four arXiv papers. It also lists the improvement hypotheses that the comparison suggests.
+This document positions SHAC-T (then described in a draft formal statement, now `docs/report.md` §2; `tkh/coarsen.py`, `tkh/hierarchy.py`) against four arXiv papers. It also lists the improvement hypotheses that the comparison suggests.
 
 | id | paper | what it actually is | code |
 |---|---|---|---|
@@ -9,7 +9,7 @@ This document positions SHAC-T (`docs/formal_statement.md`, `tkh/coarsen.py`, `t
 | **HLV** | Kamiński, Misiorek, Prałat, Théberge, *Modularity Based Community Detection in Hypergraphs*, arXiv 2406.17556v1 (J. Complex Networks 2024) | hypergraph community detection (h-Louvain) | [pawelwm/h-louvain](https://github.com/pawelwm/h-louvain) @cd68d79, Python |
 | **MPC** | Joly & Keriven, *Graph Coarsening with Message-Passing Guarantees*, arXiv 2405.18127v1 (NeurIPS 2024) | coarse propagation operator for GNNs on a plain graph; the coarsening itself is a Loukas (2019) variant | [anjoly/mp-guarantees-graph-coarsening](https://gitlab.inria.fr/anjoly/mp-guarantees-graph-coarsening): **empty**, the README says the code is under licensing review; no code in the public history |
 
-The formal statement already cites HLV as a rejected alternative (§10, as "h-Louvain"). Report §2 cites HyperEF (ICCAD 2022), the predecessor of HEF2, and Loukas (2019), the coarsening that MPC builds on.
+The report rejects HLV as an alternative (§2, as "h-Louvain"; Appendix Table A0). Report §2 cites HyperEF (ICCAD 2022), the predecessor of HEF2, and Loukas (2019), the coarsening that MPC builds on.
 
 **Sources and checks.**
 - Paper details come from the arXiv HTML or PDF. For MPC they also come from the NeurIPS camera-ready, which adds the Reddit experiment and the code link.
@@ -110,9 +110,9 @@ The formal statement already cites HLV as a rejected alternative (§10, as "h-Lo
 ## 5. Improvement hypotheses to validate here
 
 **Protocol.**
-- Each hypothesis is a SHAC-T variant or an added metric, evaluated through `scripts/evaluate.py`.
+- Each hypothesis is a SHAC-T variant or an added metric, evaluated through `python -m eval` (see `Makefile`).
 - Report half B and the α selection are already spent (report §5–7). A new hypothesis must be:
-  - pre-registered in `configs/eval.toml`;
+  - pre-registered in a config file (`configs/default.toml` format);
   - iterated on dev half A;
   - reported once, on a fresh cited-work split or fresh snapshots.
 - Changes to the method must keep P1, P2, the cap lemma and determinism; `validate.py` checks the first two.
@@ -180,7 +180,7 @@ The formal statement already cites HLV as a rejected alternative (§10, as "h-Lo
 - *Test.*
   - ARI and HARI against the dense build, with the target ≥ 0.95 at every level.
   - Runtime and memory.
-  - Required for any export much larger than 4k concepts (formal statement §7).
+  - Required for any export much larger than 4k concepts.
 - *Caveat.* Pairs that are neither text neighbours nor structural neighbours would never merge. Late, cap-driven merges therefore need a fallback (the full scan, used only when the sparse set has no feasible pair).
 
 ## 6. What not to borrow, and why
@@ -189,6 +189,6 @@ The formal statement already cites HLV as a rejected alternative (§10, as "h-Lo
   - P2 makes the super-node counts display constraints, not compression targets.
   - These methods need connected graphs; MPC restricts itself to the largest connected component.
   - G_t is mostly tiny components.
-- **Modularity maximisation (HLV).** Already rejected in formal statement §10: it has no count control, a resolution limit, and it rewards paper bundles (A1). HLV's α schedule addresses a "lift-off" problem that SHAC-T's rank mixing does not have.
+- **Modularity maximisation (HLV).** Rejected in the report (§2): it has no count control, a resolution limit, and it rewards paper bundles (A1). HLV's α schedule addresses a "lift-off" problem that SHAC-T's rank mixing does not have.
 - **HEF2's contraction rule as a replacement.** It has no exact count and no semantic input, and its leftover-node local clustering merges every isolated node at once. Only its affinity estimate (H2) transfers.
 - **DYN's ε-approximation as a guarantee.** It needs reducibility, which SHAC-T's score lacks. H3 and H4 borrow the mechanism and the diagnostic, not the theorem.

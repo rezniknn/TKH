@@ -253,6 +253,11 @@ under the exact and the fuzzy filter (`coherence.snapshots.<t>.levels[k]`).*
 
 *Figure A1. Period-adjusted held-out lift (exact filter) with both null bands; 1 = chance.*
 
+![Coherence lift per period scheme](figures/coherence_period_sensitivity.png)
+
+*Figure A2. Held-out lift per period scheme at the last snapshot, exact and fuzzy citation filter, with 95% CI;
+1 = chance.*
+
 ### Stability
 
 *Table A3. Perturbation robustness against the unperturbed run, mean [t-interval] over seeds
@@ -279,7 +284,7 @@ under the exact and the fuzzy filter (`coherence.snapshots.<t>.levels[k]`).*
 
 ![Stability](figures/stability.png)
 
-*Figure A2. (a) Perturbation ARI and HARI; (b) cross-snapshot agreement against the new-paper null band.*
+*Figure A3. (a) Perturbation ARI and HARI; (b) cross-snapshot agreement against the new-paper null band.*
 
 *Table A5. Localisation of change (`stability.localisation`).*
 
