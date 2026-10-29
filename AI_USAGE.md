@@ -1890,6 +1890,49 @@ accepted or changed, and what was checked.
   - missing descriptive caveats in the Table 4 and Table 12 captions;
   - notebook text claiming outputs of cells left unexecuted.
 
+### 57. Final report cut to the 3–5-page brief, with appendices and corrections (Claude Code)
+
+- **Task/module:** `docs/report.md`, `docs/appendix.md` (new, Appendix A), `docs/alpha_sweep.md` (Appendix B),
+  `make_tables.py`, `eval/extra/abstract_coherence.py`, `eval/figures.py`, `Makefile`, `README.md`, this file's §6a
+- **Prompt:** reviewer feedback on the report, plus the user's own review comments. The feedback:
+  - the report was about 10,000 words against 3–5 pages;
+  - Table 1 overstated P5;
+  - the complexity statement was incomplete;
+  - the h-Louvain description was imprecise;
+  - the README and the AI-error section were stale.
+
+  The user's comments asked for specific removals (the metrics.json paragraph, Tables 4, 5 and 12, Figures 1 and
+  4–6, the eligibility and recommendation columns), shorter sections, five future-work items, and a new subsection
+  on the abstract evaluation with its numbers in `metrics.json`. The user chose a compact §5.3 with full tables in
+  an appendix, kept the sweep document as Appendix B, and skipped the cluster examples.
+- **What the assistant did:**
+  - `make_tables.py` renders three documents (`--doc report|appendix|sweep`). It has a compact results table with
+    uncertainty, an abstract-coherence table, and the trade-off table moved to Appendix B.
+  - `abstract_coherence.py` writes `metrics.json["abstract_coherence"]` by offline replay, with 0 live calls.
+    `make all` now runs it before the tables.
+  - The report was rewritten to about 2,500 words of prose:
+    - Table 1 splits P5 into lineage, by construction, and stability, measured;
+    - h-Louvain is described as verified against its paper;
+    - the leaf convention is stated;
+    - there is one worked collapse example;
+    - limitations are prioritised.
+  - Appendix A holds the budget lemma, a resource statement rebuilt from `_Level`, the full metric definitions and
+    the per-metric tables.
+  - §6a now gives the concrete α-rule error.
+- **Verified:**
+  - `make_tables.py --check` passes for all three documents (18, 0 and 3 claims hold);
+  - the abstract replay is byte-identical;
+  - `make test` passes (65);
+  - the page count was measured by rendering to PDF (A4, 11 pt).
+- **Review:**
+  - an adversarial review workflow (31 agents, each finding verified) led to about 18 fixes;
+  - an independent scorer rated the report against the brief's rubric, and its main point was taken up: every
+    lift's paper-bootstrap interval includes chance, so coherence is now stated as conditional on these papers,
+    with a checked claim;
+  - other fixes: the γ comparison exists only at α = 0.5; claim sentences now match their predicates; and the
+    "edge removal cannot change a names-only grouping" wording was corrected, because the prior's stable set still
+    depends on the edges.
+
 ## Case where the AI was wrong (§6a)
 
 **The α-sweep decision rule (entry 48).**
