@@ -1,0 +1,30 @@
+[inputs]
+graph = "../../../data/tkh_collection10.json"
+articles = "../../../data/collection10_articles.csv"
+
+[snapshots]
+cutoffs = [2020, 2022, 2024, 2026]
+
+[hierarchy]
+budgets = [15, 60, 240]
+
+[method]
+alpha = 0.5
+gamma = 0.5
+rho = 2.0
+edge_weight = "relation_balanced"
+hub_frac = 0.2
+lsa_dim = 100
+
+[labels]
+labeller = "llm"
+labeller_model = "qwen2.5:7b-instruct"
+judge_model = "phi4"
+endpoint = "http://localhost:11434"
+cache = "../../../data/llm_cache.json"
+prompts = "../../../configs/prompts"
+mode = "offline"
+seed = 0
+max_items = 40
+workers = 4
+contrast = 10

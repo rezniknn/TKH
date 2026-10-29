@@ -1,0 +1,227 @@
+{
+ "params": {
+  "alpha": 0.25,
+  "gamma": 0.5,
+  "rho": 2.0,
+  "edge_weight": "relation_balanced",
+  "hub_frac": 0.2,
+  "lsa_dim": 100
+ },
+ "cid": "a0.25_g0.5_r2_relation_balanced_h0.2_d100",
+ "budgets": [
+  15,
+  60,
+  240
+ ],
+ "cutoffs": [
+  2020,
+  2022,
+  2024,
+  2026
+ ],
+ "runtime_s": 767.3,
+ "snapshots": {
+  "2020": {
+   "n_concept": 1018,
+   "n_edges": 141,
+   "hub_threshold_papers": 4,
+   "hubs": [
+    "meth_00074",
+    "task_00001",
+    "task_00003",
+    "task_00012",
+    "task_00033"
+   ],
+   "n_stable": 0,
+   "levels": [
+    {
+     "budget": 15,
+     "super_nodes": 15,
+     "cap": 135.73,
+     "max_size": 128,
+     "singletons": 1,
+     "merges": 45,
+     "linked": 41,
+     "multi_endpoint": 39,
+     "prior": 0
+    },
+    {
+     "budget": 60,
+     "super_nodes": 60,
+     "cap": 33.93,
+     "max_size": 33,
+     "singletons": 9,
+     "merges": 180,
+     "linked": 180,
+     "multi_endpoint": 155,
+     "prior": 0
+    },
+    {
+     "budget": 240,
+     "super_nodes": 240,
+     "cap": 8.48,
+     "max_size": 8,
+     "singletons": 81,
+     "merges": 778,
+     "linked": 778,
+     "multi_endpoint": 468,
+     "prior": 0
+    }
+   ],
+   "n_anchored": 457
+  },
+  "2022": {
+   "n_concept": 1464,
+   "n_edges": 230,
+   "hub_threshold_papers": 5,
+   "hubs": [
+    "meth_00030",
+    "meth_00074",
+    "metr_00002",
+    "task_00001",
+    "task_00003",
+    "task_00010",
+    "task_00012",
+    "task_00033"
+   ],
+   "n_stable": 876,
+   "levels": [
+    {
+     "budget": 15,
+     "super_nodes": 15,
+     "cap": 195.2,
+     "max_size": 175,
+     "singletons": 0,
+     "merges": 45,
+     "linked": 39,
+     "multi_endpoint": 39,
+     "prior": 29
+    },
+    {
+     "budget": 60,
+     "super_nodes": 60,
+     "cap": 48.8,
+     "max_size": 48,
+     "singletons": 3,
+     "merges": 180,
+     "linked": 175,
+     "multi_endpoint": 157,
+     "prior": 127
+    },
+    {
+     "budget": 240,
+     "super_nodes": 240,
+     "cap": 12.2,
+     "max_size": 12,
+     "singletons": 35,
+     "merges": 1224,
+     "linked": 1197,
+     "multi_endpoint": 738,
+     "prior": 706
+    }
+   ],
+   "n_anchored": 680
+  },
+  "2024": {
+   "n_concept": 2829,
+   "n_edges": 406,
+   "hub_threshold_papers": 8,
+   "hubs": [
+    "meth_00074",
+    "metr_00002",
+    "task_00003",
+    "task_00010",
+    "task_00012",
+    "task_00033",
+    "task_00034"
+   ],
+   "n_stable": 1169,
+   "levels": [
+    {
+     "budget": 15,
+     "super_nodes": 15,
+     "cap": 377.2,
+     "max_size": 375,
+     "singletons": 0,
+     "merges": 45,
+     "linked": 45,
+     "multi_endpoint": 44,
+     "prior": 39
+    },
+    {
+     "budget": 60,
+     "super_nodes": 60,
+     "cap": 94.3,
+     "max_size": 93,
+     "singletons": 0,
+     "merges": 180,
+     "linked": 179,
+     "multi_endpoint": 164,
+     "prior": 125
+    },
+    {
+     "budget": 240,
+     "super_nodes": 240,
+     "cap": 23.57,
+     "max_size": 23,
+     "singletons": 13,
+     "merges": 2589,
+     "linked": 2520,
+     "multi_endpoint": 1610,
+     "prior": 990
+    }
+   ],
+   "n_anchored": 1265
+  },
+  "2026": {
+   "n_concept": 3980,
+   "n_edges": 554,
+   "hub_threshold_papers": 11,
+   "hubs": [
+    "metr_00002",
+    "task_00003",
+    "task_00010",
+    "task_00012",
+    "task_00033",
+    "task_00034"
+   ],
+   "n_stable": 2629,
+   "levels": [
+    {
+     "budget": 15,
+     "super_nodes": 15,
+     "cap": 530.67,
+     "max_size": 520,
+     "singletons": 0,
+     "merges": 45,
+     "linked": 44,
+     "multi_endpoint": 40,
+     "prior": 44
+    },
+    {
+     "budget": 60,
+     "super_nodes": 60,
+     "cap": 132.67,
+     "max_size": 131,
+     "singletons": 0,
+     "merges": 180,
+     "linked": 175,
+     "multi_endpoint": 162,
+     "prior": 167
+    },
+    {
+     "budget": 240,
+     "super_nodes": 240,
+     "cap": 33.17,
+     "max_size": 33,
+     "singletons": 3,
+     "merges": 3740,
+     "linked": 3628,
+     "multi_endpoint": 2345,
+     "prior": 2403
+    }
+   ],
+   "n_anchored": 1818
+  }
+ }
+}

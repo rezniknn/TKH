@@ -1,0 +1,8834 @@
+{
+ "0": {
+  "summary": {
+   "internal": 183,
+   "partial": 47,
+   "uncollapsed": 0,
+   "multiway": 9,
+   "edges": 230
+  },
+  "edges": [
+   {
+    "fine_edge": "h_00001",
+    "relation_type": "addresses",
+    "arity": 2,
+    "weight": 0.2535889853016849,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.16": 2
+    }
+   },
+   {
+    "fine_edge": "h_00003",
+    "relation_type": "extends",
+    "arity": 7,
+    "weight": 0.03312352989031658,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 7
+    }
+   },
+   {
+    "fine_edge": "h_00004",
+    "relation_type": "solves",
+    "arity": 4,
+    "weight": 0.09461503647194576,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 4
+    }
+   },
+   {
+    "fine_edge": "h_00005",
+    "relation_type": "uses_component",
+    "arity": 9,
+    "weight": 0.06341453116031202,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 9
+    }
+   },
+   {
+    "fine_edge": "h_00006",
+    "relation_type": "uses_technique",
+    "arity": 9,
+    "weight": 0.0636041747343899,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 9
+    }
+   },
+   {
+    "fine_edge": "h_00007",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 5
+    }
+   },
+   {
+    "fine_edge": "h_00008",
+    "relation_type": "extends",
+    "arity": 6,
+    "weight": 0.0397482358683799,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 6
+    }
+   },
+   {
+    "fine_edge": "h_00009",
+    "relation_type": "solves",
+    "arity": 5,
+    "weight": 0.07096127735395932,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 5
+    }
+   },
+   {
+    "fine_edge": "h_00010",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 8
+    }
+   },
+   {
+    "fine_edge": "h_00011",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 7
+    }
+   },
+   {
+    "fine_edge": "h_00021",
+    "relation_type": "addresses",
+    "arity": 8,
+    "weight": 0.0362269979002407,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 8
+    }
+   },
+   {
+    "fine_edge": "h_00022",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 2,
+     "L0.7": 1
+    }
+   },
+   {
+    "fine_edge": "h_00023",
+    "relation_type": "extends",
+    "arity": 7,
+    "weight": 0.03312352989031658,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.7": 6
+    }
+   },
+   {
+    "fine_edge": "h_00024",
+    "relation_type": "solves",
+    "arity": 8,
+    "weight": 0.040549301345119616,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 8
+    }
+   },
+   {
+    "fine_edge": "h_00025",
+    "relation_type": "uses_component",
+    "arity": 19,
+    "weight": 0.028184236071249785,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 19
+    }
+   },
+   {
+    "fine_edge": "h_00026",
+    "relation_type": "uses_technique",
+    "arity": 16,
+    "weight": 0.03392222652500794,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 16
+    }
+   },
+   {
+    "fine_edge": "h_00060",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 5
+    }
+   },
+   {
+    "fine_edge": "h_00061",
+    "relation_type": "evaluated_on",
+    "arity": 23,
+    "weight": 0.0006973645091081275,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L0.10": 6,
+     "L0.5": 4,
+     "L0.8": 13
+    }
+   },
+   {
+    "fine_edge": "h_00062",
+    "relation_type": "extends",
+    "arity": 17,
+    "weight": 0.012421323708868719,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L0.1": 2,
+     "L0.10": 12,
+     "L0.2": 1,
+     "L0.4": 2
+    }
+   },
+   {
+    "fine_edge": "h_00063",
+    "relation_type": "solves",
+    "arity": 4,
+    "weight": 0.09461503647194576,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 4
+    }
+   },
+   {
+    "fine_edge": "h_00064",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.10": 7
+    }
+   },
+   {
+    "fine_edge": "h_00065",
+    "relation_type": "uses_technique",
+    "arity": 8,
+    "weight": 0.0726904854107313,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 8
+    }
+   },
+   {
+    "fine_edge": "h_00071",
+    "relation_type": "addresses",
+    "arity": 13,
+    "weight": 0.021132415441807075,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 13
+    }
+   },
+   {
+    "fine_edge": "h_00072",
+    "relation_type": "evaluated_on",
+    "arity": 9,
+    "weight": 0.0019177524000473507,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 3,
+     "L0.6": 6
+    }
+   },
+   {
+    "fine_edge": "h_00073",
+    "relation_type": "extends",
+    "arity": 18,
+    "weight": 0.01169065760834703,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 17,
+     "L0.6": 1
+    }
+   },
+   {
+    "fine_edge": "h_00074",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 9
+    }
+   },
+   {
+    "fine_edge": "h_00075",
+    "relation_type": "uses_component",
+    "arity": 18,
+    "weight": 0.029842132310735067,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 18
+    }
+   },
+   {
+    "fine_edge": "h_00076",
+    "relation_type": "uses_technique",
+    "arity": 15,
+    "weight": 0.03634524270536565,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 15
+    }
+   },
+   {
+    "fine_edge": "h_00082",
+    "relation_type": "addresses",
+    "arity": 8,
+    "weight": 0.0362269979002407,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 7,
+     "L0.5": 1
+    }
+   },
+   {
+    "fine_edge": "h_00083",
+    "relation_type": "evaluated_on",
+    "arity": 11,
+    "weight": 0.0015342019200378807,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 11
+    }
+   },
+   {
+    "fine_edge": "h_00084",
+    "relation_type": "extends",
+    "arity": 12,
+    "weight": 0.018067379940172684,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 11,
+     "L0.5": 1
+    }
+   },
+   {
+    "fine_edge": "h_00085",
+    "relation_type": "solves",
+    "arity": 7,
+    "weight": 0.04730751823597288,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 7
+    }
+   },
+   {
+    "fine_edge": "h_00086",
+    "relation_type": "uses_component",
+    "arity": 13,
+    "weight": 0.04227635410687468,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 13
+    }
+   },
+   {
+    "fine_edge": "h_00087",
+    "relation_type": "uses_technique",
+    "arity": 13,
+    "weight": 0.04240278315625992,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 13
+    }
+   },
+   {
+    "fine_edge": "h_00088",
+    "relation_type": "addresses",
+    "arity": 10,
+    "weight": 0.028176553922409434,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 10
+    }
+   },
+   {
+    "fine_edge": "h_00089",
+    "relation_type": "evaluated_on",
+    "arity": 8,
+    "weight": 0.0021917170286255435,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 8
+    }
+   },
+   {
+    "fine_edge": "h_00090",
+    "relation_type": "extends",
+    "arity": 8,
+    "weight": 0.028391597048842785,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 8
+    }
+   },
+   {
+    "fine_edge": "h_00091",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 9
+    }
+   },
+   {
+    "fine_edge": "h_00092",
+    "relation_type": "uses_component",
+    "arity": 16,
+    "weight": 0.033821083285499744,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 16
+    }
+   },
+   {
+    "fine_edge": "h_00093",
+    "relation_type": "uses_technique",
+    "arity": 15,
+    "weight": 0.03634524270536565,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 14,
+     "L0.4": 1
+    }
+   },
+   {
+    "fine_edge": "h_00106",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 5
+    }
+   },
+   {
+    "fine_edge": "h_00107",
+    "relation_type": "evaluated_on",
+    "arity": 9,
+    "weight": 0.0019177524000473507,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 9
+    }
+   },
+   {
+    "fine_edge": "h_00108",
+    "relation_type": "extends",
+    "arity": 5,
+    "weight": 0.049685294835474875,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 5
+    }
+   },
+   {
+    "fine_edge": "h_00109",
+    "relation_type": "solves",
+    "arity": 6,
+    "weight": 0.056769021883167466,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 6
+    }
+   },
+   {
+    "fine_edge": "h_00110",
+    "relation_type": "uses_component",
+    "arity": 9,
+    "weight": 0.06341453116031202,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 9
+    }
+   },
+   {
+    "fine_edge": "h_00111",
+    "relation_type": "uses_technique",
+    "arity": 8,
+    "weight": 0.0726904854107313,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 8
+    }
+   },
+   {
+    "fine_edge": "h_00112",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 5
+    }
+   },
+   {
+    "fine_edge": "h_00113",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 2
+    }
+   },
+   {
+    "fine_edge": "h_00114",
+    "relation_type": "extends",
+    "arity": 4,
+    "weight": 0.06624705978063317,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2,
+     "L0.4": 2
+    }
+   },
+   {
+    "fine_edge": "h_00115",
+    "relation_type": "solves",
+    "arity": 5,
+    "weight": 0.07096127735395932,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 5
+    }
+   },
+   {
+    "fine_edge": "h_00116",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 8
+    }
+   },
+   {
+    "fine_edge": "h_00117",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 7
+    }
+   },
+   {
+    "fine_edge": "h_00118",
+    "relation_type": "addresses",
+    "arity": 3,
+    "weight": 0.12679449265084244,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 3
+    }
+   },
+   {
+    "fine_edge": "h_00119",
+    "relation_type": "extends",
+    "arity": 2,
+    "weight": 0.1987411793418995,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00120",
+    "relation_type": "solves",
+    "arity": 4,
+    "weight": 0.09461503647194576,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 4
+    }
+   },
+   {
+    "fine_edge": "h_00121",
+    "relation_type": "uses_component",
+    "arity": 7,
+    "weight": 0.08455270821374936,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 7
+    }
+   },
+   {
+    "fine_edge": "h_00122",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 7
+    }
+   },
+   {
+    "fine_edge": "h_00123",
+    "relation_type": "addresses",
+    "arity": 15,
+    "weight": 0.01811349895012035,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 15
+    }
+   },
+   {
+    "fine_edge": "h_00124",
+    "relation_type": "evaluated_on",
+    "arity": 4,
+    "weight": 0.005114006400126268,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 4
+    }
+   },
+   {
+    "fine_edge": "h_00125",
+    "relation_type": "extends",
+    "arity": 12,
+    "weight": 0.018067379940172684,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 10,
+     "L0.5": 2
+    }
+   },
+   {
+    "fine_edge": "h_00126",
+    "relation_type": "solves",
+    "arity": 11,
+    "weight": 0.028384510941583733,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 11
+    }
+   },
+   {
+    "fine_edge": "h_00127",
+    "relation_type": "uses_component",
+    "arity": 17,
+    "weight": 0.03170726558015601,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 17
+    }
+   },
+   {
+    "fine_edge": "h_00128",
+    "relation_type": "uses_technique",
+    "arity": 21,
+    "weight": 0.025441669893755958,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 21
+    }
+   },
+   {
+    "fine_edge": "h_00129",
+    "relation_type": "addresses",
+    "arity": 18,
+    "weight": 0.01491699913539323,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.7": 17
+    }
+   },
+   {
+    "fine_edge": "h_00130",
+    "relation_type": "extends",
+    "arity": 26,
+    "weight": 0.00794964717367598,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.3": 1,
+     "L0.9": 24
+    }
+   },
+   {
+    "fine_edge": "h_00131",
+    "relation_type": "solves",
+    "arity": 14,
+    "weight": 0.02183423918583364,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 14
+    }
+   },
+   {
+    "fine_edge": "h_00132",
+    "relation_type": "uses_component",
+    "arity": 26,
+    "weight": 0.020292649971299846,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.7": 25
+    }
+   },
+   {
+    "fine_edge": "h_00133",
+    "relation_type": "uses_technique",
+    "arity": 26,
+    "weight": 0.020353335915004767,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.7": 25
+    }
+   },
+   {
+    "fine_edge": "h_00140",
+    "relation_type": "addresses",
+    "arity": 10,
+    "weight": 0.028176553922409434,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 10
+    }
+   },
+   {
+    "fine_edge": "h_00141",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00142",
+    "relation_type": "extends",
+    "arity": 8,
+    "weight": 0.028391597048842785,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L0.3": 6,
+     "L0.6": 1,
+     "L0.7": 1
+    }
+   },
+   {
+    "fine_edge": "h_00143",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 8,
+     "L0.7": 1
+    }
+   },
+   {
+    "fine_edge": "h_00144",
+    "relation_type": "uses_component",
+    "arity": 12,
+    "weight": 0.04611965902568147,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 12
+    }
+   },
+   {
+    "fine_edge": "h_00145",
+    "relation_type": "uses_technique",
+    "arity": 14,
+    "weight": 0.03914103060577839,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 14
+    }
+   },
+   {
+    "fine_edge": "h_00146",
+    "relation_type": "addresses",
+    "arity": 12,
+    "weight": 0.023053544118334993,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 12
+    }
+   },
+   {
+    "fine_edge": "h_00147",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 2
+    }
+   },
+   {
+    "fine_edge": "h_00148",
+    "relation_type": "extends",
+    "arity": 13,
+    "weight": 0.01656176494515829,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 2,
+     "L0.9": 11
+    }
+   },
+   {
+    "fine_edge": "h_00149",
+    "relation_type": "solves",
+    "arity": 10,
+    "weight": 0.03153834549064859,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 10
+    }
+   },
+   {
+    "fine_edge": "h_00150",
+    "relation_type": "uses_component",
+    "arity": 16,
+    "weight": 0.033821083285499744,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 16
+    }
+   },
+   {
+    "fine_edge": "h_00151",
+    "relation_type": "uses_technique",
+    "arity": 16,
+    "weight": 0.03392222652500794,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 16
+    }
+   },
+   {
+    "fine_edge": "h_00152",
+    "relation_type": "addresses",
+    "arity": 10,
+    "weight": 0.028176553922409434,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 10
+    }
+   },
+   {
+    "fine_edge": "h_00153",
+    "relation_type": "extends",
+    "arity": 5,
+    "weight": 0.049685294835474875,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 5
+    }
+   },
+   {
+    "fine_edge": "h_00154",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 9
+    }
+   },
+   {
+    "fine_edge": "h_00155",
+    "relation_type": "uses_component",
+    "arity": 11,
+    "weight": 0.05073162492824962,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 11
+    }
+   },
+   {
+    "fine_edge": "h_00156",
+    "relation_type": "uses_technique",
+    "arity": 11,
+    "weight": 0.050883339787511916,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 11
+    }
+   },
+   {
+    "fine_edge": "h_00157",
+    "relation_type": "addresses",
+    "arity": 7,
+    "weight": 0.04226483088361415,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 7
+    }
+   },
+   {
+    "fine_edge": "h_00158",
+    "relation_type": "extends",
+    "arity": 3,
+    "weight": 0.09937058967094975,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00159",
+    "relation_type": "solves",
+    "arity": 7,
+    "weight": 0.04730751823597288,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 7
+    }
+   },
+   {
+    "fine_edge": "h_00160",
+    "relation_type": "uses_component",
+    "arity": 11,
+    "weight": 0.05073162492824962,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 11
+    }
+   },
+   {
+    "fine_edge": "h_00161",
+    "relation_type": "uses_technique",
+    "arity": 13,
+    "weight": 0.04240278315625992,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 13
+    }
+   },
+   {
+    "fine_edge": "h_00168",
+    "relation_type": "addresses",
+    "arity": 7,
+    "weight": 0.04226483088361415,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 7
+    }
+   },
+   {
+    "fine_edge": "h_00169",
+    "relation_type": "extends",
+    "arity": 2,
+    "weight": 0.1987411793418995,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 2
+    }
+   },
+   {
+    "fine_edge": "h_00170",
+    "relation_type": "solves",
+    "arity": 5,
+    "weight": 0.07096127735395932,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 5
+    }
+   },
+   {
+    "fine_edge": "h_00171",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 8
+    }
+   },
+   {
+    "fine_edge": "h_00172",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 7
+    }
+   },
+   {
+    "fine_edge": "h_00173",
+    "relation_type": "addresses",
+    "arity": 18,
+    "weight": 0.01491699913539323,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 17,
+     "L0.9": 1
+    }
+   },
+   {
+    "fine_edge": "h_00174",
+    "relation_type": "evaluated_on",
+    "arity": 7,
+    "weight": 0.002557003200063134,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 7
+    }
+   },
+   {
+    "fine_edge": "h_00175",
+    "relation_type": "extends",
+    "arity": 8,
+    "weight": 0.028391597048842785,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 1,
+     "L0.9": 7
+    }
+   },
+   {
+    "fine_edge": "h_00176",
+    "relation_type": "solves",
+    "arity": 11,
+    "weight": 0.028384510941583733,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 11
+    }
+   },
+   {
+    "fine_edge": "h_00177",
+    "relation_type": "uses_component",
+    "arity": 14,
+    "weight": 0.039024326867884325,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 14
+    }
+   },
+   {
+    "fine_edge": "h_00178",
+    "relation_type": "uses_technique",
+    "arity": 18,
+    "weight": 0.029931376345595243,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 18
+    }
+   },
+   {
+    "fine_edge": "h_00227",
+    "relation_type": "addresses",
+    "arity": 36,
+    "weight": 0.00724539958004814,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.3": 25,
+     "L0.6": 11
+    }
+   },
+   {
+    "fine_edge": "h_00228",
+    "relation_type": "evaluated_on",
+    "arity": 5,
+    "weight": 0.0038355048000947014,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.3": 5
+    }
+   },
+   {
+    "fine_edge": "h_00229",
+    "relation_type": "extends",
+    "arity": 11,
+    "weight": 0.01987411793418995,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.3": 9,
+     "L0.4": 1
+    }
+   },
+   {
+    "fine_edge": "h_00230",
+    "relation_type": "solves",
+    "arity": 22,
+    "weight": 0.013516433781706538,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.3": 22
+    }
+   },
+   {
+    "fine_edge": "h_00231",
+    "relation_type": "uses_component",
+    "arity": 38,
+    "weight": 0.013711249980608005,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.3": 38
+    }
+   },
+   {
+    "fine_edge": "h_00232",
+    "relation_type": "uses_technique",
+    "arity": 41,
+    "weight": 0.012720834946877979,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L0.1": 8,
+     "L0.3": 1,
+     "L0.5": 32
+    }
+   },
+   {
+    "fine_edge": "h_00251",
+    "relation_type": "addresses",
+    "arity": 33,
+    "weight": 0.007924655790677653,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L0.3": 28,
+     "L0.7": 1,
+     "L0.8": 4
+    }
+   },
+   {
+    "fine_edge": "h_00252",
+    "relation_type": "evaluated_on",
+    "arity": 4,
+    "weight": 0.005114006400126268,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 4
+    }
+   },
+   {
+    "fine_edge": "h_00253",
+    "relation_type": "extends",
+    "arity": 15,
+    "weight": 0.014195798524421393,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.4": 1,
+     "L0.8": 1,
+     "L0.9": 12
+    }
+   },
+   {
+    "fine_edge": "h_00254",
+    "relation_type": "solves",
+    "arity": 18,
+    "weight": 0.016696771142108078,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 17,
+     "L0.8": 1
+    }
+   },
+   {
+    "fine_edge": "h_00255",
+    "relation_type": "uses_component",
+    "arity": 18,
+    "weight": 0.029842132310735067,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 18
+    }
+   },
+   {
+    "fine_edge": "h_00256",
+    "relation_type": "uses_technique",
+    "arity": 32,
+    "weight": 0.016413980576616746,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 32
+    }
+   },
+   {
+    "fine_edge": "h_00262",
+    "relation_type": "addresses",
+    "arity": 42,
+    "weight": 0.00618509720248012,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L0.10": 2,
+     "L0.2": 38,
+     "L0.5": 1,
+     "L0.8": 1
+    }
+   },
+   {
+    "fine_edge": "h_00263",
+    "relation_type": "evaluated_on",
+    "arity": 18,
+    "weight": 0.0009024717176693416,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 18
+    }
+   },
+   {
+    "fine_edge": "h_00264",
+    "relation_type": "extends",
+    "arity": 12,
+    "weight": 0.018067379940172684,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 11,
+     "L0.2": 1
+    }
+   },
+   {
+    "fine_edge": "h_00265",
+    "relation_type": "solves",
+    "arity": 29,
+    "weight": 0.010137325336279904,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 28,
+     "L0.2": 1
+    }
+   },
+   {
+    "fine_edge": "h_00266",
+    "relation_type": "uses_component",
+    "arity": 31,
+    "weight": 0.016910541642749872,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 31
+    }
+   },
+   {
+    "fine_edge": "h_00267",
+    "relation_type": "uses_technique",
+    "arity": 41,
+    "weight": 0.012720834946877979,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 40,
+     "L0.2": 1
+    }
+   },
+   {
+    "fine_edge": "h_00268",
+    "relation_type": "addresses",
+    "arity": 24,
+    "weight": 0.011025608056594995,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 24
+    }
+   },
+   {
+    "fine_edge": "h_00269",
+    "relation_type": "extends",
+    "arity": 22,
+    "weight": 0.009463865682947594,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 1,
+     "L0.9": 21
+    }
+   },
+   {
+    "fine_edge": "h_00270",
+    "relation_type": "solves",
+    "arity": 16,
+    "weight": 0.018923007294389154,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 16
+    }
+   },
+   {
+    "fine_edge": "h_00271",
+    "relation_type": "uses_component",
+    "arity": 17,
+    "weight": 0.03170726558015601,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 17
+    }
+   },
+   {
+    "fine_edge": "h_00272",
+    "relation_type": "uses_technique",
+    "arity": 28,
+    "weight": 0.01884568140278219,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 28
+    }
+   },
+   {
+    "fine_edge": "h_00342",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 3
+    }
+   },
+   {
+    "fine_edge": "h_00343",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00344",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00345",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00346",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00347",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00348",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00349",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00371",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00385",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00386",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00387",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00388",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00389",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00390",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00391",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00392",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 2,
+     "L0.8": 1
+    }
+   },
+   {
+    "fine_edge": "h_00393",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.10": 2
+    }
+   },
+   {
+    "fine_edge": "h_00394",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.10": 2
+    }
+   },
+   {
+    "fine_edge": "h_00395",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 1,
+     "L0.10": 2
+    }
+   },
+   {
+    "fine_edge": "h_00396",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00397",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00398",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00399",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00400",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 2,
+     "L0.8": 1
+    }
+   },
+   {
+    "fine_edge": "h_00401",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00402",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00403",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00404",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00405",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 2
+    }
+   },
+   {
+    "fine_edge": "h_00406",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 1,
+     "L0.5": 2
+    }
+   },
+   {
+    "fine_edge": "h_00407",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00408",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 1,
+     "L0.5": 2
+    }
+   },
+   {
+    "fine_edge": "h_00409",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 1,
+     "L0.5": 2
+    }
+   },
+   {
+    "fine_edge": "h_00410",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 1,
+     "L0.5": 2
+    }
+   },
+   {
+    "fine_edge": "h_00411",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 1,
+     "L0.5": 2
+    }
+   },
+   {
+    "fine_edge": "h_00412",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00413",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00414",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00415",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.10": 3
+    }
+   },
+   {
+    "fine_edge": "h_00422",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.3": 2
+    }
+   },
+   {
+    "fine_edge": "h_00423",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.3": 3
+    }
+   },
+   {
+    "fine_edge": "h_00424",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.3": 3
+    }
+   },
+   {
+    "fine_edge": "h_00425",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.3": 3
+    }
+   },
+   {
+    "fine_edge": "h_00434",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 3
+    }
+   },
+   {
+    "fine_edge": "h_00435",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 3
+    }
+   },
+   {
+    "fine_edge": "h_00436",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 3
+    }
+   },
+   {
+    "fine_edge": "h_00437",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 2
+    }
+   },
+   {
+    "fine_edge": "h_00438",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 2
+    }
+   },
+   {
+    "fine_edge": "h_00439",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 3
+    }
+   },
+   {
+    "fine_edge": "h_00440",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 3
+    }
+   },
+   {
+    "fine_edge": "h_00487",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 3
+    }
+   },
+   {
+    "fine_edge": "h_00488",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 3
+    }
+   },
+   {
+    "fine_edge": "h_00489",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 3
+    }
+   },
+   {
+    "fine_edge": "h_00490",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 3
+    }
+   },
+   {
+    "fine_edge": "h_00491",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 3
+    }
+   },
+   {
+    "fine_edge": "h_00492",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.9": 3
+    }
+   },
+   {
+    "fine_edge": "h_00493",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 2
+    }
+   },
+   {
+    "fine_edge": "h_00494",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 2
+    }
+   },
+   {
+    "fine_edge": "h_00495",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 2
+    }
+   },
+   {
+    "fine_edge": "h_00496",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.8": 3
+    }
+   },
+   {
+    "fine_edge": "h_00509",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00510",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00511",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00512",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00513",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00514",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00515",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00516",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00517",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00518",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00519",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00520",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00521",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00522",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00523",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00524",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 2,
+     "L0.7": 1
+    }
+   },
+   {
+    "fine_edge": "h_00525",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.4": 2,
+     "L0.7": 1
+    }
+   },
+   {
+    "fine_edge": "h_00579",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 3
+    }
+   },
+   {
+    "fine_edge": "h_00580",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 3
+    }
+   },
+   {
+    "fine_edge": "h_00581",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 3
+    }
+   },
+   {
+    "fine_edge": "h_00582",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 3
+    }
+   },
+   {
+    "fine_edge": "h_00583",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 3
+    }
+   },
+   {
+    "fine_edge": "h_00584",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2,
+     "L0.6": 1
+    }
+   },
+   {
+    "fine_edge": "h_00585",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2,
+     "L0.6": 1
+    }
+   },
+   {
+    "fine_edge": "h_00586",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.1": 2,
+     "L0.6": 1
+    }
+   },
+   {
+    "fine_edge": "h_00587",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00588",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00589",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.6": 3
+    }
+   },
+   {
+    "fine_edge": "h_00590",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00591",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00592",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00593",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00594",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00595",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00596",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00597",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00598",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00599",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00600",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00601",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00602",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00603",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00604",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00605",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00606",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L0.2": 3
+    }
+   }
+  ]
+ },
+ "1": {
+  "summary": {
+   "internal": 144,
+   "partial": 86,
+   "uncollapsed": 0,
+   "multiway": 17,
+   "edges": 230
+  },
+  "edges": [
+   {
+    "fine_edge": "h_00001",
+    "relation_type": "addresses",
+    "arity": 2,
+    "weight": 0.2535889853016849,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.68": 2
+    }
+   },
+   {
+    "fine_edge": "h_00003",
+    "relation_type": "extends",
+    "arity": 7,
+    "weight": 0.03312352989031658,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.5": 7
+    }
+   },
+   {
+    "fine_edge": "h_00004",
+    "relation_type": "solves",
+    "arity": 4,
+    "weight": 0.09461503647194576,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.67": 4
+    }
+   },
+   {
+    "fine_edge": "h_00005",
+    "relation_type": "uses_component",
+    "arity": 9,
+    "weight": 0.06341453116031202,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.66": 9
+    }
+   },
+   {
+    "fine_edge": "h_00006",
+    "relation_type": "uses_technique",
+    "arity": 9,
+    "weight": 0.0636041747343899,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.27": 9
+    }
+   },
+   {
+    "fine_edge": "h_00007",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.5": 5
+    }
+   },
+   {
+    "fine_edge": "h_00008",
+    "relation_type": "extends",
+    "arity": 6,
+    "weight": 0.0397482358683799,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.5": 6
+    }
+   },
+   {
+    "fine_edge": "h_00009",
+    "relation_type": "solves",
+    "arity": 5,
+    "weight": 0.07096127735395932,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.5": 5
+    }
+   },
+   {
+    "fine_edge": "h_00010",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.5": 8
+    }
+   },
+   {
+    "fine_edge": "h_00011",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.5": 7
+    }
+   },
+   {
+    "fine_edge": "h_00021",
+    "relation_type": "addresses",
+    "arity": 8,
+    "weight": 0.0362269979002407,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.50": 7,
+     "L1.82": 1
+    }
+   },
+   {
+    "fine_edge": "h_00022",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 2,
+     "L1.82": 1
+    }
+   },
+   {
+    "fine_edge": "h_00023",
+    "relation_type": "extends",
+    "arity": 7,
+    "weight": 0.03312352989031658,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.5": 1,
+     "L1.82": 6
+    }
+   },
+   {
+    "fine_edge": "h_00024",
+    "relation_type": "solves",
+    "arity": 8,
+    "weight": 0.040549301345119616,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.82": 8
+    }
+   },
+   {
+    "fine_edge": "h_00025",
+    "relation_type": "uses_component",
+    "arity": 19,
+    "weight": 0.028184236071249785,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.82": 19
+    }
+   },
+   {
+    "fine_edge": "h_00026",
+    "relation_type": "uses_technique",
+    "arity": 16,
+    "weight": 0.03392222652500794,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.82": 16
+    }
+   },
+   {
+    "fine_edge": "h_00060",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.44": 4,
+     "L1.83": 1
+    }
+   },
+   {
+    "fine_edge": "h_00061",
+    "relation_type": "evaluated_on",
+    "arity": 23,
+    "weight": 0.0006973645091081275,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.7": 4,
+     "L1.72": 13,
+     "L1.83": 6
+    }
+   },
+   {
+    "fine_edge": "h_00062",
+    "relation_type": "extends",
+    "arity": 17,
+    "weight": 0.012421323708868719,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.5": 1,
+     "L1.65": 11,
+     "L1.71": 2,
+     "L1.8": 1,
+     "L1.83": 1
+    }
+   },
+   {
+    "fine_edge": "h_00063",
+    "relation_type": "solves",
+    "arity": 4,
+    "weight": 0.09461503647194576,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 4
+    }
+   },
+   {
+    "fine_edge": "h_00064",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.5": 1,
+     "L1.83": 7
+    }
+   },
+   {
+    "fine_edge": "h_00065",
+    "relation_type": "uses_technique",
+    "arity": 8,
+    "weight": 0.0726904854107313,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 8
+    }
+   },
+   {
+    "fine_edge": "h_00071",
+    "relation_type": "addresses",
+    "arity": 13,
+    "weight": 0.021132415441807075,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.10": 12,
+     "L1.84": 1
+    }
+   },
+   {
+    "fine_edge": "h_00072",
+    "relation_type": "evaluated_on",
+    "arity": 9,
+    "weight": 0.0019177524000473507,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 3,
+     "L1.84": 6
+    }
+   },
+   {
+    "fine_edge": "h_00073",
+    "relation_type": "extends",
+    "arity": 18,
+    "weight": 0.01169065760834703,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.65": 16,
+     "L1.83": 1,
+     "L1.84": 1
+    }
+   },
+   {
+    "fine_edge": "h_00074",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.84": 9
+    }
+   },
+   {
+    "fine_edge": "h_00075",
+    "relation_type": "uses_component",
+    "arity": 18,
+    "weight": 0.029842132310735067,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.84": 18
+    }
+   },
+   {
+    "fine_edge": "h_00076",
+    "relation_type": "uses_technique",
+    "arity": 15,
+    "weight": 0.03634524270536565,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.84": 15
+    }
+   },
+   {
+    "fine_edge": "h_00082",
+    "relation_type": "addresses",
+    "arity": 8,
+    "weight": 0.0362269979002407,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.44": 7,
+     "L1.7": 1
+    }
+   },
+   {
+    "fine_edge": "h_00083",
+    "relation_type": "evaluated_on",
+    "arity": 11,
+    "weight": 0.0015342019200378807,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 11
+    }
+   },
+   {
+    "fine_edge": "h_00084",
+    "relation_type": "extends",
+    "arity": 12,
+    "weight": 0.018067379940172684,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.5": 11,
+     "L1.7": 1
+    }
+   },
+   {
+    "fine_edge": "h_00085",
+    "relation_type": "solves",
+    "arity": 7,
+    "weight": 0.04730751823597288,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 7
+    }
+   },
+   {
+    "fine_edge": "h_00086",
+    "relation_type": "uses_component",
+    "arity": 13,
+    "weight": 0.04227635410687468,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 13
+    }
+   },
+   {
+    "fine_edge": "h_00087",
+    "relation_type": "uses_technique",
+    "arity": 13,
+    "weight": 0.04240278315625992,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 1,
+     "L1.9": 12
+    }
+   },
+   {
+    "fine_edge": "h_00088",
+    "relation_type": "addresses",
+    "arity": 10,
+    "weight": 0.028176553922409434,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 10
+    }
+   },
+   {
+    "fine_edge": "h_00089",
+    "relation_type": "evaluated_on",
+    "arity": 8,
+    "weight": 0.0021917170286255435,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 8
+    }
+   },
+   {
+    "fine_edge": "h_00090",
+    "relation_type": "extends",
+    "arity": 8,
+    "weight": 0.028391597048842785,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 8
+    }
+   },
+   {
+    "fine_edge": "h_00091",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 9
+    }
+   },
+   {
+    "fine_edge": "h_00092",
+    "relation_type": "uses_component",
+    "arity": 16,
+    "weight": 0.033821083285499744,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.66": 15,
+     "L1.71": 1
+    }
+   },
+   {
+    "fine_edge": "h_00093",
+    "relation_type": "uses_technique",
+    "arity": 15,
+    "weight": 0.03634524270536565,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 1,
+     "L1.83": 14
+    }
+   },
+   {
+    "fine_edge": "h_00106",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 5
+    }
+   },
+   {
+    "fine_edge": "h_00107",
+    "relation_type": "evaluated_on",
+    "arity": 9,
+    "weight": 0.0019177524000473507,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 9
+    }
+   },
+   {
+    "fine_edge": "h_00108",
+    "relation_type": "extends",
+    "arity": 5,
+    "weight": 0.049685294835474875,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 1,
+     "L1.5": 4
+    }
+   },
+   {
+    "fine_edge": "h_00109",
+    "relation_type": "solves",
+    "arity": 6,
+    "weight": 0.056769021883167466,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 1,
+     "L1.11": 5
+    }
+   },
+   {
+    "fine_edge": "h_00110",
+    "relation_type": "uses_component",
+    "arity": 9,
+    "weight": 0.06341453116031202,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 9
+    }
+   },
+   {
+    "fine_edge": "h_00111",
+    "relation_type": "uses_technique",
+    "arity": 8,
+    "weight": 0.0726904854107313,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 8
+    }
+   },
+   {
+    "fine_edge": "h_00112",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.27": 5
+    }
+   },
+   {
+    "fine_edge": "h_00113",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.27": 2
+    }
+   },
+   {
+    "fine_edge": "h_00114",
+    "relation_type": "extends",
+    "arity": 4,
+    "weight": 0.06624705978063317,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.1": 1,
+     "L1.27": 2,
+     "L1.5": 1
+    }
+   },
+   {
+    "fine_edge": "h_00115",
+    "relation_type": "solves",
+    "arity": 5,
+    "weight": 0.07096127735395932,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.27": 5
+    }
+   },
+   {
+    "fine_edge": "h_00116",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.27": 1,
+     "L1.66": 7
+    }
+   },
+   {
+    "fine_edge": "h_00117",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.27": 7
+    }
+   },
+   {
+    "fine_edge": "h_00118",
+    "relation_type": "addresses",
+    "arity": 3,
+    "weight": 0.12679449265084244,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.8": 3
+    }
+   },
+   {
+    "fine_edge": "h_00119",
+    "relation_type": "extends",
+    "arity": 2,
+    "weight": 0.1987411793418995,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.8": 2
+    }
+   },
+   {
+    "fine_edge": "h_00120",
+    "relation_type": "solves",
+    "arity": 4,
+    "weight": 0.09461503647194576,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.8": 4
+    }
+   },
+   {
+    "fine_edge": "h_00121",
+    "relation_type": "uses_component",
+    "arity": 7,
+    "weight": 0.08455270821374936,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.8": 7
+    }
+   },
+   {
+    "fine_edge": "h_00122",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.8": 7
+    }
+   },
+   {
+    "fine_edge": "h_00123",
+    "relation_type": "addresses",
+    "arity": 15,
+    "weight": 0.01811349895012035,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.62": 15
+    }
+   },
+   {
+    "fine_edge": "h_00124",
+    "relation_type": "evaluated_on",
+    "arity": 4,
+    "weight": 0.005114006400126268,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.62": 4
+    }
+   },
+   {
+    "fine_edge": "h_00125",
+    "relation_type": "extends",
+    "arity": 12,
+    "weight": 0.018067379940172684,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.62": 1,
+     "L1.65": 10,
+     "L1.9": 1
+    }
+   },
+   {
+    "fine_edge": "h_00126",
+    "relation_type": "solves",
+    "arity": 11,
+    "weight": 0.028384510941583733,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.62": 11
+    }
+   },
+   {
+    "fine_edge": "h_00127",
+    "relation_type": "uses_component",
+    "arity": 17,
+    "weight": 0.03170726558015601,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.62": 17
+    }
+   },
+   {
+    "fine_edge": "h_00128",
+    "relation_type": "uses_technique",
+    "arity": 21,
+    "weight": 0.025441669893755958,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.62": 1,
+     "L1.70": 20
+    }
+   },
+   {
+    "fine_edge": "h_00129",
+    "relation_type": "addresses",
+    "arity": 18,
+    "weight": 0.01491699913539323,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.11": 1,
+     "L1.50": 17
+    }
+   },
+   {
+    "fine_edge": "h_00130",
+    "relation_type": "extends",
+    "arity": 26,
+    "weight": 0.00794964717367598,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.11": 1,
+     "L1.28": 1,
+     "L1.33": 21,
+     "L1.37": 3
+    }
+   },
+   {
+    "fine_edge": "h_00131",
+    "relation_type": "solves",
+    "arity": 14,
+    "weight": 0.02183423918583364,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.11": 14
+    }
+   },
+   {
+    "fine_edge": "h_00132",
+    "relation_type": "uses_component",
+    "arity": 26,
+    "weight": 0.020292649971299846,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.11": 1,
+     "L1.63": 25
+    }
+   },
+   {
+    "fine_edge": "h_00133",
+    "relation_type": "uses_technique",
+    "arity": 26,
+    "weight": 0.020353335915004767,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.11": 1,
+     "L1.58": 25
+    }
+   },
+   {
+    "fine_edge": "h_00140",
+    "relation_type": "addresses",
+    "arity": 10,
+    "weight": 0.028176553922409434,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.12": 10
+    }
+   },
+   {
+    "fine_edge": "h_00141",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.12": 3
+    }
+   },
+   {
+    "fine_edge": "h_00142",
+    "relation_type": "extends",
+    "arity": 8,
+    "weight": 0.028391597048842785,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.10": 1,
+     "L1.12": 1,
+     "L1.28": 6
+    }
+   },
+   {
+    "fine_edge": "h_00143",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.11": 8,
+     "L1.12": 1
+    }
+   },
+   {
+    "fine_edge": "h_00144",
+    "relation_type": "uses_component",
+    "arity": 12,
+    "weight": 0.04611965902568147,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.12": 12
+    }
+   },
+   {
+    "fine_edge": "h_00145",
+    "relation_type": "uses_technique",
+    "arity": 14,
+    "weight": 0.03914103060577839,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.12": 1,
+     "L1.58": 13
+    }
+   },
+   {
+    "fine_edge": "h_00146",
+    "relation_type": "addresses",
+    "arity": 12,
+    "weight": 0.023053544118334993,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.13": 1,
+     "L1.51": 11
+    }
+   },
+   {
+    "fine_edge": "h_00147",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.13": 2
+    }
+   },
+   {
+    "fine_edge": "h_00148",
+    "relation_type": "extends",
+    "arity": 13,
+    "weight": 0.01656176494515829,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.10": 1,
+     "L1.13": 1,
+     "L1.37": 11
+    }
+   },
+   {
+    "fine_edge": "h_00149",
+    "relation_type": "solves",
+    "arity": 10,
+    "weight": 0.03153834549064859,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.13": 10
+    }
+   },
+   {
+    "fine_edge": "h_00150",
+    "relation_type": "uses_component",
+    "arity": 16,
+    "weight": 0.033821083285499744,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.13": 16
+    }
+   },
+   {
+    "fine_edge": "h_00151",
+    "relation_type": "uses_technique",
+    "arity": 16,
+    "weight": 0.03392222652500794,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.13": 16
+    }
+   },
+   {
+    "fine_edge": "h_00152",
+    "relation_type": "addresses",
+    "arity": 10,
+    "weight": 0.028176553922409434,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.48": 9
+    }
+   },
+   {
+    "fine_edge": "h_00153",
+    "relation_type": "extends",
+    "arity": 5,
+    "weight": 0.049685294835474875,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 5
+    }
+   },
+   {
+    "fine_edge": "h_00154",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 9
+    }
+   },
+   {
+    "fine_edge": "h_00155",
+    "relation_type": "uses_component",
+    "arity": 11,
+    "weight": 0.05073162492824962,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 11
+    }
+   },
+   {
+    "fine_edge": "h_00156",
+    "relation_type": "uses_technique",
+    "arity": 11,
+    "weight": 0.050883339787511916,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 11
+    }
+   },
+   {
+    "fine_edge": "h_00157",
+    "relation_type": "addresses",
+    "arity": 7,
+    "weight": 0.04226483088361415,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.9": 7
+    }
+   },
+   {
+    "fine_edge": "h_00158",
+    "relation_type": "extends",
+    "arity": 3,
+    "weight": 0.09937058967094975,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.9": 3
+    }
+   },
+   {
+    "fine_edge": "h_00159",
+    "relation_type": "solves",
+    "arity": 7,
+    "weight": 0.04730751823597288,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.9": 7
+    }
+   },
+   {
+    "fine_edge": "h_00160",
+    "relation_type": "uses_component",
+    "arity": 11,
+    "weight": 0.05073162492824962,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.9": 11
+    }
+   },
+   {
+    "fine_edge": "h_00161",
+    "relation_type": "uses_technique",
+    "arity": 13,
+    "weight": 0.04240278315625992,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.9": 13
+    }
+   },
+   {
+    "fine_edge": "h_00168",
+    "relation_type": "addresses",
+    "arity": 7,
+    "weight": 0.04226483088361415,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.10": 7
+    }
+   },
+   {
+    "fine_edge": "h_00169",
+    "relation_type": "extends",
+    "arity": 2,
+    "weight": 0.1987411793418995,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.10": 2
+    }
+   },
+   {
+    "fine_edge": "h_00170",
+    "relation_type": "solves",
+    "arity": 5,
+    "weight": 0.07096127735395932,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.10": 5
+    }
+   },
+   {
+    "fine_edge": "h_00171",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.10": 8
+    }
+   },
+   {
+    "fine_edge": "h_00172",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.10": 7
+    }
+   },
+   {
+    "fine_edge": "h_00173",
+    "relation_type": "addresses",
+    "arity": 18,
+    "weight": 0.01491699913539323,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 1,
+     "L1.44": 17
+    }
+   },
+   {
+    "fine_edge": "h_00174",
+    "relation_type": "evaluated_on",
+    "arity": 7,
+    "weight": 0.002557003200063134,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 7
+    }
+   },
+   {
+    "fine_edge": "h_00175",
+    "relation_type": "extends",
+    "arity": 8,
+    "weight": 0.028391597048842785,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.16": 1,
+     "L1.33": 6,
+     "L1.7": 1
+    }
+   },
+   {
+    "fine_edge": "h_00176",
+    "relation_type": "solves",
+    "arity": 11,
+    "weight": 0.028384510941583733,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 1,
+     "L1.40": 10
+    }
+   },
+   {
+    "fine_edge": "h_00177",
+    "relation_type": "uses_component",
+    "arity": 14,
+    "weight": 0.039024326867884325,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 14
+    }
+   },
+   {
+    "fine_edge": "h_00178",
+    "relation_type": "uses_technique",
+    "arity": 18,
+    "weight": 0.029931376345595243,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 18
+    }
+   },
+   {
+    "fine_edge": "h_00227",
+    "relation_type": "addresses",
+    "arity": 36,
+    "weight": 0.00724539958004814,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.10": 11,
+     "L1.28": 1,
+     "L1.46": 24
+    }
+   },
+   {
+    "fine_edge": "h_00228",
+    "relation_type": "evaluated_on",
+    "arity": 5,
+    "weight": 0.0038355048000947014,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.28": 5
+    }
+   },
+   {
+    "fine_edge": "h_00229",
+    "relation_type": "extends",
+    "arity": 11,
+    "weight": 0.01987411793418995,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.1": 1,
+     "L1.27": 1,
+     "L1.28": 9
+    }
+   },
+   {
+    "fine_edge": "h_00230",
+    "relation_type": "solves",
+    "arity": 22,
+    "weight": 0.013516433781706538,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.28": 22
+    }
+   },
+   {
+    "fine_edge": "h_00231",
+    "relation_type": "uses_component",
+    "arity": 38,
+    "weight": 0.013711249980608005,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.28": 1,
+     "L1.3": 37
+    }
+   },
+   {
+    "fine_edge": "h_00232",
+    "relation_type": "uses_technique",
+    "arity": 41,
+    "weight": 0.012720834946877979,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.1": 8,
+     "L1.28": 1,
+     "L1.53": 31,
+     "L1.70": 1
+    }
+   },
+   {
+    "fine_edge": "h_00251",
+    "relation_type": "addresses",
+    "arity": 33,
+    "weight": 0.007924655790677653,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.46": 28,
+     "L1.50": 1,
+     "L1.52": 4
+    }
+   },
+   {
+    "fine_edge": "h_00252",
+    "relation_type": "evaluated_on",
+    "arity": 4,
+    "weight": 0.005114006400126268,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.52": 4
+    }
+   },
+   {
+    "fine_edge": "h_00253",
+    "relation_type": "extends",
+    "arity": 15,
+    "weight": 0.014195798524421393,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.1": 1,
+     "L1.27": 1,
+     "L1.37": 12,
+     "L1.52": 1
+    }
+   },
+   {
+    "fine_edge": "h_00254",
+    "relation_type": "solves",
+    "arity": 18,
+    "weight": 0.016696771142108078,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.11": 17,
+     "L1.52": 1
+    }
+   },
+   {
+    "fine_edge": "h_00255",
+    "relation_type": "uses_component",
+    "arity": 18,
+    "weight": 0.029842132310735067,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.52": 18
+    }
+   },
+   {
+    "fine_edge": "h_00256",
+    "relation_type": "uses_technique",
+    "arity": 32,
+    "weight": 0.016413980576616746,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.52": 1,
+     "L1.59": 1,
+     "L1.81": 30
+    }
+   },
+   {
+    "fine_edge": "h_00262",
+    "relation_type": "addresses",
+    "arity": 42,
+    "weight": 0.00618509720248012,
+    "lambda": 5,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.44": 2,
+     "L1.48": 37,
+     "L1.52": 1,
+     "L1.62": 1
+    }
+   },
+   {
+    "fine_edge": "h_00263",
+    "relation_type": "evaluated_on",
+    "arity": 18,
+    "weight": 0.0009024717176693416,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 4,
+     "L1.64": 14
+    }
+   },
+   {
+    "fine_edge": "h_00264",
+    "relation_type": "extends",
+    "arity": 12,
+    "weight": 0.018067379940172684,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.65": 11
+    }
+   },
+   {
+    "fine_edge": "h_00265",
+    "relation_type": "solves",
+    "arity": 29,
+    "weight": 0.010137325336279904,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.41": 28
+    }
+   },
+   {
+    "fine_edge": "h_00266",
+    "relation_type": "uses_component",
+    "arity": 31,
+    "weight": 0.016910541642749872,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 2,
+     "L1.6": 29
+    }
+   },
+   {
+    "fine_edge": "h_00267",
+    "relation_type": "uses_technique",
+    "arity": 41,
+    "weight": 0.012720834946877979,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.57": 40
+    }
+   },
+   {
+    "fine_edge": "h_00268",
+    "relation_type": "addresses",
+    "arity": 24,
+    "weight": 0.011025608056594995,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.15": 1,
+     "L1.52": 23
+    }
+   },
+   {
+    "fine_edge": "h_00269",
+    "relation_type": "extends",
+    "arity": 22,
+    "weight": 0.009463865682947594,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L1.15": 1,
+     "L1.33": 1,
+     "L1.37": 20
+    }
+   },
+   {
+    "fine_edge": "h_00270",
+    "relation_type": "solves",
+    "arity": 16,
+    "weight": 0.018923007294389154,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.15": 16
+    }
+   },
+   {
+    "fine_edge": "h_00271",
+    "relation_type": "uses_component",
+    "arity": 17,
+    "weight": 0.03170726558015601,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.15": 17
+    }
+   },
+   {
+    "fine_edge": "h_00272",
+    "relation_type": "uses_technique",
+    "arity": 28,
+    "weight": 0.01884568140278219,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.15": 1,
+     "L1.59": 27
+    }
+   },
+   {
+    "fine_edge": "h_00342",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 3
+    }
+   },
+   {
+    "fine_edge": "h_00343",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00344",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00345",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00346",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00347",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00348",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00349",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00371",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2
+    }
+   },
+   {
+    "fine_edge": "h_00385",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00386",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00387",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00388",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00389",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00390",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00391",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00392",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.52": 1,
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00393",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 1,
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00394",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 1,
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00395",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 1,
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00396",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.73": 1,
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00397",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.74": 1,
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00398",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.75": 1,
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00399",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.76": 1,
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00400",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.72": 1,
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00401",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00402",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00403",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00404",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00405",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 2
+    }
+   },
+   {
+    "fine_edge": "h_00406",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 2,
+     "L1.83": 1
+    }
+   },
+   {
+    "fine_edge": "h_00407",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.77": 2,
+     "L1.83": 1
+    }
+   },
+   {
+    "fine_edge": "h_00408",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 2,
+     "L1.83": 1
+    }
+   },
+   {
+    "fine_edge": "h_00409",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 2,
+     "L1.83": 1
+    }
+   },
+   {
+    "fine_edge": "h_00410",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 2,
+     "L1.83": 1
+    }
+   },
+   {
+    "fine_edge": "h_00411",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 2,
+     "L1.83": 1
+    }
+   },
+   {
+    "fine_edge": "h_00412",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00413",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00414",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00415",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.83": 3
+    }
+   },
+   {
+    "fine_edge": "h_00422",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.28": 2
+    }
+   },
+   {
+    "fine_edge": "h_00423",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.28": 3
+    }
+   },
+   {
+    "fine_edge": "h_00424",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.28": 3
+    }
+   },
+   {
+    "fine_edge": "h_00425",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.28": 3
+    }
+   },
+   {
+    "fine_edge": "h_00434",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 3
+    }
+   },
+   {
+    "fine_edge": "h_00435",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 3
+    }
+   },
+   {
+    "fine_edge": "h_00436",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 3
+    }
+   },
+   {
+    "fine_edge": "h_00437",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 2
+    }
+   },
+   {
+    "fine_edge": "h_00438",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 2
+    }
+   },
+   {
+    "fine_edge": "h_00439",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 3
+    }
+   },
+   {
+    "fine_edge": "h_00440",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 3
+    }
+   },
+   {
+    "fine_edge": "h_00487",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 3
+    }
+   },
+   {
+    "fine_edge": "h_00488",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 3
+    }
+   },
+   {
+    "fine_edge": "h_00489",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 3
+    }
+   },
+   {
+    "fine_edge": "h_00490",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 3
+    }
+   },
+   {
+    "fine_edge": "h_00491",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 3
+    }
+   },
+   {
+    "fine_edge": "h_00492",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.16": 3
+    }
+   },
+   {
+    "fine_edge": "h_00493",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.27": 2
+    }
+   },
+   {
+    "fine_edge": "h_00494",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.52": 2
+    }
+   },
+   {
+    "fine_edge": "h_00495",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.52": 2
+    }
+   },
+   {
+    "fine_edge": "h_00496",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.52": 3
+    }
+   },
+   {
+    "fine_edge": "h_00509",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.62": 3
+    }
+   },
+   {
+    "fine_edge": "h_00510",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.62": 3
+    }
+   },
+   {
+    "fine_edge": "h_00511",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.62": 3
+    }
+   },
+   {
+    "fine_edge": "h_00512",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00513",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00514",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00515",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00516",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00517",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00518",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00519",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00520",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00521",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00522",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00523",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.7": 3
+    }
+   },
+   {
+    "fine_edge": "h_00524",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 2,
+     "L1.82": 1
+    }
+   },
+   {
+    "fine_edge": "h_00525",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.71": 2,
+     "L1.82": 1
+    }
+   },
+   {
+    "fine_edge": "h_00579",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.78": 2,
+     "L1.84": 1
+    }
+   },
+   {
+    "fine_edge": "h_00580",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.84": 3
+    }
+   },
+   {
+    "fine_edge": "h_00581",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.84": 3
+    }
+   },
+   {
+    "fine_edge": "h_00582",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.84": 3
+    }
+   },
+   {
+    "fine_edge": "h_00583",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.84": 3
+    }
+   },
+   {
+    "fine_edge": "h_00584",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2,
+     "L1.84": 1
+    }
+   },
+   {
+    "fine_edge": "h_00585",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2,
+     "L1.84": 1
+    }
+   },
+   {
+    "fine_edge": "h_00586",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.1": 2,
+     "L1.84": 1
+    }
+   },
+   {
+    "fine_edge": "h_00587",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.12": 3
+    }
+   },
+   {
+    "fine_edge": "h_00588",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.12": 3
+    }
+   },
+   {
+    "fine_edge": "h_00589",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.13": 3
+    }
+   },
+   {
+    "fine_edge": "h_00590",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00591",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00592",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00593",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00594",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00595",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00596",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00597",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00598",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00599",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00600",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00601",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00602",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00603",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00604",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 1,
+     "L1.64": 2
+    }
+   },
+   {
+    "fine_edge": "h_00605",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 3
+    }
+   },
+   {
+    "fine_edge": "h_00606",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L1.2": 3
+    }
+   }
+  ]
+ },
+ "2": {
+  "summary": {
+   "internal": 27,
+   "partial": 181,
+   "uncollapsed": 22,
+   "multiway": 57,
+   "edges": 230
+  },
+  "edges": [
+   {
+    "fine_edge": "h_00001",
+    "relation_type": "addresses",
+    "arity": 2,
+    "weight": 0.2535889853016849,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.170": 2
+    }
+   },
+   {
+    "fine_edge": "h_00003",
+    "relation_type": "extends",
+    "arity": 7,
+    "weight": 0.03312352989031658,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.89": 6,
+     "L2.96": 1
+    }
+   },
+   {
+    "fine_edge": "h_00004",
+    "relation_type": "solves",
+    "arity": 4,
+    "weight": 0.09461503647194576,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.145": 4
+    }
+   },
+   {
+    "fine_edge": "h_00005",
+    "relation_type": "uses_component",
+    "arity": 9,
+    "weight": 0.06341453116031202,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.4": 9
+    }
+   },
+   {
+    "fine_edge": "h_00006",
+    "relation_type": "uses_technique",
+    "arity": 9,
+    "weight": 0.0636041747343899,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.205": 8,
+     "L2.214": 1
+    }
+   },
+   {
+    "fine_edge": "h_00007",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.177": 4,
+     "L2.98": 1
+    }
+   },
+   {
+    "fine_edge": "h_00008",
+    "relation_type": "extends",
+    "arity": 6,
+    "weight": 0.0397482358683799,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.89": 5,
+     "L2.98": 1
+    }
+   },
+   {
+    "fine_edge": "h_00009",
+    "relation_type": "solves",
+    "arity": 5,
+    "weight": 0.07096127735395932,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.144": 4,
+     "L2.98": 1
+    }
+   },
+   {
+    "fine_edge": "h_00010",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.6": 7,
+     "L2.98": 1
+    }
+   },
+   {
+    "fine_edge": "h_00011",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.98": 7
+    }
+   },
+   {
+    "fine_edge": "h_00021",
+    "relation_type": "addresses",
+    "arity": 8,
+    "weight": 0.0362269979002407,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.243": 7,
+     "L2.270": 1
+    }
+   },
+   {
+    "fine_edge": "h_00022",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.270": 1,
+     "L2.289": 2
+    }
+   },
+   {
+    "fine_edge": "h_00023",
+    "relation_type": "extends",
+    "arity": 7,
+    "weight": 0.03312352989031658,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.269": 5,
+     "L2.270": 1,
+     "L2.98": 1
+    }
+   },
+   {
+    "fine_edge": "h_00024",
+    "relation_type": "solves",
+    "arity": 8,
+    "weight": 0.040549301345119616,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.270": 8
+    }
+   },
+   {
+    "fine_edge": "h_00025",
+    "relation_type": "uses_component",
+    "arity": 19,
+    "weight": 0.028184236071249785,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.270": 1,
+     "L2.304": 12,
+     "L2.305": 6
+    }
+   },
+   {
+    "fine_edge": "h_00026",
+    "relation_type": "uses_technique",
+    "arity": 16,
+    "weight": 0.03392222652500794,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.270": 4,
+     "L2.284": 12
+    }
+   },
+   {
+    "fine_edge": "h_00060",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.172": 4,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00061",
+    "relation_type": "evaluated_on",
+    "arity": 23,
+    "weight": 0.0006973645091081275,
+    "lambda": 11,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.290": 12,
+     "L2.291": 1,
+     "L2.292": 1,
+     "L2.293": 1,
+     "L2.294": 1,
+     "L2.295": 1,
+     "L2.296": 1,
+     "L2.297": 1,
+     "L2.306": 1,
+     "L2.38": 2,
+     "L2.84": 1
+    }
+   },
+   {
+    "fine_edge": "h_00062",
+    "relation_type": "extends",
+    "arity": 17,
+    "weight": 0.012421323708868719,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.114": 1,
+     "L2.263": 11,
+     "L2.266": 2,
+     "L2.306": 1,
+     "L2.98": 1
+    }
+   },
+   {
+    "fine_edge": "h_00063",
+    "relation_type": "solves",
+    "arity": 4,
+    "weight": 0.09461503647194576,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 4
+    }
+   },
+   {
+    "fine_edge": "h_00064",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 7,
+     "L2.6": 1
+    }
+   },
+   {
+    "fine_edge": "h_00065",
+    "relation_type": "uses_technique",
+    "arity": 8,
+    "weight": 0.0726904854107313,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.282": 7,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00071",
+    "relation_type": "addresses",
+    "arity": 13,
+    "weight": 0.021132415441807075,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.242": 12,
+     "L2.271": 1
+    }
+   },
+   {
+    "fine_edge": "h_00072",
+    "relation_type": "evaluated_on",
+    "arity": 9,
+    "weight": 0.0019177524000473507,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.271": 1,
+     "L2.298": 3,
+     "L2.299": 2,
+     "L2.300": 1,
+     "L2.301": 1,
+     "L2.302": 1
+    }
+   },
+   {
+    "fine_edge": "h_00073",
+    "relation_type": "extends",
+    "arity": 18,
+    "weight": 0.01169065760834703,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.103": 1,
+     "L2.262": 1,
+     "L2.263": 3,
+     "L2.264": 11,
+     "L2.271": 1,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00074",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.271": 9
+    }
+   },
+   {
+    "fine_edge": "h_00075",
+    "relation_type": "uses_component",
+    "arity": 18,
+    "weight": 0.029842132310735067,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.248": 12,
+     "L2.259": 5,
+     "L2.271": 1
+    }
+   },
+   {
+    "fine_edge": "h_00076",
+    "relation_type": "uses_technique",
+    "arity": 15,
+    "weight": 0.03634524270536565,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.271": 3,
+     "L2.285": 12
+    }
+   },
+   {
+    "fine_edge": "h_00082",
+    "relation_type": "addresses",
+    "arity": 8,
+    "weight": 0.0362269979002407,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.172": 7
+    }
+   },
+   {
+    "fine_edge": "h_00083",
+    "relation_type": "evaluated_on",
+    "arity": 11,
+    "weight": 0.0015342019200378807,
+    "lambda": 10,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.35": 1,
+     "L2.38": 2,
+     "L2.39": 1,
+     "L2.40": 1,
+     "L2.41": 1,
+     "L2.42": 1,
+     "L2.43": 1,
+     "L2.44": 1,
+     "L2.84": 1
+    }
+   },
+   {
+    "fine_edge": "h_00084",
+    "relation_type": "extends",
+    "arity": 12,
+    "weight": 0.018067379940172684,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.89": 1,
+     "L2.91": 10
+    }
+   },
+   {
+    "fine_edge": "h_00085",
+    "relation_type": "solves",
+    "arity": 7,
+    "weight": 0.04730751823597288,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 7
+    }
+   },
+   {
+    "fine_edge": "h_00086",
+    "relation_type": "uses_component",
+    "arity": 13,
+    "weight": 0.04227635410687468,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.9": 12
+    }
+   },
+   {
+    "fine_edge": "h_00087",
+    "relation_type": "uses_technique",
+    "arity": 13,
+    "weight": 0.04240278315625992,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.213": 12
+    }
+   },
+   {
+    "fine_edge": "h_00088",
+    "relation_type": "addresses",
+    "arity": 10,
+    "weight": 0.028176553922409434,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.272": 1,
+     "L2.276": 9
+    }
+   },
+   {
+    "fine_edge": "h_00089",
+    "relation_type": "evaluated_on",
+    "arity": 8,
+    "weight": 0.0021917170286255435,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.272": 1,
+     "L2.289": 2,
+     "L2.303": 5
+    }
+   },
+   {
+    "fine_edge": "h_00090",
+    "relation_type": "extends",
+    "arity": 8,
+    "weight": 0.028391597048842785,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.266": 7,
+     "L2.272": 1
+    }
+   },
+   {
+    "fine_edge": "h_00091",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.272": 9
+    }
+   },
+   {
+    "fine_edge": "h_00092",
+    "relation_type": "uses_component",
+    "arity": 16,
+    "weight": 0.033821083285499744,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.268": 12,
+     "L2.272": 1,
+     "L2.5": 3
+    }
+   },
+   {
+    "fine_edge": "h_00093",
+    "relation_type": "uses_technique",
+    "arity": 15,
+    "weight": 0.03634524270536565,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.272": 1,
+     "L2.280": 12,
+     "L2.282": 2
+    }
+   },
+   {
+    "fine_edge": "h_00106",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.176": 4
+    }
+   },
+   {
+    "fine_edge": "h_00107",
+    "relation_type": "evaluated_on",
+    "arity": 9,
+    "weight": 0.0019177524000473507,
+    "lambda": 9,
+    "class": "uncollapsed",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.45": 1,
+     "L2.46": 1,
+     "L2.47": 1,
+     "L2.48": 1,
+     "L2.49": 1,
+     "L2.50": 1,
+     "L2.51": 1,
+     "L2.52": 1
+    }
+   },
+   {
+    "fine_edge": "h_00108",
+    "relation_type": "extends",
+    "arity": 5,
+    "weight": 0.049685294835474875,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.96": 4
+    }
+   },
+   {
+    "fine_edge": "h_00109",
+    "relation_type": "solves",
+    "arity": 6,
+    "weight": 0.056769021883167466,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.149": 5
+    }
+   },
+   {
+    "fine_edge": "h_00110",
+    "relation_type": "uses_component",
+    "arity": 9,
+    "weight": 0.06341453116031202,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 9
+    }
+   },
+   {
+    "fine_edge": "h_00111",
+    "relation_type": "uses_technique",
+    "arity": 8,
+    "weight": 0.0726904854107313,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.211": 7
+    }
+   },
+   {
+    "fine_edge": "h_00112",
+    "relation_type": "addresses",
+    "arity": 5,
+    "weight": 0.06339724632542122,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.175": 4,
+     "L2.99": 1
+    }
+   },
+   {
+    "fine_edge": "h_00113",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.53": 1,
+     "L2.99": 1
+    }
+   },
+   {
+    "fine_edge": "h_00114",
+    "relation_type": "extends",
+    "arity": 4,
+    "weight": 0.06624705978063317,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.98": 1,
+     "L2.99": 2
+    }
+   },
+   {
+    "fine_edge": "h_00115",
+    "relation_type": "solves",
+    "arity": 5,
+    "weight": 0.07096127735395932,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.99": 5
+    }
+   },
+   {
+    "fine_edge": "h_00116",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.4": 1,
+     "L2.5": 6,
+     "L2.99": 1
+    }
+   },
+   {
+    "fine_edge": "h_00117",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.214": 6,
+     "L2.99": 1
+    }
+   },
+   {
+    "fine_edge": "h_00118",
+    "relation_type": "addresses",
+    "arity": 3,
+    "weight": 0.12679449265084244,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.114": 3
+    }
+   },
+   {
+    "fine_edge": "h_00119",
+    "relation_type": "extends",
+    "arity": 2,
+    "weight": 0.1987411793418995,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.114": 2
+    }
+   },
+   {
+    "fine_edge": "h_00120",
+    "relation_type": "solves",
+    "arity": 4,
+    "weight": 0.09461503647194576,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.114": 1,
+     "L2.151": 3
+    }
+   },
+   {
+    "fine_edge": "h_00121",
+    "relation_type": "uses_component",
+    "arity": 7,
+    "weight": 0.08455270821374936,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.11": 6,
+     "L2.114": 1
+    }
+   },
+   {
+    "fine_edge": "h_00122",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.114": 1,
+     "L2.218": 6
+    }
+   },
+   {
+    "fine_edge": "h_00123",
+    "relation_type": "addresses",
+    "arity": 15,
+    "weight": 0.01811349895012035,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.245": 3,
+     "L2.278": 12
+    }
+   },
+   {
+    "fine_edge": "h_00124",
+    "relation_type": "evaluated_on",
+    "arity": 4,
+    "weight": 0.005114006400126268,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.245": 4
+    }
+   },
+   {
+    "fine_edge": "h_00125",
+    "relation_type": "extends",
+    "arity": 12,
+    "weight": 0.018067379940172684,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.115": 1,
+     "L2.245": 1,
+     "L2.262": 10
+    }
+   },
+   {
+    "fine_edge": "h_00126",
+    "relation_type": "solves",
+    "arity": 11,
+    "weight": 0.028384510941583733,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.245": 1,
+     "L2.274": 10
+    }
+   },
+   {
+    "fine_edge": "h_00127",
+    "relation_type": "uses_component",
+    "arity": 17,
+    "weight": 0.03170726558015601,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.245": 5,
+     "L2.275": 12
+    }
+   },
+   {
+    "fine_edge": "h_00128",
+    "relation_type": "uses_technique",
+    "arity": 21,
+    "weight": 0.025441669893755958,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.245": 1,
+     "L2.246": 8,
+     "L2.281": 12
+    }
+   },
+   {
+    "fine_edge": "h_00129",
+    "relation_type": "addresses",
+    "arity": 18,
+    "weight": 0.01491699913539323,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.117": 1,
+     "L2.181": 8,
+     "L2.186": 8,
+     "L2.243": 1
+    }
+   },
+   {
+    "fine_edge": "h_00130",
+    "relation_type": "extends",
+    "arity": 26,
+    "weight": 0.00794964717367598,
+    "lambda": 7,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.117": 1,
+     "L2.118": 8,
+     "L2.119": 2,
+     "L2.121": 1,
+     "L2.124": 1,
+     "L2.125": 1,
+     "L2.88": 12
+    }
+   },
+   {
+    "fine_edge": "h_00131",
+    "relation_type": "solves",
+    "arity": 14,
+    "weight": 0.02183423918583364,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.117": 12,
+     "L2.146": 1,
+     "L2.149": 1
+    }
+   },
+   {
+    "fine_edge": "h_00132",
+    "relation_type": "uses_component",
+    "arity": 26,
+    "weight": 0.020292649971299846,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.117": 1,
+     "L2.15": 9,
+     "L2.16": 8,
+     "L2.17": 8
+    }
+   },
+   {
+    "fine_edge": "h_00133",
+    "relation_type": "uses_technique",
+    "arity": 26,
+    "weight": 0.020353335915004767,
+    "lambda": 5,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.117": 1,
+     "L2.215": 8,
+     "L2.223": 1,
+     "L2.224": 8,
+     "L2.225": 8
+    }
+   },
+   {
+    "fine_edge": "h_00140",
+    "relation_type": "addresses",
+    "arity": 10,
+    "weight": 0.028176553922409434,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.122": 1,
+     "L2.188": 9
+    }
+   },
+   {
+    "fine_edge": "h_00141",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.122": 1,
+     "L2.55": 2
+    }
+   },
+   {
+    "fine_edge": "h_00142",
+    "relation_type": "extends",
+    "arity": 8,
+    "weight": 0.028391597048842785,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.116": 1,
+     "L2.122": 1,
+     "L2.90": 6
+    }
+   },
+   {
+    "fine_edge": "h_00143",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.122": 1,
+     "L2.146": 8
+    }
+   },
+   {
+    "fine_edge": "h_00144",
+    "relation_type": "uses_component",
+    "arity": 12,
+    "weight": 0.04611965902568147,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.122": 12
+    }
+   },
+   {
+    "fine_edge": "h_00145",
+    "relation_type": "uses_technique",
+    "arity": 14,
+    "weight": 0.03914103060577839,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.122": 1,
+     "L2.206": 8,
+     "L2.223": 5
+    }
+   },
+   {
+    "fine_edge": "h_00146",
+    "relation_type": "addresses",
+    "arity": 12,
+    "weight": 0.023053544118334993,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.123": 1,
+     "L2.190": 11
+    }
+   },
+   {
+    "fine_edge": "h_00147",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.123": 1,
+     "L2.56": 1
+    }
+   },
+   {
+    "fine_edge": "h_00148",
+    "relation_type": "extends",
+    "arity": 13,
+    "weight": 0.01656176494515829,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.116": 1,
+     "L2.123": 1,
+     "L2.124": 11
+    }
+   },
+   {
+    "fine_edge": "h_00149",
+    "relation_type": "solves",
+    "arity": 10,
+    "weight": 0.03153834549064859,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.123": 1,
+     "L2.156": 9
+    }
+   },
+   {
+    "fine_edge": "h_00150",
+    "relation_type": "uses_component",
+    "arity": 16,
+    "weight": 0.033821083285499744,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.123": 1,
+     "L2.21": 8,
+     "L2.22": 7
+    }
+   },
+   {
+    "fine_edge": "h_00151",
+    "relation_type": "uses_technique",
+    "arity": 16,
+    "weight": 0.03392222652500794,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.123": 9,
+     "L2.227": 7
+    }
+   },
+   {
+    "fine_edge": "h_00152",
+    "relation_type": "addresses",
+    "arity": 10,
+    "weight": 0.028176553922409434,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.109": 1,
+     "L2.183": 9
+    }
+   },
+   {
+    "fine_edge": "h_00153",
+    "relation_type": "extends",
+    "arity": 5,
+    "weight": 0.049685294835474875,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 4,
+     "L2.109": 1
+    }
+   },
+   {
+    "fine_edge": "h_00154",
+    "relation_type": "solves",
+    "arity": 9,
+    "weight": 0.03548063867697966,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.109": 1,
+     "L2.143": 8
+    }
+   },
+   {
+    "fine_edge": "h_00155",
+    "relation_type": "uses_component",
+    "arity": 11,
+    "weight": 0.05073162492824962,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.109": 1,
+     "L2.2": 10
+    }
+   },
+   {
+    "fine_edge": "h_00156",
+    "relation_type": "uses_technique",
+    "arity": 11,
+    "weight": 0.050883339787511916,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.109": 11
+    }
+   },
+   {
+    "fine_edge": "h_00157",
+    "relation_type": "addresses",
+    "arity": 7,
+    "weight": 0.04226483088361415,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.115": 1,
+     "L2.185": 6
+    }
+   },
+   {
+    "fine_edge": "h_00158",
+    "relation_type": "extends",
+    "arity": 3,
+    "weight": 0.09937058967094975,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.115": 3
+    }
+   },
+   {
+    "fine_edge": "h_00159",
+    "relation_type": "solves",
+    "arity": 7,
+    "weight": 0.04730751823597288,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.115": 1,
+     "L2.152": 6
+    }
+   },
+   {
+    "fine_edge": "h_00160",
+    "relation_type": "uses_component",
+    "arity": 11,
+    "weight": 0.05073162492824962,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.115": 1,
+     "L2.12": 10
+    }
+   },
+   {
+    "fine_edge": "h_00161",
+    "relation_type": "uses_technique",
+    "arity": 13,
+    "weight": 0.04240278315625992,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.115": 1,
+     "L2.213": 1,
+     "L2.216": 11
+    }
+   },
+   {
+    "fine_edge": "h_00168",
+    "relation_type": "addresses",
+    "arity": 7,
+    "weight": 0.04226483088361415,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.116": 1,
+     "L2.171": 6
+    }
+   },
+   {
+    "fine_edge": "h_00169",
+    "relation_type": "extends",
+    "arity": 2,
+    "weight": 0.1987411793418995,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.116": 2
+    }
+   },
+   {
+    "fine_edge": "h_00170",
+    "relation_type": "solves",
+    "arity": 5,
+    "weight": 0.07096127735395932,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.116": 1,
+     "L2.153": 4
+    }
+   },
+   {
+    "fine_edge": "h_00171",
+    "relation_type": "uses_component",
+    "arity": 8,
+    "weight": 0.07247374989749944,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.116": 1,
+     "L2.14": 7
+    }
+   },
+   {
+    "fine_edge": "h_00172",
+    "relation_type": "uses_technique",
+    "arity": 7,
+    "weight": 0.08480556631251984,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.116": 1,
+     "L2.222": 6
+    }
+   },
+   {
+    "fine_edge": "h_00173",
+    "relation_type": "addresses",
+    "arity": 18,
+    "weight": 0.01491699913539323,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.172": 1,
+     "L2.182": 12,
+     "L2.244": 4
+    }
+   },
+   {
+    "fine_edge": "h_00174",
+    "relation_type": "evaluated_on",
+    "arity": 7,
+    "weight": 0.002557003200063134,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.61": 6
+    }
+   },
+   {
+    "fine_edge": "h_00175",
+    "relation_type": "extends",
+    "arity": 8,
+    "weight": 0.028391597048842785,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.121": 6,
+     "L2.129": 1
+    }
+   },
+   {
+    "fine_edge": "h_00176",
+    "relation_type": "solves",
+    "arity": 11,
+    "weight": 0.028384510941583733,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.162": 10
+    }
+   },
+   {
+    "fine_edge": "h_00177",
+    "relation_type": "uses_component",
+    "arity": 14,
+    "weight": 0.039024326867884325,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.129": 9,
+     "L2.30": 5
+    }
+   },
+   {
+    "fine_edge": "h_00178",
+    "relation_type": "uses_technique",
+    "arity": 18,
+    "weight": 0.029931376345595243,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.208": 9,
+     "L2.235": 8
+    }
+   },
+   {
+    "fine_edge": "h_00227",
+    "relation_type": "addresses",
+    "arity": 36,
+    "weight": 0.00724539958004814,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.125": 1,
+     "L2.171": 1,
+     "L2.192": 12,
+     "L2.193": 9,
+     "L2.194": 12,
+     "L2.242": 1
+    }
+   },
+   {
+    "fine_edge": "h_00228",
+    "relation_type": "evaluated_on",
+    "arity": 5,
+    "weight": 0.0038355048000947014,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.125": 2,
+     "L2.58": 1,
+     "L2.59": 1,
+     "L2.60": 1
+    }
+   },
+   {
+    "fine_edge": "h_00229",
+    "relation_type": "extends",
+    "arity": 11,
+    "weight": 0.01987411793418995,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.125": 8,
+     "L2.90": 1,
+     "L2.99": 1
+    }
+   },
+   {
+    "fine_edge": "h_00230",
+    "relation_type": "solves",
+    "arity": 22,
+    "weight": 0.013516433781706538,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.125": 1,
+     "L2.158": 8,
+     "L2.159": 8,
+     "L2.160": 5
+    }
+   },
+   {
+    "fine_edge": "h_00231",
+    "relation_type": "uses_component",
+    "arity": 38,
+    "weight": 0.013711249980608005,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.125": 1,
+     "L2.23": 8,
+     "L2.24": 8,
+     "L2.25": 8,
+     "L2.26": 5,
+     "L2.3": 8
+    }
+   },
+   {
+    "fine_edge": "h_00232",
+    "relation_type": "uses_technique",
+    "arity": 41,
+    "weight": 0.012720834946877979,
+    "lambda": 8,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.125": 1,
+     "L2.204": 7,
+     "L2.211": 1,
+     "L2.228": 8,
+     "L2.229": 8,
+     "L2.230": 8,
+     "L2.231": 7,
+     "L2.246": 1
+    }
+   },
+   {
+    "fine_edge": "h_00251",
+    "relation_type": "addresses",
+    "arity": 33,
+    "weight": 0.007924655790677653,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.194": 4,
+     "L2.197": 3,
+     "L2.243": 1,
+     "L2.277": 12,
+     "L2.279": 12,
+     "L2.288": 1
+    }
+   },
+   {
+    "fine_edge": "h_00252",
+    "relation_type": "evaluated_on",
+    "arity": 4,
+    "weight": 0.005114006400126268,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.288": 4
+    }
+   },
+   {
+    "fine_edge": "h_00253",
+    "relation_type": "extends",
+    "arity": 15,
+    "weight": 0.014195798524421393,
+    "lambda": 5,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.119": 11,
+     "L2.124": 1,
+     "L2.288": 1,
+     "L2.99": 1
+    }
+   },
+   {
+    "fine_edge": "h_00254",
+    "relation_type": "solves",
+    "arity": 18,
+    "weight": 0.016696771142108078,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.146": 5,
+     "L2.273": 12,
+     "L2.288": 1
+    }
+   },
+   {
+    "fine_edge": "h_00255",
+    "relation_type": "uses_component",
+    "arity": 18,
+    "weight": 0.029842132310735067,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.247": 12,
+     "L2.288": 6
+    }
+   },
+   {
+    "fine_edge": "h_00256",
+    "relation_type": "uses_technique",
+    "arity": 32,
+    "weight": 0.016413980576616746,
+    "lambda": 5,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.217": 1,
+     "L2.283": 12,
+     "L2.286": 12,
+     "L2.287": 6,
+     "L2.288": 1
+    }
+   },
+   {
+    "fine_edge": "h_00262",
+    "relation_type": "addresses",
+    "arity": 42,
+    "weight": 0.00618509720248012,
+    "lambda": 9,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.172": 1,
+     "L2.183": 1,
+     "L2.197": 1,
+     "L2.200": 12,
+     "L2.201": 12,
+     "L2.203": 12,
+     "L2.244": 1,
+     "L2.245": 1
+    }
+   },
+   {
+    "fine_edge": "h_00263",
+    "relation_type": "evaluated_on",
+    "arity": 18,
+    "weight": 0.0009024717176693416,
+    "lambda": 14,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.65": 1,
+     "L2.70": 4,
+     "L2.71": 1,
+     "L2.72": 1,
+     "L2.73": 1,
+     "L2.74": 1,
+     "L2.75": 1,
+     "L2.76": 1,
+     "L2.77": 1,
+     "L2.78": 1,
+     "L2.79": 2,
+     "L2.80": 1,
+     "L2.81": 1
+    }
+   },
+   {
+    "fine_edge": "h_00264",
+    "relation_type": "extends",
+    "arity": 12,
+    "weight": 0.018067379940172684,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.103": 11
+    }
+   },
+   {
+    "fine_edge": "h_00265",
+    "relation_type": "solves",
+    "arity": 29,
+    "weight": 0.010137325336279904,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.164": 12,
+     "L2.165": 8,
+     "L2.166": 8
+    }
+   },
+   {
+    "fine_edge": "h_00266",
+    "relation_type": "uses_component",
+    "arity": 31,
+    "weight": 0.016910541642749872,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.2": 1,
+     "L2.31": 8,
+     "L2.32": 8,
+     "L2.33": 5,
+     "L2.7": 8
+    }
+   },
+   {
+    "fine_edge": "h_00267",
+    "relation_type": "uses_technique",
+    "arity": 41,
+    "weight": 0.012720834946877979,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.212": 8,
+     "L2.237": 8,
+     "L2.238": 8,
+     "L2.239": 8,
+     "L2.240": 8
+    }
+   },
+   {
+    "fine_edge": "h_00268",
+    "relation_type": "addresses",
+    "arity": 24,
+    "weight": 0.011025608056594995,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.126": 1,
+     "L2.197": 8,
+     "L2.198": 8,
+     "L2.199": 7
+    }
+   },
+   {
+    "fine_edge": "h_00269",
+    "relation_type": "extends",
+    "arity": 22,
+    "weight": 0.009463865682947594,
+    "lambda": 6,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.107": 9,
+     "L2.119": 1,
+     "L2.121": 1,
+     "L2.124": 2,
+     "L2.126": 1,
+     "L2.127": 8
+    }
+   },
+   {
+    "fine_edge": "h_00270",
+    "relation_type": "solves",
+    "arity": 16,
+    "weight": 0.018923007294389154,
+    "lambda": 3,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.126": 1,
+     "L2.147": 8,
+     "L2.161": 7
+    }
+   },
+   {
+    "fine_edge": "h_00271",
+    "relation_type": "uses_component",
+    "arity": 17,
+    "weight": 0.03170726558015601,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.126": 9,
+     "L2.28": 8
+    }
+   },
+   {
+    "fine_edge": "h_00272",
+    "relation_type": "uses_technique",
+    "arity": 28,
+    "weight": 0.01884568140278219,
+    "lambda": 4,
+    "class": "partial",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.126": 1,
+     "L2.217": 11,
+     "L2.232": 8,
+     "L2.233": 8
+    }
+   },
+   {
+    "fine_edge": "h_00342",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.45": 2
+    }
+   },
+   {
+    "fine_edge": "h_00343",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.46": 1
+    }
+   },
+   {
+    "fine_edge": "h_00344",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.47": 1
+    }
+   },
+   {
+    "fine_edge": "h_00345",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.48": 1
+    }
+   },
+   {
+    "fine_edge": "h_00346",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.49": 1
+    }
+   },
+   {
+    "fine_edge": "h_00347",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.50": 1
+    }
+   },
+   {
+    "fine_edge": "h_00348",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.51": 1
+    }
+   },
+   {
+    "fine_edge": "h_00349",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.112": 1,
+     "L2.52": 1
+    }
+   },
+   {
+    "fine_edge": "h_00371",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.34": 2
+    }
+   },
+   {
+    "fine_edge": "h_00385",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 2,
+     "L2.307": 1
+    }
+   },
+   {
+    "fine_edge": "h_00386",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 2,
+     "L2.308": 1
+    }
+   },
+   {
+    "fine_edge": "h_00387",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 2,
+     "L2.309": 1
+    }
+   },
+   {
+    "fine_edge": "h_00388",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 2,
+     "L2.310": 1
+    }
+   },
+   {
+    "fine_edge": "h_00389",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 2,
+     "L2.311": 1
+    }
+   },
+   {
+    "fine_edge": "h_00390",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 2,
+     "L2.312": 1
+    }
+   },
+   {
+    "fine_edge": "h_00391",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 2,
+     "L2.313": 1
+    }
+   },
+   {
+    "fine_edge": "h_00392",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 2,
+     "L2.314": 1
+    }
+   },
+   {
+    "fine_edge": "h_00393",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.249": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00394",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.250": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00395",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.251": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00396",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.252": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00397",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.253": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00398",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.254": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00399",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.255": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00400",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.291": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00401",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.292": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00402",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.293": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00403",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.294": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00404",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.295": 1,
+     "L2.306": 2
+    }
+   },
+   {
+    "fine_edge": "h_00405",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.296": 1,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00406",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 3,
+    "class": "uncollapsed",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.297": 1,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00407",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.256": 2,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00408",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 1,
+     "L2.84": 2
+    }
+   },
+   {
+    "fine_edge": "h_00409",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 1,
+     "L2.84": 2
+    }
+   },
+   {
+    "fine_edge": "h_00410",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 1,
+     "L2.84": 2
+    }
+   },
+   {
+    "fine_edge": "h_00411",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.306": 1,
+     "L2.84": 2
+    }
+   },
+   {
+    "fine_edge": "h_00412",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.257": 2,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00413",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.257": 2,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00414",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.257": 2,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00415",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.257": 2,
+     "L2.306": 1
+    }
+   },
+   {
+    "fine_edge": "h_00422",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.125": 2
+    }
+   },
+   {
+    "fine_edge": "h_00423",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.125": 1,
+     "L2.58": 2
+    }
+   },
+   {
+    "fine_edge": "h_00424",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.125": 1,
+     "L2.59": 2
+    }
+   },
+   {
+    "fine_edge": "h_00425",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.125": 1,
+     "L2.60": 2
+    }
+   },
+   {
+    "fine_edge": "h_00434",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.272": 1,
+     "L2.303": 2
+    }
+   },
+   {
+    "fine_edge": "h_00435",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.272": 1,
+     "L2.303": 2
+    }
+   },
+   {
+    "fine_edge": "h_00436",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.258": 2,
+     "L2.272": 1
+    }
+   },
+   {
+    "fine_edge": "h_00437",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.272": 1,
+     "L2.289": 1
+    }
+   },
+   {
+    "fine_edge": "h_00438",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.272": 1,
+     "L2.289": 1
+    }
+   },
+   {
+    "fine_edge": "h_00439",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.260": 2,
+     "L2.272": 1
+    }
+   },
+   {
+    "fine_edge": "h_00440",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.260": 2,
+     "L2.272": 1
+    }
+   },
+   {
+    "fine_edge": "h_00487",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.87": 2
+    }
+   },
+   {
+    "fine_edge": "h_00488",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.87": 2
+    }
+   },
+   {
+    "fine_edge": "h_00489",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.87": 2
+    }
+   },
+   {
+    "fine_edge": "h_00490",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.61": 2
+    }
+   },
+   {
+    "fine_edge": "h_00491",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.61": 2
+    }
+   },
+   {
+    "fine_edge": "h_00492",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.129": 1,
+     "L2.61": 2
+    }
+   },
+   {
+    "fine_edge": "h_00493",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 2,
+    "class": "uncollapsed",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.53": 1,
+     "L2.99": 1
+    }
+   },
+   {
+    "fine_edge": "h_00494",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.288": 2
+    }
+   },
+   {
+    "fine_edge": "h_00495",
+    "relation_type": "evaluated_on",
+    "arity": 2,
+    "weight": 0.015342019200378806,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.288": 2
+    }
+   },
+   {
+    "fine_edge": "h_00496",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.288": 3
+    }
+   },
+   {
+    "fine_edge": "h_00509",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.245": 3
+    }
+   },
+   {
+    "fine_edge": "h_00510",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.245": 3
+    }
+   },
+   {
+    "fine_edge": "h_00511",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 1,
+    "class": "internal",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.245": 3
+    }
+   },
+   {
+    "fine_edge": "h_00512",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.84": 2
+    }
+   },
+   {
+    "fine_edge": "h_00513",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.84": 2
+    }
+   },
+   {
+    "fine_edge": "h_00514",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.84": 2
+    }
+   },
+   {
+    "fine_edge": "h_00515",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 1,
+     "L2.84": 2
+    }
+   },
+   {
+    "fine_edge": "h_00516",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 2,
+     "L2.35": 1
+    }
+   },
+   {
+    "fine_edge": "h_00517",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 2,
+     "L2.39": 1
+    }
+   },
+   {
+    "fine_edge": "h_00518",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 2,
+     "L2.40": 1
+    }
+   },
+   {
+    "fine_edge": "h_00519",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 2,
+     "L2.38": 1
+    }
+   },
+   {
+    "fine_edge": "h_00520",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 2,
+     "L2.41": 1
+    }
+   },
+   {
+    "fine_edge": "h_00521",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 2,
+     "L2.42": 1
+    }
+   },
+   {
+    "fine_edge": "h_00522",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 2,
+     "L2.43": 1
+    }
+   },
+   {
+    "fine_edge": "h_00523",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.110": 2,
+     "L2.44": 1
+    }
+   },
+   {
+    "fine_edge": "h_00524",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 3,
+    "class": "uncollapsed",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.270": 1,
+     "L2.289": 1,
+     "L2.303": 1
+    }
+   },
+   {
+    "fine_edge": "h_00525",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 3,
+    "class": "uncollapsed",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.270": 1,
+     "L2.289": 1,
+     "L2.303": 1
+    }
+   },
+   {
+    "fine_edge": "h_00579",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.261": 2,
+     "L2.271": 1
+    }
+   },
+   {
+    "fine_edge": "h_00580",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.271": 1,
+     "L2.299": 2
+    }
+   },
+   {
+    "fine_edge": "h_00581",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.271": 1,
+     "L2.298": 2
+    }
+   },
+   {
+    "fine_edge": "h_00582",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.271": 1,
+     "L2.299": 2
+    }
+   },
+   {
+    "fine_edge": "h_00583",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.271": 1,
+     "L2.299": 2
+    }
+   },
+   {
+    "fine_edge": "h_00584",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.271": 1,
+     "L2.300": 2
+    }
+   },
+   {
+    "fine_edge": "h_00585",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.271": 1,
+     "L2.301": 2
+    }
+   },
+   {
+    "fine_edge": "h_00586",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.271": 1,
+     "L2.302": 2
+    }
+   },
+   {
+    "fine_edge": "h_00587",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.122": 1,
+     "L2.55": 2
+    }
+   },
+   {
+    "fine_edge": "h_00588",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.122": 1,
+     "L2.55": 2
+    }
+   },
+   {
+    "fine_edge": "h_00589",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.123": 1,
+     "L2.56": 2
+    }
+   },
+   {
+    "fine_edge": "h_00590",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.65": 2
+    }
+   },
+   {
+    "fine_edge": "h_00591",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.79": 2
+    }
+   },
+   {
+    "fine_edge": "h_00592",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.70": 2
+    }
+   },
+   {
+    "fine_edge": "h_00593",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.70": 2
+    }
+   },
+   {
+    "fine_edge": "h_00594",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.70": 2
+    }
+   },
+   {
+    "fine_edge": "h_00595",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.70": 2
+    }
+   },
+   {
+    "fine_edge": "h_00596",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 3,
+    "class": "uncollapsed",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.142": 1,
+     "L2.71": 1
+    }
+   },
+   {
+    "fine_edge": "h_00597",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 3,
+    "class": "uncollapsed",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.142": 1,
+     "L2.72": 1
+    }
+   },
+   {
+    "fine_edge": "h_00598",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 3,
+    "class": "uncollapsed",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.142": 1,
+     "L2.73": 1
+    }
+   },
+   {
+    "fine_edge": "h_00599",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 3,
+    "class": "uncollapsed",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.142": 1,
+     "L2.74": 1
+    }
+   },
+   {
+    "fine_edge": "h_00600",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 3,
+    "class": "uncollapsed",
+    "multiway": true,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.142": 1,
+     "L2.75": 1
+    }
+   },
+   {
+    "fine_edge": "h_00601",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.76": 2
+    }
+   },
+   {
+    "fine_edge": "h_00602",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.77": 2
+    }
+   },
+   {
+    "fine_edge": "h_00603",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.78": 2
+    }
+   },
+   {
+    "fine_edge": "h_00604",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.79": 2
+    }
+   },
+   {
+    "fine_edge": "h_00605",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.80": 2
+    }
+   },
+   {
+    "fine_edge": "h_00606",
+    "relation_type": "evaluated_on",
+    "arity": 3,
+    "weight": 0.007671009600189403,
+    "lambda": 2,
+    "class": "partial",
+    "multiway": false,
+    "endpoint_counts": {
+     "L2.102": 1,
+     "L2.81": 2
+    }
+   }
+  ]
+ }
+}

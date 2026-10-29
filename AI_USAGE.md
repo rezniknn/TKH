@@ -1593,6 +1593,35 @@ accepted or changed, and what was checked.
   - `make_tables.py --check` passes.
   - Prose grew from about 3.2k to 5.9k words.
 
+### 48. α sweep with all four metrics and a recommendation (Claude Code)
+
+- **Task/module:** `eval/sweep.py` (new), `eval/experiments.py`, `eval/coherence.py`, `eval/__main__.py`,
+  `eval/figures.py`, `make_tables.py`, `Makefile`, `docs/alpha_sweep.md`
+- **Prompt:** simplify the sweep. Fix every parameter except α at its default and run α at five values in [0, 1].
+  Compute and store all four metrics for each value. Write an evaluation report that compares the variants and
+  recommends the one best suited to the desired outcome.
+- **What the assistant did:**
+  - Replaced the 60-configuration coherence-only grid sweep with `eval/sweep.py`. Each α ∈ {0, 0.25, 0.5, 0.75, 1}
+    gets a full run plus all four checks under the main protocol, stored in `out/sweep/<α>/metrics.json`.
+  - Added the paired comparisons with the default to `out/sweep/sweep.json`:
+    - tree ARI;
+    - perturbation HARI, paired by seed;
+    - cross-snapshot HARI, paired by node half-subsample.
+  - Wrote eight generated tables, a four-panel figure and `docs/alpha_sweep.md`, with a recommendation rule fixed
+    before the results were read.
+  - Ran the labeller and the judge live through local Ollama, about 6.5 h in total. Later runs replay from
+    `data/llm_cache.json`.
+- **Verified:**
+  - the α = 0.5 variant reproduces `out/` exactly (`hierarchy.json` hashes and all four metric sections match);
+  - `validate.py` passes on all five runs, and flat retrieval results are identical across α;
+  - an offline replay regenerates `sweep.json` byte-identical, and the faithfulness check replays from cache with no
+    CacheMiss;
+  - `make_tables.py --check` passes for both reports, and `make test` passes (65 tests).
+- **Issue found:** the pre-set rule recommends α = 1, which has no robust coherence cell. The perturbation guard
+  compares each variant with the most robust one. Edge removal does not touch names, so the names-only variant is
+  trivially robust (HARI 0.90) and excludes every other variant. The report's own §5 warns about exactly this
+  effect, and the rule contradicted it. The issue was raised with the user before changing the rule.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
