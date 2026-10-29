@@ -691,8 +691,8 @@ def _claims():
 
     def faith_tradeoff(w):
         r = rec(w)
-        low = min(w.alphas, key=lambda a: w.overclaim(a)[0])
-        return low != r and w.overclaim(r)[0] >= w.overclaim(w.ref)[0]
+        oR, oD = w.overclaim(r), w.overclaim(w.ref)
+        return all(oR[0] >= w.overclaim(a)[0] for a in w.alphas) and oR[1] <= oD[2] and oD[1] <= oR[2]
 
     def retrieval_mixed(w):
         r = rec(w)
@@ -799,8 +799,8 @@ def _claims():
                            "transition (cross-snapshot), and above 0 at one transition", sw(stability_loss)),
         "names_most_robust": ("report", "α = 1 has the highest perturbation HARI, an interval above every other variant's, and no "
                               "robust cell", sw(names_most_robust)),
-        "faith_tradeoff": ("report", "another variant has the lowest over-claim, and the recommended α's over-claim is not below the "
-                           "reference's", sw(faith_tradeoff)),
+        "faith_tradeoff": ("report", "the recommended α has the highest over-claim point estimate of all variants, and its CI overlaps "
+                           "the reference's", sw(faith_tradeoff)),
         "retrieval_mixed": ("report", "same drill-down favour count as the reference; measures better and worse, type-A reach worse; "
                             "for every type drill-down scores fewer candidates than flat but needs more items inspected to "
                             "the first item", sw(retrieval_mixed)),

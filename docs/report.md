@@ -7,7 +7,7 @@ cumulative snapshots. SHAC is a deterministic greedy agglomeration whose merge s
 name similarity and a structural term on the collapsed hyper-edge incidence, with a soft prior from the previous
 snapshot. Laminarity, exact budgets, the collapse rule and identity bookkeeping hold by construction; coherence,
 stability, label faithfulness and utility are measured with signals the method never sees. Of five values of the
-semantic weight, α = 0.75 is recommended and shipped <!-- claim:recommended -->. A held-out citation ruler beats both nulls <!-- claim:coherence_late -->, conditional on these papers <!-- claim:lift_ci_chance -->, and LLM ratings of
+semantic weight, α = 0.75 is recommended and shipped <!-- claim:recommended -->. A held-out citation ruler beats both nulls at every level of the later snapshots <!-- claim:coherence_late -->, conditional on these papers <!-- claim:lift_ci_chance -->, and LLM ratings of
 abstracts agree <!-- claim:abstract_within_closer -->; its utility for navigation is mixed and not established <!-- claim:navigation_not_established -->. Levels are L0 (coarsest) to L2.
 Appendices: [A, formal details and full results](appendix.md); [B, the α sweep](alpha_sweep.md).
 
@@ -178,8 +178,8 @@ Coherence cells are out of 12 (snapshot × level), retrieval measures out of 12.
 difference at the last snapshot wholly below zero, or over-claim interval wholly above); the eligible variant with the most robust cells
 wins, since coherence alone tests with a held-out ruler whether groups mean something. **Trade-offs** of α = 0.75: less robust to perturbation at the first snapshot, and less consistent across
 one transition but more across another <!-- claim:stability_loss -->; α = 1 is the most robust variant largely because its score ignores the edges (only the prior's stable
-set depends on them), and has no robust cell <!-- claim:names_most_robust -->; another variant has the lowest over-claim, and α = 0.75 does not reduce
-it <!-- claim:faith_tradeoff -->; retrieval moves both ways, with type-A reach worse <!-- claim:retrieval_mixed -->. The choice is optimistic: α was selected on the data that
+set depends on them), and has no robust cell <!-- claim:names_most_robust -->; α = 0.75 has the highest over-claim of the five variants, though its
+interval overlaps the pre-sweep default's <!-- claim:faith_tradeoff -->; retrieval moves both ways, with type-A reach worse <!-- claim:retrieval_mixed -->. The choice is optimistic: α was selected on the data that
 report its quality, and the stability guard was revised once after the results were read (Appendix B §9).
 
 ### 5.3 Evaluation of α = 0.75
