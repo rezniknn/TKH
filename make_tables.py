@@ -21,7 +21,7 @@ import re
 import sys
 
 from eval import verdicts as V
-from eval.verdicts import ALPHA, LOWER_BETTER, RETRIEVAL_NAMES, SCHEMES
+from eval.verdicts import ALPHA, LOWER_BETTER, RETRIEVAL_COST, RETRIEVAL_NAMES, SCHEMES
 
 BLOCK = re.compile(r"(<!-- table:(\w+) -->\n)(.*?)(<!-- /table:\2 -->)", re.S)
 CLAIM = re.compile(r"<!-- claim:(\w+) -->")
@@ -217,8 +217,12 @@ def t_faithfulness(r):
 
 
 
+def _nd(k):
+    return 1 if k in LOWER_BETTER - {"error_rate"} else 3
+
+
 def t_retrieval(r):
-    names = RETRIEVAL_NAMES
+    names = {**RETRIEVAL_NAMES, **RETRIEVAL_COST}
     rows = []
     for t, s in r.m["retrieval"]["summary"].items():
         unknown = {k for k, v in s.items() if isinstance(v, dict) and "stat" in v} - names.keys()
@@ -226,16 +230,20 @@ def t_retrieval(r):
         for k, label in names.items():
             if k not in s:
                 continue
-            v = s[k]
-            nd = 1 if k.startswith("steps") else 3
+            v, nd = s[k], _nd(k)
             d = v["hier_minus_flat"]
-            rows.append([t, label, v["n"], f(v["hier"], nd), f(v["flat"], nd), "—" if d is None else f"{d:+.{nd}f}",
-                         _favoured(k, d) or "—"])
+            c, e = s["ceilings"].get(k), v.get("end_to_end")
+            rows.append([t, label, v["n"], f"{c['attainable']}/{c['total']}" if c else "—", f(v["hier"], nd), f(v["flat"], nd),
+                         "—" if d is None else f"{d:+.{nd}f}", f"{f(e['hier'], 3)} / {f(e['flat'], 3)} (n = {e['n']})" if e else "—",
+                         "not counted" if k in RETRIEVAL_COST else _favoured(k, d) or "—"])
     dg = r.m["retrieval"]["diagnostics"]
     tail = ("\nDrill-down diagnostics: kept/frontier " + ", ".join(f"{lv} {x['mean']:.2f}" for lv, x in dg["kept_over_frontier"].items())
-            + f"; super-nodes scored per question {dg['supernodes_scored']['min']}–{dg['supernodes_scored']['max']}; never reached: "
-            + (", ".join(f"{q} (lost at L{lv})" for q, lv in dg["never_reached"].items()) or "none") + ".\n")
-    return md(["Type", "Metric", "n", "Drill-down", "Flat", "Paired difference (mean; steps: median)", "Favoured (point estimate)"], rows) + tail
+            + f"; per question, super-nodes scored {dg['supernodes_scored']['min']}–{dg['supernodes_scored']['max']}, of them labelled "
+            + f"(shown to the reader) {dg['labels_shown']['min']}–{dg['labels_shown']['max']}; pool leaves {dg['pool']['min']}–{dg['pool']['max']}; "
+            + "never reached: " + (", ".join(f"{q} (lost at L{lv})" for q, lv in dg["never_reached"].items()) or "none") + ".\n")
+    return md(["Type", "Metric", "n", "Attainable / total items", "Drill-down", "Flat",
+               "Paired difference (mean; medians: inspection, computation)", "End to end, drill-down / flat",
+               "Favoured (point estimate)"], rows) + tail
 
 
 
@@ -272,7 +280,7 @@ def t_findings(r):
         lv_row = [f"P6 {lv_names[0]} vs {lv_names[-1]} over-claim",
                   f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table 10"]
     fav = _favour_counts(r)
-    steps = [(t, s["steps_first"]) for t, s in r.m["retrieval"]["summary"].items() if "steps_first" in s]
+    steps = [(t, s["inspect_first"], s["scored"]) for t, s in r.m["retrieval"]["summary"].items() if "inspect_first" in s]
     rows = [["P3 coherence beyond both nulls (robust: all schemes, exact filter)", ", ".join(rob) or "none",
              f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table 6"],
             ["P3 cells below both nulls in every scheme (exact filter)", ", ".join(below) or "none",
@@ -284,8 +292,9 @@ def t_findings(r):
             ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table 10"],
             lv_row,
             ["T6 retrieval measures favouring drill-down / flat / tie", f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
-             "point estimates, no CIs", "Table 11"],
-            ["T6 median steps to first item, drill-down vs flat", "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)}" for t, x in steps) or "—", "", "Table 11"]]
+             "descriptive: correlated point estimates, not votes; no CIs", "Table 11"],
+            ["T6 median items inspected to first item, drill-down vs flat", "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)}" for t, x, _ in steps) or "—", "reader's effort", "Table 11"],
+            ["T6 median candidates scored, drill-down vs flat", "; ".join(f"type {t}: {f(c['hier'], 1)} vs {f(c['flat'], 1)}" for t, _, c in steps) or "—", "computation, not latency", "Table 11"]]
     return md(["Finding", "Result", "Qualifier", "Source"], rows)
 
 
@@ -448,16 +457,16 @@ def st_faithfulness(w):
 def st_retrieval(w):
     rows, ref = [], w.v(w.ref)["retrieval"]["summary"]
     for t, s in ref.items():
-        for k, label in RETRIEVAL_NAMES.items():
+        for k, label in {**RETRIEVAL_NAMES, **RETRIEVAL_COST}.items():
             if k not in s:
                 continue
-            nd = 1 if k.startswith("steps") else 3
+            nd = _nd(k)
             flats = {w.v(a)["retrieval"]["summary"][t][k]["flat"] for a in w.alphas}
             assert len(flats) == 1, f"flat search differs across alpha for {t} {k}: {flats}"
             cells = []
             for a in w.alphas:
                 x = w.v(a)["retrieval"]["summary"][t][k]
-                cells.append(f"{f(x['hier'], nd)}" + (" ✓" if _favoured(k, x["hier_minus_flat"]) == "drill-down" else ""))
+                cells.append(f"{f(x['hier'], nd)}" + (" ✓" if k in RETRIEVAL_NAMES and _favoured(k, x["hier_minus_flat"]) == "drill-down" else ""))
             rows.append([t, label, f(s[k]["flat"], nd), *cells])
     rows.append(["", "measures favouring drill-down / flat / tie", "",
                  *(" / ".join(str(w.favour(a)[x]) for x in ("drill-down", "flat", "tie")) for a in w.alphas)])
@@ -661,10 +670,15 @@ def _claims():
     def retrieval_mixed(w):
         r = rec(w)
         better, _, worse = _retrieval_delta(w, r)
-        slow = all(x["steps_first"]["hier"] > x["steps_first"]["flat"] for x in w.v(r)["retrieval"]["summary"].values()
-                   if "steps_first" in x)
+        s = w.v(r)["retrieval"]["summary"].values()
+        cheaper = all(x["scored"]["hier"] < x["scored"]["flat"] for x in s)
+        more_reading = all(x["inspect_first"]["hier"] > x["inspect_first"]["flat"] for x in s)
         return (w.favour(r)["drill-down"] == w.favour(w.ref)["drill-down"] and better and worse
-                and "A reach" in worse and slow)
+                and "A reach" in worse and cheaper and more_reading)
+
+    def navigation_not_established(w):
+        a = w.v(w.default)["retrieval"]["summary"]["A"]
+        return a["methods"]["hier"] <= a["methods"]["flat"] and a["reached"]["hier"] < a["reached"]["flat"]
 
     def paired_ref(w):
         st = [w.v(a)["protocol"]["stability"] for a in w.alphas]
@@ -700,7 +714,10 @@ def _claims():
         "faith_tradeoff": ("report", "another variant has the lowest over-claim, and the recommended α's over-claim is not below the "
                            "reference's", sw(faith_tradeoff)),
         "retrieval_mixed": ("report", "same drill-down favour count as the reference; measures better and worse, type-A reach worse; "
-                            "drill-down slower to the first item than flat for every type", sw(retrieval_mixed)),
+                            "for every type drill-down scores fewer candidates than flat but needs more items inspected to "
+                            "the first item", sw(retrieval_mixed)),
+        "navigation_not_established": ("report", "at the shipped α, drill-down's type-A method hit-rate is not above flat's and its "
+                                       "type-A reach is below flat's", sw(navigation_not_established)),
         "main_run_identical": ("report", "the main run is identical to the sweep variant at the configured default (hierarchies "
                                "and all four metric sections)", sw(main_identical)),
         "sweep_grid_doc": ("sweep", "the five α values 0, 0.25, 0.5, 0.75 and 1",

@@ -19,15 +19,21 @@ Gold resolution (`resolve_gold`), per question, on the snapshot the evaluator it
 Metrics, per question and system (hier, flat), on attainable items only:
   M1 hit-rate        methods (a resolved node or a node with the same name_key returned), method claims (method hit
                      and one of its returned graph claims from an evidence article; scored per method), claims (a claim
-                     of a source article returned), citations (a resolved article cited).
+                     of a source article returned), citations (a resolved article cited). Claim credit is by source
+                     article: a returned claim's text is never compared with the GT assertion, and one returned claim
+                     can credit several assertions of the same sources.
   M2 error_rate      share of the k answers that resolve to a wrong_domain / outdated_as_main name (valid_but_unlisted
                      is neutral).
-  M3 steps           one step = one node inspected: hier = super-nodes scored + the item's rank in the pool; flat = its
-                     rank among all leaves of the answer kinds. One target per attainable GT item (method or required
-                     claim); steps to the first item and to 50% of the items; an item not reached is censored at N + 1
-                     (N = the snapshot's nodes of the answer kinds). Summarised by medians, with reach.
+  M3 inspection      the reader's effort: hier = the L0-L1 labels shown (every labelled super-node scored) + the item's
+                     rank in the pool; flat = its rank among all leaves of the answer kinds. One target per attainable
+                     GT item (method or required claim); to the first item and to 50% of the items; an item not
+                     reached is censored at N + 1 (N = the snapshot's nodes of the answer kinds). Medians, with reach.
+  M4 scored          computation: candidates scored, hier = super-nodes scored (all levels) + pool leaves ranked;
+                     flat = every leaf of the answer kinds. Not a wall-clock latency. Median.
+  end_to_end         M1 with unattainable GT items counted as misses: hits / all GT items of the kind.
   lost_at_level      (hier, diagnostic) the first level at which no kept super-node holds a target (None: reached).
-Summaries per question type: the mean (steps: median) per system and of the paired hier - flat differences.
+Summaries per question type: the mean (M3, M4: median) per system and of the paired hier - flat differences; point
+estimates, no intervals.
 """
 
 import csv
@@ -43,8 +49,10 @@ from tkh.retrieve import BEAM, K, KINDS, Agent, fold
 
 YEAR = re.compile(r"\b((?:19|20)\d\d)\b")
 ERROR_CATEGORIES = ("wrong_domain", "outdated_as_main")
-METRICS = {"A": ["methods", "method_claims", "citations", "error_rate", "reached", "steps_first", "steps_half"],
-           "B": ["claims", "citations", "reached", "steps_first", "steps_half"]}
+METRICS = {"A": ["methods", "method_claims", "citations", "error_rate", "reached", "inspect_first", "inspect_half",
+                 "scored"],
+           "B": ["claims", "citations", "reached", "inspect_first", "inspect_half", "scored"]}
+MEDIANS = ("inspect_first", "inspect_half", "scored")   # censored or count measures
 
 
 def read_questions(path):
@@ -176,6 +184,7 @@ def score(ans, g, F, sn=None):
         hit_m = {m: bool(set(r["nodes"]) & got_nodes or {sm.name_key(F.name[v]) for v in r["nodes"]} & got_keys)
                  for m, r in g["methods"].items() if r["nodes"]}
         out["methods"] = _rate(list(hit_m.values()))
+        e2e = {"methods": (sum(hit_m.values()), len(g["methods"]))}
         mc = []
         for c in g["method_claims"]:
             if c["attainable"] and hit_m.get(c["method"]):
@@ -185,6 +194,7 @@ def score(ans, g, F, sn=None):
             elif c["attainable"]:
                 mc.append(False)
         out["method_claims"] = _rate(mc)
+        e2e["method_claims"] = (sum(mc), len(g["method_claims"]))
         if g["fp"]:
             wrong = {v for ns in g["fp"].values() for vs in ns.values() for v in vs}
             wrong_keys = {sm.name_key(F.name[v]) for v in wrong}
@@ -192,18 +202,24 @@ def score(ans, g, F, sn=None):
                                     for v in ans["node_ids"]) / max(1, len(ans["node_ids"]))
     else:
         returned = {a for v in ans["node_ids"] for a in F.articles_of[v]}
-        out["claims"] = _rate([bool(set(c["articles"]) & returned) for c in g["claims"] if c["attainable"]])
-    out["citations"] = _rate([bool(set(r["articles"]) & cited) for r in g["citations"].values() if r["articles"]])
+        hit_c = [bool(set(c["articles"]) & returned) for c in g["claims"] if c["attainable"]]
+        out["claims"] = _rate(hit_c)
+        e2e = {"claims": (sum(hit_c), len(g["claims"]))}
+    hit_r = [bool(set(r["articles"]) & cited) for r in g["citations"].values() if r["articles"]]
+    out["citations"] = _rate(hit_r)
+    e2e["citations"] = (sum(hit_r), len(g["citations"]))
+    out["end_to_end"] = {k: h / n for k, (h, n) in e2e.items() if n}
     out["n_articles_cited"] = len(cited)
-    # steps: inspected sequence = super-nodes scored, then the ranked pool; one target per GT item
+    # inspection: labels shown, then the ranked pool; computation: candidates scored; one target per GT item
     items, n_flat = g["step_items"], sum(F.type[v] in KINDS[g["type"]] for v in F.ids)
+    out["scored"] = ans["n_supernodes_scored"] + ans["n_leaves_scored"]
     pos = {v: i + 1 for i, v in enumerate(ans["ranked"])}
     found = sorted(min(pos[v] for v in it if v in pos) for it in items if any(v in pos for v in it))
     if items:
         out["reached"] = bool(found)
-        out["steps_first"] = ans["n_supernodes_scored"] + found[0] if found else n_flat + 1
+        out["inspect_first"] = ans["n_labels_shown"] + found[0] if found else n_flat + 1
         half = int(np.ceil(len(items) / 2))
-        out["steps_half"] = ans["n_supernodes_scored"] + found[half - 1] if len(found) >= half else n_flat + 1
+        out["inspect_half"] = ans["n_labels_shown"] + found[half - 1] if len(found) >= half else n_flat + 1
         if ans["trace"] and sn is not None:   # diagnostic: the first level whose kept super-nodes hold no target
             t = set(g["targets"])
             out["lost_at_level"] = next((lv for lv in sorted({x["level"] for x in ans["trace"]})
@@ -213,7 +229,8 @@ def score(ans, g, F, sn=None):
 
 
 def summarise(per_q):
-    """Per type and metric: n, the mean (steps: median) per system, and of the paired hier - flat differences."""
+    """Per type and metric: n, the mean (MEDIANS: median) per system, and of the paired hier - flat differences;
+    hit-rates also end to end (all GT items)."""
     out = {}
     for t, ms in METRICS.items():
         qs = [p for p in per_q.values() if p["type"] == t and "hier" in p]
@@ -221,10 +238,15 @@ def summarise(per_q):
         for m in ms:
             pairs = [(float(p["hier"][m]), float(p["flat"][m])) for p in qs
                      if p["hier"].get(m) is not None and p["flat"].get(m) is not None]
-            stat = np.median if m.startswith("steps") else np.mean      # censored steps: medians, not means
+            stat = np.median if m in MEDIANS else np.mean               # censored inspection: medians, not means
             f = (lambda x: float(stat(x)) if len(x) else None)          # noqa: E731
             res[m] = {"n": len(pairs), "stat": stat.__name__, "hier": f([h for h, _ in pairs]),
                       "flat": f([x for _, x in pairs]), "hier_minus_flat": f([h - x for h, x in pairs])}
+            e2e = [(p["hier"]["end_to_end"][m], p["flat"]["end_to_end"][m]) for p in qs
+                   if m in p["hier"].get("end_to_end", {}) and m in p["flat"].get("end_to_end", {})]
+            if e2e:
+                res[m]["end_to_end"] = {"n": len(e2e), "hier": float(np.mean([h for h, _ in e2e])),
+                                        "flat": float(np.mean([x for _, x in e2e]))}
         res["ceilings"] = {k: {s: sum(p["ceiling"][k][s] for p in qs) for s in ("attainable", "total")}
                            for k in qs[0]["ceiling"]} if qs else {}
         out[t] = res
@@ -240,10 +262,14 @@ def diagnostics(answers, per_q):
             if sc:
                 kept[lv].append(sum(x["kept"] for x in sc) / len(sc))
     scored = [a["hier"]["n_supernodes_scored"] for a in answers.values() if "n_supernodes_scored" in a["hier"]]
+    shown = [a["hier"]["n_labels_shown"] for a in answers.values() if "n_labels_shown" in a["hier"]]
+    pool = [a["hier"]["n_leaves_scored"] for a in answers.values() if "n_leaves_scored" in a["hier"]]
     with_items = [q for q, p in per_q.items() if "reached" in p.get("hier", {})]
     return {"kept_over_frontier": {f"L{lv}": {"mean": float(np.mean(v)), "min": float(min(v)), "max": float(max(v))}
                                    for lv, v in kept.items() if v},
             "supernodes_scored": {"min": int(min(scored)), "max": int(max(scored))} if scored else None,
+            "labels_shown": {"min": int(min(shown)), "max": int(max(shown))} if shown else None,
+            "pool": {"min": int(min(pool)), "max": int(max(pool))} if pool else None,
             "never_reached": {q: per_q[q]["hier"].get("lost_at_level") for q in with_items if not per_q[q]["hier"]["reached"]},
             "articles_cited": {t: {s: float(np.mean([per_q[q][s]["n_articles_cited"] for q in with_items
                                                      if per_q[q]["type"] == t])) for s in ("hier", "flat")}
@@ -265,7 +291,8 @@ def retrieval_check(tkh, run_dir, cutoffs, questions_path, gt_path, beam=BEAM, k
             ix = agent.index(hier["snapshot"])
             g = resolve_gold(gt[q["id"]], ix.F)
             p.update(n_step_items=len(g["step_items"]), n_targets=len(g["targets"]), pool=len(hier["ranked"]),
-                     n_supernodes_scored=hier["n_supernodes_scored"], ceiling=ceilings(g),
+                     n_supernodes_scored=hier["n_supernodes_scored"], n_labels_shown=hier["n_labels_shown"],
+                     ceiling=ceilings(g),
                      hier=score(hier, g, ix.F, ix.sn), flat=score(flt, g, ix.F, ix.sn))
         per_q[q["id"]] = p
         strip = lambda a: {x: y for x, y in a.items() if x != "ranked"}   # noqa: E731

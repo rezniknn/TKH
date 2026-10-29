@@ -94,7 +94,8 @@ def _variant(m, info, rc):
     share = [x for x in map(V.untouched_share, loc) if x is not None]
     fa = m["faithfulness"]
     oc = lambda x: {"value": x["over_claim"]["value"], "ci95": x["over_claim"]["ci95"], "n": x["over_claim"]["n"]}
-    ret = {t: {k: {x: s[k][x] for x in ("n", "hier", "flat", "hier_minus_flat")} for k in V.RETRIEVAL_NAMES if k in s}
+    ret = {t: {**{k: {x: s[k][x] for x in ("n", "hier", "flat", "hier_minus_flat", "end_to_end") if x in s[k]}
+                  for k in {**V.RETRIEVAL_NAMES, **V.RETRIEVAL_COST} if k in s}, "ceilings": s["ceilings"]}
            for t, s in m["retrieval"]["summary"].items()}
     last = info["snapshots"][str(cs[-1])]["levels"]
     return {"protocol": {"coherence": {"R": m["coherence"]["R"], "R_labels": m["coherence"]["R_labels"]},

@@ -39,7 +39,7 @@ stability:       ## perturbation (10% of hyper-edges, 5 seeds) and cross-snapsho
 faithfulness:    ## label faithfulness: held-out NLI judge on every L0-L1 label (LLM answers replay from the cache)
 	$(PYTHON) -m eval faithfulness --run $(OUT)
 
-retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate, error rate, steps-to-target (offline, seconds)
+retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate, error rate, inspection, computation (offline, seconds)
 	$(PYTHON) -m eval retrieval --run $(OUT)
 
 tables:          ## every table of docs/report.md and docs/alpha_sweep.md from $(OUT)/metrics.json only (no recomputation; claims checked)

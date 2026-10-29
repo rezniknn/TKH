@@ -9,8 +9,8 @@
                                                    (--relabel/--prompts/--cutoffs/--levels: DIR/faithfulness_dev.json)
   retrieval  --run DIR [--beam 10 20 40] [--k 10]  T6 extrinsic utility: drill-down retrieval agent vs flat search on
                                                    data/questions.csv, scored with data/ground_truth.json (hit-rate,
-                                                   error rate, steps-to-target) -> "retrieval"; answers and resolved
-                                                   gold -> DIR/retrieval_answers.json
+                                                   error rate, items inspected, candidates scored) -> "retrieval";
+                                                   answers and resolved gold -> DIR/retrieval_answers.json
   gamma      [--out DIR] [--param k=v ...]         temporal-prior variants gamma = 0 ... 1: stability and coherence
                                                    per variant, paired differences to gamma = 0 -> DIR/gamma.json
   sweep      [--out DIR] [--alphas ...] [--summarise-only]

@@ -13,7 +13,8 @@ pipeline or an LLM): python -m eval.figures --run out --out docs/figures; alpha_
   faithfulness.png                  over-claim rate (share of labels with >= 1 claim unsupported by held-out
                                     evidence) with its bootstrap interval by cutoff and level, and overall
   retrieval.png                     drill-down vs flat search per question type: (a) rates (hit-rates, error rate,
-                                    reach; means, no CIs); (b) median steps to the first item and to 50% of items
+                                    reach; means, no CIs); (b) median items inspected to the first item and to
+                                    50% of items (reader's effort); (c) median candidates scored (computation)
   alpha_sweep.png                   per alpha: (a) last-snapshot lift per level (exact, interval scheme) with its
                                     bootstrap CI; (b) perturbation HARI per snapshot (t-interval); (c) over-claim rate,
                                     overall and per level (bootstrap CI); (d) retrieval hit-rates, drill-down minus flat
@@ -241,11 +242,13 @@ def retrieval(ret, out):
     s = ret["summary"]
     rates = [(t, k) for t in sorted(s) for k in ("methods", "method_claims", "claims", "citations", "error_rate", "reached")
              if k in s[t]]
-    steps = [(t, k) for t in sorted(s) for k in ("steps_first", "steps_half") if k in s[t]]
-    name = {"methods": "methods", "method_claims": "method claims", "claims": "claims", "citations": "citations",
-            "error_rate": "error rate", "reached": "reach", "steps_first": "first item", "steps_half": "50% of items"}
-    fig, (a, b) = plt.subplots(1, 2, figsize=(10, 3.4), width_ratios=[1.8, 1])
-    for ax, items in ((a, rates), (b, steps)):
+    inspect = [(t, k) for t in sorted(s) for k in ("inspect_first", "inspect_half") if k in s[t]]
+    scored = [(t, "scored") for t in sorted(s) if "scored" in s[t]]
+    name = {"methods": "methods", "method_claims": "method claims\n(by source)", "claims": "claims\n(by source)",
+            "citations": "citations", "error_rate": "error rate", "reached": "reach", "inspect_first": "first item",
+            "inspect_half": "50% of items", "scored": "candidates"}
+    fig, (a, b, c) = plt.subplots(1, 3, figsize=(12, 3.6), width_ratios=[1.8, 1, 0.6])
+    for ax, items in ((a, rates), (b, inspect), (c, scored)):
         x = np.arange(len(items))
         for j, (sysname, key, col) in enumerate([("drill-down", "hier", LEVEL[0]), ("flat", "flat", CFG)]):
             ax.bar(x + (j - 0.5) * 0.38, [s[t][k][key] for t, k in items], width=0.38, color=col, label=sysname)
@@ -253,10 +256,13 @@ def retrieval(ret, out):
         ax.legend(frameon=False)
     a.set_ylim(0, 1.05)
     a.set_ylabel("mean over questions (error rate: lower is better)")
-    a.set_title("(a) rates per question type (point estimates, no CIs)")
-    b.set_yscale("log")
-    b.set_ylabel("median steps (log scale; lower is better)")
-    b.set_title("(b) search effort")
+    a.set_title("(a) rates, attainable items (point estimates, no CIs)")
+    for ax in (b, c):
+        ax.set_yscale("log")
+    b.set_ylabel("median items inspected (log; lower is better)")
+    b.set_title("(b) reader's effort")
+    c.set_ylabel("median candidates scored (log)")
+    c.set_title("(c) computation")
     fig.tight_layout()
     fig.savefig(out / "retrieval.png")
     plt.close(fig)
@@ -298,7 +304,7 @@ def alpha_sweep(sw, out):
     meas = [("A", "methods"), ("A", "method_claims"), ("A", "citations"), ("B", "claims"), ("B", "citations")]
     for j, (t, k) in enumerate(meas):
         y = [var[al_]["retrieval"]["summary"][t][k]["hier_minus_flat"] for al_ in al]
-        d.plot(x, y, marker="o", ms=4, lw=1, color=plt.cm.tab10(j), label=f"{t}: {k.replace('_', ' ')}")
+        d.plot(x, y, marker="o", ms=4, lw=1, color=plt.cm.tab10(j), label=f"{t}: {k.replace('_', ' ')}" + (" (by source)" if "claims" in k else ""))
     d.axhline(0, color="0.5", lw=0.8, ls=":")
     d.set_title("(d) retrieval hit-rate, drill-down − flat")
     d.set_ylabel("paired difference (point estimate)")

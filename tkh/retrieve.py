@@ -15,6 +15,8 @@ Agent(tkh, run_dir, cutoffs).answer(question, qtype, mode="hier" | "flat") -> an
                Beam search keeps the best BEAM[k] super-nodes per level (10 / 20 / 40) among the children of the
                previous level's kept nodes; the leaves of the kept L2 nodes of the answer kinds form the pool, ranked
                by s(q, leaf). The trace records every super-node scored and which were kept.
+               Effort: n_supernodes_scored and n_leaves_scored (computation), n_labels_shown (labelled super-nodes a
+               reader sees).
   5. flat      the same scorer and answer kinds over every leaf of the snapshot.
   6. answer    the ground-truth format with K items, plus the node and article ids it was read from:
                A: expected_methods (distinct names), method_claims / method_evidence per method (up to 3 graph claims
@@ -250,7 +252,8 @@ class Agent:
         ranked, trace = descend(ix, q, KINDS[qtype], self.beam) if mode == "hier" else flat(ix, q, KINDS[qtype])
         out = extract(ix.F, qtype, ranked, f"{year or c}", self.k)
         out.update(snapshot=c, snapshot_source=source, ranked=[v for v, _ in ranked], trace=trace,
-                   n_supernodes_scored=len(trace),
+                   n_supernodes_scored=len(trace), n_labels_shown=sum(bool(t["label"]) for t in trace),
+                   n_leaves_scored=len(ranked),
                    closest={lv: next((t["id"], t["label"], t["score"]) for t in trace if t["level"] == lv)
                             for lv in sorted({t["level"] for t in trace})})
         if ranked:

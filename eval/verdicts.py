@@ -7,6 +7,8 @@ eval/sweep.py (the alpha_sweep section), so that both apply one definition.
              significant under the primary scheme (k/5 schemes), not significant, not evaluable (one interval-scheme
              stratum) or undefined (no co-assigned evaluable pair)
   favoured   which system a drill-down - flat difference favours (point estimate; LOWER_BETTER measures reversed)
+  favour_counts  measures of RETRIEVAL_NAMES favouring each system: a descriptive summary of correlated point
+             estimates, not independent votes; RETRIEVAL_COST (computation) is excluded
 """
 
 import hashlib
@@ -14,10 +16,13 @@ import json
 
 ALPHA = 0.05          # significance level of the null tests
 SCHEMES = ("interval", "year1", "year2", "year3", "gap")
-RETRIEVAL_NAMES = {"methods": "hit-rate, methods", "method_claims": "hit-rate, method claims", "claims": "hit-rate, claims",
-                   "citations": "hit-rate, citations", "error_rate": "error rate", "reached": "reach",
-                   "steps_first": "steps to first item (median)", "steps_half": "steps to 50% of items (median)"}
-LOWER_BETTER = frozenset({"error_rate", "steps_first", "steps_half"})
+RETRIEVAL_NAMES = {"methods": "hit-rate, methods", "method_claims": "hit-rate, method claims, by source article",
+                   "claims": "hit-rate, claims, by source article", "citations": "hit-rate, citations",
+                   "error_rate": "error rate", "reached": "reach",
+                   "inspect_first": "items inspected to first item (median)",
+                   "inspect_half": "items inspected to 50% of items (median)"}
+RETRIEVAL_COST = {"scored": "candidates scored (median; computation, not counted)"}   # shown, never in favour_counts
+LOWER_BETTER = frozenset({"error_rate", "inspect_first", "inspect_half", "scored"})
 
 
 def ok(b):
