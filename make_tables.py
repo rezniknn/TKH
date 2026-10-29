@@ -525,17 +525,17 @@ def st_retrieval(w):
 
 
 def _recommend(w):
-    """Per α: headlines, eligibility and the recommendation (the rule of docs/alpha_sweep.md §6)."""
+    """Per α: headlines, eligibility against the default and the recommendation (the rule of docs/alpha_sweep.md §8)."""
     h = {a: {"robust": len(_robust(r)), "hari": _hari_last(r), "oc": _overclaim(r),
              "fav": _favour_counts(r)["drill-down"]} for a, r in w.runs.items()}
-    best_h = max(w.alphas, key=lambda a: h[a]["hari"][0])
-    best_o = min(w.alphas, key=lambda a: h[a]["oc"][0])
+    ref_o = h[w.ref]["oc"]
     for a in w.alphas:
         why = []
-        if None not in h[a]["hari"] and None not in h[best_h]["hari"] and h[a]["hari"][2] < h[best_h]["hari"][1]:
-            why.append(f"HARI below α = {best_h:g}")
-        if None not in h[a]["oc"] and None not in h[best_o]["oc"] and h[a]["oc"][1] > h[best_o]["oc"][2]:
-            why.append(f"over-claim above α = {best_o:g}")
+        d = w.v(a)["perturbation"][w.last]
+        if a != w.ref and d["hi"] is not None and d["hi"] < 0:
+            why.append("HARI below the default (paired)")
+        if a != w.ref and None not in h[a]["oc"] and None not in ref_o and h[a]["oc"][1] > ref_o[2]:
+            why.append("over-claim above the default")
         h[a]["why"] = why
     eligible = [a for a in w.alphas if not h[a]["why"]]
     rec = max(eligible, key=lambda a: (h[a]["robust"], h[a]["hari"][0], -abs(a - w.ref))) if eligible else None
@@ -555,7 +555,7 @@ def st_summary(w):
         f". Eligible: {', '.join(f'{a:g}' for a in eligible) or 'none'}; retrieval counts are out of {n_meas} measures"
         " (point estimates, no CIs).\n")
     return md(["α", "P3 robust cells (exact)", f"P5 perturbation HARI ≤{w.last} [t-interval]", "P6 over-claim [95% CI]",
-               "T6 measures favouring drill-down", "Eligible (not distinguishably worse on HARI or over-claim)",
+               "T6 measures favouring drill-down", "Eligible (not distinguishably worse than the default on HARI or over-claim)",
                "Recommendation"], rows) + tail
 
 

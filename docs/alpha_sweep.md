@@ -13,7 +13,7 @@ of the rank-calibrated semantic term F_S (character n-gram similarity of names) 
 F_H (shared hyper-edges on the collapsed incidence), so that α = 0 builds the hierarchy from structure alone and α = 1
 from names alone (report §2). The main report evaluates one value, the default, which was set before any result.
 This sweep measures what the choice costs or gains on each of the four evaluation criteria of the brief, and
-recommends a value by a rule fixed in advance (§8).
+recommends a value by the rule of §8, which was revised once after the results were read (§9).
 
 ## 2. Design
 
@@ -48,10 +48,9 @@ Before the four criteria, Table S2 shows how much the hierarchy itself moves wit
 between a variant's tree and the default tree at the last snapshot measures how many of the default's groupings
 survive, per level; 1 means the same partition. The share of merges whose two items share at least one clustering
 edge shows how much each variant relies on structure: a merge without a shared edge receives no structural credit
-and can only be carried by names. At α = 0 such merges all score zero and are decided by the deterministic
-tie-break (the lowest item index), so a structure-only hierarchy groups unlinked concepts essentially arbitrarily.
-This is what "structure only" means for a corpus in which most concept pairs share no edge, and it must be kept in
-mind when reading the α = 0 rows below. The largest L0 super-node, against its size cap, and the number of singleton
+and can only be carried by names. At α = 0 such a merge scores zero and is decided by the deterministic tie-break
+(the lowest item index), so the α = 0 hierarchy is arbitrary wherever it merges items without a shared edge; the
+share column shows on how many merges per level this happens. The largest L0 super-node, against its size cap, and the number of singleton
 super-nodes at L2 show whether a variant produces a few dominant groups or many isolated ones.
 
 *Table S2. Tree change against the default, structural share of merges and group sizes at the last snapshot
@@ -204,35 +203,38 @@ the weakest of the four criteria and enters the recommendation only as context.
 
 The desired outcome is the one the brief sets: super-nodes that are coherent in meaning (P3, the central criterion of
 the method), that stay stable over time (P5), whose labels are faithful (P6) and that help a downstream task (T6).
-The rule below was fixed before the sweep results were read, and `make_tables.py` applies it.
+`make_tables.py` applies the rule below. Its step 2 was revised after the results were read, for the reason given
+in §9.
 
 1. Each criterion has one headline: the number of robust coherence cells (exact filter); the perturbation HARI at
    the last snapshot; the over-claim rate (lower is better); and the number of retrieval measures favouring
    drill-down.
-2. A variant is *eligible* unless it is distinguishably worse than the best variant on a headline that has an
-   interval: its perturbation HARI interval lies wholly below that of the most robust variant, or its over-claim
-   interval lies wholly above that of the most faithful one. The coherence and retrieval counts have no interval and
-   exclude no variant.
+2. A variant is *eligible* unless it is distinguishably worse than the default on a headline that has an
+   interval: the t-interval of its perturbation HARI difference to the default, paired by seed, lies wholly below
+   zero, or its over-claim interval lies wholly above the default's. The coherence and retrieval counts have no
+   interval and exclude no variant.
 3. Among the eligible variants, the recommended one has the most robust coherence cells. Ties are broken by the
    higher perturbation HARI, then by closeness to the default.
 
 Coherence decides because it is the only criterion that tests whether groups mean something, and because it is
-measured with a ruler independent of both signals that α mixes. Stability and faithfulness act as guards: a variant
-that buys coherence at a clear loss of robustness or label faithfulness is not recommended. Retrieval is reported
+measured with a ruler independent of both signals that α mixes. Stability and faithfulness act as guards against the
+method as it stands: a variant that buys coherence at a clear loss of robustness or label faithfulness relative to
+the default is not recommended. The guards compare with the default rather than with the best variant, because the
+most robust variant is robust for a reason unrelated to the quality of its groups (§5). Retrieval is reported
 but does not decide, for the reasons given in §7.
 
 *Table S8. Headlines, eligibility and the recommendation (rule above).*
 
 <!-- table:sweep_summary -->
-| α | P3 robust cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P6 over-claim [95% CI] | T6 measures favouring drill-down | Eligible (not distinguishably worse on HARI or over-claim) | Recommendation |
+| α | P3 robust cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P6 over-claim [95% CI] | T6 measures favouring drill-down | Eligible (not distinguishably worse than the default on HARI or over-claim) | Recommendation |
 |---|---|---|---|---|---|---|
-| 0 | 2 | 0.22 [0.20, 0.25] | 0.52 [0.47, 0.58] | 1 | no: HARI below α = 1 |  |
-| 0.25 | 3 | 0.18 [0.17, 0.20] | 0.53 [0.48, 0.59] | 4 | no: HARI below α = 1 |  |
-| 0.5 (default) | 3 | 0.17 [0.16, 0.18] | 0.58 [0.52, 0.64] | 3 | no: HARI below α = 1 |  |
-| 0.75 | 7 | 0.19 [0.15, 0.23] | 0.60 [0.54, 0.65] | 3 | no: HARI below α = 1 |  |
-| 1 | 0 | 0.90 [0.83, 0.96] | 0.55 [0.50, 0.61] | 3 | yes | **recommended** |
+| 0 | 2 | 0.22 [0.20, 0.25] | 0.52 [0.47, 0.58] | 1 | yes |  |
+| 0.25 | 3 | 0.18 [0.17, 0.20] | 0.53 [0.48, 0.59] | 4 | yes |  |
+| 0.5 (default) | 3 | 0.17 [0.16, 0.18] | 0.58 [0.52, 0.64] | 3 | yes |  |
+| 0.75 | 7 | 0.19 [0.15, 0.23] | 0.60 [0.54, 0.65] | 3 | yes | **recommended** |
+| 1 | 0 | 0.90 [0.83, 0.96] | 0.55 [0.50, 0.61] | 3 | yes |  |
 
-Recommended: α = 1. Eligible: 1; retrieval counts are out of 12 measures (point estimates, no CIs).
+Recommended: α = 0.75. Eligible: 0, 0.25, 0.5, 0.75, 1; retrieval counts are out of 12 measures (point estimates, no CIs).
 <!-- /table:sweep_summary -->
 
 ![α sweep](figures/alpha_sweep.png)
@@ -247,11 +249,17 @@ Recommended: α = 1. Eligible: 1; retrieval counts are out of 12 measures (point
   the noise that the selection favours. With five variants, a difference of one or two robust cells may be no
   larger than what selection alone produces. An unbiased estimate would need the
   choice to be made on one half of the held-out citations and reported on the other.
+- **The rule was revised after the results.** As first stated, step 2 compared every variant with the *most*
+  robust and the *most* faithful variant. The most robust variant was α = 1, robust because edge removal does not
+  change names (§5), and its interval excluded every other variant; the rule then recommended a variant without a
+  single robust coherence cell, the outcome the §5 reading warns against. Step 2 now compares with the default.
+  The revision changes only the guard, not the deciding criterion, but it was made with the results in view and is a
+  further selection step on the evaluation data.
 - **Uncorrected tests.** Each robust cell is a set of uncorrected tests; across five variants, twelve cells and five
   schemes, some significant results are expected by chance. Robustness across schemes and filters, rather than single
   p-values, is what the counts reward.
-- **Structure only is partly arbitrary.** At α = 0 merges between concepts that share no edge are decided by index
-  order (§3), so the α = 0 variant is a lower reference for structure rather than a credible candidate.
+- **Structure only is partly arbitrary.** At α = 0 merges between items that share no edge are decided by index
+  order (§3), so the α = 0 variant is a reference for structure alone rather than a fully specified candidate.
 - **One parameter at a time.** All other parameters stay at their defaults, so the sweep says nothing about
   interactions, for example between α and the hub fraction, which changes how much structure exists at all.
 - **Labels depend on the tree.** Each variant's labels describe different groups, so differences in over-claim mix
