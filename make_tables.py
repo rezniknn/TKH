@@ -557,6 +557,38 @@ def t_alpha_sweep(r):
 TABLES["alpha_sweep"] = t_alpha_sweep
 
 
+def _paired_rows(w, rec):
+    """Trade-off row: every paired HARI difference to the reference (perturbation per snapshot, cross-snapshot per
+    transition) whose interval excludes 0."""
+    v = w.v(rec)
+    ds = [(f"≤{c} (perturbation)", d["lo"], d["hi"]) for c, d in v["perturbation"].items()]
+    ds += [(f"{tr.replace('-', '→')} (cross-snapshot)", *d["ci95"]) for tr, d in v["cross_snapshot"].items()]
+    ds = [x for x in ds if x[1] is not None and x[2] is not None]
+    below, above = [n for n, lo, hi in ds if hi < 0], [n for n, lo, hi in ds if lo > 0]
+    verdict = "; ".join(s for s in (f"worse at {', '.join(below)}" if below else "",
+                                    f"better at {', '.join(above)}" if above else "") if s) or "no distinguishable difference"
+    return ["P5 paired HARI differences, every snapshot and transition", f"{len(below)} below 0, {len(above)} above 0",
+            "—", f"of {len(ds)} paired intervals", "—", verdict]
+
+
+def _retrieval_change(w, rec):
+    """Trade-off row: drill-down measures of the recommended α against those of the reference (point estimates)."""
+    a, b = w.runs[rec].m["retrieval"]["summary"], w.runs[w.ref].m["retrieval"]["summary"]
+    better, worse, same = [], [], 0
+    for typ, s in a.items():
+        for k, name in RETRIEVAL_NAMES.items():
+            if k in s and k in b[typ] and None not in (s[k]["hier"], b[typ][k]["hier"]):
+                d = s[k]["hier"] - b[typ][k]["hier"]
+                d = -d if k in LOWER_BETTER else d
+                if d == 0:
+                    same += 1
+                else:
+                    (better if d > 0 else worse).append(f"{typ} {name}")
+    return ["T6 drill-down measures against the pre-sweep default (point estimates)",
+            f"{len(better)} better / {same} same / {len(worse)} worse", "—", "—", "—",
+            f"worse: {'; '.join(worse) or 'none'}. Better: {'; '.join(better) or 'none'}"]
+
+
 def t_alpha_tradeoffs(r):
     """Report table: per headline, the recommended α against the pre-sweep default and the best variant on that headline."""
     w = Sweep(r.dir / "sweep")
@@ -587,11 +619,13 @@ def t_alpha_tradeoffs(r):
             [f"P5 perturbation HARI ≤{w.last}", ci(*h[rec]["hari"]), ci(*h[ref]["hari"]),
              "—" if rec == ref else ci(pd["mean"], pd["lo"], pd["hi"]) + " (paired by seed)",
              best({a: h[a]["hari"][0] for a in w.alphas}), hv],
+            _paired_rows(w, rec),
             count("P5 cross-snapshot indices above the new-paper null", lambda x: _above_null(x)[0]),
             count("P5 localised level × transition cells", lambda x: _localised(x)[0]),
             ["P6 over-claim rate", ci(*oR), ci(*oD), f"{oR[0] - oD[0]:+.3f} (unpaired)",
              best({a: h[a]["oc"][0] for a in w.alphas}, low=True), ov],
-            count("T6 retrieval measures favouring drill-down", lambda x: _favour_counts(x)["drill-down"])]
+            count("T6 retrieval measures favouring drill-down", lambda x: _favour_counts(x)["drill-down"]),
+            _retrieval_change(w, rec)]
     return md(["Headline", f"Recommended, α = {_a(rec, w)}", f"Pre-sweep default, α = {ref:g}", "Difference",
                "Best variant on this headline", "Recommended against the pre-sweep default"], rows)
 

@@ -75,7 +75,7 @@ super-nodes at L2 show whether a variant produces a few dominant groups or many 
 
 ## 4. Coherence
 
-Coherence is measured exactly as in report §5.1: the period-adjusted lift of bibliographic coupling between
+Coherence is measured exactly as in report §5.1.1: the period-adjusted lift of bibliographic coupling between
 concept-disjoint papers whose concepts a level co-assigns, with the residual name filter, tested against the
 configuration null and random labels under five period schemes. After the residual name filter the held-out ruler
 shares no direct input with either term of the merge score, so it can compare α = 0, intermediate values and α = 1
@@ -121,14 +121,14 @@ n.e.: not evaluable, one interval-scheme stratum; —: undefined, no co-assigned
 <!-- /table:sweep_coherence_grid -->
 
 The cell counts weigh every snapshot and level equally, although the held-out evidence grows with the corpus (report
-Table 3), so cells of the last snapshots are better powered. The recommendation (§8) decides on the exact-filter
+Table 5), so cells of the last snapshots are better powered. The recommendation (§8) decides on the exact-filter
 count; Table S4 shows where a difference in counts comes from. Compared with the default, a cell that becomes robust
 from any other state is a gain, a robust cell that becomes anything else is a loss, and a cell that falls below both
 nulls is a loss even where neither variant is robust there.
 
 ## 5. Stability
 
-Stability is measured as in report §5.2. Perturbation robustness rebuilds the whole chain after removing a fraction
+Stability is measured as in report §5.1.2. Perturbation robustness rebuilds the whole chain after removing a fraction
 of the hyper-edges and compares each perturbed snapshot with the unperturbed one by HARI, the level-pooled ARI;
 because the removed edges are the same for every variant, the per-seed differences to the default are paired, and
 their t-interval is reported. Cross-snapshot agreement is tested against the new-paper null, and Table S5 counts the
@@ -158,7 +158,7 @@ still depends on the edges.
 
 ## 6. Label faithfulness
 
-Labels and glosses are generated and judged as in report §5.3: the labeller sees one half of each super-node's
+Labels and glosses are generated and judged as in report §5.1.3: the labeller sees one half of each super-node's
 evidence, and a judge of another model family checks the atomic claims of label and gloss against the held-out half.
 Every variant has its own super-nodes and therefore its own labels and its own evidence; the labeller, the judge,
 the prompts and the splitting procedure (seeded, stratified by evidence kind) are the same, so the comparison is not
@@ -184,7 +184,7 @@ the variants with one another, not with an absolute standard.
 
 ## 7. Retrieval
 
-The drill-down agent and the flat baseline are those of report §5.4, with the same questions, scorer, beam and answer
+The drill-down agent and the flat baseline are those of report §5.1.4, with the same questions, scorer, beam and answer
 length. Flat search does not use the hierarchy, so its results are identical for every variant, which Table S7
 asserts; only the drill-down columns change. A tick marks a measure on which drill-down beats flat search for that
 variant, and the last row counts the measures favouring drill-down, flat search and neither.

@@ -1670,6 +1670,40 @@ accepted or changed, and what was checked.
     integration section of `docs/alpha_sweep.md`.
 - **Verified:** `make_tables.py --check` passes for both reports; `make test` passes (65).
 
+### 51. α = 0.75 as the default; report §5 restructured around the sweep (Claude Code)
+
+- **Task/module:** `configs/default.toml`, `out/`, `eval/sweep.py`, `eval/__main__.py`, `make_tables.py`,
+  `eval/figures.py`, `docs/report.md` §5, `docs/alpha_sweep.md`, READMEs
+- **Prompt:** make α = 0.75 the default, since it won the sweep, and show its metrics in the per-metric tables.
+  Restructure §5 as: metric definitions in prose, then a comparison table of the α variants that highlights α = 0.75
+  and explains the recommendation to ship it with its trade-offs, then a detailed evaluation of α = 0.75 on each
+  metric with tables and figures.
+- **What the assistant did:**
+  - Set `alpha = 0.75` in `configs/default.toml` and filled `out/` from `out/sweep/0.75/` without rerunning. Only
+    the paths in `run_config.toml` were rewritten.
+  - Fixed the sweep reference at the pre-sweep default (`REFERENCE = 0.5`). Tables label 0.5 "pre-sweep default" and
+    0.75 "default".
+  - Added the generated Table 4 (`alpha_tradeoffs`). It sets the recommended variant against the pre-sweep default
+    and against the best variant on each headline, with computed verdicts, every paired HARI difference that
+    excludes zero, and the drill-down measures that got better or worse.
+  - Added `retrieval.png` and used the existing `faithfulness.png`.
+  - Rewrote §5 as 5.1 Metrics, 5.2 Choosing α (Tables 3–4, Figure 1), 5.3 the α = 0.75 evaluation (Tables 5–11,
+    Figures 2–6) and 5.4 Summary (Table 12), and renumbered every reference.
+- **Verified:**
+  - a fresh build from the new config reproduces `out/` byte for byte;
+  - `sweep.json` regenerates byte-identical with the fixed reference;
+  - `validate.py`, `make_tables.py --check` for both reports, and `make test` (65) pass.
+- **Adversarial review (24 agents):** confirmed and fixed the following.
+  - The stability claim held only at the last snapshot: α = 0.75 is distinguishably less robust at ≤2020 and agrees
+    less across 2022→2024. Table 4 now lists every paired difference that excludes zero, and the text states the
+    loss.
+  - The retrieval bullet hid lower type-A reach. Table 4 now lists the measures that are worse.
+  - Other fixes:
+    - the claim "all comparisons paired" was narrowed to stability;
+    - the "only criterion with a held-out signal" justification was corrected;
+    - a verdict stated in prose in §5.3.1 was replaced with a pointer to the tables;
+    - stale section and table references in §6 and in `docs/alpha_sweep.md` were fixed.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
