@@ -9,7 +9,7 @@ cutoffs = [2020, 2022, 2024, 2026]
 budgets = [15, 60, 240]
 
 [method]
-alpha = 0.5
+alpha = 0.75
 gamma = 0.5
 rho = 2.0
 edge_weight = "relation_balanced"

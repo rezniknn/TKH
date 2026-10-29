@@ -12,6 +12,8 @@ alpha-sweep figure, read from DIR/<alpha>/metrics.json.
                                     their ratio with its node-bootstrap interval, per transition and level
   faithfulness.png                  over-claim rate (share of labels with >= 1 claim unsupported by held-out
                                     evidence) with its bootstrap interval by cutoff and level, and overall
+  retrieval.png                     drill-down vs flat search per question type: (a) rates (hit-rates, error rate,
+                                    reach; means, no CIs); (b) median steps to the first item and to 50% of items
   alpha_sweep.png                   per alpha: (a) last-snapshot lift per level (exact, interval scheme) with its
                                     bootstrap CI; (b) perturbation HARI per snapshot (t-interval); (c) over-claim rate,
                                     overall and per level (bootstrap CI); (d) retrieval hit-rates, drill-down minus flat
@@ -233,6 +235,33 @@ def faithfulness(f, out):
     plt.close(fig)
 
 
+# ---------------------------------------------------------------- retrieval
+
+def retrieval(ret, out):
+    s = ret["summary"]
+    rates = [(t, k) for t in sorted(s) for k in ("methods", "method_claims", "claims", "citations", "error_rate", "reached")
+             if k in s[t]]
+    steps = [(t, k) for t in sorted(s) for k in ("steps_first", "steps_half") if k in s[t]]
+    name = {"methods": "methods", "method_claims": "method claims", "claims": "claims", "citations": "citations",
+            "error_rate": "error rate", "reached": "reach", "steps_first": "first item", "steps_half": "50% of items"}
+    fig, (a, b) = plt.subplots(1, 2, figsize=(10, 3.4), width_ratios=[1.8, 1])
+    for ax, items in ((a, rates), (b, steps)):
+        x = np.arange(len(items))
+        for j, (sysname, key, col) in enumerate([("drill-down", "hier", LEVEL[0]), ("flat", "flat", CFG)]):
+            ax.bar(x + (j - 0.5) * 0.38, [s[t][k][key] for t, k in items], width=0.38, color=col, label=sysname)
+        ax.set_xticks(x, [f"{t}: {name[k]}" + (f"\n(n={s[t][k]['n']})") for t, k in items], rotation=30, ha="right")
+        ax.legend(frameon=False)
+    a.set_ylim(0, 1.05)
+    a.set_ylabel("mean over questions (error rate: lower is better)")
+    a.set_title("(a) rates per question type (point estimates, no CIs)")
+    b.set_yscale("log")
+    b.set_ylabel("median steps (log scale; lower is better)")
+    b.set_title("(b) search effort")
+    fig.tight_layout()
+    fig.savefig(out / "retrieval.png")
+    plt.close(fig)
+
+
 # ---------------------------------------------------------------- alpha sweep
 
 def alpha_sweep(sweep_dir, out):
@@ -299,6 +328,7 @@ def main(argv=None):
     stability(m["stability"], a.out)
     localisation(m["stability"], a.out)
     faithfulness(m["faithfulness"], a.out)
+    retrieval(m["retrieval"], a.out)
     print("figures ->", a.out)
 
 

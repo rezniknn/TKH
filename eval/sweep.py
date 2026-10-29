@@ -9,7 +9,8 @@ run_config.toml, exactly as `python -m eval <check>` does:
   retrieval     eval/retrieval.retrieval_check
 -> out_dir/<α>/metrics.json (the layout of out/metrics.json), faithfulness_judgements.json, retrieval_answers.json.
 
-summarise(out_dir, alphas, ref) -> out_dir/sweep.json: the runs and, against the reference α (the default), the
+summarise(out_dir, alphas, ref) -> out_dir/sweep.json: the runs and, against the reference α (REFERENCE, the default
+before the sweep), the
 comparisons that need the trees rather than metrics.json:
   tree_ari          ARI per snapshot and level between the α tree and the reference tree (concept nodes)
   perturbation      HARI difference per snapshot, paired by seed (the same removed edges): mean and t-interval
@@ -34,6 +35,7 @@ from tkh.io import load, snapshot
 from tkh.pipeline import run
 
 ALPHAS = (0.0, 0.25, 0.5, 0.75, 1.0)
+REFERENCE = 0.5   # the configured default before the sweep: the reference of the paired comparisons and the rule
 QUESTIONS, GT = REPO_ROOT / "data" / "questions.csv", REPO_ROOT / "data" / "ground_truth.json"
 
 
@@ -60,10 +62,10 @@ def sweep(cfg, base, alphas=ALPHAS, out_dir=None, n_jobs=8):
     for a in alphas:
         run_alpha(cfg, base, a, out_dir, n_jobs=n_jobs)
         print(f"alpha {a:g} -> {_dir(out_dir, a)}", flush=True)
-    return summarise(cfg, out_dir, alphas, base.alpha)
+    return summarise(cfg, out_dir, alphas)
 
 
-def summarise(cfg, out_dir, alphas=ALPHAS, ref=0.5, n_sub=200):
+def summarise(cfg, out_dir, alphas=ALPHAS, ref=REFERENCE, n_sub=200):
     out_dir, alphas = Path(out_dir), sorted(alphas)
     tkh = load(cfg)
     cs = sorted(cfg.cutoffs)

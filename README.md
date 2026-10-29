@@ -150,4 +150,5 @@ make sweep                                   # alpha = 0 ... 1, rest at defaults
 ```
 
 Parameters (`alpha`, `gamma`, `rho`, `edge_weight`, `hub_frac`, `lsa_dim`) live in `[method]` of
-the config; unknown keys are an error. Labels are placeholders until a labeller is added.
+the config; unknown keys are an error. The default `alpha = 0.75` was chosen by the α sweep (`make sweep`, `docs/alpha_sweep.md`);
+the other defaults are stated priors. Labels are placeholders until a labeller is added.

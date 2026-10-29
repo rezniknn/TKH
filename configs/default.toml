@@ -12,7 +12,7 @@ cutoffs = [2020, 2022, 2024, 2026]               # cumulative snapshots: content
 budgets = [15, 60, 240]                          # P2 hard limits: max super-nodes at level 0, 1, 2 (N_0 ~ 10-15)
 
 [method]                                         # SHAC parameters (tkh/hierarchy.py Params; unknown keys are an error)
-alpha = 0.5                                      # weight of the semantic rank; 0 = structure only, 1 = semantics only
+alpha = 0.75                                     # weight of the semantic rank; 0 = structure only, 1 = semantics only; chosen by the alpha sweep (docs/alpha_sweep.md)
 gamma = 0.5                                      # weight of the localised temporal prior; 0 = independent snapshots
 rho = 2.0                                        # size cap: a level-k super-node holds <= rho * n / N_k concept nodes (>= 2, or "inf")
 edge_weight = "relation_balanced"                # "inverse_size" (1/(|e|-1)) or "relation_balanced" (equal total weight per relation)

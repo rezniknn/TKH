@@ -57,10 +57,11 @@ def t_properties(r):
     rows = [["P1 laminarity, P2 budgets", "by construction (merge-only levels; budget lemma)", "`validate.py` on every run"],
             ["P4 hyper-edge fidelity", "by construction (score on the collapsed incidence; multi-way edges kept whole)", "§4"],
             ["No future information (structure, membership)", "by construction (snapshot-only edges, hubs, LSA, anchors)", "`validate.py` member cutoffs"],
-            ["P3 semantic coherence", "empirical", "Tables 3–4, Fig. 1"],
-            ["P5 temporal stability", "by construction (prior, persistent ids); size empirical", "Tables 5–7, Figs. 2–3"],
-            ["P6 faithful labels", "empirical", "Table 8"],
-            ["T6 extrinsic utility", "empirical", "Table 9"]]
+            ["Structure–semantics trade-off (P3)", "empirical (α sweep; α chosen on these results)", "Tables 3–4, Fig. 1"],
+            ["P3 semantic coherence", "empirical", "Tables 5–6, Fig. 2"],
+            ["P5 temporal stability", "by construction (prior, persistent ids); size empirical", "Tables 7–9, Figs. 3–4"],
+            ["P6 faithful labels", "empirical", "Table 10, Fig. 5"],
+            ["T6 extrinsic utility", "empirical", "Table 11, Fig. 6"]]
     return md(["Property", "Status", "Evidence"], rows)
 
 
@@ -275,7 +276,7 @@ def _favour_counts(r):
 
 
 def t_findings(r):
-    """Headline verdicts, computed with the same rules as Tables 4-10."""
+    """Headline verdicts, computed with the same rules as Tables 6-11."""
     rob, rob_f = _robust(r), _robust(r, "fuzzy")
     below, below_f = _below_cells(r), _below_cells(r, "fuzzy")
     above, idx = _above_null(r)
@@ -289,27 +290,27 @@ def t_findings(r):
     else:
         oc_q = "majority of labels" if oc["ci95"][0] > 0.5 else ("minority of labels" if oc["ci95"][1] < 0.5 else "not distinguishable from one half")
     if len(lv) < 2:
-        lv_row = ["P6 over-claim by level", "one level only", "", "Table 8"]
+        lv_row = ["P6 over-claim by level", "one level only", "", "Table 10"]
     else:
         a, b = lv[0]["over_claim"]["ci95"], lv[-1]["over_claim"]["ci95"]
         sep = "not evaluable" if not (_ok(a) and _ok(b)) else ("CIs do not overlap" if a[1] < b[0] or b[1] < a[0] else "CIs overlap")
         lv_row = [f"P6 {lv_names[0]} vs {lv_names[-1]} over-claim",
-                  f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table 8"]
+                  f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table 10"]
     fav = _favour_counts(r)
     steps = [(t, s["steps_first"]) for t, s in r.m["retrieval"]["summary"].items() if "steps_first" in s]
     rows = [["P3 coherence beyond both nulls (robust: all schemes, exact filter)", ", ".join(rob) or "none",
-             f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table 4"],
+             f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table 6"],
             ["P3 cells below both nulls in every scheme (exact filter)", ", ".join(below) or "none",
-             f"fuzzy filter: {', '.join(below_f) or 'none'}", "Table 4"],
-            ["P5 cross-snapshot indices above the new-paper null", f"{above} of {len(idx)}", f"p ≤ {ALPHA}, uncorrected", "Table 6"],
-            ["P5 perturbation HARI, first → last snapshot", f"{f(pt[r.cutoffs[0]]['hari']['mean'])} → {f(pt[r.last]['hari']['mean'])}", "", "Table 5"],
+             f"fuzzy filter: {', '.join(below_f) or 'none'}", "Table 6"],
+            ["P5 cross-snapshot indices above the new-paper null", f"{above} of {len(idx)}", f"p ≤ {ALPHA}, uncorrected", "Table 8"],
+            ["P5 perturbation HARI, first → last snapshot", f"{f(pt[r.cutoffs[0]]['hari']['mean'])} → {f(pt[r.last]['hari']['mean'])}", "", "Table 7"],
             ["P5 localised level × transition cells (ratio CI > 1)", f"{nloc} of {len(loc)}",
-             "untouched share of reassignment " + _range_pct([_untouched_share(x) for x in loc]), "Table 7"],
-            ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table 8"],
+             "untouched share of reassignment " + _range_pct([_untouched_share(x) for x in loc]), "Table 9"],
+            ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table 10"],
             lv_row,
             ["T6 retrieval measures favouring drill-down / flat / tie", f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
-             "point estimates, no CIs", "Table 9"],
-            ["T6 median steps to first item, drill-down vs flat", "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)}" for t, x in steps) or "—", "", "Table 9"]]
+             "point estimates, no CIs", "Table 11"],
+            ["T6 median steps to first item, drill-down vs flat", "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)}" for t, x in steps) or "—", "", "Table 11"]]
     return md(["Finding", "Result", "Qualifier", "Source"], rows)
 
 
@@ -335,13 +336,17 @@ class Sweep:
         assert all(r.info["params"]["alpha"] == a for a, r in self.runs.items())
         self.fixed = fixed[self.ref]
         self.cutoffs, self.last = self.runs[self.ref].cutoffs, self.runs[self.ref].last
+        main = self.dir.parent / "run_info.json"   # the main run the sweep sits in: its α is the configured default
+        self.default = json.loads(main.read_text())["params"]["alpha"] if main.exists() else None
 
     def v(self, a):
         return self.s["variants"][f"{a:g}"]
 
 
-def _a(a, ref=None):
-    return f"{a:g}" + (" (default)" if a == ref else "")
+def _a(a, w=None):
+    """α with its role: the pre-sweep default (the reference of the paired comparisons) and the configured default."""
+    tags = [] if w is None else ["pre-sweep default"] * (a == w.ref) + ["default"] * (a == w.default != w.ref)
+    return f"{a:g}" + (f" ({', '.join(tags)})" if tags else "")
 
 
 def _hari_last(r):
@@ -370,14 +375,14 @@ def st_setup(w):
              ", ".join(sorted({f"{x.cfg['labels']['labeller_model']} / {x.cfg['labels']['judge_model']}; "
                                f"{'/'.join(map(str, x.m['retrieval']['config']['beam']))}, {x.m['retrieval']['config']['k']}"
                                for x in w.runs.values()}))],
-            ["Reference for paired comparisons", f"α = {w.ref:g} (the configured default)"],
+            ["Reference for paired comparisons", f"α = {w.ref:g} (the configured default before the sweep)"],
             ["Significance level of all null tests", f"{ALPHA}"]]
     main = w.dir.parent
-    if (main / "metrics.json").exists():
-        m = Run(main)
+    if (main / "metrics.json").exists() and w.default in w.runs:
+        m, r = Run(main), w.runs[w.default]
         same = [c for c in r.cutoffs if (r.dir / c / "hierarchy.json").read_bytes() == (main / c / "hierarchy.json").read_bytes()]
         secs = [k for k in r.m if r.m[k] == m.m.get(k)]
-        rows.append([f"Default variant against the main run ({main}/)",
+        rows.append([f"Variant α = {w.default:g} (the configured default) against the main run ({main}/)",
                      f"hierarchy.json identical at {len(same)} of {len(r.cutoffs)} snapshots; metrics.json sections "
                      f"identical: {', '.join(secs) or 'none'} of {len(r.m)}"])
     return md(["Setting", "Value"], rows)
@@ -388,10 +393,10 @@ def st_tree(w):
     for a in w.alphas:
         r, v = w.runs[a], w.v(a)
         lv = r.info["snapshots"][w.last]["levels"]
-        rows.append([_a(a, w.ref), " / ".join(f(x) for x in v["tree_ari"][w.last]),
+        rows.append([_a(a, w), " / ".join(f(x) for x in v["tree_ari"][w.last]),
                      " / ".join(f"{x['linked'] / x['merges']:.0%}" if x["merges"] else "—" for x in lv),
                      f"{lv[0]['max_size']} ({lv[0]['cap']:.1f})", lv[-1]["singletons"]])
-    return md(["α", f"ARI with the default tree at ≤{w.last}, L0 / L1 / L2", f"Merges sharing an edge at ≤{w.last}, L0 / L1 / L2",
+    return md(["α", f"ARI with the pre-sweep default tree at ≤{w.last}, L0 / L1 / L2", f"Merges sharing an edge at ≤{w.last}, L0 / L1 / L2",
                "Largest L0 super-node (cap)", "L2 singletons"], rows)
 
 
@@ -405,7 +410,7 @@ def st_coherence(w):
             iv = lv["exact"]["interval"]
             lifts.append(ci(iv["lift"], *iv["ci95"]) if iv["lift"] is not None else "—")
         n = sum(len(r.m["coherence"]["snapshots"][c]["levels"]) for c in r.cutoffs)
-        rows.append([_a(a, w.ref), f"{len(_robust(r))} / {len(_robust(r, 'fuzzy'))} of {n}",
+        rows.append([_a(a, w), f"{len(_robust(r))} / {len(_robust(r, 'fuzzy'))} of {n}",
                      f"{len(_below_cells(r))} / {len(_below_cells(r, 'fuzzy'))}", *lifts])
     return md(["α", "Robust cells (exact / fuzzy)", "Cells below both nulls (exact / fuzzy)",
                f"Lift L0 ≤{w.last} [95% CI]", "Lift L1", "Lift L2"], rows)
@@ -433,7 +438,7 @@ def st_coherence_grid(w):
                 snap = w.runs[a].m["coherence"]["snapshots"][c]
                 cells.append(_short(_verdict(snap["levels"][k]["exact"], snap["coverage"]["exact"]["period_strata"])))
             rows.append([f"≤{c}", f"L{k}", *cells])
-    return md(["Snapshot", "Level", *(f"α = {_a(a, w.ref)}" for a in w.alphas)], rows)
+    return md(["Snapshot", "Level", *(f"α = {_a(a, w)}" for a in w.alphas)], rows)
 
 
 def st_stability(w):
@@ -447,13 +452,13 @@ def st_stability(w):
         nloc, loc = _localised(r)
         last_tr = list(v["cross_snapshot"])[-1]
         cx = v["cross_snapshot"][last_tr]
-        rows.append([_a(a, w.ref), f(pt[w.cutoffs[0]]["hari"]["mean"]), ci(*_hari_last(r)), diff,
+        rows.append([_a(a, w), f(pt[w.cutoffs[0]]["hari"]["mean"]), ci(*_hari_last(r)), diff,
                      f"{above} of {len(idx)}", "—" if a == w.ref else ci(cx["mean"], *cx["ci95"]),
                      f"{nloc} of {len(loc)}", _range_pct([_untouched_share(x) for x in loc])])
     tr = list(w.v(w.ref)["cross_snapshot"])[-1].replace("-", "→")
     return md(["α", f"Perturbation HARI ≤{w.cutoffs[0]}", f"Perturbation HARI ≤{w.last} [t-interval]",
-               f"Paired difference to default, ≤{w.last}", f"Cross-snapshot indices above the new-paper null (p ≤ {ALPHA})",
-               f"Cross-snapshot HARI difference to default, {tr}", "Localised cells (ratio CI > 1)",
+               f"Paired difference to the pre-sweep default, ≤{w.last}", f"Cross-snapshot indices above the new-paper null (p ≤ {ALPHA})",
+               f"Cross-snapshot HARI difference to the pre-sweep default, {tr}", "Localised cells (ratio CI > 1)",
                "Untouched share of reassignment"], rows)
 
 
@@ -462,7 +467,7 @@ def st_faithfulness(w):
     for a in w.alphas:
         fa = w.runs[a].m["faithfulness"]
         lv = [ci(x["over_claim"]["value"], *x["over_claim"]["ci95"]) for x in fa["by_level"].values()]
-        rows.append([_a(a, w.ref), fa["over_claim"]["n"], ci(*_overclaim(w.runs[a])), *lv, f(fa["claim_unsupported"]),
+        rows.append([_a(a, w), fa["over_claim"]["n"], ci(*_overclaim(w.runs[a])), *lv, f(fa["claim_unsupported"]),
                      fa["deterministic"]["named_non_member"]])
     names = list(w.runs[w.ref].m["faithfulness"]["by_level"])
     return md(["α", "Labels judged", "Over-claim [95% CI]", *(f"Over-claim {n}" for n in names), "Claim-level unsupported",
@@ -486,11 +491,11 @@ def st_retrieval(w):
             rows.append([t, label, f(s[k]["flat"], nd), *cells])
     rows.append(["", "measures favouring drill-down / flat / tie", "",
                  *(" / ".join(str(_favour_counts(w.runs[a])[x]) for x in ("drill-down", "flat", "tie")) for a in w.alphas)])
-    return md(["Type", "Metric", "Flat (every α)", *(f"Drill-down, α = {_a(a, w.ref)}" for a in w.alphas)], rows)
+    return md(["Type", "Metric", "Flat (every α)", *(f"Drill-down, α = {_a(a, w)}" for a in w.alphas)], rows)
 
 
 def _recommend(w):
-    """Per α: headlines, eligibility against the default and the recommendation (the rule of docs/alpha_sweep.md §8)."""
+    """Per α: headlines, eligibility against the pre-sweep default and the recommendation (the rule of docs/alpha_sweep.md §8)."""
     h = {a: {"robust": len(_robust(r)), "hari": _hari_last(r), "oc": _overclaim(r),
              "fav": _favour_counts(r)["drill-down"]} for a, r in w.runs.items()}
     ref_o = h[w.ref]["oc"]
@@ -498,9 +503,9 @@ def _recommend(w):
         why = []
         d = w.v(a)["perturbation"][w.last]
         if a != w.ref and d["hi"] is not None and d["hi"] < 0:
-            why.append("HARI below the default (paired)")
+            why.append("HARI below the pre-sweep default (paired)")
         if a != w.ref and None not in h[a]["oc"] and None not in ref_o and h[a]["oc"][1] > ref_o[2]:
-            why.append("over-claim above the default")
+            why.append("over-claim above the pre-sweep default")
         h[a]["why"] = why
     eligible = [a for a in w.alphas if not h[a]["why"]]
     rec = max(eligible, key=lambda a: (h[a]["robust"], h[a]["hari"][0], -abs(a - w.ref))) if eligible else None
@@ -512,15 +517,15 @@ def st_summary(w):
     rows = []
     for a in w.alphas:
         x = h[a]
-        rows.append([_a(a, w.ref), x["robust"], ci(*x["hari"]), ci(*x["oc"]), x["fav"],
+        rows.append([_a(a, w), x["robust"], ci(*x["hari"]), ci(*x["oc"]), x["fav"],
                      "yes" if a in eligible else "no: " + "; ".join(x["why"]), "**recommended**" if a == rec else ""])
     n_meas = sum(1 for s in w.runs[w.ref].m["retrieval"]["summary"].values() for k in RETRIEVAL_NAMES if k in s)
-    tail = (f"\nRecommended: α = {rec:g}" + (" (the default)" if rec == w.ref else "") if rec is not None
+    tail = (f"\nRecommended: α = {rec:g}" + (" (the pre-sweep default)" if rec == w.ref else "") if rec is not None
             else "\nRecommended: none (no α is eligible)") + (
         f". Eligible: {', '.join(f'{a:g}' for a in eligible) or 'none'}; retrieval counts are out of {n_meas} measures"
         " (point estimates, no CIs).\n")
     return md(["α", "P3 robust cells (exact)", f"P5 perturbation HARI ≤{w.last} [t-interval]", "P6 over-claim [95% CI]",
-               "T6 measures favouring drill-down", "Eligible (not distinguishably worse than the default on HARI or over-claim)",
+               "T6 measures favouring drill-down", "Eligible (not distinguishably worse than the pre-sweep default on HARI or over-claim)",
                "Recommendation"], rows) + tail
 
 
@@ -534,22 +539,64 @@ def t_alpha_sweep(r):
     for a in w.alphas:
         x, run, d = h[a], w.runs[a], w.v(a)["perturbation"][w.last]
         fav = _favour_counts(run)
-        row = [_a(a, w.ref), f"{x['robust']} / {len(_below_cells(run))}", ci(*x["hari"]),
+        row = [_a(a, w), f"{x['robust']} / {len(_below_cells(run))}", ci(*x["hari"]),
                "—" if a == w.ref else ci(d["mean"], d["lo"], d["hi"]), ci(*x["oc"]),
                f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
                "yes" if a in eligible else "no: " + "; ".join(x["why"]), "recommended" if a == rec else ""]
         rows.append([f"**{c}**" if a == rec and c != "" else c for c in row])
     n_cells = sum(len(s["levels"]) for s in w.runs[w.ref].m["coherence"]["snapshots"].values())
     n_meas = sum(fav.values())
-    tail = (f"\nRecommended: α = {rec:g}" + (" (the default)" if rec == w.ref else "") if rec is not None
+    tail = (f"\nRecommended: α = {rec:g}" + (" (the pre-sweep default)" if rec == w.ref else "") if rec is not None
             else "\nRecommended: none (no α is eligible)") + (
         f". Coherence cells are out of {n_cells} (snapshot × level), retrieval measures out of {n_meas}.\n")
     return md(["α", "P3 robust / below-null cells (exact)", f"P5 perturbation HARI ≤{w.last} [t-interval]",
-               "P5 paired difference to the default", "P6 over-claim [95% CI]",
+               "P5 paired difference to the pre-sweep default", "P6 over-claim [95% CI]",
                "T6 measures favouring drill-down / flat / tie", "Eligible", "Recommendation"], rows) + tail
 
 
 TABLES["alpha_sweep"] = t_alpha_sweep
+
+
+def t_alpha_tradeoffs(r):
+    """Report table: per headline, the recommended α against the pre-sweep default and the best variant on that headline."""
+    w = Sweep(r.dir / "sweep")
+    h, _, rec = _recommend(w)
+    ref = w.ref
+    R, D = w.runs[rec], w.runs[ref]
+
+    def best(vals, low=False):
+        b = (min if low else max)(vals.values())
+        return ", ".join(f"α = {_a(a, w)}" for a, v in vals.items() if v == b) + f": {b if isinstance(b, int) else f(b)}"
+
+    def count(name, fn, low=False):
+        vals = {a: fn(w.runs[a]) for a in w.alphas}
+        d = vals[rec] - vals[ref]
+        better = (d < 0) if low else (d > 0)
+        verdict = "same count" if d == 0 else ("better" if better else "worse") + " (count, no interval)"
+        return [name, vals[rec], vals[ref], f"{d:+d}" if d else "0", best(vals, low), verdict]
+
+    pd = w.v(rec)["perturbation"][w.last]
+    hv = "not computed" if rec == ref else (
+        "no distinguishable difference (paired interval contains 0)" if pd["lo"] <= 0 <= pd["hi"]
+        else "better (paired interval above 0)" if pd["lo"] > 0 else "worse (paired interval below 0)")
+    oR, oD = h[rec]["oc"], h[ref]["oc"]
+    ov = ("no distinguishable difference (intervals overlap)" if oR[1] <= oD[2] and oD[1] <= oR[2]
+          else "better (interval below)" if oR[2] < oD[1] else "worse (interval above)")
+    rows = [count("P3 robust coherence cells (exact)", lambda x: len(_robust(x))),
+            count("P3 cells below both nulls (exact)", lambda x: len(_below_cells(x)), low=True),
+            [f"P5 perturbation HARI ≤{w.last}", ci(*h[rec]["hari"]), ci(*h[ref]["hari"]),
+             "—" if rec == ref else ci(pd["mean"], pd["lo"], pd["hi"]) + " (paired by seed)",
+             best({a: h[a]["hari"][0] for a in w.alphas}), hv],
+            count("P5 cross-snapshot indices above the new-paper null", lambda x: _above_null(x)[0]),
+            count("P5 localised level × transition cells", lambda x: _localised(x)[0]),
+            ["P6 over-claim rate", ci(*oR), ci(*oD), f"{oR[0] - oD[0]:+.3f} (unpaired)",
+             best({a: h[a]["oc"][0] for a in w.alphas}, low=True), ov],
+            count("T6 retrieval measures favouring drill-down", lambda x: _favour_counts(x)["drill-down"])]
+    return md(["Headline", f"Recommended, α = {_a(rec, w)}", f"Pre-sweep default, α = {ref:g}", "Difference",
+               "Best variant on this headline", "Recommended against the pre-sweep default"], rows)
+
+
+TABLES["alpha_tradeoffs"] = t_alpha_tradeoffs
 
 SWEEP_TABLES = {"sweep_setup": st_setup, "sweep_tree": st_tree, "sweep_coherence": st_coherence,
                 "sweep_coherence_grid": st_coherence_grid, "sweep_stability": st_stability,

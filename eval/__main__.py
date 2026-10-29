@@ -113,7 +113,7 @@ def main(argv=None):
     else:
         d = args.out or cfg.out_dir / "sweep"
         if args.summarise_only:
-            summarise(cfg, d, args.alphas, base.alpha)
+            summarise(cfg, d, args.alphas)
         else:
             sweep(cfg, base, args.alphas, d, n_jobs=args.jobs)
         print(f"sweep -> {d / 'sweep.json'}")

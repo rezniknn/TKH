@@ -12,13 +12,15 @@ P3 asks how a method reconciles structure and semantics where the two disagree, 
 stated and justified. In SHAC the trade-off is a single weight: every merge score is s = αF_S + (1 − α)F_H, the mix
 of the rank-calibrated semantic term F_S (character n-gram similarity of names) and the rank-calibrated structural term
 F_H (shared hyper-edges on the collapsed incidence), so that α = 0 builds the hierarchy from structure alone and α = 1
-from names alone (report §2). The main report evaluates one value, the default, which was set before any result.
+from names alone (report §2). Before the sweep the method had one value, the default α = 0.5, set before any result.
 This sweep measures what the choice costs or gains on each of the four evaluation criteria of the brief, and
 recommends a value by the rule of §8, which was revised once after the results were read (§9).
 
 ## 2. Design
 
-Five variants are built, α ∈ {0, 0.25, 0.5, 0.75, 1}, and every other setting is held at its configured default:
+Throughout this document *the default* is that pre-sweep default, α = 0.5, the reference of every paired
+comparison; after the sweep the configured default is the recommended variant (§8). Five variants are built,
+α ∈ {0, 0.25, 0.5, 0.75, 1}, and every other setting is held at its configured default:
 the temporal prior weight γ, the size cap ρ, the edge weights, the hub fraction, the LSA dimension, the budgets and
 the snapshots, the labeller and the judge. Each variant is a complete run (`tkh/pipeline.run`: hierarchy, persistent
 identities, events, labels), validated by `validate.py`, and evaluated with exactly the protocol of the main report.
@@ -26,9 +28,9 @@ Two points of that protocol matter for a fair comparison. First, the configurati
 rebuilt at the variant's own α, so each variant is compared with chance as defined for its own merge rule. Second,
 the paired comparisons with the default use the same randomness on both sides: the perturbation runs of every
 variant remove the same hyper-edges (seed by seed), and the cross-snapshot comparison uses the same node subsamples.
-The default variant repeats the main run from scratch; Table S1 reports whether it reproduces it. For the hierarchy
-this tests that the build is deterministic; for labels and judgements, which are replayed from the LLM cache, it
-tests only the replay.
+The main run in `out/` is built with the configured default, which is now the recommended variant; Table S1
+reports whether that variant reproduces the main run. For the hierarchy this tests that the build is deterministic;
+for labels and judgements, which are replayed from the LLM cache, it tests only the replay.
 
 *Table S1. Sweep setup (`out/sweep/<α>/run_info.json`, `run_config.toml`, `metrics.json` protocols).*
 
@@ -41,9 +43,9 @@ tests only the replay.
 | Per α: coherence nulls (configuration rebuilds at that α, random labels) | 99, 999 |
 | Per α: perturbation seeds × edge fraction; new-paper null R | 5 × 0.1; 99 |
 | Per α: labeller / judge; retrieval beam, k | qwen2.5:7b-instruct / phi4; 10/20/40, 10 |
-| Reference for paired comparisons | α = 0.5 (the configured default) |
+| Reference for paired comparisons | α = 0.5 (the configured default before the sweep) |
 | Significance level of all null tests | 0.05 |
-| Default variant against the main run (out/) | hierarchy.json identical at 4 of 4 snapshots; metrics.json sections identical: coherence, stability, faithfulness, retrieval of 4 |
+| Variant α = 0.75 (the configured default) against the main run (out/) | hierarchy.json identical at 4 of 4 snapshots; metrics.json sections identical: coherence, stability, faithfulness, retrieval of 4 |
 <!-- /table:sweep_setup -->
 
 ## 3. How α changes the hierarchy
@@ -62,12 +64,12 @@ super-nodes at L2 show whether a variant produces a few dominant groups or many 
 (`sweep.json` `tree_ari`, `run_info.json` levels).*
 
 <!-- table:sweep_tree -->
-| α | ARI with the default tree at ≤2026, L0 / L1 / L2 | Merges sharing an edge at ≤2026, L0 / L1 / L2 | Largest L0 super-node (cap) | L2 singletons |
+| α | ARI with the pre-sweep default tree at ≤2026, L0 / L1 / L2 | Merges sharing an edge at ≤2026, L0 / L1 / L2 | Largest L0 super-node (cap) | L2 singletons |
 |---|---|---|---|---|
 | 0 | 0.07 / 0.23 / 0.48 | 89% / 97% / 99% | 526 (530.7) | 58 |
 | 0.25 | 0.13 / 0.27 / 0.61 | 98% / 97% / 97% | 520 (530.7) | 3 |
-| 0.5 (default) | 1.00 / 1.00 / 1.00 | 91% / 88% / 92% | 512 (530.7) | 0 |
-| 0.75 | 0.07 / 0.13 / 0.34 | 100% / 67% / 78% | 476 (530.7) | 0 |
+| 0.5 (pre-sweep default) | 1.00 / 1.00 / 1.00 | 91% / 88% / 92% | 512 (530.7) | 0 |
+| 0.75 (default) | 0.07 / 0.13 / 0.34 | 100% / 67% / 78% | 476 (530.7) | 0 |
 | 1 | 0.02 / 0.04 / 0.07 | 100% / 82% / 28% | 528 (530.7) | 3 |
 <!-- /table:sweep_tree -->
 
@@ -92,8 +94,8 @@ last snapshot (interval scheme, exact filter) with its paper-bootstrap 95% CI.*
 |---|---|---|---|---|---|
 | 0 | 2 / 2 of 12 | 1 / 1 | 0.93 [0.42, 1.67] | 1.83 [0.30, 3.76] | 1.07 [0.11, 4.40] |
 | 0.25 | 3 / 3 of 12 | 2 / 3 | 1.09 [0.41, 2.10] | 1.39 [0.18, 2.51] | 0.86 [0.18, 2.03] |
-| 0.5 (default) | 3 / 5 of 12 | 3 / 1 | 0.88 [0.53, 1.25] | 1.31 [0.54, 2.00] | 1.57 [0.43, 2.63] |
-| 0.75 | 7 / 7 of 12 | 0 / 0 | 1.22 [0.85, 1.52] | 1.53 [0.91, 2.26] | 1.85 [0.91, 2.72] |
+| 0.5 (pre-sweep default) | 3 / 5 of 12 | 3 / 1 | 0.88 [0.53, 1.25] | 1.31 [0.54, 2.00] | 1.57 [0.43, 2.63] |
+| 0.75 (default) | 7 / 7 of 12 | 0 / 0 | 1.22 [0.85, 1.52] | 1.53 [0.91, 2.26] | 1.85 [0.91, 2.72] |
 | 1 | 0 / 0 of 12 | 0 / 0 | 0.98 [0.92, 1.10] | 1.24 [1.01, 1.40] | 1.20 [0.92, 1.48] |
 <!-- /table:sweep_coherence -->
 
@@ -102,7 +104,7 @@ under the primary scheme and k of the five schemes; n.s.: not significant; below
 n.e.: not evaluable, one interval-scheme stratum; —: undefined, no co-assigned evaluable pair).*
 
 <!-- table:sweep_coherence_grid -->
-| Snapshot | Level | α = 0 | α = 0.25 | α = 0.5 (default) | α = 0.75 | α = 1 |
+| Snapshot | Level | α = 0 | α = 0.25 | α = 0.5 (pre-sweep default) | α = 0.75 (default) | α = 1 |
 |---|---|---|---|---|---|---|
 | ≤2020 | L0 | n.e. | n.e. | n.e. | n.e. | n.e. |
 | ≤2020 | L1 | n.e. | n.e. | n.e. | n.e. | n.e. |
@@ -138,12 +140,12 @@ untouched nodes.
 *Table S5. Stability per variant (`stability` sections; paired differences from `sweep.json`).*
 
 <!-- table:sweep_stability -->
-| α | Perturbation HARI ≤2020 | Perturbation HARI ≤2026 [t-interval] | Paired difference to default, ≤2026 | Cross-snapshot indices above the new-paper null (p ≤ 0.05) | Cross-snapshot HARI difference to default, 2024→2026 | Localised cells (ratio CI > 1) | Untouched share of reassignment |
+| α | Perturbation HARI ≤2020 | Perturbation HARI ≤2026 [t-interval] | Paired difference to the pre-sweep default, ≤2026 | Cross-snapshot indices above the new-paper null (p ≤ 0.05) | Cross-snapshot HARI difference to the pre-sweep default, 2024→2026 | Localised cells (ratio CI > 1) | Untouched share of reassignment |
 |---|---|---|---|---|---|---|---|
 | 0 | 0.54 | 0.22 [0.20, 0.25] | 0.05 [0.02, 0.08] | 2 of 12 | -0.03 [-0.05, -0.02] | 7 of 9 | 88%–95% |
 | 0.25 | 0.61 | 0.18 [0.17, 0.20] | 0.01 [-0.01, 0.03] | 2 of 12 | -0.06 [-0.08, -0.04] | 9 of 9 | 81%–91% |
-| 0.5 (default) | 0.58 | 0.17 [0.16, 0.18] | — | 1 of 12 | — | 9 of 9 | 78%–89% |
-| 0.75 | 0.43 | 0.19 [0.15, 0.23] | 0.02 [-0.03, 0.07] | 2 of 12 | 0.03 [0.01, 0.05] | 9 of 9 | 73%–92% |
+| 0.5 (pre-sweep default) | 0.58 | 0.17 [0.16, 0.18] | — | 1 of 12 | — | 9 of 9 | 78%–89% |
+| 0.75 (default) | 0.43 | 0.19 [0.15, 0.23] | 0.02 [-0.03, 0.07] | 2 of 12 | 0.03 [0.01, 0.05] | 9 of 9 | 73%–92% |
 | 1 | 1.00 | 0.90 [0.83, 0.96] | 0.73 [0.67, 0.79] | 4 of 12 | 0.07 [0.06, 0.09] | 6 of 9 | 88%–97% |
 <!-- /table:sweep_stability -->
 
@@ -170,8 +172,8 @@ claim, overall and per level, with bootstrap intervals over labels.
 |---|---|---|---|---|---|---|
 | 0 | 288 | 0.52 [0.47, 0.58] | 0.45 [0.33, 0.58] | 0.54 [0.48, 0.61] | 0.43 | 41 |
 | 0.25 | 300 | 0.53 [0.48, 0.59] | 0.35 [0.23, 0.47] | 0.58 [0.52, 0.64] | 0.41 | 37 |
-| 0.5 (default) | 296 | 0.58 [0.52, 0.64] | 0.37 [0.25, 0.48] | 0.64 [0.57, 0.69] | 0.45 | 33 |
-| 0.75 | 299 | 0.60 [0.54, 0.65] | 0.47 [0.35, 0.58] | 0.63 [0.56, 0.69] | 0.48 | 31 |
+| 0.5 (pre-sweep default) | 296 | 0.58 [0.52, 0.64] | 0.37 [0.25, 0.48] | 0.64 [0.57, 0.69] | 0.45 | 33 |
+| 0.75 (default) | 299 | 0.60 [0.54, 0.65] | 0.47 [0.35, 0.58] | 0.63 [0.56, 0.69] | 0.48 | 31 |
 | 1 | 300 | 0.55 [0.50, 0.61] | 0.50 [0.37, 0.63] | 0.56 [0.50, 0.62] | 0.41 | 31 |
 <!-- /table:sweep_faithfulness -->
 
@@ -191,7 +193,7 @@ variant, and the last row counts the measures favouring drill-down, flat search 
 (`retrieval.summary`).*
 
 <!-- table:sweep_retrieval -->
-| Type | Metric | Flat (every α) | Drill-down, α = 0 | Drill-down, α = 0.25 | Drill-down, α = 0.5 (default) | Drill-down, α = 0.75 | Drill-down, α = 1 |
+| Type | Metric | Flat (every α) | Drill-down, α = 0 | Drill-down, α = 0.25 | Drill-down, α = 0.5 (pre-sweep default) | Drill-down, α = 0.75 (default) | Drill-down, α = 1 |
 |---|---|---|---|---|---|---|---|
 | A | hit-rate, methods | 0.295 | 0.170 | 0.322 ✓ | 0.275 | 0.251 | 0.204 |
 | A | hit-rate, method claims | 0.306 | 0.167 | 0.278 | 0.250 | 0.306 | 0.278 |
@@ -238,12 +240,12 @@ but does not decide, for the reasons given in §7.
 *Table S8. Headlines, eligibility and the recommendation (rule above).*
 
 <!-- table:sweep_summary -->
-| α | P3 robust cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P6 over-claim [95% CI] | T6 measures favouring drill-down | Eligible (not distinguishably worse than the default on HARI or over-claim) | Recommendation |
+| α | P3 robust cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P6 over-claim [95% CI] | T6 measures favouring drill-down | Eligible (not distinguishably worse than the pre-sweep default on HARI or over-claim) | Recommendation |
 |---|---|---|---|---|---|---|
 | 0 | 2 | 0.22 [0.20, 0.25] | 0.52 [0.47, 0.58] | 1 | yes |  |
 | 0.25 | 3 | 0.18 [0.17, 0.20] | 0.53 [0.48, 0.59] | 4 | yes |  |
-| 0.5 (default) | 3 | 0.17 [0.16, 0.18] | 0.58 [0.52, 0.64] | 3 | yes |  |
-| 0.75 | 7 | 0.19 [0.15, 0.23] | 0.60 [0.54, 0.65] | 3 | yes | **recommended** |
+| 0.5 (pre-sweep default) | 3 | 0.17 [0.16, 0.18] | 0.58 [0.52, 0.64] | 3 | yes |  |
+| 0.75 (default) | 7 | 0.19 [0.15, 0.23] | 0.60 [0.54, 0.65] | 3 | yes | **recommended** |
 | 1 | 0 | 0.90 [0.83, 0.96] | 0.55 [0.50, 0.61] | 3 | yes |  |
 
 Recommended: α = 0.75. Eligible: 0, 0.25, 0.5, 0.75, 1; retrieval counts are out of 12 measures (point estimates, no CIs).
@@ -281,8 +283,8 @@ Recommended: α = 0.75. Eligible: 0, 0.25, 0.5, 0.75, 1; retrieval counts are ou
 
 ## 10. Integration into the report
 
-`docs/report.md` includes the sweep. Table 11 of the report is generated by `make_tables.py` from the same files as
-Table S8 and applies the same rule. Report §5.5 states the rule and the variant to ship, with the selection caveat of
-§9. Report §3 and the assumption bullets of report §6 point to Table 11. Future-work item 1 keeps γ = 0 builds, the ρ
-and hub-fraction comparison, and the selection of α on held-out halves of the citation ruler. The remaining tables
-of this document give the per-criterion detail behind Table 11.
+The recommended variant is the configured default (`configs/default.toml`), and the main run in `out/` is built with
+it. `docs/report.md` §5.2 presents the comparison as Table 3 (the headlines of Table S8, generated by
+`make_tables.py` with the same rule) and Table 4 (the recommended variant against the pre-sweep default and the best
+variant per headline), states the rule and the trade-offs, and ships the recommended variant; report §5.3 evaluates
+that variant in detail. The tables of this document give the per-criterion detail behind report Tables 3–4.

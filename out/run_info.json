@@ -1,13 +1,13 @@
 {
  "params": {
-  "alpha": 0.5,
+  "alpha": 0.75,
   "gamma": 0.5,
   "rho": 2.0,
   "edge_weight": "relation_balanced",
   "hub_frac": 0.2,
   "lsa_dim": 100
  },
- "cid": "a0.5_g0.5_r2_relation_balanced_h0.2_d100",
+ "cid": "a0.75_g0.5_r2_relation_balanced_h0.2_d100",
  "budgets": [
   15,
   60,
@@ -19,7 +19,7 @@
   2024,
   2026
  ],
- "runtime_s": 34.7,
+ "runtime_s": 776.1,
  "snapshots": {
   "2020": {
    "n_concept": 1018,
@@ -39,21 +39,21 @@
      "super_nodes": 15,
      "cap": 135.73,
      "max_size": 135,
-     "singletons": 1,
+     "singletons": 0,
      "merges": 45,
-     "linked": 38,
-     "multi_endpoint": 37,
+     "linked": 40,
+     "multi_endpoint": 39,
      "prior": 0
     },
     {
      "budget": 60,
      "super_nodes": 60,
      "cap": 33.93,
-     "max_size": 33,
-     "singletons": 5,
+     "max_size": 32,
+     "singletons": 1,
      "merges": 180,
-     "linked": 173,
-     "multi_endpoint": 153,
+     "linked": 121,
+     "multi_endpoint": 109,
      "prior": 0
     },
     {
@@ -61,10 +61,10 @@
      "super_nodes": 240,
      "cap": 8.48,
      "max_size": 8,
-     "singletons": 67,
+     "singletons": 16,
      "merges": 778,
-     "linked": 778,
-     "multi_endpoint": 456,
+     "linked": 682,
+     "multi_endpoint": 361,
      "prior": 0
     }
    ],
@@ -90,34 +90,34 @@
      "budget": 15,
      "super_nodes": 15,
      "cap": 195.2,
-     "max_size": 194,
+     "max_size": 180,
      "singletons": 0,
      "merges": 45,
-     "linked": 41,
-     "multi_endpoint": 39,
-     "prior": 43
+     "linked": 42,
+     "multi_endpoint": 42,
+     "prior": 45
     },
     {
      "budget": 60,
      "super_nodes": 60,
      "cap": 48.8,
-     "max_size": 45,
-     "singletons": 3,
+     "max_size": 48,
+     "singletons": 0,
      "merges": 180,
-     "linked": 166,
-     "multi_endpoint": 156,
-     "prior": 141
+     "linked": 123,
+     "multi_endpoint": 112,
+     "prior": 163
     },
     {
      "budget": 240,
      "super_nodes": 240,
      "cap": 12.2,
      "max_size": 12,
-     "singletons": 20,
+     "singletons": 5,
      "merges": 1224,
-     "linked": 1139,
-     "multi_endpoint": 682,
-     "prior": 677
+     "linked": 968,
+     "multi_endpoint": 528,
+     "prior": 653
     }
    ],
    "n_anchored": 680
@@ -141,34 +141,34 @@
      "budget": 15,
      "super_nodes": 15,
      "cap": 377.2,
-     "max_size": 359,
+     "max_size": 354,
      "singletons": 0,
      "merges": 45,
-     "linked": 43,
-     "multi_endpoint": 41,
+     "linked": 44,
+     "multi_endpoint": 43,
      "prior": 45
     },
     {
      "budget": 60,
      "super_nodes": 60,
      "cap": 94.3,
-     "max_size": 93,
+     "max_size": 94,
      "singletons": 0,
      "merges": 180,
-     "linked": 161,
-     "multi_endpoint": 152,
-     "prior": 160
+     "linked": 124,
+     "multi_endpoint": 113,
+     "prior": 171
     },
     {
      "budget": 240,
      "super_nodes": 240,
      "cap": 23.57,
      "max_size": 23,
-     "singletons": 3,
+     "singletons": 0,
      "merges": 2589,
-     "linked": 2380,
-     "multi_endpoint": 1482,
-     "prior": 949
+     "linked": 2027,
+     "multi_endpoint": 1154,
+     "prior": 938
     }
    ],
    "n_anchored": 1265
@@ -191,23 +191,23 @@
      "budget": 15,
      "super_nodes": 15,
      "cap": 530.67,
-     "max_size": 512,
+     "max_size": 476,
      "singletons": 0,
      "merges": 45,
-     "linked": 41,
-     "multi_endpoint": 40,
+     "linked": 45,
+     "multi_endpoint": 43,
      "prior": 45
     },
     {
      "budget": 60,
      "super_nodes": 60,
      "cap": 132.67,
-     "max_size": 120,
+     "max_size": 126,
      "singletons": 0,
      "merges": 180,
-     "linked": 159,
-     "multi_endpoint": 151,
-     "prior": 170
+     "linked": 121,
+     "multi_endpoint": 111,
+     "prior": 178
     },
     {
      "budget": 240,
@@ -216,9 +216,9 @@
      "max_size": 33,
      "singletons": 0,
      "merges": 3740,
-     "linked": 3453,
-     "multi_endpoint": 2177,
-     "prior": 2399
+     "linked": 2912,
+     "multi_endpoint": 1671,
+     "prior": 2391
     }
    ],
    "n_anchored": 1818
