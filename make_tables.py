@@ -4,7 +4,8 @@
     python make_tables.py --sweep out/sweep [--report docs/alpha_sweep.md] [--check]
 
 Each table sits between `<!-- table:NAME -->` and `<!-- /table:NAME -->` in the report; the script rewrites the block
-from out/metrics.json (coherence, stability, faithfulness, retrieval), out/run_info.json and out/run_config.toml. Verdict columns are computed from the p-values and intervals (ALPHA), never typed in.
+from out/metrics.json (coherence, stability, faithfulness, retrieval), out/run_info.json and out/run_config.toml;
+the report's alpha_sweep table reads the sweep in out/sweep/ (needs `make sweep`). Verdict columns are computed from the p-values and intervals (ALPHA), never typed in.
 With --sweep DIR the script renders the α-sweep tables (DIR/<α>/ runs and DIR/sweep.json), including the
 recommendation, into docs/alpha_sweep.md. --check exits 1 if any block is out of date, unknown or missing. Nothing is
 recomputed: the script only reads the run outputs.
@@ -522,6 +523,33 @@ def st_summary(w):
                "T6 measures favouring drill-down", "Eligible (not distinguishably worse than the default on HARI or over-claim)",
                "Recommendation"], rows) + tail
 
+
+def t_alpha_sweep(r):
+    """Report table: the α sweep in <run>/sweep/ across the four criteria, the recommended α in bold."""
+    if not (r.dir / "sweep" / "sweep.json").exists():
+        sys.exit(f"{r.dir}/sweep/sweep.json not found: the report's alpha_sweep table needs `make sweep`")
+    w = Sweep(r.dir / "sweep")
+    h, eligible, rec = _recommend(w)
+    rows = []
+    for a in w.alphas:
+        x, run, d = h[a], w.runs[a], w.v(a)["perturbation"][w.last]
+        fav = _favour_counts(run)
+        row = [_a(a, w.ref), f"{x['robust']} / {len(_below_cells(run))}", ci(*x["hari"]),
+               "—" if a == w.ref else ci(d["mean"], d["lo"], d["hi"]), ci(*x["oc"]),
+               f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
+               "yes" if a in eligible else "no: " + "; ".join(x["why"]), "recommended" if a == rec else ""]
+        rows.append([f"**{c}**" if a == rec and c != "" else c for c in row])
+    n_cells = sum(len(s["levels"]) for s in w.runs[w.ref].m["coherence"]["snapshots"].values())
+    n_meas = sum(fav.values())
+    tail = (f"\nRecommended: α = {rec:g}" + (" (the default)" if rec == w.ref else "") if rec is not None
+            else "\nRecommended: none (no α is eligible)") + (
+        f". Coherence cells are out of {n_cells} (snapshot × level), retrieval measures out of {n_meas}.\n")
+    return md(["α", "P3 robust / below-null cells (exact)", f"P5 perturbation HARI ≤{w.last} [t-interval]",
+               "P5 paired difference to the default", "P6 over-claim [95% CI]",
+               "T6 measures favouring drill-down / flat / tie", "Eligible", "Recommendation"], rows) + tail
+
+
+TABLES["alpha_sweep"] = t_alpha_sweep
 
 SWEEP_TABLES = {"sweep_setup": st_setup, "sweep_tree": st_tree, "sweep_coherence": st_coherence,
                 "sweep_coherence_grid": st_coherence_grid, "sweep_stability": st_stability,

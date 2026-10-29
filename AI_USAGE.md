@@ -1649,6 +1649,27 @@ accepted or changed, and what was checked.
 - **Verified:** `make_tables.py --check` passes for both reports; `make test` passes (65); no reference to Table A1,
   Table A2 or Appendix A remains.
 
+### 50. Generated α-sweep summary table in the report (Claude Code)
+
+- **Task/module:** `make_tables.py` (`t_alpha_sweep`), `docs/report.md` §5.5, `docs/alpha_sweep.md` §10
+- **Prompt:** add to `make_tables.py` a summary table comparing the α variants of the sweep across all four metrics,
+  highlighting the winning configuration, to be included in the final report.
+- **What the assistant did:**
+  - Added the report table `alpha_sweep` (Table 11). It reads `out/sweep/` and applies the same rule as Table S8
+    (`_recommend`). For each α it shows:
+    - robust and below-null coherence cells;
+    - perturbation HARI and its difference to the default, paired by seed;
+    - the over-claim rate;
+    - the retrieval measures favouring drill-down, flat search, or neither;
+    - eligibility.
+  - The recommended row is set in bold.
+  - Rewrote the §5.5 paragraph on the variant to ship, which had said only one configuration was evaluated. It now
+    states the rule, why the guards compare with the default, the post-hoc revision and the selection caveat, and
+    quotes no values.
+  - Pointed §3, the abstract, the §6 assumption bullets and future-work item 1 to Table 11, and updated the
+    integration section of `docs/alpha_sweep.md`.
+- **Verified:** `make_tables.py --check` passes for both reports; `make test` passes (65).
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
