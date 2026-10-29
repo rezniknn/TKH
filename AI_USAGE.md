@@ -1775,6 +1775,20 @@ accepted or changed, and what was checked.
   - `out/` is unchanged.
 - **Notebook 05:** it keeps its committed content. Re-executing it against the α = 0.75 `out/` would change outputs
   that its text describes.
+- **Adversarial review (30 agents, then a 3-agent recheck):** 17 wording and display errors were confirmed and
+  fixed:
+  - the summary claimed that glosses and L1 children distinguish the repeated L0 labels, and that the prior never
+    applies to new nodes;
+  - the prior's effect at L2 was understated;
+  - a hub was listed as an edge endpoint;
+  - H = 1 means identical edge sets;
+  - the labelling steps (facts, ranking, cap) were described imprecisely;
+  - the reason super-nodes cannot die, and the captions.
+
+  The recheck found that the assistant's rewritten §2 claim was backwards, because the minimum S came from an
+  arbitrary cut-off. The notebook now computes the threshold: at L2 any pair with identical edge sets and S above the
+  80% point of the name ranks outranks every unlinked pair, including identical names. Structure therefore decides
+  the merge order at the finest level despite α = 0.75. Examples are now chosen by concept-node count.
 
 ## Case where the AI was wrong (§6a)
 
