@@ -67,7 +67,7 @@ def t_properties(r):
             ["No future information", "construction (snapshot-only edges, hubs, LSA, anchors); aliases assumed", "`validate.py`"],
             ["P5 identity and lineage", "construction (overlap matching; one fate per super-node)", "`validate.py`"],
             ["P5 temporal stability", "empirical (soft prior; no bound on reassignment)", "Tables 3, A3–A5"],
-            ["P3 coherence, trade-off", "empirical (α chosen on these results)", "Tables 2–4, A1–A2"],
+            ["P3 coherence, trade-off", "empirical (α chosen on these results)", "Tables 2–3, A1–A2"],
             ["P6 labels, T6 utility", "empirical", "Tables 3, A6–A7"]]
     return md(["Property", "Status", "Evidence"], rows)
 
@@ -311,7 +311,7 @@ def t_results(r):
 
 
 def t_abstract_coherence(r):
-    """§5.5: LLM-rated closeness of paper abstracts within vs across L0 super-nodes (metrics.json "abstract_coherence")."""
+    """§5.5 (extra, outside the assignment): LLM-rated closeness of paper abstracts within vs across L0 super-nodes (metrics.json "abstract_coherence")."""
     if "abstract_coherence" not in r.m:
         sys.exit("metrics.json has no abstract_coherence section: run `make abstract-coherence`")
     x = r.m["abstract_coherence"]

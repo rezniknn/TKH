@@ -7,8 +7,7 @@ cumulative snapshots. SHAC is a deterministic greedy agglomeration whose merge s
 name similarity and a structural term on the collapsed hyper-edge incidence, with a soft prior from the previous
 snapshot. Laminarity, exact budgets, the collapse rule and identity bookkeeping hold by construction; coherence,
 stability, label faithfulness and utility are measured with signals the method never sees. Of five values of the
-semantic weight, α = 0.75 is recommended and shipped <!-- claim:recommended -->. A held-out citation ruler beats both nulls at every level of the later snapshots <!-- claim:coherence_late -->, conditional on these papers <!-- claim:lift_ci_chance -->, and LLM ratings of
-abstracts agree <!-- claim:abstract_within_closer -->; its utility for navigation is mixed and not established <!-- claim:navigation_not_established -->. Levels are L0 (coarsest) to L2.
+semantic weight, α = 0.75 is recommended and shipped <!-- claim:recommended -->. A held-out citation ruler beats both nulls at every level of the later snapshots <!-- claim:coherence_late -->, conditional on these papers <!-- claim:lift_ci_chance -->; its utility for navigation is mixed and not established <!-- claim:navigation_not_established -->. Levels are L0 (coarsest) to L2.
 Appendices: [A, formal details and full results](appendix.md); [B, the α sweep](alpha_sweep.md).
 
 ## 1. Problem definition
@@ -69,7 +68,7 @@ papers gets one home, whose semantic fit was not tested.
 | No future information | construction (snapshot-only edges, hubs, LSA, anchors); aliases assumed | `validate.py` |
 | P5 identity and lineage | construction (overlap matching; one fate per super-node) | `validate.py` |
 | P5 temporal stability | empirical (soft prior; no bound on reassignment) | Tables 3, A3–A5 |
-| P3 coherence, trade-off | empirical (α chosen on these results) | Tables 2–4, A1–A2 |
+| P3 coherence, trade-off | empirical (α chosen on these results) | Tables 2–3, A1–A2 |
 | P6 labels, T6 utility | empirical | Tables 3, A6–A7 |
 <!-- /table:properties -->
 
@@ -218,13 +217,16 @@ We propose α = 0.75 <!-- claim:recommended -->: it has more robust coherence ce
 measurable cost in stability at the last snapshot or in overall faithfulness <!-- claim:last_indistinct -->. Semantic claims should be restricted to its robust
 cells. Retrieval does not enter the rule, and no navigation benefit is inferred from coherence: T6 utility is mixed.
 
-### 5.5 Coherence on paper abstracts
+### 5.5 Extra: coherence on paper abstracts
+
+*This check was not asked for in the assignment. It is reported here only and does not enter the recommendation or the
+headline findings.*
 
 As a ruler independent of citations, phi4 rated every pair of ≤2026 papers with an abstract for topical closeness
 (0–10), from titles and abstracts only; each paper belongs to the L0 super-node of its method. Pairs within and across
 super-nodes are compared with a paper bootstrap and a permutation null with sizes fixed (`eval/extra/REPORT.md`).
 
-*Table 4. LLM-rated closeness of paper abstracts within vs across L0 super-nodes (`abstract_coherence`).*
+*Table 4 (extra). LLM-rated closeness of paper abstracts within vs across L0 super-nodes (`abstract_coherence`).*
 
 <!-- table:abstract_coherence -->
 | Item | Value (phi4, ≤2026, L0, α = 0.75) |
