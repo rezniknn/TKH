@@ -165,7 +165,7 @@ the prompts and the splitting procedure (seeded, stratified by evidence kind) ar
 paired. Table S6 gives the over-claim rate, the share of labels with at least one unsupported
 claim, overall and per level, with bootstrap intervals over labels.
 
-*Table S6. Label over-claim per variant against held-out evidence (`faithfulness`).*
+*Table S6. Label over-claim per variant against held-out evidence (`alpha_sweep.variants.<α>.faithfulness`).*
 
 <!-- table:sweep_faithfulness -->
 | α | Labels judged | Over-claim [95% CI] | Over-claim L0 | Over-claim L1 | Claim-level unsupported | Named non-member flags |
@@ -190,7 +190,7 @@ asserts; only the drill-down columns change. A tick marks a measure on which dri
 variant, and the last row counts the measures favouring drill-down, flat search and neither.
 
 *Table S7. Drill-down retrieval per variant against flat search; means (steps: medians), no CIs
-(`retrieval.summary`).*
+(`alpha_sweep.variants.<α>.retrieval`).*
 
 <!-- table:sweep_retrieval -->
 | Type | Metric | Flat (every α) | Drill-down, α = 0 | Drill-down, α = 0.25 | Drill-down, α = 0.5 (pre-sweep default) | Drill-down, α = 0.75 (default) | Drill-down, α = 1 |

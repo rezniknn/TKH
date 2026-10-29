@@ -1,15 +1,16 @@
-# Pipeline: 'make all' = build -> validate -> metrics -> tables -> test, where 'make metrics' = coherence -> stability ->
-# faithfulness -> retrieval; each check writes its own section of $(OUT)/metrics.json and can also be run on its own;
-# 'make tables' regenerates every table of docs/report.md from $(OUT)/ (make_tables.py).
+# Pipeline: 'make all' = build -> validate -> metrics -> sweep-summary -> tables -> test, where 'make metrics' =
+# coherence -> stability -> faithfulness -> retrieval; each check writes its own section of $(OUT)/metrics.json and can
+# also be run on its own; 'make sweep-summary' rewrites its alpha_sweep section from the runs in $(OUT)/sweep/ (offline);
+# 'make tables' regenerates every table of docs/report.md and docs/alpha_sweep.md from $(OUT)/metrics.json only.
 # LLM calls replay from data/llm_cache.json (TKH_LLM_MODE=offline, the default); live/refresh need a local Ollama server.
 PYTHON ?= .venv/bin/python
 OUT ?= out
 SEED ?= 0
 
-.PHONY: all test fixtures build validate null metrics tables coherence stability faithfulness retrieval figures gamma sweep
+.PHONY: all test fixtures build validate null metrics sweep-summary tables coherence stability faithfulness retrieval figures gamma sweep
 .NOTPARALLEL:     # the checks read-modify-write the same metrics.json, so never run them concurrently (make -j)
 
-all: build validate metrics tables test
+all: build validate metrics sweep-summary tables test
 
 metrics: coherence stability faithfulness retrieval   ## every evaluation check on $(OUT)/ -> $(OUT)/metrics.json
 
@@ -45,6 +46,9 @@ tables:          ## every table of docs/report.md and docs/alpha_sweep.md from $
 	$(PYTHON) make_tables.py --run $(OUT)
 	$(PYTHON) make_tables.py --sweep --run $(OUT)
 
+sweep-summary:   ## alpha_sweep section of $(OUT)/metrics.json from the existing runs in $(OUT)/sweep/ (offline, no rebuild)
+	if [ -d $(OUT)/sweep ]; then $(PYTHON) -m eval sweep --out $(OUT)/sweep --out-dir $(OUT) --summarise-only; fi
+
 figures:         ## static PNGs of $(OUT)/metrics.json -> docs/figures/ (no recomputation)
 	$(PYTHON) -m eval.figures --run $(OUT) --out docs/figures
 
@@ -52,7 +56,7 @@ gamma:           ## temporal-prior variants gamma = 0..1: stability and coherenc
 	$(PYTHON) -m eval gamma --out $(OUT)/gamma
 
 sweep:           ## alpha = 0, 0.25, 0.5, 0.75, 1 (rest at defaults): full run + four checks each -> $(OUT)/sweep/; comparison -> $(OUT)/metrics.json alpha_sweep; tables, figures
-	$(PYTHON) -m eval sweep --out $(OUT)/sweep
+	$(PYTHON) -m eval sweep --out $(OUT)/sweep --out-dir $(OUT)
 	for d in $(OUT)/sweep/*/; do $(PYTHON) validate.py $$d --config $$d/run_config.toml || exit 1; done
 	$(PYTHON) make_tables.py --run $(OUT)
 	$(PYTHON) make_tables.py --sweep --run $(OUT)

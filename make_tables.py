@@ -305,6 +305,10 @@ class Sweep:
         self.cutoffs = [str(c) for c in pr["cutoffs"]]
         self.last = self.cutoffs[-1]
         self.main = pr["main_run"]
+        if self.main:   # the variant's metric sections against the main run's current ones (hashes in the section)
+            self.main = {**self.main, "sections": len(self.main["section_sha256"]),
+                         "sections_identical": [k for k, h in self.main["section_sha256"].items()
+                                                if k in m and V.section_hash(m[k]) == h]}
         self.default = m["coherence"]["params"]["alpha"]   # the configured default: the α of the main run
 
     def v(self, a):
@@ -657,6 +661,12 @@ def _claims():
         return (w.favour(r)["drill-down"] == w.favour(w.ref)["drill-down"] and better and worse
                 and "A reach" in worse and slow)
 
+    def paired_ref(w):
+        st = [w.v(a)["protocol"]["stability"] for a in w.alphas]
+        n = len(st[0]["seeds"])
+        return (w.ref == 0.5 and all(x == st[0] for x in st)
+                and all(d["n"] == n for a in w.alphas for d in w.v(a)["paired"]["perturbation"].values()))
+
     def main_identical(w):
         mr = w.main
         return (mr is not None and mr["alpha"] == w.default and mr["hierarchy_identical"] == mr["snapshots"]
@@ -665,11 +675,14 @@ def _claims():
     def original_rule(w):
         o = _recommend(w, guard="best")[2]
         best_h = max(w.alphas, key=lambda a: w.hari(a)[0])
-        return o == 1.0 == best_h and not w.robust(1.0) and _recommend(w, guard="best")[1] == [1.0]
+        h = {a: w.hari(a) for a in w.alphas}
+        return (o == 1.0 == best_h and not w.robust(1.0) and _recommend(w, guard="best")[1] == [1.0]
+                and all(h[1.0][1] > h[b][2] for b in others(w, 1.0)))
 
     return {
         "sweep_grid": ("report", "the five α values 0, 0.25, 0.5, 0.75 and 1", sw(lambda w: w.alphas == [0.0, 0.25, 0.5, 0.75, 1.0])),
-        "reference": ("report", "the pre-sweep default and reference is α = 0.5", sw(lambda w: w.ref == 0.5)),
+        "reference": ("report", "the reference is α = 0.5, and the stability comparisons with it are paired by seed "
+                      "(same seeds, edge fraction and subsamples for every variant)", sw(paired_ref)),
         "recommended": ("report", "the rule recommends α = 0.75, which is the configured default of the main run",
                         sw(lambda w: rec(w) == 0.75 == w.default)),
         "most_robust": ("report", "the recommended α has more robust cells than every other variant and no below-null cell", sw(most_robust)),
@@ -687,7 +700,8 @@ def _claims():
                                "and all four metric sections)", sw(main_identical)),
         "sweep_grid_doc": ("sweep", "the five α values 0, 0.25, 0.5, 0.75 and 1",
                            sw(lambda w: w.alphas == [0.0, 0.25, 0.5, 0.75, 1.0])),
-        "reference_doc": ("sweep", "the pre-sweep default and reference is α = 0.5", sw(lambda w: w.ref == 0.5)),
+        "reference_doc": ("sweep", "the pre-sweep default and reference is α = 0.5, paired as in the report",
+                          sw(paired_ref)),
         "original_rule": ("sweep", "the original best-variant guard would have recommended α = 1 alone, the most robust variant, "
                           "which has no robust cell", sw(original_rule)),
     }
@@ -699,11 +713,11 @@ CLAIMS = _claims()
 def check_claims(text, m, path, doc):
     """Every claim tagged in the document holds on metrics.json, and every claim registered for it is tagged."""
     found = set(CLAIM.findall(text))
-    unknown = sorted(found - CLAIMS.keys())
+    unknown = sorted(n for n in found if n not in CLAIMS or CLAIMS[n][0] != doc)
     unused = sorted(n for n, (d, _, _) in CLAIMS.items() if d == doc and n not in found)
     false = sorted(n for n in found if n in CLAIMS and not CLAIMS[n][2](m))
     if unknown or unused or false:
-        sys.exit(f"{path}: unknown claim tags {unknown}; registered but untagged {unused}; claims that do not hold on "
+        sys.exit(f"{path}: unknown claim tags or tags of the other document {unknown}; registered but untagged {unused}; claims that do not hold on "
                  "metrics.json: " + ("; ".join(f"{n} ({CLAIMS[n][1]})" for n in false) or "none"))
     return found
 

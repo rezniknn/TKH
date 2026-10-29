@@ -1704,6 +1704,37 @@ accepted or changed, and what was checked.
     - a verdict stated in prose in §5.3.1 was replaced with a pointer to the tables;
     - stale section and table references in §6 and in `docs/alpha_sweep.md` were fixed.
 
+### 52. Sweep comparison as a metrics.json section; every report number from metrics.json (Claude Code)
+
+- **Task/module:** `eval/sweep.py`, `eval/verdicts.py` (new), `make_tables.py`, `eval/figures.py`, `Makefile`,
+  `docs/report.md`, `docs/alpha_sweep.md`
+- **Prompt:** write the sweep comparison to a dedicated section of `metrics.json`; `metrics.json` and `make_tables.py`
+  should be the only source of every number and comparison in the final report. The user chose to fold `sweep.json`
+  into the section, and asked that exact numbers come from `metrics.json` and that hand-written claims be verified
+  against the real numbers.
+- **What the assistant did:**
+  - `summarise` writes `metrics.json["alpha_sweep"]`. It holds the protocol, each variant's per-criterion values
+    and verdicts, tree statistics, the paired differences to α = 0.5, and content hashes of the default variant's
+    sections. `sweep.json` is deleted.
+  - Moved the verdict rules into `eval/verdicts.py`, shared by the sweep code and `make_tables.py`.
+  - `make_tables.py` and `eval/figures.py` now read only `metrics.json`.
+  - Tagged hand-written result claims `<!-- claim:NAME -->` (10 in the report, 3 in the companion). Each tag is
+    checked by a test in `make_tables.py` on every run. A false claim, an unknown tag, a tag of the other document or
+    an untagged claim fails.
+  - `make all` gains `sweep-summary`, because a rebuild deletes `metrics.json`.
+- **Verified:**
+  - the four main sections are unchanged, and the section's paired values equal the old `sweep.json`;
+  - all report tables and figures regenerate byte-identical, and the companion differs in one cell;
+  - with `out/sweep/` moved away, both checks pass and the figure is identical;
+  - a corrupted `metrics.json` and a removed tag both fail the check;
+  - `make test` passes (65).
+- **Adversarial review (31 agents):** confirmed and fixed the following:
+  - `make all` dropped the section;
+  - `make sweep OUT=…` wrote it to `out/`;
+  - the main-run comparison could go stale (now compared live by hash);
+  - a claim predicate was weaker than its sentence;
+  - stale table captions.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

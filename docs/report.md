@@ -356,7 +356,7 @@ comparisons are of counts or of separate intervals. Table 3 gives one headline p
 per-level and per-snapshot values.
 
 *Table 3. α variants across the four criteria, every other parameter at its default; the recommended variant in bold
-(`out/sweep/`).*
+(`alpha_sweep`).*
 
 <!-- table:alpha_sweep -->
 | α | P3 robust / below-null cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P5 paired difference to the pre-sweep default | P6 over-claim [95% CI] | T6 measures favouring drill-down / flat / tie | Eligible | Recommendation |

@@ -13,7 +13,8 @@ summarise(cfg, out_dir, alphas, ref) -> the "alpha_sweep" section of the main ru
 only source of the sweep numbers that make_tables.py and eval/figures.py read:
   protocol      alphas, the reference α (REFERENCE, the default before the sweep), cutoffs, the fixed non-α parameters
                 (asserted identical across runs), the per-α evaluation protocols, the run directories, and how the
-                variant at the main run's α compares with the main run (hierarchy.json bytes, metric sections)
+                variant at the main run's α compares with the main run (hierarchy.json bytes at summarise time; content
+                hashes of its four metric sections, which make_tables.py compares with the main run's current ones)
   variants.<α>  per criterion the values the comparison needs, with the verdict rules of eval/verdicts.py:
                 coherence cells (verdict, schemes passed, interval-scheme lift and CI per filter), robust and
                 below-null cells; perturbation HARI per snapshot, cross-snapshot indices above the new-paper null,
@@ -158,9 +159,8 @@ def summarise(cfg, out_dir, alphas=ALPHAS, ref=REFERENCE, n_sub=200):
     if da in alphas:
         same = [c for c in cs if (_dir(out_dir, da) / str(c) / "hierarchy.json").read_bytes()
                 == (main / str(c) / "hierarchy.json").read_bytes()]
-        secs = [k for k in mets[da] if mets[da][k] == main_m.get(k)]
-        match = {"alpha": da, "hierarchy_identical": len(same), "snapshots": len(cs), "sections_identical": secs,
-                 "sections": len(mets[da])}
+        match = {"alpha": da, "hierarchy_identical": len(same), "snapshots": len(cs),
+                 "section_sha256": {k: V.section_hash(v) for k, v in mets[da].items()}}
     out = _finite({"protocol": {"alphas": [float(a) for a in alphas], "reference": float(ref), "cutoffs": cs,
                                 "fixed": fixed[ref], "budgets": infos[ref]["budgets"], "runs": {f"{a:g}": _rel(_dir(out_dir, a), main) for a in alphas},
                                 "main_run": match},

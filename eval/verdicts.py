@@ -9,6 +9,9 @@ eval/sweep.py (the alpha_sweep section), so that both apply one definition.
   favoured   which system a drill-down - flat difference favours (point estimate; LOWER_BETTER measures reversed)
 """
 
+import hashlib
+import json
+
 ALPHA = 0.05          # significance level of the null tests
 SCHEMES = ("interval", "year1", "year2", "year3", "gap")
 RETRIEVAL_NAMES = {"methods": "hit-rate, methods", "method_claims": "hit-rate, method claims", "claims": "hit-rate, claims",
@@ -94,6 +97,11 @@ def favoured(k, d):
     if d is None:
         return None
     return "tie" if abs(d) < 1e-12 else ("drill-down" if (d < 0) == (k in LOWER_BETTER) else "flat")
+
+
+def section_hash(x):
+    """Content hash of a metrics.json section (order-independent), to compare sections across files."""
+    return hashlib.sha256(json.dumps(x, sort_keys=True).encode()).hexdigest()
 
 
 def favour_counts(m):

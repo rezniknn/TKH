@@ -5521,13 +5521,12 @@
     "alpha": 0.75,
     "hierarchy_identical": 4,
     "snapshots": 4,
-    "sections_identical": [
-     "coherence",
-     "stability",
-     "faithfulness",
-     "retrieval"
-    ],
-    "sections": 4
+    "section_sha256": {
+     "coherence": "012ce55bb884aaa95821468ad5f53c34de5fc0c0740117692276f360e361d6d3",
+     "stability": "02dd16da6b4282399d7520c3fb4e65892144f17575eb89e31ed5a92d6856c4bf",
+     "faithfulness": "fcd32d2c021d34a1547b8188b9424a8f1e834325569ff01dd77868c28ce839ce",
+     "retrieval": "71b691d1c15630e0b241756dc908e32ac71f57a80caebe5866c3be1ca49006e5"
+    }
    }
   },
   "variants": {

@@ -139,8 +139,8 @@ rejected alternatives), the T4 coarsening rule, temporal coupling, literature po
   `docs/report.md` §5.
 
 ```bash
-make all                                     # build -> validate -> metrics -> tables -> test (build to stability: about 15 min on 8 cores; retrieval adds seconds)
-make tables                                  # every table of docs/report.md from out/ (make_tables.py; --check to verify)
+make all                                     # build -> validate -> metrics -> sweep summary -> tables -> test (build to stability: about 15 min on 8 cores; retrieval adds seconds)
+make tables                                  # every table of docs/report.md and docs/alpha_sweep.md from out/metrics.json (make_tables.py; --check to verify)
 make metrics                                 # every check on out/: coherence -> stability -> faithfulness -> retrieval
 make retrieval                               # T6 retrieval check only (reads out/, seconds)
 make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
