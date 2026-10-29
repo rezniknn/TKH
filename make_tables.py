@@ -62,32 +62,25 @@ class Run:
 # ---------------------------------------------------------------- run, parameters, design
 
 def t_properties(r):
-    rows = [["P1 laminarity, P2 budgets", "by construction (merge-only levels; the size cap always leaves a feasible merge)",
-             "`validate.py` on every run"],
-            ["P4 hyper-edge fidelity", "by construction (score on the collapsed incidence; multi-way edges kept whole)", "§4"],
-            ["No future information (structure, membership)", "by construction (snapshot-only edges, hubs, LSA, anchors)",
-             "`validate.py` member cutoffs"],
-            ["P5 identity and lineage", "by construction (persistent ids from overlap matching; one fate per super-node "
-             "and transition)", "`validate.py` event and lineage checks"],
-            ["P5 temporal stability", "empirical: the prior is soft and bounds no reassignment; refitted LSA vectors and "
-             "relation normalisers also change the inputs of untouched nodes", "Table 4; Tables A3–A5, Fig. A2"],
-            ["Structure–semantics trade-off (P3)", "empirical (α sweep; α chosen on these results)", "Table 3; Appendix B"],
-            ["P3 semantic coherence", "empirical", "Tables 4–5; Tables A1–A2, Fig. A1"],
-            ["P6 faithful labels", "empirical", "Table 4; Table A6"],
-            ["T6 extrinsic utility", "empirical", "Table 4; Table A7"]]
+    rows = [["P1 laminarity, P2 budgets", "construction (merge-only; a feasible merge for ρ ≥ 2)", "`validate.py`"],
+            ["P4 hyper-edge fidelity", "construction (collapsed incidence, multi-way edges whole)", "§4"],
+            ["No future information", "construction (snapshot-only edges, hubs, LSA, anchors); aliases assumed", "`validate.py`"],
+            ["P5 identity and lineage", "construction (overlap matching; one fate per super-node)", "`validate.py`"],
+            ["P5 temporal stability", "empirical (soft prior; no bound on reassignment)", "Tables 4, A3–A5"],
+            ["P3 coherence, trade-off", "empirical (α chosen on these results)", "Tables 3–5, A1–A2"],
+            ["P6 labels, T6 utility", "empirical", "Tables 4, A6–A7"]]
     return md(["Property", "Status", "Evidence"], rows)
 
 
 def t_literature(r):
-    rows = [["h-Louvain [1]", "hyper-edge-aware affinity on the native incidence; multilevel aggregation",
-             "no modularity objective, whose optimum sets the number of communities; exact nested budgets; a semantic term"],
+    rows = [["h-Louvain [1]", "hyper-edge-aware affinity; multilevel aggregation",
+             "no modularity optimum setting the counts; exact nested budgets; a semantic term"],
             ["Featured Graph Coarsening [2]", "joint topology–feature coarsening",
-             "on the hyper-edge incidence; greedy merges, not a learned coarse graph; no similarity guarantee claimed"],
-            ["DynHAC [3]", "average linkage; confining change to affected regions",
-             "a soft prior instead of affected-region recomputation (frozen regions would occupy budget slots); "
-             "its locality theorem needs a reducible linkage, which H is not"],
-            ["HyperEF 2.0 [4]", "contracting hyper-edges while keeping coarse edges explicit",
-             "no ratio or spectral target (P2 fixes the counts); multi-way edges scored by the connectivity cut"]]
+             "on the hyper-edge incidence; greedy merges; no similarity guarantee claimed"],
+            ["DynHAC [3]", "average linkage; change confined to affected regions",
+             "a soft prior, not recomputation (frozen regions would hold budget slots); H is not reducible"],
+            ["HyperEF 2.0 [4]", "hyper-edge contraction with explicit coarse edges",
+             "fixed counts, no spectral target; multi-way edges scored by the connectivity cut"]]
     return md(["Work", "Borrowed", "Done differently, and why"], rows)
 
 
@@ -271,6 +264,20 @@ def _hari(x):
     return ci(x["hari"]["mean"], x["hari"]["lo"], x["hari"]["hi"])
 
 
+def _cells(cs):
+    """['≤2024 L0', '≤2024 L1', ...] -> '≤2024 L0–L2; ≤2026 L1' (levels grouped per snapshot)."""
+    by = {}
+    for c in cs:
+        t, lv = c.split(" ")
+        by.setdefault(t, []).append(int(lv[1:]))
+    out = []
+    for t, lvs in by.items():
+        run = sorted(lvs)
+        out.append(f"{t} L{run[0]}–L{run[-1]}" if len(run) > 1 and run == list(range(run[0], run[-1] + 1)) else
+                   t + " " + ", ".join(f"L{x}" for x in run))
+    return "; ".join(out) or "none"
+
+
 def t_results(r):
     """Headline results of the shipped run with their uncertainty, computed with the rules of Tables A2-A7."""
     rob, rob_f = _robust(r), _robust(r, "fuzzy")
@@ -279,40 +286,24 @@ def t_results(r):
     pt = r.m["stability"]["perturbation"]
     nloc, loc = _localised(r)
     fa = r.m["faithfulness"]
-    oc = fa["over_claim"]
-    lv, lv_names = list(fa["by_level"].values()), list(fa["by_level"])
-    if not _ok(oc["ci95"]):
-        oc_q = "not evaluable"
-    else:
-        oc_q = "majority of labels" if oc["ci95"][0] > 0.5 else ("minority of labels" if oc["ci95"][1] < 0.5 else "not distinguishable from one half")
-    if len(lv) < 2:
-        lv_row = ["P6 over-claim by level", "one level only", "", "Table A6"]
-    else:
-        a, b = lv[0]["over_claim"]["ci95"], lv[-1]["over_claim"]["ci95"]
-        sep = "not evaluable" if not (_ok(a) and _ok(b)) else ("CIs do not overlap" if a[1] < b[0] or b[1] < a[0] else "CIs overlap")
-        lv_row = [f"P6 {lv_names[0]} vs {lv_names[-1]} over-claim",
-                  f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table A6"]
-    fav, ra = _favour_counts(r), r.m["retrieval"]["summary"]["A"]
-    steps = [(t, s["inspect_first"], s["scored"]) for t, s in r.m["retrieval"]["summary"].items() if "inspect_first" in s]
-    rows = [["P3 coherence beyond both nulls (robust: all schemes, exact filter)", ", ".join(rob) or "none",
-             f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table A2"],
-            ["P3 cells below both nulls in every scheme (exact filter)", ", ".join(below) or "none",
-             f"fuzzy filter: {', '.join(below_f) or 'none'}", "Table A2"],
-            ["P5 cross-snapshot indices above the new-paper null", f"{above} of {len(idx)}", f"p ≤ {ALPHA}, uncorrected", "Table A4"],
-            ["P5 perturbation HARI, first → last snapshot", f"{_hari(pt[r.cutoffs[0]])} → {_hari(pt[r.last])}", "t-interval over seeds", "Table A3"],
-            ["P5 localised level × transition cells (ratio CI > 1)", f"{nloc} of {len(loc)}",
-             "untouched share of reassignment " + _range_pct([_untouched_share(x) for x in loc]), "Table A5"],
-            ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table A6"],
-            lv_row,
-            ["T6 type-A method hit-rate and reach, drill-down vs flat",
-             f"{f(ra['methods']['hier'], 3)} vs {f(ra['methods']['flat'], 3)}; reach {f(ra['reached']['hier'], 3)} vs {f(ra['reached']['flat'], 3)}",
-             "point estimates, attainable items; flat reach is 1 by construction", "Table A7"],
-            ["T6 median items inspected to first item / candidates scored, drill-down vs flat",
-             "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)} / {f(c['hier'], 0)} vs {f(c['flat'], 0)}" for t, x, c in steps) or "—",
-             "reader's effort / computation, not latency", "Table A7"],
-            ["T6 retrieval measures favouring drill-down / flat / tie", f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
-             "descriptive: correlated point estimates, not votes", "Table A7"]]
-    return md(["Criterion", "Result (α = 0.75)", "Qualifier", "Full table"], rows)
+    oc, lv = fa["over_claim"], list(fa["by_level"].items())
+    n_cells = sum(len(r.m["coherence"]["snapshots"][c]["levels"]) for c in r.cutoffs)
+    fav, ret = _favour_counts(r), r.m["retrieval"]["summary"]
+    ra = ret["A"]
+    rows = [["P3 robust cells (exact; fuzzy)", f"{len(rob)} of {n_cells}: {_cells(rob)}",
+             f"fuzzy {len(rob_f)}; below both nulls: {len(below)} (fuzzy {len(below_f)})", "A2"],
+            ["P5 perturbation HARI, first → last", f"{_hari(pt[r.cutoffs[0]])} → {_hari(pt[r.last])}", "t-interval, 5 seeds", "A3"],
+            ["P5 cross-snapshot; localisation", f"{above} of {len(idx)} above the null; {nloc} of {len(loc)} localised",
+             "untouched share " + _range_pct([_untouched_share(x) for x in loc]), "A4–A5"],
+            ["P6 over-claim (all; " + " vs ".join(n for n, _ in lv) + ")",
+             f"{ci(oc['value'], *oc['ci95'])}; " + " vs ".join(f(x["over_claim"]["value"]) for _, x in lv), "bootstrap CI", "A6"],
+            ["T6 type-A methods; reach (drill-down vs flat)",
+             f"{f(ra['methods']['hier'], 3)} vs {f(ra['methods']['flat'], 3)}; {f(ra['reached']['hier'], 3)} vs {f(ra['reached']['flat'], 3)}",
+             "point estimates; favour count " + f"{fav['drill-down']}/{fav['flat']}/{fav['tie']}", "A7"],
+            ["T6 items inspected to first; candidates scored",
+             "; ".join(f"{t}: {f(x['inspect_first']['hier'], 1)} vs {f(x['inspect_first']['flat'], 1)}, {f(x['scored']['hier'], 0)} vs {f(x['scored']['flat'], 0)}"
+                       for t, x in ret.items()), "medians; computation, not latency", "A7"]]
+    return md(["Criterion", "α = 0.75", "Qualifier", "Table"], rows)
 
 
 def t_abstract_coherence(r):
@@ -321,16 +312,16 @@ def t_abstract_coherence(r):
         sys.exit("metrics.json has no abstract_coherence section: run `make abstract-coherence`")
     x = r.m["abstract_coherence"]
     cov, sm, pm, lo = x["coverage"], x["summary"], x["summary"]["permutation"], x["leave_one_out"]
-    rows = [["Papers with an abstract (of the snapshot's papers); L0 super-nodes holding them",
+    rows = [["Papers with an abstract; L0 super-nodes holding them",
              f"{cov['with_abstract']} of {cov['papers']}; {cov['super_nodes_with_papers']} of {cov['super_nodes_l0']}"],
             ["Pairs rated, same / different L0 super-node", f"{sm['pairs_within']} / {sm['pairs_across']}"],
-            ["Mean closeness (0–10), same / different L0 super-node", f"{f(sm['mean_within'])} / {f(sm['mean_across'])}"],
+            ["Mean closeness (0–10), same / different", f"{f(sm['mean_within'])} / {f(sm['mean_across'])}"],
             ["Difference [95% paper-bootstrap CI]", ci(sm["difference"], *sm["difference_ci95"])],
-            [f"Permutation null (R = {pm['R']}): mean; 97.5% quantile; one-sided p", f"{f(pm['null_mean'])}; {f(pm['null_q97.5'])}; {p(pm['p'])}"],
-            ["Difference with one super-node's papers left out: lowest; highest",
+            [f"Permutation null (R = {pm['R']}): mean; 97.5% q.; p", f"{f(pm['null_mean'])}; {f(pm['null_q97.5'])}; {p(pm['p'])}"],
+            ["Difference, one super-node left out: min; max",
              f"{f(lo['min']['difference'])} (without {lo['min']['dropped']}); {f(lo['max']['difference'])} (without {lo['max']['dropped']})"]]
     pr = x["protocol"]
-    return md(["Item", "Value"], rows) + f"\nRater {pr['model']}, ≤{pr['cutoff']}, L{pr['level']} of the run with α = {pr['alpha']:g}.\n"
+    return md(["Item", f"Value ({pr['model']}, ≤{pr['cutoff']}, L{pr['level']}, α = {pr['alpha']:g})"], rows)
 
 
 TABLES = {"results": t_results, "properties": t_properties, "literature": t_literature,
@@ -738,7 +729,52 @@ def _claims():
         return (o == 1.0 == best_h and not w.robust(1.0) and _recommend(w, guard="best")[1] == [1.0]
                 and all(h[1.0][1] > h[b][2] for b in others(w, 1.0)))
 
+    def coherence_late(m):
+        late = {f"≤{c} L{k}" for c in V.cutoffs(m)[-2:] for k in range(len(m["coherence"]["snapshots"][c]["levels"]))}
+        return late <= set(V.robust(m, "exact")) and not V.below_cells(m, "exact")
+
+    def coverage_grows(m):
+        cov = [m["coherence"]["snapshots"][c]["coverage"]["exact"] for c in V.cutoffs(m)]
+        return (all(x["no_overlap_pairs"] < y["no_overlap_pairs"] for x, y in zip(cov, cov[1:]))
+                and cov[0]["period_strata"] == 1)
+
+    def stability_profile(m):
+        pt, cs = m["stability"]["perturbation"], V.cutoffs(m)
+        above, idx = V.above_null(m)
+        n_loc, loc = V.localised(m)
+        share = [x for x in map(V.untouched_share, loc) if x is not None]
+        return (pt[cs[0]]["hari"]["lo"] > pt[cs[-1]]["hari"]["hi"] and n_loc == len(loc) > 0 and above < len(idx) / 2
+                and bool(share) and min(share) > 0.5)
+
+    def faith_profile(m):
+        fa = m["faithfulness"]
+        lv = list(fa["by_level"].values())
+        return fa["over_claim"]["ci95"][0] > 0.5 and lv[0]["over_claim"]["ci95"][1] < lv[-1]["over_claim"]["ci95"][0]
+
+    def abstract_within_closer(m):
+        x = m.get("abstract_coherence")
+        if not x:
+            return False
+        sm = x["summary"]
+        return (sm["difference_ci95"][0] > 0 and sm["difference"] > sm["permutation"]["null_q97.5"]
+                and x["leave_one_out"]["min"]["difference"] > 0)
+
+    def navigation_lost_l1(m):
+        nr = m["retrieval"]["diagnostics"]["never_reached"]
+        return sw(navigation_not_established)(m) and bool(nr) and all(lv == 1 for lv in nr.values())
+
     return {
+        "coherence_late": ("report", "every level of the two latest snapshots is robust (exact filter) and no cell is below both nulls",
+                           coherence_late),
+        "coverage_grows": ("report", "no-overlap pairs grow with the snapshot and the first snapshot has one period stratum",
+                           coverage_grows),
+        "stability_profile": ("report", "perturbation HARI intervals of the first and last snapshot do not overlap (first higher); every "
+                              "level x transition cell is localised, with untouched nodes carrying most reassignment in each; fewer "
+                              "than half the cross-snapshot indices beat the null",
+                              stability_profile),
+        "faith_profile": ("report", "over-claim CI above one half; L0 CI below L1 CI", faith_profile),
+        "abstract_within_closer": ("report", "abstract closeness difference: bootstrap CI above 0, above the permutation 97.5% quantile, "
+                                   "positive with any one super-node left out", abstract_within_closer),
         "sweep_grid": ("report", "the five α values 0, 0.25, 0.5, 0.75 and 1", sw(lambda w: w.alphas == [0.0, 0.25, 0.5, 0.75, 1.0])),
         "reference": ("report", "the reference is α = 0.5, and the stability comparisons with it are paired by seed "
                       "(same seeds, edge fraction and subsamples for every variant)", sw(paired_ref)),
@@ -758,7 +794,7 @@ def _claims():
                             "the first item", sw(retrieval_mixed)),
         "navigation_not_established": ("report", "at the shipped α, drill-down's type-A method hit-rate is not above flat's and its "
                                        "type-A reach is below flat's; for every type it scores fewer candidates but needs more items inspected to "
-                                       "the first item", sw(navigation_not_established)),
+                                       "the first item; every unreached question is lost at L1", navigation_lost_l1),
         "main_run_identical": ("report", "the main run is identical to the sweep variant at the configured default (hierarchies "
                                "and all four metric sections)", sw(main_identical)),
         "sweep_grid_doc": ("sweep", "the five α values 0, 0.25, 0.5, 0.75 and 1",

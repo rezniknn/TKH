@@ -1892,23 +1892,25 @@ accepted or changed, and what was checked.
 
 ## Case where the AI was wrong (§6a)
 
-_To be filled in. It must describe one concrete case where the assistant produced wrong
-code or a wrong claim, how it was caught, and what was changed. "None" is acceptable
-only if it says how the work was checked._
+**The α-sweep decision rule (entry 48).**
+- **What went wrong.** The assistant designed the rule that picks α from the sweep and fixed it before the results
+  were read. Its stability guard excluded any variant whose perturbation HARI was distinguishably below that of the
+  *most robust* variant. Applied to the results, the rule recommended α = 1, the names-only build, which has no
+  robust coherence cell.
+- **Why the rule was wrong.** Removing hyper-edges cannot change a grouping made from names alone, so the names-only
+  variant is robust to perturbation for a reason unrelated to the quality of its groups. Its HARI interval lay above
+  every other variant's, so it excluded them all. The report's own reading of the stability results warned about
+  exactly this effect.
+- **How it was caught.** The assistant checked the recommendation against the per-criterion tables before writing
+  it up and found that the rule contradicted the report's §5. The issue was raised with the user before anything was
+  changed.
+- **What changed.** At the user's choice, the guards now compare each variant with the pre-sweep default (α = 0.5),
+  which gives α = 0.75. The revision is disclosed in Appendix B §9. The checked claim `original_rule` recomputes the
+  original rule's outcome from `metrics.json` on every `make tables`, so the record cannot drift from the data.
 
-Candidates so far:
-- Entry 13: the first validator passed its own tests, but adversarial agents found
-  crashes disguised as failures and invalid outputs it accepted. Every finding was
-  reproduced on a concrete fixture and fixed, and each became a regression fixture.
-- Entry 19: the same version-gating bug reappeared in notebook 02 despite entry 10. It is
-  now caught statically by a test.
-- Entry 10 (strongest, a real code bug): the assistant fixed a matplotlib API error by
-  moving to the newest keyword arguments, testing only in its own environment. That
-  broke the notebook on matplotlib 3.7 in the user's environment. It was caught when
-  the user ran it, and fixed with a version-tolerant call plus execution checks in
-  three environments.
-- Entry 7: the `xDeepH` "no node" claim and the `first_seen_year` snapshot
-  recommendation, both caught by independent verifier agents and cross-checking.
-- Entry 3: the misnamed "internal fraction" formula in Perplexity's primer, found by
-  working through the m = n case by hand. Still open: checking entry 2's paper details
-  and technical claims.
+Further cases, each caught and fixed, are recorded in their entries:
+- **Entry 55:** the faithfulness code disagreed with the documented decomposition fallback.
+- **Entry 53:** a backwards claim in notebook 04.
+- **Entry 13:** validator crashes and accepted invalid outputs.
+- **Entry 10:** a matplotlib fix that broke an older version.
+- Entries 32–34, 37–40, 42, 45 and 46 carry an inline "Case where the AI was wrong" bullet.

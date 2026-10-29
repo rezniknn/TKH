@@ -53,6 +53,9 @@ TKH_ONLINE=1 .venv/bin/jupyter nbconvert --to notebook --execute --inplace noteb
 
 The snapshot rule is in `tkh/io.py` and the statistics in `tkh/describe.py`.
 
+`notebooks/03_structural_signal.ipynb` studies the structure of the graph (which nodes and relations link papers,
+and what a coarser level must represent) without assuming a coarsening method, and derives design rules for one.
+
 `notebooks/04_hierarchies.ipynb` takes apart the shipped hierarchies (α = 0.75) with the method's own code:
 - the inputs of a merge;
 - one merge step by step, with the scores, the choice of the pair and what the merge changes;
@@ -118,8 +121,10 @@ mutations of that mock.
 
 ## Method: SHAC (T2, T4)
 
-The report, [docs/report.md](docs/report.md), gives the formal statement (greedy score, guarantees, complexity,
-rejected alternatives), the T4 coarsening rule, temporal coupling, literature positioning and the evaluation.
+The report, [docs/report.md](docs/report.md), gives the formal statement (greedy score, guarantees, rejected
+alternatives), the method and its literature positioning, the T4 coarsening rule, the evaluation and future work.
+[docs/appendix.md](docs/appendix.md) (Appendix A) holds the budget lemma, the resource statement, the full metric
+definitions and every per-metric table; [docs/alpha_sweep.md](docs/alpha_sweep.md) (Appendix B) holds the α sweep.
 
 - **Procedure.** A budget-constrained greedy agglomeration over the concept nodes, run
   from the finest level to the coarsest, so that every level is a cut of one merge tree
@@ -131,8 +136,8 @@ rejected alternatives), the T4 coarsening rule, temporal coupling, literature po
   A size cap `rho * n / N_k` guarantees that every level reaches exactly `min(N_k, n)`
   super-nodes (P2), for any budget list.
 - **Temporal coupling (T3).** Snapshots are built in order. A localised temporal prior,
-  `(1 - gamma) * score + gamma * Pi`, keeps old nodes that no new paper touches with their previous
-  co-members, so change stays where the corpus changed; ids and events come from overlap matching.
+  `(1 - gamma) * score + gamma * Pi`, pulls old nodes that no new paper touches towards their previous
+  co-members (a soft prior: it bounds no reassignment, which is measured); ids and events come from overlap matching.
 - **Other nodes.** Non-concept nodes are anchored to a concept node after clustering.
   Citations, claims, titles and authors never enter the clustering; `claims` and `cites`
   edges are used only to anchor claim and cited-work nodes afterwards.
@@ -144,6 +149,8 @@ rejected alternatives), the T4 coarsening rule, temporal coupling, literature po
 - **Stability check** (`eval/stability.py`): rebuild after removing 10% of hyper-edges (5 seeds)
   and real cross-snapshot ARI and HARI with intervals, against a null where only the new papers'
   edges are rewired; change localisation; event counts. `make gamma` compares gamma = 0 ... 1.
+- **Labels (T5)** (`tkh/label.py`, `[labels]` of the config): an LLM labeller (qwen2.5) writes the L0–L1 label and
+  gloss of each super-node from half of its evidence; answers replay from `data/llm_cache.json` (offline by default).
 - **Label faithfulness check** (`eval/faithfulness.py`, run by `make faithfulness`): a judge from a different model
   family splits each L0–L1 label and gloss into claims and checks them against the held-out half of the evidence
   -> over-claim rate in `metrics.json["faithfulness"]`, records in `out/faithfulness_judgements.json`; LLM answers
@@ -152,20 +159,24 @@ rejected alternatives), the T4 coarsening rule, temporal coupling, literature po
   drill-down agent (L0 → L2 beam search) against flat search on `data/questions.csv`, scored with
   `data/ground_truth.json` (hit-rate, error rate, items inspected, candidates scored) -> `metrics.json["retrieval"]` and
   `out/retrieval_answers.json`; offline, seconds. Design: `notebooks/05_retrieval_design.ipynb`; results:
-  `docs/report.md` §5.
+  `docs/report.md` §5.3 (Table 4) and `docs/appendix.md` (Table A7).
+- **Abstract coherence (extra)** (`eval/extra/abstract_coherence.py`, run by `make abstract-coherence`): phi4 rates the
+  topical closeness of paper pairs from their abstracts, within vs across L0 super-nodes -> `metrics.json
+  ["abstract_coherence"]` and `eval/extra/REPORT.md`; offline from `eval/extra/llm_cache.json`; report §5.5.
 
 ```bash
-make all                                     # build -> validate -> metrics -> sweep summary -> tables -> test (build to stability: about 15 min on 8 cores; retrieval adds seconds)
-make tables                                  # every table of docs/report.md and docs/alpha_sweep.md from out/metrics.json (make_tables.py; --check to verify)
+make all                                     # build -> validate -> metrics -> abstract coherence -> sweep summary -> tables -> test (build to stability: about 15 min on 8 cores)
+make tables                                  # every table of the report and Appendices A, B from out/metrics.json (make_tables.py --doc report|appendix|sweep; --check to verify)
 make metrics                                 # every check on out/: coherence -> stability -> faithfulness -> retrieval
 make retrieval                               # T6 retrieval check only (reads out/, seconds)
 make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
 .venv/bin/python -m tkh build --out /tmp/alt --budgets 10 40 160 640 --param rho=4
 make null SEED=3                             # one null-model run, validated against its own graph
 make sweep                                   # alpha = 0 ... 1, rest at defaults: full run + four checks each -> out/sweep/; comparison -> out/metrics.json "alpha_sweep"
-make abstract-coherence                      # extra: LLM-rated abstract closeness within vs across L0 super-nodes -> eval/extra/REPORT.md
+make abstract-coherence                      # extra: LLM-rated abstract closeness within vs across L0 super-nodes -> metrics.json, eval/extra/REPORT.md
 ```
 
 Parameters (`alpha`, `gamma`, `rho`, `edge_weight`, `hub_frac`, `lsa_dim`) live in `[method]` of
 the config; unknown keys are an error. The default `alpha = 0.75` was chosen by the α sweep (`make sweep`, `docs/alpha_sweep.md`);
-the other defaults are stated priors. Labels are placeholders until a labeller is added.
+the other defaults are stated priors. `[labels]` sets the labeller and judge models, the LLM cache and its mode
+(`labeller = "placeholder"` skips the LLM).
