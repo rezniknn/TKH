@@ -8972,5 +8972,54 @@
     }
    }
   }
+ },
+ "abstract_coherence": {
+  "protocol": {
+   "run": "out",
+   "alpha": 0.75,
+   "cutoff": 2026,
+   "level": 0,
+   "model": "phi4",
+   "prompt": "pair_prompt.txt",
+   "bootstrap_B": 2000,
+   "permutation_R": 9999,
+   "seed": 0
+  },
+  "coverage": {
+   "papers": 52,
+   "with_abstract": 49,
+   "super_nodes_l0": 15,
+   "super_nodes_with_papers": 12,
+   "pairs": 1176,
+   "unparsed": 0
+  },
+  "summary": {
+   "pairs_within": 144,
+   "pairs_across": 1032,
+   "mean_within": 5.972222222222222,
+   "mean_across": 5.371124031007752,
+   "difference": 0.6010981912144704,
+   "difference_ci95": [
+    0.021858151310504198,
+    1.1980714570022768
+   ],
+   "permutation": {
+    "R": 9999,
+    "null_mean": -0.0009846268864612648,
+    "null_q97.5": 0.41948481912144103,
+    "p": 0.0036
+   }
+  },
+  "leave_one_out": {
+   "min": {
+    "dropped": "L0.1",
+    "difference": 0.4617988394584138
+   },
+   "max": {
+    "dropped": "L0.16",
+    "difference": 0.6951219512195124
+   },
+   "n": 8
+  }
  }
 }

@@ -1,13 +1,17 @@
-"""Regenerate every table of docs/report.md from out/metrics.json (deliverable §6a.3).
+"""Regenerate every table of the report and its appendices from out/metrics.json (deliverable §6a.3).
 
-    python make_tables.py [--run out] [--report docs/report.md] [--check]
-    python make_tables.py --sweep [--run out] [--report docs/alpha_sweep.md] [--check]
+    python make_tables.py [--doc report|appendix|sweep] [--run out] [--report PATH] [--check]
 
-Each table sits between `<!-- table:NAME -->` and `<!-- /table:NAME -->` in the report; the script rewrites the block
-from the run's metrics.json and nothing else: the sections coherence, stability, faithfulness and retrieval, and the
-alpha_sweep section written by `make sweep` (eval/sweep.py). Verdict columns are computed with the rules of
+    report    docs/report.md        the main report (TABLES)
+    appendix  docs/appendix.md      Appendix A: full per-metric tables of the shipped run (APPENDIX_TABLES)
+    sweep     docs/alpha_sweep.md   Appendix B: the α sweep (SWEEP_TABLES); --sweep is an alias of --doc sweep
+
+Each table sits between `<!-- table:NAME -->` and `<!-- /table:NAME -->` in its document; the script rewrites the
+block from the run's metrics.json and nothing else: the sections coherence, stability, faithfulness and retrieval, the
+alpha_sweep section written by `make sweep` (eval/sweep.py) and the abstract_coherence section written by
+`make abstract-coherence` (eval/extra/abstract_coherence.py). Verdict columns are computed with the rules of
 eval/verdicts.py from the p-values and intervals (ALPHA), never typed in; the recommendation and the trade-off verdicts
-of the α sweep are computed here. With --sweep the script renders the α-sweep tables into docs/alpha_sweep.md.
+of the α sweep are computed here.
 
 Hand-written claims in the prose are tagged `<!-- claim:NAME -->` and checked against metrics.json by the predicates
 of CLAIMS: a false claim, an unknown tag or an unused claim fails, on every run and with --check. --check exits 1 if
@@ -58,20 +62,25 @@ class Run:
 # ---------------------------------------------------------------- run, parameters, design
 
 def t_properties(r):
-    rows = [["P1 laminarity, P2 budgets", "by construction (merge-only levels; budget lemma)", "`validate.py` on every run"],
+    rows = [["P1 laminarity, P2 budgets", "by construction (merge-only levels; the size cap always leaves a feasible merge)",
+             "`validate.py` on every run"],
             ["P4 hyper-edge fidelity", "by construction (score on the collapsed incidence; multi-way edges kept whole)", "§4"],
-            ["No future information (structure, membership)", "by construction (snapshot-only edges, hubs, LSA, anchors)", "`validate.py` member cutoffs"],
-            ["Structure–semantics trade-off (P3)", "empirical (α sweep; α chosen on these results)", "Tables 3–4, Fig. 1"],
-            ["P3 semantic coherence", "empirical", "Tables 5–6, Fig. 2"],
-            ["P5 temporal stability", "by construction (prior, persistent ids); size empirical", "Tables 7–9, Figs. 3–4"],
-            ["P6 faithful labels", "empirical", "Table 10, Fig. 5"],
-            ["T6 extrinsic utility", "empirical", "Table 11, Fig. 6"]]
+            ["No future information (structure, membership)", "by construction (snapshot-only edges, hubs, LSA, anchors)",
+             "`validate.py` member cutoffs"],
+            ["P5 identity and lineage", "by construction (persistent ids from overlap matching; one fate per super-node "
+             "and transition)", "`validate.py` event and lineage checks"],
+            ["P5 temporal stability", "empirical: the prior is soft and bounds no reassignment; refitted LSA vectors and "
+             "relation normalisers also change the inputs of untouched nodes", "Table 4; Tables A3–A5, Fig. A2"],
+            ["Structure–semantics trade-off (P3)", "empirical (α sweep; α chosen on these results)", "Table 3; Appendix B"],
+            ["P3 semantic coherence", "empirical", "Tables 4–5; Tables A1–A2, Fig. A1"],
+            ["P6 faithful labels", "empirical", "Table 4; Table A6"],
+            ["T6 extrinsic utility", "empirical", "Table 4; Table A7"]]
     return md(["Property", "Status", "Evidence"], rows)
 
 
 def t_literature(r):
     rows = [["h-Louvain [1]", "hyper-edge-aware affinity on the native incidence; multilevel aggregation",
-             "no modularity or resolution parameter; exact nested budgets; a semantic term"],
+             "no modularity objective, whose optimum sets the number of communities; exact nested budgets; a semantic term"],
             ["Featured Graph Coarsening [2]", "joint topology–feature coarsening",
              "on the hyper-edge incidence; greedy merges, not a learned coarse graph; no similarity guarantee claimed"],
             ["DynHAC [3]", "average linkage; confining change to affected regions",
@@ -258,8 +267,12 @@ def t_retrieval(r):
 
 
 
-def t_findings(r):
-    """Headline verdicts, computed with the same rules as Tables 6-11."""
+def _hari(x):
+    return ci(x["hari"]["mean"], x["hari"]["lo"], x["hari"]["hi"])
+
+
+def t_results(r):
+    """Headline results of the shipped run with their uncertainty, computed with the rules of Tables A2-A7."""
     rob, rob_f = _robust(r), _robust(r, "fuzzy")
     below, below_f = _below_cells(r), _below_cells(r, "fuzzy")
     above, idx = _above_null(r)
@@ -273,35 +286,58 @@ def t_findings(r):
     else:
         oc_q = "majority of labels" if oc["ci95"][0] > 0.5 else ("minority of labels" if oc["ci95"][1] < 0.5 else "not distinguishable from one half")
     if len(lv) < 2:
-        lv_row = ["P6 over-claim by level", "one level only", "", "Table 10"]
+        lv_row = ["P6 over-claim by level", "one level only", "", "Table A6"]
     else:
         a, b = lv[0]["over_claim"]["ci95"], lv[-1]["over_claim"]["ci95"]
         sep = "not evaluable" if not (_ok(a) and _ok(b)) else ("CIs do not overlap" if a[1] < b[0] or b[1] < a[0] else "CIs overlap")
         lv_row = [f"P6 {lv_names[0]} vs {lv_names[-1]} over-claim",
-                  f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table 10"]
-    fav = _favour_counts(r)
+                  f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table A6"]
+    fav, ra = _favour_counts(r), r.m["retrieval"]["summary"]["A"]
     steps = [(t, s["inspect_first"], s["scored"]) for t, s in r.m["retrieval"]["summary"].items() if "inspect_first" in s]
     rows = [["P3 coherence beyond both nulls (robust: all schemes, exact filter)", ", ".join(rob) or "none",
-             f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table 6"],
+             f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table A2"],
             ["P3 cells below both nulls in every scheme (exact filter)", ", ".join(below) or "none",
-             f"fuzzy filter: {', '.join(below_f) or 'none'}", "Table 6"],
-            ["P5 cross-snapshot indices above the new-paper null", f"{above} of {len(idx)}", f"p ≤ {ALPHA}, uncorrected", "Table 8"],
-            ["P5 perturbation HARI, first → last snapshot", f"{f(pt[r.cutoffs[0]]['hari']['mean'])} → {f(pt[r.last]['hari']['mean'])}", "", "Table 7"],
+             f"fuzzy filter: {', '.join(below_f) or 'none'}", "Table A2"],
+            ["P5 cross-snapshot indices above the new-paper null", f"{above} of {len(idx)}", f"p ≤ {ALPHA}, uncorrected", "Table A4"],
+            ["P5 perturbation HARI, first → last snapshot", f"{_hari(pt[r.cutoffs[0]])} → {_hari(pt[r.last])}", "t-interval over seeds", "Table A3"],
             ["P5 localised level × transition cells (ratio CI > 1)", f"{nloc} of {len(loc)}",
-             "untouched share of reassignment " + _range_pct([_untouched_share(x) for x in loc]), "Table 9"],
-            ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table 10"],
+             "untouched share of reassignment " + _range_pct([_untouched_share(x) for x in loc]), "Table A5"],
+            ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table A6"],
             lv_row,
+            ["T6 type-A method hit-rate and reach, drill-down vs flat",
+             f"{f(ra['methods']['hier'], 3)} vs {f(ra['methods']['flat'], 3)}; reach {f(ra['reached']['hier'], 3)} vs {f(ra['reached']['flat'], 3)}",
+             "point estimates, attainable items; flat reach is 1 by construction", "Table A7"],
+            ["T6 median items inspected to first item / candidates scored, drill-down vs flat",
+             "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)} / {f(c['hier'], 0)} vs {f(c['flat'], 0)}" for t, x, c in steps) or "—",
+             "reader's effort / computation, not latency", "Table A7"],
             ["T6 retrieval measures favouring drill-down / flat / tie", f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
-             "descriptive: correlated point estimates, not votes; no CIs", "Table 11"],
-            ["T6 median items inspected to first item, drill-down vs flat", "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)}" for t, x, _ in steps) or "—", "reader's effort", "Table 11"],
-            ["T6 median candidates scored, drill-down vs flat", "; ".join(f"type {t}: {f(c['hier'], 1)} vs {f(c['flat'], 1)}" for t, _, c in steps) or "—", "computation, not latency", "Table 11"]]
-    return md(["Finding", "Result", "Qualifier", "Source"], rows)
+             "descriptive: correlated point estimates, not votes", "Table A7"]]
+    return md(["Criterion", "Result (α = 0.75)", "Qualifier", "Full table"], rows)
 
 
-TABLES = {"findings": t_findings, "properties": t_properties, "literature": t_literature,
-          "coherence_coverage": t_coherence_coverage, "coherence": t_coherence,
-          "perturbation": t_perturbation, "cross_snapshot": t_cross, "localisation": t_localisation,
-          "faithfulness": t_faithfulness, "retrieval": t_retrieval}
+def t_abstract_coherence(r):
+    """§5.5: LLM-rated closeness of paper abstracts within vs across L0 super-nodes (metrics.json "abstract_coherence")."""
+    if "abstract_coherence" not in r.m:
+        sys.exit("metrics.json has no abstract_coherence section: run `make abstract-coherence`")
+    x = r.m["abstract_coherence"]
+    cov, sm, pm, lo = x["coverage"], x["summary"], x["summary"]["permutation"], x["leave_one_out"]
+    rows = [["Papers with an abstract (of the snapshot's papers); L0 super-nodes holding them",
+             f"{cov['with_abstract']} of {cov['papers']}; {cov['super_nodes_with_papers']} of {cov['super_nodes_l0']}"],
+            ["Pairs rated, same / different L0 super-node", f"{sm['pairs_within']} / {sm['pairs_across']}"],
+            ["Mean closeness (0–10), same / different L0 super-node", f"{f(sm['mean_within'])} / {f(sm['mean_across'])}"],
+            ["Difference [95% paper-bootstrap CI]", ci(sm["difference"], *sm["difference_ci95"])],
+            [f"Permutation null (R = {pm['R']}): mean; 97.5% quantile; one-sided p", f"{f(pm['null_mean'])}; {f(pm['null_q97.5'])}; {p(pm['p'])}"],
+            ["Difference with one super-node's papers left out: lowest; highest",
+             f"{f(lo['min']['difference'])} (without {lo['min']['dropped']}); {f(lo['max']['difference'])} (without {lo['max']['dropped']})"]]
+    pr = x["protocol"]
+    return md(["Item", "Value"], rows) + f"\nRater {pr['model']}, ≤{pr['cutoff']}, L{pr['level']} of the run with α = {pr['alpha']:g}.\n"
+
+
+TABLES = {"results": t_results, "properties": t_properties, "literature": t_literature,
+          "abstract_coherence": t_abstract_coherence}
+APPENDIX_TABLES = {"coherence_coverage": t_coherence_coverage, "coherence": t_coherence,
+                   "perturbation": t_perturbation, "cross_snapshot": t_cross, "localisation": t_localisation,
+                   "faithfulness": t_faithfulness, "retrieval": t_retrieval}
 
 
 # ---------------------------------------------------------------- α sweep (metrics.json "alpha_sweep")
@@ -527,16 +563,17 @@ def t_alpha_sweep(r):
         x, d, fav = h[a], w.v(a)["paired"]["perturbation"][w.last], w.favour(a)
         row = [_a(a, w), f"{x['robust']} / {len(w.below(a))}", ci(*x["hari"]),
                "—" if a == w.ref else ci(d["mean"], d["lo"], d["hi"]), ci(*x["oc"]),
-               f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
-               "yes" if a in eligible else "no: " + "; ".join(x["why"]), "recommended" if a == rec else ""]
+               f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}"]
         rows.append([f"**{c}**" if a == rec and c != "" else c for c in row])
     n_cells, n_meas = w.v(w.ref)["coherence"]["n_cells"], sum(w.favour(w.ref).values())
-    tail = (f"\nRecommended: α = {rec:g}" + (" (the pre-sweep default)" if rec == w.ref else "") if rec is not None
+    excl = [f"α = {a:g} ({'; '.join(h[a]['why'])})" for a in w.alphas if a not in eligible]
+    tail = (f"\nRecommended (bold): α = {rec:g}" + (" (the pre-sweep default)" if rec == w.ref else "") if rec is not None
             else "\nRecommended: none (no α is eligible)") + (
-        f". Coherence cells are out of {n_cells} (snapshot × level), retrieval measures out of {n_meas}.\n")
+        f". Not eligible: {', '.join(excl) or 'none'}. Coherence cells are out of {n_cells} (snapshot × level), "
+        f"retrieval measures out of {n_meas}.\n")
     return md(["α", "P3 robust / below-null cells (exact)", f"P5 perturbation HARI ≤{w.last} [t-interval]",
                "P5 paired difference to the pre-sweep default", "P6 over-claim [95% CI]",
-               "T6 measures favouring drill-down / flat / tie", "Eligible", "Recommendation"], rows) + tail
+               "T6 measures favouring drill-down / flat / tie"], rows) + tail
 
 
 TABLES["alpha_sweep"] = t_alpha_sweep
@@ -583,9 +620,8 @@ def _retrieval_change(w, rec):
             f"worse: {'; '.join(worse) or 'none'}. Better: {'; '.join(better) or 'none'}"]
 
 
-def t_alpha_tradeoffs(r):
-    """Report table: per headline, the recommended α against the pre-sweep default and the best variant on that headline."""
-    w = Sweep(r.m)
+def st_tradeoffs(w):
+    """Per headline, the recommended α against the pre-sweep default and the best variant on that headline."""
     h, _, rec = _recommend(w)
     ref = w.ref
 
@@ -623,11 +659,12 @@ def t_alpha_tradeoffs(r):
                "Best variant on this headline", "Recommended against the pre-sweep default"], rows)
 
 
-TABLES["alpha_tradeoffs"] = t_alpha_tradeoffs
-
 SWEEP_TABLES = {"sweep_setup": st_setup, "sweep_tree": st_tree, "sweep_coherence": st_coherence,
                 "sweep_coherence_grid": st_coherence_grid, "sweep_stability": st_stability,
-                "sweep_faithfulness": st_faithfulness, "sweep_retrieval": st_retrieval, "sweep_summary": st_summary}
+                "sweep_faithfulness": st_faithfulness, "sweep_retrieval": st_retrieval, "sweep_summary": st_summary,
+                "sweep_tradeoffs": st_tradeoffs}
+DOCS = {"report": ("docs/report.md", TABLES, False), "appendix": ("docs/appendix.md", APPENDIX_TABLES, False),
+        "sweep": ("docs/alpha_sweep.md", SWEEP_TABLES, True)}   # path, tables, whether tables take the Sweep view
 
 
 # ---------------------------------------------------------------- verified claims of the prose
@@ -743,7 +780,7 @@ def check_claims(text, m, path, doc):
     unused = sorted(n for n, (d, _, _) in CLAIMS.items() if d == doc and n not in found)
     false = sorted(n for n in found if n in CLAIMS and not CLAIMS[n][2](m))
     if unknown or unused or false:
-        sys.exit(f"{path}: unknown claim tags or tags of the other document {unknown}; registered but untagged {unused}; claims that do not hold on "
+        sys.exit(f"{path}: unknown claim tags or tags registered for another document {unknown}; registered but untagged {unused}; claims that do not hold on "
                  "metrics.json: " + ("; ".join(f"{n} ({CLAIMS[n][1]})" for n in false) or "none"))
     return found
 
@@ -751,14 +788,16 @@ def check_claims(text, m, path, doc):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--run", default="out")
-    ap.add_argument("--sweep", action="store_true", help="render the α-sweep tables (docs/alpha_sweep.md) instead")
-    ap.add_argument("--report", help="default: docs/report.md, or docs/alpha_sweep.md with --sweep")
-    ap.add_argument("--check", action="store_true", help="exit 1 if the report's tables are not up to date")
+    ap.add_argument("--doc", choices=sorted(DOCS), default="report", help="which document to render (default: report)")
+    ap.add_argument("--sweep", action="store_true", help="alias of --doc sweep")
+    ap.add_argument("--report", help="the document's path (default: that of --doc)")
+    ap.add_argument("--check", action="store_true", help="exit 1 if the document's tables are not up to date")
     a = ap.parse_args(argv)
-    tables = SWEEP_TABLES if a.sweep else TABLES
+    doc = "sweep" if a.sweep else a.doc
+    default, tables, sweep_view = DOCS[doc]
     run = Run(a.run)
-    r = Sweep(run.m) if a.sweep else run
-    path = Path(a.report or ("docs/alpha_sweep.md" if a.sweep else "docs/report.md"))
+    r = Sweep(run.m) if sweep_view else run
+    path = Path(a.report or default)
     text = path.read_text()
     found = [m.group(2) for m in BLOCK.finditer(text)]
     stray = [l for l in BLOCK.sub("", text).splitlines() if l.lstrip().startswith("|")]
@@ -767,7 +806,7 @@ def main(argv=None):
     unknown, missing = set(found) - set(tables), set(tables) - set(found)
     if unknown or missing:
         sys.exit(f"{path}: unknown table blocks {sorted(unknown)}, missing {sorted(missing)}")
-    claims = check_claims(text, run.m, path, "sweep" if a.sweep else "report")
+    claims = check_claims(text, run.m, path, doc)
     new = BLOCK.sub(lambda m: m.group(1) + tables[m.group(2)](r) + m.group(4), text)
     if a.check:
         if new != text:

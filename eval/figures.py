@@ -8,13 +8,6 @@ pipeline or an LLM): python -m eval.figures --run out --out docs/figures; alpha_
   coherence_period_sensitivity.png  lift per period scheme at the last cutoff, exact and fuzzy citation matching
   stability.png                     perturbation ARI per level and HARI per snapshot (mean, t-interval over seeds);
                                     cross-snapshot ARI per level and HARI vs the 95% band of the new-paper null
-  localisation.png                  reassignment rate of old concept nodes touched vs untouched by new papers, and
-                                    their ratio with its node-bootstrap interval, per transition and level
-  faithfulness.png                  over-claim rate (share of labels with >= 1 claim unsupported by held-out
-                                    evidence) with its bootstrap interval by cutoff and level, and overall
-  retrieval.png                     drill-down vs flat search per question type: (a) rates (hit-rates, error rate,
-                                    reach; means, no CIs); (b) median items inspected to the first item and to
-                                    50% of items (reader's effort); (c) median candidates scored (computation)
   alpha_sweep.png                   per alpha: (a) last-snapshot lift per level (exact, interval scheme) with its
                                     bootstrap CI; (b) perturbation HARI per snapshot (t-interval); (c) over-claim rate,
                                     overall and per level (bootstrap CI); (d) retrieval hit-rates, drill-down minus flat
@@ -167,108 +160,6 @@ def stability(st, out):
     plt.close(fig)
 
 
-def localisation(st, out):
-    loc = st["localisation"]
-    trans = sorted(loc)
-    K = len(st["budgets"])
-    fig, (a, b) = plt.subplots(1, 2, figsize=(10, 3.5))
-    x = np.arange(len(trans))
-    w = 0.13
-    for k in range(K):
-        for side, (key, hatch, alpha) in enumerate((("reassign_touched", None, 1.0), ("reassign_untouched", "////", 0.35))):
-            xs = x + (k * 2 + side - (2 * K - 1) / 2) * w
-            a.bar(xs, [loc[t][k][key] for t in trans], width=w, color=LEVEL[k], alpha=alpha, hatch=hatch,
-                  edgecolor=LEVEL[k], lw=0.6, label=f"level {k}, {'touched' if side == 0 else 'untouched'}")
-    a.set_xticks(x, [f"{t}\ntouched {loc[t][0]['touched']}\nuntouched {loc[t][0]['untouched']}" for t in trans], fontsize=7.5)
-    a.set_ylabel("reassignment rate (1 - Jaccard of co-members)")
-    a.set_title("(a) old concept nodes touched vs untouched by new papers")
-    a.set_ylim(0, 1)
-    a.legend(frameon=False, ncol=3, fontsize=7, loc="upper left")
-    for k in range(K):
-        r = [loc[t][k] for t in trans]
-        b.errorbar(x + (k - 1) * 0.1, [e["ratio"] for e in r], yerr=[[e["ratio"] - e["ratio_ci95"][0] for e in r],
-                   [e["ratio_ci95"][1] - e["ratio"] for e in r]], fmt="o", color=LEVEL[k], ms=5, capsize=2.5, lw=1.2,
-                   label=f"level {k} ({st['budgets'][k]})")
-    b.axhline(1, color="0.5", lw=0.8, ls="--", zorder=0)
-    b.set_xticks(x, trans)
-    b.set_xlabel("transition")
-    b.set_ylabel("touched / untouched reassignment rate")
-    b.set_title("(b) ratio, 95% node-bootstrap interval (1 = no localisation)")
-    b.set_ylim(0, None)
-    b.legend(frameon=False, loc="upper left")
-    fig.tight_layout()
-    fig.savefig(out / "localisation.png")
-    plt.close(fig)
-
-
-# ---------------------------------------------------------------- label faithfulness
-
-def faithfulness(f, out):
-    lvls = f["protocol"]["levels"]
-    cuts = f["protocol"]["cutoffs"]
-    fig, (a, b) = plt.subplots(1, 2, figsize=(9, 3.4), width_ratios=[1.6, 1])
-    for j, k in enumerate(lvls):
-        for i, cu in enumerate(cuts):
-            o = f["by_cutoff_level"][f"{cu}:L{k}"]["over_claim"]
-            _err(a, i + (j - 0.5) * 0.2, o["value"], *o["ci95"], color=LEVEL[k], label=f"level {k}" if i == 0 else None)
-    for i, cu in enumerate(cuts):
-        a.text(i, 0.93, "n = " + " / ".join(str(f["by_cutoff_level"][f"{cu}:L{k}"]["over_claim"]["n"]) for k in lvls),
-               ha="center", fontsize=7, color="0.35")
-    a.set_xticks(range(len(cuts)), cuts)
-    a.set_xlim(-0.6, len(cuts) - 0.4)
-    a.set_ylim(0, 1.05)
-    a.set_xlabel("snapshot cutoff")
-    a.set_ylabel("over-claim rate, 95% CI")
-    a.set_title("(a) by cutoff and level (n = labels judged, " + " / ".join(f"L{k}" for k in lvls) + ")")
-    a.legend(frameon=False, loc="lower left", ncol=2)
-    entries = [("all", f["over_claim"], MODEL)] + [(f"L{k}", f["by_level"][f"L{k}"]["over_claim"], LEVEL[k]) for k in lvls]
-    for i, (name, o, col) in enumerate(entries):
-        _err(b, i, o["value"], *o["ci95"], color=col)
-        b.text(i, 0.05, f"n={o['n']}", ha="center", fontsize=7, color="0.35")
-    b.set_xticks(range(len(entries)), [e[0] for e in entries])
-    b.set_xlim(-0.6, len(entries) - 0.4)
-    b.set_ylim(0, 1.05)
-    b.set_ylabel("over-claim rate, 95% CI")
-    b.set_title(f"(b) all cutoffs; claim-level unsupported {f['claim_unsupported']:.2f}")
-    fig.suptitle("Share of labels with >= 1 claim unsupported by held-out evidence", fontsize=9.5)
-    fig.tight_layout()
-    fig.savefig(out / "faithfulness.png")
-    plt.close(fig)
-
-
-# ---------------------------------------------------------------- retrieval
-
-def retrieval(ret, out):
-    s = ret["summary"]
-    rates = [(t, k) for t in sorted(s) for k in ("methods", "method_claims", "claims", "citations", "error_rate", "reached")
-             if k in s[t]]
-    inspect = [(t, k) for t in sorted(s) for k in ("inspect_first", "inspect_half") if k in s[t]]
-    scored = [(t, "scored") for t in sorted(s) if "scored" in s[t]]
-    name = {"methods": "methods", "method_claims": "method claims", "claims": "claims",
-            "citations": "citations", "error_rate": "error rate", "reached": "reach", "inspect_first": "first item",
-            "inspect_half": "50% of items", "scored": "candidates"}
-    fig, (a, b, c) = plt.subplots(1, 3, figsize=(12, 3.6), width_ratios=[1.8, 1, 0.6])
-    for ax, items in ((a, rates), (b, inspect), (c, scored)):
-        x = np.arange(len(items))
-        for j, (sysname, key, col) in enumerate([("drill-down", "hier", LEVEL[0]), ("flat", "flat", CFG)]):
-            ax.bar(x + (j - 0.5) * 0.38, [s[t][k][key] for t, k in items], width=0.38, color=col, label=sysname)
-        ax.set_xticks(x, [f"{t}: {name[k]}" + (f"\n(n={s[t][k]['n']})") for t, k in items], rotation=30, ha="right")
-    for ax in (a, b):
-        ax.legend(frameon=False)
-    a.set_ylim(0, 1.05)
-    a.set_ylabel("mean over questions (error rate: lower is better)")
-    a.set_title("(a) rates on attainable items; claims by source article (no CIs)")
-    for ax in (b, c):
-        ax.set_yscale("log")
-    b.set_ylabel("median items inspected (log; lower is better)")
-    b.set_title("(b) reader's effort")
-    c.set_ylabel("median candidates scored (log)")
-    c.set_title("(c) computation")
-    fig.tight_layout()
-    fig.savefig(out / "retrieval.png")
-    plt.close(fig)
-
-
 # ---------------------------------------------------------------- alpha sweep
 
 def alpha_sweep(sw, out):
@@ -328,9 +219,6 @@ def main(argv=None):
     coherence_lift(m["coherence"], a.out)
     coherence_periods(m["coherence"], a.out)
     stability(m["stability"], a.out)
-    localisation(m["stability"], a.out)
-    faithfulness(m["faithfulness"], a.out)
-    retrieval(m["retrieval"], a.out)
     if "alpha_sweep" in m:
         alpha_sweep(m["alpha_sweep"], a.out)
     print("figures ->", a.out)

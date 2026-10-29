@@ -14,8 +14,9 @@ information). The question is whether pairs in the same L0 super-node are rated 
   statistics  mean score within and across super-nodes and their difference; a paper-cluster bootstrap CI of the
               difference (papers resampled, pairs weighted by multiplicity); a permutation null that shuffles the
               paper -> super-node assignment with the group sizes fixed (one-sided p); per-super-node means
--> eval/extra/results.json, eval/extra/abstract_coherence.png, and the generated blocks of eval/extra/REPORT.md
-(--check exits 1 if they are stale).
+-> eval/extra/results.json, eval/extra/abstract_coherence.png, the generated blocks of eval/extra/REPORT.md, and the
+summary section "abstract_coherence" of <run>/metrics.json, which docs/report.md §5.5 reads through make_tables.py
+(--check exits 1 if any of them is stale).
 """
 
 from pathlib import Path
@@ -39,6 +40,19 @@ REPORT = HERE / "REPORT.md"
 FIGURE = HERE / "abstract_coherence.png"
 MODEL, B, R, SEED = "phi4", 2000, 9999, 0
 BLOCK = re.compile(r"(<!-- table:(\w+) -->\n)(.*?)(<!-- /table:\2 -->)", re.S)
+
+
+def section(res):
+    """The metrics.json section: protocol, coverage and the headline statistics (no per-pair data)."""
+    sm, loo = res["summary"], res["summary"]["leave_one_super_node_out"]
+    lo, hi = min(loo, key=lambda x: x["difference"]), max(loo, key=lambda x: x["difference"])
+    cov = res["coverage"]
+    return {"protocol": res["protocol"],
+            "coverage": {k: cov[k] for k in ("papers", "with_abstract", "super_nodes_l0", "super_nodes_with_papers",
+                                             "pairs", "unparsed")},
+            "summary": {k: sm[k] for k in ("pairs_within", "pairs_across", "mean_within", "mean_across", "difference",
+                                           "difference_ci95", "permutation")},
+            "leave_one_out": {"min": lo, "max": hi, "n": len(loo)}}
 
 
 # ---------------------------------------------------------------- inputs
@@ -231,14 +245,20 @@ def main(argv=None):
     tb = tables(res)
     report = REPORT.read_text()
     new_report = BLOCK.sub(lambda m: m.group(1) + tb[m.group(2)] + m.group(4), report)
+    mpath = a.run / "metrics.json"
+    sec = section(res)
     if a.check:
         stale = [p.name for p, new in ((RESULTS, new_json), (REPORT, new_report)) if not p.exists() or p.read_text() != new]
+        if json.loads(mpath.read_text()).get("abstract_coherence") != json.loads(json.dumps(sec)):
+            stale.append(f"{mpath} (abstract_coherence)")
         if stale:
             sys.exit(f"stale: {stale}; run python -m eval.extra.abstract_coherence")
         print(f"up to date ({llm.hits} cached ratings, {llm.calls} live calls)")
         return
     RESULTS.write_text(new_json)
     REPORT.write_text(new_report)
+    from eval.sweep import write_section
+    write_section(mpath, "abstract_coherence", sec)
     figure(res)
     print(f"{len(ids)} papers, {len(scores)} pairs ({llm.calls} live calls) -> {RESULTS.name}, {REPORT.name}, {FIGURE.name}")
 
