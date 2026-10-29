@@ -14,15 +14,14 @@ after the results were read (§9).
 
 ## 2. Design
 
-Throughout this document *the default* is that pre-sweep default, α = 0.5, the reference of every paired
-comparison; after the sweep the configured default is the recommended variant (§8). Five variants are built,
+Throughout this document *the pre-sweep default* is α = 0.5, the reference of every paired comparison; after the sweep the configured default is the recommended variant (§8). Five variants are built,
 α ∈ {0, 0.25, 0.5, 0.75, 1} <!-- claim:sweep_grid_doc -->, and every other setting is held at its configured default:
 the temporal prior weight γ, the size cap ρ, the edge weights, the hub fraction, the LSA dimension, the budgets and
 the snapshots, the labeller and the judge. Each variant is a complete run (`tkh/pipeline.run`: hierarchy, persistent
 identities, events, labels), validated by `validate.py`, and evaluated with exactly the protocol of the main report.
 Two points of that protocol matter for a fair comparison. First, the configuration null of the coherence test is
 rebuilt at the variant's own α, so each variant is compared with chance as defined for its own merge rule. Second,
-the paired comparisons with the default use the same randomness on both sides: the perturbation runs of every
+the paired comparisons with the pre-sweep default use the same randomness on both sides: the perturbation runs of every
 variant remove the same hyper-edges (seed by seed), and the cross-snapshot comparison uses the same node subsamples.
 The main run in `out/` is built with the configured default, which is now the recommended variant; Table S1
 reports whether that variant reproduces the main run. For the hierarchy this tests that the build is deterministic;
@@ -47,7 +46,7 @@ for labels and judgements, which are replayed from the LLM cache, it tests only 
 ## 3. How α changes the hierarchy
 
 Before the four criteria, Table S2 shows how much the hierarchy itself moves with α. The adjusted Rand index (ARI)
-between a variant's tree and the default tree at the last snapshot measures how many of the default's groupings
+between a variant's tree and the pre-sweep default tree at the last snapshot measures how many of the pre-sweep default's groupings
 survive, per level; 1 means the same partition. The share of merges whose two items share at least one clustering
 edge shows how much each variant relies on structure: a merge without a shared edge receives no structural credit
 and can only be carried by names or, from the second snapshot on, by the temporal prior. At α = 0 such a merge
@@ -56,7 +55,7 @@ it is decided by the deterministic tie-break (the lowest item index). The α = 0
 only on the merges without a shared edge and without prior support; the share column bounds how many these are. The largest L0 super-node, against its size cap, and the number of singleton
 super-nodes at L2 show whether a variant produces a few dominant groups or many isolated ones.
 
-*Table S2. Tree change against the default, structural share of merges and group sizes at the last snapshot
+*Table S2. Tree change against the pre-sweep default, structural share of merges and group sizes at the last snapshot
 (`alpha_sweep.variants.<α>.tree`).*
 
 <!-- table:sweep_tree -->
@@ -118,7 +117,7 @@ n.e.: not evaluable, one interval-scheme stratum; —: undefined, no co-assigned
 
 The cell counts weigh every snapshot and level equally, although the held-out evidence grows with the corpus (Appendix
 Table A1), so cells of the last snapshots are better powered. The recommendation (§8) decides on the exact-filter
-count; Table S4 shows where a difference in counts comes from. Compared with the default, a cell that becomes robust
+count; Table S4 shows where a difference in counts comes from. Compared with the pre-sweep default, a cell that becomes robust
 from any other state is a gain, a robust cell that becomes anything else is a loss, and a cell that falls below both
 nulls is a loss even where neither variant is robust there.
 
@@ -126,9 +125,9 @@ nulls is a loss even where neither variant is robust there.
 
 Stability is measured as in Appendix A.4 (stability). Perturbation robustness rebuilds the whole chain after removing a fraction
 of the hyper-edges and compares each perturbed snapshot with the unperturbed one by HARI, the level-pooled ARI;
-because the removed edges are the same for every variant, the per-seed differences to the default are paired, and
+because the removed edges are the same for every variant, the per-seed differences to the pre-sweep default are paired, and
 their t-interval is reported. Cross-snapshot agreement is tested against the new-paper null, and Table S5 counts the
-indices above it; the paired HARI difference to the default over node half-subsamples is given for the last
+indices above it; the paired HARI difference to the pre-sweep default over node half-subsamples is given for the last
 transition. Localisation counts the level × transition cells in which old nodes touched by new papers are reassigned
 more often than untouched ones (ratio interval above 1), together with the share of all reassignment that falls on
 untouched nodes.
@@ -146,11 +145,12 @@ untouched nodes.
 <!-- /table:sweep_stability -->
 
 Names do not change when edges are removed, so a variant that weighs names more is expected to be more robust to
-perturbation simply because less of its score depends on the perturbed signal. A higher perturbation HARI is
+perturbation simply because less of its score depends on the perturbed signal (at α = 1 only the prior's stable set
+still depends on the edges). A higher perturbation HARI is
 therefore a property of the input the variant relies on, not by itself evidence of better groupings, and it is
 traded against coherence in the recommendation rather than maximised on its own. Whether the intermediate values of
-α follow this expectation is read from Table S5; it need not hold between them, since every variant except α = 1
-still depends on the edges.
+α follow this expectation is read from Table S5; it need not hold between them, since every variant with α < 1
+scores the edges directly.
 
 ## 6. Label faithfulness
 
@@ -214,7 +214,7 @@ medians), point estimates without CIs (`alpha_sweep.variants.<α>.retrieval`).*
 |  | measures favouring drill-down / flat / tie |  | 1 / 10 / 1 | 4 / 7 / 1 | 3 / 8 / 1 | 3 / 7 / 2 | 3 / 8 / 1 |
 <!-- /table:sweep_retrieval -->
 
-The comparison has no intervals and few questions, and its settings were chosen on the default hierarchy, so it is
+The comparison has no intervals and few questions, and its settings were chosen on the pre-sweep default hierarchy, so it is
 the weakest of the four criteria and enters the recommendation only as context.
 
 ## 8. Recommendation
@@ -227,17 +227,17 @@ in §9.
 1. Each criterion has one headline: the number of robust coherence cells (exact filter); the perturbation HARI at
    the last snapshot; the over-claim rate (lower is better); and the number of retrieval measures favouring
    drill-down (a descriptive count, §7).
-2. A variant is *eligible* unless it is distinguishably worse than the default on a headline that has an
-   interval: the t-interval of its perturbation HARI difference to the default, paired by seed, lies wholly below
-   zero, or its over-claim interval lies wholly above the default's. The coherence and retrieval counts have no
+2. A variant is *eligible* unless it is distinguishably worse than the pre-sweep default on a headline that has an
+   interval: the t-interval of its perturbation HARI difference to the pre-sweep default, paired by seed, lies wholly below
+   zero, or its over-claim interval lies wholly above the pre-sweep default's. The coherence and retrieval counts have no
    interval and exclude no variant.
 3. Among the eligible variants, the recommended one has the most robust coherence cells. Ties are broken by the
-   higher perturbation HARI, then by closeness to the default.
+   higher perturbation HARI, then by closeness to the pre-sweep default.
 
 Coherence decides because it is the only criterion that tests whether groups mean something, and because it is
 measured with a ruler independent of both signals that α mixes. Stability and faithfulness act as guards against the
 method as it stands: a variant that buys coherence at a clear loss of robustness or label faithfulness relative to
-the default is not recommended. The guards compare with the default rather than with the best variant, because the
+the pre-sweep default is not recommended. The guards compare with the pre-sweep default rather than with the best variant, because the
 most robust variant is robust for a reason unrelated to the quality of its groups (§5). Retrieval is reported
 but does not decide, for the reasons given in §7.
 
@@ -286,9 +286,9 @@ is a descriptive simplification, not independent votes.*
   larger than what selection alone produces. An unbiased estimate would need the
   choice to be made on one half of the held-out citations and reported on the other.
 - **The rule was revised after the results.** As first stated, step 2 compared every variant with the *most*
-  robust and the *most* faithful variant. The most robust variant was α = 1, robust because edge removal does not
-  change names (§5), and its interval excluded every other variant; the rule then recommended a variant without a
-  single robust coherence cell, the outcome the §5 reading warns against <!-- claim:original_rule -->. Step 2 now compares with the default.
+  robust and the *most* faithful variant. The most robust variant was α = 1, robust largely because its score ignores the
+  edges (§5), and its interval excluded every other variant; the rule then recommended a variant without a
+  single robust coherence cell, the outcome the §5 reading warns against <!-- claim:original_rule -->. Step 2 now compares with the pre-sweep default.
   The revision changes only the guard, not the deciding criterion, but it was made with the results in view and is a
   further selection step on the evaluation data.
 - **Uncorrected tests.** Each robust cell is a set of uncorrected tests; across five variants, twelve cells and five

@@ -3,6 +3,19 @@
 *Appendix to `docs/report.md` (the main report). Every table is generated from `out/metrics.json` by
 `make_tables.py --doc appendix`; Appendix B (`docs/alpha_sweep.md`) holds the α sweep.*
 
+## A.0 Positioning against the closest prior work
+
+*Table A0. What SHAC borrows from each work and what it does differently.*
+
+<!-- table:literature -->
+| Work | Borrowed | Done differently, and why |
+|---|---|---|
+| h-Louvain [1] | hyper-edge-aware affinity; multilevel aggregation | no modularity optimum setting the counts; exact nested budgets; a semantic term |
+| Featured Graph Coarsening [2] | joint topology–feature coarsening | on the hyper-edge incidence; greedy merges; no similarity guarantee claimed |
+| DynHAC [3] | average linkage; change confined to affected regions | a soft prior, not recomputation (frozen regions would hold budget slots); H is not reducible |
+| HyperEF 2.0 [4] | hyper-edge contraction with explicit coarse edges | fixed counts, no spectral target; multi-way edges scored by the connectivity cut |
+<!-- /table:literature -->
+
 ## A.1 Leaves, budgets and feasibility
 
 The output of each snapshot has three super-node levels, L0 (coarsest), L1 and L2 (finest), each a partition of the
@@ -37,7 +50,7 @@ implementation (`_Level` in `tkh/hierarchy.py`), not an idealised data structure
 - **Preprocessing per snapshot.** Hub detection and the incidence take one pass over the edges, O(Σ_e |e|); the
   semantic vectors take a TF-IDF of character 3–5-grams and a truncated SVD (exact for small matrices, ARPACK
   otherwise); anchoring and the stable set take a further pass over the edges; the coarse hyper-edge records take
-  O(K·nnz(B)) for K levels.
+  O(L·Σ_e |e|) over the L levels.
 
 ## A.3 Merge statistics
 
@@ -124,7 +137,7 @@ index that is not above it is explained by what the null shares with the run.
 *Localisation of change* tests the requirement of P5 that change stays where the corpus changed. For each transition
 and level, the *reassignment* of an old concept node is 1 − the Jaccard similarity of its co-member sets in the two
 snapshots, 0 if it keeps exactly its co-members and 1 if it keeps none. Localisation compares the mean reassignment of
-old nodes that new papers touch (members of any edge of a new paper, a wider set than the complement of U_t) with that
+old nodes that new papers touch (members of any edge of a new paper, any relation; unlike the prior's touched set, no hub-status changes) with that
 of untouched old nodes; a ratio whose node-bootstrap interval lies above 1 means that change concentrates on touched
 nodes. The share of all reassignment that falls on untouched nodes complements the ratio: a share near zero would
 mean that untouched regions are frozen, a large share that they still move.

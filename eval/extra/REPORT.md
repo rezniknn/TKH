@@ -87,8 +87,8 @@ papers, the mean within against the mean to other papers.*
   method"), because the corpus is narrow: every paper is about machine learning for materials or chemistry, so most
   pairs are moderately related whatever the hierarchy does. The difference is less than one step between the anchors
   the rater uses.
-- **It does not rest on one super-node.** Leaving out the papers of any single super-node keeps the difference
-  positive. The lowest value comes from removing the largest group, which supplies most within-pairs (Table E2, last
+- **It does not rest on one super-node.** Leaving out the papers of any single super-node that holds two or more
+  papers keeps the difference positive. The lowest value comes from removing the largest group, which supplies most within-pairs (Table E2, last
   row).
 - **Coherence varies between super-nodes.** Some super-nodes are clearly closer within than to other papers, notably
   the largest group and the Gaussian-approximation-potential group. A few are rated no closer within than to the

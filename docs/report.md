@@ -7,8 +7,8 @@ cumulative snapshots. SHAC is a deterministic greedy agglomeration whose merge s
 name similarity and a structural term on the collapsed hyper-edge incidence, with a soft prior from the previous
 snapshot. Laminarity, exact budgets, the collapse rule and identity bookkeeping hold by construction; coherence,
 stability, label faithfulness and utility are measured with signals the method never sees. Of five values of the
-semantic weight, α = 0.75 is recommended and shipped <!-- claim:recommended -->. A held-out citation ruler <!-- claim:coherence_late --> and LLM ratings of abstracts <!-- claim:abstract_within_closer --> support its
-coherence; its utility for navigation is mixed and not established <!-- claim:navigation_not_established -->. Levels are L0 (coarsest) to L2.
+semantic weight, α = 0.75 is recommended and shipped <!-- claim:recommended -->. A held-out citation ruler beats both nulls <!-- claim:coherence_late -->, conditional on these papers <!-- claim:lift_ci_chance -->, and LLM ratings of
+abstracts agree <!-- claim:abstract_within_closer -->; its utility for navigation is mixed and not established <!-- claim:navigation_not_established -->. Levels are L0 (coarsest) to L2.
 Appendices: [A, formal details and full results](appendix.md); [B, the α sweep](alpha_sweep.md).
 
 ## 1. Problem definition
@@ -16,13 +16,14 @@ Appendices: [A, formal details and full results](appendix.md); [B, the α sweep]
 The Temporal Knowledge Hypergraph (TKH) represents scientific literature as typed nodes joined by dated hyper-edges.
 Per snapshot H(t) we need a laminar sequence of partitions under hard per-level budgets (P1, P2), with super-nodes close
 in meaning (P3), computed on the hypergraph (P4), evolving smoothly with trackable identities (P5) and faithfully
-labelled (P6). Snapshot ≤t (t = 2020, 2022, 2024, 2026) holds every node and hyper-edge of papers published up to t.
+labelled (P6). The export covers papers on machine learning for materials science and chemistry (statistics: notebook 01);
+snapshot ≤t (t = 2020, 2022, 2024, 2026) holds every node and hyper-edge of papers published up to t.
 
 ## 2. Formal statement
 
 *Concept nodes* are the nodes of the seven types that name a scientific idea (method, task, problem, technique,
 component, dataset, metric); V_t denotes those of snapshot t, n_t = |V_t|. The other nodes (articles, claims, authors,
-cited works) record papers rather than ideas. SHAC clusters V_t only, so that citations stay outside the method and
+cited works, future-work topics) record papers rather than ideas. SHAC clusters V_t only, so that citations stay outside the method and
 remain available as an independent test of coherence.
 
 **Inputs.** Structure is the *clustering hypergraph* G_t = (V_t, E_t) of the six concept relations, each edge a star
@@ -67,9 +68,9 @@ papers gets one home, whose semantic fit was not tested.
 | P4 hyper-edge fidelity | construction (collapsed incidence, multi-way edges whole) | §4 |
 | No future information | construction (snapshot-only edges, hubs, LSA, anchors); aliases assumed | `validate.py` |
 | P5 identity and lineage | construction (overlap matching; one fate per super-node) | `validate.py` |
-| P5 temporal stability | empirical (soft prior; no bound on reassignment) | Tables 4, A3–A5 |
-| P3 coherence, trade-off | empirical (α chosen on these results) | Tables 3–5, A1–A2 |
-| P6 labels, T6 utility | empirical | Tables 4, A6–A7 |
+| P5 temporal stability | empirical (soft prior; no bound on reassignment) | Tables 3, A3–A5 |
+| P3 coherence, trade-off | empirical (α chosen on these results) | Tables 2–4, A1–A2 |
+| P6 labels, T6 utility | empirical | Tables 3, A6–A7 |
 <!-- /table:properties -->
 
 We rejected two alternatives. h-Louvain [1] greedily maximises a hypergraph modularity (Chung–Lu degree tax, weights
@@ -80,7 +81,7 @@ two-stage scheme (structure, then names) would freeze single-paper bundles befor
 ## 3. Method and literature positioning
 
 SHAC resolves disagreement between structure and semantics per merge: on the common rank scale either signal can carry
-a merge, and a pair that shares no edge can win only on names, at weight α. Because the trade-off is one scalar, it can
+a merge, and a pair that shares no edge can win only on names, at weight α, or on the temporal prior. Because the trade-off is one scalar, it can
 be evaluated with a ruler that sees neither signal.
 
 Temporal stability (T3) uses a soft prior: an old node is *touched* if a new paper's edge contains it or its (or an
@@ -89,18 +90,12 @@ but does not force them to keep their grouping. The prior is a mechanism, not a 
 reassignment, and refitted LSA vectors and renormalised relation weights change even stable nodes' inputs. Identities
 and the event log come from largest-overlap matching between snapshots, checked by `validate.py`.
 
-*Table 2. Positioning against the closest prior work.*
-
-<!-- table:literature -->
-| Work | Borrowed | Done differently, and why |
-|---|---|---|
-| h-Louvain [1] | hyper-edge-aware affinity; multilevel aggregation | no modularity optimum setting the counts; exact nested budgets; a semantic term |
-| Featured Graph Coarsening [2] | joint topology–feature coarsening | on the hyper-edge incidence; greedy merges; no similarity guarantee claimed |
-| DynHAC [3] | average linkage; change confined to affected regions | a soft prior, not recomputation (frozen regions would hold budget slots); H is not reducible |
-| HyperEF 2.0 [4] | hyper-edge contraction with explicit coarse edges | fixed counts, no spectral target; multi-way edges scored by the connectivity cut |
-<!-- /table:literature -->
-
-The structural null follows the hypergraph configuration model [5], and Π is an evolutionary-clustering term [6]. The
+**Positioning** (details: Appendix Table A0). From h-Louvain [1] SHAC takes hyper-edge-aware affinity and multilevel
+aggregation, but fixes nested counts instead of optimising modularity; from Featured Graph Coarsening [2], joint
+topology–feature coarsening, here greedy on the hyper-edge incidence; from DynHAC [3], average linkage and confining
+change to affected regions, through a soft prior rather than recomputation; from HyperEF 2.0 [4], hyper-edge
+contraction with explicit coarse edges, but with fixed counts and the connectivity cut as score. The structural null
+follows the hypergraph configuration model [5], and Π is an evolutionary-clustering term [6]. The
 contribution is their integration under hard budgets, with an evaluation that does not reuse the method's signals.
 
 ## 4. Coarsening decision
@@ -117,7 +112,8 @@ super-nodes it touches and m_e = max_S c_S(e). `tkh/coarsen.py` assigns every ed
 An edge touching three or more super-nodes is *multi-way*: it is never split into pairs and adds w_e to the numerator
 of every pair of super-nodes it touches.
 
-**Example.** A paper's edge {M, T₁, T₂, D} with T₁, T₂ ∈ A, M ∈ B, D ∈ C is partial and multi-way (λ = 3, m = 2)
+**Example.** A paper's uses_technique edge {M, T₁, T₂, T₃} with T₁, T₂ ∈ A, M ∈ B, T₃ ∈ C is partial and multi-way
+(λ = 3, m = 2)
 and adds w_e to H(A,B), H(A,C) and H(B,C). A clique score would credit (A, B) with c_A·c_B = 2, rewarding A for holding
 more of one paper; presence credits it once. After A and B merge it still links them to C; once C joins, it is
 internal.
@@ -143,10 +139,10 @@ paper. The *lift* compares co-assigned pairs with same-period pairs (1 = chance)
 configuration null (degrees and arities kept, real names) and a random-label null (members permuted within type and
 period). A cell (snapshot × level) is *robust* if it beats both nulls under every scheme.
 
-**Stability.** *Perturbation*: 10% of hyper-edges removed (5 seeds), the chain rebuilt, ARI and HARI (a pair-counting
+**Stability.** *Perturbation*: 10% of hyper-edges removed (5 seeds) <!-- claim:protocol_counts -->, the chain rebuilt, ARI and HARI (a pair-counting
 index pooled over levels) against the unperturbed run. *Cross-snapshot agreement* is tested against a *new-paper null*
-that attaches new papers' edges to random old nodes; *localisation* compares the reassignment of touched and untouched
-old nodes.
+that attaches new papers' edges to random old nodes; *localisation* compares the reassignment of old nodes in a new
+paper's edges with that of the other old nodes.
 
 **Label faithfulness.** The labeller (qwen2.5) sees half of each super-node's evidence (no citations); a judge of
 another family (phi4) splits label and gloss into at most three claims and checks each against the held-out half,
@@ -156,18 +152,18 @@ validated.
 **Extrinsic utility.** A drill-down agent answers 18 questions by beam search from L0 to L2; flat search ranks all
 leaves with the same keyword scorer. Gold items match by name, claims by source article, not content. We report
 hit-rates on attainable items and end to end, reach, items inspected and candidates scored (not latency): point
-estimates over 14 type-A and 4 type-B questions, with settings chosen in view of them.
+estimates over 14 type-A and 4 type-B questions, with settings chosen in view of them <!-- claim:protocol_counts -->.
 
 ### 5.2 Choosing α
 
 α was varied over 0, 0.25, 0.5, 0.75 and 1 <!-- claim:sweep_grid -->, all else at defaults, each variant built and evaluated in full
 (Appendix B); stability comparisons with the pre-sweep default, α = 0.5, are paired by seed <!-- claim:reference -->.
 
-*Table 3. α variants across the four criteria; the recommended variant in bold (`alpha_sweep`). The T6 column counts
+*Table 2. α variants across the four criteria; the recommended variant in bold (`alpha_sweep`). The T6 column counts
 point estimates of correlated measures, a descriptive simplification rather than independent votes.*
 
 <!-- table:alpha_sweep -->
-| α | P3 robust / below-null cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P5 paired difference to the pre-sweep default | P6 over-claim [95% CI] | T6 measures favouring drill-down / flat / tie |
+| α | P3 robust / below-null cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P5 paired difference ≤2026 to the pre-sweep default | P6 over-claim [95% CI] | T6 measures favouring drill-down / flat / tie |
 |---|---|---|---|---|---|
 | 0 | 2 / 1 | 0.22 [0.20, 0.25] | 0.05 [0.02, 0.08] | 0.55 [0.49, 0.61] | 1 / 10 / 1 |
 | 0.25 | 3 / 2 | 0.18 [0.17, 0.20] | 0.01 [-0.01, 0.03] | 0.57 [0.51, 0.63] | 4 / 7 / 1 |
@@ -175,14 +171,14 @@ point estimates of correlated measures, a descriptive simplification rather than
 | **0.75 (default)** | **7 / 0** | **0.19 [0.15, 0.23]** | **0.02 [-0.03, 0.07]** | **0.63 [0.58, 0.68]** | **3 / 7 / 2** |
 | 1 | 0 / 0 | 0.90 [0.83, 0.96] | 0.73 [0.67, 0.79] | 0.57 [0.52, 0.63] | 3 / 8 / 1 |
 
-Recommended (bold): α = 0.75. Not eligible: none. Coherence cells are out of 12 (snapshot × level), retrieval measures out of 12.
+Coherence cells are out of 12 (snapshot × level), retrieval measures out of 12.
 <!-- /table:alpha_sweep -->
 
 **Rule** (`make_tables.py`): a variant is eligible unless distinguishably worse than the pre-sweep default (paired HARI
-difference wholly below zero, or over-claim interval wholly above); the eligible variant with the most robust cells
+difference at the last snapshot wholly below zero, or over-claim interval wholly above); the eligible variant with the most robust cells
 wins, since coherence alone tests with a held-out ruler whether groups mean something. **Trade-offs** of α = 0.75: less robust to perturbation at the first snapshot, and less consistent across
-one transition but more across another <!-- claim:stability_loss -->; α = 1 is the most robust variant only because edge removal cannot change a grouping
-made from names, and has no robust cell <!-- claim:names_most_robust -->; another variant has the lowest over-claim, and α = 0.75 does not reduce
+one transition but more across another <!-- claim:stability_loss -->; α = 1 is the most robust variant largely because its score ignores the edges (only the prior's stable
+set depends on them), and has no robust cell <!-- claim:names_most_robust -->; another variant has the lowest over-claim, and α = 0.75 does not reduce
 it <!-- claim:faith_tradeoff -->; retrieval moves both ways, with type-A reach worse <!-- claim:retrieval_mixed -->. The choice is optimistic: α was selected on the data that
 report its quality, and the stability guard was revised once after the results were read (Appendix B §9).
 
@@ -190,12 +186,13 @@ report its quality, and the stability guard was revised once after the results w
 
 The run in `out/` is identical to the α = 0.75 variant <!-- claim:main_run_identical -->; full tables and figures are in Appendix A.5.
 
-*Table 4. Headline results of the shipped run with their uncertainty.*
+*Table 3. Headline results of the shipped run with their uncertainty.*
 
 <!-- table:results -->
 | Criterion | α = 0.75 | Qualifier | Table |
 |---|---|---|---|
 | P3 robust cells (exact; fuzzy) | 7 of 12: ≤2022 L1; ≤2024 L0–L2; ≤2026 L0–L2 | fuzzy 7; below both nulls: 0 (fuzzy 0) | A2 |
+| P3 lift ≤2026, L0, L1, L2 | 1.22 [0.85, 1.52]; 1.53 [0.91, 2.26]; 1.85 [0.91, 2.72] | paper-bootstrap CI; 1 = chance | A2 |
 | P5 perturbation HARI, first → last | 0.43 [0.38, 0.48] → 0.19 [0.15, 0.23] | t-interval, 5 seeds | A3 |
 | P5 cross-snapshot; localisation | 2 of 12 above the null; 9 of 9 localised | untouched share 73%–92% | A4–A5 |
 | P6 over-claim (all; L0 vs L1) | 0.63 [0.58, 0.68]; 0.47 vs 0.67 | bootstrap CI | A6 |
@@ -203,19 +200,22 @@ The run in `out/` is identical to the α = 0.75 variant <!-- claim:main_run_iden
 | T6 items inspected to first; candidates scored | A: 64.5 vs 10.5, 572 vs 2524; B: 63.0 vs 2.0, 359 vs 690 | medians; computation, not latency | A7 |
 <!-- /table:results -->
 
-**Coherence.** Every level of the two latest snapshots co-assigns citation-coupled, concept-disjoint papers more than
+**Coherence.** Under the exact filter, every level of the two latest snapshots co-assigns citation-coupled, concept-disjoint papers more than
 both nulls under every scheme, and no cell lies below both nulls <!-- claim:coherence_late -->; earlier snapshots provide fewer pairs, and the first
-has one period stratum, so it is not evaluable <!-- claim:coverage_grows -->. p-values are not corrected across cells. **Stability.** Robustness falls
-from the first to the last snapshot; change concentrates on touched nodes everywhere, yet untouched nodes carry most
-of the reassignment and few cross-snapshot indices beat the new-paper null <!-- claim:stability_profile -->; without a γ = 0 control, localisation
-is not attributable to Π. **Faithfulness.** Most labels over-claim, L1 more than L0 <!-- claim:faith_profile -->, so coarse labels are the more
+has one period stratum, so it is not evaluable <!-- claim:coverage_grows -->. p-values are not corrected across cells, and the tests
+are conditional on these papers: every lift's paper-bootstrap interval includes chance <!-- claim:lift_ci_chance -->, so the effect is not shown to
+generalise beyond this corpus. **Stability.** Robustness falls
+from the first to the last snapshot; change concentrates on old nodes in new papers' edges everywhere, yet the other old
+nodes carry most of the reassignment and few cross-snapshot indices beat the new-paper null <!-- claim:stability_profile -->; a γ comparison exists only at the
+pre-sweep α = 0.5 (`make gamma`, not reported), so localisation is not attributed to Π. No super-node dies, since
+snapshots only grow. **Faithfulness.** Most labels over-claim, L1 more than L0 <!-- claim:faith_profile -->, so coarse labels are the more
 trustworthy. **Utility.** Drill-down returns no more type-A methods than flat search, reaches fewer type-A questions
 (losing them at L1), and scores fewer candidates but needs more inspection <!-- claim:navigation_not_established -->.
 
 ### 5.4 Why α = 0.75 is the ship candidate
 
 We propose α = 0.75 <!-- claim:recommended -->: it has more robust coherence cells than any other variant and none below both nulls <!-- claim:most_robust -->, at no
-measurable cost at the last snapshot in stability or faithfulness <!-- claim:last_indistinct -->. Semantic claims should be restricted to its robust
+measurable cost in stability at the last snapshot or in overall faithfulness <!-- claim:last_indistinct -->. Semantic claims should be restricted to its robust
 cells. Retrieval does not enter the rule, and no navigation benefit is inferred from coherence: T6 utility is mixed.
 
 ### 5.5 Coherence on paper abstracts
@@ -224,7 +224,7 @@ As a ruler independent of citations, phi4 rated every pair of ≤2026 papers wit
 (0–10), from titles and abstracts only; each paper belongs to the L0 super-node of its method. Pairs within and across
 super-nodes are compared with a paper bootstrap and a permutation null with sizes fixed (`eval/extra/REPORT.md`).
 
-*Table 5. LLM-rated closeness of paper abstracts within vs across L0 super-nodes (`abstract_coherence`).*
+*Table 4. LLM-rated closeness of paper abstracts within vs across L0 super-nodes (`abstract_coherence`).*
 
 <!-- table:abstract_coherence -->
 | Item | Value (phi4, ≤2026, L0, α = 0.75) |
@@ -234,11 +234,11 @@ super-nodes are compared with a paper bootstrap and a permutation null with size
 | Mean closeness (0–10), same / different | 5.97 / 5.37 |
 | Difference [95% paper-bootstrap CI] | 0.60 [0.02, 1.20] |
 | Permutation null (R = 9999): mean; 97.5% q.; p | -0.00; 0.42; 0.0036 |
-| Difference, one super-node left out: min; max | 0.46 (without L0.1); 0.70 (without L0.16) |
+| Difference, one of 8 super-nodes with ≥ 2 papers left out: min; max | 0.46 (without L0.1); 0.70 (without L0.16) |
 <!-- /table:abstract_coherence -->
 
 Same-super-node papers are rated closer: the bootstrap interval excludes zero, the difference exceeds the null's 97.5%
-quantile, and it stays positive with any one super-node left out <!-- claim:abstract_within_closer -->. The effect is modest in one narrow field, and the check depends on names and one unvalidated rater.
+quantile, and it stays positive with any one multi-paper super-node left out <!-- claim:abstract_within_closer -->. The effect is modest in one narrow field, and the check depends on names and one unvalidated rater.
 
 ## 6. Limitations and four more weeks
 
@@ -247,22 +247,16 @@ snapshot-only membership, the identity log. Measured, as uncorrected tests on th
 faithfulness, utility. Assumed, by consequence: (1) *meaning is a lexical proxy*: character n-grams relate spellings,
 not proper-named methods, and shared nodes are anchored to one earliest paper, neither validated with cluster examples
 or sensitivity checks; (2) *citation coupling indicates closeness*, though shared benchmarks also produce it; (3)
-*relations within a paper indicate relatedness*; (4) *untouched structure should keep its grouping* (no γ = 0 control);
+*relations within a paper indicate relatedness*; (4) *untouched structure should keep its grouping* (no γ = 0 control at the shipped α);
 (5) *no post-cutoff information*, though aliases come from the whole export; (6) *the budgets suit the corpus*.
 
-With four more weeks we would:
-
-1. **Semantic term:** a specialised embedding model fitted on pre-cutoff text, or LLM judgements of node and
-   super-node similarity, in place of character n-grams.
-2. **Labels in the score:** super-node similarity on the LLM labels and glosses as well as on names.
-3. **Per-level α:** different weights of semantics and structure for coarse and fine levels.
-4. **Hyperparameters:** tune γ (with γ = 0), ρ, the hub fraction and the retrieval settings (super-nodes kept, answers
-   returned) on one half of the data and report on the other.
-5. **Generalisation:** synthetic question–answer pairs and a development/test split for retrieval, with claim identity
-   or judged entailment and paired CIs.
-6. **Validation:** blind ratings of sampled super-nodes, a second judge, repeated evidence splits.
-7. **Collapse and scale:** a multiplicity-aware H_β between presence and clique, multi-hop affinity, DynHAC-style local
-   updates [3].
+With four more weeks we would: (1) replace character n-grams by a specialised embedding model fitted on pre-cutoff
+text, or by LLM judgements of node and super-node similarity; (2) include the LLM labels and glosses in super-node
+similarity; (3) use a separate α per level; (4) tune γ (with γ = 0), ρ, the hub fraction and the retrieval settings
+(super-nodes kept, answers returned) on one half of the data and report on the other; (5) test retrieval on synthetic
+question–answer pairs with a development/test split, claim-identity scoring and paired CIs; (6) validate rulers and
+labels with blind ratings, a second judge, repeated evidence splits and a label-distinctness check; (7) score
+multiplicity-aware collapse between presence and clique, multi-hop affinity, and DynHAC-style local updates [3].
 
 ## References
 

@@ -1897,8 +1897,8 @@ accepted or changed, and what was checked.
   were read. Its stability guard excluded any variant whose perturbation HARI was distinguishably below that of the
   *most robust* variant. Applied to the results, the rule recommended α = 1, the names-only build, which has no
   robust coherence cell.
-- **Why the rule was wrong.** Removing hyper-edges cannot change a grouping made from names alone, so the names-only
-  variant is robust to perturbation for a reason unrelated to the quality of its groups. Its HARI interval lay above
+- **Why the rule was wrong.** Removing hyper-edges barely affects a grouping made from names alone (only the prior's stable
+  set depends on them), so the names-only variant is robust to perturbation for a reason unrelated to the quality of its groups. Its HARI interval lay above
   every other variant's, so it excluded them all. The report's own reading of the stability results warned about
   exactly this effect.
 - **How it was caught.** The assistant checked the recommendation against the per-criterion tables before writing
