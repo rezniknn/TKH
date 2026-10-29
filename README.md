@@ -53,7 +53,23 @@ TKH_ONLINE=1 .venv/bin/jupyter nbconvert --to notebook --execute --inplace noteb
 
 The snapshot rule is in `tkh/io.py` and the statistics in `tkh/describe.py`.
 
-`notebooks/04_retrieval_design.ipynb` is the design document for the T6 extrinsic evaluation; it calls the
+`notebooks/04_hierarchies.ipynb` takes apart the shipped hierarchies (α = 0.75) with the method's own code:
+- the inputs of a merge;
+- one merge step by step, with the scores, the choice of the pair and what the merge changes;
+- the transition between levels and the temporal prior;
+- what a super-node preserves (record, anchored members, parents, identities);
+- the hyper-edge coarsening decision per edge and level;
+- how labels and glosses are produced from the evidence;
+- the resulting hierarchies across all levels.
+
+Every step is checked against `out/`. It replays single engine steps, never rebuilds, and reads labels from the LLM
+cache:
+
+```bash
+.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/04_hierarchies.ipynb
+```
+
+`notebooks/05_retrieval_design.ipynb` is the design document for the T6 extrinsic evaluation; it calls the
 implementation in `tkh/retrieve.py` and `eval/retrieval.py`. It covers:
 - the format of `data/questions.csv` and `data/ground_truth.json`, with a role for every field;
 - what the export can answer (ceilings);
@@ -65,7 +81,7 @@ implementation in `tkh/retrieve.py` and `eval/retrieval.py`. It covers:
 It reads `out/` (never rebuilds), makes no LLM calls, and runs in seconds:
 
 ```bash
-.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/04_retrieval_design.ipynb
+.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/05_retrieval_design.ipynb
 ```
 
 ## Output validator (§6a)
@@ -135,7 +151,7 @@ rejected alternatives), the T4 coarsening rule, temporal coupling, literature po
 - **Retrieval check, T6** (`tkh/retrieve.py` agent, `eval/retrieval.py` evaluator, run by `make retrieval`): a
   drill-down agent (L0 → L2 beam search) against flat search on `data/questions.csv`, scored with
   `data/ground_truth.json` (hit-rate, error rate, steps-to-target) -> `metrics.json["retrieval"]` and
-  `out/retrieval_answers.json`; offline, seconds. Design: `notebooks/04_retrieval_design.ipynb`; results:
+  `out/retrieval_answers.json`; offline, seconds. Design: `notebooks/05_retrieval_design.ipynb`; results:
   `docs/report.md` §5.
 
 ```bash

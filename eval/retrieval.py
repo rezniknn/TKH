@@ -1,6 +1,6 @@
 """T6 extrinsic utility: the drill-down retrieval agent (tkh/retrieve.py) against the flat baseline, on the questions of
 data/questions.csv scored with data/ground_truth.json. Only the evaluator reads ground truth. Design and rationale:
-notebooks/04_retrieval_design.ipynb.
+notebooks/05_retrieval_design.ipynb.
 
 Gold resolution (`resolve_gold`), per question, on the snapshot the evaluator itself derives from the question text:
   methods (A)        a GT name matches leaf nodes of the answer kinds by the first rule that matches:

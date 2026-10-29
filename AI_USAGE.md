@@ -1735,6 +1735,47 @@ accepted or changed, and what was checked.
   - a claim predicate was weaker than its sentence;
   - stale table captions.
 
+### 53. Notebook 04_hierarchies: how SHAC (α = 0.75) builds, coarsens and labels the hierarchies (Claude Code)
+
+- **Task/module:** `notebooks/04_hierarchies.ipynb` (new), `notebooks/04_retrieval_design.ipynb` →
+  `notebooks/05_retrieval_design.ipynb`, README, `eval/retrieval.py` docstring
+- **Prompt:** bring back the notebook that analyses in detail how the coarsening method builds the hierarchies. Cover
+  only the recommended variant (α = 0.75), and rely on the implemented code and the hierarchies in `out/` instead of
+  rebuilding. Explain step by step:
+  - how a merge happens;
+  - what a super-node preserves;
+  - how a hyper-edge coarsening decision is made;
+  - how labels and glosses are generated from the input data;
+  - the resulting hierarchies across all levels, visualised.
+
+  Rename notebook 04 to 05.
+- **What the assistant did:**
+  - The earlier notebooks (`04_method`, `05_inspect_hierarchies`, deleted in 2bc3e5a) import modules that no longer
+    exist, so the notebook was rewritten against the current code. It keeps their icicle, composition and lineage
+    views.
+  - Nine sections, all on the method's own functions:
+    - the inputs: hubs, the clustering hypergraph and the name vectors;
+    - one merge replayed with `_Level` exactly as `build_snapshot` calls it, with S, H, the mid-rank CDFs, the cap,
+      the tie-break and what `merge()` updates;
+    - the transition between levels, and the temporal prior on ≤2022;
+    - the super-node record, anchors, laminarity and events;
+    - the hyper-edge coarsening per edge and level;
+    - the labelling: evidence, split, contrast, prompt and cached answer;
+    - icicles, sizes and composition, a drill-down branch, the L0 coarse hypergraph and the L0 lineage;
+    - a summary.
+- **Verified (asserts in the notebook):**
+  - α = 0.75, and the hub and stable sets match `run_info.json`;
+  - Proposition 1 (the H numerator equals the drop in the connectivity cut);
+  - the replayed merges are consistent with `out/` L2;
+  - the prior scores equal the engine's;
+  - anchored nodes always sit with their anchor, and the levels are laminar;
+  - `collapse()` reproduces `coarse_hyperedges.json` for all edges and levels;
+  - for all 300 labelled super-nodes, the evidence split, the prompt hash and the cached answer reproduce `out/`
+    (0 live LLM calls);
+  - `out/` is unchanged.
+- **Notebook 05:** it keeps its committed content. Re-executing it against the α = 0.75 `out/` would change outputs
+  that its text describes.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
