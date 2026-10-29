@@ -2,8 +2,11 @@
 
 The labeller (tkh/label.py, one model family) wrote each label from the seen half of the super-node's evidence; the
 judge (a different family, [labels] judge_model) checks it only against the other half, which the labeller never saw.
-  1. decompose  label + gloss -> atomic claims (claims_split.txt); a claim must reuse >= 80% of its content words
-                from label and gloss and keep a non-generic word, else fall back to [label, gloss]
+  1. decompose  label + gloss -> at most MAX_CLAIMS atomic claims (claims_split.txt). Every claim must pass the content
+                check: reuse >= 80% of its content words from label and gloss and keep a non-generic word. If any
+                claim fails (or none is returned), the decomposition fails and label and gloss are judged as two
+                claims instead. Sensitivity: the previous rule, which dropped failing claims and judged the
+                survivors (falling back only when none survived), is also scored (summary "sensitivity")
   2. entail     each claim vs the held-out lines (claim_entail.txt): supported only if the judge cites a numbered
                 line that exists (a deterministic check against sycophancy)
   3. rates      over-claim rate = share of judged labels with >= 1 unsupported claim (bootstrap CI over labels);
@@ -41,14 +44,16 @@ class Judge:
         self.split_t, self.entail_t = f"{s['prompts']}/claims_split.txt", f"{s['prompts']}/claim_entail.txt"
 
     def decompose_many(self, pairs, max_claims):
-        """[(label, gloss)] -> [(claims, ok)]."""
+        """[(label, gloss)] -> [(claims, ok, survivors)]. claims: the decomposition if every claim passes the content check
+        (ok), else [label, gloss]; survivors: the claims judged under the previous rule (failing claims dropped, the
+        fallback only when none survive), for the sensitivity check."""
         resps = self.llm.complete_many([render(self.split_t, label=l, gloss=g) for l, g in pairs], self.s["workers"])
         out = []
         for (l, g), r in zip(pairs, resps):
             claims = [str(c).strip() for c in (r.get("claims") or [])] if isinstance(r, dict) else []
-            kept = [c for c in claims if _content_ok(c, f"{l} {g}")]   # generic or invented claims are dropped
-            ok = bool(kept) and len(kept) == len(claims)
-            out.append((kept[:max_claims] if kept else [l, g], ok))
+            kept = [c for c in claims if _content_ok(c, f"{l} {g}")]
+            ok = bool(claims) and len(kept) == len(claims)
+            out.append((claims[:max_claims] if ok else [l, g], ok, kept[:max_claims] if kept else [l, g]))
         return out
 
     def entail_many(self, jobs):
@@ -138,27 +143,44 @@ def judge_labels(rows, judge, checker, max_claims=MAX_CLAIMS):
     """Decompose and entail every label; returns the summary and the judgement records."""
     decs = judge.decompose_many([(row[5], row[6]) for row in rows], max_claims)
     jobs, meta = [], []
-    for row, (claims, _) in zip(rows, decs):
+    for row, (claims, ok, surv) in zip(rows, decs):
         if row[8]:
             for cl in claims:
-                jobs.append((row[0], cl, row[8])); meta.append((row, cl))
+                jobs.append((row[0], cl, row[8])); meta.append((row, cl, "protocol"))
+            if surv != claims:   # partial decomposition: the previous rule judged these survivors
+                for cl in surv:
+                    jobs.append((row[0], cl, row[8])); meta.append((row, cl, "survivors_only"))
     verdicts = judge.entail_many(jobs)
-    recs = [{"supernode": row[2], "cutoff": row[0], "level": row[1], "claim": cl, **v} for (row, cl), v in zip(meta, verdicts)]
-    per = {}
+    recs = [{"supernode": row[2], "cutoff": row[0], "level": row[1], "claim": cl, "rule": rule, **v}
+            for (row, cl, rule), v in zip(meta, verdicts)]
+    partial = {row[2] for row, (claims, _, surv) in zip(rows, decs) if surv != claims}
+    per, per_s = {}, {}   # per label: unsupported flags under the protocol / under the previous (survivors) rule
     for x in recs:
-        per.setdefault(x["supernode"], []).append(not x["supported"])
+        k = x["supernode"]
+        if x["rule"] == "protocol":
+            per.setdefault(k, []).append(not x["supported"])
+        if (x["rule"] == "survivors_only") == (k in partial):
+            per_s.setdefault(k, []).append(not x["supported"])
     info = {row[2]: (row[0], row[1]) for row in rows}
 
-    def rates(keys):
-        keys = [k for k in keys if k in per]
-        return {"over_claim": _ci(np.array([any(per[k]) for k in keys], float)),
-                "claim_unsupported": _rate([u for k in keys for u in per[k]])}
+    def rates(keys, table=None):
+        table = per if table is None else table
+        keys = [k for k in keys if k in table]
+        return {"over_claim": _ci(np.array([any(table[k]) for k in keys], float)),
+                "claim_unsupported": _rate([u for k in keys for u in table[k]])}
 
     cutoffs, levels = sorted({c for c, _ in info.values()}), sorted({k for _, k in info.values()})
     det = [checker.checks(f"{row[5]} {row[6]}", row[4], row[0]) for row in rows]
     summary = {"labels": len(rows), "judged": len(per), **rates(list(per)),
-               "decomposition_ok": float(np.mean([ok for _, ok in decs])) if decs else math.nan,
-               "quote_rejected": int(sum(x["verdict"] == "supported" and not x["quote_ok"] for x in recs)),
+               "decomposition_ok": float(np.mean([ok for _, ok, _ in decs])) if decs else math.nan,
+               "decomposition": {"all_kept": sum(ok for _, ok, _ in decs),
+                                 "partial": sum(not ok and s != [r[5], r[6]] for r, (_, ok, s) in zip(rows, decs)),
+                                 "none_kept": sum(not ok and s == [r[5], r[6]] for r, (_, ok, s) in zip(rows, decs))},
+               "sensitivity": {"rule": "survivors_only: claims failing the content check dropped, the survivors judged",
+                               **rates(list(per_s), per_s),
+                               "by_level": {f"L{lv}": rates([k for k, (_, ll) in info.items() if ll == lv], per_s)
+                                            for lv in levels}},
+               "quote_rejected": int(sum(x["verdict"] == "supported" and not x["quote_ok"] for x in recs if x["rule"] == "protocol")),
                "no_held_out": sum(1 for row in rows if not row[8]),
                "deterministic": {k: int(sum(bool(d[k]) for d in det)) for k in ("year_after_cutoff", "named_non_member", "future_entity")},
                "by_cutoff": {str(c): rates([k for k, (cc, _) in info.items() if cc == c]) for c in cutoffs},
