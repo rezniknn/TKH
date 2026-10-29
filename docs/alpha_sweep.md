@@ -163,18 +163,19 @@ evidence, and a judge of another model family checks the atomic claims of label 
 Every variant has its own super-nodes and therefore its own labels and its own evidence; the labeller, the judge,
 the prompts and the splitting procedure (seeded, stratified by evidence kind) are the same, so the comparison is not
 paired. Table S6 gives the over-claim rate, the share of labels with at least one unsupported
-claim, overall and per level, with bootstrap intervals over labels.
+claim, overall and per level, with bootstrap intervals over labels, and as a sensitivity check the over-claim rate
+under the rule that drops failing claims of a decomposition instead of judging label and gloss (report §5.1.3).
 
 *Table S6. Label over-claim per variant against held-out evidence (`alpha_sweep.variants.<α>.faithfulness`).*
 
 <!-- table:sweep_faithfulness -->
-| α | Labels judged | Over-claim [95% CI] | Over-claim L0 | Over-claim L1 | Claim-level unsupported | Named non-member flags |
-|---|---|---|---|---|---|---|
-| 0 | 288 | 0.52 [0.47, 0.58] | 0.45 [0.33, 0.58] | 0.54 [0.48, 0.61] | 0.43 | 41 |
-| 0.25 | 300 | 0.53 [0.48, 0.59] | 0.35 [0.23, 0.47] | 0.58 [0.52, 0.64] | 0.41 | 37 |
-| 0.5 (pre-sweep default) | 296 | 0.58 [0.52, 0.64] | 0.37 [0.25, 0.48] | 0.64 [0.57, 0.69] | 0.45 | 33 |
-| 0.75 (default) | 299 | 0.60 [0.54, 0.65] | 0.47 [0.35, 0.58] | 0.63 [0.56, 0.69] | 0.48 | 31 |
-| 1 | 300 | 0.55 [0.50, 0.61] | 0.50 [0.37, 0.63] | 0.56 [0.50, 0.62] | 0.41 | 31 |
+| α | Labels judged | Over-claim [95% CI] | Over-claim L0 | Over-claim L1 | Claim-level unsupported | Over-claim, survivor rule (sensitivity) | Named non-member flags |
+|---|---|---|---|---|---|---|---|
+| 0 | 288 | 0.55 [0.49, 0.61] | 0.52 [0.40, 0.65] | 0.56 [0.50, 0.62] | 0.43 | 0.52 [0.47, 0.58] | 41 |
+| 0.25 | 300 | 0.57 [0.51, 0.63] | 0.35 [0.23, 0.47] | 0.63 [0.57, 0.69] | 0.43 | 0.53 [0.48, 0.59] | 37 |
+| 0.5 (pre-sweep default) | 296 | 0.61 [0.55, 0.67] | 0.38 [0.27, 0.50] | 0.67 [0.61, 0.73] | 0.47 | 0.58 [0.52, 0.64] | 33 |
+| 0.75 (default) | 299 | 0.63 [0.58, 0.68] | 0.47 [0.35, 0.60] | 0.67 [0.61, 0.73] | 0.48 | 0.60 [0.54, 0.65] | 31 |
+| 1 | 300 | 0.57 [0.52, 0.63] | 0.52 [0.40, 0.63] | 0.59 [0.53, 0.65] | 0.41 | 0.55 [0.50, 0.61] | 31 |
 <!-- /table:sweep_faithfulness -->
 
 A group that is coherent in meaning should be easier to describe without over-claiming, so lower over-claim is
@@ -242,11 +243,11 @@ but does not decide, for the reasons given in §7.
 <!-- table:sweep_summary -->
 | α | P3 robust cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P6 over-claim [95% CI] | T6 measures favouring drill-down | Eligible (not distinguishably worse than the pre-sweep default on HARI or over-claim) | Recommendation |
 |---|---|---|---|---|---|---|
-| 0 | 2 | 0.22 [0.20, 0.25] | 0.52 [0.47, 0.58] | 1 | yes |  |
-| 0.25 | 3 | 0.18 [0.17, 0.20] | 0.53 [0.48, 0.59] | 4 | yes |  |
-| 0.5 (pre-sweep default) | 3 | 0.17 [0.16, 0.18] | 0.58 [0.52, 0.64] | 3 | yes |  |
-| 0.75 (default) | 7 | 0.19 [0.15, 0.23] | 0.60 [0.54, 0.65] | 3 | yes | **recommended** |
-| 1 | 0 | 0.90 [0.83, 0.96] | 0.55 [0.50, 0.61] | 3 | yes |  |
+| 0 | 2 | 0.22 [0.20, 0.25] | 0.55 [0.49, 0.61] | 1 | yes |  |
+| 0.25 | 3 | 0.18 [0.17, 0.20] | 0.57 [0.51, 0.63] | 4 | yes |  |
+| 0.5 (pre-sweep default) | 3 | 0.17 [0.16, 0.18] | 0.61 [0.55, 0.67] | 3 | yes |  |
+| 0.75 (default) | 7 | 0.19 [0.15, 0.23] | 0.63 [0.58, 0.68] | 3 | yes | **recommended** |
+| 1 | 0 | 0.90 [0.83, 0.96] | 0.57 [0.52, 0.63] | 3 | yes |  |
 
 Recommended: α = 0.75. Eligible: 0, 0.25, 0.5, 0.75, 1; retrieval counts are out of 12 measures (point estimates, no CIs).
 <!-- /table:sweep_summary -->

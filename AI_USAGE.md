@@ -1818,6 +1818,31 @@ accepted or changed, and what was checked.
 - **Issues found and fixed during the run:** the manifest had NaN for missing fields, which made it invalid JSON. The
   rater's coarse use of the scale (mostly the prompt's anchors) is now reported as a caveat.
 
+### 55. Faithfulness: the documented decomposition fallback implemented and re-judged (Claude Code)
+
+- **Task/module:** `eval/faithfulness.py`, `eval/sweep.py`, `make_tables.py`, report §5.1.3, `docs/alpha_sweep.md`
+- **Prompt:** a critique point. The report says a failed decomposition makes label and gloss be judged as two claims,
+  but `Judge.decompose_many` dropped the failing claims and judged only the survivors, falling back only when none
+  survived, and the `ok` flag was recorded but unused.
+- **What the assistant did:**
+  - Confirmed and quantified the discrepancy by offline replay. For the main run's 300 labels: 163 kept every claim,
+    135 had some claims failing (survivors judged), and 2 kept none.
+  - With the user's approval, implemented the documented rule: any failing claim makes label and gloss be judged as
+    two claims. The previous survivor rule is kept as a sensitivity result, its records tagged by rule, and the
+    decomposition counts are recorded.
+  - Re-judged the main run and the five sweep variants live with phi4. That needed about 1,350 new calls; the 0.75
+    variant replayed from the main run's cache.
+  - Then regenerated the sweep section, the tables, the figures, the Table 10 note and Table S6 (survivor-rule
+    column), and §5.1.3.
+- **Results:**
+  - over-claim rises by 0.02–0.04 for every variant (main run 0.60 → 0.63);
+  - the survivor rule reproduces the previously committed rates exactly;
+  - eligibility, the recommendation (α = 0.75) and all 13 checked claims are unchanged.
+- **Verified:**
+  - the fallback fires for exactly the 137 labels with a failing claim;
+  - an offline re-run reproduces every faithfulness section and judgement file byte-for-byte;
+  - `make_tables.py --check` passes for both reports, and `make test` passes (65).
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

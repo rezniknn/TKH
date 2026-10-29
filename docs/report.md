@@ -312,9 +312,12 @@ the labeller receives, and a *held-out half*, which only the judge receives; bot
 concept names of the same-level groups that share the most clustering edges with this one, and is asked for a label
 that fits this group and not those. A judge from another model family splits label and gloss into at most three
 *atomic claims* and checks each against the held-out half. A claim counts as supported only if the judge cites a
-held-out line that exists, a deterministic check against a judge that agrees without evidence. When a decomposition
-fails its *content check*, which requires each claim to reuse at least 80% of its content words from label and gloss
-and to keep a specific word, label and gloss are judged as two claims instead. The *over-claim rate* is the share of
+held-out line that exists, a deterministic check against a judge that agrees without evidence. The decomposition is
+subject to a *content check*: each claim must reuse at least 80% of its content words from label and gloss and keep a
+specific word. If any claim fails the check, or no claim is returned, the decomposition fails and label and gloss are
+judged as two claims instead, so that no part of the label goes unjudged. As a sensitivity check, the over-claim rate
+is also computed under the alternative rule that drops the failing claims and judges the remaining ones (Table 10
+note). The *over-claim rate* is the share of
 labels with at least one unsupported claim, and the claim-level rate the share of unsupported claims. Deterministic
 checks without an LLM flag years after the cutoff, method or dataset names that belong to no member, and entities
 that first appear after the cutoff. Because the judge reads only the held-out half, restating the labeller's input
@@ -361,11 +364,11 @@ per-level and per-snapshot values.
 <!-- table:alpha_sweep -->
 | α | P3 robust / below-null cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P5 paired difference to the pre-sweep default | P6 over-claim [95% CI] | T6 measures favouring drill-down / flat / tie | Eligible | Recommendation |
 |---|---|---|---|---|---|---|---|
-| 0 | 2 / 1 | 0.22 [0.20, 0.25] | 0.05 [0.02, 0.08] | 0.52 [0.47, 0.58] | 1 / 10 / 1 | yes |  |
-| 0.25 | 3 / 2 | 0.18 [0.17, 0.20] | 0.01 [-0.01, 0.03] | 0.53 [0.48, 0.59] | 4 / 7 / 1 | yes |  |
-| 0.5 (pre-sweep default) | 3 / 3 | 0.17 [0.16, 0.18] | — | 0.58 [0.52, 0.64] | 3 / 8 / 1 | yes |  |
-| **0.75 (default)** | **7 / 0** | **0.19 [0.15, 0.23]** | **0.02 [-0.03, 0.07]** | **0.60 [0.54, 0.65]** | **3 / 7 / 2** | **yes** | **recommended** |
-| 1 | 0 / 0 | 0.90 [0.83, 0.96] | 0.73 [0.67, 0.79] | 0.55 [0.50, 0.61] | 3 / 8 / 1 | yes |  |
+| 0 | 2 / 1 | 0.22 [0.20, 0.25] | 0.05 [0.02, 0.08] | 0.55 [0.49, 0.61] | 1 / 10 / 1 | yes |  |
+| 0.25 | 3 / 2 | 0.18 [0.17, 0.20] | 0.01 [-0.01, 0.03] | 0.57 [0.51, 0.63] | 4 / 7 / 1 | yes |  |
+| 0.5 (pre-sweep default) | 3 / 3 | 0.17 [0.16, 0.18] | — | 0.61 [0.55, 0.67] | 3 / 8 / 1 | yes |  |
+| **0.75 (default)** | **7 / 0** | **0.19 [0.15, 0.23]** | **0.02 [-0.03, 0.07]** | **0.63 [0.58, 0.68]** | **3 / 7 / 2** | **yes** | **recommended** |
+| 1 | 0 / 0 | 0.90 [0.83, 0.96] | 0.73 [0.67, 0.79] | 0.57 [0.52, 0.63] | 3 / 8 / 1 | yes |  |
 
 Recommended: α = 0.75. Coherence cells are out of 12 (snapshot × level), retrieval measures out of 12.
 <!-- /table:alpha_sweep -->
@@ -426,7 +429,7 @@ The trade-offs are the following:
 | P5 paired HARI differences, every snapshot and transition | 2 below 0, 1 above 0 | — | of 7 paired intervals | — | worse at ≤2020 (perturbation), 2022→2024 (cross-snapshot); better at 2024→2026 (cross-snapshot) |
 | P5 cross-snapshot indices above the new-paper null | 2 | 1 | +1 | α = 1: 4 | better (count, no interval) |
 | P5 localised level × transition cells | 9 | 9 | 0 | α = 0.25, α = 0.5 (pre-sweep default), α = 0.75 (default): 9 | same count |
-| P6 over-claim rate | 0.60 [0.54, 0.65] | 0.58 [0.52, 0.64] | +0.014 (unpaired) | α = 0: 0.52 | no distinguishable difference (intervals overlap) |
+| P6 over-claim rate | 0.63 [0.58, 0.68] | 0.61 [0.55, 0.67] | +0.017 (unpaired) | α = 0: 0.55 | no distinguishable difference (intervals overlap) |
 | T6 retrieval measures favouring drill-down | 3 | 3 | 0 | α = 0.25: 4 | same count |
 | T6 drill-down measures against the pre-sweep default (point estimates) | 5 better / 4 same / 3 worse | — | — | — | worse: A hit-rate, methods; A reach; B hit-rate, claims. Better: A hit-rate, method claims; A hit-rate, citations; A steps to first item (median); A steps to 50% of items (median); B steps to 50% of items (median) |
 <!-- /table:alpha_tradeoffs -->
@@ -537,15 +540,15 @@ to Π.
 <!-- table:faithfulness -->
 | Group | Labels judged | Over-claim rate [95% CI] | Claim-level unsupported |
 |---|---|---|---|
-| All cutoffs, L0–L1 | 299 | 0.60 [0.54, 0.65] | 0.48 |
-| L0 | 60 | 0.47 [0.35, 0.58] | 0.34 |
-| L1 | 239 | 0.63 [0.56, 0.69] | 0.51 |
-| ≤2020 | 74 | 0.66 [0.55, 0.76] | 0.53 |
-| ≤2022 | 75 | 0.63 [0.52, 0.73] | 0.54 |
-| ≤2024 | 75 | 0.52 [0.40, 0.63] | 0.36 |
-| ≤2026 | 75 | 0.57 [0.47, 0.68] | 0.46 |
+| All cutoffs, L0–L1 | 299 | 0.63 [0.58, 0.68] | 0.48 |
+| L0 | 60 | 0.47 [0.35, 0.60] | 0.34 |
+| L1 | 239 | 0.67 [0.61, 0.73] | 0.51 |
+| ≤2020 | 74 | 0.65 [0.54, 0.76] | 0.52 |
+| ≤2022 | 75 | 0.65 [0.55, 0.76] | 0.53 |
+| ≤2024 | 75 | 0.61 [0.51, 0.72] | 0.39 |
+| ≤2026 | 75 | 0.60 [0.49, 0.71] | 0.47 |
 
-Labels 300, judged 299 (no held-out evidence: 1); decomposition passes its content check for 54%; cited-line rejections 18; deterministic flags: year after cutoff 0, named non-member 31, future entity 3.
+Labels 300, judged 299 (no held-out evidence: 1); decomposition passes its content check for 54% (every claim kept 163, some claims failing 135, none returned or kept 2; a failed decomposition is judged as label and gloss); sensitivity, failing claims dropped and the survivors judged: over-claim 0.60 [0.54, 0.65]; cited-line rejections 22; deterministic flags: year after cutoff 0, named non-member 31, future entity 3.
 <!-- /table:faithfulness -->
 
 ![Label faithfulness](figures/faithfulness.png)
@@ -601,8 +604,8 @@ Tables 6–11.*
 | P5 cross-snapshot indices above the new-paper null | 2 of 12 | p ≤ 0.05, uncorrected | Table 8 |
 | P5 perturbation HARI, first → last snapshot | 0.43 → 0.19 |  | Table 7 |
 | P5 localised level × transition cells (ratio CI > 1) | 9 of 9 | untouched share of reassignment 73%–92% | Table 9 |
-| P6 over-claim rate | 0.60 [0.54, 0.65] | majority of labels | Table 10 |
-| P6 L0 vs L1 over-claim | 0.47 vs 0.63 | CIs overlap | Table 10 |
+| P6 over-claim rate | 0.63 [0.58, 0.68] | majority of labels | Table 10 |
+| P6 L0 vs L1 over-claim | 0.47 vs 0.67 | CIs do not overlap | Table 10 |
 | T6 retrieval measures favouring drill-down / flat / tie | 3 / 7 / 2 | point estimates, no CIs | Table 11 |
 | T6 median steps to first item, drill-down vs flat | type A: 149.0 vs 10.5; type B: 143.0 vs 2.0 |  | Table 11 |
 <!-- /table:findings -->

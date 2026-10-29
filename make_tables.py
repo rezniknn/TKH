@@ -201,8 +201,12 @@ def t_faithfulness(r):
     rows += [[f"≤{c}", v["over_claim"]["n"], ci(v["over_claim"]["value"], *v["over_claim"]["ci95"]), f(v["claim_unsupported"])]
              for c, v in fa["by_cutoff"].items()]
     d = fa["deterministic"]
+    dc, sens = fa["decomposition"], fa["sensitivity"]
     tail = (f"\nLabels {fa['labels']}, judged {fa['judged']} (no held-out evidence: {fa['no_held_out']}); decomposition "
-            f"passes its content check for {fa['decomposition_ok']:.0%}; cited-line rejections {fa['quote_rejected']}; "
+            f"passes its content check for {fa['decomposition_ok']:.0%} (every claim kept {dc['all_kept']}, some claims "
+            f"failing {dc['partial']}, none returned or kept {dc['none_kept']}; a failed decomposition is judged as label "
+            f"and gloss); sensitivity, failing claims dropped and the survivors judged: over-claim "
+            f"{ci(sens['over_claim']['value'], *sens['over_claim']['ci95'])}; cited-line rejections {fa['quote_rejected']}; "
             f"deterministic flags: year after cutoff {d['year_after_cutoff']}, named non-member {d['named_non_member']}, "
             f"future entity {d['future_entity']}.\n")
     return md(["Group", "Labels judged", "Over-claim rate [95% CI]", "Claim-level unsupported"], rows) + tail
@@ -433,11 +437,12 @@ def st_faithfulness(w):
     for a in w.alphas:
         fa = w.v(a)["faithfulness"]
         lv = [ci(x["value"], *x["ci95"]) for x in fa["by_level"].values()]
+        so = fa["over_claim_survivors_only"]
         rows.append([_a(a, w), fa["over_claim"]["n"], ci(*w.overclaim(a)), *lv, f(fa["claim_unsupported"]),
-                     fa["named_non_member"]])
+                     ci(so["value"], *so["ci95"]), fa["named_non_member"]])
     names = list(w.v(w.ref)["faithfulness"]["by_level"])
     return md(["α", "Labels judged", "Over-claim [95% CI]", *(f"Over-claim {n}" for n in names), "Claim-level unsupported",
-               "Named non-member flags"], rows)
+               "Over-claim, survivor rule (sensitivity)", "Named non-member flags"], rows)
 
 
 def st_retrieval(w):

@@ -109,6 +109,8 @@ def _variant(m, info, rc):
                           "untouched_share": [min(share), max(share)] if share else None},
             "faithfulness": {"over_claim": oc(fa), "by_level": {k: oc(v) for k, v in fa["by_level"].items()},
                              "claim_unsupported": fa["claim_unsupported"],
+                             "over_claim_survivors_only": {"value": fa["sensitivity"]["over_claim"]["value"],
+                                                           "ci95": fa["sensitivity"]["over_claim"]["ci95"]},
                              "named_non_member": fa["deterministic"]["named_non_member"]},
             "retrieval": {"summary": ret, "favour": V.favour_counts(m)},
             "tree": {"last": [{k: lv[k] for k in ("merges", "linked", "max_size", "cap", "singletons")} for lv in last]}}
