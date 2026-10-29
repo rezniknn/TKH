@@ -75,7 +75,7 @@ implementation in `tkh/retrieve.py` and `eval/retrieval.py`. It covers:
 - what the export can answer (ceilings);
 - the hierarchy as a search index;
 - the drill-down agent and its flat baseline;
-- the metric design (hit-rate, error rate, steps-to-target) for methods, claims and citations;
+- the metric design (hit-rate, error rate, items inspected, candidates scored) for methods, claims and citations;
 - the implementation, assumptions and future work.
 
 It reads `out/` (never rebuilds), makes no LLM calls, and runs in seconds:
@@ -150,7 +150,7 @@ rejected alternatives), the T4 coarsening rule, temporal coupling, literature po
   replay from the cache.
 - **Retrieval check, T6** (`tkh/retrieve.py` agent, `eval/retrieval.py` evaluator, run by `make retrieval`): a
   drill-down agent (L0 → L2 beam search) against flat search on `data/questions.csv`, scored with
-  `data/ground_truth.json` (hit-rate, error rate, steps-to-target) -> `metrics.json["retrieval"]` and
+  `data/ground_truth.json` (hit-rate, error rate, items inspected, candidates scored) -> `metrics.json["retrieval"]` and
   `out/retrieval_answers.json`; offline, seconds. Design: `notebooks/05_retrieval_design.ipynb`; results:
   `docs/report.md` §5.
 

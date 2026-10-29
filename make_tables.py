@@ -617,7 +617,7 @@ def t_alpha_tradeoffs(r):
             count("P5 localised level × transition cells", lambda a: w.v(a)["stability"]["localised"][0]),
             ["P6 over-claim rate", ci(*oR), ci(*oD), f"{oR[0] - oD[0]:+.3f} (unpaired)",
              best({a: h[a]["oc"][0] for a in w.alphas}, low=True), ov],
-            count("T6 retrieval measures favouring drill-down", lambda a: w.favour(a)["drill-down"]),
+            count("T6 retrieval measures favouring drill-down (descriptive count, not votes)", lambda a: w.favour(a)["drill-down"]),
             _retrieval_change(w, rec)]
     return md(["Headline", f"Recommended, α = {_a(rec, w)}", f"Pre-sweep default, α = {ref:g}", "Difference",
                "Best variant on this headline", "Recommended against the pre-sweep default"], rows)
@@ -677,8 +677,11 @@ def _claims():
                 and "A reach" in worse and cheaper and more_reading)
 
     def navigation_not_established(w):
-        a = w.v(w.default)["retrieval"]["summary"]["A"]
-        return a["methods"]["hier"] <= a["methods"]["flat"] and a["reached"]["hier"] < a["reached"]["flat"]
+        s = w.v(w.default)["retrieval"]["summary"]
+        a = s["A"]
+        return (a["methods"]["hier"] <= a["methods"]["flat"] and a["reached"]["hier"] < a["reached"]["flat"]
+                and all(x["scored"]["hier"] < x["scored"]["flat"] and x["inspect_first"]["hier"] > x["inspect_first"]["flat"]
+                        for x in s.values()))
 
     def paired_ref(w):
         st = [w.v(a)["protocol"]["stability"] for a in w.alphas]
@@ -717,7 +720,8 @@ def _claims():
                             "for every type drill-down scores fewer candidates than flat but needs more items inspected to "
                             "the first item", sw(retrieval_mixed)),
         "navigation_not_established": ("report", "at the shipped α, drill-down's type-A method hit-rate is not above flat's and its "
-                                       "type-A reach is below flat's", sw(navigation_not_established)),
+                                       "type-A reach is below flat's; for every type it scores fewer candidates but needs more items inspected to "
+                                       "the first item", sw(navigation_not_established)),
         "main_run_identical": ("report", "the main run is identical to the sweep variant at the configured default (hierarchies "
                                "and all four metric sections)", sw(main_identical)),
         "sweep_grid_doc": ("sweep", "the five α values 0, 0.25, 0.5, 0.75 and 1",

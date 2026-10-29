@@ -1843,6 +1843,53 @@ accepted or changed, and what was checked.
   - an offline re-run reproduces every faithfulness section and judgement file byte-for-byte;
   - `make_tables.py --check` passes for both reports, and `make test` passes (65).
 
+### 56. T6 extrinsic utility: scope stated, inspection separated from computation, coverage shown (Claude Code)
+
+- **Task/module:** `eval/retrieval.py`, `tkh/retrieve.py`, `eval/verdicts.py`, `eval/sweep.py`, `eval/figures.py`,
+  `make_tables.py`, report §5.1.4, §5.2, §5.3.4, §5.4, §6 and abstract, `docs/alpha_sweep.md` §7–§8,
+  `notebooks/05_retrieval_design.ipynb`
+- **Prompt:** a critique of the T6 evaluation, and a request for a proposal to address it. It made five points:
+  - claim hit-rates are source-associated;
+  - attainable-only rates are shown without their denominators;
+  - there are no paired intervals, and only 4 type-B questions;
+  - the settings were tuned on the benchmark;
+  - the step count mixes scoring with inspection.
+
+  It also said the favour count is read as votes.
+- **What the assistant did:**
+  - Mapped the evaluator and verified every point of the critique against the code and `out/`.
+  - Ran a design panel with three lenses (measurement, statistics, cost and reporting) and an adversarial critic.
+  - Proposed claim-identity alignment by an LLM judge, paired sign-flip tests, cross-validation and a declared
+    decision rule.
+  - The user narrowed the scope. Claim validation, uncertainty and the dev/test split are stated as limitations and
+    future work, and the favour count is kept.
+  - Implemented the rest:
+    - the claim measures are named "by source article";
+    - Table 11 gains attainable/total counts and end-to-end rates;
+    - steps is split into *items inspected* (L0–L1 labels shown plus rank; flat search counts rank only) and
+      *candidates scored* (computation, not counted in the favour count, not a latency);
+    - the scope and limitation statements are added;
+    - the conclusion is reworded: α = 0.75 rests on coherence, stability and faithfulness, and navigation utility is
+      mixed and not established, with a new checked claim;
+    - the notebook's stale result numbers are removed.
+  - Re-ran the retrieval check offline on the main run and the five sweep variants (no LLM, no rebuild).
+- **Results:**
+  - every existing rate is unchanged;
+  - drill-down scores fewer candidates than flat search for both types, but needs more items inspected to the first
+    item;
+  - the favour counts are unchanged at every α (3/7/2 at α = 0.75).
+- **Verified:** `make_tables.py --check` passes for both reports (11 and 3 claims), the main run equals the α = 0.75
+  variant, and `make test` passes (65).
+- **Review:** an adversarial review workflow (3 reviewers, each finding verified independently) found and the
+  assistant fixed:
+  - a claim predicate that did not cover all of its tagged sentence;
+  - the reach definition, which did not say that flat reach is 1 by construction;
+  - the rank definition (ranked pool, not the k answers);
+  - "all leaves" for flat search (it ranks the leaves of the answer kinds);
+  - a hand-written count in §5.1.4, against the no-values rule;
+  - missing descriptive caveats in the Table 4 and Table 12 captions;
+  - notebook text claiming outputs of cells left unexecuted.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong

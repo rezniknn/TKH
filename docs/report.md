@@ -11,6 +11,9 @@ papers, against a configuration null and random labels; stability against pertur
 null; label faithfulness against held-out evidence; and extrinsic utility by drill-down retrieval against flat search.
 Five values of the semantic weight α are compared on all four criteria; the recommended α = 0.75 is the shipped
 default (§5.2) <!-- claim:recommended -->, and its verdicts are computed from the run outputs and summarised in Table 12 (§5.4).
+The recommendation rests on coherence, stability and faithfulness. Its utility for navigation is mixed and not
+established: drill-down scores fewer candidates than flat search, but needs more inspection and reaches fewer
+type-A questions <!-- claim:navigation_not_established -->.
 
 *Every result number, every table and every figure is generated from `out/metrics.json`: tables and verdicts by
 `make_tables.py` (`make tables`), including the recommendation of Table 3 and the verdicts of Table 12, and figures by
@@ -334,18 +337,41 @@ a statement). The *drill-down* agent starts at L0 and runs a beam search: at eac
 super-nodes kept at the level above and keeps the best few (the *beam*), and the leaves of the kept L2 super-nodes
 form a pool that is ranked to give the k answers. Every text, whether a super-node's label, gloss and member centroid
 or a leaf's name, aliases, relation neighbours and paper title, is scored by keyword overlap with the question. The
-*flat* baseline ranks all leaves of the snapshot with the same scorer. Only the evaluator reads the ground truth
+*flat* baseline ranks all leaves of the answer kinds in the snapshot with the same scorer. Only the evaluator reads the ground truth
 (`data/ground_truth.json`) and resolves each gold item to graph nodes by exact name or acronym; gold items that no
-node can match are excluded, and the rest are called *attainable*.
+node can match are excluded, and the rest are called *attainable*. Table 11 gives the attainable and total counts
+next to each hit-rate, and an *end-to-end* rate that counts unattainable items as misses. The attainable-only rate
+compares the two systems on what the graph can answer, and the end-to-end rate measures answers against the full
+ground truth.
 
-Four measures are computed on attainable items. The *hit-rate* is the share of gold items the answer returns, per
-kind: methods; method claims, a hit when a found method comes with a claim from one of its evidence papers; claims; and
-citations. The *error rate* is the share of returned items that the ground truth lists as wrong-domain or outdated.
-One *step* is one inspected node, counting the super-nodes scored and then the item's rank in the pool, so *steps to
-the first item* and *steps to 50% of the items* measure search effort; an item that is never reached is censored at
-the number of candidate leaves plus one, and steps are summarised by medians. *Reach* is the share of questions for
-which at least one target is found. The comparison has no CIs or nulls, and its settings were chosen with these
-questions in view.
+The measures are computed on attainable items:
+- **Hit-rate:** the share of gold items the answer returns, per kind: methods; method claims; claims; and citations.
+- **Error rate:** the share of returned items that the ground truth lists as wrong-domain or outdated.
+- **Items inspected (the reader's effort):** the labelled L0 and L1 super-nodes the drill-down shows, then the item's
+  rank in its ranked pool of leaves (not only the k returned answers). For flat search it is the item's rank among all
+  leaves of the answer kinds. It is counted to the first item and to 50% of the
+  items. An item that is never reached is censored at the number of candidate leaves plus one, and the counts are
+  summarised by medians.
+- **Reach:** the share of questions with at least one target anywhere in the system's ranked leaves. Flat search
+  ranks every leaf, so its reach is 1 by construction. Reach therefore measures the targets that drill-down loses by
+  pruning, and it can favour only flat search or neither.
+- **Candidates scored (computation):** the super-nodes scored at every level plus the pooled leaves ranked. For flat
+  search it is every leaf of the answer kinds. This count is not a wall-clock latency, which was not measured. It is
+  reported apart from the other measures and is not part of the count of measures favouring a system.
+
+The scope of the evaluation is limited in three ways:
+- **Claims are credited by source article, not by content.** A method claim is a hit when a found method comes with
+  a claim from one of its evidence papers. A required type-B claim is a hit when the answer returns any claim from one
+  of its source articles. The returned claim's text is never compared with the requested assertion, so one returned
+  claim can credit several assertions of the same sources, and several required claims of one question can share the
+  same set of acceptable claims. A method returns its first graph claims in a fixed order, so the method
+  claims it returns do not depend on the question. The claim hit-rates therefore measure *source-associated*
+  retrieval, not retrieval or entailment of each required claim; validating claims is left to future work (§6).
+- **All values are point estimates over few questions.** There are 14 type-A and 4 type-B questions, with no
+  intervals and no paired tests, so no difference between drill-down and flat search is established. Type B in
+  particular is descriptive.
+- **The settings were chosen with these questions in view.** These are the beam, k, the label weight and the answer
+  kinds. There is no development/test split, so every T6 number is in-sample.
 
 ### 5.2 Choosing α: comparison of variants and recommendation
 
@@ -359,7 +385,8 @@ comparisons are of counts or of separate intervals. Table 3 gives one headline p
 per-level and per-snapshot values.
 
 *Table 3. α variants across the four criteria, every other parameter at its default; the recommended variant in bold
-(`alpha_sweep`).*
+(`alpha_sweep`). The T6 column counts point estimates of correlated measures: it is a descriptive simplification, not
+independent votes on utility.*
 
 <!-- table:alpha_sweep -->
 | α | P3 robust / below-null cells (exact) | P5 perturbation HARI ≤2026 [t-interval] | P5 paired difference to the pre-sweep default | P6 over-claim [95% CI] | T6 measures favouring drill-down / flat / tie | Eligible | Recommendation |
@@ -409,16 +436,17 @@ The trade-offs are the following:
   easier to support <!-- claim:faith_tradeoff -->.
 - **Retrieval changes in both directions.** Drill-down beats flat search on the same small number of measures as at
   the pre-sweep default (Table 3), but the individual measures move both ways (Table 4): some improve, while others,
-  among them type-A reach, are worse, so more questions are never reached. Drill-down remains far slower than flat
-  search to its first item (Table 11) <!-- claim:retrieval_mixed -->. These are point estimates over few questions, without intervals, and do not
-  enter the rule.
+  among them type-A reach, are worse, so more questions are never reached. Drill-down scores fewer candidates than
+  flat search, but a reader inspects more items before reaching the first target item (Table 11) <!-- claim:retrieval_mixed -->. These are point estimates over
+  few questions, without intervals, and do not enter the rule.
 - **The choice is optimistic.** The variant was selected on the same evaluation data that report its quality in
   §5.3, so its scores there include the noise the selection favours, and the rule's guard was revised with the
   results in view. An unbiased estimate needs the choice made on one half of the held-out citations and reported on
   the other (§6).
 
 *Table 4. Recommended variant against the pre-sweep default and against the best variant on each headline;
-"distinguishable" uses the same intervals as the rule.*
+"distinguishable" uses the same intervals as the rule. T6 rows are point estimates without intervals; the favour
+count is a descriptive simplification, not independent votes, and candidates scored are not counted.*
 
 <!-- table:alpha_tradeoffs -->
 | Headline | Recommended, α = 0.75 (default) | Pre-sweep default, α = 0.5 | Difference | Best variant on this headline | Recommended against the pre-sweep default |
@@ -430,8 +458,8 @@ The trade-offs are the following:
 | P5 cross-snapshot indices above the new-paper null | 2 | 1 | +1 | α = 1: 4 | better (count, no interval) |
 | P5 localised level × transition cells | 9 | 9 | 0 | α = 0.25, α = 0.5 (pre-sweep default), α = 0.75 (default): 9 | same count |
 | P6 over-claim rate | 0.63 [0.58, 0.68] | 0.61 [0.55, 0.67] | +0.017 (unpaired) | α = 0: 0.55 | no distinguishable difference (intervals overlap) |
-| T6 retrieval measures favouring drill-down | 3 | 3 | 0 | α = 0.25: 4 | same count |
-| T6 drill-down measures against the pre-sweep default (point estimates) | 5 better / 4 same / 3 worse | — | — | — | worse: A hit-rate, methods; A reach; B hit-rate, claims. Better: A hit-rate, method claims; A hit-rate, citations; A steps to first item (median); A steps to 50% of items (median); B steps to 50% of items (median) |
+| T6 retrieval measures favouring drill-down (descriptive count, not votes) | 3 | 3 | 0 | α = 0.25: 4 | same count |
+| T6 drill-down measures against the pre-sweep default (point estimates) | 5 better / 3 same / 4 worse | — | — | — | worse: A hit-rate, methods; A reach; B hit-rate, claims, by source article; B items inspected to first item (median). Better: A hit-rate, method claims, by source article; A hit-rate, citations; A items inspected to first item (median); A items inspected to 50% of items (median); B items inspected to 50% of items (median) |
 <!-- /table:alpha_tradeoffs -->
 
 ### 5.3 Evaluation of the recommended variant (α = 0.75)
@@ -560,41 +588,53 @@ exceeds one half and whether the levels differ.
 
 #### 5.3.4 Extrinsic utility
 
-*Table 11. Drill-down retrieval against flat search; means (steps: medians) and paired differences, no CIs
+*Table 11. Drill-down retrieval against flat search; means (items inspected and candidates scored: medians) and
+paired differences over attainable items (candidates scored: every answered question, independent of the gold),
+point estimates without CIs; attainable and total gold items, and end-to-end
+rates over all gold items with the number of questions; claims are credited by source article (§5.1.4). The favoured
+column is a descriptive simplification, not independent votes; candidates scored are not counted
 (`retrieval.summary`, `retrieval.diagnostics`).*
 
 <!-- table:retrieval -->
-| Type | Metric | n | Drill-down | Flat | Paired difference (mean; steps: median) | Favoured (point estimate) |
-|---|---|---|---|---|---|---|
-| A | hit-rate, methods | 12 | 0.251 | 0.295 | -0.044 | flat |
-| A | hit-rate, method claims | 9 | 0.306 | 0.306 | +0.000 | tie |
-| A | hit-rate, citations | 14 | 0.664 | 0.578 | +0.087 | drill-down |
-| A | error rate | 12 | 0.042 | 0.033 | +0.008 | flat |
-| A | reach | 12 | 0.667 | 1.000 | -0.333 | flat |
-| A | steps to first item (median) | 12 | 149.0 | 10.5 | +139.0 | flat |
-| A | steps to 50% of items (median) | 12 | 359.0 | 28.5 | +235.5 | flat |
-| B | hit-rate, claims | 4 | 0.615 | 0.543 | +0.071 | drill-down |
-| B | hit-rate, citations | 4 | 0.438 | 0.375 | +0.062 | drill-down |
-| B | reach | 4 | 1.000 | 1.000 | +0.000 | tie |
-| B | steps to first item (median) | 4 | 143.0 | 2.0 | +141.0 | flat |
-| B | steps to 50% of items (median) | 4 | 147.5 | 6.5 | +139.5 | flat |
+| Type | Metric | n | Attainable / total items | Drill-down | Flat | Paired difference (mean; medians: inspection, computation) | End to end, drill-down / flat | Favoured (point estimate) |
+|---|---|---|---|---|---|---|---|---|
+| A | hit-rate, methods | 12 | 45/63 | 0.251 | 0.295 | -0.044 | 0.147 / 0.176 (n = 14) | flat |
+| A | hit-rate, method claims, by source article | 9 | 54/188 | 0.306 | 0.306 | +0.000 | 0.066 / 0.066 (n = 14) | tie |
+| A | hit-rate, citations | 14 | 65/71 | 0.664 | 0.578 | +0.087 | 0.608 / 0.527 (n = 14) | drill-down |
+| A | error rate | 12 | — | 0.042 | 0.033 | +0.008 | — | flat |
+| A | reach | 12 | — | 0.667 | 1.000 | -0.333 | — | flat |
+| A | items inspected to first item (median) | 12 | — | 64.5 | 10.5 | +61.0 | — | flat |
+| A | items inspected to 50% of items (median) | 12 | — | 278.5 | 28.5 | +156.0 | — | flat |
+| A | candidates scored (median; computation, not counted) | 14 | — | 571.5 | 2524.0 | -1952.5 | — | not counted |
+| B | hit-rate, claims, by source article | 4 | 32/36 | 0.615 | 0.543 | +0.071 | 0.565 / 0.493 (n = 4) | drill-down |
+| B | hit-rate, citations | 4 | 14/19 | 0.438 | 0.375 | +0.062 | 0.312 / 0.263 (n = 4) | drill-down |
+| B | reach | 4 | — | 1.000 | 1.000 | +0.000 | — | tie |
+| B | items inspected to first item (median) | 4 | — | 63.0 | 2.0 | +61.0 | — | flat |
+| B | items inspected to 50% of items (median) | 4 | — | 65.5 | 6.5 | +59.5 | — | flat |
+| B | candidates scored (median; computation, not counted) | 4 | — | 359.0 | 690.0 | -331.0 | — | not counted |
 
-Drill-down diagnostics: kept/frontier L0 0.67, L1 0.45, L2 0.50; super-nodes scored per question 128–151; never reached: Q4 (lost at L1), Q7 (lost at L1), Q9 (lost at L1), Q10 (lost at L1).
+Drill-down diagnostics: kept/frontier L0 0.67, L1 0.45, L2 0.50; per question, super-nodes scored 128–151, of them labelled (shown to the reader) 54–64; pool leaves 208–513; never reached: Q4 (lost at L1), Q7 (lost at L1), Q9 (lost at L1), Q10 (lost at L1).
 <!-- /table:retrieval -->
 
 ![Retrieval](figures/retrieval.png)
 
-*Figure 6. Drill-down against flat search per question type: (a) hit-rates, error rate and reach; (b) median steps,
-log scale.*
+*Figure 6. Drill-down against flat search per question type: (a) hit-rates on attainable items, error rate and reach;
+(b) median items inspected (the reader's effort) and (c) median candidates scored (computation), log scale.*
 
-Table 11 and Figure 6 compare drill-down with flat search per measure; the note of Table 11 gives the share of scored
-super-nodes kept per level, the number of super-nodes scored before the first leaf, and the level at which unreached
-questions were lost.
+Table 11 and Figure 6 compare drill-down with flat search per measure. The note of Table 11 gives:
+- the share of scored super-nodes kept per level;
+- the range of super-nodes scored per question, and how many of them are labelled and shown to the reader;
+- the size of the leaf pool;
+- the level at which unreached questions were lost.
+
+The inspection and computation measures point in opposite directions. Drill-down ranks only a pool, so it scores fewer
+candidates than flat search, but a reader first reads the labels on the way down <!-- claim:retrieval_mixed -->.
 
 ### 5.4 Summary of findings
 
-*Table 12. Headline verdicts of the shipped variant (α = 0.75), computed by `make_tables.py` with the rules of
-Tables 6–11.*
+*Table 12. Headline findings of the shipped variant (α = 0.75), computed by `make_tables.py` with the rules of
+Tables 6–11. The P3, P5 and P6 rows are uncorrected tests or intervals. The T6 rows are descriptive point estimates,
+and the favour count is a simplification of correlated measures, not independent votes or a verdict.*
 
 <!-- table:findings -->
 | Finding | Result | Qualifier | Source |
@@ -606,13 +646,20 @@ Tables 6–11.*
 | P5 localised level × transition cells (ratio CI > 1) | 9 of 9 | untouched share of reassignment 73%–92% | Table 9 |
 | P6 over-claim rate | 0.63 [0.58, 0.68] | majority of labels | Table 10 |
 | P6 L0 vs L1 over-claim | 0.47 vs 0.67 | CIs do not overlap | Table 10 |
-| T6 retrieval measures favouring drill-down / flat / tie | 3 / 7 / 2 | point estimates, no CIs | Table 11 |
-| T6 median steps to first item, drill-down vs flat | type A: 149.0 vs 10.5; type B: 143.0 vs 2.0 |  | Table 11 |
+| T6 retrieval measures favouring drill-down / flat / tie | 3 / 7 / 2 | descriptive: correlated point estimates, not votes; no CIs | Table 11 |
+| T6 median items inspected to first item, drill-down vs flat | type A: 64.5 vs 10.5; type B: 63.0 vs 2.0 | reader's effort | Table 11 |
+| T6 median candidates scored, drill-down vs flat | type A: 571.5 vs 2524.0; type B: 359.0 vs 690.0 | computation, not latency | Table 11 |
 <!-- /table:findings -->
 
-We ship α = 0.75 <!-- claim:recommended -->, with semantic claims restricted to the cells that Table 12 lists as robust; whether a level is
-worth shipping for navigation depends on the drill-down versus flat rows of the same table. Every result of this
-section is optimistic in the sense of §5.2, because the variant was chosen on these data.
+We ship α = 0.75 <!-- claim:recommended -->, with semantic claims restricted to the cells that Table 12 lists as robust. The recommendation
+rests on coherence, stability and faithfulness; retrieval does not enter it, and readiness for navigation is not
+inferred from the coherence counts. The T6 utility of the hierarchy is mixed and not established:
+- drill-down does not return more type-A methods than flat search;
+- it reaches fewer type-A questions;
+- it needs more inspection, though it scores fewer candidates <!-- claim:navigation_not_established -->.
+
+The favour count of Table 12 summarises correlated point estimates and is not a verdict. Every result of this section
+is optimistic in the sense of §5.2, because the variant was chosen on these data.
 
 ## 6. Future work
 
@@ -661,7 +708,13 @@ memory, a lexical retrieval scorer, one labeller, one judge and one evidence spl
    and a rebuild of that level from task and dataset families or a stronger independent embedding.
 5. **Labels:** judge validation (known answers, a second judge, human ratings), null-tree baselines and repeated
    evidence splits.
-6. **Retrieval:** paired bootstrap CIs, a random-tree null, tuning on held-out questions, and earlier snapshots.
+6. **Retrieval:**
+   - claim validation: score claim identity or independently judged entailment of each required assertion, with
+     source retrieval reported separately;
+   - paired uncertainty: bootstrap CIs over questions and exact paired tests;
+   - a development/test split of the questions, with settings tuned on the first and reported on the second;
+   - more question–answer pairs, including synthetic ones, to enlarge the set;
+   - a random-tree null and earlier snapshots.
 7. **Scale:** sparse k-nearest-neighbour candidates and DynHAC-style updates of changed regions only [3].
 
 ## References

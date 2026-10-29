@@ -244,7 +244,7 @@ def retrieval(ret, out):
              if k in s[t]]
     inspect = [(t, k) for t in sorted(s) for k in ("inspect_first", "inspect_half") if k in s[t]]
     scored = [(t, "scored") for t in sorted(s) if "scored" in s[t]]
-    name = {"methods": "methods", "method_claims": "method claims\n(by source)", "claims": "claims\n(by source)",
+    name = {"methods": "methods", "method_claims": "method claims", "claims": "claims",
             "citations": "citations", "error_rate": "error rate", "reached": "reach", "inspect_first": "first item",
             "inspect_half": "50% of items", "scored": "candidates"}
     fig, (a, b, c) = plt.subplots(1, 3, figsize=(12, 3.6), width_ratios=[1.8, 1, 0.6])
@@ -253,10 +253,11 @@ def retrieval(ret, out):
         for j, (sysname, key, col) in enumerate([("drill-down", "hier", LEVEL[0]), ("flat", "flat", CFG)]):
             ax.bar(x + (j - 0.5) * 0.38, [s[t][k][key] for t, k in items], width=0.38, color=col, label=sysname)
         ax.set_xticks(x, [f"{t}: {name[k]}" + (f"\n(n={s[t][k]['n']})") for t, k in items], rotation=30, ha="right")
+    for ax in (a, b):
         ax.legend(frameon=False)
     a.set_ylim(0, 1.05)
     a.set_ylabel("mean over questions (error rate: lower is better)")
-    a.set_title("(a) rates, attainable items (point estimates, no CIs)")
+    a.set_title("(a) rates on attainable items; claims by source article (no CIs)")
     for ax in (b, c):
         ax.set_yscale("log")
     b.set_ylabel("median items inspected (log; lower is better)")

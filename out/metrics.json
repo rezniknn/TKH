@@ -4613,21 +4613,36 @@
      "stat": "mean",
      "hier": 0.25089285714285714,
      "flat": 0.29523809523809524,
-     "hier_minus_flat": -0.044345238095238104
+     "hier_minus_flat": -0.044345238095238104,
+     "end_to_end": {
+      "n": 14,
+      "hier": 0.14663610199324487,
+      "flat": 0.1760382474668189
+     }
     },
     "method_claims": {
      "n": 9,
      "stat": "mean",
      "hier": 0.3055555555555556,
      "flat": 0.3055555555555556,
-     "hier_minus_flat": 0.0
+     "hier_minus_flat": 0.0,
+     "end_to_end": {
+      "n": 14,
+      "hier": 0.06643118785975928,
+      "flat": 0.06643118785975928
+     }
     },
     "citations": {
      "n": 14,
      "stat": "mean",
      "hier": 0.6643990929705215,
      "flat": 0.5778061224489796,
-     "hier_minus_flat": 0.08659297052154195
+     "hier_minus_flat": 0.08659297052154195,
+     "end_to_end": {
+      "n": 14,
+      "hier": 0.6076066790352505,
+      "flat": 0.5274659863945578
+     }
     },
     "error_rate": {
      "n": 12,
@@ -4643,19 +4658,26 @@
      "flat": 1.0,
      "hier_minus_flat": -0.3333333333333333
     },
-    "steps_first": {
+    "inspect_first": {
      "n": 12,
      "stat": "median",
-     "hier": 149.0,
+     "hier": 64.5,
      "flat": 10.5,
-     "hier_minus_flat": 139.0
+     "hier_minus_flat": 61.0
     },
-    "steps_half": {
+    "inspect_half": {
      "n": 12,
      "stat": "median",
-     "hier": 359.0,
+     "hier": 278.5,
      "flat": 28.5,
-     "hier_minus_flat": 235.5
+     "hier_minus_flat": 156.0
+    },
+    "scored": {
+     "n": 14,
+     "stat": "median",
+     "hier": 571.5,
+     "flat": 2524.0,
+     "hier_minus_flat": -1952.5
     },
     "ceilings": {
      "methods": {
@@ -4679,14 +4701,24 @@
      "stat": "mean",
      "hier": 0.6146825396825397,
      "flat": 0.5432539682539683,
-     "hier_minus_flat": 0.07142857142857144
+     "hier_minus_flat": 0.07142857142857144,
+     "end_to_end": {
+      "n": 4,
+      "hier": 0.5646825396825397,
+      "flat": 0.4932539682539683
+     }
     },
     "citations": {
      "n": 4,
      "stat": "mean",
      "hier": 0.4375,
      "flat": 0.375,
-     "hier_minus_flat": 0.0625
+     "hier_minus_flat": 0.0625,
+     "end_to_end": {
+      "n": 4,
+      "hier": 0.3125,
+      "flat": 0.2625
+     }
     },
     "reached": {
      "n": 4,
@@ -4695,19 +4727,26 @@
      "flat": 1.0,
      "hier_minus_flat": 0.0
     },
-    "steps_first": {
+    "inspect_first": {
      "n": 4,
      "stat": "median",
-     "hier": 143.0,
+     "hier": 63.0,
      "flat": 2.0,
-     "hier_minus_flat": 141.0
+     "hier_minus_flat": 61.0
     },
-    "steps_half": {
+    "inspect_half": {
      "n": 4,
      "stat": "median",
-     "hier": 147.5,
+     "hier": 65.5,
      "flat": 6.5,
-     "hier_minus_flat": 139.5
+     "hier_minus_flat": 59.5
+    },
+    "scored": {
+     "n": 4,
+     "stat": "median",
+     "hier": 359.0,
+     "flat": 690.0,
+     "hier_minus_flat": -331.0
     },
     "ceilings": {
      "claims": {
@@ -4743,6 +4782,14 @@
     "min": 128,
     "max": 151
    },
+   "labels_shown": {
+    "min": 54,
+    "max": 64
+   },
+   "pool": {
+    "min": 208,
+    "max": 513
+   },
    "never_reached": {
     "Q4": 1,
     "Q7": 1,
@@ -4770,6 +4817,7 @@
     "n_targets": 15,
     "pool": 326,
     "n_supernodes_scored": 139,
+    "n_labels_shown": 61,
     "ceiling": {
      "methods": {
       "attainable": 7,
@@ -4789,10 +4837,16 @@
      "method_claims": 0.25,
      "error_rate": 0.0,
      "citations": 0.5714285714285714,
+     "end_to_end": {
+      "methods": 0.2857142857142857,
+      "method_claims": 0.14285714285714285,
+      "citations": 0.5714285714285714
+     },
      "n_articles_cited": 16,
+     "scored": 465,
      "reached": true,
-     "steps_first": 141,
-     "steps_half": 343,
+     "inspect_first": 63,
+     "inspect_half": 265,
      "lost_at_level": null
     },
     "flat": {
@@ -4800,10 +4854,16 @@
      "method_claims": 0.25,
      "error_rate": 0.0,
      "citations": 0.42857142857142855,
+     "end_to_end": {
+      "methods": 0.14285714285714285,
+      "method_claims": 0.14285714285714285,
+      "citations": 0.42857142857142855
+     },
      "n_articles_cited": 15,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 7,
-     "steps_half": 15
+     "inspect_first": 7,
+     "inspect_half": 15
     }
    },
    "Q2": {
@@ -4815,6 +4875,7 @@
     "n_targets": 3,
     "pool": 281,
     "n_supernodes_scored": 137,
+    "n_labels_shown": 62,
     "ceiling": {
      "methods": {
       "attainable": 2,
@@ -4834,10 +4895,16 @@
      "method_claims": 1.0,
      "error_rate": 0.0,
      "citations": 0.5714285714285714,
+     "end_to_end": {
+      "methods": 0.3333333333333333,
+      "method_claims": 0.3,
+      "citations": 0.5714285714285714
+     },
      "n_articles_cited": 15,
+     "scored": 418,
      "reached": true,
-     "steps_first": 138,
-     "steps_half": 138,
+     "inspect_first": 63,
+     "inspect_half": 63,
      "lost_at_level": null
     },
     "flat": {
@@ -4845,10 +4912,16 @@
      "method_claims": 1.0,
      "error_rate": 0.0,
      "citations": 0.7142857142857143,
+     "end_to_end": {
+      "methods": 0.6666666666666666,
+      "method_claims": 0.3,
+      "citations": 0.7142857142857143
+     },
      "n_articles_cited": 13,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 1,
-     "steps_half": 1
+     "inspect_first": 1,
+     "inspect_half": 1
     }
    },
    "Q3": {
@@ -4860,6 +4933,7 @@
     "n_targets": 2,
     "pool": 513,
     "n_supernodes_scored": 139,
+    "n_labels_shown": 61,
     "ceiling": {
      "methods": {
       "attainable": 2,
@@ -4879,10 +4953,16 @@
      "method_claims": null,
      "error_rate": 0.2,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.5,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 8,
+     "scored": 652,
      "reached": true,
-     "steps_first": 141,
-     "steps_half": 141,
+     "inspect_first": 63,
+     "inspect_half": 63,
      "lost_at_level": null
     },
     "flat": {
@@ -4890,10 +4970,16 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 1.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 7,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 2
+     "inspect_first": 2,
+     "inspect_half": 2
     }
    },
    "Q4": {
@@ -4905,6 +4991,7 @@
     "n_targets": 2,
     "pool": 389,
     "n_supernodes_scored": 140,
+    "n_labels_shown": 58,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -4924,10 +5011,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 16,
+     "scored": 529,
      "reached": false,
-     "steps_first": 2525,
-     "steps_half": 2525,
+     "inspect_first": 2525,
+     "inspect_half": 2525,
      "lost_at_level": 1
     },
     "flat": {
@@ -4935,10 +5028,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 0.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.0
+     },
      "n_articles_cited": 10,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 42,
-     "steps_half": 42
+     "inspect_first": 42,
+     "inspect_half": 42
     }
    },
    "Q5": {
@@ -4950,6 +5049,7 @@
     "n_targets": 0,
     "pool": 448,
     "n_supernodes_scored": 128,
+    "n_labels_shown": 54,
     "ceiling": {
      "methods": {
       "attainable": 0,
@@ -4969,14 +5069,26 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 0.0,
-     "n_articles_cited": 14
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.0
+     },
+     "n_articles_cited": 14,
+     "scored": 576
     },
     "flat": {
      "methods": null,
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 0.0,
-     "n_articles_cited": 19
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.0
+     },
+     "n_articles_cited": 19,
+     "scored": 2524
     }
    },
    "Q6": {
@@ -4988,6 +5100,7 @@
     "n_targets": 1,
     "pool": 422,
     "n_supernodes_scored": 138,
+    "n_labels_shown": 59,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5007,10 +5120,16 @@
      "method_claims": 1.0,
      "error_rate": 0.0,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.3333333333333333,
+      "method_claims": 0.3333333333333333,
+      "citations": 1.0
+     },
      "n_articles_cited": 11,
+     "scored": 560,
      "reached": true,
-     "steps_first": 139,
-     "steps_half": 139,
+     "inspect_first": 60,
+     "inspect_half": 60,
      "lost_at_level": null
     },
     "flat": {
@@ -5018,10 +5137,16 @@
      "method_claims": 1.0,
      "error_rate": 0.0,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.3333333333333333,
+      "method_claims": 0.3333333333333333,
+      "citations": 1.0
+     },
      "n_articles_cited": 11,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 1,
-     "steps_half": 1
+     "inspect_first": 1,
+     "inspect_half": 1
     }
    },
    "Q7": {
@@ -5033,6 +5158,7 @@
     "n_targets": 1,
     "pool": 457,
     "n_supernodes_scored": 144,
+    "n_labels_shown": 60,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5052,10 +5178,16 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 11,
+     "scored": 601,
      "reached": false,
-     "steps_first": 2525,
-     "steps_half": 2525,
+     "inspect_first": 2525,
+     "inspect_half": 2525,
      "lost_at_level": 1
     },
     "flat": {
@@ -5063,10 +5195,16 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 11,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 1266,
-     "steps_half": 1266
+     "inspect_first": 1266,
+     "inspect_half": 1266
     }
    },
    "Q8": {
@@ -5078,6 +5216,7 @@
     "n_targets": 1,
     "pool": 346,
     "n_supernodes_scored": 143,
+    "n_labels_shown": 59,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5097,10 +5236,16 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 0.5,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.5
+     },
      "n_articles_cited": 9,
+     "scored": 489,
      "reached": true,
-     "steps_first": 179,
-     "steps_half": 179,
+     "inspect_first": 95,
+     "inspect_half": 95,
      "lost_at_level": null
     },
     "flat": {
@@ -5108,10 +5253,16 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 19,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 78,
-     "steps_half": 78
+     "inspect_first": 78,
+     "inspect_half": 78
     }
    },
    "Q9": {
@@ -5123,6 +5274,7 @@
     "n_targets": 2,
     "pool": 419,
     "n_supernodes_scored": 148,
+    "n_labels_shown": 63,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5142,10 +5294,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 17,
+     "scored": 567,
      "reached": false,
-     "steps_first": 2525,
-     "steps_half": 2525,
+     "inspect_first": 2525,
+     "inspect_half": 2525,
      "lost_at_level": 1
     },
     "flat": {
@@ -5153,10 +5311,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 17,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 22,
-     "steps_half": 22
+     "inspect_first": 22,
+     "inspect_half": 22
     }
    },
    "Q10": {
@@ -5168,6 +5332,7 @@
     "n_targets": 1,
     "pool": 455,
     "n_supernodes_scored": 151,
+    "n_labels_shown": 64,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5187,10 +5352,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 0.25,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.25
+     },
      "n_articles_cited": 15,
+     "scored": 606,
      "reached": false,
-     "steps_first": 2525,
-     "steps_half": 2525,
+     "inspect_first": 2525,
+     "inspect_half": 2525,
      "lost_at_level": 1
     },
     "flat": {
@@ -5198,10 +5369,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 0.25,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.25
+     },
      "n_articles_cited": 15,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 1252,
-     "steps_half": 1252
+     "inspect_first": 1252,
+     "inspect_half": 1252
     }
    },
    "Q11": {
@@ -5213,6 +5390,7 @@
     "n_targets": 0,
     "pool": 495,
     "n_supernodes_scored": 133,
+    "n_labels_shown": 56,
     "ceiling": {
      "methods": {
       "attainable": 0,
@@ -5232,14 +5410,26 @@
      "method_claims": null,
      "error_rate": 0.0,
      "citations": 1.0,
-     "n_articles_cited": 16
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.3333333333333333
+     },
+     "n_articles_cited": 16,
+     "scored": 628
     },
     "flat": {
      "methods": null,
      "method_claims": null,
      "error_rate": 0.0,
      "citations": 1.0,
-     "n_articles_cited": 17
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.3333333333333333
+     },
+     "n_articles_cited": 17,
+     "scored": 2524
     }
    },
    "Q12": {
@@ -5251,6 +5441,7 @@
     "n_targets": 20,
     "pool": 464,
     "n_supernodes_scored": 146,
+    "n_labels_shown": 61,
     "ceiling": {
      "methods": {
       "attainable": 10,
@@ -5270,10 +5461,16 @@
      "method_claims": 0.5,
      "error_rate": 0.0,
      "citations": 0.7142857142857143,
+     "end_to_end": {
+      "methods": 0.38461538461538464,
+      "method_claims": 0.15384615384615385,
+      "citations": 0.6666666666666666
+     },
      "n_articles_cited": 17,
+     "scored": 610,
      "reached": true,
-     "steps_first": 148,
-     "steps_half": 155,
+     "inspect_first": 63,
+     "inspect_half": 70,
      "lost_at_level": null
     },
     "flat": {
@@ -5281,10 +5478,16 @@
      "method_claims": 0.5,
      "error_rate": 0.0,
      "citations": 0.5714285714285714,
+     "end_to_end": {
+      "methods": 0.23076923076923078,
+      "method_claims": 0.15384615384615385,
+      "citations": 0.5333333333333333
+     },
      "n_articles_cited": 16,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 12
+     "inspect_first": 2,
+     "inspect_half": 12
     }
    },
    "Q13": {
@@ -5296,6 +5499,7 @@
     "n_targets": 18,
     "pool": 450,
     "n_supernodes_scored": 141,
+    "n_labels_shown": 57,
     "ceiling": {
      "methods": {
       "attainable": 8,
@@ -5314,20 +5518,32 @@
      "methods": 0.125,
      "method_claims": 0.0,
      "citations": 0.25,
+     "end_to_end": {
+      "methods": 0.125,
+      "method_claims": 0.0,
+      "citations": 0.25
+     },
      "n_articles_cited": 11,
+     "scored": 591,
      "reached": true,
-     "steps_first": 150,
-     "steps_half": 2525,
+     "inspect_first": 66,
+     "inspect_half": 2525,
      "lost_at_level": null
     },
     "flat": {
      "methods": 0.0,
      "method_claims": 0.0,
      "citations": 0.125,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.125
+     },
      "n_articles_cited": 13,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 11,
-     "steps_half": 35
+     "inspect_first": 11,
+     "inspect_half": 35
     }
    },
    "Q14": {
@@ -5339,6 +5555,7 @@
     "n_targets": 21,
     "pool": 259,
     "n_supernodes_scored": 143,
+    "n_labels_shown": 60,
     "ceiling": {
      "methods": {
       "attainable": 10,
@@ -5357,20 +5574,32 @@
      "methods": 0.1,
      "method_claims": 0.0,
      "citations": 0.4444444444444444,
+     "end_to_end": {
+      "methods": 0.09090909090909091,
+      "method_claims": 0.0,
+      "citations": 0.36363636363636365
+     },
      "n_articles_cited": 9,
+     "scored": 402,
      "reached": true,
-     "steps_first": 145,
-     "steps_half": 375,
+     "inspect_first": 62,
+     "inspect_half": 292,
      "lost_at_level": null
     },
     "flat": {
      "methods": 0.1,
      "method_claims": 0.0,
      "citations": 0.0,
+     "end_to_end": {
+      "methods": 0.09090909090909091,
+      "method_claims": 0.0,
+      "citations": 0.0
+     },
      "n_articles_cited": 11,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 10,
-     "steps_half": 312
+     "inspect_first": 10,
+     "inspect_half": 312
     }
    },
    "Q15": {
@@ -5382,6 +5611,7 @@
     "n_targets": 25,
     "pool": 212,
     "n_supernodes_scored": 137,
+    "n_labels_shown": 61,
     "ceiling": {
      "claims": {
       "attainable": 6,
@@ -5395,19 +5625,29 @@
     "hier": {
      "claims": 0.5,
      "citations": 0.5,
+     "end_to_end": {
+      "claims": 0.3,
+      "citations": 0.2
+     },
      "n_articles_cited": 2,
+     "scored": 349,
      "reached": true,
-     "steps_first": 139,
-     "steps_half": 139,
+     "inspect_first": 63,
+     "inspect_half": 63,
      "lost_at_level": null
     },
     "flat": {
      "claims": 0.5,
      "citations": 0.5,
+     "end_to_end": {
+      "claims": 0.3,
+      "citations": 0.2
+     },
      "n_articles_cited": 2,
+     "scored": 690,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 2
+     "inspect_first": 2,
+     "inspect_half": 2
     }
    },
    "Q16": {
@@ -5419,6 +5659,7 @@
     "n_targets": 48,
     "pool": 279,
     "n_supernodes_scored": 141,
+    "n_labels_shown": 61,
     "ceiling": {
      "claims": {
       "attainable": 9,
@@ -5432,19 +5673,29 @@
     "hier": {
      "claims": 0.4444444444444444,
      "citations": 0.25,
+     "end_to_end": {
+      "claims": 0.4444444444444444,
+      "citations": 0.25
+     },
      "n_articles_cited": 3,
+     "scored": 420,
      "reached": true,
-     "steps_first": 143,
-     "steps_half": 160,
+     "inspect_first": 63,
+     "inspect_half": 80,
      "lost_at_level": null
     },
     "flat": {
      "claims": 0.4444444444444444,
      "citations": 0.25,
+     "end_to_end": {
+      "claims": 0.4444444444444444,
+      "citations": 0.25
+     },
      "n_articles_cited": 4,
+     "scored": 690,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 22
+     "inspect_first": 2,
+     "inspect_half": 22
     }
    },
    "Q17": {
@@ -5456,6 +5707,7 @@
     "n_targets": 65,
     "pool": 208,
     "n_supernodes_scored": 142,
+    "n_labels_shown": 58,
     "ceiling": {
      "claims": {
       "attainable": 7,
@@ -5469,19 +5721,29 @@
     "hier": {
      "claims": 0.7142857142857143,
      "citations": 0.75,
+     "end_to_end": {
+      "claims": 0.7142857142857143,
+      "citations": 0.6
+     },
      "n_articles_cited": 5,
+     "scored": 350,
      "reached": true,
-     "steps_first": 145,
-     "steps_half": 152,
+     "inspect_first": 61,
+     "inspect_half": 68,
      "lost_at_level": null
     },
     "flat": {
      "claims": 0.42857142857142855,
      "citations": 0.5,
+     "end_to_end": {
+      "claims": 0.42857142857142855,
+      "citations": 0.4
+     },
      "n_articles_cited": 5,
+     "scored": 690,
      "reached": true,
-     "steps_first": 3,
-     "steps_half": 11
+     "inspect_first": 3,
+     "inspect_half": 11
     }
    },
    "Q18": {
@@ -5493,6 +5755,7 @@
     "n_targets": 101,
     "pool": 227,
     "n_supernodes_scored": 141,
+    "n_labels_shown": 61,
     "ceiling": {
      "claims": {
       "attainable": 10,
@@ -5506,19 +5769,29 @@
     "hier": {
      "claims": 0.8,
      "citations": 0.25,
+     "end_to_end": {
+      "claims": 0.8,
+      "citations": 0.2
+     },
      "n_articles_cited": 4,
+     "scored": 368,
      "reached": true,
-     "steps_first": 143,
-     "steps_half": 143,
+     "inspect_first": 63,
+     "inspect_half": 63,
      "lost_at_level": null
     },
     "flat": {
      "claims": 0.8,
      "citations": 0.25,
+     "end_to_end": {
+      "claims": 0.8,
+      "citations": 0.2
+     },
      "n_articles_cited": 5,
+     "scored": 690,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 2
+     "inspect_first": 2,
+     "inspect_half": 2
     }
    }
   }
@@ -5566,7 +5839,7 @@
      "coherence": "012ce55bb884aaa95821468ad5f53c34de5fc0c0740117692276f360e361d6d3",
      "stability": "02dd16da6b4282399d7520c3fb4e65892144f17575eb89e31ed5a92d6856c4bf",
      "faithfulness": "8d9d8d86f9345f2429d0c996eb50046ef3b40da79ef503c9f7f02573bf511c8a",
-     "retrieval": "71b691d1c15630e0b241756dc908e32ac71f57a80caebe5866c3be1ca49006e5"
+     "retrieval": "251f68509905fdba3c6e1504dc9a0089aa45635f73055f4af9ffba17413157d5"
     }
    }
   },
@@ -5957,19 +6230,34 @@
         "n": 12,
         "hier": 0.17023809523809522,
         "flat": 0.29523809523809524,
-        "hier_minus_flat": -0.125
+        "hier_minus_flat": -0.125,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.08080015222872365,
+         "flat": 0.1760382474668189
+        }
        },
        "method_claims": {
         "n": 9,
         "hier": 0.16666666666666666,
         "flat": 0.3055555555555556,
-        "hier_minus_flat": -0.1388888888888889
+        "hier_minus_flat": -0.1388888888888889,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.03950811093668237,
+         "flat": 0.06643118785975928
+        }
        },
        "citations": {
         "n": 14,
         "hier": 0.5812074829931974,
         "flat": 0.5778061224489796,
-        "hier_minus_flat": 0.003401360544217691
+        "hier_minus_flat": 0.003401360544217691,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.5261982065553493,
+         "flat": 0.5274659863945578
+        }
        },
        "error_rate": {
         "n": 12,
@@ -5983,17 +6271,37 @@
         "flat": 1.0,
         "hier_minus_flat": -0.3333333333333333
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 12,
-        "hier": 154.5,
+        "hier": 75.5,
         "flat": 10.5,
-        "hier_minus_flat": 133.0
+        "hier_minus_flat": 57.0
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 12,
-        "hier": 438.5,
+        "hier": 375.5,
         "flat": 28.5,
-        "hier_minus_flat": 415.0
+        "hier_minus_flat": 352.0
+       },
+       "scored": {
+        "n": 14,
+        "hier": 558.0,
+        "flat": 2524.0,
+        "hier_minus_flat": -1966.0
+       },
+       "ceilings": {
+        "methods": {
+         "attainable": 45,
+         "total": 63
+        },
+        "method_claims": {
+         "attainable": 54,
+         "total": 188
+        },
+        "citations": {
+         "attainable": 65,
+         "total": 71
+        }
        }
       },
       "B": {
@@ -6001,13 +6309,23 @@
         "n": 4,
         "hier": 0.48968253968253966,
         "flat": 0.5432539682539683,
-        "hier_minus_flat": -0.05357142857142856
+        "hier_minus_flat": -0.05357142857142856,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.48968253968253966,
+         "flat": 0.4932539682539683
+        }
        },
        "citations": {
         "n": 4,
         "hier": 0.3125,
         "flat": 0.375,
-        "hier_minus_flat": -0.0625
+        "hier_minus_flat": -0.0625,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.2625,
+         "flat": 0.2625
+        }
        },
        "reached": {
         "n": 4,
@@ -6015,17 +6333,33 @@
         "flat": 1.0,
         "hier_minus_flat": -0.25
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 4,
-        "hier": 137.0,
+        "hier": 56.0,
         "flat": 2.0,
-        "hier_minus_flat": 134.5
+        "hier_minus_flat": 53.5
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 4,
-        "hier": 425.5,
+        "hier": 380.0,
         "flat": 6.5,
-        "hier_minus_flat": 409.0
+        "hier_minus_flat": 363.5
+       },
+       "scored": {
+        "n": 4,
+        "hier": 291.0,
+        "flat": 690.0,
+        "hier_minus_flat": -399.0
+       },
+       "ceilings": {
+        "claims": {
+         "attainable": 32,
+         "total": 36
+        },
+        "citations": {
+         "attainable": 14,
+         "total": 19
+        }
        }
       }
      },
@@ -6525,19 +6859,34 @@
         "n": 12,
         "hier": 0.3223214285714286,
         "flat": 0.29523809523809524,
-        "hier_minus_flat": 0.027083333333333334
+        "hier_minus_flat": 0.027083333333333334,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.1959558298844013,
+         "flat": 0.1760382474668189
+        }
        },
        "method_claims": {
         "n": 9,
         "hier": 0.2777777777777778,
         "flat": 0.3055555555555556,
-        "hier_minus_flat": -0.027777777777777776
+        "hier_minus_flat": -0.027777777777777776,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.060936682365253785,
+         "flat": 0.06643118785975928
+        }
        },
        "citations": {
         "n": 14,
         "hier": 0.5579648526077098,
         "flat": 0.5778061224489796,
-        "hier_minus_flat": -0.019841269841269844
+        "hier_minus_flat": -0.019841269841269844,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.5040584415584416,
+         "flat": 0.5274659863945578
+        }
        },
        "error_rate": {
         "n": 12,
@@ -6551,17 +6900,37 @@
         "flat": 1.0,
         "hier_minus_flat": -0.16666666666666666
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 12,
-        "hier": 148.0,
+        "hier": 65.5,
         "flat": 10.5,
-        "hier_minus_flat": 130.0
+        "hier_minus_flat": 55.0
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 12,
-        "hier": 269.5,
+        "hier": 184.0,
         "flat": 28.5,
-        "hier_minus_flat": 142.0
+        "hier_minus_flat": 57.5
+       },
+       "scored": {
+        "n": 14,
+        "hier": 559.5,
+        "flat": 2524.0,
+        "hier_minus_flat": -1964.5
+       },
+       "ceilings": {
+        "methods": {
+         "attainable": 45,
+         "total": 63
+        },
+        "method_claims": {
+         "attainable": 54,
+         "total": 188
+        },
+        "citations": {
+         "attainable": 65,
+         "total": 71
+        }
        }
       },
       "B": {
@@ -6569,13 +6938,23 @@
         "n": 4,
         "hier": 0.6146825396825397,
         "flat": 0.5432539682539683,
-        "hier_minus_flat": 0.07142857142857144
+        "hier_minus_flat": 0.07142857142857144,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.5646825396825397,
+         "flat": 0.4932539682539683
+        }
        },
        "citations": {
         "n": 4,
         "hier": 0.4375,
         "flat": 0.375,
-        "hier_minus_flat": 0.0625
+        "hier_minus_flat": 0.0625,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.3125,
+         "flat": 0.2625
+        }
        },
        "reached": {
         "n": 4,
@@ -6583,17 +6962,33 @@
         "flat": 1.0,
         "hier_minus_flat": 0.0
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 4,
-        "hier": 133.0,
+        "hier": 56.5,
         "flat": 2.0,
-        "hier_minus_flat": 131.0
+        "hier_minus_flat": 54.5
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 4,
-        "hier": 150.5,
+        "hier": 64.5,
         "flat": 6.5,
-        "hier_minus_flat": 144.0
+        "hier_minus_flat": 58.0
+       },
+       "scored": {
+        "n": 4,
+        "hier": 330.0,
+        "flat": 690.0,
+        "hier_minus_flat": -360.0
+       },
+       "ceilings": {
+        "claims": {
+         "attainable": 32,
+         "total": 36
+        },
+        "citations": {
+         "attainable": 14,
+         "total": 19
+        }
        }
       }
      },
@@ -7094,19 +7489,34 @@
         "n": 12,
         "hier": 0.27499999999999997,
         "flat": 0.29523809523809524,
-        "hier_minus_flat": -0.02023809523809524
+        "hier_minus_flat": -0.02023809523809524,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.1593406593406593,
+         "flat": 0.1760382474668189
+        }
        },
        "method_claims": {
         "n": 9,
         "hier": 0.25,
         "flat": 0.3055555555555556,
-        "hier_minus_flat": -0.05555555555555555
+        "hier_minus_flat": -0.05555555555555555,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.050732600732600726,
+         "flat": 0.06643118785975928
+        }
        },
        "citations": {
         "n": 14,
         "hier": 0.6567460317460317,
         "flat": 0.5778061224489796,
-        "hier_minus_flat": 0.07893990929705216
+        "hier_minus_flat": 0.07893990929705216,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.6002937538651825,
+         "flat": 0.5274659863945578
+        }
        },
        "error_rate": {
         "n": 12,
@@ -7120,17 +7530,37 @@
         "flat": 1.0,
         "hier_minus_flat": -0.16666666666666666
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 12,
-        "hier": 206.5,
+        "hier": 114.0,
         "flat": 10.5,
-        "hier_minus_flat": 150.0
+        "hier_minus_flat": 62.0
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 12,
-        "hier": 413.0,
+        "hier": 321.0,
         "flat": 28.5,
-        "hier_minus_flat": 359.0
+        "hier_minus_flat": 274.5
+       },
+       "scored": {
+        "n": 14,
+        "hier": 555.5,
+        "flat": 2524.0,
+        "hier_minus_flat": -1968.5
+       },
+       "ceilings": {
+        "methods": {
+         "attainable": 45,
+         "total": 63
+        },
+        "method_claims": {
+         "attainable": 54,
+         "total": 188
+        },
+        "citations": {
+         "attainable": 65,
+         "total": 71
+        }
        }
       },
       "B": {
@@ -7138,13 +7568,23 @@
         "n": 4,
         "hier": 0.7396825396825397,
         "flat": 0.5432539682539683,
-        "hier_minus_flat": 0.19642857142857145
+        "hier_minus_flat": 0.19642857142857145,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.6396825396825396,
+         "flat": 0.4932539682539683
+        }
        },
        "citations": {
         "n": 4,
         "hier": 0.4375,
         "flat": 0.375,
-        "hier_minus_flat": 0.0625
+        "hier_minus_flat": 0.0625,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.3125,
+         "flat": 0.2625
+        }
        },
        "reached": {
         "n": 4,
@@ -7152,17 +7592,33 @@
         "flat": 1.0,
         "hier_minus_flat": 0.0
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 4,
-        "hier": 143.0,
+        "hier": 59.5,
         "flat": 2.0,
-        "hier_minus_flat": 140.5
+        "hier_minus_flat": 57.0
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 4,
-        "hier": 152.5,
+        "hier": 67.0,
         "flat": 6.5,
-        "hier_minus_flat": 146.0
+        "hier_minus_flat": 60.5
+       },
+       "scored": {
+        "n": 4,
+        "hier": 370.0,
+        "flat": 690.0,
+        "hier_minus_flat": -320.0
+       },
+       "ceilings": {
+        "claims": {
+         "attainable": 32,
+         "total": 36
+        },
+        "citations": {
+         "attainable": 14,
+         "total": 19
+        }
        }
       }
      },
@@ -7663,19 +8119,34 @@
         "n": 12,
         "hier": 0.25089285714285714,
         "flat": 0.29523809523809524,
-        "hier_minus_flat": -0.044345238095238104
+        "hier_minus_flat": -0.044345238095238104,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.14663610199324487,
+         "flat": 0.1760382474668189
+        }
        },
        "method_claims": {
         "n": 9,
         "hier": 0.3055555555555556,
         "flat": 0.3055555555555556,
-        "hier_minus_flat": 0.0
+        "hier_minus_flat": 0.0,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.06643118785975928,
+         "flat": 0.06643118785975928
+        }
        },
        "citations": {
         "n": 14,
         "hier": 0.6643990929705215,
         "flat": 0.5778061224489796,
-        "hier_minus_flat": 0.08659297052154195
+        "hier_minus_flat": 0.08659297052154195,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.6076066790352505,
+         "flat": 0.5274659863945578
+        }
        },
        "error_rate": {
         "n": 12,
@@ -7689,17 +8160,37 @@
         "flat": 1.0,
         "hier_minus_flat": -0.3333333333333333
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 12,
-        "hier": 149.0,
+        "hier": 64.5,
         "flat": 10.5,
-        "hier_minus_flat": 139.0
+        "hier_minus_flat": 61.0
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 12,
-        "hier": 359.0,
+        "hier": 278.5,
         "flat": 28.5,
-        "hier_minus_flat": 235.5
+        "hier_minus_flat": 156.0
+       },
+       "scored": {
+        "n": 14,
+        "hier": 571.5,
+        "flat": 2524.0,
+        "hier_minus_flat": -1952.5
+       },
+       "ceilings": {
+        "methods": {
+         "attainable": 45,
+         "total": 63
+        },
+        "method_claims": {
+         "attainable": 54,
+         "total": 188
+        },
+        "citations": {
+         "attainable": 65,
+         "total": 71
+        }
        }
       },
       "B": {
@@ -7707,13 +8198,23 @@
         "n": 4,
         "hier": 0.6146825396825397,
         "flat": 0.5432539682539683,
-        "hier_minus_flat": 0.07142857142857144
+        "hier_minus_flat": 0.07142857142857144,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.5646825396825397,
+         "flat": 0.4932539682539683
+        }
        },
        "citations": {
         "n": 4,
         "hier": 0.4375,
         "flat": 0.375,
-        "hier_minus_flat": 0.0625
+        "hier_minus_flat": 0.0625,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.3125,
+         "flat": 0.2625
+        }
        },
        "reached": {
         "n": 4,
@@ -7721,17 +8222,33 @@
         "flat": 1.0,
         "hier_minus_flat": 0.0
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 4,
-        "hier": 143.0,
+        "hier": 63.0,
         "flat": 2.0,
-        "hier_minus_flat": 141.0
+        "hier_minus_flat": 61.0
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 4,
-        "hier": 147.5,
+        "hier": 65.5,
         "flat": 6.5,
-        "hier_minus_flat": 139.5
+        "hier_minus_flat": 59.5
+       },
+       "scored": {
+        "n": 4,
+        "hier": 359.0,
+        "flat": 690.0,
+        "hier_minus_flat": -331.0
+       },
+       "ceilings": {
+        "claims": {
+         "attainable": 32,
+         "total": 36
+        },
+        "citations": {
+         "attainable": 14,
+         "total": 19
+        }
        }
       }
      },
@@ -8216,19 +8733,34 @@
         "n": 12,
         "hier": 0.2035714285714286,
         "flat": 0.29523809523809524,
-        "hier_minus_flat": -0.09166666666666667
+        "hier_minus_flat": -0.09166666666666667,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.09911517054374196,
+         "flat": 0.1760382474668189
+        }
        },
        "method_claims": {
         "n": 9,
         "hier": 0.2777777777777778,
         "flat": 0.3055555555555556,
-        "hier_minus_flat": -0.027777777777777776
+        "hier_minus_flat": -0.027777777777777776,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.060936682365253785,
+         "flat": 0.06643118785975928
+        }
        },
        "citations": {
         "n": 14,
         "hier": 0.5494614512471655,
         "flat": 0.5778061224489796,
-        "hier_minus_flat": -0.02834467120181406
+        "hier_minus_flat": -0.02834467120181406,
+        "end_to_end": {
+         "n": 14,
+         "hier": 0.49691558441558437,
+         "flat": 0.5274659863945578
+        }
        },
        "error_rate": {
         "n": 12,
@@ -8242,17 +8774,37 @@
         "flat": 1.0,
         "hier_minus_flat": -0.3333333333333333
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 12,
-        "hier": 265.5,
+        "hier": 187.5,
         "flat": 10.5,
-        "hier_minus_flat": 147.5
+        "hier_minus_flat": 62.5
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 12,
-        "hier": 1465.0,
+        "hier": 1425.0,
         "flat": 28.5,
-        "hier_minus_flat": 814.5
+        "hier_minus_flat": 778.0
+       },
+       "scored": {
+        "n": 14,
+        "hier": 555.0,
+        "flat": 2524.0,
+        "hier_minus_flat": -1969.0
+       },
+       "ceilings": {
+        "methods": {
+         "attainable": 45,
+         "total": 63
+        },
+        "method_claims": {
+         "attainable": 54,
+         "total": 188
+        },
+        "citations": {
+         "attainable": 65,
+         "total": 71
+        }
        }
       },
       "B": {
@@ -8260,13 +8812,23 @@
         "n": 4,
         "hier": 0.7396825396825397,
         "flat": 0.5432539682539683,
-        "hier_minus_flat": 0.19642857142857145
+        "hier_minus_flat": 0.19642857142857145,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.6396825396825396,
+         "flat": 0.4932539682539683
+        }
        },
        "citations": {
         "n": 4,
         "hier": 0.4375,
         "flat": 0.375,
-        "hier_minus_flat": 0.0625
+        "hier_minus_flat": 0.0625,
+        "end_to_end": {
+         "n": 4,
+         "hier": 0.3125,
+         "flat": 0.2625
+        }
        },
        "reached": {
         "n": 4,
@@ -8274,17 +8836,33 @@
         "flat": 1.0,
         "hier_minus_flat": 0.0
        },
-       "steps_first": {
+       "inspect_first": {
         "n": 4,
-        "hier": 141.0,
+        "hier": 62.0,
         "flat": 2.0,
-        "hier_minus_flat": 139.0
+        "hier_minus_flat": 59.5
        },
-       "steps_half": {
+       "inspect_half": {
         "n": 4,
-        "hier": 145.5,
+        "hier": 66.5,
         "flat": 6.5,
-        "hier_minus_flat": 138.0
+        "hier_minus_flat": 58.0
+       },
+       "scored": {
+        "n": 4,
+        "hier": 438.5,
+        "flat": 690.0,
+        "hier_minus_flat": -251.5
+       },
+       "ceilings": {
+        "claims": {
+         "attainable": 32,
+         "total": 36
+        },
+        "citations": {
+         "attainable": 14,
+         "total": 19
+        }
        }
       }
      },

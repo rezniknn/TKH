@@ -188,27 +188,33 @@ the variants with one another, not with an absolute standard.
 
 The drill-down agent and the flat baseline are those of report §5.1.4, with the same questions, scorer, beam and answer
 length. Flat search does not use the hierarchy, so its results are identical for every variant, which Table S7
-asserts; only the drill-down columns change. A tick marks a measure on which drill-down beats flat search for that
-variant, and the last row counts the measures favouring drill-down, flat search and neither.
+asserts; only the drill-down columns change.
+- **Tick:** marks a measure on which drill-down beats flat search for that variant.
+- **Last row:** counts the measures favouring drill-down, flat search and neither. The count is a descriptive
+  simplification of correlated point estimates, not independent votes.
+- **Candidates scored:** computation, shown but not counted. The items inspected are the reader's effort.
+- **Claim hit-rates:** credited by source article, not by content (report §5.1.4).
 
-*Table S7. Drill-down retrieval per variant against flat search; means (steps: medians), no CIs
-(`alpha_sweep.variants.<α>.retrieval`).*
+*Table S7. Drill-down retrieval per variant against flat search; means (items inspected and candidates scored:
+medians), point estimates without CIs (`alpha_sweep.variants.<α>.retrieval`).*
 
 <!-- table:sweep_retrieval -->
 | Type | Metric | Flat (every α) | Drill-down, α = 0 | Drill-down, α = 0.25 | Drill-down, α = 0.5 (pre-sweep default) | Drill-down, α = 0.75 (default) | Drill-down, α = 1 |
 |---|---|---|---|---|---|---|---|
 | A | hit-rate, methods | 0.295 | 0.170 | 0.322 ✓ | 0.275 | 0.251 | 0.204 |
-| A | hit-rate, method claims | 0.306 | 0.167 | 0.278 | 0.250 | 0.306 | 0.278 |
+| A | hit-rate, method claims, by source article | 0.306 | 0.167 | 0.278 | 0.250 | 0.306 | 0.278 |
 | A | hit-rate, citations | 0.578 | 0.581 ✓ | 0.558 | 0.657 ✓ | 0.664 ✓ | 0.549 |
 | A | error rate | 0.033 | 0.033 | 0.025 ✓ | 0.042 | 0.042 | 0.025 ✓ |
 | A | reach | 1.000 | 0.667 | 0.833 | 0.833 | 0.667 | 0.667 |
-| A | steps to first item (median) | 10.5 | 154.5 | 148.0 | 206.5 | 149.0 | 265.5 |
-| A | steps to 50% of items (median) | 28.5 | 438.5 | 269.5 | 413.0 | 359.0 | 1465.0 |
-| B | hit-rate, claims | 0.543 | 0.490 | 0.615 ✓ | 0.740 ✓ | 0.615 ✓ | 0.740 ✓ |
+| A | items inspected to first item (median) | 10.5 | 75.5 | 65.5 | 114.0 | 64.5 | 187.5 |
+| A | items inspected to 50% of items (median) | 28.5 | 375.5 | 184.0 | 321.0 | 278.5 | 1425.0 |
+| A | candidates scored (median; computation, not counted) | 2524.0 | 558.0 | 559.5 | 555.5 | 571.5 | 555.0 |
+| B | hit-rate, claims, by source article | 0.543 | 0.490 | 0.615 ✓ | 0.740 ✓ | 0.615 ✓ | 0.740 ✓ |
 | B | hit-rate, citations | 0.375 | 0.312 | 0.438 ✓ | 0.438 ✓ | 0.438 ✓ | 0.438 ✓ |
 | B | reach | 1.000 | 0.750 | 1.000 | 1.000 | 1.000 | 1.000 |
-| B | steps to first item (median) | 2.0 | 137.0 | 133.0 | 143.0 | 143.0 | 141.0 |
-| B | steps to 50% of items (median) | 6.5 | 425.5 | 150.5 | 152.5 | 147.5 | 145.5 |
+| B | items inspected to first item (median) | 2.0 | 56.0 | 56.5 | 59.5 | 63.0 | 62.0 |
+| B | items inspected to 50% of items (median) | 6.5 | 380.0 | 64.5 | 67.0 | 65.5 | 66.5 |
+| B | candidates scored (median; computation, not counted) | 690.0 | 291.0 | 330.0 | 370.0 | 359.0 | 438.5 |
 |  | measures favouring drill-down / flat / tie |  | 1 / 10 / 1 | 4 / 7 / 1 | 3 / 8 / 1 | 3 / 7 / 2 | 3 / 8 / 1 |
 <!-- /table:sweep_retrieval -->
 
@@ -224,7 +230,7 @@ in §9.
 
 1. Each criterion has one headline: the number of robust coherence cells (exact filter); the perturbation HARI at
    the last snapshot; the over-claim rate (lower is better); and the number of retrieval measures favouring
-   drill-down.
+   drill-down (a descriptive count, §7).
 2. A variant is *eligible* unless it is distinguishably worse than the default on a headline that has an
    interval: the t-interval of its perturbation HARI difference to the default, paired by seed, lies wholly below
    zero, or its over-claim interval lies wholly above the default's. The coherence and retrieval counts have no

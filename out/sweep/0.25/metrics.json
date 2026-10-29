@@ -4616,21 +4616,36 @@
      "stat": "mean",
      "hier": 0.3223214285714286,
      "flat": 0.29523809523809524,
-     "hier_minus_flat": 0.027083333333333334
+     "hier_minus_flat": 0.027083333333333334,
+     "end_to_end": {
+      "n": 14,
+      "hier": 0.1959558298844013,
+      "flat": 0.1760382474668189
+     }
     },
     "method_claims": {
      "n": 9,
      "stat": "mean",
      "hier": 0.2777777777777778,
      "flat": 0.3055555555555556,
-     "hier_minus_flat": -0.027777777777777776
+     "hier_minus_flat": -0.027777777777777776,
+     "end_to_end": {
+      "n": 14,
+      "hier": 0.060936682365253785,
+      "flat": 0.06643118785975928
+     }
     },
     "citations": {
      "n": 14,
      "stat": "mean",
      "hier": 0.5579648526077098,
      "flat": 0.5778061224489796,
-     "hier_minus_flat": -0.019841269841269844
+     "hier_minus_flat": -0.019841269841269844,
+     "end_to_end": {
+      "n": 14,
+      "hier": 0.5040584415584416,
+      "flat": 0.5274659863945578
+     }
     },
     "error_rate": {
      "n": 12,
@@ -4646,19 +4661,26 @@
      "flat": 1.0,
      "hier_minus_flat": -0.16666666666666666
     },
-    "steps_first": {
+    "inspect_first": {
      "n": 12,
      "stat": "median",
-     "hier": 148.0,
+     "hier": 65.5,
      "flat": 10.5,
-     "hier_minus_flat": 130.0
+     "hier_minus_flat": 55.0
     },
-    "steps_half": {
+    "inspect_half": {
      "n": 12,
      "stat": "median",
-     "hier": 269.5,
+     "hier": 184.0,
      "flat": 28.5,
-     "hier_minus_flat": 142.0
+     "hier_minus_flat": 57.5
+    },
+    "scored": {
+     "n": 14,
+     "stat": "median",
+     "hier": 559.5,
+     "flat": 2524.0,
+     "hier_minus_flat": -1964.5
     },
     "ceilings": {
      "methods": {
@@ -4682,14 +4704,24 @@
      "stat": "mean",
      "hier": 0.6146825396825397,
      "flat": 0.5432539682539683,
-     "hier_minus_flat": 0.07142857142857144
+     "hier_minus_flat": 0.07142857142857144,
+     "end_to_end": {
+      "n": 4,
+      "hier": 0.5646825396825397,
+      "flat": 0.4932539682539683
+     }
     },
     "citations": {
      "n": 4,
      "stat": "mean",
      "hier": 0.4375,
      "flat": 0.375,
-     "hier_minus_flat": 0.0625
+     "hier_minus_flat": 0.0625,
+     "end_to_end": {
+      "n": 4,
+      "hier": 0.3125,
+      "flat": 0.2625
+     }
     },
     "reached": {
      "n": 4,
@@ -4698,19 +4730,26 @@
      "flat": 1.0,
      "hier_minus_flat": 0.0
     },
-    "steps_first": {
+    "inspect_first": {
      "n": 4,
      "stat": "median",
-     "hier": 133.0,
+     "hier": 56.5,
      "flat": 2.0,
-     "hier_minus_flat": 131.0
+     "hier_minus_flat": 54.5
     },
-    "steps_half": {
+    "inspect_half": {
      "n": 4,
      "stat": "median",
-     "hier": 150.5,
+     "hier": 64.5,
      "flat": 6.5,
-     "hier_minus_flat": 144.0
+     "hier_minus_flat": 58.0
+    },
+    "scored": {
+     "n": 4,
+     "stat": "median",
+     "hier": 330.0,
+     "flat": 690.0,
+     "hier_minus_flat": -360.0
     },
     "ceilings": {
      "claims": {
@@ -4746,6 +4785,14 @@
     "min": 116,
     "max": 156
    },
+   "labels_shown": {
+    "min": 51,
+    "max": 66
+   },
+   "pool": {
+    "min": 172,
+    "max": 563
+   },
    "never_reached": {
     "Q6": 1,
     "Q10": 1
@@ -4771,6 +4818,7 @@
     "n_targets": 15,
     "pool": 374,
     "n_supernodes_scored": 117,
+    "n_labels_shown": 51,
     "ceiling": {
      "methods": {
       "attainable": 7,
@@ -4790,10 +4838,16 @@
      "method_claims": 0.25,
      "error_rate": 0.1,
      "citations": 0.2857142857142857,
+     "end_to_end": {
+      "methods": 0.14285714285714285,
+      "method_claims": 0.14285714285714285,
+      "citations": 0.2857142857142857
+     },
      "n_articles_cited": 12,
+     "scored": 491,
      "reached": true,
-     "steps_first": 124,
-     "steps_half": 2525,
+     "inspect_first": 58,
+     "inspect_half": 2525,
      "lost_at_level": null
     },
     "flat": {
@@ -4801,10 +4855,16 @@
      "method_claims": 0.25,
      "error_rate": 0.0,
      "citations": 0.42857142857142855,
+     "end_to_end": {
+      "methods": 0.14285714285714285,
+      "method_claims": 0.14285714285714285,
+      "citations": 0.42857142857142855
+     },
      "n_articles_cited": 15,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 7,
-     "steps_half": 15
+     "inspect_first": 7,
+     "inspect_half": 15
     }
    },
    "Q2": {
@@ -4816,6 +4876,7 @@
     "n_targets": 3,
     "pool": 355,
     "n_supernodes_scored": 151,
+    "n_labels_shown": 57,
     "ceiling": {
      "methods": {
       "attainable": 2,
@@ -4835,10 +4896,16 @@
      "method_claims": 1.0,
      "error_rate": 0.0,
      "citations": 0.7142857142857143,
+     "end_to_end": {
+      "methods": 0.6666666666666666,
+      "method_claims": 0.3,
+      "citations": 0.7142857142857143
+     },
      "n_articles_cited": 14,
+     "scored": 506,
      "reached": true,
-     "steps_first": 152,
-     "steps_half": 152,
+     "inspect_first": 58,
+     "inspect_half": 58,
      "lost_at_level": null
     },
     "flat": {
@@ -4846,10 +4913,16 @@
      "method_claims": 1.0,
      "error_rate": 0.0,
      "citations": 0.7142857142857143,
+     "end_to_end": {
+      "methods": 0.6666666666666666,
+      "method_claims": 0.3,
+      "citations": 0.7142857142857143
+     },
      "n_articles_cited": 13,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 1,
-     "steps_half": 1
+     "inspect_first": 1,
+     "inspect_half": 1
     }
    },
    "Q3": {
@@ -4861,6 +4934,7 @@
     "n_targets": 2,
     "pool": 437,
     "n_supernodes_scored": 142,
+    "n_labels_shown": 57,
     "ceiling": {
      "methods": {
       "attainable": 2,
@@ -4880,10 +4954,16 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 1.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 12,
+     "scored": 579,
      "reached": true,
-     "steps_first": 144,
-     "steps_half": 144,
+     "inspect_first": 59,
+     "inspect_half": 59,
      "lost_at_level": null
     },
     "flat": {
@@ -4891,10 +4971,16 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 1.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 7,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 2
+     "inspect_first": 2,
+     "inspect_half": 2
     }
    },
    "Q4": {
@@ -4906,6 +4992,7 @@
     "n_targets": 2,
     "pool": 217,
     "n_supernodes_scored": 133,
+    "n_labels_shown": 58,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -4925,10 +5012,16 @@
      "method_claims": 1.0,
      "error_rate": 0.0,
      "citations": 0.3333333333333333,
+     "end_to_end": {
+      "methods": 0.3333333333333333,
+      "method_claims": 0.3333333333333333,
+      "citations": 0.3333333333333333
+     },
      "n_articles_cited": 12,
+     "scored": 350,
      "reached": true,
-     "steps_first": 142,
-     "steps_half": 142,
+     "inspect_first": 67,
+     "inspect_half": 67,
      "lost_at_level": null
     },
     "flat": {
@@ -4936,10 +5029,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 0.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.0
+     },
      "n_articles_cited": 10,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 42,
-     "steps_half": 42
+     "inspect_first": 42,
+     "inspect_half": 42
     }
    },
    "Q5": {
@@ -4951,6 +5050,7 @@
     "n_targets": 0,
     "pool": 302,
     "n_supernodes_scored": 147,
+    "n_labels_shown": 65,
     "ceiling": {
      "methods": {
       "attainable": 0,
@@ -4970,14 +5070,26 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 0.0,
-     "n_articles_cited": 19
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.0
+     },
+     "n_articles_cited": 19,
+     "scored": 449
     },
     "flat": {
      "methods": null,
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 0.0,
-     "n_articles_cited": 19
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.0
+     },
+     "n_articles_cited": 19,
+     "scored": 2524
     }
    },
    "Q6": {
@@ -4989,6 +5101,7 @@
     "n_targets": 1,
     "pool": 410,
     "n_supernodes_scored": 138,
+    "n_labels_shown": 60,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5008,10 +5121,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 0.6666666666666666,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.6666666666666666
+     },
      "n_articles_cited": 14,
+     "scored": 548,
      "reached": false,
-     "steps_first": 2525,
-     "steps_half": 2525,
+     "inspect_first": 2525,
+     "inspect_half": 2525,
      "lost_at_level": 1
     },
     "flat": {
@@ -5019,10 +5138,16 @@
      "method_claims": 1.0,
      "error_rate": 0.0,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.3333333333333333,
+      "method_claims": 0.3333333333333333,
+      "citations": 1.0
+     },
      "n_articles_cited": 11,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 1,
-     "steps_half": 1
+     "inspect_first": 1,
+     "inspect_half": 1
     }
    },
    "Q7": {
@@ -5034,6 +5159,7 @@
     "n_targets": 1,
     "pool": 422,
     "n_supernodes_scored": 152,
+    "n_labels_shown": 63,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5053,10 +5179,16 @@
      "method_claims": null,
      "error_rate": 0.0,
      "citations": 0.5,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.5
+     },
      "n_articles_cited": 16,
+     "scored": 574,
      "reached": true,
-     "steps_first": 377,
-     "steps_half": 377,
+     "inspect_first": 288,
+     "inspect_half": 288,
      "lost_at_level": null
     },
     "flat": {
@@ -5064,10 +5196,16 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 11,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 1266,
-     "steps_half": 1266
+     "inspect_first": 1266,
+     "inspect_half": 1266
     }
    },
    "Q8": {
@@ -5079,6 +5217,7 @@
     "n_targets": 1,
     "pool": 443,
     "n_supernodes_scored": 140,
+    "n_labels_shown": 53,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5098,10 +5237,16 @@
      "method_claims": null,
      "error_rate": 0.0,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 11,
+     "scored": 583,
      "reached": true,
-     "steps_first": 181,
-     "steps_half": 181,
+     "inspect_first": 94,
+     "inspect_half": 94,
      "lost_at_level": null
     },
     "flat": {
@@ -5109,10 +5254,16 @@
      "method_claims": null,
      "error_rate": 0.1,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 19,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 78,
-     "steps_half": 78
+     "inspect_first": 78,
+     "inspect_half": 78
     }
    },
    "Q9": {
@@ -5124,6 +5275,7 @@
     "n_targets": 2,
     "pool": 563,
     "n_supernodes_scored": 144,
+    "n_labels_shown": 60,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5143,10 +5295,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 17,
+     "scored": 707,
      "reached": true,
-     "steps_first": 164,
-     "steps_half": 164,
+     "inspect_first": 80,
+     "inspect_half": 80,
      "lost_at_level": null
     },
     "flat": {
@@ -5154,10 +5312,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 1.0,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 1.0
+     },
      "n_articles_cited": 17,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 22,
-     "steps_half": 22
+     "inspect_first": 22,
+     "inspect_half": 22
     }
    },
    "Q10": {
@@ -5169,6 +5333,7 @@
     "n_targets": 1,
     "pool": 490,
     "n_supernodes_scored": 146,
+    "n_labels_shown": 58,
     "ceiling": {
      "methods": {
       "attainable": 1,
@@ -5188,10 +5353,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 0.25,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.25
+     },
      "n_articles_cited": 15,
+     "scored": 636,
      "reached": false,
-     "steps_first": 2525,
-     "steps_half": 2525,
+     "inspect_first": 2525,
+     "inspect_half": 2525,
      "lost_at_level": 1
     },
     "flat": {
@@ -5199,10 +5370,16 @@
      "method_claims": 0.0,
      "error_rate": 0.0,
      "citations": 0.25,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.25
+     },
      "n_articles_cited": 15,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 1252,
-     "steps_half": 1252
+     "inspect_first": 1252,
+     "inspect_half": 1252
     }
    },
    "Q11": {
@@ -5214,6 +5391,7 @@
     "n_targets": 0,
     "pool": 523,
     "n_supernodes_scored": 156,
+    "n_labels_shown": 61,
     "ceiling": {
      "methods": {
       "attainable": 0,
@@ -5233,14 +5411,26 @@
      "method_claims": null,
      "error_rate": 0.0,
      "citations": 1.0,
-     "n_articles_cited": 16
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.3333333333333333
+     },
+     "n_articles_cited": 16,
+     "scored": 679
     },
     "flat": {
      "methods": null,
      "method_claims": null,
      "error_rate": 0.0,
      "citations": 1.0,
-     "n_articles_cited": 17
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.3333333333333333
+     },
+     "n_articles_cited": 17,
+     "scored": 2524
     }
    },
    "Q12": {
@@ -5252,6 +5442,7 @@
     "n_targets": 20,
     "pool": 441,
     "n_supernodes_scored": 130,
+    "n_labels_shown": 61,
     "ceiling": {
      "methods": {
       "attainable": 10,
@@ -5271,10 +5462,16 @@
      "method_claims": 0.25,
      "error_rate": 0.0,
      "citations": 0.7142857142857143,
+     "end_to_end": {
+      "methods": 0.38461538461538464,
+      "method_claims": 0.07692307692307693,
+      "citations": 0.6666666666666666
+     },
      "n_articles_cited": 16,
+     "scored": 571,
      "reached": true,
-     "steps_first": 132,
-     "steps_half": 139,
+     "inspect_first": 63,
+     "inspect_half": 70,
      "lost_at_level": null
     },
     "flat": {
@@ -5282,10 +5479,16 @@
      "method_claims": 0.5,
      "error_rate": 0.0,
      "citations": 0.5714285714285714,
+     "end_to_end": {
+      "methods": 0.23076923076923078,
+      "method_claims": 0.15384615384615385,
+      "citations": 0.5333333333333333
+     },
      "n_articles_cited": 16,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 12
+     "inspect_first": 2,
+     "inspect_half": 12
     }
    },
    "Q13": {
@@ -5297,6 +5500,7 @@
     "n_targets": 18,
     "pool": 286,
     "n_supernodes_scored": 135,
+    "n_labels_shown": 58,
     "ceiling": {
      "methods": {
       "attainable": 8,
@@ -5315,20 +5519,32 @@
      "methods": 0.125,
      "method_claims": 0.0,
      "citations": 0.125,
+     "end_to_end": {
+      "methods": 0.125,
+      "method_claims": 0.0,
+      "citations": 0.125
+     },
      "n_articles_cited": 12,
+     "scored": 421,
      "reached": true,
-     "steps_first": 141,
-     "steps_half": 2525,
+     "inspect_first": 64,
+     "inspect_half": 2525,
      "lost_at_level": null
     },
     "flat": {
      "methods": 0.0,
      "method_claims": 0.0,
      "citations": 0.125,
+     "end_to_end": {
+      "methods": 0.0,
+      "method_claims": 0.0,
+      "citations": 0.125
+     },
      "n_articles_cited": 13,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 11,
-     "steps_half": 35
+     "inspect_first": 11,
+     "inspect_half": 35
     }
    },
    "Q14": {
@@ -5340,6 +5556,7 @@
     "n_targets": 21,
     "pool": 222,
     "n_supernodes_scored": 138,
+    "n_labels_shown": 54,
     "ceiling": {
      "methods": {
       "attainable": 10,
@@ -5358,20 +5575,32 @@
      "methods": 0.1,
      "method_claims": 0.0,
      "citations": 0.2222222222222222,
+     "end_to_end": {
+      "methods": 0.09090909090909091,
+      "method_claims": 0.0,
+      "citations": 0.18181818181818182
+     },
      "n_articles_cited": 8,
+     "scored": 360,
      "reached": true,
-     "steps_first": 140,
-     "steps_half": 358,
+     "inspect_first": 56,
+     "inspect_half": 274,
      "lost_at_level": null
     },
     "flat": {
      "methods": 0.1,
      "method_claims": 0.0,
      "citations": 0.0,
+     "end_to_end": {
+      "methods": 0.09090909090909091,
+      "method_claims": 0.0,
+      "citations": 0.0
+     },
      "n_articles_cited": 11,
+     "scored": 2524,
      "reached": true,
-     "steps_first": 10,
-     "steps_half": 312
+     "inspect_first": 10,
+     "inspect_half": 312
     }
    },
    "Q15": {
@@ -5383,6 +5612,7 @@
     "n_targets": 25,
     "pool": 172,
     "n_supernodes_scored": 134,
+    "n_labels_shown": 51,
     "ceiling": {
      "claims": {
       "attainable": 6,
@@ -5396,19 +5626,29 @@
     "hier": {
      "claims": 0.5,
      "citations": 0.5,
+     "end_to_end": {
+      "claims": 0.3,
+      "citations": 0.2
+     },
      "n_articles_cited": 2,
+     "scored": 306,
      "reached": true,
-     "steps_first": 136,
-     "steps_half": 136,
+     "inspect_first": 53,
+     "inspect_half": 53,
      "lost_at_level": null
     },
     "flat": {
      "claims": 0.5,
      "citations": 0.5,
+     "end_to_end": {
+      "claims": 0.3,
+      "citations": 0.2
+     },
      "n_articles_cited": 2,
+     "scored": 690,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 2
+     "inspect_first": 2,
+     "inspect_half": 2
     }
    },
    "Q16": {
@@ -5420,6 +5660,7 @@
     "n_targets": 48,
     "pool": 217,
     "n_supernodes_scored": 128,
+    "n_labels_shown": 58,
     "ceiling": {
      "claims": {
       "attainable": 9,
@@ -5433,19 +5674,29 @@
     "hier": {
      "claims": 0.4444444444444444,
      "citations": 0.25,
+     "end_to_end": {
+      "claims": 0.4444444444444444,
+      "citations": 0.25
+     },
      "n_articles_cited": 4,
+     "scored": 345,
      "reached": true,
-     "steps_first": 130,
-     "steps_half": 251,
+     "inspect_first": 60,
+     "inspect_half": 181,
      "lost_at_level": null
     },
     "flat": {
      "claims": 0.4444444444444444,
      "citations": 0.25,
+     "end_to_end": {
+      "claims": 0.4444444444444444,
+      "citations": 0.25
+     },
      "n_articles_cited": 4,
+     "scored": 690,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 22
+     "inspect_first": 2,
+     "inspect_half": 22
     }
    },
    "Q17": {
@@ -5457,6 +5708,7 @@
     "n_targets": 65,
     "pool": 176,
     "n_supernodes_scored": 155,
+    "n_labels_shown": 66,
     "ceiling": {
      "claims": {
       "attainable": 7,
@@ -5470,19 +5722,29 @@
     "hier": {
      "claims": 0.7142857142857143,
      "citations": 0.75,
+     "end_to_end": {
+      "claims": 0.7142857142857143,
+      "citations": 0.6
+     },
      "n_articles_cited": 5,
+     "scored": 331,
      "reached": true,
-     "steps_first": 158,
-     "steps_half": 165,
+     "inspect_first": 69,
+     "inspect_half": 76,
      "lost_at_level": null
     },
     "flat": {
      "claims": 0.42857142857142855,
      "citations": 0.5,
+     "end_to_end": {
+      "claims": 0.42857142857142855,
+      "citations": 0.4
+     },
      "n_articles_cited": 5,
+     "scored": 690,
      "reached": true,
-     "steps_first": 3,
-     "steps_half": 11
+     "inspect_first": 3,
+     "inspect_half": 11
     }
    },
    "Q18": {
@@ -5494,6 +5756,7 @@
     "n_targets": 101,
     "pool": 213,
     "n_supernodes_scored": 116,
+    "n_labels_shown": 51,
     "ceiling": {
      "claims": {
       "attainable": 10,
@@ -5507,19 +5770,29 @@
     "hier": {
      "claims": 0.8,
      "citations": 0.25,
+     "end_to_end": {
+      "claims": 0.8,
+      "citations": 0.2
+     },
      "n_articles_cited": 4,
+     "scored": 329,
      "reached": true,
-     "steps_first": 118,
-     "steps_half": 118,
+     "inspect_first": 53,
+     "inspect_half": 53,
      "lost_at_level": null
     },
     "flat": {
      "claims": 0.8,
      "citations": 0.25,
+     "end_to_end": {
+      "claims": 0.8,
+      "citations": 0.2
+     },
      "n_articles_cited": 5,
+     "scored": 690,
      "reached": true,
-     "steps_first": 2,
-     "steps_half": 2
+     "inspect_first": 2,
+     "inspect_half": 2
     }
    }
   }

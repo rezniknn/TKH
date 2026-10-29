@@ -1523,6 +1523,8 @@
     }
    ],
    "n_supernodes_scored": 134,
+   "n_labels_shown": 39,
+   "n_leaves_scored": 301,
    "closest": {
     "0": [
      "L0.13",
@@ -1789,6 +1791,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00417",
@@ -3056,6 +3060,8 @@
     }
    ],
    "n_supernodes_scored": 114,
+   "n_labels_shown": 50,
+   "n_leaves_scored": 306,
    "closest": {
     "0": [
      "L0.20",
@@ -3342,6 +3348,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00222",
@@ -4583,6 +4591,8 @@
     }
    ],
    "n_supernodes_scored": 123,
+   "n_labels_shown": 42,
+   "n_leaves_scored": 457,
    "closest": {
     "0": [
      "L0.13",
@@ -4785,6 +4795,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00213",
@@ -6004,6 +6016,8 @@
     }
    ],
    "n_supernodes_scored": 128,
+   "n_labels_shown": 52,
+   "n_leaves_scored": 253,
    "closest": {
     "0": [
      "L0.13",
@@ -6284,6 +6298,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00388",
@@ -7635,6 +7651,8 @@
     }
    ],
    "n_supernodes_scored": 149,
+   "n_labels_shown": 54,
+   "n_leaves_scored": 370,
    "closest": {
     "0": [
      "L0.13",
@@ -7885,6 +7903,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00388",
@@ -9235,6 +9255,8 @@
     }
    ],
    "n_supernodes_scored": 133,
+   "n_labels_shown": 60,
+   "n_leaves_scored": 501,
    "closest": {
     "0": [
      "L0.19",
@@ -9493,6 +9515,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00239",
@@ -10641,6 +10665,8 @@
     }
    ],
    "n_supernodes_scored": 113,
+   "n_labels_shown": 52,
+   "n_leaves_scored": 423,
    "closest": {
     "0": [
      "L0.17",
@@ -10875,6 +10901,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00134",
@@ -12153,6 +12181,8 @@
     }
    ],
    "n_supernodes_scored": 126,
+   "n_labels_shown": 44,
+   "n_leaves_scored": 459,
    "closest": {
     "0": [
      "L0.13",
@@ -12427,6 +12457,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00230",
@@ -13775,6 +13807,8 @@
     }
    ],
    "n_supernodes_scored": 136,
+   "n_labels_shown": 70,
+   "n_leaves_scored": 499,
    "closest": {
     "0": [
      "L0.1",
@@ -14021,6 +14055,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00082",
@@ -15431,6 +15467,8 @@
     }
    ],
    "n_supernodes_scored": 147,
+   "n_labels_shown": 58,
+   "n_leaves_scored": 683,
    "closest": {
     "0": [
      "L0.13",
@@ -15697,6 +15735,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00372",
@@ -16767,6 +16807,8 @@
     }
    ],
    "n_supernodes_scored": 110,
+   "n_labels_shown": 49,
+   "n_leaves_scored": 503,
    "closest": {
     "0": [
      "L0.13",
@@ -16989,6 +17031,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00388",
@@ -18712,6 +18756,8 @@
     }
    ],
    "n_supernodes_scored": 123,
+   "n_labels_shown": 53,
+   "n_leaves_scored": 323,
    "closest": {
     "0": [
      "L0.13",
@@ -18980,6 +19026,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00075",
@@ -20303,6 +20351,8 @@
     }
    ],
    "n_supernodes_scored": 101,
+   "n_labels_shown": 45,
+   "n_leaves_scored": 530,
    "closest": {
     "0": [
      "L0.13",
@@ -20613,6 +20663,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00232",
@@ -22057,6 +22109,8 @@
     }
    ],
    "n_supernodes_scored": 100,
+   "n_labels_shown": 48,
+   "n_leaves_scored": 401,
    "closest": {
     "0": [
      "L0.13",
@@ -22339,6 +22393,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 2524,
    "closest": {
     "leaf": [
      "meth_00082",
@@ -23598,6 +23654,8 @@
     }
    ],
    "n_supernodes_scored": 104,
+   "n_labels_shown": 49,
+   "n_leaves_scored": 143,
    "closest": {
     "0": [
      "L0.13",
@@ -23731,6 +23789,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 690,
    "closest": {
     "leaf": [
      "clai_00357",
@@ -25150,6 +25210,8 @@
     }
    ],
    "n_supernodes_scored": 119,
+   "n_labels_shown": 48,
+   "n_leaves_scored": 103,
    "closest": {
     "0": [
      "L0.13",
@@ -25297,6 +25359,8 @@
    "snapshot_source": "default_latest",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 690,
    "closest": {
     "leaf": [
      "clai_00146",
@@ -27057,6 +27121,8 @@
     }
    ],
    "n_supernodes_scored": 150,
+   "n_labels_shown": 59,
+   "n_leaves_scored": 185,
    "closest": {
     "0": [
      "L0.18",
@@ -27211,6 +27277,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 690,
    "closest": {
     "leaf": [
      "clai_00354",
@@ -29450,6 +29518,8 @@
     }
    ],
    "n_supernodes_scored": 108,
+   "n_labels_shown": 42,
+   "n_leaves_scored": 228,
    "closest": {
     "0": [
      "L0.13",
@@ -29604,6 +29674,8 @@
    "snapshot_source": "stated",
    "trace": [],
    "n_supernodes_scored": 0,
+   "n_labels_shown": 0,
+   "n_leaves_scored": 690,
    "closest": {
     "leaf": [
      "clai_00233",
