@@ -1620,7 +1620,17 @@ accepted or changed, and what was checked.
 - **Issue found:** the pre-set rule recommends α = 1, which has no robust coherence cell. The perturbation guard
   compares each variant with the most robust one. Edge removal does not touch names, so the names-only variant is
   trivially robust (HARI 0.90) and excludes every other variant. The report's own §5 warns about exactly this
-  effect, and the rule contradicted it. The issue was raised with the user before changing the rule.
+  effect, and the rule contradicted it. The issue was raised with the user before changing the rule. At the user's
+  choice, the guards now compare with the default, which gives α = 0.75, and the revision is disclosed in §9.
+- **Adversarial review (21 agents):** an independent recomputation of all eight tables found no mismatch and no code
+  defect. Seven prose inaccuracies were confirmed and fixed:
+  - an α = 0 merge without a shared edge can still be carried by the temporal prior;
+  - the ruler shares no direct input with the score, rather than no signal at all;
+  - the claim that the default reproduces the main run is now a generated row of Table S1;
+  - how counts and the per-cell grid relate;
+  - the deciding count uses the exact filter;
+  - the evidence split is the same procedure, not paired;
+  - the future-work integration note.
 
 ## Case where the AI was wrong (§6a)
 

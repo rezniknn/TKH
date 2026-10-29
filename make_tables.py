@@ -415,6 +415,14 @@ def st_setup(w):
                                for x in w.runs.values()}))],
             ["Reference for paired comparisons", f"α = {w.ref:g} (the configured default)"],
             ["Significance level of all null tests", f"{ALPHA}"]]
+    main = w.dir.parent
+    if (main / "metrics.json").exists():
+        m = Run(main)
+        same = [c for c in r.cutoffs if (r.dir / c / "hierarchy.json").read_bytes() == (main / c / "hierarchy.json").read_bytes()]
+        secs = [k for k in r.m if r.m[k] == m.m.get(k)]
+        rows.append([f"Default variant against the main run ({main}/)",
+                     f"hierarchy.json identical at {len(same)} of {len(r.cutoffs)} snapshots; metrics.json sections "
+                     f"identical: {', '.join(secs) or 'none'} of {len(r.m)}"])
     return md(["Setting", "Value"], rows)
 
 
