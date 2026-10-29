@@ -1,0 +1,19 @@
+You compare two scientific papers on machine learning for materials science and chemistry by their titles and abstracts.
+
+Paper A
+Title: {title_a}
+Abstract: {abstract_a}
+
+Paper B
+Title: {title_b}
+Abstract: {abstract_b}
+
+How close are the two papers in research topic: the problem they address, the kind of method or model they develop or use, and the materials, properties or data they study? Rate on an integer scale from 0 to 10:
+- 0: unrelated topics.
+- 3: same broad field, but different problems and different kinds of methods.
+- 5: related problems or a shared kind of method, but clearly different research questions.
+- 8: closely related work, for example the same problem with different methods, or the same method family applied to related problems.
+- 10: the same problem studied with the same kind of approach.
+Judge only from the text above. Do not let the order of the papers, their length or their writing style affect the score.
+
+Answer with JSON only: {{"score": <integer 0-10>}}

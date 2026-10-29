@@ -7,7 +7,7 @@ PYTHON ?= .venv/bin/python
 OUT ?= out
 SEED ?= 0
 
-.PHONY: all test fixtures build validate null metrics sweep-summary tables coherence stability faithfulness retrieval figures gamma sweep
+.PHONY: all test fixtures build validate null metrics sweep-summary tables coherence stability faithfulness retrieval figures gamma sweep abstract-coherence
 .NOTPARALLEL:     # the checks read-modify-write the same metrics.json, so never run them concurrently (make -j)
 
 all: build validate metrics sweep-summary tables test
@@ -48,6 +48,9 @@ tables:          ## every table of docs/report.md and docs/alpha_sweep.md from $
 
 sweep-summary:   ## alpha_sweep section of $(OUT)/metrics.json from the existing runs in $(OUT)/sweep/ (offline, no rebuild)
 	if [ -d $(OUT)/sweep ]; then $(PYTHON) -m eval sweep --out $(OUT)/sweep --out-dir $(OUT) --summarise-only; fi
+
+abstract-coherence: ## extra check: phi4-rated closeness of paper abstracts within vs across L0 super-nodes -> eval/extra/ (offline from its cache)
+	$(PYTHON) -m eval.extra.abstract_coherence --run $(OUT)
 
 figures:         ## static PNGs of $(OUT)/metrics.json -> docs/figures/ (no recomputation)
 	$(PYTHON) -m eval.figures --run $(OUT) --out docs/figures

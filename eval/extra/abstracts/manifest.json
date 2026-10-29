@@ -1,0 +1,418 @@
+{
+ "5402": {
+  "title": "Materials Design and Discovery with High-Throughput Density Functional Theory: The Open Quantum Materials Database (OQMD)",
+  "status": "no abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Materials Design and Discovery with High-Throughput Density Functional Theory: The Open Quantum Materials Database (OQMD)",
+  "file": null
+ },
+ "5403": {
+  "title": "AFLOW: an automatic framework for high-throughput materials discovery",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "AFLOW: An automatic framework for high-throughput materials discovery",
+  "file": "5403.txt"
+ },
+ "5408": {
+  "title": "Commentary: The Materials Project: A materials genome approach to accelerating materials innovation",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Commentary: The Materials Project: A materials genome approach to accelerating materials innovation",
+  "file": "5408.txt"
+ },
+ "5452": {
+  "title": "The AFLOW Standard for High-Throughput Materials Science Calculations",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "The AFLOW Standard for High-Throughput Materials Science Calculations",
+  "file": "5452.txt"
+ },
+ "5451": {
+  "title": "Machine-learning based interatomic potential for amorphous carbon",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Machine-learning based interatomic potential for amorphous carbon",
+  "file": "5451.txt"
+ },
+ "4166": {
+  "title": "Neural Message Passing for Quantum Chemistry",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Neural Message Passing for Quantum Chemistry",
+  "file": "4166.txt"
+ },
+ "4167": {
+  "title": "SchNet: A continuous-filter convolutional neural network for modeling quantum interactions",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 0.951,
+  "returned_title": "MolecuLeNet: A continuous-filter convolutional neural network for modeling quantum interactions",
+  "file": "4167.txt"
+ },
+ "5392": {
+  "title": "Deep Potential Molecular Dynamics: a scalable model with the accuracy of quantum mechanics",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Deep Potential Molecular Dynamics: a scalable model with the accuracy of quantum mechanics",
+  "file": "5392.txt"
+ },
+ "5396": {
+  "title": "Crystal Graph Convolutional Neural Networks for an Accurate and Interpretable Prediction of Material Properties",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 0.986,
+  "returned_title": "Crystal Graph Convolutional Neural Networks for Accurate and Interpretable Prediction of Material Properties",
+  "file": "5396.txt"
+ },
+ "5404": {
+  "title": "Machine learning a general purpose interatomic potential for silicon",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Machine learning a general purpose interatomic potential for silicon",
+  "file": "5404.txt"
+ },
+ "5397": {
+  "title": "Graph Networks as a Universal Machine Learning Framework for Molecules and Crystals",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Graph Networks as a Universal Machine Learning Framework for Molecules and Crystals",
+  "file": "5397.txt"
+ },
+ "5435": {
+  "title": "Simulating diffusion properties of solid-state electrolytes via a neural network potential: Performance and training scheme",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Simulating diffusion properties of solid-state electrolytes via a neural network potential: Performance and training scheme",
+  "file": "5435.txt"
+ },
+ "5398": {
+  "title": "Atomic cluster expansion of scalar, vectorial and tensorial properties and including magnetism and charge transfer",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Atomic cluster expansion of scalar, vectorial and tensorial properties and including magnetism and charge transfer",
+  "file": "5398.txt"
+ },
+ "5400": {
+  "title": "The Joint Automated Repository for Various Integrated Simulations (JARVIS) for data-driven materials design",
+  "status": "retitled",
+  "source": "arXiv API (v1; title matches latest version)",
+  "title_similarity": 1.0,
+  "returned_title": "JARVIS: An Integrated Infrastructure for Data-driven Materials Design",
+  "file": "5400.txt"
+ },
+ "5406": {
+  "title": "Using Deep Learning to Predict Fracture Patterns in Crystalline Solids",
+  "status": "no abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Using Deep Learning to Predict Fracture Patterns in Crystalline Solids",
+  "file": null
+ },
+ "5445": {
+  "title": "Benchmarking Materials Property Prediction Methods: The Matbench Test Set and Automatminer Reference Algorithm",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Benchmarking Materials Property Prediction Methods: The Matbench Test Set and Automatminer Reference Algorithm",
+  "file": "5445.txt"
+ },
+ "5388": {
+  "title": "E(3)-Equivariant Graph Neural Networks for Data-Efficient and Accurate Interatomic Potentials",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "E(3)-equivariant graph neural networks for data-efficient and accurate interatomic potentials",
+  "file": "5388.txt"
+ },
+ "5381": {
+  "title": "General framework for E(3)-equivariant neural network representation of density functional theory Hamiltonian",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "General framework for E(3)-equivariant neural network representation of density functional theory Hamiltonian",
+  "file": "5381.txt"
+ },
+ "5390": {
+  "title": "A Universal Graph Deep Learning Interatomic Potential for the Periodic Table",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "A Universal Graph Deep Learning Interatomic Potential for the Periodic Table",
+  "file": "5390.txt"
+ },
+ "5393": {
+  "title": "Deep-Learning Density Functional Theory Hamiltonian for Efficient ab initio Electronic-Structure Calculation",
+  "status": "retitled",
+  "source": "arXiv API (v1; title matches latest version)",
+  "title_similarity": 1.0,
+  "returned_title": "Deep Neural Network Representation of Density Functional Theory Hamiltonian",
+  "file": "5393.txt"
+ },
+ "5399": {
+  "title": "Linking atomic structural defects to mesoscale properties in crystalline solids using graph neural networks",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Linking atomic structural defects to mesoscale properties in crystalline solids using graph neural networks",
+  "file": "5399.txt"
+ },
+ "5449": {
+  "title": "Large-scale machine-learning-assisted exploration of the whole materials space",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Large-scale machine-learning-assisted exploration of the whole materials space",
+  "file": "5449.txt"
+ },
+ "5380": {
+  "title": "MACE: Higher Order Equivariant Message Passing Neural Networks for Fast and Accurate Force Fields",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "MACE: Higher Order Equivariant Message Passing Neural Networks for Fast and Accurate Force Fields",
+  "file": "5380.txt"
+ },
+ "5383": {
+  "title": "GNN-Assisted Phase Space Integration with Application to Atomistics",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "GNN-assisted phase space integration with application to atomistics",
+  "file": "5383.txt"
+ },
+ "5386": {
+  "title": "Bridging scales with Machine Learning: From first principles statistical mechanics to continuum phase field computations to study order-disorder transitions in LixCoO2",
+  "status": "abstract",
+  "source": "arXiv (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Bridging scales with Machine Learning: From first principles statistical mechanics to continuum phase field computations to study order disorder transitions in LixCoO2",
+  "file": "5386.txt"
+ },
+ "5391": {
+  "title": "CHGNet: Pretrained universal neural network potential for charge-informed atomistic modeling",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "CHGNet: Pretrained universal neural network potential for charge-informed atomistic modeling",
+  "file": "5391.txt"
+ },
+ "5394": {
+  "title": "Deep-learning electronic-structure calculation of magnetic superstructures",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Deep-learning electronic-structure calculation of magnetic superstructures",
+  "file": "5394.txt"
+ },
+ "5395": {
+  "title": "D4FT: A DEEP LEARNING APPROACH TO KOHN-SHAM DENSITY FUNCTIONAL THEORY",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "D4FT: A Deep Learning Approach to Kohn-Sham Density Functional Theory",
+  "file": "5395.txt"
+ },
+ "5446": {
+  "title": "Virtual Node Graph Neural Network for Full Phonon Prediction",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Virtual Node Graph Neural Network for Full Phonon Prediction",
+  "file": "5446.txt"
+ },
+ "5448": {
+  "title": "DeePMD-kit v2: A software package for Deep Potential models",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "DeePMD-kit v2: A software package for Deep Potential models",
+  "file": "5448.txt"
+ },
+ "5450": {
+  "title": "Challenges and opportunities for machine learning in multiscale computational modeling",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Challenges and opportunities for machine learning in multiscale computational modeling",
+  "file": "5450.txt"
+ },
+ "5455": {
+  "title": "Scaling deep learning for materials discovery",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Scaling deep learning for materials discovery",
+  "file": "5455.txt"
+ },
+ "5382": {
+  "title": "Phonon predictions with E(3)-equivariant graph neural networks",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Phonon predictions with E(3)-equivariant graph neural networks",
+  "file": "5382.txt"
+ },
+ "5387": {
+  "title": "Matbench Discovery: A framework to evaluate machine learning crystal stability predictions",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Matbench Discovery -- A framework to evaluate machine learning crystal stability predictions",
+  "file": "5387.txt"
+ },
+ "5405": {
+  "title": "Universal Machine Learning Kohn-Sham Hamiltonian for Materials",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Universal Machine Learning Kohn-Sham Hamiltonian for Materials",
+  "file": "5405.txt"
+ },
+ "5439": {
+  "title": "Scalable Parallel Algorithm for Graph Neural Network Interatomic Potentials in Molecular Dynamics Simulations",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Scalable Parallel Algorithm for Graph Neural Network Interatomic Potentials in Molecular Dynamics Simulations",
+  "file": "5439.txt"
+ },
+ "5444": {
+  "title": "EQUIFORMERV2: IMPROVED EQUIVARIANT TRANSFORMER FOR SCALING TO HIGHER-DEGREE REPRESENTATIONS",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "EquiformerV2: Improved Equivariant Transformer for Scaling to Higher-Degree Representations",
+  "file": "5444.txt"
+ },
+ "5454": {
+  "title": "Discovering Melting Temperature Prediction Models of Inorganic Solids by Combining Supervised and Unsupervised Learning",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Discovering Melting Temperature Prediction Models of Inorganic Solids by Combining Supervised and Unsupervised Learning",
+  "file": "5454.txt"
+ },
+ "5384": {
+  "title": "Predicting ionic conductivity in solids from the machine-learned potential energy landscape",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Predicting ionic conductivity in solids from the machine-learned potential energy landscape",
+  "file": "5384.txt"
+ },
+ "5385": {
+  "title": "Machine Learning-Guided Discovery of Temperature-Induced Solid-Solid Phase Transitions in Inorganic Materials",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Machine Learning-Guided Discovery of Temperature-Induced Solid-Solid Phase Transitions in Inorganic Materials",
+  "file": "5385.txt"
+ },
+ "5389": {
+  "title": "A SURVEY OF AI FOR MATERIALS SCIENCE: FOUNDATION MODELS, LLM AGENTS, DATASETS, AND TOOLS",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "A Survey of AI for Materials Science: Foundation Models, LLM Agents, Datasets, and Tools",
+  "file": "5389.txt"
+ },
+ "5401": {
+  "title": "A Foundational Potential Energy Surface Dataset for Materials",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "A Foundational Potential Energy Surface Dataset for Materials",
+  "file": "5401.txt"
+ },
+ "5407": {
+  "title": "Flow Matching for Accelerated Simulation of Atomic Transport in Crystalline Materials",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 0.924,
+  "returned_title": "Flow Matching for Accelerated Simulation of Atomic Transport in Materials",
+  "file": "5407.txt"
+ },
+ "5441": {
+  "title": "Orb-v3: atomistic simulation at scale",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Orb-v3: atomistic simulation at scale",
+  "file": "5441.txt"
+ },
+ "5447": {
+  "title": "Evaluation of Foundational Machine Learned Interatomic Potentials for Migration Barrier Predictions",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Evaluation of Foundational Machine Learned Interatomic Potentials for Migration Barrier Predictions",
+  "file": "5447.txt"
+ },
+ "5453": {
+  "title": "Machine Learning Interatomic Potentials: A Review and Framework for Understanding MLIPs",
+  "status": "id mismatch",
+  "source": null,
+  "title_similarity": 0.0,
+  "returned_title": null,
+  "file": null
+ },
+ "5379": {
+  "title": "Artificial Intelligence for Multiscale Modeling in Solid-State Physics and Chemistry: A Comprehensive Review",
+  "status": "abstract",
+  "source": "OpenAlex (title search)",
+  "title_similarity": 1.0,
+  "returned_title": "Artificial Intelligence for Multiscale Modeling in Solid‐State Physics and Chemistry: A Comprehensive Review",
+  "file": "5379.txt"
+ },
+ "5437": {
+  "title": "LEARNING INTER-ATOMIC POTENTIALS WITHOUT EXPLICIT EQUIVARIANCE",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Learning Inter-Atomic Potentials without Explicit Equivariance",
+  "file": "5437.txt"
+ },
+ "5438": {
+  "title": "Generalization of Long-Range Machine Learning Potentials in Complex Chemical Spaces",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Generalization of Long-Range Machine Learning Potentials in Complex Chemical Spaces",
+  "file": "5438.txt"
+ },
+ "5440": {
+  "title": "Pushing the limits of unconstrained machine-learned interatomic potentials",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Pushing the limits of unconstrained machine-learned interatomic potentials",
+  "file": "5440.txt"
+ },
+ "5442": {
+  "title": "Open Materials 2024 (OMat24) Inorganic Materials Dataset and Models",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "Open Materials 2024 (OMat24) Inorganic Materials Dataset and Models",
+  "file": "5442.txt"
+ },
+ "5443": {
+  "title": "UMA: A Family of Universal Models for Atoms",
+  "status": "abstract",
+  "source": "arXiv API (v1)",
+  "title_similarity": 1.0,
+  "returned_title": "UMA: A Family of Universal Models for Atoms",
+  "file": "5443.txt"
+ }
+}

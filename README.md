@@ -163,6 +163,7 @@ make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
 .venv/bin/python -m tkh build --out /tmp/alt --budgets 10 40 160 640 --param rho=4
 make null SEED=3                             # one null-model run, validated against its own graph
 make sweep                                   # alpha = 0 ... 1, rest at defaults: full run + four checks each -> out/sweep/; comparison -> out/metrics.json "alpha_sweep"
+make abstract-coherence                      # extra: LLM-rated abstract closeness within vs across L0 super-nodes -> eval/extra/REPORT.md
 ```
 
 Parameters (`alpha`, `gamma`, `rho`, `edge_weight`, `hub_frac`, `lsa_dim`) live in `[method]` of

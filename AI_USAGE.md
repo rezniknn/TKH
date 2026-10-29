@@ -1790,6 +1790,34 @@ accepted or changed, and what was checked.
   80% point of the name ranks outranks every unlinked pair, including identical names. Structure therefore decides
   the merge order at the finest level despite α = 0.75. Examples are now chosen by concept-node count.
 
+### 54. Extra evaluation: L0 coherence on paper abstracts, rated pairwise by phi4 (Claude Code)
+
+- **Task/module:** `eval/extra/` (new): `abstract_coherence.py`, `pair_prompt.txt`, `abstracts/`, `llm_cache.json`,
+  `results.json`, `abstract_coherence.png`, `REPORT.md`; plus a `Makefile` target and a README line
+- **Prompt:** implement an additional evaluation of semantic coherence from downloaded paper abstracts, on the latest
+  snapshot only:
+  - store the abstracts as plain text in `eval/extra`, downloading them only if missing;
+  - rate the semantic closeness of every paper pair with an open-source LLM, cached for offline use, with the
+    offline cache as the default;
+  - split the mean closeness by pairs in the same L0 super-node and pairs in different ones;
+  - write a short report.
+
+  The user chose phi4 as the rater, one order per pair, and all outputs in `eval/extra`.
+- **What the assistant did:**
+  - Each paper is attributed to the L0 super-node of its article node. 49 of 52 abstracts were downloaded,
+    title-verified, from arXiv v1 or OpenAlex (`tkh/abstracts.py`).
+  - 1,176 pairs were rated live with phi4 (temperature 0), with its own cache.
+  - The statistics: within vs across, a paper-cluster bootstrap CI, a permutation null with group sizes fixed,
+    leave-one-super-node-out differences, and per-super-node means.
+  - The report's tables are generated from `results.json`, `--check` keeps them current, and the conclusions quote
+    no values.
+- **Verified:**
+  - an offline re-run reproduces `results.json` byte-identically with 0 live calls, and `--check` passes;
+  - within + across = C(49, 2), with no unparsable answers;
+  - `out/` is untouched, `make test` passes (65), and `make_tables.py --check` passes.
+- **Issues found and fixed during the run:** the manifest had NaN for missing fields, which made it invalid JSON. The
+  rater's coarse use of the scale (mostly the prompt's anchors) is now reported as a caveat.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
