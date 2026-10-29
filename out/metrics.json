@@ -5481,5 +5481,2843 @@
     }
    }
   }
+ },
+ "alpha_sweep": {
+  "protocol": {
+   "alphas": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+   ],
+   "reference": 0.5,
+   "cutoffs": [
+    2020,
+    2022,
+    2024,
+    2026
+   ],
+   "fixed": {
+    "gamma": 0.5,
+    "rho": 2.0,
+    "edge_weight": "relation_balanced",
+    "hub_frac": 0.2,
+    "lsa_dim": 100
+   },
+   "budgets": [
+    15,
+    60,
+    240
+   ],
+   "runs": {
+    "0": "sweep/0",
+    "0.25": "sweep/0.25",
+    "0.5": "sweep/0.5",
+    "0.75": "sweep/0.75",
+    "1": "sweep/1"
+   },
+   "main_run": {
+    "alpha": 0.75,
+    "hierarchy_identical": 4,
+    "snapshots": 4,
+    "sections_identical": [
+     "coherence",
+     "stability",
+     "faithfulness",
+     "retrieval"
+    ],
+    "sections": 4
+   }
+  },
+  "variants": {
+   "0": {
+    "protocol": {
+     "coherence": {
+      "R": 99,
+      "R_labels": 999
+     },
+     "stability": {
+      "frac": 0.1,
+      "seeds": [
+       0,
+       1,
+       2,
+       3,
+       4
+      ],
+      "R": 99,
+      "n_sub": 200
+     },
+     "labels": {
+      "labeller_model": "qwen2.5:7b-instruct",
+      "judge_model": "phi4"
+     },
+     "retrieval": {
+      "beam": [
+       10,
+       20,
+       40
+      ],
+      "k": 10
+     }
+    },
+    "coherence": {
+     "cells": {
+      "2020": [
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 1,
+         "lift": 0.8054852870801557,
+         "ci95": [
+          0.0,
+          1.798195059246588
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 3,
+         "lift": 1.399842317644105,
+         "ci95": [
+          0.0,
+          3.4790882505878655
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.0,
+         "ci95": [
+          0.0,
+          0.0
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.0,
+         "ci95": [
+          0.0,
+          0.0
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "undefined",
+         "schemes_passed": 0,
+         "lift": null,
+         "ci95": [
+          null,
+          null
+         ]
+        },
+        "fuzzy": {
+         "verdict": "undefined",
+         "schemes_passed": 0,
+         "lift": null,
+         "ci95": [
+          null,
+          null
+         ]
+        }
+       }
+      ],
+      "2022": [
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.8890313977524839,
+         "ci95": [
+          0.09625167365975987,
+          1.7769926716464772
+         ]
+        },
+        "fuzzy": {
+         "verdict": "significant, 4/5 schemes",
+         "schemes_passed": 4,
+         "lift": 1.3146243679589853,
+         "ci95": [
+          0.04471978938151875,
+          2.340038742069993
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.35912986618504195,
+         "ci95": [
+          0.0,
+          2.8518349542307972
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (3/5 schemes)",
+         "schemes_passed": 3,
+         "lift": 0.6273552005884997,
+         "ci95": [
+          0.0,
+          3.0456134014981586
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.0,
+         "ci95": [
+          0.0,
+          0.0
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.0,
+         "ci95": [
+          0.0,
+          0.0
+         ]
+        }
+       }
+      ],
+      "2024": [
+       {
+        "exact": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 0.6739716097774916,
+         "ci95": [
+          0.1280769177504228,
+          2.0214859524172746
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 0.8926749550580009,
+         "ci95": [
+          0.16722928991160135,
+          2.1489477006060436
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 2.38257382886196,
+         "ci95": [
+          0.01053054358137051,
+          6.529347075528799
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 2.599320123178406,
+         "ci95": [
+          0.0,
+          5.647588908274957
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.03792611004629478,
+         "ci95": [
+          0.0,
+          2.5440854059506894
+         ]
+        },
+        "fuzzy": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.04080230565155227,
+         "ci95": [
+          0.0,
+          1.875122300393857
+         ]
+        }
+       }
+      ],
+      "2026": [
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.92946470877144,
+         "ci95": [
+          0.42426188443421364,
+          1.6711237699291444
+         ]
+        },
+        "fuzzy": {
+         "verdict": "significant, 4/5 schemes",
+         "schemes_passed": 4,
+         "lift": 1.0703699025952715,
+         "ci95": [
+          0.6372340503870658,
+          2.02627597687256
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.82718589765781,
+         "ci95": [
+          0.29663746158166515,
+          3.7585725339974716
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.9676605292846405,
+         "ci95": [
+          0.28649564546647366,
+          4.675207569198477
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (3/5 schemes)",
+         "schemes_passed": 3,
+         "lift": 1.068849199100694,
+         "ci95": [
+          0.10810178985379998,
+          4.396251478868416
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (3/5 schemes)",
+         "schemes_passed": 3,
+         "lift": 1.1012639173144474,
+         "ci95": [
+          0.0,
+          3.805354675561537
+         ]
+        }
+       }
+      ]
+     },
+     "n_cells": 12,
+     "robust": {
+      "exact": [
+       "\u22642024 L1",
+       "\u22642026 L1"
+      ],
+      "fuzzy": [
+       "\u22642024 L1",
+       "\u22642026 L1"
+      ]
+     },
+     "below": {
+      "exact": [
+       "\u22642024 L2"
+      ],
+      "fuzzy": [
+       "\u22642024 L2"
+      ]
+     }
+    },
+    "stability": {
+     "perturbation_hari": {
+      "2020": {
+       "mean": 0.538914601496006,
+       "lo": 0.4601769865752575,
+       "hi": 0.6176522164167545,
+       "n": 5
+      },
+      "2022": {
+       "mean": 0.36354776724283056,
+       "lo": 0.32657352711139526,
+       "hi": 0.40052200737426585,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.23708495850333522,
+       "lo": 0.21686815526910272,
+       "hi": 0.25730176173756775,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.22393410545139064,
+       "lo": 0.19923270396790654,
+       "hi": 0.24863550693487474,
+       "n": 5
+      }
+     },
+     "above_null": [
+      2,
+      12
+     ],
+     "localised": [
+      7,
+      9
+     ],
+     "untouched_share": [
+      0.8778435909356903,
+      0.9456180860803707
+     ]
+    },
+    "faithfulness": {
+     "over_claim": {
+      "value": 0.5243055555555556,
+      "ci95": [
+       0.4652777777777778,
+       0.5833333333333334
+      ],
+      "n": 288
+     },
+     "by_level": {
+      "L0": {
+       "value": 0.45,
+       "ci95": [
+        0.3333333333333333,
+        0.5833333333333334
+       ],
+       "n": 60
+      },
+      "L1": {
+       "value": 0.543859649122807,
+       "ci95": [
+        0.4824561403508772,
+        0.6053728070175433
+       ],
+       "n": 228
+      }
+     },
+     "claim_unsupported": 0.4325452016689847,
+     "named_non_member": 41
+    },
+    "retrieval": {
+     "summary": {
+      "A": {
+       "methods": {
+        "n": 12,
+        "hier": 0.17023809523809522,
+        "flat": 0.29523809523809524,
+        "hier_minus_flat": -0.125
+       },
+       "method_claims": {
+        "n": 9,
+        "hier": 0.16666666666666666,
+        "flat": 0.3055555555555556,
+        "hier_minus_flat": -0.1388888888888889
+       },
+       "citations": {
+        "n": 14,
+        "hier": 0.5812074829931974,
+        "flat": 0.5778061224489796,
+        "hier_minus_flat": 0.003401360544217691
+       },
+       "error_rate": {
+        "n": 12,
+        "hier": 0.03333333333333333,
+        "flat": 0.03333333333333333,
+        "hier_minus_flat": 0.0
+       },
+       "reached": {
+        "n": 12,
+        "hier": 0.6666666666666666,
+        "flat": 1.0,
+        "hier_minus_flat": -0.3333333333333333
+       },
+       "steps_first": {
+        "n": 12,
+        "hier": 154.5,
+        "flat": 10.5,
+        "hier_minus_flat": 133.0
+       },
+       "steps_half": {
+        "n": 12,
+        "hier": 438.5,
+        "flat": 28.5,
+        "hier_minus_flat": 415.0
+       }
+      },
+      "B": {
+       "claims": {
+        "n": 4,
+        "hier": 0.48968253968253966,
+        "flat": 0.5432539682539683,
+        "hier_minus_flat": -0.05357142857142856
+       },
+       "citations": {
+        "n": 4,
+        "hier": 0.3125,
+        "flat": 0.375,
+        "hier_minus_flat": -0.0625
+       },
+       "reached": {
+        "n": 4,
+        "hier": 0.75,
+        "flat": 1.0,
+        "hier_minus_flat": -0.25
+       },
+       "steps_first": {
+        "n": 4,
+        "hier": 137.0,
+        "flat": 2.0,
+        "hier_minus_flat": 134.5
+       },
+       "steps_half": {
+        "n": 4,
+        "hier": 425.5,
+        "flat": 6.5,
+        "hier_minus_flat": 409.0
+       }
+      }
+     },
+     "favour": {
+      "drill-down": 1,
+      "flat": 10,
+      "tie": 1
+     }
+    },
+    "tree": {
+     "last": [
+      {
+       "merges": 45,
+       "linked": 40,
+       "max_size": 526,
+       "cap": 530.67,
+       "singletons": 6
+      },
+      {
+       "merges": 180,
+       "linked": 174,
+       "max_size": 132,
+       "cap": 132.67,
+       "singletons": 11
+      },
+      {
+       "merges": 3740,
+       "linked": 3706,
+       "max_size": 33,
+       "cap": 33.17,
+       "singletons": 58
+      }
+     ],
+     "ari_vs_reference": {
+      "2020": [
+       0.5549251903268142,
+       0.6476659507629653,
+       0.4155786216757681
+      ],
+      "2022": [
+       0.3065054826649156,
+       0.5094694713982656,
+       0.47156983618487464
+      ],
+      "2024": [
+       0.12222900592896983,
+       0.3026259814489269,
+       0.4629797629048072
+      ],
+      "2026": [
+       0.07099886140963298,
+       0.2296747424301525,
+       0.4818142447983548
+      ]
+     }
+    },
+    "paired": {
+     "perturbation": {
+      "2020": {
+       "mean": -0.04079151029986304,
+       "lo": -0.10189411415207067,
+       "hi": 0.02031109355234459,
+       "n": 5
+      },
+      "2022": {
+       "mean": 0.004347492043186396,
+       "lo": -0.036593115003871364,
+       "hi": 0.04528809909024415,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.03340924221450957,
+       "lo": 0.004555022266240806,
+       "hi": 0.06226346216277833,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.05234541062073313,
+       "lo": 0.024653026309530802,
+       "hi": 0.08003779493193545,
+       "n": 5
+      }
+     },
+     "cross_snapshot": {
+      "2020-2022": {
+       "mean": -0.06963000335518471,
+       "ci95": [
+        -0.09950956933840234,
+        -0.03400049558346345
+       ]
+      },
+      "2022-2024": {
+       "mean": -0.10897389617944504,
+       "ci95": [
+        -0.13698165262423456,
+        -0.07732770310366247
+       ]
+      },
+      "2024-2026": {
+       "mean": -0.032973882945701645,
+       "ci95": [
+        -0.051155279190094625,
+        -0.015451247418917376
+       ]
+      }
+     }
+    }
+   },
+   "0.25": {
+    "protocol": {
+     "coherence": {
+      "R": 99,
+      "R_labels": 999
+     },
+     "stability": {
+      "frac": 0.1,
+      "seeds": [
+       0,
+       1,
+       2,
+       3,
+       4
+      ],
+      "R": 99,
+      "n_sub": 200
+     },
+     "labels": {
+      "labeller_model": "qwen2.5:7b-instruct",
+      "judge_model": "phi4"
+     },
+     "retrieval": {
+      "beam": [
+       10,
+       20,
+       40
+      ],
+      "k": 10
+     }
+    },
+    "coherence": {
+     "cells": {
+      "2020": [
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 4,
+         "lift": 0.973025790887654,
+         "ci95": [
+          0.013053144218285007,
+          5.361431227906765
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 4,
+         "lift": 1.0220891917510144,
+         "ci95": [
+          0.0003249211564947808,
+          4.766646185021164
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.0,
+         "ci95": [
+          0.0,
+          0.0
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.0,
+         "ci95": [
+          0.0,
+          0.0
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "undefined",
+         "schemes_passed": 0,
+         "lift": null,
+         "ci95": [
+          null,
+          null
+         ]
+        },
+        "fuzzy": {
+         "verdict": "undefined",
+         "schemes_passed": 0,
+         "lift": null,
+         "ci95": [
+          null,
+          null
+         ]
+        }
+       }
+      ],
+      "2022": [
+       {
+        "exact": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.4345391017010274,
+         "ci95": [
+          0.0,
+          1.147363216787937
+         ]
+        },
+        "fuzzy": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.4935156641506408,
+         "ci95": [
+          0.0,
+          1.2595061075194012
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.1623065055207718,
+         "ci95": [
+          0.0,
+          2.227195096500927
+         ]
+        },
+        "fuzzy": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.16220374832343806,
+         "ci95": [
+          0.0,
+          2.0422373898011332
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.50867264929458,
+         "ci95": [
+          0.0,
+          3.5201574906726947
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 1.1849174063413284,
+         "ci95": [
+          0.0,
+          3.198946128371567
+         ]
+        }
+       }
+      ],
+      "2024": [
+       {
+        "exact": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 0.7913931791734106,
+         "ci95": [
+          0.027345784225329236,
+          2.1977843766612177
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.6967646208498329,
+         "ci95": [
+          0.03506230425763922,
+          1.9580381053713731
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "significant, 4/5 schemes",
+         "schemes_passed": 4,
+         "lift": 1.6468462591967126,
+         "ci95": [
+          0.012595948611219206,
+          4.370106242266099
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.5257692119135096,
+         "ci95": [
+          0.07601496076149573,
+          4.025140466246533
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.9445136909069096,
+         "ci95": [
+          0.0,
+          2.1998679356632342
+         ]
+        },
+        "fuzzy": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.7679495028847464,
+         "ci95": [
+          0.0,
+          2.396165815097117
+         ]
+        }
+       }
+      ],
+      "2026": [
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.0864806199352066,
+         "ci95": [
+          0.41175424913962816,
+          2.095122741333355
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.2335601485138747,
+         "ci95": [
+          0.5496428897082839,
+          2.3195974207271126
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.3859216391651417,
+         "ci95": [
+          0.17518462807546445,
+          2.5136618986736528
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.6094248717470634,
+         "ci95": [
+          0.213321377302726,
+          3.0375503059398774
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.8606741004060492,
+         "ci95": [
+          0.17687537468495945,
+          2.0348946943878015
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 1.0408592194494963,
+         "ci95": [
+          0.060065861283120914,
+          2.119975354144865
+         ]
+        }
+       }
+      ]
+     },
+     "n_cells": 12,
+     "robust": {
+      "exact": [
+       "\u22642022 L2",
+       "\u22642026 L0",
+       "\u22642026 L1"
+      ],
+      "fuzzy": [
+       "\u22642024 L1",
+       "\u22642026 L0",
+       "\u22642026 L1"
+      ]
+     },
+     "below": {
+      "exact": [
+       "\u22642022 L0",
+       "\u22642022 L1"
+      ],
+      "fuzzy": [
+       "\u22642022 L0",
+       "\u22642022 L1",
+       "\u22642024 L2"
+      ]
+     }
+    },
+    "stability": {
+     "perturbation_hari": {
+      "2020": {
+       "mean": 0.6093144696643426,
+       "lo": 0.572051338203743,
+       "hi": 0.6465776011249421,
+       "n": 5
+      },
+      "2022": {
+       "mean": 0.393158940215616,
+       "lo": 0.3376689756161669,
+       "hi": 0.4486489048150651,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.24590959690924805,
+       "lo": 0.23232708056862042,
+       "hi": 0.2594921132498757,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.1842467382105311,
+       "lo": 0.16954521807117898,
+       "hi": 0.19894825834988325,
+       "n": 5
+      }
+     },
+     "above_null": [
+      2,
+      12
+     ],
+     "localised": [
+      9,
+      9
+     ],
+     "untouched_share": [
+      0.8076616644484003,
+      0.9129684404551422
+     ]
+    },
+    "faithfulness": {
+     "over_claim": {
+      "value": 0.5333333333333333,
+      "ci95": [
+       0.4766666666666667,
+       0.59
+      ],
+      "n": 300
+     },
+     "by_level": {
+      "L0": {
+       "value": 0.35,
+       "ci95": [
+        0.23333333333333334,
+        0.4666666666666667
+       ],
+       "n": 60
+      },
+      "L1": {
+       "value": 0.5791666666666667,
+       "ci95": [
+        0.5166666666666667,
+        0.6416666666666667
+       ],
+       "n": 240
+      }
+     },
+     "claim_unsupported": 0.4135135135135135,
+     "named_non_member": 37
+    },
+    "retrieval": {
+     "summary": {
+      "A": {
+       "methods": {
+        "n": 12,
+        "hier": 0.3223214285714286,
+        "flat": 0.29523809523809524,
+        "hier_minus_flat": 0.027083333333333334
+       },
+       "method_claims": {
+        "n": 9,
+        "hier": 0.2777777777777778,
+        "flat": 0.3055555555555556,
+        "hier_minus_flat": -0.027777777777777776
+       },
+       "citations": {
+        "n": 14,
+        "hier": 0.5579648526077098,
+        "flat": 0.5778061224489796,
+        "hier_minus_flat": -0.019841269841269844
+       },
+       "error_rate": {
+        "n": 12,
+        "hier": 0.025000000000000005,
+        "flat": 0.03333333333333333,
+        "hier_minus_flat": -0.008333333333333333
+       },
+       "reached": {
+        "n": 12,
+        "hier": 0.8333333333333334,
+        "flat": 1.0,
+        "hier_minus_flat": -0.16666666666666666
+       },
+       "steps_first": {
+        "n": 12,
+        "hier": 148.0,
+        "flat": 10.5,
+        "hier_minus_flat": 130.0
+       },
+       "steps_half": {
+        "n": 12,
+        "hier": 269.5,
+        "flat": 28.5,
+        "hier_minus_flat": 142.0
+       }
+      },
+      "B": {
+       "claims": {
+        "n": 4,
+        "hier": 0.6146825396825397,
+        "flat": 0.5432539682539683,
+        "hier_minus_flat": 0.07142857142857144
+       },
+       "citations": {
+        "n": 4,
+        "hier": 0.4375,
+        "flat": 0.375,
+        "hier_minus_flat": 0.0625
+       },
+       "reached": {
+        "n": 4,
+        "hier": 1.0,
+        "flat": 1.0,
+        "hier_minus_flat": 0.0
+       },
+       "steps_first": {
+        "n": 4,
+        "hier": 133.0,
+        "flat": 2.0,
+        "hier_minus_flat": 131.0
+       },
+       "steps_half": {
+        "n": 4,
+        "hier": 150.5,
+        "flat": 6.5,
+        "hier_minus_flat": 144.0
+       }
+      }
+     },
+     "favour": {
+      "drill-down": 4,
+      "flat": 7,
+      "tie": 1
+     }
+    },
+    "tree": {
+     "last": [
+      {
+       "merges": 45,
+       "linked": 44,
+       "max_size": 520,
+       "cap": 530.67,
+       "singletons": 0
+      },
+      {
+       "merges": 180,
+       "linked": 175,
+       "max_size": 131,
+       "cap": 132.67,
+       "singletons": 0
+      },
+      {
+       "merges": 3740,
+       "linked": 3628,
+       "max_size": 33,
+       "cap": 33.17,
+       "singletons": 3
+      }
+     ],
+     "ari_vs_reference": {
+      "2020": [
+       0.6104808089134678,
+       0.7092258224879365,
+       0.9203854916097407
+      ],
+      "2022": [
+       0.3737389273537717,
+       0.5632937442167745,
+       0.8047154436172275
+      ],
+      "2024": [
+       0.19593030743280845,
+       0.34449157524791657,
+       0.6534445299693593
+      ],
+      "2026": [
+       0.1291824277745945,
+       0.2695765555303489,
+       0.6092215010078889
+      ]
+     }
+    },
+    "paired": {
+     "perturbation": {
+      "2020": {
+       "mean": 0.02960835786847349,
+       "lo": -0.03613284573395495,
+       "hi": 0.09534956147090193,
+       "n": 5
+      },
+      "2022": {
+       "mean": 0.03395866501597179,
+       "lo": -0.035638603018237125,
+       "hi": 0.10355593305018071,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.042233880620422395,
+       "lo": 0.0117637032805171,
+       "hi": 0.0727040579603277,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.012658043379873595,
+       "lo": -0.00574613756685852,
+       "hi": 0.03106222432660571,
+       "n": 5
+      }
+     },
+     "cross_snapshot": {
+      "2020-2022": {
+       "mean": -0.01973299902836159,
+       "ci95": [
+        -0.051521257324759574,
+        0.009942982212096226
+       ]
+      },
+      "2022-2024": {
+       "mean": -0.02050849185056034,
+       "ci95": [
+        -0.04664001498948577,
+        0.007183411208252678
+       ]
+      },
+      "2024-2026": {
+       "mean": -0.06274234578890937,
+       "ci95": [
+        -0.07991257258704736,
+        -0.043669958537149695
+       ]
+      }
+     }
+    }
+   },
+   "0.5": {
+    "protocol": {
+     "coherence": {
+      "R": 99,
+      "R_labels": 999
+     },
+     "stability": {
+      "frac": 0.1,
+      "seeds": [
+       0,
+       1,
+       2,
+       3,
+       4
+      ],
+      "R": 99,
+      "n_sub": 200
+     },
+     "labels": {
+      "labeller_model": "qwen2.5:7b-instruct",
+      "judge_model": "phi4"
+     },
+     "retrieval": {
+      "beam": [
+       10,
+       20,
+       40
+      ],
+      "k": 10
+     }
+    },
+    "coherence": {
+     "cells": {
+      "2020": [
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.03397624559838907,
+         "ci95": [
+          0.0015558683449110604,
+          4.930766549491852
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.03821970810157349,
+         "ci95": [
+          8.184533925468423e-05,
+          4.028596737286239
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 3,
+         "lift": 0.15520135045828956,
+         "ci95": [
+          0.0,
+          6.975929466596779
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 4,
+         "lift": 0.136247367114436,
+         "ci95": [
+          0.0,
+          9.048054212073202
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "undefined",
+         "schemes_passed": 0,
+         "lift": null,
+         "ci95": [
+          null,
+          null
+         ]
+        },
+        "fuzzy": {
+         "verdict": "undefined",
+         "schemes_passed": 0,
+         "lift": null,
+         "ci95": [
+          null,
+          null
+         ]
+        }
+       }
+      ],
+      "2022": [
+       {
+        "exact": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.5503712121299194,
+         "ci95": [
+          0.050189273731202744,
+          2.1823375637569464
+         ]
+        },
+        "fuzzy": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.8113746785720088,
+         "ci95": [
+          0.05330362329634602,
+          2.4182751471357524
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 1.0585488146939586,
+         "ci95": [
+          0.25987220439363146,
+          3.2002344994616223
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.8412012879386097,
+         "ci95": [
+          0.2623549743536422,
+          3.6495188377601573
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 0.986535749808327,
+         "ci95": [
+          0.46569176612488555,
+          2.6676032953972055
+         ]
+        },
+        "fuzzy": {
+         "verdict": "significant, 1/5 schemes",
+         "schemes_passed": 1,
+         "lift": 1.5604396088664052,
+         "ci95": [
+          0.6509821480069522,
+          3.200529573311625
+         ]
+        }
+       }
+      ],
+      "2024": [
+       {
+        "exact": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.8254303043350167,
+         "ci95": [
+          0.35279077229565237,
+          1.5442046643421128
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.919212442993957,
+         "ci95": [
+          0.442602471741556,
+          1.5525762526370745
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "significant, 4/5 schemes",
+         "schemes_passed": 4,
+         "lift": 1.3186364644808906,
+         "ci95": [
+          0.3771385767164167,
+          2.247486537474242
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.6358068165435373,
+         "ci95": [
+          0.4484340137235375,
+          2.925545486987576
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.8564757126932694,
+         "ci95": [
+          0.34823393352903703,
+          3.172478860134913
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 2.0197814781750942,
+         "ci95": [
+          0.4653093376582555,
+          3.507418373020121
+         ]
+        }
+       }
+      ],
+      "2026": [
+       {
+        "exact": {
+         "verdict": "below both nulls",
+         "schemes_passed": 0,
+         "lift": 0.8790656085283042,
+         "ci95": [
+          0.5323869421899597,
+          1.2506049448443033
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.9723949120467013,
+         "ci95": [
+          0.6756565354052012,
+          1.390497220069638
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.3142528585313902,
+         "ci95": [
+          0.5411008692513358,
+          1.9998039198998088
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.5036996599852133,
+         "ci95": [
+          0.8563111240958011,
+          2.416455466967633
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.5680453712973665,
+         "ci95": [
+          0.4263736228702016,
+          2.62751034355535
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.8453265269659562,
+         "ci95": [
+          0.7045556417444344,
+          2.886178449730914
+         ]
+        }
+       }
+      ]
+     },
+     "n_cells": 12,
+     "robust": {
+      "exact": [
+       "\u22642024 L2",
+       "\u22642026 L1",
+       "\u22642026 L2"
+      ],
+      "fuzzy": [
+       "\u22642022 L1",
+       "\u22642024 L1",
+       "\u22642024 L2",
+       "\u22642026 L1",
+       "\u22642026 L2"
+      ]
+     },
+     "below": {
+      "exact": [
+       "\u22642022 L0",
+       "\u22642024 L0",
+       "\u22642026 L0"
+      ],
+      "fuzzy": [
+       "\u22642022 L0"
+      ]
+     }
+    },
+    "stability": {
+     "perturbation_hari": {
+      "2020": {
+       "mean": 0.5797061117958691,
+       "lo": 0.5408321374274925,
+       "hi": 0.6185800861642456,
+       "n": 5
+      },
+      "2022": {
+       "mean": 0.3592002751996442,
+       "lo": 0.31559819836939645,
+       "hi": 0.40280235202989195,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.20367571628882564,
+       "lo": 0.176967298214969,
+       "hi": 0.23038413436268226,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.1715886948306575,
+       "lo": 0.15886305900295467,
+       "hi": 0.18431433065836034,
+       "n": 5
+      }
+     },
+     "above_null": [
+      1,
+      12
+     ],
+     "localised": [
+      9,
+      9
+     ],
+     "untouched_share": [
+      0.7788259843933107,
+      0.8862805002577288
+     ]
+    },
+    "faithfulness": {
+     "over_claim": {
+      "value": 0.581081081081081,
+      "ci95": [
+       0.5236486486486487,
+       0.6351351351351351
+      ],
+      "n": 296
+     },
+     "by_level": {
+      "L0": {
+       "value": 0.36666666666666664,
+       "ci95": [
+        0.25,
+        0.48333333333333334
+       ],
+       "n": 60
+      },
+      "L1": {
+       "value": 0.635593220338983,
+       "ci95": [
+        0.5720338983050848,
+        0.6949152542372882
+       ],
+       "n": 236
+      }
+     },
+     "claim_unsupported": 0.45178335535006603,
+     "named_non_member": 33
+    },
+    "retrieval": {
+     "summary": {
+      "A": {
+       "methods": {
+        "n": 12,
+        "hier": 0.27499999999999997,
+        "flat": 0.29523809523809524,
+        "hier_minus_flat": -0.02023809523809524
+       },
+       "method_claims": {
+        "n": 9,
+        "hier": 0.25,
+        "flat": 0.3055555555555556,
+        "hier_minus_flat": -0.05555555555555555
+       },
+       "citations": {
+        "n": 14,
+        "hier": 0.6567460317460317,
+        "flat": 0.5778061224489796,
+        "hier_minus_flat": 0.07893990929705216
+       },
+       "error_rate": {
+        "n": 12,
+        "hier": 0.041666666666666664,
+        "flat": 0.03333333333333333,
+        "hier_minus_flat": 0.008333333333333333
+       },
+       "reached": {
+        "n": 12,
+        "hier": 0.8333333333333334,
+        "flat": 1.0,
+        "hier_minus_flat": -0.16666666666666666
+       },
+       "steps_first": {
+        "n": 12,
+        "hier": 206.5,
+        "flat": 10.5,
+        "hier_minus_flat": 150.0
+       },
+       "steps_half": {
+        "n": 12,
+        "hier": 413.0,
+        "flat": 28.5,
+        "hier_minus_flat": 359.0
+       }
+      },
+      "B": {
+       "claims": {
+        "n": 4,
+        "hier": 0.7396825396825397,
+        "flat": 0.5432539682539683,
+        "hier_minus_flat": 0.19642857142857145
+       },
+       "citations": {
+        "n": 4,
+        "hier": 0.4375,
+        "flat": 0.375,
+        "hier_minus_flat": 0.0625
+       },
+       "reached": {
+        "n": 4,
+        "hier": 1.0,
+        "flat": 1.0,
+        "hier_minus_flat": 0.0
+       },
+       "steps_first": {
+        "n": 4,
+        "hier": 143.0,
+        "flat": 2.0,
+        "hier_minus_flat": 140.5
+       },
+       "steps_half": {
+        "n": 4,
+        "hier": 152.5,
+        "flat": 6.5,
+        "hier_minus_flat": 146.0
+       }
+      }
+     },
+     "favour": {
+      "drill-down": 3,
+      "flat": 8,
+      "tie": 1
+     }
+    },
+    "tree": {
+     "last": [
+      {
+       "merges": 45,
+       "linked": 41,
+       "max_size": 512,
+       "cap": 530.67,
+       "singletons": 0
+      },
+      {
+       "merges": 180,
+       "linked": 159,
+       "max_size": 120,
+       "cap": 132.67,
+       "singletons": 0
+      },
+      {
+       "merges": 3740,
+       "linked": 3453,
+       "max_size": 33,
+       "cap": 33.17,
+       "singletons": 0
+      }
+     ],
+     "ari_vs_reference": {
+      "2020": [
+       1.0,
+       1.0,
+       1.0
+      ],
+      "2022": [
+       1.0,
+       1.0,
+       1.0
+      ],
+      "2024": [
+       1.0,
+       1.0,
+       1.0
+      ],
+      "2026": [
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    },
+    "paired": {
+     "perturbation": {
+      "2020": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 5
+      },
+      "2022": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.0,
+       "n": 5
+      }
+     },
+     "cross_snapshot": {
+      "2020-2022": {
+       "mean": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ]
+      },
+      "2022-2024": {
+       "mean": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ]
+      },
+      "2024-2026": {
+       "mean": 0.0,
+       "ci95": [
+        0.0,
+        0.0
+       ]
+      }
+     }
+    }
+   },
+   "0.75": {
+    "protocol": {
+     "coherence": {
+      "R": 99,
+      "R_labels": 999
+     },
+     "stability": {
+      "frac": 0.1,
+      "seeds": [
+       0,
+       1,
+       2,
+       3,
+       4
+      ],
+      "R": 99,
+      "n_sub": 200
+     },
+     "labels": {
+      "labeller_model": "qwen2.5:7b-instruct",
+      "judge_model": "phi4"
+     },
+     "retrieval": {
+      "beam": [
+       10,
+       20,
+       40
+      ],
+      "k": 10
+     }
+    },
+    "coherence": {
+     "cells": {
+      "2020": [
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.41738936562197987,
+         "ci95": [
+          0.10057358245333567,
+          2.0144032754556553
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.5720469538482513,
+         "ci95": [
+          0.10123967425747404,
+          2.225568627947836
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 2,
+         "lift": 1.0165258479947938,
+         "ci95": [
+          0.35337943361080787,
+          2.2809734528792416
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 5,
+         "lift": 1.866322159022652,
+         "ci95": [
+          0.3738296242248914,
+          3.567987382795741
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.8177057877841342,
+         "ci95": [
+          0.11534335169753071,
+          2.4363210993829796
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.6619435704818789,
+         "ci95": [
+          0.003310749587050561,
+          1.7455856441098512
+         ]
+        }
+       }
+      ],
+      "2022": [
+       {
+        "exact": {
+         "verdict": "significant, 3/5 schemes",
+         "schemes_passed": 3,
+         "lift": 1.3337637213578222,
+         "ci95": [
+          0.4746399449567008,
+          2.757336101837875
+         ]
+        },
+        "fuzzy": {
+         "verdict": "significant, 3/5 schemes",
+         "schemes_passed": 3,
+         "lift": 1.5821915249026817,
+         "ci95": [
+          0.5603511960928921,
+          2.7672714235707363
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.7434225011388396,
+         "ci95": [
+          0.44760461461550854,
+          3.289846119885186
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.9216868640800573,
+         "ci95": [
+          0.5973112022881585,
+          3.619121238997382
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "significant, 4/5 schemes",
+         "schemes_passed": 4,
+         "lift": 1.4794777718478034,
+         "ci95": [
+          0.3981891691403369,
+          2.470196977273182
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.5560581380741498,
+         "ci95": [
+          0.3254835390475878,
+          2.658758251180348
+         ]
+        }
+       }
+      ],
+      "2024": [
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.3360511388609064,
+         "ci95": [
+          0.7463684422162548,
+          1.8950935530687791
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.4695299512133329,
+         "ci95": [
+          0.8391937977669707,
+          1.9655769199720394
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.61158754162382,
+         "ci95": [
+          0.7234610500559955,
+          2.1895554279671163
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.7568661212828356,
+         "ci95": [
+          0.8297668132933268,
+          2.576621911247
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.5928185402751296,
+         "ci95": [
+          0.7181712796421426,
+          2.0712758470798796
+         ]
+        },
+        "fuzzy": {
+         "verdict": "significant, 3/5 schemes",
+         "schemes_passed": 3,
+         "lift": 1.5500739424949932,
+         "ci95": [
+          0.7103596646501016,
+          2.3727409941912714
+         ]
+        }
+       }
+      ],
+      "2026": [
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.2176636077553114,
+         "ci95": [
+          0.8484863321307117,
+          1.5169280458130523
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.2168843403411849,
+         "ci95": [
+          0.73233634500014,
+          1.6919543564474444
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.532817916804772,
+         "ci95": [
+          0.9093130654178573,
+          2.2565365772890797
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.2785369313339106,
+         "ci95": [
+          0.7843613257421416,
+          1.8760562770203781
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.8508802858186981,
+         "ci95": [
+          0.9061435421464996,
+          2.71874797907106
+         ]
+        },
+        "fuzzy": {
+         "verdict": "robust",
+         "schemes_passed": 5,
+         "lift": 1.5316444108361986,
+         "ci95": [
+          0.8469735330266908,
+          2.410973762462136
+         ]
+        }
+       }
+      ]
+     },
+     "n_cells": 12,
+     "robust": {
+      "exact": [
+       "\u22642022 L1",
+       "\u22642024 L0",
+       "\u22642024 L1",
+       "\u22642024 L2",
+       "\u22642026 L0",
+       "\u22642026 L1",
+       "\u22642026 L2"
+      ],
+      "fuzzy": [
+       "\u22642022 L1",
+       "\u22642022 L2",
+       "\u22642024 L0",
+       "\u22642024 L1",
+       "\u22642026 L0",
+       "\u22642026 L1",
+       "\u22642026 L2"
+      ]
+     },
+     "below": {
+      "exact": [],
+      "fuzzy": []
+     }
+    },
+    "stability": {
+     "perturbation_hari": {
+      "2020": {
+       "mean": 0.4292239690665259,
+       "lo": 0.3778848614529474,
+       "hi": 0.48056307668010434,
+       "n": 5
+      },
+      "2022": {
+       "mean": 0.3190189030544207,
+       "lo": 0.2702686168453208,
+       "hi": 0.36776918926352065,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.23034269745591499,
+       "lo": 0.19294067112957694,
+       "hi": 0.267744723782253,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.19297159225674596,
+       "lo": 0.15257539025286473,
+       "hi": 0.23336779426062718,
+       "n": 5
+      }
+     },
+     "above_null": [
+      2,
+      12
+     ],
+     "localised": [
+      9,
+      9
+     ],
+     "untouched_share": [
+      0.7308652592250479,
+      0.9177102608668395
+     ]
+    },
+    "faithfulness": {
+     "over_claim": {
+      "value": 0.5953177257525084,
+      "ci95": [
+       0.5384615384615384,
+       0.6488294314381271
+      ],
+      "n": 299
+     },
+     "by_level": {
+      "L0": {
+       "value": 0.4666666666666667,
+       "ci95": [
+        0.35,
+        0.5833333333333334
+       ],
+       "n": 60
+      },
+      "L1": {
+       "value": 0.6276150627615062,
+       "ci95": [
+        0.5648535564853556,
+        0.6903765690376569
+       ],
+       "n": 239
+      }
+     },
+     "claim_unsupported": 0.4750337381916329,
+     "named_non_member": 31
+    },
+    "retrieval": {
+     "summary": {
+      "A": {
+       "methods": {
+        "n": 12,
+        "hier": 0.25089285714285714,
+        "flat": 0.29523809523809524,
+        "hier_minus_flat": -0.044345238095238104
+       },
+       "method_claims": {
+        "n": 9,
+        "hier": 0.3055555555555556,
+        "flat": 0.3055555555555556,
+        "hier_minus_flat": 0.0
+       },
+       "citations": {
+        "n": 14,
+        "hier": 0.6643990929705215,
+        "flat": 0.5778061224489796,
+        "hier_minus_flat": 0.08659297052154195
+       },
+       "error_rate": {
+        "n": 12,
+        "hier": 0.041666666666666664,
+        "flat": 0.03333333333333333,
+        "hier_minus_flat": 0.008333333333333333
+       },
+       "reached": {
+        "n": 12,
+        "hier": 0.6666666666666666,
+        "flat": 1.0,
+        "hier_minus_flat": -0.3333333333333333
+       },
+       "steps_first": {
+        "n": 12,
+        "hier": 149.0,
+        "flat": 10.5,
+        "hier_minus_flat": 139.0
+       },
+       "steps_half": {
+        "n": 12,
+        "hier": 359.0,
+        "flat": 28.5,
+        "hier_minus_flat": 235.5
+       }
+      },
+      "B": {
+       "claims": {
+        "n": 4,
+        "hier": 0.6146825396825397,
+        "flat": 0.5432539682539683,
+        "hier_minus_flat": 0.07142857142857144
+       },
+       "citations": {
+        "n": 4,
+        "hier": 0.4375,
+        "flat": 0.375,
+        "hier_minus_flat": 0.0625
+       },
+       "reached": {
+        "n": 4,
+        "hier": 1.0,
+        "flat": 1.0,
+        "hier_minus_flat": 0.0
+       },
+       "steps_first": {
+        "n": 4,
+        "hier": 143.0,
+        "flat": 2.0,
+        "hier_minus_flat": 141.0
+       },
+       "steps_half": {
+        "n": 4,
+        "hier": 147.5,
+        "flat": 6.5,
+        "hier_minus_flat": 139.5
+       }
+      }
+     },
+     "favour": {
+      "drill-down": 3,
+      "flat": 7,
+      "tie": 2
+     }
+    },
+    "tree": {
+     "last": [
+      {
+       "merges": 45,
+       "linked": 45,
+       "max_size": 476,
+       "cap": 530.67,
+       "singletons": 0
+      },
+      {
+       "merges": 180,
+       "linked": 121,
+       "max_size": 126,
+       "cap": 132.67,
+       "singletons": 0
+      },
+      {
+       "merges": 3740,
+       "linked": 2912,
+       "max_size": 33,
+       "cap": 33.17,
+       "singletons": 0
+      }
+     ],
+     "ari_vs_reference": {
+      "2020": [
+       0.2799177238214933,
+       0.4480496050006768,
+       0.7340788769474519
+      ],
+      "2022": [
+       0.16157588749208068,
+       0.28547052658863514,
+       0.5855771935999988
+      ],
+      "2024": [
+       0.08664135753680674,
+       0.1676293350766839,
+       0.4220364517624287
+      ],
+      "2026": [
+       0.06503790346951444,
+       0.1333398563237881,
+       0.3367126263384415
+      ]
+     }
+    },
+    "paired": {
+     "perturbation": {
+      "2020": {
+       "mean": -0.15048214272934318,
+       "lo": -0.22169577922011208,
+       "hi": -0.0792685062385743,
+       "n": 5
+      },
+      "2022": {
+       "mean": -0.04018137214522345,
+       "lo": -0.1099482943464226,
+       "hi": 0.0295855500559757,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.02666698116708935,
+       "lo": -0.032949920811660524,
+       "hi": 0.08628388314583922,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.021382897426088437,
+       "lo": -0.027240444955539286,
+       "hi": 0.07000623980771616,
+       "n": 5
+      }
+     },
+     "cross_snapshot": {
+      "2020-2022": {
+       "mean": -0.001958256269565463,
+       "ci95": [
+        -0.0333927274878378,
+        0.028968570273035333
+       ]
+      },
+      "2022-2024": {
+       "mean": -0.03541899050874586,
+       "ci95": [
+        -0.06125231737552851,
+        -0.005901433380571518
+       ]
+      },
+      "2024-2026": {
+       "mean": 0.031082002890675305,
+       "ci95": [
+        0.014504421838379685,
+        0.04772675531715662
+       ]
+      }
+     }
+    }
+   },
+   "1": {
+    "protocol": {
+     "coherence": {
+      "R": 99,
+      "R_labels": 999
+     },
+     "stability": {
+      "frac": 0.1,
+      "seeds": [
+       0,
+       1,
+       2,
+       3,
+       4
+      ],
+      "R": 99,
+      "n_sub": 200
+     },
+     "labels": {
+      "labeller_model": "qwen2.5:7b-instruct",
+      "judge_model": "phi4"
+     },
+     "retrieval": {
+      "beam": [
+       10,
+       20,
+       40
+      ],
+      "k": 10
+     }
+    },
+    "coherence": {
+     "cells": {
+      "2020": [
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 1,
+         "lift": 0.9955547057417954,
+         "ci95": [
+          0.643353728122093,
+          1.1645117621966634
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.9946745048868036,
+         "ci95": [
+          0.6369531012981857,
+          1.2513473227089036
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 4,
+         "lift": 1.1511500111881277,
+         "ci95": [
+          0.5875984502053339,
+          1.5344877474836853
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 1,
+         "lift": 1.224559437731399,
+         "ci95": [
+          0.5836544258963676,
+          1.817527119276455
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.8474288864778637,
+         "ci95": [
+          0.4778779781353548,
+          1.300457274582404
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not evaluable (one interval-scheme stratum)",
+         "schemes_passed": 0,
+         "lift": 0.8493474105607837,
+         "ci95": [
+          0.4051991321325833,
+          1.4501845912342084
+         ]
+        }
+       }
+      ],
+      "2022": [
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.9665454884136707,
+         "ci95": [
+          0.7880797410019762,
+          1.1596965328658384
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 1.0064957565076134,
+         "ci95": [
+          0.7813573167792066,
+          1.2055427929165985
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 1.2874005329008569,
+         "ci95": [
+          0.8237695677216975,
+          1.5795003522835
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 1.3204001544418422,
+         "ci95": [
+          0.8285086898791423,
+          1.7702173033517077
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (2/5 schemes)",
+         "schemes_passed": 2,
+         "lift": 1.1891013663162981,
+         "ci95": [
+          0.6059704136340942,
+          1.7175241066196167
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 1.1883566666074425,
+         "ci95": [
+          0.5980948194086111,
+          1.8661864835490602
+         ]
+        }
+       }
+      ],
+      "2024": [
+       {
+        "exact": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 1.0508977900821304,
+         "ci95": [
+          0.8948743048606421,
+          1.293895593917888
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 1.096323119058502,
+         "ci95": [
+          0.9095416272155898,
+          1.3237353554887694
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 1.2732852324053936,
+         "ci95": [
+          0.8316309085279131,
+          1.5963466224258833
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 1.3244589360309802,
+         "ci95": [
+          0.8584449876046923,
+          1.6854115094682414
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 1.2592316573783553,
+         "ci95": [
+          0.7479415106077775,
+          1.7249116848391417
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 1.2892949513336058,
+         "ci95": [
+          0.6516237539144357,
+          1.878732785693483
+         ]
+        }
+       }
+      ],
+      "2026": [
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 0.9844401244679121,
+         "ci95": [
+          0.9154819488800985,
+          1.1026906372594538
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 1.000287445799171,
+         "ci95": [
+          0.9096079551325313,
+          1.1285558153623734
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 1.239651642347249,
+         "ci95": [
+          1.0147363523766555,
+          1.3970845002016972
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (1/5 schemes)",
+         "schemes_passed": 1,
+         "lift": 1.2524667437335166,
+         "ci95": [
+          0.9612110174012922,
+          1.4661455423542933
+         ]
+        }
+       },
+       {
+        "exact": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 1.2004488452001578,
+         "ci95": [
+          0.9238274224742101,
+          1.4781080704654603
+         ]
+        },
+        "fuzzy": {
+         "verdict": "not significant (0/5 schemes)",
+         "schemes_passed": 0,
+         "lift": 1.1992502325137286,
+         "ci95": [
+          0.8611660623096227,
+          1.5663198717330702
+         ]
+        }
+       }
+      ]
+     },
+     "n_cells": 12,
+     "robust": {
+      "exact": [],
+      "fuzzy": []
+     },
+     "below": {
+      "exact": [],
+      "fuzzy": []
+     }
+    },
+    "stability": {
+     "perturbation_hari": {
+      "2020": {
+       "mean": 1.0,
+       "lo": 1.0,
+       "hi": 1.0,
+       "n": 5
+      },
+      "2022": {
+       "mean": 0.9651678766715721,
+       "lo": 0.931279791034071,
+       "hi": 0.9990559623090732,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.9153715395582918,
+       "lo": 0.8570655606516436,
+       "hi": 0.9736775184649399,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.8967874530060218,
+       "lo": 0.8329189836958929,
+       "hi": 0.9606559223161507,
+       "n": 5
+      }
+     },
+     "above_null": [
+      4,
+      12
+     ],
+     "localised": [
+      6,
+      9
+     ],
+     "untouched_share": [
+      0.8810384193306329,
+      0.9651626812902633
+     ]
+    },
+    "faithfulness": {
+     "over_claim": {
+      "value": 0.55,
+      "ci95": [
+       0.49666666666666665,
+       0.6066666666666667
+      ],
+      "n": 300
+     },
+     "by_level": {
+      "L0": {
+       "value": 0.5,
+       "ci95": [
+        0.36666666666666664,
+        0.6333333333333333
+       ],
+       "n": 60
+      },
+      "L1": {
+       "value": 0.5625,
+       "ci95": [
+        0.5,
+        0.625
+       ],
+       "n": 240
+      }
+     },
+     "claim_unsupported": 0.4147952443857332,
+     "named_non_member": 31
+    },
+    "retrieval": {
+     "summary": {
+      "A": {
+       "methods": {
+        "n": 12,
+        "hier": 0.2035714285714286,
+        "flat": 0.29523809523809524,
+        "hier_minus_flat": -0.09166666666666667
+       },
+       "method_claims": {
+        "n": 9,
+        "hier": 0.2777777777777778,
+        "flat": 0.3055555555555556,
+        "hier_minus_flat": -0.027777777777777776
+       },
+       "citations": {
+        "n": 14,
+        "hier": 0.5494614512471655,
+        "flat": 0.5778061224489796,
+        "hier_minus_flat": -0.02834467120181406
+       },
+       "error_rate": {
+        "n": 12,
+        "hier": 0.025000000000000005,
+        "flat": 0.03333333333333333,
+        "hier_minus_flat": -0.008333333333333333
+       },
+       "reached": {
+        "n": 12,
+        "hier": 0.6666666666666666,
+        "flat": 1.0,
+        "hier_minus_flat": -0.3333333333333333
+       },
+       "steps_first": {
+        "n": 12,
+        "hier": 265.5,
+        "flat": 10.5,
+        "hier_minus_flat": 147.5
+       },
+       "steps_half": {
+        "n": 12,
+        "hier": 1465.0,
+        "flat": 28.5,
+        "hier_minus_flat": 814.5
+       }
+      },
+      "B": {
+       "claims": {
+        "n": 4,
+        "hier": 0.7396825396825397,
+        "flat": 0.5432539682539683,
+        "hier_minus_flat": 0.19642857142857145
+       },
+       "citations": {
+        "n": 4,
+        "hier": 0.4375,
+        "flat": 0.375,
+        "hier_minus_flat": 0.0625
+       },
+       "reached": {
+        "n": 4,
+        "hier": 1.0,
+        "flat": 1.0,
+        "hier_minus_flat": 0.0
+       },
+       "steps_first": {
+        "n": 4,
+        "hier": 141.0,
+        "flat": 2.0,
+        "hier_minus_flat": 139.0
+       },
+       "steps_half": {
+        "n": 4,
+        "hier": 145.5,
+        "flat": 6.5,
+        "hier_minus_flat": 138.0
+       }
+      }
+     },
+     "favour": {
+      "drill-down": 3,
+      "flat": 8,
+      "tie": 1
+     }
+    },
+    "tree": {
+     "last": [
+      {
+       "merges": 45,
+       "linked": 45,
+       "max_size": 528,
+       "cap": 530.67,
+       "singletons": 0
+      },
+      {
+       "merges": 180,
+       "linked": 147,
+       "max_size": 127,
+       "cap": 132.67,
+       "singletons": 0
+      },
+      {
+       "merges": 3740,
+       "linked": 1064,
+       "max_size": 33,
+       "cap": 33.17,
+       "singletons": 3
+      }
+     ],
+     "ari_vs_reference": {
+      "2020": [
+       0.08423445657904685,
+       0.11990041834961715,
+       0.15009231832382958
+      ],
+      "2022": [
+       0.052505401745630495,
+       0.09515033637352112,
+       0.1391074493435305
+      ],
+      "2024": [
+       0.02840773530202597,
+       0.05476786702222436,
+       0.09247060595044261
+      ],
+      "2026": [
+       0.022888231444469186,
+       0.04027995700783841,
+       0.06508824835318018
+      ]
+     }
+    },
+    "paired": {
+     "perturbation": {
+      "2020": {
+       "mean": 0.420293888204131,
+       "lo": 0.38141991383575446,
+       "hi": 0.4591678625725075,
+       "n": 5
+      },
+      "2022": {
+       "mean": 0.6059676014719277,
+       "lo": 0.5754214676792702,
+       "hi": 0.6365137352645853,
+       "n": 5
+      },
+      "2024": {
+       "mean": 0.7116958232694662,
+       "lo": 0.6609265253444194,
+       "hi": 0.762465121194513,
+       "n": 5
+      },
+      "2026": {
+       "mean": 0.7251987581753643,
+       "lo": 0.6652904077077245,
+       "hi": 0.785107108643004,
+       "n": 5
+      }
+     },
+     "cross_snapshot": {
+      "2020-2022": {
+       "mean": 0.03245042359625093,
+       "ci95": [
+        -0.000883688093557264,
+        0.06648814449530695
+       ]
+      },
+      "2022-2024": {
+       "mean": 0.07720572142799338,
+       "ci95": [
+        0.04504075063991676,
+        0.10960619271229059
+       ]
+      },
+      "2024-2026": {
+       "mean": 0.07212219235873256,
+       "ci95": [
+        0.05536207677829372,
+        0.08898569008889275
+       ]
+      }
+     }
+    }
+   }
+  }
  }
 }

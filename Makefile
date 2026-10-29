@@ -41,9 +41,9 @@ faithfulness:    ## label faithfulness: held-out NLI judge on every L0-L1 label 
 retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate, error rate, steps-to-target (offline, seconds)
 	$(PYTHON) -m eval retrieval --run $(OUT)
 
-tables:          ## every table of docs/report.md from $(OUT)/metrics.json, run_info.json, run_config.toml (no recomputation); docs/alpha_sweep.md from $(OUT)/sweep/ if present
+tables:          ## every table of docs/report.md and docs/alpha_sweep.md from $(OUT)/metrics.json only (no recomputation; claims checked)
 	$(PYTHON) make_tables.py --run $(OUT)
-	if [ -f $(OUT)/sweep/sweep.json ]; then $(PYTHON) make_tables.py --sweep $(OUT)/sweep --report docs/alpha_sweep.md; fi
+	$(PYTHON) make_tables.py --sweep --run $(OUT)
 
 figures:         ## static PNGs of $(OUT)/metrics.json -> docs/figures/ (no recomputation)
 	$(PYTHON) -m eval.figures --run $(OUT) --out docs/figures
@@ -51,8 +51,9 @@ figures:         ## static PNGs of $(OUT)/metrics.json -> docs/figures/ (no reco
 gamma:           ## temporal-prior variants gamma = 0..1: stability and coherence, paired vs gamma = 0 -> $(OUT)/gamma/gamma.json
 	$(PYTHON) -m eval gamma --out $(OUT)/gamma
 
-sweep:           ## alpha = 0, 0.25, 0.5, 0.75, 1 (rest at defaults): full run + four checks each -> $(OUT)/sweep/; docs/alpha_sweep.md
+sweep:           ## alpha = 0, 0.25, 0.5, 0.75, 1 (rest at defaults): full run + four checks each -> $(OUT)/sweep/; comparison -> $(OUT)/metrics.json alpha_sweep; tables, figures
 	$(PYTHON) -m eval sweep --out $(OUT)/sweep
 	for d in $(OUT)/sweep/*/; do $(PYTHON) validate.py $$d --config $$d/run_config.toml || exit 1; done
-	$(PYTHON) make_tables.py --sweep $(OUT)/sweep --report docs/alpha_sweep.md
-	$(PYTHON) -m eval.figures --sweep $(OUT)/sweep --out docs/figures
+	$(PYTHON) make_tables.py --run $(OUT)
+	$(PYTHON) make_tables.py --sweep --run $(OUT)
+	$(PYTHON) -m eval.figures --run $(OUT) --out docs/figures

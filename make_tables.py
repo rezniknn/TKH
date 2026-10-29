@@ -1,14 +1,17 @@
-"""Regenerate every table of docs/report.md from the run outputs (deliverable §6a.3).
+"""Regenerate every table of docs/report.md from out/metrics.json (deliverable §6a.3).
 
     python make_tables.py [--run out] [--report docs/report.md] [--check]
-    python make_tables.py --sweep out/sweep [--report docs/alpha_sweep.md] [--check]
+    python make_tables.py --sweep [--run out] [--report docs/alpha_sweep.md] [--check]
 
 Each table sits between `<!-- table:NAME -->` and `<!-- /table:NAME -->` in the report; the script rewrites the block
-from out/metrics.json (coherence, stability, faithfulness, retrieval), out/run_info.json and out/run_config.toml;
-the report's alpha_sweep table reads the sweep in out/sweep/ (needs `make sweep`). Verdict columns are computed from the p-values and intervals (ALPHA), never typed in.
-With --sweep DIR the script renders the α-sweep tables (DIR/<α>/ runs and DIR/sweep.json), including the
-recommendation, into docs/alpha_sweep.md. --check exits 1 if any block is out of date, unknown or missing. Nothing is
-recomputed: the script only reads the run outputs.
+from the run's metrics.json and nothing else: the sections coherence, stability, faithfulness and retrieval, and the
+alpha_sweep section written by `make sweep` (eval/sweep.py). Verdict columns are computed with the rules of
+eval/verdicts.py from the p-values and intervals (ALPHA), never typed in; the recommendation and the trade-off verdicts
+of the α sweep are computed here. With --sweep the script renders the α-sweep tables into docs/alpha_sweep.md.
+
+Hand-written claims in the prose are tagged `<!-- claim:NAME -->` and checked against metrics.json by the predicates
+of CLAIMS: a false claim, an unknown tag or an unused claim fails, on every run and with --check. --check exits 1 if
+any block is out of date, unknown or missing. Nothing is recomputed: the script only reads metrics.json.
 """
 
 from pathlib import Path
@@ -16,11 +19,12 @@ import argparse
 import json
 import re
 import sys
-import tomllib
 
-ALPHA = 0.05          # significance level of the null tests
-SCHEMES = ("interval", "year1", "year2", "year3", "gap")
+from eval import verdicts as V
+from eval.verdicts import ALPHA, LOWER_BETTER, RETRIEVAL_NAMES, SCHEMES
+
 BLOCK = re.compile(r"(<!-- table:(\w+) -->\n)(.*?)(<!-- /table:\2 -->)", re.S)
+CLAIM = re.compile(r"<!-- claim:(\w+) -->")
 
 
 def f(x, nd=2):
@@ -42,12 +46,12 @@ def md(header, rows):
 
 
 class Run:
+    """A run's metrics.json, the only input of every table."""
+
     def __init__(self, run):
         self.dir = Path(run)
         self.m = json.loads((self.dir / "metrics.json").read_text())
-        self.info = json.loads((self.dir / "run_info.json").read_text())
-        self.cfg = tomllib.loads((self.dir / "run_config.toml").read_text())
-        self.cutoffs = [str(c) for c in self.info["cutoffs"]]
+        self.cutoffs = V.cutoffs(self.m)
         self.last = self.cutoffs[-1]
 
 
@@ -78,40 +82,44 @@ def t_literature(r):
     return md(["Work", "Borrowed", "Done differently, and why"], rows)
 
 
-# ---------------------------------------------------------------- coherence
+# ---------------------------------------------------------------- verdict rules (eval/verdicts.py)
 
-def _sig(x):
-    """Both nulls beaten at ALPHA (an undefined lift has p = None and never passes)."""
-    a, b = x["configuration_null"]["p"], x["random_labels"]["p"]
-    return a is not None and b is not None and max(a, b) <= ALPHA
-
-
-def _below(cell):
-    """The lift lies below the 2.5% quantile of both nulls under every scheme."""
-    def b(x):
-        lo = (x["configuration_null"]["q2.5"], x["random_labels"]["q2.5"])
-        return x["lift"] is not None and None not in lo and min(lo) > x["lift"]
-    return all(b(cell[s]) for s in SCHEMES)
-
-
-def _passes(cell):
-    return sum(_sig(cell[s]) for s in SCHEMES)
+_ok, _passes, _untouched_share, _favoured = V.ok, V.passes, V.untouched_share, V.favoured
 
 
 def _verdict(cell, strata):
-    iv = cell["interval"]
-    if iv["lift"] is None:
-        return "undefined"
-    if strata < 2:
-        return "not evaluable (one interval-scheme stratum)"
-    n = _passes(cell)
-    if n == len(SCHEMES):
-        return "**robust**"
-    if _below(cell):
-        return "below both nulls"
-    if _sig(iv):
-        return f"significant, {n}/{len(SCHEMES)} schemes"
-    return f"not significant ({n}/{len(SCHEMES)} schemes)"
+    v = V.verdict(cell, strata)
+    return "**robust**" if v == "robust" else v
+
+
+def _robust(r, m="exact"):
+    return V.robust(r.m, m)
+
+
+def _below_cells(r, m="exact"):
+    return V.below_cells(r.m, m)
+
+
+def _above_null(r):
+    return V.above_null(r.m)
+
+
+def _localised(r):
+    return V.localised(r.m)
+
+
+def _favour_counts(r):
+    return V.favour_counts(r.m)
+
+
+# ---------------------------------------------------------------- coherence
+
+
+
+
+
+
+
 
 
 def t_coherence_coverage(r):
@@ -163,9 +171,6 @@ def t_cross(r):
                f"Indices above the null (p ≤ {ALPHA}, uncorrected)"], rows)
 
 
-def _untouched_share(x):
-    tot = x["touched"] * x["reassign_touched"] + x["untouched"] * x["reassign_untouched"]
-    return x["untouched"] * x["reassign_untouched"] / tot if tot else None
 
 
 def _range_pct(xs):
@@ -203,21 +208,9 @@ def t_faithfulness(r):
     return md(["Group", "Labels judged", "Over-claim rate [95% CI]", "Claim-level unsupported"], rows) + tail
 
 
-RETRIEVAL_NAMES = {"methods": "hit-rate, methods", "method_claims": "hit-rate, method claims", "claims": "hit-rate, claims",
-                   "citations": "hit-rate, citations", "error_rate": "error rate", "reached": "reach",
-                   "steps_first": "steps to first item (median)", "steps_half": "steps to 50% of items (median)"}
-LOWER_BETTER = frozenset({"error_rate", "steps_first", "steps_half"})
 
 
-def _favoured(k, d):
-    """Which system a paired difference (drill-down - flat) favours; a point estimate (no CIs)."""
-    if d is None:
-        return None
-    return "tie" if abs(d) < 1e-12 else ("drill-down" if (d < 0) == (k in LOWER_BETTER) else "flat")
 
-
-def _ok(b):
-    return b is not None and None not in b
 
 
 def t_retrieval(r):
@@ -241,38 +234,16 @@ def t_retrieval(r):
     return md(["Type", "Metric", "n", "Drill-down", "Flat", "Paired difference (mean; steps: median)", "Favoured (point estimate)"], rows) + tail
 
 
-def _cells(r, pred, m="exact"):
-    c = r.m["coherence"]["snapshots"]
-    return [f"≤{t} L{k}" for t in r.cutoffs for k, lv in enumerate(c[t]["levels"]) if pred(lv[m], c[t]["coverage"][m]["period_strata"])]
 
 
-def _robust(r, m="exact"):
-    return _cells(r, lambda x, s: s >= 2 and _passes(x) == len(SCHEMES), m)
 
 
-def _below_cells(r, m="exact"):
-    return _cells(r, lambda x, s: s >= 2 and x["interval"]["lift"] is not None and _below(x), m)
 
 
-def _above_null(r):
-    """(cross-snapshot indices above the new-paper null at ALPHA, all indices)."""
-    idx = [v for x in r.m["stability"]["cross_snapshot"].values() for v in [*x["ari"], x["hari"]]]
-    return sum(v["new_paper_null"]["p"] is not None and v["new_paper_null"]["p"] <= ALPHA for v in idx), idx
 
 
-def _localised(r):
-    """(level x transition cells whose ratio CI lies above 1, all cells)."""
-    loc = [x for lvs in r.m["stability"]["localisation"].values() for x in lvs]
-    return sum(_ok(x["ratio_ci95"]) and x["ratio_ci95"][0] > 1 for x in loc), loc
 
 
-def _favour_counts(r):
-    fav = {"drill-down": 0, "flat": 0, "tie": 0}
-    for s in r.m["retrieval"]["summary"].values():
-        for k in RETRIEVAL_NAMES:
-            if k in s and (fv := _favoured(k, s[k]["hier_minus_flat"])):
-                fav[fv] += 1
-    return fav
 
 
 def t_findings(r):
@@ -320,27 +291,41 @@ TABLES = {"findings": t_findings, "properties": t_properties, "literature": t_li
           "faithfulness": t_faithfulness, "retrieval": t_retrieval}
 
 
-# ---------------------------------------------------------------- α sweep (docs/alpha_sweep.md)
+# ---------------------------------------------------------------- α sweep (metrics.json "alpha_sweep")
 
 class Sweep:
-    """The runs of an α sweep (DIR/<α>/, each read like out/) and DIR/sweep.json (paired comparisons with the reference)."""
+    """The alpha_sweep section of the main run's metrics.json (eval/sweep.py), with the main run's α as the default."""
 
-    def __init__(self, d):
-        self.dir = Path(d)
-        self.s = json.loads((self.dir / "sweep.json").read_text())
-        self.alphas = self.s["alphas"]
-        self.ref = self.s["reference"]
-        self.runs = {a: Run(self.dir / self.s["variants"][f"{a:g}"]["run"]) for a in self.alphas}
-        fixed = {a: {k: v for k, v in r.info["params"].items() if k != "alpha"} for a, r in self.runs.items()}
-        assert all(x == fixed[self.ref] for x in fixed.values()), f"sweep runs differ in more than alpha: {fixed}"
-        assert all(r.info["params"]["alpha"] == a for a, r in self.runs.items())
-        self.fixed = fixed[self.ref]
-        self.cutoffs, self.last = self.runs[self.ref].cutoffs, self.runs[self.ref].last
-        main = self.dir.parent / "run_info.json"   # the main run the sweep sits in: its α is the configured default
-        self.default = json.loads(main.read_text())["params"]["alpha"] if main.exists() else None
+    def __init__(self, m):
+        if "alpha_sweep" not in m:
+            sys.exit("metrics.json has no alpha_sweep section: run `make sweep` (or `python -m eval sweep --summarise-only`)")
+        self.s = m["alpha_sweep"]
+        pr = self.s["protocol"]
+        self.alphas, self.ref, self.fixed, self.budgets = pr["alphas"], pr["reference"], pr["fixed"], pr["budgets"]
+        self.cutoffs = [str(c) for c in pr["cutoffs"]]
+        self.last = self.cutoffs[-1]
+        self.main = pr["main_run"]
+        self.default = m["coherence"]["params"]["alpha"]   # the configured default: the α of the main run
 
     def v(self, a):
         return self.s["variants"][f"{a:g}"]
+
+    def robust(self, a, flt="exact"):
+        return self.v(a)["coherence"]["robust"][flt]
+
+    def below(self, a, flt="exact"):
+        return self.v(a)["coherence"]["below"][flt]
+
+    def hari(self, a, c=None):
+        h = self.v(a)["stability"]["perturbation_hari"][c or self.last]
+        return h["mean"], h["lo"], h["hi"]
+
+    def overclaim(self, a):
+        oc = self.v(a)["faithfulness"]["over_claim"]
+        return oc["value"], *oc["ci95"]
+
+    def favour(self, a):
+        return self.v(a)["retrieval"]["favour"]
 
 
 def _a(a, w=None):
@@ -349,51 +334,40 @@ def _a(a, w=None):
     return f"{a:g}" + (f" ({', '.join(tags)})" if tags else "")
 
 
-def _hari_last(r):
-    h = r.m["stability"]["perturbation"][r.last]["hari"]
-    return h["mean"], h["lo"], h["hi"]
-
-
-def _overclaim(r):
-    oc = r.m["faithfulness"]["over_claim"]
-    return oc["value"], *oc["ci95"]
+def _span_pct(r):
+    return "—" if r is None else f"{r[0]:.0%}–{r[1]:.0%}"
 
 
 def st_setup(w):
-    r = w.runs[w.ref]
     fx = w.fixed
+    per = lambda fn: ", ".join(sorted({fn(w.v(a)["protocol"]) for a in w.alphas}))
     rows = [["α (semantic weight; 0 = structure only, 1 = semantics only)", ", ".join(f"{a:g}" for a in w.alphas)],
             ["Fixed at the defaults: γ, ρ, edge weights, hub fraction h, LSA dimension",
              f"{fx['gamma']}, {fx['rho']}, {fx['edge_weight']}, {fx['hub_frac']}, {fx['lsa_dim']}"],
-            ["Snapshots; budgets N_0, N_1, N_2", f"{', '.join(r.cutoffs)}; {', '.join(map(str, r.info['budgets']))}"],
+            ["Snapshots; budgets N_0, N_1, N_2", f"{', '.join(w.cutoffs)}; {', '.join(map(str, w.budgets))}"],
             ["Per α: coherence nulls (configuration rebuilds at that α, random labels)",
-             ", ".join(sorted({f"{x.m['coherence']['R']}, {x.m['coherence']['R_labels']}" for x in w.runs.values()}))],
+             per(lambda x: f"{x['coherence']['R']}, {x['coherence']['R_labels']}")],
             ["Per α: perturbation seeds × edge fraction; new-paper null R",
-             ", ".join(sorted({f"{len(x.m['stability']['protocol']['seeds'])} × {x.m['stability']['protocol']['frac']}; "
-                               f"{x.m['stability']['protocol']['R']}" for x in w.runs.values()}))],
+             per(lambda x: f"{len(x['stability']['seeds'])} × {x['stability']['frac']}; {x['stability']['R']}")],
             ["Per α: labeller / judge; retrieval beam, k",
-             ", ".join(sorted({f"{x.cfg['labels']['labeller_model']} / {x.cfg['labels']['judge_model']}; "
-                               f"{'/'.join(map(str, x.m['retrieval']['config']['beam']))}, {x.m['retrieval']['config']['k']}"
-                               for x in w.runs.values()}))],
+             per(lambda x: f"{x['labels']['labeller_model']} / {x['labels']['judge_model']}; "
+                           f"{'/'.join(map(str, x['retrieval']['beam']))}, {x['retrieval']['k']}")],
             ["Reference for paired comparisons", f"α = {w.ref:g} (the configured default before the sweep)"],
             ["Significance level of all null tests", f"{ALPHA}"]]
-    main = w.dir.parent
-    if (main / "metrics.json").exists() and w.default in w.runs:
-        m, r = Run(main), w.runs[w.default]
-        same = [c for c in r.cutoffs if (r.dir / c / "hierarchy.json").read_bytes() == (main / c / "hierarchy.json").read_bytes()]
-        secs = [k for k in r.m if r.m[k] == m.m.get(k)]
-        rows.append([f"Variant α = {w.default:g} (the configured default) against the main run ({main}/)",
-                     f"hierarchy.json identical at {len(same)} of {len(r.cutoffs)} snapshots; metrics.json sections "
-                     f"identical: {', '.join(secs) or 'none'} of {len(r.m)}"])
+    if w.main:
+        mr = w.main
+        rows.append([f"Variant α = {mr['alpha']:g} (the configured default) against the main run",
+                     f"hierarchy.json identical at {mr['hierarchy_identical']} of {mr['snapshots']} snapshots; metrics.json "
+                     f"sections identical: {', '.join(mr['sections_identical']) or 'none'} of {mr['sections']}"])
     return md(["Setting", "Value"], rows)
 
 
 def st_tree(w):
     rows = []
     for a in w.alphas:
-        r, v = w.runs[a], w.v(a)
-        lv = r.info["snapshots"][w.last]["levels"]
-        rows.append([_a(a, w), " / ".join(f(x) for x in v["tree_ari"][w.last]),
+        v = w.v(a)["tree"]
+        lv = v["last"]
+        rows.append([_a(a, w), " / ".join(f(x) for x in v["ari_vs_reference"][w.last]),
                      " / ".join(f"{x['linked'] / x['merges']:.0%}" if x["merges"] else "—" for x in lv),
                      f"{lv[0]['max_size']} ({lv[0]['cap']:.1f})", lv[-1]["singletons"]])
     return md(["α", f"ARI with the pre-sweep default tree at ≤{w.last}, L0 / L1 / L2", f"Merges sharing an edge at ≤{w.last}, L0 / L1 / L2",
@@ -403,20 +377,15 @@ def st_tree(w):
 def st_coherence(w):
     rows = []
     for a in w.alphas:
-        r = w.runs[a]
-        lvs = r.m["coherence"]["snapshots"][w.last]["levels"]
-        lifts = []
-        for lv in lvs:
-            iv = lv["exact"]["interval"]
-            lifts.append(ci(iv["lift"], *iv["ci95"]) if iv["lift"] is not None else "—")
-        n = sum(len(r.m["coherence"]["snapshots"][c]["levels"]) for c in r.cutoffs)
-        rows.append([_a(a, w), f"{len(_robust(r))} / {len(_robust(r, 'fuzzy'))} of {n}",
-                     f"{len(_below_cells(r))} / {len(_below_cells(r, 'fuzzy'))}", *lifts])
+        c = w.v(a)["coherence"]
+        lifts = [ci(x["exact"]["lift"], *x["exact"]["ci95"]) if x["exact"]["lift"] is not None else "—" for x in c["cells"][w.last]]
+        rows.append([_a(a, w), f"{len(w.robust(a))} / {len(w.robust(a, 'fuzzy'))} of {c['n_cells']}",
+                     f"{len(w.below(a))} / {len(w.below(a, 'fuzzy'))}", *lifts])
     return md(["α", "Robust cells (exact / fuzzy)", "Cells below both nulls (exact / fuzzy)",
                f"Lift L0 ≤{w.last} [95% CI]", "Lift L1", "Lift L2"], rows)
 
 
-VERDICT_SHORT = {"**robust**": "**robust**", "below both nulls": "below", "undefined": "—"}
+VERDICT_SHORT = {"robust": "**robust**", "below both nulls": "below", "undefined": "—"}
 
 
 def _short(v):
@@ -432,30 +401,23 @@ def _short(v):
 def st_coherence_grid(w):
     rows = []
     for c in w.cutoffs:
-        for k in range(len(w.runs[w.ref].m["coherence"]["snapshots"][c]["levels"])):
-            cells = []
-            for a in w.alphas:
-                snap = w.runs[a].m["coherence"]["snapshots"][c]
-                cells.append(_short(_verdict(snap["levels"][k]["exact"], snap["coverage"]["exact"]["period_strata"])))
-            rows.append([f"≤{c}", f"L{k}", *cells])
+        for k in range(len(w.v(w.ref)["coherence"]["cells"][c])):
+            rows.append([f"≤{c}", f"L{k}", *(_short(w.v(a)["coherence"]["cells"][c][k]["exact"]["verdict"]) for a in w.alphas)])
     return md(["Snapshot", "Level", *(f"α = {_a(a, w)}" for a in w.alphas)], rows)
 
 
 def st_stability(w):
     rows = []
     for a in w.alphas:
-        r, v = w.runs[a], w.v(a)
-        pt = r.m["stability"]["perturbation"]
-        d = v["perturbation"][w.last]
+        v = w.v(a)
+        d = v["paired"]["perturbation"][w.last]
         diff = "—" if a == w.ref else ci(d["mean"], d["lo"], d["hi"]) if d["lo"] is not None else f(d["mean"])
-        above, idx = _above_null(r)
-        nloc, loc = _localised(r)
-        last_tr = list(v["cross_snapshot"])[-1]
-        cx = v["cross_snapshot"][last_tr]
-        rows.append([_a(a, w), f(pt[w.cutoffs[0]]["hari"]["mean"]), ci(*_hari_last(r)), diff,
-                     f"{above} of {len(idx)}", "—" if a == w.ref else ci(cx["mean"], *cx["ci95"]),
-                     f"{nloc} of {len(loc)}", _range_pct([_untouched_share(x) for x in loc])])
-    tr = list(w.v(w.ref)["cross_snapshot"])[-1].replace("-", "→")
+        cx = v["paired"]["cross_snapshot"][list(v["paired"]["cross_snapshot"])[-1]]
+        st = v["stability"]
+        rows.append([_a(a, w), f(w.hari(a, w.cutoffs[0])[0]), ci(*w.hari(a)), diff,
+                     f"{st['above_null'][0]} of {st['above_null'][1]}", "—" if a == w.ref else ci(cx["mean"], *cx["ci95"]),
+                     f"{st['localised'][0]} of {st['localised'][1]}", _span_pct(st["untouched_share"])])
+    tr = list(w.v(w.ref)["paired"]["cross_snapshot"])[-1].replace("-", "→")
     return md(["α", f"Perturbation HARI ≤{w.cutoffs[0]}", f"Perturbation HARI ≤{w.last} [t-interval]",
                f"Paired difference to the pre-sweep default, ≤{w.last}", f"Cross-snapshot indices above the new-paper null (p ≤ {ALPHA})",
                f"Cross-snapshot HARI difference to the pre-sweep default, {tr}", "Localised cells (ratio CI > 1)",
@@ -465,47 +427,56 @@ def st_stability(w):
 def st_faithfulness(w):
     rows = []
     for a in w.alphas:
-        fa = w.runs[a].m["faithfulness"]
-        lv = [ci(x["over_claim"]["value"], *x["over_claim"]["ci95"]) for x in fa["by_level"].values()]
-        rows.append([_a(a, w), fa["over_claim"]["n"], ci(*_overclaim(w.runs[a])), *lv, f(fa["claim_unsupported"]),
-                     fa["deterministic"]["named_non_member"]])
-    names = list(w.runs[w.ref].m["faithfulness"]["by_level"])
+        fa = w.v(a)["faithfulness"]
+        lv = [ci(x["value"], *x["ci95"]) for x in fa["by_level"].values()]
+        rows.append([_a(a, w), fa["over_claim"]["n"], ci(*w.overclaim(a)), *lv, f(fa["claim_unsupported"]),
+                     fa["named_non_member"]])
+    names = list(w.v(w.ref)["faithfulness"]["by_level"])
     return md(["α", "Labels judged", "Over-claim [95% CI]", *(f"Over-claim {n}" for n in names), "Claim-level unsupported",
                "Named non-member flags"], rows)
 
 
 def st_retrieval(w):
-    rows, ref = [], w.runs[w.ref].m["retrieval"]["summary"]
+    rows, ref = [], w.v(w.ref)["retrieval"]["summary"]
     for t, s in ref.items():
         for k, label in RETRIEVAL_NAMES.items():
             if k not in s:
                 continue
             nd = 1 if k.startswith("steps") else 3
-            flats = {w.runs[a].m["retrieval"]["summary"][t][k]["flat"] for a in w.alphas}
+            flats = {w.v(a)["retrieval"]["summary"][t][k]["flat"] for a in w.alphas}
             assert len(flats) == 1, f"flat search differs across alpha for {t} {k}: {flats}"
             cells = []
             for a in w.alphas:
-                x = w.runs[a].m["retrieval"]["summary"][t][k]
-                fv = _favoured(k, x["hier_minus_flat"])
-                cells.append(f"{f(x['hier'], nd)}" + (" ✓" if fv == "drill-down" else ""))
+                x = w.v(a)["retrieval"]["summary"][t][k]
+                cells.append(f"{f(x['hier'], nd)}" + (" ✓" if _favoured(k, x["hier_minus_flat"]) == "drill-down" else ""))
             rows.append([t, label, f(s[k]["flat"], nd), *cells])
     rows.append(["", "measures favouring drill-down / flat / tie", "",
-                 *(" / ".join(str(_favour_counts(w.runs[a])[x]) for x in ("drill-down", "flat", "tie")) for a in w.alphas)])
+                 *(" / ".join(str(w.favour(a)[x]) for x in ("drill-down", "flat", "tie")) for a in w.alphas)])
     return md(["Type", "Metric", "Flat (every α)", *(f"Drill-down, α = {_a(a, w)}" for a in w.alphas)], rows)
 
 
-def _recommend(w):
-    """Per α: headlines, eligibility against the pre-sweep default and the recommendation (the rule of docs/alpha_sweep.md §8)."""
-    h = {a: {"robust": len(_robust(r)), "hari": _hari_last(r), "oc": _overclaim(r),
-             "fav": _favour_counts(r)["drill-down"]} for a, r in w.runs.items()}
+def _recommend(w, guard="reference"):
+    """Per α: headlines, eligibility and the recommendation (the rule of docs/alpha_sweep.md §8). guard "reference": the
+    rule as applied, eligibility against the pre-sweep default; "best": the original rule, against the most robust and
+    the most faithful variant (recorded in docs/alpha_sweep.md §9)."""
+    h = {a: {"robust": len(w.robust(a)), "hari": w.hari(a), "oc": w.overclaim(a), "fav": w.favour(a)["drill-down"]}
+         for a in w.alphas}
     ref_o = h[w.ref]["oc"]
+    best_h = max(w.alphas, key=lambda a: h[a]["hari"][0])
+    best_o = min(w.alphas, key=lambda a: h[a]["oc"][0])
     for a in w.alphas:
         why = []
-        d = w.v(a)["perturbation"][w.last]
-        if a != w.ref and d["hi"] is not None and d["hi"] < 0:
-            why.append("HARI below the pre-sweep default (paired)")
-        if a != w.ref and None not in h[a]["oc"] and None not in ref_o and h[a]["oc"][1] > ref_o[2]:
-            why.append("over-claim above the pre-sweep default")
+        if guard == "reference":
+            d = w.v(a)["paired"]["perturbation"][w.last]
+            if a != w.ref and d["hi"] is not None and d["hi"] < 0:
+                why.append("HARI below the pre-sweep default (paired)")
+            if a != w.ref and None not in h[a]["oc"] and None not in ref_o and h[a]["oc"][1] > ref_o[2]:
+                why.append("over-claim above the pre-sweep default")
+        else:
+            if h[a]["hari"][2] < h[best_h]["hari"][1]:
+                why.append(f"HARI below α = {best_h:g}")
+            if h[a]["oc"][1] > h[best_o]["oc"][2]:
+                why.append(f"over-claim above α = {best_o:g}")
         h[a]["why"] = why
     eligible = [a for a in w.alphas if not h[a]["why"]]
     rec = max(eligible, key=lambda a: (h[a]["robust"], h[a]["hari"][0], -abs(a - w.ref))) if eligible else None
@@ -519,7 +490,7 @@ def st_summary(w):
         x = h[a]
         rows.append([_a(a, w), x["robust"], ci(*x["hari"]), ci(*x["oc"]), x["fav"],
                      "yes" if a in eligible else "no: " + "; ".join(x["why"]), "**recommended**" if a == rec else ""])
-    n_meas = sum(1 for s in w.runs[w.ref].m["retrieval"]["summary"].values() for k in RETRIEVAL_NAMES if k in s)
+    n_meas = sum(w.favour(w.ref).values())
     tail = (f"\nRecommended: α = {rec:g}" + (" (the pre-sweep default)" if rec == w.ref else "") if rec is not None
             else "\nRecommended: none (no α is eligible)") + (
         f". Eligible: {', '.join(f'{a:g}' for a in eligible) or 'none'}; retrieval counts are out of {n_meas} measures"
@@ -530,22 +501,18 @@ def st_summary(w):
 
 
 def t_alpha_sweep(r):
-    """Report table: the α sweep in <run>/sweep/ across the four criteria, the recommended α in bold."""
-    if not (r.dir / "sweep" / "sweep.json").exists():
-        sys.exit(f"{r.dir}/sweep/sweep.json not found: the report's alpha_sweep table needs `make sweep`")
-    w = Sweep(r.dir / "sweep")
+    """Report table: the α variants across the four criteria, the recommended α in bold."""
+    w = Sweep(r.m)
     h, eligible, rec = _recommend(w)
     rows = []
     for a in w.alphas:
-        x, run, d = h[a], w.runs[a], w.v(a)["perturbation"][w.last]
-        fav = _favour_counts(run)
-        row = [_a(a, w), f"{x['robust']} / {len(_below_cells(run))}", ci(*x["hari"]),
+        x, d, fav = h[a], w.v(a)["paired"]["perturbation"][w.last], w.favour(a)
+        row = [_a(a, w), f"{x['robust']} / {len(w.below(a))}", ci(*x["hari"]),
                "—" if a == w.ref else ci(d["mean"], d["lo"], d["hi"]), ci(*x["oc"]),
                f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
                "yes" if a in eligible else "no: " + "; ".join(x["why"]), "recommended" if a == rec else ""]
         rows.append([f"**{c}**" if a == rec and c != "" else c for c in row])
-    n_cells = sum(len(s["levels"]) for s in w.runs[w.ref].m["coherence"]["snapshots"].values())
-    n_meas = sum(fav.values())
+    n_cells, n_meas = w.v(w.ref)["coherence"]["n_cells"], sum(w.favour(w.ref).values())
     tail = (f"\nRecommended: α = {rec:g}" + (" (the pre-sweep default)" if rec == w.ref else "") if rec is not None
             else "\nRecommended: none (no α is eligible)") + (
         f". Coherence cells are out of {n_cells} (snapshot × level), retrieval measures out of {n_meas}.\n")
@@ -557,33 +524,42 @@ def t_alpha_sweep(r):
 TABLES["alpha_sweep"] = t_alpha_sweep
 
 
-def _paired_rows(w, rec):
-    """Trade-off row: every paired HARI difference to the reference (perturbation per snapshot, cross-snapshot per
-    transition) whose interval excludes 0."""
-    v = w.v(rec)
+def _paired_excl(w, a):
+    """Every paired HARI difference of α to the reference (perturbation per snapshot, cross-snapshot per transition)
+    whose interval excludes 0: (below, above, number of intervals)."""
+    v = w.v(a)["paired"]
     ds = [(f"≤{c} (perturbation)", d["lo"], d["hi"]) for c, d in v["perturbation"].items()]
     ds += [(f"{tr.replace('-', '→')} (cross-snapshot)", *d["ci95"]) for tr, d in v["cross_snapshot"].items()]
     ds = [x for x in ds if x[1] is not None and x[2] is not None]
-    below, above = [n for n, lo, hi in ds if hi < 0], [n for n, lo, hi in ds if lo > 0]
+    return [n for n, lo, hi in ds if hi < 0], [n for n, lo, hi in ds if lo > 0], len(ds)
+
+
+def _paired_rows(w, rec):
+    below, above, n = _paired_excl(w, rec)
     verdict = "; ".join(s for s in (f"worse at {', '.join(below)}" if below else "",
                                     f"better at {', '.join(above)}" if above else "") if s) or "no distinguishable difference"
     return ["P5 paired HARI differences, every snapshot and transition", f"{len(below)} below 0, {len(above)} above 0",
-            "—", f"of {len(ds)} paired intervals", "—", verdict]
+            "—", f"of {n} paired intervals", "—", verdict]
 
 
-def _retrieval_change(w, rec):
-    """Trade-off row: drill-down measures of the recommended α against those of the reference (point estimates)."""
-    a, b = w.runs[rec].m["retrieval"]["summary"], w.runs[w.ref].m["retrieval"]["summary"]
+def _retrieval_delta(w, a):
+    """Drill-down measures of α against those of the reference (point estimates): (better, same count, worse)."""
+    s, b = w.v(a)["retrieval"]["summary"], w.v(w.ref)["retrieval"]["summary"]
     better, worse, same = [], [], 0
-    for typ, s in a.items():
+    for typ in s:
         for k, name in RETRIEVAL_NAMES.items():
-            if k in s and k in b[typ] and None not in (s[k]["hier"], b[typ][k]["hier"]):
-                d = s[k]["hier"] - b[typ][k]["hier"]
+            if k in s[typ] and k in b[typ] and None not in (s[typ][k]["hier"], b[typ][k]["hier"]):
+                d = s[typ][k]["hier"] - b[typ][k]["hier"]
                 d = -d if k in LOWER_BETTER else d
                 if d == 0:
                     same += 1
                 else:
                     (better if d > 0 else worse).append(f"{typ} {name}")
+    return better, same, worse
+
+
+def _retrieval_change(w, rec):
+    better, same, worse = _retrieval_delta(w, rec)
     return ["T6 drill-down measures against the pre-sweep default (point estimates)",
             f"{len(better)} better / {same} same / {len(worse)} worse", "—", "—", "—",
             f"worse: {'; '.join(worse) or 'none'}. Better: {'; '.join(better) or 'none'}"]
@@ -591,40 +567,39 @@ def _retrieval_change(w, rec):
 
 def t_alpha_tradeoffs(r):
     """Report table: per headline, the recommended α against the pre-sweep default and the best variant on that headline."""
-    w = Sweep(r.dir / "sweep")
+    w = Sweep(r.m)
     h, _, rec = _recommend(w)
     ref = w.ref
-    R, D = w.runs[rec], w.runs[ref]
 
     def best(vals, low=False):
         b = (min if low else max)(vals.values())
         return ", ".join(f"α = {_a(a, w)}" for a, v in vals.items() if v == b) + f": {b if isinstance(b, int) else f(b)}"
 
     def count(name, fn, low=False):
-        vals = {a: fn(w.runs[a]) for a in w.alphas}
+        vals = {a: fn(a) for a in w.alphas}
         d = vals[rec] - vals[ref]
         better = (d < 0) if low else (d > 0)
         verdict = "same count" if d == 0 else ("better" if better else "worse") + " (count, no interval)"
         return [name, vals[rec], vals[ref], f"{d:+d}" if d else "0", best(vals, low), verdict]
 
-    pd = w.v(rec)["perturbation"][w.last]
+    pd = w.v(rec)["paired"]["perturbation"][w.last]
     hv = "not computed" if rec == ref else (
         "no distinguishable difference (paired interval contains 0)" if pd["lo"] <= 0 <= pd["hi"]
         else "better (paired interval above 0)" if pd["lo"] > 0 else "worse (paired interval below 0)")
     oR, oD = h[rec]["oc"], h[ref]["oc"]
     ov = ("no distinguishable difference (intervals overlap)" if oR[1] <= oD[2] and oD[1] <= oR[2]
           else "better (interval below)" if oR[2] < oD[1] else "worse (interval above)")
-    rows = [count("P3 robust coherence cells (exact)", lambda x: len(_robust(x))),
-            count("P3 cells below both nulls (exact)", lambda x: len(_below_cells(x)), low=True),
+    rows = [count("P3 robust coherence cells (exact)", lambda a: len(w.robust(a))),
+            count("P3 cells below both nulls (exact)", lambda a: len(w.below(a)), low=True),
             [f"P5 perturbation HARI ≤{w.last}", ci(*h[rec]["hari"]), ci(*h[ref]["hari"]),
              "—" if rec == ref else ci(pd["mean"], pd["lo"], pd["hi"]) + " (paired by seed)",
              best({a: h[a]["hari"][0] for a in w.alphas}), hv],
             _paired_rows(w, rec),
-            count("P5 cross-snapshot indices above the new-paper null", lambda x: _above_null(x)[0]),
-            count("P5 localised level × transition cells", lambda x: _localised(x)[0]),
+            count("P5 cross-snapshot indices above the new-paper null", lambda a: w.v(a)["stability"]["above_null"][0]),
+            count("P5 localised level × transition cells", lambda a: w.v(a)["stability"]["localised"][0]),
             ["P6 over-claim rate", ci(*oR), ci(*oD), f"{oR[0] - oD[0]:+.3f} (unpaired)",
              best({a: h[a]["oc"][0] for a in w.alphas}, low=True), ov],
-            count("T6 retrieval measures favouring drill-down", lambda x: _favour_counts(x)["drill-down"]),
+            count("T6 retrieval measures favouring drill-down", lambda a: w.favour(a)["drill-down"]),
             _retrieval_change(w, rec)]
     return md(["Headline", f"Recommended, α = {_a(rec, w)}", f"Pre-sweep default, α = {ref:g}", "Difference",
                "Best variant on this headline", "Recommended against the pre-sweep default"], rows)
@@ -637,15 +612,112 @@ SWEEP_TABLES = {"sweep_setup": st_setup, "sweep_tree": st_tree, "sweep_coherence
                 "sweep_faithfulness": st_faithfulness, "sweep_retrieval": st_retrieval, "sweep_summary": st_summary}
 
 
+# ---------------------------------------------------------------- verified claims of the prose
+
+def _claims():
+    """NAME -> (the document it is tagged in, what the tagged sentence states, predicate over the main run's metrics.json)."""
+    def sw(fn):
+        return lambda m: fn(Sweep(m))
+
+    def rec(w):
+        return _recommend(w)[2]
+
+    def others(w, a):
+        return [b for b in w.alphas if b != a]
+
+    def most_robust(w):
+        r = rec(w)
+        return all(len(w.robust(r)) > len(w.robust(b)) for b in others(w, r)) and not w.below(r)
+
+    def last_indistinct(w):
+        r, d = rec(w), w.v(rec(w))["paired"]["perturbation"][w.last]
+        oR, oD = w.overclaim(r), w.overclaim(w.ref)
+        return d["lo"] <= 0 <= d["hi"] and oR[1] <= oD[2] and oD[1] <= oR[2]
+
+    def stability_loss(w):
+        below, above, _ = _paired_excl(w, rec(w))
+        return ([x for x in below if "perturbation" in x] == [f"≤{w.cutoffs[0]} (perturbation)"]
+                and sum("cross-snapshot" in x for x in below) == 1 and len(above) == 1 and "cross-snapshot" in above[0])
+
+    def names_most_robust(w):
+        h = {a: w.hari(a) for a in w.alphas}
+        top = max(w.alphas, key=lambda a: h[a][0])
+        return top == 1.0 and not w.robust(1.0) and all(h[1.0][1] > h[b][2] for b in others(w, 1.0))
+
+    def faith_tradeoff(w):
+        r = rec(w)
+        low = min(w.alphas, key=lambda a: w.overclaim(a)[0])
+        return low != r and w.overclaim(r)[0] >= w.overclaim(w.ref)[0]
+
+    def retrieval_mixed(w):
+        r = rec(w)
+        better, _, worse = _retrieval_delta(w, r)
+        slow = all(x["steps_first"]["hier"] > x["steps_first"]["flat"] for x in w.v(r)["retrieval"]["summary"].values()
+                   if "steps_first" in x)
+        return (w.favour(r)["drill-down"] == w.favour(w.ref)["drill-down"] and better and worse
+                and "A reach" in worse and slow)
+
+    def main_identical(w):
+        mr = w.main
+        return (mr is not None and mr["alpha"] == w.default and mr["hierarchy_identical"] == mr["snapshots"]
+                and len(mr["sections_identical"]) == mr["sections"])
+
+    def original_rule(w):
+        o = _recommend(w, guard="best")[2]
+        best_h = max(w.alphas, key=lambda a: w.hari(a)[0])
+        return o == 1.0 == best_h and not w.robust(1.0) and _recommend(w, guard="best")[1] == [1.0]
+
+    return {
+        "sweep_grid": ("report", "the five α values 0, 0.25, 0.5, 0.75 and 1", sw(lambda w: w.alphas == [0.0, 0.25, 0.5, 0.75, 1.0])),
+        "reference": ("report", "the pre-sweep default and reference is α = 0.5", sw(lambda w: w.ref == 0.5)),
+        "recommended": ("report", "the rule recommends α = 0.75, which is the configured default of the main run",
+                        sw(lambda w: rec(w) == 0.75 == w.default)),
+        "most_robust": ("report", "the recommended α has more robust cells than every other variant and no below-null cell", sw(most_robust)),
+        "last_indistinct": ("report", "at the last snapshot its paired HARI interval contains 0 and its over-claim CI overlaps the reference's",
+                            sw(last_indistinct)),
+        "stability_loss": ("report", "its paired HARI differences lie below 0 exactly at the first snapshot (perturbation) and one "
+                           "transition (cross-snapshot), and above 0 at one transition", sw(stability_loss)),
+        "names_most_robust": ("report", "α = 1 has the highest perturbation HARI, an interval above every other variant's, and no "
+                              "robust cell", sw(names_most_robust)),
+        "faith_tradeoff": ("report", "another variant has the lowest over-claim, and the recommended α's over-claim is not below the "
+                           "reference's", sw(faith_tradeoff)),
+        "retrieval_mixed": ("report", "same drill-down favour count as the reference; measures better and worse, type-A reach worse; "
+                            "drill-down slower to the first item than flat for every type", sw(retrieval_mixed)),
+        "main_run_identical": ("report", "the main run is identical to the sweep variant at the configured default (hierarchies "
+                               "and all four metric sections)", sw(main_identical)),
+        "sweep_grid_doc": ("sweep", "the five α values 0, 0.25, 0.5, 0.75 and 1",
+                           sw(lambda w: w.alphas == [0.0, 0.25, 0.5, 0.75, 1.0])),
+        "reference_doc": ("sweep", "the pre-sweep default and reference is α = 0.5", sw(lambda w: w.ref == 0.5)),
+        "original_rule": ("sweep", "the original best-variant guard would have recommended α = 1 alone, the most robust variant, "
+                          "which has no robust cell", sw(original_rule)),
+    }
+
+
+CLAIMS = _claims()
+
+
+def check_claims(text, m, path, doc):
+    """Every claim tagged in the document holds on metrics.json, and every claim registered for it is tagged."""
+    found = set(CLAIM.findall(text))
+    unknown = sorted(found - CLAIMS.keys())
+    unused = sorted(n for n, (d, _, _) in CLAIMS.items() if d == doc and n not in found)
+    false = sorted(n for n in found if n in CLAIMS and not CLAIMS[n][2](m))
+    if unknown or unused or false:
+        sys.exit(f"{path}: unknown claim tags {unknown}; registered but untagged {unused}; claims that do not hold on "
+                 "metrics.json: " + ("; ".join(f"{n} ({CLAIMS[n][1]})" for n in false) or "none"))
+    return found
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--run", default="out")
-    ap.add_argument("--sweep", help="an alpha sweep directory (eval/sweep.py): render the sweep tables instead")
+    ap.add_argument("--sweep", action="store_true", help="render the α-sweep tables (docs/alpha_sweep.md) instead")
     ap.add_argument("--report", help="default: docs/report.md, or docs/alpha_sweep.md with --sweep")
     ap.add_argument("--check", action="store_true", help="exit 1 if the report's tables are not up to date")
     a = ap.parse_args(argv)
     tables = SWEEP_TABLES if a.sweep else TABLES
-    r = Sweep(a.sweep) if a.sweep else Run(a.run)
+    run = Run(a.run)
+    r = Sweep(run.m) if a.sweep else run
     path = Path(a.report or ("docs/alpha_sweep.md" if a.sweep else "docs/report.md"))
     text = path.read_text()
     found = [m.group(2) for m in BLOCK.finditer(text)]
@@ -655,14 +727,15 @@ def main(argv=None):
     unknown, missing = set(found) - set(tables), set(tables) - set(found)
     if unknown or missing:
         sys.exit(f"{path}: unknown table blocks {sorted(unknown)}, missing {sorted(missing)}")
+    claims = check_claims(text, run.m, path, "sweep" if a.sweep else "report")
     new = BLOCK.sub(lambda m: m.group(1) + tables[m.group(2)](r) + m.group(4), text)
     if a.check:
         if new != text:
             sys.exit(f"{path}: tables are out of date; run python make_tables.py")
-        print(f"{path}: {len(found)} tables up to date")
+        print(f"{path}: {len(found)} tables up to date; {len(claims)} claims hold")
         return
     path.write_text(new)
-    print(f"{path}: {len(found)} tables regenerated from {a.sweep or a.run}/")
+    print(f"{path}: {len(found)} tables regenerated from {a.run}/metrics.json; {len(claims)} claims hold")
 
 
 if __name__ == "__main__":

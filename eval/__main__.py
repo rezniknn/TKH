@@ -15,8 +15,9 @@
                                                    per variant, paired differences to gamma = 0 -> DIR/gamma.json
   sweep      [--out DIR] [--alphas ...] [--summarise-only]
                                                    alpha sweep, every other parameter at its default: a full run and the
-                                                   four checks per alpha -> DIR/<alpha>/metrics.json; paired comparisons
-                                                   with the default alpha -> DIR/sweep.json (eval/sweep.py)
+                                                   four checks per alpha -> DIR/<alpha>/metrics.json; the comparison
+                                                   (headlines, verdicts, paired differences to the pre-sweep default)
+                                                   -> the "alpha_sweep" section of the main metrics.json (eval/sweep.py)
 coherence, stability, faithfulness and retrieval use the run's own run_config.toml and refuse null-model runs; each updates its own section of
 metrics.json.
 """
@@ -68,7 +69,7 @@ def main(argv=None):
         p.add_argument("--jobs", type=int, default=8)
         if name == "sweep":
             p.add_argument("--alphas", type=float, nargs="+", default=list(ALPHAS))
-            p.add_argument("--summarise-only", action="store_true", help="only recompute DIR/sweep.json from the runs")
+            p.add_argument("--summarise-only", action="store_true", help="only recompute the alpha_sweep section from the runs")
     args = ap.parse_args(argv)
 
     if args.cmd in ("coherence", "stability", "faithfulness", "retrieval"):   # the run's own resolved config, so the check uses exactly its inputs
@@ -116,7 +117,7 @@ def main(argv=None):
             summarise(cfg, d, args.alphas)
         else:
             sweep(cfg, base, args.alphas, d, n_jobs=args.jobs)
-        print(f"sweep -> {d / 'sweep.json'}")
+        print(f"sweep -> {cfg.out_dir / 'metrics.json'} (alpha_sweep)")
         return
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(res, indent=1, allow_nan=False) + "\n")
