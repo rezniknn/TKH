@@ -119,7 +119,7 @@ n.e.: not evaluable, one interval-scheme stratum; —: undefined, no co-assigned
 <!-- /table:sweep_coherence_grid -->
 
 The cell counts weigh every snapshot and level equally, although the held-out evidence grows with the corpus (report
-Table 4), so cells of the last snapshots are better powered. The recommendation (§8) decides on the exact-filter
+Table 3), so cells of the last snapshots are better powered. The recommendation (§8) decides on the exact-filter
 count; Table S4 shows where a difference in counts comes from. Compared with the default, a cell that becomes robust
 from any other state is a gain, a robust cell that becomes anything else is a loss, and a cell that falls below both
 nulls is a loss even where neither variant is robust there.

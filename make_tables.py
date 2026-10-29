@@ -4,8 +4,7 @@
     python make_tables.py --sweep out/sweep [--report docs/alpha_sweep.md] [--check]
 
 Each table sits between `<!-- table:NAME -->` and `<!-- /table:NAME -->` in the report; the script rewrites the block
-from out/metrics.json (coherence, stability, faithfulness, retrieval), out/run_info.json, out/run_config.toml and
-out/<t>/coarse_hyperedges.json. Verdict columns are computed from the p-values and intervals (ALPHA), never typed in.
+from out/metrics.json (coherence, stability, faithfulness, retrieval), out/run_info.json and out/run_config.toml. Verdict columns are computed from the p-values and intervals (ALPHA), never typed in.
 With --sweep DIR the script renders the α-sweep tables (DIR/<α>/ runs and DIR/sweep.json), including the
 recommendation, into docs/alpha_sweep.md. --check exits 1 if any block is out of date, unknown or missing. Nothing is
 recomputed: the script only reads the run outputs.
@@ -53,42 +52,14 @@ class Run:
 
 # ---------------------------------------------------------------- run, parameters, design
 
-def t_data(r):
-    rows = []
-    for c in r.cutoffs:
-        s = r.info["snapshots"][c]
-        lv = s["levels"]
-        rows.append([f"≤{c}", s["n_concept"], s["n_edges"], f"{len(s['hubs'])} (≥ {s['hub_threshold_papers']} papers)",
-                     s["n_stable"], s["n_anchored"], " / ".join(f"{x['max_size']} ({x['cap']:.1f})" for x in lv)])
-    return md(["Snapshot", "Concept nodes n_t", "Clustering edges", "Hubs (threshold)", "Stable set U_t",
-               "Anchored nodes", "Largest super-node (cap) L0 / L1 / L2"], rows)
-
-
-def t_params(r):
-    mth, lab = r.cfg["method"], r.cfg["labels"]
-    coh, st, ret = r.m["coherence"], r.m["stability"]["protocol"], r.m["retrieval"]["config"]
-    rows = [["Snapshots (cutoffs)", ", ".join(r.cutoffs)],
-            ["Budgets N_0, N_1, N_2", ", ".join(map(str, r.info["budgets"]))],
-            ["α (semantic weight), γ (prior weight), ρ (size cap)", f"{mth['alpha']}, {mth['gamma']}, {mth['rho']}"],
-            ["Edge weights, hub fraction h, LSA dimension", f"{mth['edge_weight']}, {mth['hub_frac']}, {mth['lsa_dim']}"],
-            ["Labeller / judge (offline replay)", f"{lab['labeller_model']} / {lab['judge_model']}"],
-            ["Label evidence: lines per half, split seed, contrast groups", f"{lab['max_items']}, {lab['seed']}, {lab['contrast']}"],
-            ["Coherence nulls: configuration rebuilds, random-label permutations", f"{coh['R']}, {coh['R_labels']}"],
-            ["Coherence period schemes (primary first); significance level of all null tests", f"{', '.join(SCHEMES)}; {ALPHA}"],
-            ["Stability: perturbation seeds × edge fraction; new-paper null R", f"{len(st['seeds'])} × {st['frac']}; {st['R']}"],
-            ["Retrieval: beam per level, answer length k", f"{'/'.join(map(str, ret['beam']))}, {ret['k']}"],
-            ["Build runtime (s)", f"{r.info['runtime_s']}"]]
-    return md(["Parameter", "Value"], rows)
-
-
 def t_properties(r):
     rows = [["P1 laminarity, P2 budgets", "by construction (merge-only levels; budget lemma)", "`validate.py` on every run"],
             ["P4 hyper-edge fidelity", "by construction (score on the collapsed incidence; multi-way edges kept whole)", "§4"],
             ["No future information (structure, membership)", "by construction (snapshot-only edges, hubs, LSA, anchors)", "`validate.py` member cutoffs"],
-            ["P3 semantic coherence", "empirical", "Tables 4–5, Fig. 1"],
-            ["P5 temporal stability", "by construction (prior, persistent ids); size empirical", "Tables 6–8, Figs. 2–3"],
-            ["P6 faithful labels", "empirical", "Table 9"],
-            ["T6 extrinsic utility", "empirical", "Table 10"]]
+            ["P3 semantic coherence", "empirical", "Tables 3–4, Fig. 1"],
+            ["P5 temporal stability", "by construction (prior, persistent ids); size empirical", "Tables 5–7, Figs. 2–3"],
+            ["P6 faithful labels", "empirical", "Table 8"],
+            ["T6 extrinsic utility", "empirical", "Table 9"]]
     return md(["Property", "Status", "Evidence"], rows)
 
 
@@ -103,21 +74,6 @@ def t_literature(r):
             ["HyperEF 2.0 [4]", "contracting hyper-edges while keeping coarse edges explicit",
              "no ratio or spectral target (P2 fixes the counts); multi-way edges scored by the connectivity cut"]]
     return md(["Work", "Borrowed", "Done differently, and why"], rows)
-
-
-def t_collapse(r):
-    h = json.loads((r.dir / r.last / "coarse_hyperedges.json").read_text())
-    lv = r.info["snapshots"][r.last]["levels"]
-    rows = []
-    for k in sorted(h, key=int):
-        s, e = h[k]["summary"], h[k]["edges"]
-        mw_p = sum(x["multiway"] and x["class"] == "partial" for x in e)
-        mw_u = sum(x["multiway"] and x["class"] == "uncollapsed" for x in e)
-        x = lv[int(k)]
-        rows.append([f"L{k}", s["internal"], s["partial"], s["uncollapsed"], s["edges"], f"{s['multiway']} ({mw_p} + {mw_u})",
-                     f"{x['multi_endpoint']} / {x['merges']}" + (f" ({x['multi_endpoint'] / x['merges']:.0%})" if x["merges"] else "")])
-    return md(["Level", "Internal", "Partial", "Uncollapsed", "Edges", "Multi-way (partial + uncollapsed)",
-               "Merges where native and clique scores differ"], rows)
 
 
 # ---------------------------------------------------------------- coherence
@@ -318,7 +274,7 @@ def _favour_counts(r):
 
 
 def t_findings(r):
-    """Headline verdicts, computed with the same rules as Tables 5-10."""
+    """Headline verdicts, computed with the same rules as Tables 4-10."""
     rob, rob_f = _robust(r), _robust(r, "fuzzy")
     below, below_f = _below_cells(r), _below_cells(r, "fuzzy")
     above, idx = _above_null(r)
@@ -332,32 +288,32 @@ def t_findings(r):
     else:
         oc_q = "majority of labels" if oc["ci95"][0] > 0.5 else ("minority of labels" if oc["ci95"][1] < 0.5 else "not distinguishable from one half")
     if len(lv) < 2:
-        lv_row = ["P6 over-claim by level", "one level only", "", "Table 9"]
+        lv_row = ["P6 over-claim by level", "one level only", "", "Table 8"]
     else:
         a, b = lv[0]["over_claim"]["ci95"], lv[-1]["over_claim"]["ci95"]
         sep = "not evaluable" if not (_ok(a) and _ok(b)) else ("CIs do not overlap" if a[1] < b[0] or b[1] < a[0] else "CIs overlap")
         lv_row = [f"P6 {lv_names[0]} vs {lv_names[-1]} over-claim",
-                  f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table 9"]
+                  f"{f(lv[0]['over_claim']['value'])} vs {f(lv[-1]['over_claim']['value'])}", sep, "Table 8"]
     fav = _favour_counts(r)
     steps = [(t, s["steps_first"]) for t, s in r.m["retrieval"]["summary"].items() if "steps_first" in s]
     rows = [["P3 coherence beyond both nulls (robust: all schemes, exact filter)", ", ".join(rob) or "none",
-             f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table 5"],
+             f"fuzzy filter: {', '.join(rob_f) or 'none'}", "Table 4"],
             ["P3 cells below both nulls in every scheme (exact filter)", ", ".join(below) or "none",
-             f"fuzzy filter: {', '.join(below_f) or 'none'}", "Table 5"],
-            ["P5 cross-snapshot indices above the new-paper null", f"{above} of {len(idx)}", f"p ≤ {ALPHA}, uncorrected", "Table 7"],
-            ["P5 perturbation HARI, first → last snapshot", f"{f(pt[r.cutoffs[0]]['hari']['mean'])} → {f(pt[r.last]['hari']['mean'])}", "", "Table 6"],
+             f"fuzzy filter: {', '.join(below_f) or 'none'}", "Table 4"],
+            ["P5 cross-snapshot indices above the new-paper null", f"{above} of {len(idx)}", f"p ≤ {ALPHA}, uncorrected", "Table 6"],
+            ["P5 perturbation HARI, first → last snapshot", f"{f(pt[r.cutoffs[0]]['hari']['mean'])} → {f(pt[r.last]['hari']['mean'])}", "", "Table 5"],
             ["P5 localised level × transition cells (ratio CI > 1)", f"{nloc} of {len(loc)}",
-             "untouched share of reassignment " + _range_pct([_untouched_share(x) for x in loc]), "Table 8"],
-            ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table 9"],
+             "untouched share of reassignment " + _range_pct([_untouched_share(x) for x in loc]), "Table 7"],
+            ["P6 over-claim rate", ci(oc["value"], *oc["ci95"]), oc_q, "Table 8"],
             lv_row,
             ["T6 retrieval measures favouring drill-down / flat / tie", f"{fav['drill-down']} / {fav['flat']} / {fav['tie']}",
-             "point estimates, no CIs", "Table 10"],
-            ["T6 median steps to first item, drill-down vs flat", "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)}" for t, x in steps) or "—", "", "Table 10"]]
+             "point estimates, no CIs", "Table 9"],
+            ["T6 median steps to first item, drill-down vs flat", "; ".join(f"type {t}: {f(x['hier'], 1)} vs {f(x['flat'], 1)}" for t, x in steps) or "—", "", "Table 9"]]
     return md(["Finding", "Result", "Qualifier", "Source"], rows)
 
 
-TABLES = {"findings": t_findings, "data": t_data, "params": t_params, "properties": t_properties, "literature": t_literature,
-          "collapse": t_collapse, "coherence_coverage": t_coherence_coverage, "coherence": t_coherence,
+TABLES = {"findings": t_findings, "properties": t_properties, "literature": t_literature,
+          "coherence_coverage": t_coherence_coverage, "coherence": t_coherence,
           "perturbation": t_perturbation, "cross_snapshot": t_cross, "localisation": t_localisation,
           "faithfulness": t_faithfulness, "retrieval": t_retrieval}
 

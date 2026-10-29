@@ -1632,6 +1632,23 @@ accepted or changed, and what was checked.
   - the evidence split is the same procedure, not paired;
   - the future-work integration note.
 
+### 49. Report: collapse table and run details removed (Claude Code)
+
+- **Task/module:** `docs/report.md`, `make_tables.py`
+- **Prompt:** remove Table 3 (collapse classes at the last snapshot) and point the reader to the files with the merge
+  statistics instead; remove the run details and stop referencing `run_info.json` and `run_config.toml`.
+- **What the assistant did:**
+  - Asked two clarifying questions, since the merge statistics exist only in `run_info.json`. At the user's choice,
+    `run_info.json` is named once, as the place to find the merge counts, and Appendix A is deleted without stating
+    its settings in the text.
+  - Removed Table 3, Appendix A (Tables A1–A2) and every pointer to them. The §4 collapse paragraph now points to
+    `out/<t>/coarse_hyperedges.json` and to the `multi_endpoint`, `linked` and `prior` counts.
+  - Renumbered Tables 4–11 to 3–10 in the text, in the generated source columns, and in the one reference from
+    `docs/alpha_sweep.md`.
+  - Deleted `t_collapse`, `t_data` and `t_params` from `make_tables.py`.
+- **Verified:** `make_tables.py --check` passes for both reports; `make test` passes (65); no reference to Table A1,
+  Table A2 or Appendix A remains.
+
 ## Case where the AI was wrong (§6a)
 
 _To be filled in. It must describe one concrete case where the assistant produced wrong
