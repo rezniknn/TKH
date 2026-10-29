@@ -164,7 +164,8 @@ Every variant has its own super-nodes and therefore its own labels and its own e
 the prompts and the splitting procedure (seeded, stratified by evidence kind) are the same, so the comparison is not
 paired. Table S6 gives the over-claim rate, the share of labels with at least one unsupported
 claim, overall and per level, with bootstrap intervals over labels, and as a sensitivity check the over-claim rate
-under the rule that drops failing claims of a decomposition instead of judging label and gloss (report §5.1.3).
+under the rule that drops failing claims of a decomposition and judges the remaining ones, falling back to label and
+gloss only when none remain (report §5.1.3).
 
 *Table S6. Label over-claim per variant against held-out evidence (`alpha_sweep.variants.<α>.faithfulness`).*
 

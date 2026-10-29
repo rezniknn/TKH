@@ -316,8 +316,8 @@ held-out line that exists, a deterministic check against a judge that agrees wit
 subject to a *content check*: each claim must reuse at least 80% of its content words from label and gloss and keep a
 specific word. If any claim fails the check, or no claim is returned, the decomposition fails and label and gloss are
 judged as two claims instead, so that no part of the label goes unjudged. As a sensitivity check, the over-claim rate
-is also computed under the alternative rule that drops the failing claims and judges the remaining ones (Table 10
-note). The *over-claim rate* is the share of
+is also computed under the alternative rule that drops the failing claims and judges the remaining ones, falling back to label and
+gloss only when none remain (Table 10 note). The *over-claim rate* is the share of
 labels with at least one unsupported claim, and the claim-level rate the share of unsupported claims. Deterministic
 checks without an LLM flag years after the cutoff, method or dataset names that belong to no member, and entities
 that first appear after the cutoff. Because the judge reads only the held-out half, restating the labeller's input
