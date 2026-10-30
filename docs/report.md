@@ -5,20 +5,17 @@
 **Abstract.** We build a budgeted, laminar, three-level abstraction of a temporal knowledge hypergraph in four
 cumulative snapshots. SHAC is a deterministic greedy agglomeration whose merge score mixes, on a common rank scale,
 name similarity and a structural term on the collapsed hyper-edge incidence, with a soft prior from the previous
-snapshot. Laminarity, exact budgets, the collapse rule and identity bookkeeping hold by construction; coherence,
-stability, label faithfulness and utility are measured with signals the method never sees. Of five values of the
-semantic weight, α = 0.75 is recommended and shipped. A held-out citation ruler beats both nulls at every level of the later snapshots, conditional on these papers; its utility for navigation is mixed and not established. Levels are L0 (coarsest) to L2.
+snapshot. Laminarity, exact budgets, the collapse rule and identity bookkeeping hold by construction; coherence is measured with signals the method never sees, stability, label faithfulness and utility are evaluated empirically. Of five values of the semantic weight, α = 0.75 is a recommended variant. A held-out citation coherence ruler beats both null models at every level of the later snapshots; model's utility for navigation is mixed and not established.
 
 
 Appendices: [A, formal details and full evaluation results](appendix.md); [B, the structure - semantics trade off evaluation](alpha_sweep.md).
 
 ## 1. Problem definition
 
-The Temporal Knowledge Hypergraph (TKH) represents scientific literature as typed nodes joined by dated hyper-edges.
+The Temporal Knowledge Hypergraph (TKH) provided represents scientific literature as typed nodes joined by dated hyper-edges.
 Per snapshot H(t) we need a laminar sequence of partitions under hard per-level budgets (P1, P2), with super-nodes close
 in meaning (P3), computed on the hypergraph (P4), evolving smoothly with trackable identities (P5) and faithfully
-labelled (P6). The export covers papers on machine learning for materials science and chemistry (statistics: notebook 01);
-snapshot ≤t (t = 2020, 2022, 2024, 2026) holds every node and hyper-edge of papers published up to t.
+labelled (P6). The export covers papers on machine learning for materials science and chemistry; snapshot ≤t (t = 2020, 2022, 2024, 2026) holds every node and hyper-edge of papers published up to t.
 
 ## 2. Formal statement
 
@@ -30,7 +27,7 @@ remain available as an independent test of coherence.
 **Inputs.** Structure is the *clustering hypergraph* G_t = (V_t, E_t) of the six concept relations, each edge a star
 around one paper's method; *hubs* (concepts in more than a fraction h of the papers) leave the edges, and w_e =
 1/(|e| − 1), rescaled to equal weight per relation. Semantics is z_v: the TF-IDF of the character 3–5-grams of a
-concept's name and aliases, reduced by LSA fitted per snapshot. Citations, claims, authors and titles never enter.
+concept's name and aliases, reduced by LSA fitted per snapshot. Citations, claims, authors and titles are left out of coarsening method.
 
 **Output.** Nested partitions P_{t,0} ⪰ P_{t,1} ⪰ P_{t,2} of V_t with exactly min(N_k, n_t) super-nodes for budgets
 N = (15, 60, 240): the brief fixes only N_0 ≈ 10–15, and the finer budgets are untuned defaults. Every node of the
@@ -53,7 +50,7 @@ $$ s(A,B) = \alpha\,F_S\big(S(A,B)\big) + (1-\alpha)\,F_H\big(H(A,B)\big), \qqua
 - **Feasibility.** |A| + |B| ≤ ρ·n_t/N_k concept nodes; for ρ ≥ 2 a feasible pair always exists, so every budget is met
   exactly (Appendix A.1). Ties go to the lowest item index, so the build is deterministic.
 
-α = 0.75 comes from the α comparison; γ = 0.5, ρ = 2 and h = 0.2 are stated priors. Resources: Appendix A.2.
+α = 0.75 comes from the α comparison sweep; γ = 0.5, ρ = 2 and h = 0.2 are stated priors. Resources: Appendix A.2.
 
 **Anchoring.** Every non-concept node joins, at every level, the super-node of one concept: a claim that of the
 method on its claims edge, an article that of the method it presents, any other node that of the method of the
@@ -152,7 +149,7 @@ estimates over 14 type-A and 4 type-B questions, with settings chosen in view of
 
 ### 5.2 Choosing α
 
-α was varied over 0, 0.25, 0.5, 0.75 and 1, all else at defaults, each variant built and evaluated in full
+α was varied over 0, 0.25, 0.5, 0.75 and 1, all other parameters fixed, each variant built and evaluated in full
 (Appendix B); stability comparisons with the pre-sweep default, α = 0.5, are paired by seed.
 
 *Table 2. α variants across the four criteria; the recommended variant in bold (`alpha_sweep`). The T6 column counts
@@ -170,8 +167,8 @@ point estimates of correlated measures, a descriptive simplification rather than
 Coherence cells are out of 12 (snapshot × level), retrieval measures out of 12.
 <!-- /table:alpha_sweep -->
 
-**Best candidate selection rule** (`make_tables.py`): a variant is eligible unless distinguishably worse than the pre-sweep default (paired HARI
-difference at the last snapshot wholly below zero, or over-claim interval wholly above); the eligible variant with the most robust cells
+**Best candidate selection rule**: a variant is eligible unless distinguishably worse than the pre-sweep default (paired HARI
+difference at the last snapshot wholly below zero, or over-claim interval wholly above); the eligible variant with the most robust coherence cells 
 wins, since coherence alone tests with a held-out ruler whether groups mean something. 
 
 **Trade-offs** of α = 0.75: less robust to perturbation at the first snapshot, and less consistent across
@@ -218,8 +215,8 @@ trustworthy.
 ### 5.4 Why α = 0.75 is the ship candidate
 
 We propose α = 0.75: it has more robust coherence cells than any other variant and none below both nulls, at no
-measurable cost in stability at the last snapshot or in overall faithfulness. Semantic claims should be restricted to its robust
-cells. Retrieval does not enter the rule, and no navigation benefit is inferred from coherence: T6 utility is mixed.
+measurable cost in stability at the last snapshot or in overall label faithfulness. Semantic claims should be restricted to its robust
+cells. Retrieval quality was not considered in the decision, since the results mixed and no retrieval utility could be established at this point.
 
 ### 5.5 Extra: coherence on paper abstracts
 
@@ -247,15 +244,21 @@ quantile, and it stays positive with any one multi-paper super-node left out. Th
 
 ## 6. Limitations and four more weeks
 
-**Verified and assumed.** Verified by construction or `validate.py` on every run: P1–P2, the collapse rule,
-snapshot-only membership, the identity log. Measured, as uncorrected tests on this corpus: coherence, stability,
-faithfulness, utility. Assumed, by consequence: (1) *meaning is a lexical proxy*: character n-grams relate spellings,
+**Verified and assumed.** 
+
+Verified by construction or `validate.py` on every run: P1–P2, the collapse rule,
+snapshot-only membership, the identity log. 
+
+Measured, as uncorrected tests on this corpus: coherence, stability,
+faithfulness, utility. 
+
+Assumed, by consequence: (1) *meaning is a lexical proxy*: character n-grams relate spellings,
 not proper-named methods, and shared nodes are anchored to one earliest paper, neither validated with cluster examples
 or sensitivity checks; (2) *citation coupling indicates closeness*, though shared benchmarks also produce it; (3)
 *relations within a paper indicate relatedness*; (4) *untouched structure should keep its grouping* (no γ = 0 control);
 (5) *no post-cutoff information*, though aliases come from the whole export; (6) *the budgets suit the corpus*.
 
-With four more weeks we would: (1) replace character n-grams by a specialised embedding model fitted on pre-cutoff
+With four more weeks we would attempt to: (1) replace character n-grams by a specialised embedding model fitted on pre-cutoff
 text, or by LLM judgements of node and super-node similarity; (2) include the LLM labels and glosses in super-node
 similarity; (3) use a separate α per level; (4) tune γ (with γ = 0), ρ, the hub fraction and the retrieval settings
 (super-nodes kept, answers returned) on one half of the data and report on the other; (5) test retrieval on synthetic
