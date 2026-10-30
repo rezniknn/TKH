@@ -1,182 +1,187 @@
-<!-- Project overview, setup and exact reproduction steps (deliverable 1). Explains how 'make all' builds, validates and checks the outputs. -->
 # Multi-resolution semantic abstraction over the TKH
 
-## Setup
+This repository builds a budgeted, nested, three-level abstraction (L0 coarsest, then L1, then L2) of the TKH
+temporal knowledge hypergraph for four cumulative snapshots: ≤2020, ≤2022, ≤2024 and ≤2026. The method is SHAC, a
+budgeted semantic–hypergraph agglomeration. The repository also evaluates the result.
 
-Python 3.11 or 3.12 (tested with both; 3.11 is the minimum, for `tomllib`).
+- **Final report:** [docs/report.md](docs/report.md).
+- **Appendix A:** [docs/appendix.md](docs/appendix.md), with the full definitions and per-metric tables.
+- **Appendix B:** [docs/alpha_sweep.md](docs/alpha_sweep.md), the α sweep.
+- **AI usage:** [AI_USAGE.md](AI_USAGE.md).
+
+## Repository structure
+
+| Path | Content |
+|---|---|
+| `docs/report.md` | Final report: formal statement, method and literature, T4 coarsening decision, evaluation, future work |
+| `docs/appendix.md`, `docs/alpha_sweep.md` | Appendix A (definitions, resources, full result tables) and Appendix B (α sweep) |
+| `docs/figures/` | Figures of the report and its appendices (`make figures`) |
+| `notebooks/` | Exploratory and explanatory notebooks (index below) |
+| `tkh/` | Hypergraph data structures and the SHAC method: loading and snapshots (`io.py`), structure and semantics (`structure.py`, `semantic.py`), greedy agglomeration (`hierarchy.py`), hyper-edge coarsening (`coarsen.py`), temporal coupling (`temporal.py`), labels (`label.py`, `llm.py`), the T6 drill-down agent (`retrieve.py`), null models (`null.py`), pipeline and CLI (`pipeline.py`, `__main__.py`) |
+| `eval/` | Evaluation metrics: held-out coherence (`coherence.py`, `experiments.py`), stability (`stability.py`), label faithfulness (`faithfulness.py`), retrieval utility (`retrieval.py`), α sweep (`sweep.py`), figures; `eval/extra/` holds the extra abstract-based coherence check |
+| `out/` | Produced hierarchies, committed: `<cutoff>/hierarchy.json` per snapshot, `temporal_events.json`, `metrics.json` (every evaluation number), the run config and diagnostics, and the five α-sweep runs in `out/sweep/<α>/` ([out/README.md](out/README.md)) |
+| `data/` | Assignment inputs (TKH export, article table, T6 questions and gold answers) and the LLM response cache ([data/README.md](data/README.md)) |
+| `configs/` | Run configuration `default.toml` and the LLM prompt templates in `configs/prompts/` |
+| `validate.py`, `schema/` | Output validator and the JSON schemas it checks against |
+| `make_tables.py` | Generates every results table of the report and the appendices from `out/metrics.json` and checks the tagged result claims |
+| `tests/` | Validator tests on one valid and many deliberately broken outputs |
+| `figures/` | Notebook figures |
+| `prompts/`, `notes/` | Major AI prompts and research notes referenced by `AI_USAGE.md` |
+
+### Notebooks
+
+| Notebook | What it shows |
+|---|---|
+| `01_describe_graph.ipynb` | T1 data description: node and relation types, hyper-edge arity, how articles link the graph, growth across snapshots |
+| `02_semantic_signal.ipynb` | What semantic information the export's metadata carries; lexical (character n-gram TF-IDF) representations; a trial clustering on semantics alone; a feasibility probe for fetching abstracts |
+| `03_structural_signal.ipynb` | The structure of the graph (which nodes and relations link papers, what a coarser level must represent), and design rules derived from it |
+| `04_hierarchies.ipynb` | The shipped hierarchies (α = 0.75) taken apart with the method's own code: one merge step by step, level transitions and the temporal prior, super-node records, the hyper-edge coarsening per edge, labels and glosses |
+| `05_retrieval_design.ipynb` | Design of the T6 retrieval evaluation: question and gold formats, what the export can answer, the drill-down agent and its flat baseline, the metrics |
+
+All notebooks read `out/` and the LLM cache. None rebuilds anything or calls an LLM.
+
+## Installation
+
+Python 3.11 or 3.12 is required (3.11 is the minimum, for `tomllib`).
 
 ```bash
 python3.12 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 ```
 
-Equivalent with [uv](https://docs.astral.sh/uv/): `uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -r requirements.txt`.
-
-Run the notebooks with this environment's Jupyter (`.venv/bin/jupyter`), or select `.venv` as the kernel in your editor. The pinned versions matter: other environments (e.g. an older Anaconda) may differ.
-
-## Configuration
-
-All input paths, snapshot cutoffs and output directories are set in a TOML config.
-The default is [configs/default.toml](configs/default.toml), which points at `data/`.
-To run on other inputs, copy it, edit the paths, and select it:
+With [uv](https://docs.astral.sh/uv/):
 
 ```bash
-export TKH_CONFIG=configs/my.toml     # used by the notebooks and scripts
+uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -r requirements.txt
 ```
 
-Relative paths in a config are resolved against the config file's directory.
-Only `[inputs] graph` is required. Without `articles`, publication years come
-from hyper-edge provenance and titles from article nodes. Scripts also accept
-`--config` and per-value overrides (`--graph`, `--articles`, `--cutoffs ...`,
-`--out-dir`, `--figures-dir`), which take precedence over the config file.
+Run the notebooks with `.venv/bin/jupyter`, or select `.venv` as the kernel. `requirements.txt` pins the versions;
+another environment, such as an older Anaconda, may give different results.
 
-## T1: data description
+### LLM: open-source models with an offline cache
+
+Two open-source models run locally through [Ollama](https://ollama.com):
+
+- **qwen2.5:7b-instruct** writes the L0–L1 labels and glosses.
+- **phi4**, from a different model family, judges label faithfulness and rates paper abstracts for the extra check.
+
+Every answer is stored in a committed cache, keyed by model digest, prompt and decoding options:
+
+- `data/llm_cache.json` holds the labels and the faithfulness judgements;
+- `eval/extra/llm_cache.json` holds the abstract ratings.
+
+Decoding is deterministic: temperature 0 and a fixed seed. The default mode is offline, so **no Ollama installation
+and no network access are needed to reproduce the report**. An offline run never contacts a server. A prompt
+missing from the cache is an error (`CacheMiss`), never a silent fallback.
+
+Ollama is needed only when a run creates prompts the cache does not hold, for example new parameter values, new
+data or edited prompt templates. To install it:
 
 ```bash
-.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/01_describe_graph.ipynb
+# macOS: brew install ollama, or download the app from https://ollama.com/download
+# Linux:
+curl -fsSL https://ollama.com/install.sh | sh
+
+ollama serve &                        # local server on http://localhost:11434 ([labels] endpoint)
+ollama pull qwen2.5:7b-instruct       # labeller
+ollama pull phi4                      # faithfulness judge and abstract rater
 ```
 
-This regenerates `figures/t1_*.png` (or the configured `figures_dir`).
+Then select a mode with `TKH_LLM_MODE`, which overrides `[labels] mode`:
 
-`notebooks/02_semantic_signal.ipynb` asks what semantic information the export's metadata
-carries and whether clustering can use it. It covers lexical TF-IDF representations
-(`tkh/semantic.py`) and a trial clustering on semantics alone.
+- `live` answers a cache miss from the server and stores the answer;
+- `refresh` asks the server again for every prompt and overwrites the cache;
+- `offline` is the default.
 
-Its §5 checks whether paper abstracts can be retrieved from the export's identifiers
-(`tkh/abstracts.py`: arXiv API by id, OpenAlex/arXiv title search). This is a feasibility
-probe for the notebook only; the method never uses abstracts. The live part is opt-in,
-and nothing is stored:
+## Reproducing the report
+
+Every number in the report and its appendices comes from `out/metrics.json`. The full chain, from inputs to tables,
+is:
 
 ```bash
-TKH_ONLINE=1 .venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/02_semantic_signal.ipynb
+make all
 ```
 
-The snapshot rule is in `tkh/io.py` and the statistics in `tkh/describe.py`.
+It runs these steps in order:
 
-`notebooks/03_structural_signal.ipynb` studies the structure of the graph (which nodes and relations link papers,
-and what a coarser level must represent) without assuming a coarsening method, and derives design rules for one.
+1. `build`: SHAC hierarchies for every snapshot to `out/`. This takes about 13 minutes on 8 cores.
+2. `validate`: checks `out/` against the schemas and its own run config (P1 laminarity, P2 budgets, cutoffs,
+   labels, event log).
+3. `metrics`, which runs four checks, each writing its own section of `out/metrics.json`:
+   - `coherence`: held-out citation coherence against 99 configuration-null rebuilds and 999 random labellings;
+   - `stability`: perturbation (5 seeds) and cross-snapshot stability against a new-paper null;
+   - `faithfulness`: label over-claim against held-out evidence;
+   - `retrieval`: T6 drill-down against flat search.
+4. `abstract-coherence`: the extra abstract-based check.
+5. `sweep-summary`: the α-sweep comparison, computed from the committed runs in `out/sweep/`.
+6. `tables`: regenerates every table of `docs/report.md` and both appendices.
+7. `test`: the validator tests.
 
-`notebooks/04_hierarchies.ipynb` takes apart the shipped hierarchies (α = 0.75) with the method's own code:
-- the inputs of a merge;
-- one merge step by step, with the scores, the choice of the pair and what the merge changes;
-- the transition between levels and the temporal prior;
-- what a super-node preserves (record, anchored members, parents, identities);
-- the hyper-edge coarsening decision per edge and level;
-- how labels and glosses are produced from the evidence;
-- the resulting hierarchies across all levels.
+The LLM steps replay from the cache, so the result should match the committed `out/`. Check that with
+`git status` or `git diff --stat out/ docs/`.
 
-Every step is checked against `out/`. It replays single engine steps, never rebuilds, and reads labels from the LLM
-cache:
+**Shorter checks** that need no rebuild:
+
+```bash
+make validate                                  # validator on the committed out/
+make test                                      # validator rejects every broken fixture
+.venv/bin/python make_tables.py --check        # report tables match out/metrics.json, and every tagged claim holds
+.venv/bin/python make_tables.py --doc appendix --check
+.venv/bin/python make_tables.py --doc sweep --check
+make retrieval                                 # recompute the T6 section from out/ (seconds)
+```
+
+**The α sweep (Appendix B)** is not rebuilt by `make all`, which only summarises the committed runs. To rebuild it:
+
+```bash
+make sweep    # α = 0, 0.25, 0.5, 0.75, 1, other parameters at defaults: full build + four checks per α -> out/sweep/<α>/
+```
+
+`out/` (the default α = 0.75) is identical to `out/sweep/0.75/`.
+
+**Notebooks:** re-execute any of them in place, for example:
 
 ```bash
 .venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/04_hierarchies.ipynb
 ```
 
-`notebooks/05_retrieval_design.ipynb` is the design document for the T6 extrinsic evaluation; it calls the
-implementation in `tkh/retrieve.py` and `eval/retrieval.py`. It covers:
-- the format of `data/questions.csv` and `data/ground_truth.json`, with a role for every field;
-- what the export can answer (ceilings);
-- the hierarchy as a search index;
-- the drill-down agent and its flat baseline;
-- the metric design (hit-rate, error rate, items inspected, candidates scored) for methods, claims and citations;
-- the implementation, assumptions and future work.
+Notebook 02's abstract-retrieval probe makes network calls only with `TKH_ONLINE=1`.
 
-It reads `out/` (never rebuilds), makes no LLM calls, and runs in seconds:
+## Changing parameters
 
-```bash
-.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/05_retrieval_design.ipynb
-```
+All settings live in a TOML config. The default is [configs/default.toml](configs/default.toml), whose comments
+document every key.
 
-## Output validator (§6a)
+| Section | Keys |
+|---|---|
+| `[inputs]` | `graph` (required), `articles` (optional) |
+| `[snapshots]` | `cutoffs`: at least 3 years |
+| `[hierarchy]` | `budgets`: maximum super-nodes per level, L0 first, non-decreasing |
+| `[method]` | `alpha` (semantic vs structural weight, default 0.75), `gamma` (temporal prior, 0.5), `rho` (size cap, 2), `edge_weight`, `hub_frac` (0.2), `lsa_dim` (100); unknown keys are an error |
+| `[labels]` | labeller and judge models, Ollama endpoint, cache path, LLM mode, evidence split; `labeller = "placeholder"` skips the LLM |
+| `[outputs]` | `out_dir`, `figures_dir` |
 
-```bash
-.venv/bin/python validate.py out/ --config out/run_config.toml     # or: make validate
-```
-
-Every run writes its resolved configuration to `<run>/run_config.toml`, so a run with
-non-default budgets, cutoffs or inputs (e.g. a null-model graph) is validated against
-exactly what built it.
-
-The validator checks every configured snapshot's `out/<cutoff>/hierarchy.json` and
-`out/temporal_events.json` against `schema/` and the run config:
-- **P1 laminarity:** coverage, uniqueness, parent levels, nesting.
-- **P2 budgets:** `[hierarchy] budgets` in the config; at least 2 levels are required.
-- **Snapshot cutoff:** member ids must exist in that snapshot.
-- **Labels:** levels 0 and 1 must have a label and gloss.
-- **Event log:** references, snapshot order and arity, plus lineage completeness and
-  consistency for P5 (every super-node has exactly one fate per transition).
-- **Ids:** one global id namespace (constant level, no rebirth after a gap).
-
-The full rule list is in the `validate.py` docstring. It prints one
-`CODE location: message` line per violation. Exit codes: 0 = pass, 1 = violations,
-2 = usage or input error, 3 = internal error.
-
-Proof that it bites: `make test`. This runs `tests/test_validate.py` on
-`tests/fixtures/`, which holds one valid output and a set of broken mutations
-(generated by `tests/make_fixtures.py`). Each mutation must be rejected with exactly
-its expected codes. The tests also cover inputs that can't be committed as fixtures
-(unreadable files, integer ids, undated input nodes, duplicate cutoffs, internal
-errors), a mock built from the full input graph (`tests/mock_output.py`), and
-mutations of that mock.
-
-## Method: SHAC (T2, T4)
-
-The report, [docs/report.md](docs/report.md), gives the formal statement (greedy score, guarantees, rejected
-alternatives), the method and its literature positioning, the T4 coarsening rule, the evaluation and future work.
-[docs/appendix.md](docs/appendix.md) (Appendix A) holds the budget lemma, the resource statement, the full metric
-definitions and every per-metric table; [docs/alpha_sweep.md](docs/alpha_sweep.md) (Appendix B) holds the α sweep.
-
-- **Procedure.** A budget-constrained greedy agglomeration over the concept nodes, run
-  from the finest level to the coarsest, so that every level is a cut of one merge tree
-  (P1). Each merge maximises `alpha * F_S + (1 - alpha) * F_H`:
-  - `F_H`: rank of the degree-normalised reduction of the λ−1 connectivity cut on the
-    collapsed incidence (`tkh/coarsen.py`, the T4 rule); unlinked pairs get 0;
-  - `F_S`: rank of the average-linkage cosine of character n-gram LSA vectors of the names.
-
-  A size cap `rho * n / N_k` guarantees that every level reaches exactly `min(N_k, n)`
-  super-nodes (P2), for any budget list.
-- **Temporal coupling (T3).** Snapshots are built in order. A localised temporal prior,
-  `(1 - gamma) * score + gamma * Pi`, pulls old nodes that no new paper touches towards their previous
-  co-members (a soft prior: it bounds no reassignment, which is measured); ids and events come from overlap matching.
-- **Other nodes.** Non-concept nodes are anchored to a concept node after clustering.
-  Citations, claims, titles and authors never enter the clustering; `claims` and `cites`
-  edges are used only to anchor claim and cited-work nodes afterwards.
-- **Null models** (`tkh/null.py`): the type- and period-preserving hypergraph
-  configuration model, run through the same pipeline, and random labels.
-- **Held-out coherence check** (`eval/coherence.py`, run by `python -m eval coherence`): bibliographic coupling of papers whose concepts a
-  level groups together, on paper pairs that share no concept node, adjusted for publication
-  period (papers of one period cite the same work); every snapshot and level, against both nulls.
-- **Stability check** (`eval/stability.py`): rebuild after removing 10% of hyper-edges (5 seeds)
-  and real cross-snapshot ARI and HARI with intervals, against a null where only the new papers'
-  edges are rewired; change localisation; event counts.
-- **Labels (T5)** (`tkh/label.py`, `[labels]` of the config): an LLM labeller (qwen2.5) writes the L0–L1 label and
-  gloss of each super-node from half of its evidence; answers replay from `data/llm_cache.json` (offline by default).
-- **Label faithfulness check** (`eval/faithfulness.py`, run by `make faithfulness`): a judge from a different model
-  family splits each L0–L1 label and gloss into claims and checks them against the held-out half of the evidence
-  -> over-claim rate in `metrics.json["faithfulness"]`, records in `out/faithfulness_judgements.json`; LLM answers
-  replay from the cache.
-- **Retrieval check, T6** (`tkh/retrieve.py` agent, `eval/retrieval.py` evaluator, run by `make retrieval`): a
-  drill-down agent (L0 → L2 beam search) against flat search on `data/questions.csv`, scored with
-  `data/ground_truth.json` (hit-rate, error rate, items inspected, candidates scored) -> `metrics.json["retrieval"]` and
-  `out/retrieval_answers.json`; offline, seconds. Design: `notebooks/05_retrieval_design.ipynb`; results:
-  `docs/report.md` §5.3 (Table 3) and `docs/appendix.md` (Table A7).
-- **Abstract coherence (extra)** (`eval/extra/abstract_coherence.py`, run by `make abstract-coherence`): phi4 rates the
-  topical closeness of paper pairs from their abstracts, within vs across L0 super-nodes -> `metrics.json
-  ["abstract_coherence"]` and `eval/extra/REPORT.md`; offline from `eval/extra/llm_cache.json`; report §5.5.
+There are three ways to change them:
 
 ```bash
-make all                                     # build -> validate -> metrics -> abstract coherence -> sweep summary -> tables -> test (build to stability: about 15 min on 8 cores)
-make tables                                  # every table of the report and Appendices A, B from out/metrics.json (make_tables.py --doc report|appendix|sweep; --check to verify)
-make metrics                                 # every check on out/: coherence -> stability -> faithfulness -> retrieval
-make retrieval                               # T6 retrieval check only (reads out/, seconds)
-make build PARAMS="alpha=0.25 hub_frac=0.3"  # any [method] parameter
-.venv/bin/python -m tkh build --out out_alt --budgets 10 40 160 640 --param rho=4
-make null SEED=3                             # one null-model run, validated against its own graph
-make sweep                                   # alpha = 0 ... 1, rest at defaults: full run + four checks each -> out/sweep/; comparison -> out/metrics.json "alpha_sweep"
-make abstract-coherence                      # extra: LLM-rated abstract closeness within vs across L0 super-nodes -> metrics.json, eval/extra/REPORT.md
+# 1. a copy of the config, used by every script and notebook
+cp configs/default.toml configs/my.toml        # edit; relative paths resolve against the file's directory
+export TKH_CONFIG=configs/my.toml
+
+# 2. command-line overrides of one build (they take precedence over the config)
+make build PARAMS="alpha=0.5 rho=4"            # [method] parameters -> out/
+.venv/bin/python -m tkh build --out out_alt --budgets 10 40 160 --cutoffs 2021 2023 2026 --param hub_frac=0.3
+.venv/bin/python validate.py out_alt --config out_alt/run_config.toml
+
+# 3. the checks on any run directory
+make metrics OUT=out_alt
 ```
 
-Parameters (`alpha`, `gamma`, `rho`, `edge_weight`, `hub_frac`, `lsa_dim`) live in `[method]` of
-the config; unknown keys are an error. The default `alpha = 0.75` was chosen by the α sweep (`make sweep`, `docs/alpha_sweep.md`);
-the other defaults are stated priors. `[labels]` sets the labeller and judge models, the LLM cache and its mode
-(`labeller = "placeholder"` skips the LLM).
+- **Overwriting `out/`.** `make build` writes to `out/`, which holds the committed results, so a parameter
+  experiment is better sent elsewhere with `--out`.
+- **Run config.** Every run writes its resolved configuration to `<run>/run_config.toml`. The validator and the
+  checks read it, so a run is always checked against what built it.
+- **LLM cache.** New parameter values change the super-nodes and therefore the label prompts. Run them with
+  `TKH_LLM_MODE=live` and Ollama, or set `labeller = "placeholder"` in a config copy.
+  - The cache already covers the five α-sweep values with the other parameters at their defaults.
+- **Null model.** `make null SEED=3` builds and validates one configuration-null run in `out_null/3/`.
