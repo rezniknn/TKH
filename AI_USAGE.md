@@ -12,7 +12,6 @@ This is a summary of how AI assistants were used for each part of the assignment
 | Perplexity Deep Research, academic connector | Literature search, hypergraph-clustering review, null-model survey (`notes/*_perplexity.md`) |
 | Claude Code (Claude Opus 5.5, VS Code extension) | Data investigation, code, notebooks, evaluation, report and README. Larger tasks ran as multi-agent workflows that pair investigators with independent verifiers and adversarial reviewers. |
 | Codex (GPT-6.1-Sol) | Independent evaluation of the repository and the final report: the feedback points on the report came from this review. |
-| qwen2.5:7b-instruct and phi4 via Ollama | Part of the method, not assistants: qwen2.5 writes the L0–L1 labels, and phi4 (a different family) judges their faithfulness and rates abstracts. Every answer is cached (`data/llm_cache.json` for labels and judging, `eval/extra/llm_cache.json` for abstract ratings) and replays offline. |
 
 ## By stage
 
