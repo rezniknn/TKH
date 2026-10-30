@@ -8,7 +8,9 @@ name similarity and a structural term on the collapsed hyper-edge incidence, wit
 snapshot. Laminarity, exact budgets, the collapse rule and identity bookkeeping hold by construction; coherence,
 stability, label faithfulness and utility are measured with signals the method never sees. Of five values of the
 semantic weight, α = 0.75 is recommended and shipped <!-- claim:recommended -->. A held-out citation ruler beats both nulls at every level of the later snapshots <!-- claim:coherence_late -->, conditional on these papers <!-- claim:lift_ci_chance -->; its utility for navigation is mixed and not established <!-- claim:navigation_not_established -->. Levels are L0 (coarsest) to L2.
-Appendices: [A, formal details and full results](appendix.md); [B, the α sweep](alpha_sweep.md).
+
+
+Appendices: [A, formal details and full evaluation results](appendix.md); [B, the structure - semantics trade off evaluation](alpha_sweep.md).
 
 ## 1. Problem definition
 
@@ -128,29 +130,24 @@ multiplicity and coarse-edge identity; whether a clique build would merge differ
 
 ### 5.1 Metrics
 
-Each property is graded with a signal the method never used, against a null where chance is not obvious (full
-definitions: Appendix A.4).
-
-**Coherence.** Grading coherence with names or relations would restate the merge criterion (the brief's circularity
-hazard). The ruler is *bibliographic coupling*, the IDF-weighted cosine of two papers' cited-work sets, scored only on
+**Coherence.** Grading coherence with names or relations would restate the merge criterion. The ruler used instead is *bibliographic coupling*, the IDF-weighted cosine of two papers' cited-work sets, scored only on
 paper pairs that share no concept node or name, after dropping citations to works named like a concept of the citing
-paper. The *lift* compares co-assigned pairs with same-period pairs (1 = chance) under five period schemes, against a
-configuration null (degrees and arities kept, real names) and a random-label null (members permuted within type and
-period). A cell (snapshot × level) is *robust* if it beats both nulls under every scheme.
+paper. The *lift* compares co-assigned pairs with same-period pairs under five period schemes, against a
+configuration null (degrees and arities kept, real names) and a random-label null (members permuted within type and period). A cell (snapshot × level) is *robust* if it beats both nulls under every scheme.
 
 **Stability.** *Perturbation*: 10% of hyper-edges removed (5 seeds) <!-- claim:protocol_counts -->, the chain rebuilt, ARI and HARI (a pair-counting
 index pooled over levels) against the unperturbed run. *Cross-snapshot agreement* is tested against a *new-paper null*
 that attaches new papers' edges to random old nodes; *localisation* compares the reassignment of old nodes in a new
 paper's edges with that of the other old nodes.
 
-**Label faithfulness.** The labeller (qwen2.5) sees half of each super-node's evidence (no citations); a judge of
-another family (phi4) splits label and gloss into at most three claims and checks each against the held-out half,
+**Label faithfulness.** The LLM labeller sees half of each super-node's evidence (citations data excluded); an LLM judge of
+another model family splits label and gloss into at most three claims and checks each against the held-out half,
 citing a line that must exist. The *over-claim rate* (labels with an unsupported claim) is descriptive: the judge is not
 validated.
 
 **Extrinsic utility.** A drill-down agent answers 18 questions by beam search from L0 to L2; flat search ranks all
 leaves with the same keyword scorer. Gold items match by name, claims by source article, not content. We report
-hit-rates on attainable items and end to end, reach, items inspected and candidates scored (not latency): point
+hit-rates on attainable items and end to end, reach, items inspected and candidates scored: point
 estimates over 14 type-A and 4 type-B questions, with settings chosen in view of them <!-- claim:protocol_counts -->.
 
 ### 5.2 Choosing α
@@ -173,13 +170,14 @@ point estimates of correlated measures, a descriptive simplification rather than
 Coherence cells are out of 12 (snapshot × level), retrieval measures out of 12.
 <!-- /table:alpha_sweep -->
 
-**Rule** (`make_tables.py`): a variant is eligible unless distinguishably worse than the pre-sweep default (paired HARI
+**Best candidate selection rule** (`make_tables.py`): a variant is eligible unless distinguishably worse than the pre-sweep default (paired HARI
 difference at the last snapshot wholly below zero, or over-claim interval wholly above); the eligible variant with the most robust cells
-wins, since coherence alone tests with a held-out ruler whether groups mean something. **Trade-offs** of α = 0.75: less robust to perturbation at the first snapshot, and less consistent across
-one transition but more across another <!-- claim:stability_loss -->; α = 1 is the most robust variant largely because its score ignores the edges (only the prior's stable
-set depends on them), and has no robust cell <!-- claim:names_most_robust -->; α = 0.75 has the highest over-claim of the five variants, though its
-interval overlaps the pre-sweep default's <!-- claim:faith_tradeoff -->; retrieval moves both ways, with type-A reach worse <!-- claim:retrieval_mixed -->. The choice is optimistic: α was selected on the data that
-report its quality, and the stability guard was revised once after the results were read (Appendix B §9).
+wins, since coherence alone tests with a held-out ruler whether groups mean something. 
+
+**Trade-offs** of α = 0.75: less robust to perturbation at the first snapshot, and less consistent across
+one of temporal transitions <!-- claim:stability_loss -->; α = 1 is the most resisitant to perturbation largely because its score ignores the edges (only the prior's stable
+set depends on them), but loses largly on coherence <!-- claim:names_most_robust -->; α = 0.75 has the highest over-claim of the five variants, though its
+interval overlaps the pre-sweep default's <!-- claim:faith_tradeoff -->; retrieval does not show a clear direction, with type-A reach worse <!-- claim:retrieval_mixed -->. The choice is optimistic: α was selected on the data that report its quality, and the stability guard was revised once after the results were read (Appendix B §9).
 
 ### 5.3 Evaluation of α = 0.75
 
@@ -203,12 +201,18 @@ The run in `out/` is identical to the α = 0.75 variant <!-- claim:main_run_iden
 both nulls under every scheme, and no cell lies below both nulls <!-- claim:coherence_late -->; earlier snapshots provide fewer pairs, and the first
 has one period stratum, so it is not evaluable <!-- claim:coverage_grows -->. p-values are not corrected across cells, and the tests
 are conditional on these papers: every lift's paper-bootstrap interval includes chance <!-- claim:lift_ci_chance -->, so the effect is not shown to
-generalise beyond this corpus. **Stability.** Robustness falls
+generalise beyond this corpus. 
+
+**Stability.** Robustness falls
 from the first to the last snapshot; change concentrates on old nodes in new papers' edges everywhere, yet the other old
-nodes carry most of the reassignment and few cross-snapshot indices beat the new-paper null <!-- claim:stability_profile -->; a γ comparison exists only at the
-pre-sweep α = 0.5 (`make gamma`, not reported), so localisation is not attributed to Π. No super-node dies, since
-snapshots only grow. **Faithfulness.** Most labels over-claim, L1 more than L0 <!-- claim:faith_profile -->, so coarse labels are the more
-trustworthy. **Utility.** Drill-down returns no more type-A methods than flat search, reaches fewer type-A questions
+nodes carry most of the reassignment and few cross-snapshot indices beat the new-paper null <!-- claim:stability_profile -->; without a γ = 0 control,
+localisation is not attributed to Π. No super-node dies, since
+snapshots only grow. 
+
+**Faithfulness.** Most labels over-claim, L1 more than L0 <!-- claim:faith_profile -->, so coarse labels are the more
+trustworthy. 
+
+**Utility.** Drill-down returns no more type-A methods than flat search, reaches fewer type-A questions
 (losing them at L1), and scores fewer candidates but needs more inspection <!-- claim:navigation_not_established -->.
 
 ### 5.4 Why α = 0.75 is the ship candidate
@@ -219,8 +223,7 @@ cells. Retrieval does not enter the rule, and no navigation benefit is inferred 
 
 ### 5.5 Extra: coherence on paper abstracts
 
-*This check was not asked for in the assignment. It is reported here only and does not enter the recommendation or the
-headline findings.*
+*This check was not asked for in the assignment. It has been implemented as an additional evaluation measure to sanity check the resulting L0 super-node semantic coherence.*
 
 As a ruler independent of citations, phi4 rated every pair of ≤2026 papers with an abstract for topical closeness
 (0–10), from titles and abstracts only; each paper belongs to the L0 super-node of its method. Pairs within and across
@@ -249,7 +252,7 @@ snapshot-only membership, the identity log. Measured, as uncorrected tests on th
 faithfulness, utility. Assumed, by consequence: (1) *meaning is a lexical proxy*: character n-grams relate spellings,
 not proper-named methods, and shared nodes are anchored to one earliest paper, neither validated with cluster examples
 or sensitivity checks; (2) *citation coupling indicates closeness*, though shared benchmarks also produce it; (3)
-*relations within a paper indicate relatedness*; (4) *untouched structure should keep its grouping* (no γ = 0 control at the shipped α);
+*relations within a paper indicate relatedness*; (4) *untouched structure should keep its grouping* (no γ = 0 control);
 (5) *no post-cutoff information*, though aliases come from the whole export; (6) *the budgets suit the corpus*.
 
 With four more weeks we would: (1) replace character n-grams by a specialised embedding model fitted on pre-cutoff
