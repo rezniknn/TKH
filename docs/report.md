@@ -228,43 +228,32 @@ quantile, and it stays positive with any one multi-paper super-node left out. Th
 
 ## 6. Limitations and future work
 
-**Verified vs assumed** 
+**What is verified, measured and assumed.** Laminarity and exact budgets (P1–P2), the collapse rule, snapshot-only
+membership and the identity log hold by construction and are checked by `validate.py` on every run. Coherence,
+stability, faithfulness and utility are measured, with uncorrected tests on this one corpus, and α was selected on the
+same data. The results rest on six assumptions:
 
-Verified by construction or `validate.py` on every run: P1–P2, the collapse rule,
-snapshot-only membership, the identity log. 
+1. *Meaning is a lexical proxy.* Character n-grams relate spellings, not the methods the names refer to, and a shared
+   node is anchored to its earliest paper. Neither choice was validated with cluster examples or sensitivity checks.
+2. *Citation coupling indicates topical closeness*, although shared benchmarks also produce it.
+3. *Relations within one paper indicate relatedness.*
+4. *Untouched structure should keep its grouping.* No γ = 0 control isolates the effect of the temporal prior.
+5. *No post-cutoff information enters*, although aliases come from the whole export.
+6. *The level budgets suit the corpus.* Other budgets were not tested.
 
-Measured, as uncorrected tests on this corpus: coherence, stability,
-faithfulness, utility. 
+**With four more weeks** we would:
 
-Assumed, by consequence: (1) *meaning is a lexical proxy*: character n-grams relate spellings,
-not proper-named methods, and shared nodes are anchored to one earliest paper, neither validated with cluster examples
-or sensitivity checks; (2) *citation coupling indicates closeness*, though shared benchmarks also produce it; (3)
-*relations within a paper indicate relatedness*; (4) *untouched structure should keep its grouping* (no γ = 0 control);
-(5) *no post-cutoff information*, though aliases come from the whole export; (6) *the level budgets suit the corpus*.
-
-**Directions for future work**: 
-
-With four more weeks, we would attempt to:
-
-(1) replace character n-grams by a specialised embedding model fitted on pre-cutoff
-text, or by LLM judgements of node and super-node similarity; 
-
-(2) include the LLM labels and glosses in super-node
-similarity; 
-
-(3) use a separate α per level; 
-
-(4) tune γ (with γ = 0), ρ, the hub fraction and the retrieval settings
-(super-nodes kept, answers returned) on one half of the data and report on the other; 
-
-(5) test retrieval on synthetic
-question–answer pairs with a development/test split, claim-identity scoring and paired CIs; 
-
-(6) validate rulers and
-labels with blind ratings, a second judge, repeated evidence splits and a label-distinctness check; 
-
-(7) score
-multiplicity-aware collapse between presence and clique, multi-hop affinity, and DynHAC-style local updates [3].
+- replace character n-grams with an embedding model fitted on pre-cutoff text, or with LLM judgements of node and
+  super-node similarity;
+- add the LLM labels and glosses to super-node similarity, and use a separate α per level;
+- tune γ (including γ = 0), ρ, the hub fraction and the retrieval settings (super-nodes kept, answers returned) on one
+  half of the data, and report on the other;
+- test retrieval on synthetic question–answer pairs, with a development/test split, claim-identity scoring and paired
+  confidence intervals;
+- validate the rulers and labels with blind ratings, a second judge, repeated evidence splits and a label-distinctness
+  check;
+- compare multiplicity-aware collapse rules between presence and clique, multi-hop affinity, and DynHAC-style local
+  updates [3].
 
 ## References
 
