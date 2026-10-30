@@ -23,7 +23,7 @@ budgeted semantic–hypergraph agglomeration. The repository also evaluates the 
 | `data/` | Assignment inputs (TKH export, article table, T6 questions and gold answers) and the LLM response cache ([data/README.md](data/README.md)) |
 | `configs/` | Run configuration `default.toml` and the LLM prompt templates in `configs/prompts/` |
 | `validate.py`, `schema/` | Output validator and the JSON schemas it checks against |
-| `make_tables.py` | Generates every results table of the report and the appendices from `out/metrics.json` and checks the tagged result claims |
+| `make_tables.py` | Generates every results table of the report and the appendices from `out/metrics.json` |
 | `tests/` | Validator tests on one valid and many deliberately broken outputs |
 | `figures/` | Notebook figures |
 | `prompts/`, `notes/` | Major AI prompts and research notes referenced by `AI_USAGE.md` |
@@ -125,9 +125,7 @@ The LLM steps replay from the cache, so the result should match the committed `o
 ```bash
 make validate                                  # validator on the committed out/
 make test                                      # validator rejects every broken fixture
-.venv/bin/python make_tables.py --check        # report tables match out/metrics.json, and every tagged claim holds
-.venv/bin/python make_tables.py --doc appendix --check
-.venv/bin/python make_tables.py --doc sweep --check
+make tables                                    # regenerate every table from out/metrics.json; git diff docs/ shows any change
 make retrieval                                 # recompute the T6 section from out/ (seconds)
 ```
 

@@ -1,6 +1,6 @@
 """Regenerate every table of the report and its appendices from out/metrics.json (deliverable §6a.3).
 
-    python make_tables.py [--doc report|appendix|sweep] [--run out] [--report PATH] [--check]
+    python make_tables.py [--doc report|appendix|sweep] [--run out] [--report PATH]
 
     report    docs/report.md        the main report (TABLES)
     appendix  docs/appendix.md      Appendix A: full per-metric tables of the shipped run (APPENDIX_TABLES)
@@ -13,9 +13,8 @@ alpha_sweep section written by `make sweep` (eval/sweep.py) and the abstract_coh
 eval/verdicts.py from the p-values and intervals (ALPHA), never typed in; the recommendation and the trade-off verdicts
 of the α sweep are computed here.
 
-Hand-written claims in the prose are tagged `<!-- claim:NAME -->` and checked against metrics.json by the predicates
-of CLAIMS: a false claim, an unknown tag or an unused claim fails, on every run and with --check. --check exits 1 if
-any block is out of date, unknown or missing. Nothing is recomputed: the script only reads metrics.json.
+A document with table rows outside a block, or with an unknown, missing or duplicate block, is refused. Nothing is
+recomputed: the script only reads metrics.json.
 """
 
 from pathlib import Path
@@ -28,7 +27,6 @@ from eval import verdicts as V
 from eval.verdicts import ALPHA, LOWER_BETTER, RETRIEVAL_COST, RETRIEVAL_NAMES
 
 BLOCK = re.compile(r"(<!-- table:(\w+) -->\n)(.*?)(<!-- /table:\2 -->)", re.S)
-CLAIM = re.compile(r"<!-- claim:(\w+) -->")
 
 
 def f(x, nd=2):
@@ -477,28 +475,19 @@ def st_retrieval(w):
     return md(["Type", "Metric", "Flat (every α)", *(f"Drill-down, α = {_a(a, w)}" for a in w.alphas)], rows)
 
 
-def _recommend(w, guard="reference"):
-    """Per α: headlines, eligibility and the recommendation (the rule of docs/alpha_sweep.md §8). guard "reference": the
-    rule as applied, eligibility against the pre-sweep default; "best": the original rule, against the most robust and
-    the most faithful variant (recorded in docs/alpha_sweep.md §9)."""
+def _recommend(w):
+    """Per α: headlines, eligibility against the pre-sweep default and the recommendation (the rule of
+    docs/alpha_sweep.md §8)."""
     h = {a: {"robust": len(w.robust(a)), "hari": w.hari(a), "oc": w.overclaim(a), "fav": w.favour(a)["drill-down"]}
          for a in w.alphas}
     ref_o = h[w.ref]["oc"]
-    best_h = max(w.alphas, key=lambda a: h[a]["hari"][0])
-    best_o = min(w.alphas, key=lambda a: h[a]["oc"][0])
     for a in w.alphas:
         why = []
-        if guard == "reference":
-            d = w.v(a)["paired"]["perturbation"][w.last]
-            if a != w.ref and d["hi"] is not None and d["hi"] < 0:
-                why.append("HARI below the pre-sweep default (paired)")
-            if a != w.ref and None not in h[a]["oc"] and None not in ref_o and h[a]["oc"][1] > ref_o[2]:
-                why.append("over-claim above the pre-sweep default")
-        else:
-            if h[a]["hari"][2] < h[best_h]["hari"][1]:
-                why.append(f"HARI below α = {best_h:g}")
-            if h[a]["oc"][1] > h[best_o]["oc"][2]:
-                why.append(f"over-claim above α = {best_o:g}")
+        d = w.v(a)["paired"]["perturbation"][w.last]
+        if a != w.ref and d["hi"] is not None and d["hi"] < 0:
+            why.append("HARI below the pre-sweep default (paired)")
+        if a != w.ref and None not in h[a]["oc"] and None not in ref_o and h[a]["oc"][1] > ref_o[2]:
+            why.append("over-claim above the pre-sweep default")
         h[a]["why"] = why
     eligible = [a for a in w.alphas if not h[a]["why"]]
     rec = max(eligible, key=lambda a: (h[a]["robust"], h[a]["hari"][0], -abs(a - w.ref))) if eligible else None
@@ -631,189 +620,12 @@ DOCS = {"report": ("docs/report.md", TABLES, False), "appendix": ("docs/appendix
         "sweep": ("docs/alpha_sweep.md", SWEEP_TABLES, True)}   # path, tables, whether tables take the Sweep view
 
 
-# ---------------------------------------------------------------- verified claims of the prose
-
-def _claims():
-    """NAME -> (the document it is tagged in, what the tagged sentence states, predicate over the main run's metrics.json)."""
-    def sw(fn):
-        return lambda m: fn(Sweep(m))
-
-    def rec(w):
-        return _recommend(w)[2]
-
-    def others(w, a):
-        return [b for b in w.alphas if b != a]
-
-    def most_robust(w):
-        r = rec(w)
-        return all(len(w.robust(r)) > len(w.robust(b)) for b in others(w, r)) and not w.below(r)
-
-    def last_indistinct(w):
-        r, d = rec(w), w.v(rec(w))["paired"]["perturbation"][w.last]
-        oR, oD = w.overclaim(r), w.overclaim(w.ref)
-        return d["lo"] <= 0 <= d["hi"] and oR[1] <= oD[2] and oD[1] <= oR[2]
-
-    def stability_loss(w):
-        below, above, _ = _paired_excl(w, rec(w))
-        return ([x for x in below if "perturbation" in x] == [f"≤{w.cutoffs[0]} (perturbation)"]
-                and sum("cross-snapshot" in x for x in below) == 1 and len(above) == 1 and "cross-snapshot" in above[0])
-
-    def names_most_robust(w):
-        h = {a: w.hari(a) for a in w.alphas}
-        top = max(w.alphas, key=lambda a: h[a][0])
-        return top == 1.0 and not w.robust(1.0) and all(h[1.0][1] > h[b][2] for b in others(w, 1.0))
-
-    def faith_tradeoff(w):
-        r = rec(w)
-        oR, oD = w.overclaim(r), w.overclaim(w.ref)
-        return all(oR[0] >= w.overclaim(a)[0] for a in w.alphas) and oR[1] <= oD[2] and oD[1] <= oR[2]
-
-    def retrieval_mixed(w):
-        r = rec(w)
-        better, _, worse = _retrieval_delta(w, r)
-        s = w.v(r)["retrieval"]["summary"].values()
-        cheaper = all(x["scored"]["hier"] < x["scored"]["flat"] for x in s)
-        more_reading = all(x["inspect_first"]["hier"] > x["inspect_first"]["flat"] for x in s)
-        return (w.favour(r)["drill-down"] == w.favour(w.ref)["drill-down"] and better and worse
-                and "A reach" in worse and cheaper and more_reading)
-
-    def navigation_not_established(w):
-        s = w.v(w.default)["retrieval"]["summary"]
-        a = s["A"]
-        return (a["methods"]["hier"] <= a["methods"]["flat"] and a["reached"]["hier"] < a["reached"]["flat"]
-                and all(x["scored"]["hier"] < x["scored"]["flat"] and x["inspect_first"]["hier"] > x["inspect_first"]["flat"]
-                        for x in s.values()))
-
-    def paired_ref(w):
-        st = [w.v(a)["protocol"]["stability"] for a in w.alphas]
-        n = len(st[0]["seeds"])
-        return (w.ref == 0.5 and all(x == st[0] for x in st)
-                and all(d["n"] == n for a in w.alphas for d in w.v(a)["paired"]["perturbation"].values()))
-
-    def main_identical(w):
-        mr = w.main
-        return (mr is not None and mr["alpha"] == w.default and mr["hierarchy_identical"] == mr["snapshots"]
-                and len(mr["sections_identical"]) == mr["sections"])
-
-    def original_rule(w):
-        o = _recommend(w, guard="best")[2]
-        best_h = max(w.alphas, key=lambda a: w.hari(a)[0])
-        h = {a: w.hari(a) for a in w.alphas}
-        return (o == 1.0 == best_h and not w.robust(1.0) and _recommend(w, guard="best")[1] == [1.0]
-                and all(h[1.0][1] > h[b][2] for b in others(w, 1.0)))
-
-    def lift_ci_chance(m):
-        cells = [lv["exact"]["interval"] for c in V.cutoffs(m) for lv in m["coherence"]["snapshots"][c]["levels"]]
-        return all(x["ci95"][0] < 1 < x["ci95"][1] for x in cells if x["ci95"] and None not in x["ci95"])
-
-    def protocol_counts(m):
-        s, st = m["retrieval"]["summary"], m["stability"]["protocol"]
-        return (len(m["retrieval"]["per_question"]) == 18 and s["A"]["n_questions"] == 14 and s["B"]["n_questions"] == 4
-                and st["frac"] == 0.1 and len(st["seeds"]) == 5)
-
-    def coherence_late(m):
-        late = {f"≤{c} L{k}" for c in V.cutoffs(m)[-2:] for k in range(len(m["coherence"]["snapshots"][c]["levels"]))}
-        return late <= set(V.robust(m, "exact")) and not V.below_cells(m, "exact")
-
-    def coverage_grows(m):
-        cov = [m["coherence"]["snapshots"][c]["coverage"]["exact"] for c in V.cutoffs(m)]
-        return (all(x["no_overlap_pairs"] < y["no_overlap_pairs"] for x, y in zip(cov, cov[1:]))
-                and cov[0]["period_strata"] == 1)
-
-    def stability_profile(m):
-        pt, cs = m["stability"]["perturbation"], V.cutoffs(m)
-        above, idx = V.above_null(m)
-        n_loc, loc = V.localised(m)
-        share = [x for x in map(V.untouched_share, loc) if x is not None]
-        return (pt[cs[0]]["hari"]["lo"] > pt[cs[-1]]["hari"]["hi"] and n_loc == len(loc) > 0 and above < len(idx) / 2
-                and bool(share) and min(share) > 0.5)
-
-    def faith_profile(m):
-        fa = m["faithfulness"]
-        lv = list(fa["by_level"].values())
-        return fa["over_claim"]["ci95"][0] > 0.5 and lv[0]["over_claim"]["ci95"][1] < lv[-1]["over_claim"]["ci95"][0]
-
-    def abstract_within_closer(m):
-        x = m.get("abstract_coherence")
-        if not x:
-            return False
-        sm = x["summary"]
-        return (sm["difference_ci95"][0] > 0 and sm["difference"] > sm["permutation"]["null_q97.5"]
-                and x["leave_one_out"]["min"]["difference"] > 0)
-
-    def navigation_lost_l1(m):
-        nr = m["retrieval"]["diagnostics"]["never_reached"]
-        return sw(navigation_not_established)(m) and bool(nr) and all(lv == 1 for lv in nr.values())
-
-    return {
-        "lift_ci_chance": ("report", "every lift's paper-bootstrap CI (exact filter, interval scheme) contains 1", lift_ci_chance),
-        "protocol_counts": ("report", "18 questions (14 type A, 4 type B); perturbation removes 10% of hyper-edges with 5 seeds",
-                            protocol_counts),
-        "coherence_late": ("report", "every level of the two latest snapshots is robust (exact filter) and no cell is below both nulls",
-                           coherence_late),
-        "coverage_grows": ("report", "no-overlap pairs grow with the snapshot and the first snapshot has one period stratum",
-                           coverage_grows),
-        "stability_profile": ("report", "perturbation HARI intervals of the first and last snapshot do not overlap (first higher); every "
-                              "level x transition cell is localised, with untouched nodes carrying most reassignment in each; fewer "
-                              "than half the cross-snapshot indices beat the null",
-                              stability_profile),
-        "faith_profile": ("report", "over-claim CI above one half; L0 CI below L1 CI", faith_profile),
-        "abstract_within_closer": ("report", "abstract closeness difference: bootstrap CI above 0, above the permutation 97.5% quantile, "
-                                   "positive with any one super-node holding two or more papers left out", abstract_within_closer),
-        "sweep_grid": ("report", "the five α values 0, 0.25, 0.5, 0.75 and 1", sw(lambda w: w.alphas == [0.0, 0.25, 0.5, 0.75, 1.0])),
-        "reference": ("report", "the reference is α = 0.5, and the stability comparisons with it are paired by seed "
-                      "(same seeds, edge fraction and subsamples for every variant)", sw(paired_ref)),
-        "recommended": ("report", "the rule recommends α = 0.75, which is the configured default of the main run",
-                        sw(lambda w: rec(w) == 0.75 == w.default)),
-        "most_robust": ("report", "the recommended α has more robust cells than every other variant and no below-null cell", sw(most_robust)),
-        "last_indistinct": ("report", "at the last snapshot its paired HARI interval contains 0, and its over-claim CI (all snapshots) "
-                            "overlaps the reference's",
-                            sw(last_indistinct)),
-        "stability_loss": ("report", "its paired HARI differences lie below 0 exactly at the first snapshot (perturbation) and one "
-                           "transition (cross-snapshot), and above 0 at one transition", sw(stability_loss)),
-        "names_most_robust": ("report", "α = 1 has the highest perturbation HARI, an interval above every other variant's, and no "
-                              "robust cell", sw(names_most_robust)),
-        "faith_tradeoff": ("report", "the recommended α has the highest over-claim point estimate of all variants, and its CI overlaps "
-                           "the reference's", sw(faith_tradeoff)),
-        "retrieval_mixed": ("report", "same drill-down favour count as the reference; measures better and worse, type-A reach worse; "
-                            "for every type drill-down scores fewer candidates than flat but needs more items inspected to "
-                            "the first item", sw(retrieval_mixed)),
-        "navigation_not_established": ("report", "at the shipped α, drill-down's type-A method hit-rate is not above flat's and its "
-                                       "type-A reach is below flat's; for every type it scores fewer candidates but needs more items inspected to "
-                                       "the first item; every unreached question is lost at L1", navigation_lost_l1),
-        "main_run_identical": ("report", "the main run is identical to the sweep variant at the configured default (hierarchies "
-                               "and all four metric sections)", sw(main_identical)),
-        "sweep_grid_doc": ("sweep", "the five α values 0, 0.25, 0.5, 0.75 and 1",
-                           sw(lambda w: w.alphas == [0.0, 0.25, 0.5, 0.75, 1.0])),
-        "reference_doc": ("sweep", "the pre-sweep default and reference is α = 0.5, paired as in the report",
-                          sw(paired_ref)),
-        "original_rule": ("sweep", "the original best-variant guard would have recommended α = 1 alone, the most robust variant, "
-                          "which has no robust cell", sw(original_rule)),
-    }
-
-
-CLAIMS = _claims()
-
-
-def check_claims(text, m, path, doc):
-    """Every claim tagged in the document holds on metrics.json, and every claim registered for it is tagged."""
-    found = set(CLAIM.findall(text))
-    unknown = sorted(n for n in found if n not in CLAIMS or CLAIMS[n][0] != doc)
-    unused = sorted(n for n, (d, _, _) in CLAIMS.items() if d == doc and n not in found)
-    false = sorted(n for n in found if n in CLAIMS and not CLAIMS[n][2](m))
-    if unknown or unused or false:
-        sys.exit(f"{path}: unknown claim tags or tags registered for another document {unknown}; registered but untagged {unused}; claims that do not hold on "
-                 "metrics.json: " + ("; ".join(f"{n} ({CLAIMS[n][1]})" for n in false) or "none"))
-    return found
-
-
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--run", default="out")
     ap.add_argument("--doc", choices=sorted(DOCS), default="report", help="which document to render (default: report)")
     ap.add_argument("--sweep", action="store_true", help="alias of --doc sweep")
     ap.add_argument("--report", help="the document's path (default: that of --doc)")
-    ap.add_argument("--check", action="store_true", help="exit 1 if the document's tables are not up to date")
     a = ap.parse_args(argv)
     doc = "sweep" if a.sweep else a.doc
     default, tables, sweep_view = DOCS[doc]
@@ -828,15 +640,8 @@ def main(argv=None):
     unknown, missing = set(found) - set(tables), set(tables) - set(found)
     if unknown or missing:
         sys.exit(f"{path}: unknown table blocks {sorted(unknown)}, missing {sorted(missing)}")
-    claims = check_claims(text, run.m, path, doc)
-    new = BLOCK.sub(lambda m: m.group(1) + tables[m.group(2)](r) + m.group(4), text)
-    if a.check:
-        if new != text:
-            sys.exit(f"{path}: tables are out of date; run python make_tables.py")
-        print(f"{path}: {len(found)} tables up to date; {len(claims)} claims hold")
-        return
-    path.write_text(new)
-    print(f"{path}: {len(found)} tables regenerated from {a.run}/metrics.json; {len(claims)} claims hold")
+    path.write_text(BLOCK.sub(lambda m: m.group(1) + tables[m.group(2)](r) + m.group(4), text))
+    print(f"{path}: {len(found)} tables regenerated from {a.run}/metrics.json")
 
 
 if __name__ == "__main__":

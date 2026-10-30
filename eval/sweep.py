@@ -14,7 +14,7 @@ only source of the sweep numbers that make_tables.py and eval/figures.py read:
   protocol      alphas, the reference α (REFERENCE, the default before the sweep), cutoffs, the fixed non-α parameters
                 (asserted identical across runs), the per-α evaluation protocols, the run directories, and how the
                 variant at the main run's α compares with the main run (hierarchy.json bytes at summarise time; content
-                hashes of its four metric sections, which make_tables.py compares with the main run's current ones)
+                hashes of its four metric sections, for comparison with the main run's)
   variants.<α>  per criterion the values the comparison needs, with the verdict rules of eval/verdicts.py:
                 coherence cells (verdict, schemes passed, interval-scheme lift and CI per filter), robust and
                 below-null cells; perturbation HARI per snapshot, cross-snapshot indices above the new-paper null,

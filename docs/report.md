@@ -7,7 +7,7 @@ cumulative snapshots. SHAC is a deterministic greedy agglomeration whose merge s
 name similarity and a structural term on the collapsed hyper-edge incidence, with a soft prior from the previous
 snapshot. Laminarity, exact budgets, the collapse rule and identity bookkeeping hold by construction; coherence,
 stability, label faithfulness and utility are measured with signals the method never sees. Of five values of the
-semantic weight, α = 0.75 is recommended and shipped <!-- claim:recommended -->. A held-out citation ruler beats both nulls at every level of the later snapshots <!-- claim:coherence_late -->, conditional on these papers <!-- claim:lift_ci_chance -->; its utility for navigation is mixed and not established <!-- claim:navigation_not_established -->. Levels are L0 (coarsest) to L2.
+semantic weight, α = 0.75 is recommended and shipped. A held-out citation ruler beats both nulls at every level of the later snapshots, conditional on these papers; its utility for navigation is mixed and not established. Levels are L0 (coarsest) to L2.
 
 
 Appendices: [A, formal details and full evaluation results](appendix.md); [B, the structure - semantics trade off evaluation](alpha_sweep.md).
@@ -53,7 +53,7 @@ $$ s(A,B) = \alpha\,F_S\big(S(A,B)\big) + (1-\alpha)\,F_H\big(H(A,B)\big), \qqua
 - **Feasibility.** |A| + |B| ≤ ρ·n_t/N_k concept nodes; for ρ ≥ 2 a feasible pair always exists, so every budget is met
   exactly (Appendix A.1). Ties go to the lowest item index, so the build is deterministic.
 
-α = 0.75 comes from the α comparison <!-- claim:recommended -->; γ = 0.5, ρ = 2 and h = 0.2 are stated priors. Resources: Appendix A.2.
+α = 0.75 comes from the α comparison; γ = 0.5, ρ = 2 and h = 0.2 are stated priors. Resources: Appendix A.2.
 
 **Anchoring.** Every non-concept node joins, at every level, the super-node of one concept: a claim that of the
 method on its claims edge, an article that of the method it presents, any other node that of the method of the
@@ -135,7 +135,7 @@ paper pairs that share no concept node or name, after dropping citations to work
 paper. The *lift* compares co-assigned pairs with same-period pairs under five period schemes, against a
 configuration null (degrees and arities kept, real names) and a random-label null (members permuted within type and period). A cell (snapshot × level) is *robust* if it beats both nulls under every scheme.
 
-**Stability.** *Perturbation*: 10% of hyper-edges removed (5 seeds) <!-- claim:protocol_counts -->, the chain rebuilt, ARI and HARI (a pair-counting
+**Stability.** *Perturbation*: 10% of hyper-edges removed (5 seeds), the chain rebuilt, ARI and HARI (a pair-counting
 index pooled over levels) against the unperturbed run. *Cross-snapshot agreement* is tested against a *new-paper null*
 that attaches new papers' edges to random old nodes; *localisation* compares the reassignment of old nodes in a new
 paper's edges with that of the other old nodes.
@@ -148,12 +148,12 @@ validated.
 **Extrinsic utility.** A drill-down agent answers 18 questions by beam search from L0 to L2; flat search ranks all
 leaves with the same keyword scorer. Gold items match by name, claims by source article, not content. We report
 hit-rates on attainable items and end to end, reach, items inspected and candidates scored: point
-estimates over 14 type-A and 4 type-B questions, with settings chosen in view of them <!-- claim:protocol_counts -->.
+estimates over 14 type-A and 4 type-B questions, with settings chosen in view of them.
 
 ### 5.2 Choosing α
 
-α was varied over 0, 0.25, 0.5, 0.75 and 1 <!-- claim:sweep_grid -->, all else at defaults, each variant built and evaluated in full
-(Appendix B); stability comparisons with the pre-sweep default, α = 0.5, are paired by seed <!-- claim:reference -->.
+α was varied over 0, 0.25, 0.5, 0.75 and 1, all else at defaults, each variant built and evaluated in full
+(Appendix B); stability comparisons with the pre-sweep default, α = 0.5, are paired by seed.
 
 *Table 2. α variants across the four criteria; the recommended variant in bold (`alpha_sweep`). The T6 column counts
 point estimates of correlated measures, a descriptive simplification rather than independent votes.*
@@ -175,13 +175,13 @@ difference at the last snapshot wholly below zero, or over-claim interval wholly
 wins, since coherence alone tests with a held-out ruler whether groups mean something. 
 
 **Trade-offs** of α = 0.75: less robust to perturbation at the first snapshot, and less consistent across
-one of temporal transitions <!-- claim:stability_loss -->; α = 1 is the most resisitant to perturbation largely because its score ignores the edges (only the prior's stable
-set depends on them), but loses largly on coherence <!-- claim:names_most_robust -->; α = 0.75 has the highest over-claim of the five variants, though its
-interval overlaps the pre-sweep default's <!-- claim:faith_tradeoff -->; retrieval does not show a clear direction, with type-A reach worse <!-- claim:retrieval_mixed -->. The choice is optimistic: α was selected on the data that report its quality, and the stability guard was revised once after the results were read (Appendix B §9).
+one of temporal transitions; α = 1 is the most resisitant to perturbation largely because its score ignores the edges (only the prior's stable
+set depends on them), but loses largly on coherence; α = 0.75 has the highest over-claim of the five variants, though its
+interval overlaps the pre-sweep default's; retrieval does not show a clear direction, with type-A reach worse. The choice is optimistic: α was selected on the data that report its quality, and the stability guard was revised once after the results were read (Appendix B §9).
 
 ### 5.3 Evaluation of α = 0.75
 
-The run in `out/` is identical to the α = 0.75 variant <!-- claim:main_run_identical -->; full tables and figures are in Appendix A.5.
+The run in `out/` is identical to the α = 0.75 variant; full tables and figures are in Appendix A.5.
 
 *Table 3. Headline results of the shipped run with their uncertainty.*
 
@@ -198,27 +198,27 @@ The run in `out/` is identical to the α = 0.75 variant <!-- claim:main_run_iden
 <!-- /table:results -->
 
 **Coherence.** Under the exact filter, every level of the two latest snapshots co-assigns citation-coupled, concept-disjoint papers more than
-both nulls under every scheme, and no cell lies below both nulls <!-- claim:coherence_late -->; earlier snapshots provide fewer pairs, and the first
-has one period stratum, so it is not evaluable <!-- claim:coverage_grows -->. p-values are not corrected across cells, and the tests
-are conditional on these papers: every lift's paper-bootstrap interval includes chance <!-- claim:lift_ci_chance -->, so the effect is not shown to
+both nulls under every scheme, and no cell lies below both nulls; earlier snapshots provide fewer pairs, and the first
+has one period stratum, so it is not evaluable. p-values are not corrected across cells, and the tests
+are conditional on these papers: every lift's paper-bootstrap interval includes chance, so the effect is not shown to
 generalise beyond this corpus. 
 
 **Stability.** Robustness falls
 from the first to the last snapshot; change concentrates on old nodes in new papers' edges everywhere, yet the other old
-nodes carry most of the reassignment and few cross-snapshot indices beat the new-paper null <!-- claim:stability_profile -->; without a γ = 0 control,
+nodes carry most of the reassignment and few cross-snapshot indices beat the new-paper null; without a γ = 0 control,
 localisation is not attributed to Π. No super-node dies, since
 snapshots only grow. 
 
-**Faithfulness.** Most labels over-claim, L1 more than L0 <!-- claim:faith_profile -->, so coarse labels are the more
+**Faithfulness.** Most labels over-claim, L1 more than L0, so coarse labels are the more
 trustworthy. 
 
 **Utility.** Drill-down returns no more type-A methods than flat search, reaches fewer type-A questions
-(losing them at L1), and scores fewer candidates but needs more inspection <!-- claim:navigation_not_established -->.
+(losing them at L1), and scores fewer candidates but needs more inspection.
 
 ### 5.4 Why α = 0.75 is the ship candidate
 
-We propose α = 0.75 <!-- claim:recommended -->: it has more robust coherence cells than any other variant and none below both nulls <!-- claim:most_robust -->, at no
-measurable cost in stability at the last snapshot or in overall faithfulness <!-- claim:last_indistinct -->. Semantic claims should be restricted to its robust
+We propose α = 0.75: it has more robust coherence cells than any other variant and none below both nulls, at no
+measurable cost in stability at the last snapshot or in overall faithfulness. Semantic claims should be restricted to its robust
 cells. Retrieval does not enter the rule, and no navigation benefit is inferred from coherence: T6 utility is mixed.
 
 ### 5.5 Extra: coherence on paper abstracts
@@ -243,7 +243,7 @@ super-nodes are compared with a paper bootstrap and a permutation null with size
 <!-- /table:abstract_coherence -->
 
 Same-super-node papers are rated closer: the bootstrap interval excludes zero, the difference exceeds the null's 97.5%
-quantile, and it stays positive with any one multi-paper super-node left out <!-- claim:abstract_within_closer -->. The effect is modest in one narrow field, and the check depends on names and one unvalidated rater.
+quantile, and it stays positive with any one multi-paper super-node left out. The effect is modest in one narrow field, and the check depends on names and one unvalidated rater.
 
 ## 6. Limitations and four more weeks
 

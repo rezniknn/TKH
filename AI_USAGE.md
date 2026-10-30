@@ -52,8 +52,7 @@ challenged by review agents:
 
 **Deliverables.**
 - **Validator.** `validate.py`, with 48 broken fixtures.
-- **Tables.** `make_tables.py` regenerates every table from `metrics.json`, and every hand-written result claim in
-  the report carries a tag whose predicate is re-checked on each run.
+- **Tables.** `make_tables.py` regenerates every table from `metrics.json`.
 - **Report.** The report (`prompts/Report.md`) was cut from about 10,000 words to about 3,300 (about 2,600 of
   prose), with appendices, after Codex's evaluation.
 
@@ -74,8 +73,8 @@ scoped out. They included:
   finding was verified separately before it was fixed. These reviews confirmed 5–21 real findings each.
 - **Cross-model review.** Codex's evaluation gave an independent second opinion from a different model family. Each
   of its points was verified against the code before it was acted on.
-- **Machine-checked claims.** `make_tables.py --check` fails if a table is stale or a tagged sentence is false on
-  `metrics.json`. `validate.py` must reject every broken fixture (`make test`).
+- **Generated tables.** `make_tables.py` rewrites every table from `metrics.json`, and `validate.py` must reject every
+  broken fixture (`make test`).
 - **Determinism and replay.** A rebuild from the shipped config is byte-identical to `out/`. LLM steps replay from
   the cache with zero live calls.
 - **Rubric scoring.** A fresh agent scored the final report against the brief's §7 criteria, and its main finding
@@ -94,8 +93,7 @@ scoped out. They included:
   own stability reading, found the contradiction, and raised it with the user before changing anything. A 21-agent
   review then independently recomputed all eight sweep tables.
 - **What changed.** At the user's choice, the guards now compare each variant with the pre-sweep default, which
-  gives α = 0.75. The revision is disclosed in Appendix B §9. The checked claim `original_rule` recomputes the
-  original rule's outcome on every `make tables`.
+  gives α = 0.75. The revision is disclosed in Appendix B §9.
 
 **Other cases, each caught and then corrected or set aside:**
 

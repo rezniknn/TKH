@@ -43,7 +43,7 @@ faithfulness:    ## label faithfulness: held-out NLI judge on every L0-L1 label 
 retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate, error rate, inspection, computation (offline, seconds)
 	$(PYTHON) -m eval retrieval --run $(OUT)
 
-tables:          ## every table of docs/report.md, docs/appendix.md and docs/alpha_sweep.md from $(OUT)/metrics.json only (no recomputation; claims checked)
+tables:          ## every table of docs/report.md, docs/appendix.md and docs/alpha_sweep.md from $(OUT)/metrics.json only (no recomputation)
 	$(PYTHON) make_tables.py --run $(OUT)
 	$(PYTHON) make_tables.py --doc appendix --run $(OUT)
 	$(PYTHON) make_tables.py --doc sweep --run $(OUT)
