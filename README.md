@@ -5,7 +5,7 @@ temporal knowledge hypergraph for four cumulative snapshots: ≤2020, ≤2022, �
 budgeted semantic–hypergraph agglomeration. The repository also evaluates the result.
 
 - **Final report:** [docs/report.md](docs/report.md).
-- **Appendix A:** [docs/appendix.md](docs/appendix.md), with the full definitions and per-metric tables.
+- **Appendix A:** [docs/full_evaluation.md](docs/full_evaluation.md), with the full definitions and per-metric tables.
 - **Appendix B:** [docs/alpha_sweep.md](docs/alpha_sweep.md), the α sweep.
 - **AI usage:** [AI_USAGE.md](AI_USAGE.md).
 
@@ -14,7 +14,7 @@ budgeted semantic–hypergraph agglomeration. The repository also evaluates the 
 | Path | Content |
 |---|---|
 | `docs/report.md` | Final report: formal statement, method and literature, T4 coarsening decision, evaluation, future work |
-| `docs/appendix.md`, `docs/alpha_sweep.md` | Appendix A (definitions, resources, full result tables) and Appendix B (α sweep) |
+| `docs/full_evaluation.md`, `docs/alpha_sweep.md` | Appendix A (definitions, resources, full result tables) and Appendix B (α sweep) |
 | `docs/figures/` | Figures of the report and its appendices (`make figures`) |
 | `notebooks/` | Exploratory and explanatory notebooks (index below) |
 | `tkh/` | Hypergraph data structures and the SHAC method: loading and snapshots (`io.py`), structure and semantics (`structure.py`, `semantic.py`), greedy agglomeration (`hierarchy.py`), hyper-edge coarsening (`coarsen.py`), temporal coupling (`temporal.py`), labels (`label.py`, `llm.py`), the T6 drill-down agent (`retrieve.py`), null models (`null.py`), pipeline and CLI (`pipeline.py`, `__main__.py`) |

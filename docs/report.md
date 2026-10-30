@@ -4,11 +4,9 @@
 
 **Abstract.** We build a budgeted, laminar, three-level abstraction of a temporal knowledge hypergraph in four
 cumulative snapshots. SHAC is a deterministic greedy agglomeration whose merge score mixes, on a common rank scale,
-name similarity and a structural term on the collapsed hyper-edge incidence, with a soft prior from the previous
-snapshot. Laminarity, exact budgets, the collapse rule and identity bookkeeping hold by construction; coherence is measured with signals the method never sees, stability, label faithfulness and utility are evaluated empirically. Of five values of the semantic weight, α = 0.75 is a recommended variant. A held-out citation coherence ruler beats both null models at every level of the later snapshots; model's utility for navigation is mixed and not established.
+semantic similarity and a structural term on the collapsed hyper-edge incidence, with a soft prior from the previous
+snapshot. Laminarity, exact level budgets, the collapse rule and super-node identity tracking hold by construction; coherence is measured with signals the method never sees; stability, label faithfulness and utility are evaluated empirically. Of five values of the semantic weight tested, α = 0.75 is a recommended variant that balances semantic and structural signal when forming super-nodes. A held-out citation coherence ruler beats both null models at every hierarchy level on the later snapshots; model's utility for retrieval is mixed and not established.
 
-
-Appendices: [A, formal details and full evaluation results](appendix.md); [B, the structure - semantics trade off evaluation](alpha_sweep.md).
 
 ## 1. Problem definition
 
@@ -30,8 +28,7 @@ around one paper's method; *hubs* (concepts in more than a fraction h of the pap
 concept's name and aliases, reduced by LSA fitted per snapshot. Citations, claims, authors and titles are left out of coarsening method.
 
 **Output.** Nested partitions P_{t,0} ⪰ P_{t,1} ⪰ P_{t,2} of V_t with exactly min(N_k, n_t) super-nodes for budgets
-N = (15, 60, 240): the brief fixes only N_0 ≈ 10–15, and the finer budgets are untuned defaults. Every node of the
-snapshot is an implicit leaf below L2; leaves are not a budgeted level.
+N = (15, 60, 240). The level budgets are chosen for convinience, model's performance under different level budgets has not been tested. Every node of the snapshot is an implicit leaf below L2; leaves are not a budgeted level.
 
 **Procedure.** A nested partition under hard budgets contains NP-hard single-level problems, so SHAC optimises no
 global objective. From the finest level up, it repeatedly merges the feasible pair of items (super-nodes of the level
@@ -50,7 +47,7 @@ $$ s(A,B) = \alpha\,F_S\big(S(A,B)\big) + (1-\alpha)\,F_H\big(H(A,B)\big), \qqua
 - **Feasibility.** |A| + |B| ≤ ρ·n_t/N_k concept nodes; for ρ ≥ 2 a feasible pair always exists, so every budget is met
   exactly (Appendix A.1). Ties go to the lowest item index, so the build is deterministic.
 
-α = 0.75 comes from the α comparison sweep; γ = 0.5, ρ = 2 and h = 0.2 are stated priors. Resources: Appendix A.2.
+**Default parameters**: α = 0.75 comes from the α comparison sweep; γ = 0.5, ρ = 2 and h = 0.2 are stated priors. 
 
 **Anchoring.** Every non-concept node joins, at every level, the super-node of one concept: a claim that of the
 method on its claims edge, an article that of the method it presents, any other node that of the method of the
@@ -79,8 +76,7 @@ two-stage scheme (structure, then names) would freeze single-paper bundles befor
 ## 3. Method and literature positioning
 
 SHAC resolves disagreement between structure and semantics per merge: on the common rank scale either signal can carry
-a merge, and a pair that shares no edge can win only on names, at weight α, or on the temporal prior. Because the trade-off is one scalar, it can
-be evaluated with a ruler that sees neither signal.
+a merge, and a pair that shares no edge can win only on names, at weight α, or on the temporal prior. Because the trade-off is one scalar, a balance between semantic and stuctural signal can be found by variying α.
 
 Temporal stability (T3) uses a soft prior: an old node is *touched* if a new paper's edge contains it or its (or an
 edge-neighbour's) hub status changed, and only pairs that both hold untouched, *stable* nodes receive Π, which pulls
@@ -88,7 +84,9 @@ but does not force them to keep their grouping. The prior is a mechanism, not a 
 reassignment, and refitted LSA vectors and renormalised relation weights change even stable nodes' inputs. Identities
 and the event log come from largest-overlap matching between snapshots, checked by `validate.py`.
 
-**Positioning** (details: Appendix Table A0). From h-Louvain [1] SHAC takes hyper-edge-aware affinity and multilevel
+**Positioning** (details in Appendix Table A0).
+
+ From h-Louvain [1] SHAC takes hyper-edge-aware affinity and multilevel
 aggregation, but fixes nested counts instead of optimising modularity; from Featured Graph Coarsening [2], joint
 topology–feature coarsening, here greedy on the hyper-edge incidence; from DynHAC [3], average linkage and confining
 change to affected regions, through a soft prior rather than recomputation; from HyperEF 2.0 [4], hyper-edge
@@ -178,21 +176,7 @@ interval overlaps the pre-sweep default's; retrieval does not show a clear direc
 
 ### 5.3 Evaluation of α = 0.75
 
-The run in `out/` is identical to the α = 0.75 variant; full tables and figures are in Appendix A.5.
-
-*Table 3. Headline results of the shipped run with their uncertainty.*
-
-<!-- table:results -->
-| Criterion | α = 0.75 | Qualifier | Table |
-|---|---|---|---|
-| P3 robust cells (exact; fuzzy) | 7 of 12: ≤2022 L1; ≤2024 L0–L2; ≤2026 L0–L2 | fuzzy 7; below both nulls: 0 (fuzzy 0) | A2 |
-| P3 lift ≤2026, L0, L1, L2 | 1.22 [0.85, 1.52]; 1.53 [0.91, 2.26]; 1.85 [0.91, 2.72] | paper-bootstrap CI; 1 = chance | A2 |
-| P5 perturbation HARI, first → last | 0.43 [0.38, 0.48] → 0.19 [0.15, 0.23] | t-interval, 5 seeds | A3 |
-| P5 cross-snapshot; localisation | 2 of 12 above the null; 9 of 9 localised | untouched share 73%–92% | A4–A5 |
-| P6 over-claim (all; L0 vs L1) | 0.63 [0.58, 0.68]; 0.47 vs 0.67 | bootstrap CI | A6 |
-| T6 type-A methods; reach (drill-down vs flat) | 0.251 vs 0.295; 0.667 vs 1.000 | point estimates; favour count 3/7/2 | A7 |
-| T6 items inspected to first; candidates scored | A: 64.5 vs 10.5, 572 vs 2524; B: 63.0 vs 2.0, 359 vs 690 | medians; computation, not latency | A7 |
-<!-- /table:results -->
+Full comparison tables and figures are in Appendix A.5.
 
 **Coherence.** Under the exact filter, every level of the two latest snapshots co-assigns citation-coupled, concept-disjoint papers more than
 both nulls under every scheme, and no cell lies below both nulls; earlier snapshots provide fewer pairs, and the first
@@ -214,7 +198,7 @@ trustworthy.
 
 ### 5.4 Why α = 0.75 is the ship candidate
 
-We propose α = 0.75: it has more robust coherence cells than any other variant and none below both nulls, at no
+We propose α = 0.75: it has more robust coherence cells than any other variant and none below both null models, at no
 measurable cost in stability at the last snapshot or in overall label faithfulness. Semantic claims should be restricted to its robust
 cells. Retrieval quality was not considered in the decision, since the results mixed and no retrieval utility could be established at this point.
 
@@ -222,7 +206,7 @@ cells. Retrieval quality was not considered in the decision, since the results m
 
 *This check was not asked for in the assignment. It has been implemented as an additional evaluation measure to sanity check the resulting L0 super-node semantic coherence.*
 
-As a ruler independent of citations, phi4 rated every pair of ≤2026 papers with an abstract for topical closeness
+As a ruler independent of citations, an LLM model rated every pair of ≤2026 papers with an abstract for topical closeness
 (0–10), from titles and abstracts only; each paper belongs to the L0 super-node of its method. Pairs within and across
 super-nodes are compared with a paper bootstrap and a permutation null with sizes fixed (`eval/extra/REPORT.md`).
 
@@ -240,11 +224,11 @@ super-nodes are compared with a paper bootstrap and a permutation null with size
 <!-- /table:abstract_coherence -->
 
 Same-super-node papers are rated closer: the bootstrap interval excludes zero, the difference exceeds the null's 97.5%
-quantile, and it stays positive with any one multi-paper super-node left out. The effect is modest in one narrow field, and the check depends on names and one unvalidated rater.
+quantile, and it stays positive with any one multi-paper super-node left out. The effect is modest in one narrow field, and the check depends on names and an unvalidated rater.
 
-## 6. Limitations and four more weeks
+## 6. Limitations and future work
 
-**Verified and assumed.** 
+**Verified vs assumed** 
 
 Verified by construction or `validate.py` on every run: P1–P2, the collapse rule,
 snapshot-only membership, the identity log. 
@@ -256,14 +240,30 @@ Assumed, by consequence: (1) *meaning is a lexical proxy*: character n-grams rel
 not proper-named methods, and shared nodes are anchored to one earliest paper, neither validated with cluster examples
 or sensitivity checks; (2) *citation coupling indicates closeness*, though shared benchmarks also produce it; (3)
 *relations within a paper indicate relatedness*; (4) *untouched structure should keep its grouping* (no γ = 0 control);
-(5) *no post-cutoff information*, though aliases come from the whole export; (6) *the budgets suit the corpus*.
+(5) *no post-cutoff information*, though aliases come from the whole export; (6) *the level budgets suit the corpus*.
 
-With four more weeks we would attempt to: (1) replace character n-grams by a specialised embedding model fitted on pre-cutoff
-text, or by LLM judgements of node and super-node similarity; (2) include the LLM labels and glosses in super-node
-similarity; (3) use a separate α per level; (4) tune γ (with γ = 0), ρ, the hub fraction and the retrieval settings
-(super-nodes kept, answers returned) on one half of the data and report on the other; (5) test retrieval on synthetic
-question–answer pairs with a development/test split, claim-identity scoring and paired CIs; (6) validate rulers and
-labels with blind ratings, a second judge, repeated evidence splits and a label-distinctness check; (7) score
+**Directions for future work**: 
+
+With four more weeks, we would attempt to:
+
+(1) replace character n-grams by a specialised embedding model fitted on pre-cutoff
+text, or by LLM judgements of node and super-node similarity; 
+
+(2) include the LLM labels and glosses in super-node
+similarity; 
+
+(3) use a separate α per level; 
+
+(4) tune γ (with γ = 0), ρ, the hub fraction and the retrieval settings
+(super-nodes kept, answers returned) on one half of the data and report on the other; 
+
+(5) test retrieval on synthetic
+question–answer pairs with a development/test split, claim-identity scoring and paired CIs; 
+
+(6) validate rulers and
+labels with blind ratings, a second judge, repeated evidence splits and a label-distinctness check; 
+
+(7) score
 multiplicity-aware collapse between presence and clique, multi-hop affinity, and DynHAC-style local updates [3].
 
 ## References

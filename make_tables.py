@@ -3,7 +3,7 @@
     python make_tables.py [--doc report|appendix|sweep] [--run out] [--report PATH]
 
     report    docs/report.md        the main report (TABLES)
-    appendix  docs/appendix.md      Appendix A: full per-metric tables of the shipped run (APPENDIX_TABLES)
+    appendix  docs/full_evaluation.md Appendix A: full per-metric tables of the shipped run (APPENDIX_TABLES)
     sweep     docs/alpha_sweep.md   Appendix B: the α sweep (SWEEP_TABLES); --sweep is an alias of --doc sweep
 
 Each table sits between `<!-- table:NAME -->` and `<!-- /table:NAME -->` in its document; the script rewrites the
@@ -90,26 +90,6 @@ _ok, _passes, _untouched_share, _favoured = V.ok, V.passes, V.untouched_share, V
 def _verdict(cell, strata):
     v = V.verdict(cell, strata)
     return "**robust**" if v == "robust" else v
-
-
-def _robust(r, m="exact"):
-    return V.robust(r.m, m)
-
-
-def _below_cells(r, m="exact"):
-    return V.below_cells(r.m, m)
-
-
-def _above_null(r):
-    return V.above_null(r.m)
-
-
-def _localised(r):
-    return V.localised(r.m)
-
-
-def _favour_counts(r):
-    return V.favour_counts(r.m)
 
 
 # ---------------------------------------------------------------- coherence
@@ -232,56 +212,6 @@ def t_retrieval(r):
                "Favoured (point estimate)"], rows) + tail
 
 
-def _hari(x):
-    return ci(x["hari"]["mean"], x["hari"]["lo"], x["hari"]["hi"])
-
-
-def _cells(cs):
-    """['≤2024 L0', '≤2024 L1', ...] -> '≤2024 L0–L2; ≤2026 L1' (levels grouped per snapshot)."""
-    by = {}
-    for c in cs:
-        t, lv = c.split(" ")
-        by.setdefault(t, []).append(int(lv[1:]))
-    out = []
-    for t, lvs in by.items():
-        run = sorted(lvs)
-        out.append(f"{t} L{run[0]}–L{run[-1]}" if len(run) > 1 and run == list(range(run[0], run[-1] + 1)) else
-                   t + " " + ", ".join(f"L{x}" for x in run))
-    return "; ".join(out) or "none"
-
-
-def t_results(r):
-    """Headline results of the shipped run with their uncertainty, computed with the rules of Tables A2-A7."""
-    rob, rob_f = _robust(r), _robust(r, "fuzzy")
-    below, below_f = _below_cells(r), _below_cells(r, "fuzzy")
-    above, idx = _above_null(r)
-    pt = r.m["stability"]["perturbation"]
-    nloc, loc = _localised(r)
-    fa = r.m["faithfulness"]
-    oc, lv = fa["over_claim"], list(fa["by_level"].items())
-    n_cells = sum(len(r.m["coherence"]["snapshots"][c]["levels"]) for c in r.cutoffs)
-    fav, ret = _favour_counts(r), r.m["retrieval"]["summary"]
-    ra = ret["A"]
-    lifts = [(c, k, lv["exact"]["interval"]) for c in [r.last] for k, lv in enumerate(r.m["coherence"]["snapshots"][c]["levels"])]
-    seeds = len(r.m["stability"]["protocol"]["seeds"])
-    rows = [["P3 robust cells (exact; fuzzy)", f"{len(rob)} of {n_cells}: {_cells(rob)}",
-             f"fuzzy {len(rob_f)}; below both nulls: {len(below)} (fuzzy {len(below_f)})", "A2"],
-            [f"P3 lift ≤{r.last}, " + ", ".join(f"L{k}" for _, k, _ in lifts), "; ".join(ci(x["lift"], *x["ci95"]) for _, _, x in lifts),
-             "paper-bootstrap CI; 1 = chance", "A2"],
-            ["P5 perturbation HARI, first → last", f"{_hari(pt[r.cutoffs[0]])} → {_hari(pt[r.last])}", f"t-interval, {seeds} seeds", "A3"],
-            ["P5 cross-snapshot; localisation", f"{above} of {len(idx)} above the null; {nloc} of {len(loc)} localised",
-             "untouched share " + _range_pct([_untouched_share(x) for x in loc]), "A4–A5"],
-            ["P6 over-claim (all; " + " vs ".join(n for n, _ in lv) + ")",
-             f"{ci(oc['value'], *oc['ci95'])}; " + " vs ".join(f(x["over_claim"]["value"]) for _, x in lv), "bootstrap CI", "A6"],
-            ["T6 type-A methods; reach (drill-down vs flat)",
-             f"{f(ra['methods']['hier'], 3)} vs {f(ra['methods']['flat'], 3)}; {f(ra['reached']['hier'], 3)} vs {f(ra['reached']['flat'], 3)}",
-             "point estimates; favour count " + f"{fav['drill-down']}/{fav['flat']}/{fav['tie']}", "A7"],
-            ["T6 items inspected to first; candidates scored",
-             "; ".join(f"{t}: {f(x['inspect_first']['hier'], 1)} vs {f(x['inspect_first']['flat'], 1)}, {f(x['scored']['hier'], 0)} vs {f(x['scored']['flat'], 0)}"
-                       for t, x in ret.items()), "medians; computation, not latency", "A7"]]
-    return md(["Criterion", f"α = {r.m['coherence']['params']['alpha']:g}", "Qualifier", "Table"], rows)
-
-
 def t_abstract_coherence(r):
     """§5.5 (extra, outside the assignment): LLM-rated closeness of paper abstracts within vs across L0 super-nodes (metrics.json "abstract_coherence")."""
     if "abstract_coherence" not in r.m:
@@ -300,7 +230,7 @@ def t_abstract_coherence(r):
     return md(["Item", f"Value ({pr['model']}, ≤{pr['cutoff']}, L{pr['level']}, α = {pr['alpha']:g})"], rows)
 
 
-TABLES = {"results": t_results, "properties": t_properties, "abstract_coherence": t_abstract_coherence}
+TABLES = {"properties": t_properties, "abstract_coherence": t_abstract_coherence}
 APPENDIX_TABLES = {"literature": t_literature, "coherence_coverage": t_coherence_coverage, "coherence": t_coherence,
                    "perturbation": t_perturbation, "cross_snapshot": t_cross, "localisation": t_localisation,
                    "faithfulness": t_faithfulness, "retrieval": t_retrieval}
@@ -616,7 +546,7 @@ SWEEP_TABLES = {"sweep_setup": st_setup, "sweep_tree": st_tree, "sweep_coherence
                 "sweep_coherence_grid": st_coherence_grid, "sweep_stability": st_stability,
                 "sweep_faithfulness": st_faithfulness, "sweep_retrieval": st_retrieval, "sweep_summary": st_summary,
                 "sweep_tradeoffs": st_tradeoffs}
-DOCS = {"report": ("docs/report.md", TABLES, False), "appendix": ("docs/appendix.md", APPENDIX_TABLES, False),
+DOCS = {"report": ("docs/report.md", TABLES, False), "appendix": ("docs/full_evaluation.md", APPENDIX_TABLES, False),
         "sweep": ("docs/alpha_sweep.md", SWEEP_TABLES, True)}   # path, tables, whether tables take the Sweep view
 
 

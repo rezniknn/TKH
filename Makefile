@@ -1,7 +1,7 @@
 # Pipeline: 'make all' = build -> validate -> metrics -> abstract-coherence -> sweep-summary -> tables -> test, where 'make metrics' =
 # coherence -> stability -> faithfulness -> retrieval; each check writes its own section of $(OUT)/metrics.json and can
 # also be run on its own; 'make sweep-summary' rewrites its alpha_sweep section from the runs in $(OUT)/sweep/ (offline);
-# 'make tables' regenerates every table of docs/report.md, docs/appendix.md (Appendix A) and docs/alpha_sweep.md
+# 'make tables' regenerates every table of docs/report.md, docs/full_evaluation.md (Appendix A) and docs/alpha_sweep.md
 # (Appendix B) from $(OUT)/metrics.json only.
 # LLM calls replay from data/llm_cache.json (TKH_LLM_MODE=offline, the default); live/refresh need a local Ollama server.
 PYTHON ?= .venv/bin/python
@@ -43,7 +43,7 @@ faithfulness:    ## label faithfulness: held-out NLI judge on every L0-L1 label 
 retrieval:       ## T6 extrinsic utility: drill-down agent vs flat search, hit-rate, error rate, inspection, computation (offline, seconds)
 	$(PYTHON) -m eval retrieval --run $(OUT)
 
-tables:          ## every table of docs/report.md, docs/appendix.md and docs/alpha_sweep.md from $(OUT)/metrics.json only (no recomputation)
+tables:          ## every table of docs/report.md, docs/full_evaluation.md and docs/alpha_sweep.md from $(OUT)/metrics.json only (no recomputation)
 	$(PYTHON) make_tables.py --run $(OUT)
 	$(PYTHON) make_tables.py --doc appendix --run $(OUT)
 	$(PYTHON) make_tables.py --doc sweep --run $(OUT)
